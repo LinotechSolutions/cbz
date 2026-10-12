@@ -6,8 +6,20 @@
 
 import { Announcement, ContactChannel } from '../data/announcementsData';
 
-const STRAPI_BASE_URL =
-  (import.meta as any).env?.VITE_STRAPI_URL || 'http://localhost:1337/api';
+/**
+ * Accepts "https://cms.example.com/api" and also the common mistakes
+ * "cms.example.com" (no scheme) or "https://cms.example.com" (no /api).
+ */
+function normalizeStrapiUrl(raw: string): string {
+  let url = raw.trim().replace(/\/+$/, '');
+  if (!/^https?:\/\//i.test(url)) url = `https://${url}`;
+  if (!/\/api$/.test(url)) url = `${url}/api`;
+  return url;
+}
+
+const STRAPI_BASE_URL = normalizeStrapiUrl(
+  (import.meta as any).env?.VITE_STRAPI_URL || 'http://localhost:1337/api'
+);
 
 /** Origin serving uploaded media, e.g. https://cms.example.com (the API URL minus /api). */
 const STRAPI_MEDIA_ORIGIN = STRAPI_BASE_URL.replace(/\/api\/?$/, '');

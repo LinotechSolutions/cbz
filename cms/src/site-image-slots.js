@@ -94,6 +94,6 @@ module.exports = [
   ...accounts.map(([id, name]) => ({
     key: `account.${id}`,
     label: `Open account - ${name}`,
-    location: 'Open an account window',
+    location: 'Open an account page, account choice cards',
   })),
 ];

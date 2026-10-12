@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Country } from './types';
 import { useScreenRoute } from './lib/routes';
 import { COUNTRIES } from './data/cbzData';
@@ -20,7 +20,6 @@ import { SbuPropertiesView } from './components/SbuPropertiesView';
 import { SbuBankingView } from './components/SbuBankingView';
 import { TheGroupView } from './components/TheGroupView';
 import { LoginModal, PortalType } from './components/LoginModal';
-import { OpenAccountModal } from './components/OpenAccountModal';
 import { ContactChannelsModal } from './components/ContactChannelsModal';
 import { Footer } from './components/Footer';
 import ChatWidget from './components/ChatWidget';
@@ -33,7 +32,13 @@ export default function App() {
   const [currentCountry, setCurrentCountry] = useState<Country>(COUNTRIES[0]);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [loginPortal, setLoginPortal] = useState<PortalType>('personal');
-  const [isOpenAccountOpen, setIsOpenAccountOpen] = useState(false);
+  // Account type chosen on the page that sent the user to /open-account (e.g. a product card)
+  const [accountType, setAccountType] = useState<string | undefined>();
+  const accountSeed = useMemo(() => (accountType ? { accountType } : undefined), [accountType]);
+  const openAccount = (type?: string) => {
+    setAccountType(type);
+    setCurrentScreen('open-account');
+  };
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
   return (
@@ -46,7 +51,7 @@ export default function App() {
         currentCountry={currentCountry}
         onSelectCountry={setCurrentCountry}
         activeEntityName={
-          currentScreen === 'bank' || currentScreen === 'journey-bank'
+          currentScreen === 'bank' || currentScreen === 'journey-bank' || currentScreen === 'open-account'
             ? 'CBZ Bank'
             : currentScreen === 'sbu' || currentScreen === 'journey'
             ? 'CBZ Insurance'
@@ -72,10 +77,10 @@ export default function App() {
           if (portal) setLoginPortal(portal);
           setIsLoginOpen(true);
         }}
-        onOpenAccount={() => setIsOpenAccountOpen(true)}
+        onOpenAccount={() => openAccount()}
         onOpenContact={() => setIsContactModalOpen(true)}
         entityName={
-          currentScreen === 'bank' || currentScreen === 'journey-bank'
+          currentScreen === 'bank' || currentScreen === 'journey-bank' || currentScreen === 'open-account'
             ? 'Bank'
             : currentScreen === 'sbu' || currentScreen === 'journey'
             ? 'Insurance'
@@ -105,7 +110,7 @@ export default function App() {
             <HeroSection
               country={currentCountry}
               onNavigate={setCurrentScreen}
-              onOpenAccount={() => setIsOpenAccountOpen(true)}
+              onOpenAccount={() => openAccount()}
               onOpenContact={() => setIsContactModalOpen(true)}
             />
 
@@ -142,7 +147,7 @@ export default function App() {
         )}
 
         {currentScreen === 'bank' && (
-          <SbuBankingView country={currentCountry} onNavigate={setCurrentScreen} />
+          <SbuBankingView country={currentCountry} onNavigate={setCurrentScreen} onOpenAccount={openAccount} />
         )}
 
         {currentScreen === 'sbu' && (
@@ -189,6 +194,15 @@ export default function App() {
           />
         )}
 
+        {currentScreen === 'open-account' && (
+          <CustomerJourney
+            country={currentCountry}
+            onNavigate={setCurrentScreen}
+            startWith="account"
+            seed={accountSeed}
+          />
+        )}
+
         {currentScreen === 'journey-agro' && (
           <CustomerJourney
             country={currentCountry}
@@ -202,7 +216,7 @@ export default function App() {
       <Footer
         country={currentCountry}
         onNavigate={setCurrentScreen}
-        onOpenAccount={() => setIsOpenAccountOpen(true)}
+        onOpenAccount={() => openAccount()}
         onOpenContact={() => setIsContactModalOpen(true)}
         activeEntity={
           currentScreen === 'bank'
@@ -225,13 +239,6 @@ export default function App() {
         onClose={() => setIsLoginOpen(false)}
         onNavigate={setCurrentScreen}
         initialPortal={loginPortal}
-      />
-
-      {/* Interactive Open Account Modal */}
-      <OpenAccountModal
-        isOpen={isOpenAccountOpen}
-        onClose={() => setIsOpenAccountOpen(false)}
-        onNavigate={setCurrentScreen}
       />
 
       {/* Interactive All Contact Channels Modal */}

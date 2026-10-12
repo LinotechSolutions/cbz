@@ -33,32 +33,25 @@ import { useSiteImage } from '../context/SiteImagesContext';
 interface SbuBankingViewProps {
   country: Country;
   onNavigate: (screen: ScreenType) => void;
+  /** Starts the /open-account journey, optionally with an account type preselected */
+  onOpenAccount: (accountType?: string) => void;
 }
 
-export const SbuBankingView: React.FC<SbuBankingViewProps> = ({ country, onNavigate }) => {
+export const SbuBankingView: React.FC<SbuBankingViewProps> = ({ country, onNavigate, onOpenAccount }) => {
   const siteImage = useSiteImage();
   const [activeTab, setActiveTab] = useState<'accounts' | 'loans' | 'cards'>('accounts');
   const { products } = useGroupedProducts('bank', BANK_PRODUCTS);
   const [selectedStageIndex, setSelectedStageIndex] = useState<number>(0);
-  const [accountModalOpen, setAccountModalOpen] = useState<boolean>(false);
-  const [selectedProduct, setSelectedProduct] = useState<string | null>(null);
-  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
-  const [refCode, setRefCode] = useState<string>('');
-  const [copied, setCopied] = useState<boolean>(false);
-  const [formData, setFormData] = useState({
-    fullName: 'Nyasha Chikore',
-    idNumber: '63-1234567-X-42',
-    phone: '077 123 4567'
-  });
 
   const selectedStage = BANK_LIFECYCLE[selectedStageIndex];
 
-  const handleOpenAccount = (productName: string) => {
-    setSelectedProduct(productName);
-    setIsSubmitted(false);
-    setCopied(false);
-    setRefCode(`CBZ-ACC-${Math.floor(10000 + Math.random() * 90000)}`);
-    setAccountModalOpen(true);
+  // Bank product ids that differ from the account ids used by the /open-account journey
+  const ACCOUNT_TYPE_FOR_PRODUCT: Record<string, string> = { fca: 'nostro', fixed_deposit: 'fixed' };
+
+  const handleProductAction = (productId?: string) => {
+    if (activeTab === 'loans') return onNavigate('journey-bank');
+    if (activeTab === 'accounts' && productId) return onOpenAccount(ACCOUNT_TYPE_FOR_PRODUCT[productId] ?? productId);
+    onOpenAccount();
   };
 
   const renderProductIcon = (iconName?: string) => {
@@ -129,7 +122,7 @@ export const SbuBankingView: React.FC<SbuBankingViewProps> = ({ country, onNavig
 
               <div className="flex flex-wrap items-center gap-4 pt-2">
                 <button
-                  onClick={() => handleOpenAccount('SmartCash Digital Onboarding')}
+                  onClick={() => onOpenAccount()}
                   className="px-6 py-3.5 bg-[#E4002B] hover:bg-[#C50025] text-white text-xs font-bold rounded-xl shadow-md cbz-shadow-red transition-all cursor-pointer flex items-center space-x-2"
                 >
                   <span>Open an Account Online</span>
@@ -427,7 +420,7 @@ export const SbuBankingView: React.FC<SbuBankingViewProps> = ({ country, onNavig
                   {convertTextWithCurrency(prod.pricing, country)}
                 </span>
                 <button
-                  onClick={() => handleOpenAccount(prod.name)}
+                  onClick={() => handleProductAction(prod.id)}
                   className="font-bold text-[#002554] hover:text-[#E4002B] flex items-center space-x-1 cursor-pointer"
                 >
                   <span>
@@ -481,172 +474,6 @@ export const SbuBankingView: React.FC<SbuBankingViewProps> = ({ country, onNavig
           </div>
         </div>
       </section>
-
-      {/* 5. INTERACTIVE ACCOUNT OPENING / APPLICATION MODAL */}
-      {accountModalOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 animate-in fade-in zoom-in duration-150">
-            {/* Modal Header */}
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100">
-              <div className="flex items-center space-x-2.5">
-                <div className="w-8 h-8 rounded-lg bg-blue-50 text-[#002554] flex items-center justify-center">
-                  <Landmark className="w-4 h-4 text-[#E4002B]" />
-                </div>
-                <div>
-                  <div className="flex items-center space-x-2">
-                    <h4 className="font-bold text-sm text-[#002554]">CBZ Bank Online Portal</h4>
-                    <span className="px-2 py-0.5 rounded text-xs font-bold bg-amber-100 text-amber-800">
-                      Sandbox Demo
-                    </span>
-                  </div>
-                  <div className="text-xs text-cbz-grey">Interactive Digital Onboarding</div>
-                </div>
-              </div>
-              <button
-                onClick={() => setAccountModalOpen(false)}
-                className="text-cbz-grey hover:text-cbz-ink font-bold text-lg cursor-pointer p-1"
-                aria-label="Close modal"
-              >
-                ✕
-              </button>
-            </div>
-
-            {isSubmitted ? (
-              /* INLINE SUCCESS CONFIRMATION (Replaces native browser alert - C-01 & C-02) */
-              <div className="py-5 space-y-4 animate-in fade-in duration-200">
-                <div className="text-center space-y-2">
-                  <div className="w-14 h-14 mx-auto rounded-full bg-emerald-50 border-2 border-emerald-200 flex items-center justify-center">
-                    <CheckCircle2 className="w-8 h-8 text-emerald-600" />
-                  </div>
-                  <h3 className="text-lg font-black text-[#002554]">Application Initiated</h3>
-                  <p className="text-xs text-cbz-grey max-w-xs mx-auto">
-                    Your digital application for <strong className="text-[#002554]">{selectedProduct}</strong> has been successfully staged.
-                  </p>
-                </div>
-
-                {/* Reference Code Card */}
-                <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
-                  <div>
-                    <div className="text-xs uppercase font-bold text-cbz-grey">Application Reference</div>
-                    <div className="font-bold text-sm text-[#002554] mt-0.5">{refCode}</div>
-                  </div>
-                  <button
-                    onClick={() => {
-                      navigator.clipboard?.writeText(refCode);
-                      setCopied(true);
-                      setTimeout(() => setCopied(false), 2000);
-                    }}
-                    className="px-2.5 py-1.5 bg-white hover:bg-slate-100 text-slate-700 text-xs font-bold rounded-lg border border-slate-200 flex items-center space-x-1 cursor-pointer transition-colors"
-                  >
-                    {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
-                    <span>{copied ? 'Copied' : 'Copy'}</span>
-                  </button>
-                </div>
-
-                {/* Simulated SMS Card */}
-                <div className="p-3.5 bg-blue-50/80 rounded-xl border border-blue-200/80 space-y-1.5 text-xs">
-                  <div className="flex items-center space-x-1.5 font-bold text-[#002554]">
-                    <Smartphone className="w-4 h-4 text-[#E4002B]" />
-                    <span>Simulated SMS Dispatch Preview</span>
-                  </div>
-                  <div className="bg-white p-3 rounded-lg border border-blue-100 text-cbz-ink text-xs leading-relaxed shadow-2xs">
-                    "CBZ Alerts: Dear {formData.fullName}, your digital application for {selectedProduct} (Ref: {refCode}) has been initiated. Complete biometric verification via CBZ Touch or present this code at any branch."
-                  </div>
-                </div>
-
-                {/* Clear Sandbox Demonstration Notice */}
-                <div className="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-800 flex items-start space-x-2">
-                  <Info className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
-                  <span>
-                    <strong>Sandbox Demonstration:</strong> This client-side simulation illustrates CBZ's digital account opening journey. In production, this wires to the CBZ Core Banking API and RBZ e-KYC. No actual personal data was stored or submitted.
-                  </span>
-                </div>
-
-                <div className="pt-2">
-                  <button
-                    onClick={() => setAccountModalOpen(false)}
-                    className="w-full py-2.5 bg-[#002554] hover:bg-[#0A3E80] text-white text-xs font-bold rounded-xl shadow-xs transition-all cursor-pointer text-center"
-                  >
-                    Done & Return to Products
-                  </button>
-                </div>
-              </div>
-            ) : (
-              /* FORM SUBMISSION VIEW */
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setIsSubmitted(true);
-                }}
-                className="py-5 space-y-4"
-              >
-                <div className="p-3 bg-blue-50/70 rounded-xl border border-blue-100">
-                  <div className="text-xs font-bold text-blue-900">Selected Facility:</div>
-                  <div className="text-sm font-extrabold text-[#002554] mt-0.5">{selectedProduct}</div>
-                </div>
-
-                <div className="space-y-3 text-xs">
-                  <div>
-                    <label className="block font-semibold text-slate-700 mb-1">Full Name (as on National ID)</label>
-                    <input
-                      type="text"
-                      value={formData.fullName}
-                      onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                      placeholder="e.g. Nyasha Chikore"
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-[#002554]"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block font-semibold text-slate-700 mb-1">National ID or Passport Number</label>
-                    <input
-                      type="text"
-                      value={formData.idNumber}
-                      onChange={(e) => setFormData({ ...formData, idNumber: e.target.value })}
-                      placeholder="e.g. 63-1234567-X-42"
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-[#002554]"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block font-semibold text-slate-700 mb-1">Mobile Phone (+263)</label>
-                    <input
-                      type="tel"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      placeholder="e.g. 077 123 4567"
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-[#002554]"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-xs text-emerald-800 flex items-start space-x-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
-                  <span>Instant simulated KYC verification enabled via Reserve Bank of Zimbabwe & National Registry.</span>
-                </div>
-
-                <div className="pt-3 border-t border-slate-100 flex items-center justify-end space-x-3">
-                  <button
-                    type="button"
-                    onClick={() => setAccountModalOpen(false)}
-                    className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-800 cursor-pointer"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="px-5 py-2.5 bg-[#E4002B] hover:bg-[#C50025] text-white text-xs font-bold rounded-xl shadow-xs transition-all cursor-pointer flex items-center space-x-1.5"
-                  >
-                    <span>Submit Application</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              </form>
-            )}
-          </div>
-        </div>
-      )}
     </div>
   );
 };

@@ -1,13 +1,22 @@
 import { INSURANCE_ASSETS, INSURANCE_COVERS, INSURANCE_ADDONS } from './cbzData';
 
 export type ServiceId =
-  | 'bank' | 'properties' | 'insurance' | 'life' | 'datvest'
+  | 'account' | 'bank' | 'properties' | 'insurance' | 'life' | 'datvest'
   | 'agroyield' | 'redsphere' | 'riskadvisory' | 'capital';
 
 export type Answers = Record<string, string | string[]>;
 export type FieldType = 'text' | 'number' | 'date' | 'textarea' | 'select' | 'cards' | 'multicards';
 
-export interface Option { value: string; label: string; hint?: string; badge?: string; priceUSD?: number }
+export interface Option {
+  value: string;
+  label: string;
+  hint?: string;
+  badge?: string;
+  priceUSD?: number;
+  /** Card picture; `imageKey` lets editors replace it from Strapi (Site Image) */
+  image?: string;
+  imageKey?: string;
+}
 
 export interface Field {
   id: string;
@@ -55,14 +64,133 @@ const LIFE_PURPOSES = [
   opt('credit', 'Credit life (cover my loan)')
 ];
 
+/** Personal and organisation accounts offered by CBZ Bank (also used to seed /open-account). */
+export const ACCOUNT_TYPES = [
+  { id: 'smartcash', name: 'SmartCash Current Account', pricing: 'Zero monthly ledger fees', image: '/images/accounts/current.jpg',
+    description: 'Paperless account with a ZimSwitch card, USSD *460# and CBZ Touch.',
+    requirements: ['National ID or valid passport', 'Proof of residence (utility bill or affidavit)', 'USD 5 card fee'] },
+  { id: 'personal', name: 'Personal Current Account', pricing: 'From USD 3 / month', image: '/images/accounts/individual.jpg',
+    description: 'Cheque book, salary clearing and access to personal loans and overdrafts.',
+    requirements: ['National ID or valid passport', 'Proof of residence', 'Latest payslip or proof of income'] },
+  { id: 'nostro', name: 'Nostro Foreign Currency Account (FCA)', pricing: 'Zero opening deposit', image: '/images/accounts/diaspora.jpg',
+    description: 'Hold USD, EUR, GBP or ZAR with an international Visa debit card.',
+    requirements: ['National ID or valid passport', 'Proof of residence (within 3 months)', '2 passport-size colour photos'] },
+  { id: 'youth', name: 'Youth & Student Account', pricing: 'No maintenance fees', image: '/images/accounts/teen.jpg',
+    description: 'For ages 16 to 25. No minimum balance, CBZ Touch and a low-cost card.',
+    requirements: ['National ID or student ID', 'Parent or guardian consent if under 18', 'Proof of residence'] },
+  { id: 'senior', name: 'Senior Citizens Account', pricing: 'Zero ledger fees', image: '/images/accounts/senior.jpg',
+    description: 'For ages 60+. Free withdrawals, priority service and free bill standing orders.',
+    requirements: ['National ID showing age 60+', 'Proof of residence', '2 passport-size photos'] },
+  { id: 'fixed', name: 'Fixed Term Deposit', pricing: 'Up to 14.5% p.a.', image: '/images/accounts/savings.jpg',
+    description: 'Guaranteed returns over 30 to 365 days. Minimum USD 500.',
+    requirements: ['Existing CBZ account or national ID', 'Minimum deposit of USD 500 or ZWG equivalent', 'Investment mandate form'] },
+  { id: 'business', name: 'SME & Business Account', pricing: 'Tailored business tariff', image: '/images/accounts/partnership.jpg',
+    description: 'For partnerships and companies: multiple signatories, internet banking and POS.',
+    requirements: ['Certificate of incorporation (CR14 / CR6)', 'Directors’ national IDs and proof of residence', 'Tax clearance certificate (ITF263)'] },
+  { id: 'church', name: 'ChurchSaver & Community Account', pricing: 'Zero maintenance fees', image: '/images/accounts/churchsaver.jpg',
+    description: 'For churches, NGOs, burial societies and community trusts.',
+    requirements: ['Constitution or trust deed', 'Signatories’ national IDs and proof of residence', 'Committee resolution letter'] }
+];
+
+const ORGANISATION_ACCOUNTS = ['business', 'church'];
+const isOrg = (a: Answers) => ORGANISATION_ACCOUNTS.includes(String(a.accountType));
+
 export const SERVICES: Record<ServiceId, ServiceDef> = {
+  /* -------------------------------------------------------- OPEN ACCOUNT */
+  account: {
+    id: 'account',
+    name: 'Open an Account',
+    entity: 'CBZ Bank',
+    stage: 'Everyday money',
+    tagline: 'Personal, foreign currency, savings and organisation accounts',
+    refPrefix: 'AC',
+    steps: [
+      {
+        id: 'accountType',
+        title: 'Which account would you like to open?',
+        fields: [
+          { id: 'accountType', label: 'Account', type: 'cards', required: true,
+            options: ACCOUNT_TYPES.map((t) => ({
+              value: t.id, label: t.name, hint: t.description, badge: t.pricing, image: t.image, imageKey: `account.${t.id}`
+            })) }
+        ]
+      },
+      {
+        id: 'about',
+        title: 'About the account holder',
+        intro: 'We use this to set up your account correctly and meet banking regulations.',
+        fields: [
+          { id: 'organisationName', label: 'Registered name of the organisation', type: 'text', required: true, showIf: isOrg },
+          { id: 'registrationNumber', label: 'Registration number', type: 'text', required: true, showIf: isOrg },
+          { id: 'role', label: 'Your role in the organisation', type: 'text', required: true, showIf: isOrg, placeholder: 'e.g. Director, Treasurer' },
+          { id: 'employment', label: 'Employment status', type: 'select', required: true, showIf: (a) => !isOrg(a),
+            options: [opt('employed', 'Employed'), opt('selfemployed', 'Self-employed'), opt('student', 'Student'), opt('retired', 'Retired'), opt('unemployed', 'Not working')] },
+          { id: 'employer', label: 'Employer', type: 'text', required: true, showIf: (a) => !isOrg(a) && is(a, 'employment', 'employed') },
+          { id: 'occupation', label: 'Occupation / line of business', type: 'text', required: true,
+            showIf: (a) => !isOrg(a) && ['employed', 'selfemployed'].includes(String(a.employment)) },
+          { id: 'sourceOfFunds', label: 'Main source of funds', type: 'select', required: true,
+            options: [opt('salary', 'Salary'), opt('business', 'Business income'), opt('pension', 'Pension'), opt('remittances', 'Money from family / diaspora'), opt('donations', 'Donations / contributions'), opt('investments', 'Investments'), opt('other', 'Other')] },
+          { id: 'monthlyDeposits', label: 'Expected monthly deposits (USD)', type: 'select', required: true,
+            options: [opt('lt500', 'Under 500'), opt('500to2000', '500 – 2,000'), opt('2000to10000', '2,000 – 10,000'), opt('gt10000', 'Over 10,000')] }
+        ]
+      },
+      {
+        id: 'preferences',
+        title: 'How you’ll bank with us',
+        fields: [
+          { id: 'currency', label: 'Account currency', type: 'select', required: true, showIf: (a) => !is(a, 'accountType', 'nostro'),
+            options: [opt('USD', 'USD'), opt('ZWG', 'ZWG')] },
+          { id: 'fcaCurrency', label: 'Foreign currency', type: 'select', required: true, showIf: (a) => is(a, 'accountType', 'nostro'),
+            options: [opt('USD', 'USD'), opt('EUR', 'EUR'), opt('GBP', 'GBP'), opt('ZAR', 'ZAR')] },
+          { id: 'branch', label: 'Preferred branch', type: 'text', required: true, placeholder: 'e.g. Kwame Nkrumah, Harare' },
+          { id: 'channels', label: 'Ways to bank', type: 'multicards',
+            options: [
+              opt('card', 'Debit card', 'ZimSwitch or Visa, depending on the account'),
+              opt('touch', 'CBZ Touch app', 'Mobile and internet banking'),
+              opt('ussd', 'USSD *460#', 'Bank from any phone, no data needed'),
+              opt('alerts', 'SMS & email alerts', 'Know about every transaction')
+            ] }
+        ]
+      },
+      {
+        id: 'documents',
+        title: 'Your documents',
+        intro: 'Tick what you already have. You can still apply if something is missing; we’ll tell you what to bring.',
+        fields: [
+          ...ACCOUNT_TYPES.map<Field>((t) => ({
+            id: `documents_${t.id}`, label: `Needed for the ${t.name}`, type: 'multicards',
+            showIf: (a: Answers) => is(a, 'accountType', t.id),
+            options: t.requirements.map((r, i) => opt(`doc${i + 1}`, r))
+          })),
+          { id: 'verification', label: 'How would you like to complete verification?', type: 'cards', required: true,
+            options: [
+              opt('branch', 'Visit my preferred branch', 'Bring your original documents; it takes about 15 minutes'),
+              opt('touch', 'Upload on CBZ Touch', 'We’ll SMS a secure link to upload documents and a selfie'),
+              opt('call', 'Have a banker call me', 'A relationship officer will guide you')
+            ] }
+        ]
+      }
+    ],
+    next: (a) => {
+      const out: NextStep[] = [];
+      if (isOrg(a))
+        out.push({ to: 'riskadvisory', headline: 'Look after your people and assets.', body: 'Employee benefits and business cover through CBZ Risk Advisory.', cta: 'Speak to Risk Advisory' });
+      out.push(
+        { to: 'insurance', headline: 'Account on the way. What are you protecting?', body: 'Vehicle, home or business cover on one monthly debit.', cta: 'Get a quote' },
+        { to: 'datvest', headline: 'Ready to grow your savings?', body: 'Unit trusts, money market and more with Datvest.', cta: 'Explore investing' },
+        { to: 'bank', headline: 'Need a loan or mortgage too?', body: 'Apply with CBZ Bank in a few minutes.', cta: 'See loans' }
+      );
+      return out;
+    }
+  },
+
   /* ---------------------------------------------------------------- BANK */
   bank: {
     id: 'bank',
     name: 'Banking & Loans',
     entity: 'CBZ Bank',
     stage: 'Everyday money',
-    tagline: 'Accounts, loans, mortgages and asset finance',
+    tagline: 'Loans, mortgages, asset finance and diaspora banking',
     refPrefix: 'BK',
     steps: [
       {
@@ -72,7 +200,6 @@ export const SERVICES: Record<ServiceId, ServiceDef> = {
           {
             id: 'product', label: 'I want to', type: 'cards', required: true,
             options: [
-              opt('account', 'Open an account', 'Current, savings, teen, senior, Churchsaver, partnership'),
               opt('loan', 'Get a loan', 'Personal, education or business'),
               opt('mortgage', 'Get a mortgage', 'Buy, build or improve a home'),
               opt('asset', 'Finance an asset', 'Vehicles and equipment'),
@@ -85,9 +212,6 @@ export const SERVICES: Record<ServiceId, ServiceDef> = {
         id: 'details',
         title: 'Tell us more',
         fields: [
-          { id: 'accountType', label: 'Account type', type: 'select', required: true, showIf: (a) => is(a, 'product', 'account'),
-            options: [opt('current', 'Current'), opt('savings', 'Savings'), opt('teen', 'Teen'), opt('senior', 'Senior citizen'), opt('church', 'Churchsaver'), opt('partnership', 'Partnership'), opt('term', 'Term deposit')] },
-          { id: 'branch', label: 'Preferred branch', type: 'text', showIf: (a) => is(a, 'product', 'account') },
           { id: 'loanAmount', label: 'Amount needed (USD)', type: 'number', required: true, showIf: (a) => is(a, 'product', 'loan') },
           { id: 'loanPurpose', label: 'Purpose', type: 'select', required: true, showIf: (a) => is(a, 'product', 'loan'),
             options: [opt('consumer', 'Personal / consumer'), opt('education', 'Education'), opt('business', 'Business')] },
@@ -129,7 +253,7 @@ export const SERVICES: Record<ServiceId, ServiceDef> = {
           { to: 'datvest', headline: 'Make your money work.', body: 'Invest locally or offshore with Datvest.', cta: 'Start investing' }
         ];
       return [
-        { to: 'insurance', headline: 'Account open. What are you protecting?', body: 'Vehicle, home or business cover on one monthly payment.', cta: 'Get a quote' },
+        { to: 'insurance', headline: 'What are you protecting?', body: 'Vehicle, home or business cover on one monthly payment.', cta: 'Get a quote' },
         { to: 'life', headline: 'Cover for life.', body: 'We’re here for you and your family.', cta: 'Get life cover' },
         { to: 'datvest', headline: 'Ready to grow your savings?', body: 'Unit trusts, money market and more.', cta: 'Explore investing' }
       ];
@@ -295,7 +419,7 @@ export const SERVICES: Record<ServiceId, ServiceDef> = {
     }],
     next: () => [
       { to: 'insurance', headline: 'Protect your crop and equipment.', body: 'Agro insurance from CBZ Insurance.', cta: 'Get agro cover' },
-      { to: 'bank', headline: 'Where will the harvest income go?', body: 'Open an account to receive and manage it.', cta: 'Open an account', seed: { product: 'account' } },
+      { to: 'account', headline: 'Where will the harvest income go?', body: 'Open an account to receive and manage it.', cta: 'Open an account' },
       { to: 'redsphere', headline: 'Need working capital off-season?', body: 'Red Sphere offers microfinance for day-to-day needs.', cta: 'Talk to Red Sphere' },
       { to: 'datvest', headline: 'Good season? Grow the profit.', body: 'Invest your surplus with Datvest.', cta: 'Explore investing' }
     ]
@@ -323,7 +447,7 @@ export const SERVICES: Record<ServiceId, ServiceDef> = {
     next: (a) => [
       { to: 'life', headline: 'Protect your loan and your family.', body: 'Credit life covers repayments if the unexpected happens.', cta: 'Add credit life',
         seed: { purpose: 'credit', sumAssured: String(a.amount ?? '') } },
-      { to: 'bank', headline: 'Growing? Move to a business account.', body: 'Bank with CBZ and build your track record.', cta: 'Open an account', seed: { product: 'account' } },
+      { to: 'account', headline: 'Growing? Move to a business account.', body: 'Bank with CBZ and build your track record.', cta: 'Open an account', seed: { accountType: 'business' } },
       { to: 'insurance', headline: 'Cover your stock and equipment.', body: 'Business cover from CBZ Insurance.', cta: 'Get a quote' }
     ]
   },

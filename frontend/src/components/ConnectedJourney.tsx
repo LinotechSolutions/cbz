@@ -41,6 +41,7 @@ import { SERVICES, ServiceId, Answers, Field, num } from '../data/cbzJourneys';
 import { Logo } from './Logo';
 import { LogoBrand } from '../brand/logos';
 import { cbzApi } from '../services/api';
+import { useSiteImage } from '../context/SiteImagesContext';
 
 export interface JourneySubmission {
   service: ServiceId;
@@ -80,6 +81,7 @@ const FieldInput: React.FC<{
   bad: boolean;
   country: Country;
 }> = ({ field, value, onChange, bad, country }) => {
+  const siteImage = useSiteImage();
   const label = (
     <label className="block font-bold text-slate-700 mb-1">
       {field.label} {!field.required && <span className="font-normal text-slate-400">(optional)</span>}
@@ -109,6 +111,12 @@ const FieldInput: React.FC<{
                     : 'border-slate-200 hover:border-slate-300'
                 }`}
               >
+                {o.image && (
+                  <img
+                    {...siteImage(o.imageKey ?? '', o.image, o.label)}
+                    className="w-full h-28 object-cover rounded-lg mb-3 bg-slate-100"
+                  />
+                )}
                 <div className="flex items-center justify-between gap-2">
                   <h4 className="font-bold text-sm text-[#002554]">{o.label}</h4>
                   {o.badge && (
@@ -196,6 +204,17 @@ const SERVICE_OFFERS: Record<ServiceId, { title: string; brand: LogoBrand; offer
       { icon: Building2, title: 'Commercial & marine', desc: 'Industrial plant, business interruption and cargo' },
       { icon: Sprout, title: 'Agri multi-peril', desc: 'Drought, hail and livestock harvest protection' },
       { icon: Zap, title: 'Fast-track claims', desc: 'Prompt settlement via CBZ repairer panel' }
+    ]
+  },
+  account: {
+    title: 'Why bank with CBZ',
+    brand: 'bank',
+    offers: [
+      { icon: CreditCard, title: 'Card from day one', desc: 'ZimSwitch or international Visa debit cards' },
+      { icon: Smartphone, title: 'CBZ Touch & USSD *460#', desc: 'Bank from your phone, with or without data' },
+      { icon: Coins, title: 'Zero-fee options', desc: 'SmartCash, youth and senior accounts with no ledger fees' },
+      { icon: Globe, title: 'Foreign currency accounts', desc: 'Hold USD, EUR, GBP or ZAR' },
+      { icon: Landmark, title: 'Branches nationwide', desc: 'Verify in person at any of our branches' }
     ]
   },
   bank: {
@@ -481,7 +500,7 @@ export const ConnectedJourney: React.FC<Props> = ({
                       if (active === 'properties') onNavigate('properties');
                       else if (active === 'insurance') onNavigate('sbu');
                       else if (active === 'datvest') onNavigate('invest');
-                      else if (active === 'bank') onNavigate('bank');
+                      else if (active === 'bank' || active === 'account') onNavigate('bank');
                       else if (active === 'agroyield') onNavigate('agro');
                       else onNavigate('home');
                     }}

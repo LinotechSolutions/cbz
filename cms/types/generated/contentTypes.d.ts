@@ -1,87 +1,5 @@
 import type { Struct, Schema } from '@strapi/strapi';
 
-export interface ApiAnnouncementAnnouncement
-  extends Struct.CollectionTypeSchema {
-  collectionName: 'announcements';
-  info: {
-    singularName: 'announcement';
-    pluralName: 'announcements';
-    displayName: 'Announcement';
-    description: 'CBZ Group official public notices, customer alerts, and shareholder announcements';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    title: Schema.Attribute.String & Schema.Attribute.Required;
-    summary: Schema.Attribute.Text & Schema.Attribute.Required;
-    category: Schema.Attribute.Enumeration<
-      ['customer', 'shareholder', 'regulatory']
-    > &
-      Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<'customer'>;
-    publishDate: Schema.Attribute.Date & Schema.Attribute.Required;
-    isUrgent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
-    officialRef: Schema.Attribute.String;
-    content: Schema.Attribute.RichText;
-    coverImage: Schema.Attribute.Media<'images'>;
-    document: Schema.Attribute.Media<'files'>;
-    createdAt: Schema.Attribute.DateTime;
-    updatedAt: Schema.Attribute.DateTime;
-    publishedAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::announcement.announcement'
-    > &
-      Schema.Attribute.Private;
-  };
-}
-
-export interface ApiCorporateFactCorporateFact
-  extends Struct.CollectionTypeSchema {
-  collectionName: 'corporate_facts';
-  info: {
-    singularName: 'corporate-fact';
-    pluralName: 'corporate-facts';
-    displayName: 'Corporate Fact';
-    description: 'Key corporate figures, operating hours, and institutional metrics';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    key: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.Unique;
-    value: Schema.Attribute.String & Schema.Attribute.Required;
-    label: Schema.Attribute.String & Schema.Attribute.Required;
-    category: Schema.Attribute.Enumeration<
-      ['stat', 'contact', 'ratio', 'governance']
-    > &
-      Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<'stat'>;
-    confirmed: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
-    createdAt: Schema.Attribute.DateTime;
-    updatedAt: Schema.Attribute.DateTime;
-    publishedAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::corporate-fact.corporate-fact'
-    > &
-      Schema.Attribute.Private;
-  };
-}
-
 export interface PluginUploadFile extends Struct.CollectionTypeSchema {
   collectionName: 'files';
   info: {
@@ -577,6 +495,88 @@ export interface PluginUsersPermissionsUser
   };
 }
 
+export interface ApiAnnouncementAnnouncement
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'announcements';
+  info: {
+    singularName: 'announcement';
+    pluralName: 'announcements';
+    displayName: 'Announcement';
+    description: 'CBZ Group official public notices, customer alerts, and shareholder announcements';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    summary: Schema.Attribute.Text & Schema.Attribute.Required;
+    category: Schema.Attribute.Enumeration<
+      ['customer', 'shareholder', 'regulatory']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'customer'>;
+    publishDate: Schema.Attribute.Date & Schema.Attribute.Required;
+    isUrgent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    officialRef: Schema.Attribute.String;
+    content: Schema.Attribute.RichText;
+    coverImage: Schema.Attribute.Media<'images'>;
+    document: Schema.Attribute.Media<'files'>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::announcement.announcement'
+    > &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiCorporateFactCorporateFact
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'corporate_facts';
+  info: {
+    singularName: 'corporate-fact';
+    pluralName: 'corporate-facts';
+    displayName: 'Corporate Fact';
+    description: 'Key corporate figures, operating hours, and institutional metrics';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    key: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    value: Schema.Attribute.String & Schema.Attribute.Required;
+    label: Schema.Attribute.String & Schema.Attribute.Required;
+    category: Schema.Attribute.Enumeration<
+      ['stat', 'contact', 'ratio', 'governance']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'stat'>;
+    confirmed: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::corporate-fact.corporate-fact'
+    > &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface AdminPermission extends Struct.CollectionTypeSchema {
   collectionName: 'admin_permissions';
   info: {
@@ -949,8 +949,6 @@ export interface AdminTransferTokenPermission
 declare module '@strapi/strapi' {
   export module Public {
     export interface ContentTypeSchemas {
-      'api::announcement.announcement': ApiAnnouncementAnnouncement;
-      'api::corporate-fact.corporate-fact': ApiCorporateFactCorporateFact;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::i18n.locale': PluginI18NLocale;
@@ -961,6 +959,8 @@ declare module '@strapi/strapi' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::announcement.announcement': ApiAnnouncementAnnouncement;
+      'api::corporate-fact.corporate-fact': ApiCorporateFactCorporateFact;
       'admin::permission': AdminPermission;
       'admin::user': AdminUser;
       'admin::role': AdminRole;

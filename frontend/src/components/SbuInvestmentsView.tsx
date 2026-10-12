@@ -19,6 +19,7 @@ import { ScreenType, Country } from '../types';
 import { INVESTMENT_PRODUCTS, INVESTMENT_LIFECYCLE, convertTextWithCurrency } from '../data/cbzData';
 import { useGroupedProducts } from '../hooks/useCbzData';
 import { RateDisclosure } from './ui/RateDisclosure';
+import { useSiteImage } from '../context/SiteImagesContext';
 
 interface SbuInvestmentsViewProps {
   country: Country;
@@ -26,6 +27,7 @@ interface SbuInvestmentsViewProps {
 }
 
 export const SbuInvestmentsView: React.FC<SbuInvestmentsViewProps> = ({ country, onNavigate }) => {
+  const siteImage = useSiteImage();
   const [activeTab, setActiveTab] = useState<'unitTrusts' | 'institutional' | 'privateWealth'>('unitTrusts');
   const { products } = useGroupedProducts('datvest', INVESTMENT_PRODUCTS);
   const [selectedStageIndex, setSelectedStageIndex] = useState<number>(0);
@@ -120,8 +122,7 @@ export const SbuInvestmentsView: React.FC<SbuInvestmentsViewProps> = ({ country,
             <div className="lg:col-span-5 relative">
               <div className="rounded-2xl overflow-hidden shadow-xl border border-slate-200 bg-white p-2">
                 <img
-                  src="/images/cbz-wealth.png"
-                  alt="Financial analytics and investment growth"
+                  {...siteImage('banner.investments', '/images/cbz-wealth.png', 'Financial analytics and investment growth')}
                   className="rounded-xl w-full h-84 object-cover"
                 />
               </div>

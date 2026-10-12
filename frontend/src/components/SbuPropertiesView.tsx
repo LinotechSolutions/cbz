@@ -17,6 +17,7 @@ import {
 import { ScreenType, Country } from '../types';
 import { PROPERTY_PRODUCTS, PROPERTY_LIFECYCLE, convertTextWithCurrency } from '../data/cbzData';
 import { useGroupedProducts } from '../hooks/useCbzData';
+import { useSiteImage } from '../context/SiteImagesContext';
 
 interface SbuPropertiesViewProps {
   country: Country;
@@ -24,6 +25,7 @@ interface SbuPropertiesViewProps {
 }
 
 export const SbuPropertiesView: React.FC<SbuPropertiesViewProps> = ({ country, onNavigate }) => {
+  const siteImage = useSiteImage();
   const [activeTab, setActiveTab] = useState<'residential' | 'commercial' | 'advisory'>('residential');
   const { products } = useGroupedProducts('properties', PROPERTY_PRODUCTS);
   const [selectedStageIndex, setSelectedStageIndex] = useState<number>(0);
@@ -107,8 +109,7 @@ export const SbuPropertiesView: React.FC<SbuPropertiesViewProps> = ({ country, o
             <div className="lg:col-span-5 relative">
               <div className="rounded-2xl overflow-hidden shadow-xl border border-slate-200 bg-white p-2">
                 <img
-                  src="/images/loan-home.jpg"
-                  alt="Modern luxury cluster home"
+                  {...siteImage('banner.properties', '/images/loan-home.jpg', 'Modern luxury cluster home')}
                   className="rounded-xl w-full h-84 object-cover"
                 />
               </div>

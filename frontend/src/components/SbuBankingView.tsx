@@ -28,6 +28,7 @@ import { ScreenType, Country } from '../types';
 import { BANK_PRODUCTS, BANK_LIFECYCLE, convertTextWithCurrency } from '../data/cbzData';
 import { useGroupedProducts } from '../hooks/useCbzData';
 import { CbzLogo } from './CbzLogo';
+import { useSiteImage } from '../context/SiteImagesContext';
 
 interface SbuBankingViewProps {
   country: Country;
@@ -35,6 +36,7 @@ interface SbuBankingViewProps {
 }
 
 export const SbuBankingView: React.FC<SbuBankingViewProps> = ({ country, onNavigate }) => {
+  const siteImage = useSiteImage();
   const [activeTab, setActiveTab] = useState<'accounts' | 'loans' | 'cards'>('accounts');
   const { products } = useGroupedProducts('bank', BANK_PRODUCTS);
   const [selectedStageIndex, setSelectedStageIndex] = useState<number>(0);
@@ -179,8 +181,7 @@ export const SbuBankingView: React.FC<SbuBankingViewProps> = ({ country, onNavig
             <div className="lg:col-span-5 relative">
               <div className="rounded-2xl overflow-hidden shadow-xl border border-slate-200 bg-white p-2">
                 <img
-                  src="/images/cbz-banking.png"
-                  alt="CBZ Bank Commercial Advisory"
+                  {...siteImage('banner.banking', '/images/cbz-banking.png', 'CBZ Bank Commercial Advisory')}
                   className="rounded-xl w-full h-80 lg:h-96 object-cover"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = '/images/cbz-banking-branch.jpg';
@@ -405,8 +406,7 @@ export const SbuBankingView: React.FC<SbuBankingViewProps> = ({ country, onNavig
                 {prod.image && (
                   <div className="w-full h-40 rounded-xl overflow-hidden mb-4 border border-slate-100 bg-slate-100">
                     <img
-                      src={prod.image}
-                      alt={prod.name}
+                      {...siteImage(`bank-product.${prod.id}`, prod.image, prod.name)}
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                     />
                   </div>

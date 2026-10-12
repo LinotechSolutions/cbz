@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "site_images",
+  "info": {
+    "singularName": "site-image",
+    "pluralName": "site-images",
+    "displayName": "Site Image",
+    "description": "Replaceable images on the public website. Upload a picture to override the built-in default; leave empty to keep it. Do not change the key."
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "location": {
+      "type": "string"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "alt": {
+      "type": "string"
+    },
+    "key": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    }
+  }
+}

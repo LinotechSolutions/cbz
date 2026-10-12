@@ -9,6 +9,14 @@ import { Announcement, ContactChannel } from '../data/announcementsData';
 const STRAPI_BASE_URL =
   (import.meta as any).env?.VITE_STRAPI_URL || 'http://localhost:1337/api';
 
+/** Origin serving uploaded media, e.g. https://cms.example.com (the API URL minus /api). */
+const STRAPI_MEDIA_ORIGIN = STRAPI_BASE_URL.replace(/\/api\/?$/, '');
+
+export interface SiteImage {
+  src: string;
+  alt?: string;
+}
+
 /**
  * Normalizes a Strapi entity record regardless of v4/v5 nesting.
  */
@@ -112,5 +120,26 @@ export const strapiApi = {
       }
     }
     return facts;
+  },
+
+  /**
+   * Fetches editor-uploaded site images, keyed by slot (e.g. "home.hero").
+   * Slots without an uploaded image are omitted so callers keep their default.
+   */
+  async getSiteImages(): Promise<Record<string, SiteImage>> {
+    const query = '/site-images?populate=image&pagination[pageSize]=100';
+    const res = await strapiFetch<{ data: any[] }>(query);
+    if (!res || !Array.isArray(res.data)) return {};
+
+    const images: Record<string, SiteImage> = {};
+    for (const item of res.data) {
+      const doc = normalizeRecord<any>(item);
+      const media = doc.image?.data ? normalizeRecord<any>(doc.image.data) : doc.image;
+      if (!doc.key || !media?.url) continue;
+      // Local uploads come back as "/uploads/..."; cloud providers return absolute URLs.
+      const src = media.url.startsWith('http') ? media.url : `${STRAPI_MEDIA_ORIGIN}${media.url}`;
+      images[doc.key] = { src, alt: doc.alt || media.alternativeText || undefined };
+    }
+    return images;
   },
 };

@@ -20,6 +20,7 @@ import {
 import { ScreenType, Country, ProductItem } from '../types';
 import { SBU_PRODUCTS, SUBSIDIARIES, convertTextWithCurrency } from '../data/cbzData';
 import { CbzLogo } from './CbzLogo';
+import { useSiteImage } from '../context/SiteImagesContext';
 
 interface SbuInsuranceViewProps {
   country: Country;
@@ -27,6 +28,7 @@ interface SbuInsuranceViewProps {
 }
 
 export const SbuInsuranceView: React.FC<SbuInsuranceViewProps> = ({ country, onNavigate }) => {
+  const siteImage = useSiteImage();
   const [activeTab, setActiveTab] = useState<'personal' | 'business' | 'agro'>('personal');
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
   const [selectedQuoteProd, setSelectedQuoteProd] = useState<ProductItem | null>(null);
@@ -144,8 +146,7 @@ export const SbuInsuranceView: React.FC<SbuInsuranceViewProps> = ({ country, onN
             <div className="lg:col-span-5 relative">
               <div className="rounded-2xl overflow-hidden shadow-xl border border-slate-200 bg-white p-2">
                 <img
-                  src="/images/insurance-family.jpg"
-                  alt="Protected Zimbabwean family"
+                  {...siteImage('banner.insurance', '/images/insurance-family.jpg', 'Protected Zimbabwean family')}
                   className="rounded-xl w-full h-80 object-cover"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = '/images/cbz-protection.png';

@@ -22,6 +22,7 @@ import {
   convertTextWithCurrency
 } from '../data/cbzData';
 import { CbzLogo } from './CbzLogo';
+import { useSiteImage } from '../context/SiteImagesContext';
 
 interface CrossEntityHandoverProps {
   country: Country;
@@ -29,6 +30,7 @@ interface CrossEntityHandoverProps {
 }
 
 export const CrossEntityHandover: React.FC<CrossEntityHandoverProps> = ({ country, onNavigate }) => {
+  const siteImage = useSiteImage();
   const [currentStage, setCurrentStage] = useState(1);
   const [monthlyIncome, setMonthlyIncome] = useState('3400');
   const [showHandoverModal, setShowHandoverModal] = useState<number | null>(null);
@@ -179,8 +181,7 @@ export const CrossEntityHandover: React.FC<CrossEntityHandoverProps> = ({ countr
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
                   <div className="rounded-xl overflow-hidden aspect-[4/3] bg-slate-100 border border-slate-200">
                     <img
-                      src="/images/loan-home.jpg"
-                      alt="Bloomingdale Cluster Homes"
+                      {...siteImage('handover.property', '/images/loan-home.jpg', 'Bloomingdale Cluster Homes')}
                       className="w-full h-full object-cover"
                     />
                   </div>

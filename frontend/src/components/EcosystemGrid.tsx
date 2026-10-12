@@ -4,12 +4,14 @@ import { Subsidiary, ScreenType } from '../types';
 import { SUBSIDIARIES } from '../data/cbzData';
 import { Logo } from './Logo';
 import { BRAND_BY_KEY } from '../brand/logos';
+import { useSiteImage } from '../context/SiteImagesContext';
 
 interface EcosystemGridProps {
   onNavigate: (screen: ScreenType) => void;
 }
 
 export const EcosystemGrid: React.FC<EcosystemGridProps> = ({ onNavigate }) => {
+  const siteImage = useSiteImage();
   const [selectedSubId, setSelectedSubId] = useState<string>('bank');
 
   const selectedSub =
@@ -91,8 +93,7 @@ export const EcosystemGrid: React.FC<EcosystemGridProps> = ({ onNavigate }) => {
             {/* Visual Column */}
             <div className="lg:col-span-5 relative bg-slate-900 min-h-[260px] lg:min-h-full">
               <img
-                src={selectedSub.image}
-                alt={selectedSub.name}
+                {...siteImage(`ecosystem.${selectedSub.id}`, selectedSub.image, selectedSub.name)}
                 className="w-full h-full object-cover opacity-80"
                 onError={(e) => {
                   (e.target as HTMLImageElement).src = '/images/cbz-banking.png';

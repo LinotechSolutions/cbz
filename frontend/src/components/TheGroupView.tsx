@@ -13,6 +13,7 @@ import {
 import { Country, ScreenType } from '../types';
 import { Logo } from './Logo';
 import { LogoBrand } from '../brand/logos';
+import { useSiteImage } from '../context/SiteImagesContext';
 
 interface TheGroupViewProps {
   country: Country;
@@ -288,6 +289,7 @@ const EXECUTIVE_COMMITTEE: LeaderProfile[] = [
 ];
 
 export const TheGroupView: React.FC<TheGroupViewProps> = ({ onNavigate }) => {
+  const siteImage = useSiteImage();
   const [leadershipTab, setLeadershipTab] = useState<'board' | 'exec'>('board');
 
   const scrollTo = (id: string) => {
@@ -347,8 +349,7 @@ export const TheGroupView: React.FC<TheGroupViewProps> = ({ onNavigate }) => {
               <div className="relative rounded-3xl overflow-hidden shadow-lg border border-slate-200/90 bg-white group transition-all duration-300 hover:shadow-2xl hover:border-[#002554]/40 aspect-[16/10] sm:aspect-[16/9] lg:aspect-[4/3] flex flex-col justify-between p-5 sm:p-7">
                 {/* Full-bleed Photography Image */}
                 <img
-                  src={sub.image}
-                  alt={sub.name}
+                  {...siteImage(`group.${sub.id}`, sub.image, sub.name)}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 select-none"
                   draggable={false}
                 />

@@ -19,6 +19,7 @@ import {
 import { ScreenType, Country } from '../types';
 import { AGRO_PRODUCTS, AGRO_LIFECYCLE, convertTextWithCurrency } from '../data/cbzData';
 import { useGroupedProducts } from '../hooks/useCbzData';
+import { useSiteImage } from '../context/SiteImagesContext';
 
 interface SbuAgribusinessViewProps {
   country: Country;
@@ -26,6 +27,7 @@ interface SbuAgribusinessViewProps {
 }
 
 export const SbuAgribusinessView: React.FC<SbuAgribusinessViewProps> = ({ country, onNavigate }) => {
+  const siteImage = useSiteImage();
   const [activeTab, setActiveTab] = useState<'seasonal' | 'mechanization' | 'commercial'>('seasonal');
   const { products } = useGroupedProducts('agri', AGRO_PRODUCTS);
   const [selectedStageIndex, setSelectedStageIndex] = useState<number>(0);
@@ -112,8 +114,7 @@ export const SbuAgribusinessView: React.FC<SbuAgribusinessViewProps> = ({ countr
             <div className="lg:col-span-5 relative">
               <div className="rounded-2xl overflow-hidden shadow-xl border border-slate-200 bg-white p-2">
                 <img
-                  src="/images/cbz-agriculture.png"
-                  alt="Zimbabwean commercial harvest in field"
+                  {...siteImage('banner.agro', '/images/cbz-agriculture.png', 'Zimbabwean commercial harvest in field')}
                   className="rounded-xl w-full h-84 object-cover"
                 />
               </div>

@@ -577,6 +577,41 @@ export interface ApiCorporateFactCorporateFact
   };
 }
 
+export interface ApiSiteImageSiteImage extends Struct.CollectionTypeSchema {
+  collectionName: 'site_images';
+  info: {
+    singularName: 'site-image';
+    pluralName: 'site-images';
+    displayName: 'Site Image';
+    description: 'Replaceable images on the public website. Upload a picture to override the built-in default; leave empty to keep it. Do not change the key.';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    label: Schema.Attribute.String & Schema.Attribute.Required;
+    location: Schema.Attribute.String;
+    image: Schema.Attribute.Media<'images'>;
+    alt: Schema.Attribute.String;
+    key: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::site-image.site-image'
+    > &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface AdminPermission extends Struct.CollectionTypeSchema {
   collectionName: 'admin_permissions';
   info: {
@@ -961,6 +996,7 @@ declare module '@strapi/strapi' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::announcement.announcement': ApiAnnouncementAnnouncement;
       'api::corporate-fact.corporate-fact': ApiCorporateFactCorporateFact;
+      'api::site-image.site-image': ApiSiteImageSiteImage;
       'admin::permission': AdminPermission;
       'admin::user': AdminUser;
       'admin::role': AdminRole;

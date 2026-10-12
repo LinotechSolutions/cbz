@@ -14,6 +14,11 @@ RUN npm ci --legacy-peer-deps || npm install --legacy-peer-deps
 # Copy project source files
 COPY . .
 
+# Vite inlines VITE_* vars at build time, so they must be build args
+# (Railway passes service variables to declared ARGs automatically)
+ARG VITE_STRAPI_URL
+ENV VITE_STRAPI_URL=$VITE_STRAPI_URL
+
 # Build production bundle
 RUN npm run build
 

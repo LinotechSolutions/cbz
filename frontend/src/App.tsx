@@ -25,6 +25,7 @@ import { ContactChannelsModal } from './components/ContactChannelsModal';
 import { Footer } from './components/Footer';
 import ChatWidget from './components/ChatWidget';
 import { ClientProfileProvider } from './context/ClientProfileContext';
+import { SiteImagesProvider } from './context/SiteImagesContext';
 
 export default function App() {
   // URL-backed screen state (see src/lib/routes.ts). navigate() pushes history and scrolls to top.
@@ -37,6 +38,7 @@ export default function App() {
 
   return (
     <ClientProfileProvider>
+    <SiteImagesProvider>
       <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans">
 
       {/* Top Utility Bar (Rotating Indicative FX, Toll-Free, WhatsApp, Channels Trigger) */}
@@ -242,6 +244,7 @@ export default function App() {
       <ChatWidget />
 
     </div>
+    </SiteImagesProvider>
     </ClientProfileProvider>
   );
 }

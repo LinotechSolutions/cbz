@@ -2,12 +2,14 @@ import React from 'react';
 import { ArrowRight, User, Briefcase, Landmark, Globe } from 'lucide-react';
 import { AUDIENCES } from '../data/cbzData';
 import { ScreenType } from '../types';
+import { useSiteImage } from '../context/SiteImagesContext';
 
 interface SolutionsSectionProps {
   onNavigate: (screen: ScreenType) => void;
 }
 
 export const SolutionsSection: React.FC<SolutionsSectionProps> = ({ onNavigate }) => {
+  const siteImage = useSiteImage();
   const getIcon = (iconName: string) => {
     switch (iconName) {
       case 'User':
@@ -65,8 +67,7 @@ export const SolutionsSection: React.FC<SolutionsSectionProps> = ({ onNavigate }
               {/* Card Image */}
               <div className="relative h-36 overflow-hidden bg-slate-100">
                 <img
-                  src={item.image}
-                  alt={item.title}
+                  {...siteImage(`audience.${item.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`, item.image, item.title)}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />

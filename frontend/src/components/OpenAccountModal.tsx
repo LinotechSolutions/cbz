@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { ScreenType } from '../types';
 import { cbzApi } from '../services/api';
+import { useSiteImage } from '../context/SiteImagesContext';
 
 interface OpenAccountModalProps {
   isOpen: boolean;
@@ -130,6 +131,7 @@ export const OpenAccountModal: React.FC<OpenAccountModalProps> = ({
   onClose,
   initialAccountType
 }) => {
+  const siteImage = useSiteImage();
   const [selectedAccountId, setSelectedAccountId] = useState<string>(
     initialAccountType || 'smartcash'
   );
@@ -279,8 +281,7 @@ export const OpenAccountModal: React.FC<OpenAccountModalProps> = ({
                       <div className="flex items-start justify-between gap-2 mb-2">
                         <div className="flex items-center space-x-2.5">
                           <img
-                            src={acc.image}
-                            alt={acc.name}
+                            {...siteImage(`account.${acc.id}`, acc.image, acc.name)}
                             className="w-10 h-10 rounded-lg object-cover flex-shrink-0 border border-slate-200"
                             onError={(e) => {
                               (e.target as HTMLImageElement).src = '/images/cbz-banking.png';

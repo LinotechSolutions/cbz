@@ -17,6 +17,7 @@ import {
 import { ScreenType, Country } from '../types';
 import { GOALS } from '../data/cbzData';
 import { GROUP_FACTS, CONTACT } from '../data/facts';
+import { useSiteImage } from '../context/SiteImagesContext';
 
 interface HeroSectionProps {
   country: Country;
@@ -31,6 +32,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   onOpenAccount,
   onOpenContact
 }) => {
+  const siteImage = useSiteImage();
   const [goalText, setGoalText] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -74,7 +76,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       <div
         className="absolute top-2 sm:top-0 right-4 sm:right-10 md:right-16 lg:right-20 xl:right-28 h-[500px] sm:h-[550px] lg:h-[580px] w-4/5 sm:w-3/4 lg:w-3/5 bg-no-repeat pointer-events-none select-none z-0"
         style={{
-          backgroundImage: "url('/images/cbzpicture1.png')",
+          backgroundImage: `url('${siteImage('home.hero', '/images/cbzpicture1.png').src}')`,
           backgroundPosition: 'right center',
           backgroundSize: 'contain',
         }}

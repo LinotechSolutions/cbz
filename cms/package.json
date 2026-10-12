@@ -12,7 +12,12 @@
   "dependencies": {
     "@strapi/plugin-users-permissions": "5.1.0",
     "@strapi/strapi": "5.1.0",
-    "pg": "^8.13.0"
+    "better-sqlite3": "^13.0.3",
+    "pg": "^8.13.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.30.6",
+    "styled-components": "^6.5.3"
   },
   "author": "CBZ Holdings IT & Digital Team",
   "license": "UNLICENSED"

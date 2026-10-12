@@ -1,5 +1,6 @@
 # ==========================================
 # CBZ Holdings — Strapi CMS Production Dockerfile
+# Optimized for Railway and Containerized Deployments
 # ==========================================
 FROM node:20-alpine AS builder
 
@@ -7,13 +8,16 @@ FROM node:20-alpine AS builder
 RUN apk update && apk add --no-cache build-base gcc autoconf automake zlib-dev libpng-dev vips-dev git
 
 WORKDIR /opt/
-COPY package.json ./
-RUN npm install --only=production --legacy-peer-deps
+COPY package.json package-lock.json* ./
+RUN npm install --legacy-peer-deps
 
 WORKDIR /opt/app
 COPY . .
 ENV PATH=/opt/node_modules/.bin:$PATH
 ENV NODE_ENV=production
+
+# Compile production admin UI assets
+RUN npm run build
 
 # ==========================================
 # Production Runtime Stage
@@ -28,6 +32,8 @@ COPY --from=builder /opt/app ./
 ENV PATH=/opt/node_modules/.bin:$PATH
 
 ENV NODE_ENV=production
+RUN mkdir -p /opt/app/public/uploads
+
 EXPOSE 1337
 
 CMD ["npm", "run", "start"]

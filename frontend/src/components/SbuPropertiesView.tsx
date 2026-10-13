@@ -109,7 +109,7 @@ export const SbuPropertiesView: React.FC<SbuPropertiesViewProps> = ({ country, o
             <div className="lg:col-span-5 relative">
               <div className="rounded-2xl overflow-hidden shadow-xl border border-slate-200 bg-white p-2">
                 <img
-                  {...siteImage('banner.properties', '/images/loan-home.jpg', 'Modern luxury cluster home')}
+                  {...siteImage('banner.properties', '/images/loan-home.webp', 'Modern luxury cluster home')}
                   className="rounded-xl w-full h-84 object-cover"
                 />
               </div>

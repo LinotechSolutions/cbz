@@ -5,8 +5,56 @@
   "outputDirectory": "dist",
   "rewrites": [
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "source": "/bank",
+      "destination": "/bank/index.html"
+    },
+    {
+      "source": "/insurance",
+      "destination": "/insurance/index.html"
+    },
+    {
+      "source": "/datvest",
+      "destination": "/datvest/index.html"
+    },
+    {
+      "source": "/agro-yield",
+      "destination": "/agro-yield/index.html"
+    },
+    {
+      "source": "/properties",
+      "destination": "/properties/index.html"
+    },
+    {
+      "source": "/the-group",
+      "destination": "/the-group/index.html"
+    },
+    {
+      "source": "/buy-a-home",
+      "destination": "/buy-a-home/index.html"
+    },
+    {
+      "source": "/car-insurance-quote",
+      "destination": "/car-insurance-quote/index.html"
+    },
+    {
+      "source": "/invest-journey",
+      "destination": "/invest-journey/index.html"
+    },
+    {
+      "source": "/banking-journey",
+      "destination": "/banking-journey/index.html"
+    },
+    {
+      "source": "/agro-journey",
+      "destination": "/agro-journey/index.html"
+    },
+    {
+      "source": "/login",
+      "destination": "/login/index.html"
+    },
+    {
+      "source": "/open-account",
+      "destination": "/open-account/index.html"
     }
   ],
   "headers": [
@@ -45,6 +93,21 @@
         {
           "key": "Content-Security-Policy",
           "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https://images.unsplash.com https://*.railway.app https://*.up.railway.app https://cbz.co.zw; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://*.railway.app https://*.up.railway.app https://*.cbz.co.zw https://api.cbz.co.zw; frame-ancestors 'none'; base-uri 'self'; form-action 'self';"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "(?<host>.*\\.vercel\\.app)"
+        }
+      ],
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
         }
       ]
     }

@@ -146,10 +146,10 @@ export const SbuInsuranceView: React.FC<SbuInsuranceViewProps> = ({ country, onN
             <div className="lg:col-span-5 relative">
               <div className="rounded-2xl overflow-hidden shadow-xl border border-slate-200 bg-white p-2">
                 <img
-                  {...siteImage('banner.insurance', '/images/insurance-family.jpg', 'Protected Zimbabwean family')}
+                  {...siteImage('banner.insurance', '/images/insurance-family.webp', 'Protected Zimbabwean family')}
                   className="rounded-xl w-full h-80 object-cover"
                   onError={(e) => {
-                    (e.target as HTMLImageElement).src = '/images/cbz-protection.png';
+                    (e.target as HTMLImageElement).src = '/images/cbz-protection.webp';
                   }}
                 />
               </div>

@@ -68,6 +68,8 @@ export const SolutionsSection: React.FC<SolutionsSectionProps> = ({ onNavigate }
               <div className="relative h-36 overflow-hidden bg-slate-100">
                 <img
                   {...siteImage(`audience.${item.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`, item.image, item.title)}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />

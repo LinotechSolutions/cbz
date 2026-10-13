@@ -76,7 +76,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       <div
         className="absolute top-2 sm:top-0 right-4 sm:right-10 md:right-16 lg:right-20 xl:right-28 h-[500px] sm:h-[550px] lg:h-[580px] w-4/5 sm:w-3/4 lg:w-3/5 bg-no-repeat pointer-events-none select-none z-0"
         style={{
-          backgroundImage: `url('${siteImage('home.hero', '/images/cbzpicture1.png').src}')`,
+          backgroundImage: `url('${siteImage('home.hero', '/images/cbzpicture1.webp').src}')`,
           backgroundPosition: 'right center',
           backgroundSize: 'contain',
         }}

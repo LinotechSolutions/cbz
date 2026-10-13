@@ -181,7 +181,7 @@ export const CrossEntityHandover: React.FC<CrossEntityHandoverProps> = ({ countr
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
                   <div className="rounded-xl overflow-hidden aspect-[4/3] bg-slate-100 border border-slate-200">
                     <img
-                      {...siteImage('handover.property', '/images/loan-home.jpg', 'Bloomingdale Cluster Homes')}
+                      {...siteImage('handover.property', '/images/loan-home.webp', 'Bloomingdale Cluster Homes')}
                       className="w-full h-full object-cover"
                     />
                   </div>

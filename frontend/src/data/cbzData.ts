@@ -99,7 +99,7 @@ export const SUBSIDIARIES: Subsidiary[] = [
     screen: 'bank',
     tagline: 'Banking solutions for every stage of life.',
     isCore: true,
-    image: '/images/cbz-banking.png',
+    image: '/images/cbz-banking.webp',
     logo: '/brand/logos/bank-full.svg'
   },
   {
@@ -110,7 +110,7 @@ export const SUBSIDIARIES: Subsidiary[] = [
     cta: 'Get a 4-Step Quote',
     screen: 'sbu',
     tagline: 'Protection for what matters most.',
-    image: '/images/insurance-car.jpg',
+    image: '/images/insurance-car.webp',
     logo: '/brand/logos/insurance-full.svg'
   },
   {
@@ -121,7 +121,7 @@ export const SUBSIDIARIES: Subsidiary[] = [
     cta: 'Protect Your Family',
     screen: 'group',
     tagline: 'Cover for life. Security for your family.',
-    image: '/images/insurance-family.jpg',
+    image: '/images/insurance-family.webp',
     logo: '/brand/logos/life-full.svg'
   },
   {
@@ -132,7 +132,7 @@ export const SUBSIDIARIES: Subsidiary[] = [
     cta: 'Invest with Datvest',
     screen: 'invest',
     tagline: 'Growing wealth. Building resilient futures.',
-    image: '/images/cbz-wealth.png',
+    image: '/images/cbz-wealth.webp',
     logo: '/brand/logos/datvest-full.svg'
   },
   {
@@ -143,7 +143,7 @@ export const SUBSIDIARIES: Subsidiary[] = [
     cta: 'Corporate Advisory',
     screen: null,
     tagline: 'Capital raised. Strategic ambitions realised.',
-    image: '/images/cbz-banking-branch.jpg',
+    image: '/images/cbz-banking-branch.webp',
     logo: '/brand/logos/capital-full.svg'
   },
   {
@@ -154,7 +154,7 @@ export const SUBSIDIARIES: Subsidiary[] = [
     cta: 'Browse Properties',
     screen: 'properties',
     tagline: 'Spaces for living. Places for life.',
-    image: '/images/loan-home.jpg',
+    image: '/images/loan-home.webp',
     logo: '/brand/logos/properties-full.svg'
   },
   {
@@ -165,7 +165,7 @@ export const SUBSIDIARIES: Subsidiary[] = [
     cta: 'Finance a Season',
     screen: 'agro',
     tagline: 'Financing harvest across the entire food chain.',
-    image: '/images/cbz-agriculture.png',
+    image: '/images/cbz-agriculture.webp',
     logo: '/brand/logos/agro-yield-full.svg'
   },
   {
@@ -176,7 +176,7 @@ export const SUBSIDIARIES: Subsidiary[] = [
     cta: 'Audit Your Portfolio',
     screen: null,
     tagline: 'Risk understood. Exposure managed with precision.',
-    image: '/images/cbz-protection.png',
+    image: '/images/cbz-protection.webp',
     logo: '/brand/logos/risk-advisory-full.svg'
   },
   {
@@ -187,7 +187,7 @@ export const SUBSIDIARIES: Subsidiary[] = [
     cta: 'Apply for SME Loan',
     screen: null,
     tagline: 'Financial inclusion. Empowering communities.',
-    image: '/images/loan-education.jpg'
+    image: '/images/loan-education.webp'
   }
 ];
 
@@ -241,28 +241,28 @@ export const AUDIENCES: Audience[] = [
     title: 'Personal',
     description: 'Everyday banking, family cover, and tailored savings built around your household.',
     iconName: 'User',
-    image: '/images/accounts/individual.jpg',
+    image: '/images/accounts/individual.webp',
     tag: 'Individual'
   },
   {
     title: 'Business & SMEs',
     description: 'Business accounts, trade financing, order financing, and commercial cover.',
     iconName: 'Briefcase',
-    image: '/images/accounts/partnership.jpg',
+    image: '/images/accounts/partnership.webp',
     tag: 'Enterprise'
   },
   {
     title: 'Corporate & Institutional',
     description: 'Capital raising, syndicated debt, treasury management, and custodial services.',
     iconName: 'Landmark',
-    image: '/images/cbz-banking.png',
+    image: '/images/cbz-banking.webp',
     tag: 'Corporate'
   },
   {
     title: 'Diaspora Banking',
     description: 'Bank, insure, invest in unit trusts, and buy property in Zimbabwe from anywhere worldwide.',
     iconName: 'Globe',
-    image: '/images/accounts/diaspora.jpg',
+    image: '/images/accounts/diaspora.webp',
     tag: 'Global'
   }
 ];
@@ -1003,7 +1003,7 @@ export const BANK_PRODUCTS: Record<string, ProductItem[]> = {
       name: 'SmartCash Current Account',
       description: 'Zero monthly ledger fees, instant ZimSwitch chip card, USSD *460# and CBZ Touch access with unlimited digital payments.',
       pricing: 'Zero Ledger Fees',
-      image: '/images/accounts/current.jpg'
+      image: '/images/accounts/current.webp'
     },
     {
       id: 'personal',
@@ -1011,7 +1011,7 @@ export const BANK_PRODUCTS: Record<string, ProductItem[]> = {
       name: 'Personal Commercial Current Account',
       description: 'Full cheque book facility, overdraft line access, international contactless Visa debit card, and seamless monthly payroll direct deposit.',
       pricing: 'From USD 3/mo',
-      image: '/images/accounts/individual.jpg'
+      image: '/images/accounts/individual.webp'
     },
     {
       id: 'fca',
@@ -1019,7 +1019,7 @@ export const BANK_PRODUCTS: Record<string, ProductItem[]> = {
       name: 'Nostro Foreign Currency Account (FCA)',
       description: 'Hard currency accounts held in USD, EUR, GBP, and ZAR with international Visa Gold and Platinum cards and global ATM withdrawals.',
       pricing: 'Zero Opening Deposit',
-      image: '/images/accounts/diaspora.jpg'
+      image: '/images/accounts/diaspora.webp'
     },
     {
       id: 'senior',
@@ -1027,7 +1027,7 @@ export const BANK_PRODUCTS: Record<string, ProductItem[]> = {
       name: 'Senior Citizens Dignity Account',
       description: 'Tailored for customers aged 60+, offering zero monthly maintenance fees, priority teller service, and subsidized utility standing orders.',
       pricing: '100% Fee-Free',
-      image: '/images/accounts/senior.jpg'
+      image: '/images/accounts/senior.webp'
     },
     {
       id: 'youth',
@@ -1035,7 +1035,7 @@ export const BANK_PRODUCTS: Record<string, ProductItem[]> = {
       name: 'Youth & Student Campus Account',
       description: 'Instant digital onboarding for students aged 16-25, zero minimum balance, and exclusive student data and lifestyle discount perks.',
       pricing: 'Zero Maintenance',
-      image: '/images/accounts/teen.jpg'
+      image: '/images/accounts/teen.webp'
     },
     {
       id: 'fixed_deposit',
@@ -1043,7 +1043,7 @@ export const BANK_PRODUCTS: Record<string, ProductItem[]> = {
       name: 'High-Yield Fixed Term Deposit',
       description: 'Guaranteed high-yield returns with automated monthly interest sweeps into your current account across flexible 30 to 365-day tenures.',
       pricing: 'Up to 14.5% p.a.',
-      image: '/images/accounts/savings.jpg'
+      image: '/images/accounts/savings.webp'
     }
   ],
   loans: [
@@ -1053,7 +1053,7 @@ export const BANK_PRODUCTS: Record<string, ProductItem[]> = {
       name: 'Salaried Personal Loans',
       description: 'Unsecured personal loans up to 36 months for civil servants (SSB deduction) and approved private corporate employees with 24-hr disbursement.',
       pricing: 'From 12% p.a.',
-      image: '/images/loan-education.jpg'
+      image: '/images/loan-education.webp'
     },
     {
       id: 'mortgages',
@@ -1061,7 +1061,7 @@ export const BANK_PRODUCTS: Record<string, ProductItem[]> = {
       name: 'Private Home Mortgages',
       description: '15 to 20-year residential mortgages for purchase, construction, or equity release, fully integrated with CBZ Properties sworn valuations.',
       pricing: 'From 9.5% p.a.',
-      image: '/images/loan-home.jpg'
+      image: '/images/loan-home.webp'
     },
     {
       id: 'vaf',
@@ -1069,7 +1069,7 @@ export const BANK_PRODUCTS: Record<string, ProductItem[]> = {
       name: 'Vehicle & Asset Finance (VAF)',
       description: 'Up to 80% financing for new and approved pre-owned passenger vehicles, commercial light trucks, delivery vans, and industrial machinery.',
       pricing: 'Competitive VAF Terms',
-      image: '/images/insurance-car.jpg'
+      image: '/images/insurance-car.webp'
     },
     {
       id: 'red_sphere',
@@ -1077,7 +1077,7 @@ export const BANK_PRODUCTS: Record<string, ProductItem[]> = {
       name: 'Red Sphere SME Micro-Credit',
       description: 'Collateral-light working capital loans disbursed in 48 hours for smallholders, micro-retailers, cross-border traders, and entrepreneurs.',
       pricing: 'Fast Micro-Credit',
-      image: '/images/accounts/partnership.jpg'
+      image: '/images/accounts/partnership.webp'
     },
     {
       id: 'overdrafts',
@@ -1085,7 +1085,7 @@ export const BANK_PRODUCTS: Record<string, ProductItem[]> = {
       name: 'Business Working Capital & Overdrafts',
       description: 'Revolving overdraft facilities, structured inventory credit, and seasonal trade finance tailored to corporate and commercial balance sheets.',
       pricing: 'Tailored Facility',
-      image: '/images/cbz-wealth.png'
+      image: '/images/cbz-wealth.webp'
     },
     {
       id: 'invoice',
@@ -1093,7 +1093,7 @@ export const BANK_PRODUCTS: Record<string, ProductItem[]> = {
       name: 'Invoice Discounting & Order Finance',
       description: 'Up to 70% immediate liquidity advance against verified corporate purchase orders and blue-chip invoices to keep operations fluid.',
       pricing: 'Up to 70% PO Value',
-      image: '/images/cbz-payments.png'
+      image: '/images/cbz-payments.webp'
     }
   ],
   cards: [

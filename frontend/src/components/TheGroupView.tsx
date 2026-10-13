@@ -53,7 +53,7 @@ const SUBSIDIARIES: GroupSubsidiary[] = [
     category: 'Commercial Banking',
     descriptor: 'Universal Banking, Treasury & Retail Network',
     tagline: 'Flagship balance sheet backing personal, SME and corporate ambitions.',
-    image: '/images/cbz-banking.png',
+    image: '/images/cbz-banking.webp',
     route: 'bank',
     actionLabel: 'Explore CBZ Bank Portal',
     leadSentences:
@@ -69,7 +69,7 @@ const SUBSIDIARIES: GroupSubsidiary[] = [
     category: 'General Insurance',
     descriptor: 'Motor, Property, Commercial & Marine Underwriting',
     tagline: 'Underwriting Zimbabwean resilience with fortress security.',
-    image: '/images/insurance-car.jpg',
+    image: '/images/insurance-car.webp',
     route: 'sbu',
     actionLabel: 'Explore CBZ Insurance Portal',
     leadSentences:
@@ -85,7 +85,7 @@ const SUBSIDIARIES: GroupSubsidiary[] = [
     category: 'Life Assurance',
     descriptor: 'Long-Term Financial Security & Family Protection',
     tagline: 'Enduring life assurance for the ones who matter most.',
-    image: '/images/insurance-family.jpg',
+    image: '/images/insurance-family.webp',
     route: 'journey',
     actionLabel: 'Explore Life Assurance Plans',
     leadSentences:
@@ -101,7 +101,7 @@ const SUBSIDIARIES: GroupSubsidiary[] = [
     category: 'Asset Management',
     descriptor: 'Unit Trusts, Equity Portfolios & Wealth Management',
     tagline: 'Over five decades of fiduciary leadership and capital growth.',
-    image: '/images/cbz-wealth.png',
+    image: '/images/cbz-wealth.webp',
     route: 'invest',
     actionLabel: 'Explore Datvest Portfolios',
     leadSentences:
@@ -117,7 +117,7 @@ const SUBSIDIARIES: GroupSubsidiary[] = [
     category: 'Real Estate',
     descriptor: 'Master-Planned Communities & Commercial Estates',
     tagline: 'Landmark living spaces and enduring property investments.',
-    image: '/images/loan-home.jpg',
+    image: '/images/loan-home.webp',
     route: 'properties',
     actionLabel: 'Explore CBZ Properties Portal',
     leadSentences:
@@ -133,7 +133,7 @@ const SUBSIDIARIES: GroupSubsidiary[] = [
     category: 'Agribusiness',
     descriptor: 'Input Financing, Contract Farming & Commodity Off-Take',
     tagline: 'Financing the harvest and empowering national food security.',
-    image: '/images/cbz-agriculture.png',
+    image: '/images/cbz-agriculture.webp',
     route: 'agro',
     actionLabel: 'Explore Agro-Yield Finance',
     leadSentences:
@@ -149,7 +149,7 @@ const SUBSIDIARIES: GroupSubsidiary[] = [
     category: 'Microfinance',
     descriptor: 'Fast-Track Working Capital for Traders & Small Businesses',
     tagline: 'Inclusive credit empowering traders and emerging enterprises.',
-    image: '/images/cbz-payments.png',
+    image: '/images/cbz-payments.webp',
     route: 'bank',
     actionLabel: 'Explore Microfinance Options',
     leadSentences:
@@ -165,7 +165,7 @@ const SUBSIDIARIES: GroupSubsidiary[] = [
     category: 'Risk Advisory',
     descriptor: 'Short-Term Broking, Employee Benefits & Pension Consultancy',
     tagline: 'Expert broking and enterprise risk consultancy across Southern Africa.',
-    image: '/images/insurance-health.jpg',
+    image: '/images/insurance-health.webp',
     route: 'sbu',
     actionLabel: 'Speak to Risk Advisory',
     leadSentences:
@@ -181,7 +181,7 @@ const SUBSIDIARIES: GroupSubsidiary[] = [
     category: 'Corporate Finance',
     descriptor: 'Capital Raising, Syndicated Debt & Strategic M&A',
     tagline: 'High-impact investment banking structuring Zimbabwe’s largest deals.',
-    image: '/images/accounts/partnership.jpg',
+    image: '/images/accounts/partnership.webp',
     route: 'invest',
     actionLabel: 'Engage CBZ Capital',
     leadSentences:
@@ -350,6 +350,8 @@ export const TheGroupView: React.FC<TheGroupViewProps> = ({ onNavigate }) => {
                 {/* Full-bleed Photography Image */}
                 <img
                   {...siteImage(`group.${sub.id}`, sub.image, sub.name)}
+                  loading="lazy"
+                  decoding="async"
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 select-none"
                   draggable={false}
                 />

@@ -94,9 +94,11 @@ export const EcosystemGrid: React.FC<EcosystemGridProps> = ({ onNavigate }) => {
             <div className="lg:col-span-5 relative bg-slate-900 min-h-[260px] lg:min-h-full">
               <img
                 {...siteImage(`ecosystem.${selectedSub.id}`, selectedSub.image, selectedSub.name)}
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover opacity-80"
                 onError={(e) => {
-                  (e.target as HTMLImageElement).src = '/images/cbz-banking.png';
+                  (e.target as HTMLImageElement).src = '/images/cbz-banking.webp';
                 }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#001736] via-[#001736]/40 to-transparent" />

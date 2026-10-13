@@ -174,10 +174,10 @@ export const SbuBankingView: React.FC<SbuBankingViewProps> = ({ country, onNavig
             <div className="lg:col-span-5 relative">
               <div className="rounded-2xl overflow-hidden shadow-xl border border-slate-200 bg-white p-2">
                 <img
-                  {...siteImage('banner.banking', '/images/cbz-banking.png', 'CBZ Bank Commercial Advisory')}
+                  {...siteImage('banner.banking', '/images/cbz-banking.webp', 'CBZ Bank Commercial Advisory')}
                   className="rounded-xl w-full h-80 lg:h-96 object-cover"
                   onError={(e) => {
-                    (e.target as HTMLImageElement).src = '/images/cbz-banking-branch.jpg';
+                    (e.target as HTMLImageElement).src = '/images/cbz-banking-branch.webp';
                   }}
                 />
               </div>
@@ -400,6 +400,8 @@ export const SbuBankingView: React.FC<SbuBankingViewProps> = ({ country, onNavig
                   <div className="w-full h-40 rounded-xl overflow-hidden mb-4 border border-slate-100 bg-slate-100">
                     <img
                       {...siteImage(`bank-product.${prod.id}`, prod.image, prod.name)}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                     />
                   </div>

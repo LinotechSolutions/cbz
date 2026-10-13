@@ -122,7 +122,7 @@ export const SbuInvestmentsView: React.FC<SbuInvestmentsViewProps> = ({ country,
             <div className="lg:col-span-5 relative">
               <div className="rounded-2xl overflow-hidden shadow-xl border border-slate-200 bg-white p-2">
                 <img
-                  {...siteImage('banner.investments', '/images/cbz-wealth.png', 'Financial analytics and investment growth')}
+                  {...siteImage('banner.investments', '/images/cbz-wealth.webp', 'Financial analytics and investment growth')}
                   className="rounded-xl w-full h-84 object-cover"
                 />
               </div>

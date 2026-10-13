@@ -1,6 +1,7 @@
-import React, { useMemo, useState } from 'react';
+import React, { Suspense, lazy, useMemo, useState } from 'react';
 import { Country } from './types';
 import { useScreenRoute } from './lib/routes';
+import { usePageMeta } from './lib/usePageMeta';
 import { COUNTRIES } from './data/cbzData';
 import { TopUtilityBar } from './components/TopUtilityBar';
 import { Navbar } from './components/Navbar';
@@ -12,23 +13,26 @@ import { EcosystemGrid } from './components/EcosystemGrid';
 import { SolutionsSection } from './components/SolutionsSection';
 import { BillPaymentSection } from './components/BillPaymentSection';
 import { NewsAndSupport } from './components/NewsAndSupport';
-import { CustomerJourney } from './components/CustomerJourney';
-import { SbuInsuranceView } from './components/SbuInsuranceView';
-import { SbuAgribusinessView } from './components/SbuAgribusinessView';
-import { SbuInvestmentsView } from './components/SbuInvestmentsView';
-import { SbuPropertiesView } from './components/SbuPropertiesView';
-import { SbuBankingView } from './components/SbuBankingView';
-import { TheGroupView } from './components/TheGroupView';
 import { LoginModal, PortalType } from './components/LoginModal';
 import { ContactChannelsModal } from './components/ContactChannelsModal';
 import { Footer } from './components/Footer';
-import ChatWidget from './components/ChatWidget';
 import { ClientProfileProvider } from './context/ClientProfileContext';
 import { SiteImagesProvider } from './context/SiteImagesContext';
+
+// Pages other than home load on demand, so the first visit only downloads what it shows
+const CustomerJourney = lazy(() => import('./components/CustomerJourney').then((m) => ({ default: m.CustomerJourney })));
+const SbuInsuranceView = lazy(() => import('./components/SbuInsuranceView').then((m) => ({ default: m.SbuInsuranceView })));
+const SbuAgribusinessView = lazy(() => import('./components/SbuAgribusinessView').then((m) => ({ default: m.SbuAgribusinessView })));
+const SbuInvestmentsView = lazy(() => import('./components/SbuInvestmentsView').then((m) => ({ default: m.SbuInvestmentsView })));
+const SbuPropertiesView = lazy(() => import('./components/SbuPropertiesView').then((m) => ({ default: m.SbuPropertiesView })));
+const SbuBankingView = lazy(() => import('./components/SbuBankingView').then((m) => ({ default: m.SbuBankingView })));
+const TheGroupView = lazy(() => import('./components/TheGroupView').then((m) => ({ default: m.TheGroupView })));
+const ChatWidget = lazy(() => import('./components/ChatWidget'));
 
 export default function App() {
   // URL-backed screen state (see src/lib/routes.ts). navigate() pushes history and scrolls to top.
   const [currentScreen, setCurrentScreen] = useScreenRoute();
+  usePageMeta(currentScreen);
   const [currentCountry, setCurrentCountry] = useState<Country>(COUNTRIES[0]);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [loginPortal, setLoginPortal] = useState<PortalType>('personal');
@@ -96,6 +100,7 @@ export default function App() {
 
       {/* Screen Views */}
       <main className="flex-grow">
+        <Suspense fallback={<div className="min-h-screen" />}>
         {currentScreen === 'home' && (
           <div>
             {/* Urgent Corporate Notice Ticker */}
@@ -210,6 +215,7 @@ export default function App() {
             startWith="agroyield"
           />
         )}
+        </Suspense>
       </main>
 
       {/* Persistent Comprehensive Footer (With Verified Social Media & Toll-Free Links) */}
@@ -248,7 +254,9 @@ export default function App() {
       />
 
       {/* Full-site AI Concierge — persists across all screen changes */}
-      <ChatWidget />
+      <Suspense fallback={null}>
+        <ChatWidget />
+      </Suspense>
 
     </div>
     </SiteImagesProvider>

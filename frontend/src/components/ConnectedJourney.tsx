@@ -114,6 +114,8 @@ const FieldInput: React.FC<{
                 {o.image && (
                   <img
                     {...siteImage(o.imageKey ?? '', o.image, o.label)}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-28 object-cover rounded-lg mb-3 bg-slate-100"
                   />
                 )}

@@ -218,11 +218,23 @@ GEMINI_API_KEY = env.str("GEMINI_API_KEY", default="")
 # ============================================================
 # Email (customer journey confirmations)
 # ============================================================
-# Without EMAIL_HOST the emails are printed to the logs instead of sent.
+# Azure Communication Services over HTTPS (used on Railway, which blocks SMTP
+# below the Pro plan). Set ACS_EMAIL_ENDPOINT + AZURE_TENANT_ID + AZURE_CLIENT_ID
+# + AZURE_CLIENT_SECRET, or ACS_CONNECTION_STRING.
+ACS_EMAIL_ENDPOINT = env.str("ACS_EMAIL_ENDPOINT", default="")
+ACS_CONNECTION_STRING = env.str("ACS_CONNECTION_STRING", default="")
+AZURE_TENANT_ID = env.str("AZURE_TENANT_ID", default="")
+AZURE_CLIENT_ID = env.str("AZURE_CLIENT_ID", default="")
+# The Entra app secret is also the SMTP password, so either variable works
+AZURE_CLIENT_SECRET = env.str("AZURE_CLIENT_SECRET", default=env.str("EMAIL_HOST_PASSWORD", default=""))
+
+# Otherwise SMTP if EMAIL_HOST is set; with neither, emails are printed to the logs.
 EMAIL_HOST = env.str("EMAIL_HOST", default="")
 EMAIL_BACKEND = env.str(
     "EMAIL_BACKEND",
-    default="django.core.mail.backends.smtp.EmailBackend"
+    default="core.email_backends.AzureCommunicationEmailBackend"
+    if ACS_CONNECTION_STRING or ACS_EMAIL_ENDPOINT
+    else "django.core.mail.backends.smtp.EmailBackend"
     if EMAIL_HOST
     else "django.core.mail.backends.console.EmailBackend",
 )

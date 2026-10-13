@@ -149,3 +149,57 @@ class DomainAndFeatureTests(TestCase):
         res_sn = self.client.post("/api/chatbot/message/", payload_sn, format="json")
         self.assertEqual(res_sn.status_code, status.HTTP_200_OK)
         self.assertIn("reply", res_sn.data)
+
+
+class _FakePoller:
+    def __init__(self, status):
+        self._status = status
+
+    def result(self, timeout=None):
+        return {"id": "op-1", "status": self._status, "error": None}
+
+
+class _FakeEmailClient:
+    def __init__(self, status="Succeeded"):
+        self.status = status
+        self.sent = []
+
+    def begin_send(self, message):
+        self.sent.append(message)
+        return _FakePoller(self.status)
+
+
+class AzureEmailBackendTests(TestCase):
+    def _backend(self, client, fail_silently=False):
+        from core.email_backends import AzureCommunicationEmailBackend
+
+        backend = AzureCommunicationEmailBackend(fail_silently=fail_silently)
+        backend._client = client
+        return backend
+
+    def test_converts_django_message_to_acs_payload(self):
+        from django.core.mail import EmailMessage
+
+        client = _FakeEmailClient()
+        message = EmailMessage(
+            subject="We've received your request",
+            body="Hi Tariro",
+            from_email="CBZ <webcenter@cbz.co.zw>",
+            to=["tariro@example.com"],
+            reply_to=["contactcentre@cbz.co.zw"],
+        )
+        self.assertEqual(self._backend(client).send_messages([message]), 1)
+
+        sent = client.sent[0]
+        self.assertEqual(sent["senderAddress"], "webcenter@cbz.co.zw")
+        self.assertEqual(sent["recipients"]["to"], [{"address": "tariro@example.com"}])
+        self.assertEqual(sent["replyTo"], [{"address": "contactcentre@cbz.co.zw"}])
+        self.assertEqual(sent["content"], {"subject": "We've received your request", "plainText": "Hi Tariro"})
+
+    def test_failed_status_raises_unless_silent(self):
+        from django.core.mail import EmailMessage
+
+        message = EmailMessage("s", "b", "webcenter@cbz.co.zw", ["a@example.com"])
+        with self.assertRaises(RuntimeError):
+            self._backend(_FakeEmailClient(status="Failed")).send_messages([message])
+        self.assertEqual(self._backend(_FakeEmailClient(status="Failed"), fail_silently=True).send_messages([message]), 0)

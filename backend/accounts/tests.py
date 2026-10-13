@@ -1,4 +1,6 @@
-from django.test import TestCase
+from django.core import mail
+from django.core.mail.backends.base import BaseEmailBackend
+from django.test import TestCase, override_settings
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
@@ -108,3 +110,53 @@ class AuthFlowTests(TestCase):
         )
         self.assertEqual(res_allowed.status_code, status.HTTP_200_OK)
 
+
+
+@override_settings(
+    EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend",
+    EMAIL_SEND_ASYNC=False,
+    CONTACT_CENTRE_EMAIL="contactcentre@cbz.co.zw",
+)
+class OnboardingEmailTests(TestCase):
+    def setUp(self):
+        self.client = APIClient(enforce_csrf_checks=False)
+        self.payload = {
+            "service": "account",
+            "ref": "AC-123456",
+            "profile": {
+                "firstName": "Tariro",
+                "surname": "Moyo",
+                "nationalId": "63-119284 K18",
+                "dateOfBirth": "1990-01-01",
+                "phone": "+263771234567",
+                "email": "tariro@example.com",
+                "address": "1 Samora Machel Ave, Harare",
+            },
+            "answers": {"accountType": "smartcash", "channels": ["card", "touch"]},
+        }
+
+    def test_submission_emails_customer_and_contact_centre(self):
+        res = self.client.post(reverse("accounts:onboard"), self.payload, format="json")
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(len(mail.outbox), 2)
+
+        customer, internal = mail.outbox
+        self.assertEqual(customer.to, ["tariro@example.com"])
+        self.assertEqual(customer.reply_to, ["contactcentre@cbz.co.zw"])
+        self.assertIn("AC-123456", customer.subject)
+        self.assertIn("Hi Tariro", customer.body)
+
+        self.assertEqual(internal.to, ["contactcentre@cbz.co.zw"])
+        self.assertEqual(internal.reply_to, ["tariro@example.com"])
+        self.assertIn("Account type: smartcash", internal.body)
+        self.assertIn("Channels: card, touch", internal.body)
+
+    def test_email_failure_does_not_fail_submission(self):
+        with override_settings(EMAIL_BACKEND="accounts.tests.FailingEmailBackend"):
+            res = self.client.post(reverse("accounts:onboard"), self.payload, format="json")
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+
+
+class FailingEmailBackend(BaseEmailBackend):
+    def send_messages(self, email_messages):
+        raise ConnectionError("SMTP unavailable")

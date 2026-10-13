@@ -216,6 +216,28 @@ if not ADMIN_URL_PATH.endswith("/"):
 GEMINI_API_KEY = env.str("GEMINI_API_KEY", default="")
 
 # ============================================================
+# Email (customer journey confirmations)
+# ============================================================
+# Without EMAIL_HOST the emails are printed to the logs instead of sent.
+EMAIL_HOST = env.str("EMAIL_HOST", default="")
+EMAIL_BACKEND = env.str(
+    "EMAIL_BACKEND",
+    default="django.core.mail.backends.smtp.EmailBackend"
+    if EMAIL_HOST
+    else "django.core.mail.backends.console.EmailBackend",
+)
+EMAIL_PORT = env.int("EMAIL_PORT", default=587)
+EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", default=True)
+EMAIL_HOST_USER = env.str("EMAIL_HOST_USER", default="webcenter@cbz.co.zw")
+EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD", default="")
+EMAIL_TIMEOUT = env.int("EMAIL_TIMEOUT", default=15)
+DEFAULT_FROM_EMAIL = env.str("DEFAULT_FROM_EMAIL", default="CBZ <webcenter@cbz.co.zw>")
+# Monitored inbox: receives new-request notifications and customers' replies
+CONTACT_CENTRE_EMAIL = env.str("CONTACT_CENTRE_EMAIL", default="contactcentre@cbz.co.zw")
+# Send in a background thread so SMTP latency never slows the customer's submit
+EMAIL_SEND_ASYNC = env.bool("EMAIL_SEND_ASYNC", default=True)
+
+# ============================================================
 # Cache & Rate Limiting Backend (Redis / LocMem)
 # ============================================================
 REDIS_URL = env.str("REDIS_URL", default="")

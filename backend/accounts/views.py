@@ -7,6 +7,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from accounts.emails import send_onboarding_emails
 from accounts.models import OnboardingApplication, User
 from accounts.serializers import (
     LoginSerializer,
@@ -285,6 +286,7 @@ class OnboardView(APIView):
                 "email": application.email,
             },
         )
+        send_onboarding_emails(application)
 
         return Response(
             {

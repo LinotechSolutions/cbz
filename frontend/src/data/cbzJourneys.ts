@@ -165,7 +165,6 @@ export const SERVICES: Record<ServiceId, ServiceDef> = {
           { id: 'verification', label: 'How would you like to complete verification?', type: 'cards', required: true,
             options: [
               opt('branch', 'Visit my preferred branch', 'Bring your original documents; it takes about 15 minutes'),
-              opt('touch', 'Upload on CBZ Touch', 'We’ll SMS a secure link to upload documents and a selfie'),
               opt('call', 'Have a banker call me', 'A relationship officer will guide you')
             ] }
         ]

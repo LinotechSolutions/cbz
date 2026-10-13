@@ -15,7 +15,7 @@ python manage.py seed_cbz_data || true
 echo "Collecting static files..."
 python manage.py collectstatic --noinput || true
 
-PORT_TO_USE="${PORT:-8000}"
+PORT_TO_USE="${PORT:-8080}"
 
 if [ "$#" -gt 0 ]; then
     echo "Executing start command: $@"

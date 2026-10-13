@@ -41,6 +41,7 @@ services:
     ports:
       - "8000:8000"
     environment:
+      - PORT=8000  # local dev keeps 8000 (used by the image healthcheck)
       - DJANGO_DEBUG=False
       - DJANGO_SECRET_KEY=production-cbz-secret-key-replace-with-env-variable-fifty-chars
       - DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1,backend

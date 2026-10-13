@@ -21,9 +21,11 @@ COPY . .
 # Ensure entrypoint script is executable
 RUN chmod +x /app/entrypoint.sh
 
-EXPOSE 8000
+# Railway routes the public domain to 8080; Railway's own PORT variable wins if set
+ENV PORT=8080
+EXPOSE 8080
 
 HEALTHCHECK --interval=20s --timeout=5s --start-period=30s --retries=3 \
-    CMD curl -f http://localhost:8000/api/health/ || exit 1
+    CMD curl -f http://localhost:${PORT:-8080}/api/health/ || exit 1
 
 ENTRYPOINT ["/bin/sh", "/app/entrypoint.sh"]

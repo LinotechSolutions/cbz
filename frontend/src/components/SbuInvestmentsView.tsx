@@ -20,6 +20,7 @@ import { INVESTMENT_PRODUCTS, INVESTMENT_LIFECYCLE, convertTextWithCurrency } fr
 import { useGroupedProducts } from '../hooks/useCbzData';
 import { RateDisclosure } from './ui/RateDisclosure';
 import { useSiteImage } from '../context/SiteImagesContext';
+import { RevealSection } from './Reveal';
 
 interface SbuInvestmentsViewProps {
   country: Country;
@@ -141,7 +142,7 @@ export const SbuInvestmentsView: React.FC<SbuInvestmentsViewProps> = ({ country,
       </section>
 
       {/* 2. INDICATIVE FUND PERFORMANCE TICKER */}
-      <section className="bg-[#001736] text-white py-6 border-b border-slate-800">
+      <RevealSection className="bg-[#001736] text-white py-6 border-b border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-4">
             <div className="flex items-center space-x-2 text-xs font-bold uppercase tracking-wider text-white/70">
@@ -171,10 +172,10 @@ export const SbuInvestmentsView: React.FC<SbuInvestmentsViewProps> = ({ country,
             />
           </div>
         </div>
-      </section>
+      </RevealSection>
 
       {/* 3. INTERACTIVE 5-STAGE WEALTH LIFECYCLE SECTION */}
-      <section id="wealth-lifecycle" className="py-16 bg-slate-50 border-b border-slate-200">
+      <RevealSection id="wealth-lifecycle" className="py-16 bg-slate-50 border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-10">
             <span className="text-xs font-extrabold uppercase tracking-widest text-[#E4002B]">
@@ -325,10 +326,10 @@ export const SbuInvestmentsView: React.FC<SbuInvestmentsViewProps> = ({ country,
             </div>
           </div>
         </div>
-      </section>
+      </RevealSection>
 
       {/* 4. PRODUCT CATALOG MATRIX */}
-      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <RevealSection className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
             <span className="text-xs font-extrabold uppercase tracking-widest text-[#E4002B]">
@@ -404,10 +405,10 @@ export const SbuInvestmentsView: React.FC<SbuInvestmentsViewProps> = ({ country,
             </div>
           ))}
         </div>
-      </section>
+      </RevealSection>
 
       {/* 5. CROSS-ENTITY SYNERGY FOOTPRINT */}
-      <section className="py-16 bg-white border-t border-slate-200">
+      <RevealSection className="py-16 bg-white border-t border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-[#001736] text-white rounded-3xl p-8 sm:p-12 shadow-xl border border-slate-800">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
@@ -441,7 +442,7 @@ export const SbuInvestmentsView: React.FC<SbuInvestmentsViewProps> = ({ country,
             </div>
           </div>
         </div>
-      </section>
+      </RevealSection>
     </div>
   );
 };

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { CheckCircle2 } from 'lucide-react';
 import { ProductItem } from '../types';
 import { useSiteImage } from '../context/SiteImagesContext';
+import { Reveal } from './Reveal';
 
 interface Category {
   readonly id: string;
@@ -51,9 +52,13 @@ export const ProductCatalogue: React.FC<ProductCatalogueProps> = ({
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {items.map((product) => (
-          <article
-            key={product.id ?? product.name}
+        {items.map((product, index) => (
+          <Reveal
+            as="article"
+            // Cascade across each row of three rather than revealing the whole
+            // grid at once. Capped so a long list never waits on a long delay.
+            delay={Math.min(index, 5) * 70}
+            key={`${activeTab}-${product.id ?? product.name}`}
             className="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs hover:border-[#E4002B]/40 hover:shadow-md transition-all flex flex-col"
           >
             {product.image && (
@@ -131,7 +136,7 @@ export const ProductCatalogue: React.FC<ProductCatalogueProps> = ({
                 </ul>
               </details>
             )}
-          </article>
+          </Reveal>
         ))}
       </div>
 

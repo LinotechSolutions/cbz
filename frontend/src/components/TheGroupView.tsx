@@ -14,6 +14,7 @@ import { Country, ScreenType } from '../types';
 import { Logo } from './Logo';
 import { LogoBrand } from '../brand/logos';
 import { useSiteImage } from '../context/SiteImagesContext';
+import { RevealSection } from './Reveal';
 
 interface TheGroupViewProps {
   country: Country;
@@ -340,7 +341,7 @@ export const TheGroupView: React.FC<TheGroupViewProps> = ({ onNavigate }) => {
       </section>
 
       {/* 2. ALTERNATING ZIG-ZAG SUBSIDIARIES SHOWCASE (Matching requested layout) */}
-      <section id="subsidiaries-showcase" className="py-12 sm:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <RevealSection id="subsidiaries-showcase" className="py-12 sm:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="space-y-16 sm:space-y-20">
           {SUBSIDIARIES.map((sub, idx) => {
             const isCardLeft = idx % 2 === 0;
@@ -455,10 +456,10 @@ export const TheGroupView: React.FC<TheGroupViewProps> = ({ onNavigate }) => {
             );
           })}
         </div>
-      </section>
+      </RevealSection>
 
       {/* 3. "ABOUT US" SECTION (CBZ Holdings Corporate Overview) */}
-      <section id="about-cbz-group" className="py-14 sm:py-20 bg-slate-50/70 border-y border-slate-200/80">
+      <RevealSection id="about-cbz-group" className="py-14 sm:py-20 bg-slate-50/70 border-y border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
             <span className="text-xs font-black uppercase tracking-widest text-[#E4002B]">
@@ -530,10 +531,10 @@ export const TheGroupView: React.FC<TheGroupViewProps> = ({ onNavigate }) => {
             </div>
           </div>
         </div>
-      </section>
+      </RevealSection>
 
       {/* 4. BOARD OF DIRECTORS & EXECUTIVE LEADERSHIP SECTION */}
-      <section id="group-leadership" className="py-14 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <RevealSection id="group-leadership" className="py-14 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
           <span className="text-xs font-black uppercase tracking-widest text-[#E4002B]">
             Corporate Governance
@@ -688,10 +689,10 @@ export const TheGroupView: React.FC<TheGroupViewProps> = ({ onNavigate }) => {
             </div>
           </div>
         </div>
-      </section>
+      </RevealSection>
 
       {/* 5. FOOTER RETURN CTA */}
-      <section className="py-10 border-t border-slate-200/60 bg-white">
+      <RevealSection className="py-10 border-t border-slate-200/60 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
             <h4 className="font-black text-base text-[#002554]">Ready to begin your journey?</h4>
@@ -713,7 +714,7 @@ export const TheGroupView: React.FC<TheGroupViewProps> = ({ onNavigate }) => {
             </button>
           </div>
         </div>
-      </section>
+      </RevealSection>
     </div>
   );
 };

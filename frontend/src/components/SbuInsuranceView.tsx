@@ -21,6 +21,7 @@ import { ScreenType, Country, ProductItem } from '../types';
 import { SBU_PRODUCTS, SUBSIDIARIES, convertTextWithCurrency } from '../data/cbzData';
 import { CbzLogo } from './CbzLogo';
 import { useSiteImage } from '../context/SiteImagesContext';
+import { RevealSection } from './Reveal';
 
 interface SbuInsuranceViewProps {
   country: Country;
@@ -159,7 +160,7 @@ export const SbuInsuranceView: React.FC<SbuInsuranceViewProps> = ({ country, onN
       </section>
 
       {/* SBU Product Tabs */}
-      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <RevealSection className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
             <span className="text-xs font-extrabold uppercase tracking-widest text-[#E4002B]">
@@ -246,10 +247,10 @@ export const SbuInsuranceView: React.FC<SbuInsuranceViewProps> = ({ country, onN
             <p className="text-xs text-slate-500 mt-1">Please select another underwriting tab above.</p>
           </div>
         )}
-      </section>
+      </RevealSection>
 
       {/* 4-Step Claims Process in Light Theme */}
-      <section className="py-16 bg-white border-y border-slate-200">
+      <RevealSection className="py-16 bg-white border-y border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs font-extrabold uppercase tracking-widest text-[#E4002B]">
@@ -287,7 +288,7 @@ export const SbuInsuranceView: React.FC<SbuInsuranceViewProps> = ({ country, onN
             ))}
           </div>
         </div>
-      </section>
+      </RevealSection>
 
       {/* SPECIALIST QUOTE MODAL (H-02: Non-motor products) */}
       {quoteModalOpen && selectedQuoteProd && (

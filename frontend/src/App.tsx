@@ -18,6 +18,7 @@ import { ContactChannelsModal } from './components/ContactChannelsModal';
 import { Footer } from './components/Footer';
 import { ClientProfileProvider } from './context/ClientProfileContext';
 import { SiteImagesProvider } from './context/SiteImagesContext';
+import { Reveal } from './components/Reveal';
 
 // Pages other than home load on demand, so the first visit only downloads what it shows
 const CustomerJourney = lazy(() => import('./components/CustomerJourney').then((m) => ({ default: m.CustomerJourney })));
@@ -121,26 +122,42 @@ export default function App() {
               onOpenContact={() => setIsContactModalOpen(true)}
             />
 
+            {/* Each section below rises into place as it scrolls into view.
+                The hero is deliberately left alone: it is above the fold, and
+                animating it would delay the first thing a visitor reads. */}
+
             {/* Life Stage Framework */}
-            <LifeStageSection onNavigate={setCurrentScreen} />
+            <Reveal>
+              <LifeStageSection onNavigate={setCurrentScreen} />
+            </Reveal>
 
             {/* Group Subsidiaries (Showcasing Official Logos instead of card repetition) */}
-            <EcosystemGrid onNavigate={setCurrentScreen} />
+            <Reveal>
+              <EcosystemGrid onNavigate={setCurrentScreen} />
+            </Reveal>
 
             {/* Solutions Section */}
-            <SolutionsSection onNavigate={setCurrentScreen} />
+            <Reveal>
+              <SolutionsSection onNavigate={setCurrentScreen} />
+            </Reveal>
 
             {/* Ziki Bill Payments */}
-            <BillPaymentSection country={currentCountry} />
+            <Reveal>
+              <BillPaymentSection country={currentCountry} />
+            </Reveal>
 
             {/* Omnichannel Support & Contact Directory */}
-            <NewsAndSupport
-              country={currentCountry}
-              onOpenContact={() => setIsContactModalOpen(true)}
-            />
+            <Reveal>
+              <NewsAndSupport
+                country={currentCountry}
+                onOpenContact={() => setIsContactModalOpen(true)}
+              />
+            </Reveal>
 
             {/* Dedicated Announcements & Press Room Section */}
-            <AnnouncementsSection />
+            <Reveal>
+              <AnnouncementsSection />
+            </Reveal>
           </div>
         )}
 

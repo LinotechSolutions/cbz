@@ -18,6 +18,7 @@ import { ScreenType, Country } from '../types';
 import { PROPERTY_PRODUCTS, PROPERTY_LIFECYCLE, convertTextWithCurrency } from '../data/cbzData';
 import { useGroupedProducts } from '../hooks/useCbzData';
 import { useSiteImage } from '../context/SiteImagesContext';
+import { RevealSection } from './Reveal';
 
 interface SbuPropertiesViewProps {
   country: Country;
@@ -128,7 +129,7 @@ export const SbuPropertiesView: React.FC<SbuPropertiesViewProps> = ({ country, o
       </section>
 
       {/* 2. INTERACTIVE 5-STAGE PROPERTY LIFECYCLE SECTION */}
-      <section id="property-lifecycle" className="py-16 bg-slate-50 border-b border-slate-200">
+      <RevealSection id="property-lifecycle" className="py-16 bg-slate-50 border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-10">
             <span className="text-xs font-extrabold uppercase tracking-widest text-[#E4002B]">
@@ -279,10 +280,10 @@ export const SbuPropertiesView: React.FC<SbuPropertiesViewProps> = ({ country, o
             </div>
           </div>
         </div>
-      </section>
+      </RevealSection>
 
       {/* 3. PRODUCT CATALOG MATRIX */}
-      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <RevealSection className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
             <span className="text-xs font-extrabold uppercase tracking-widest text-[#E4002B]">
@@ -355,10 +356,10 @@ export const SbuPropertiesView: React.FC<SbuPropertiesViewProps> = ({ country, o
             </div>
           ))}
         </div>
-      </section>
+      </RevealSection>
 
       {/* 4. CROSS-ENTITY SYNERGY FOOTPRINT */}
-      <section className="py-16 bg-white border-t border-slate-200">
+      <RevealSection className="py-16 bg-white border-t border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-[#001736] text-white rounded-3xl p-8 sm:p-12 shadow-xl border border-slate-800">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
@@ -392,7 +393,7 @@ export const SbuPropertiesView: React.FC<SbuPropertiesViewProps> = ({ country, o
             </div>
           </div>
         </div>
-      </section>
+      </RevealSection>
     </div>
   );
 };

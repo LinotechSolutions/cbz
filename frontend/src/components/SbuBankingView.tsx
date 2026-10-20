@@ -30,6 +30,7 @@ import { BANK_PRODUCTS, BANK_PRODUCT_CATEGORIES, BankProductCategory } from '../
 import { useGroupedProducts } from '../hooks/useCbzData';
 import { CbzLogo } from './CbzLogo';
 import { useSiteImage } from '../context/SiteImagesContext';
+import { Reveal } from './Reveal';
 
 interface SbuBankingViewProps {
   country: Country;
@@ -400,9 +401,11 @@ export const SbuBankingView: React.FC<SbuBankingViewProps> = ({ country, onNavig
 
         {/* Product Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {(products[activeTab] || BANK_PRODUCTS[activeTab] || []).map((prod) => (
-            <div
-              key={prod.id || prod.name}
+          {(products[activeTab] || BANK_PRODUCTS[activeTab] || []).map((prod, index) => (
+            <Reveal
+              // Keyed by tab so switching category replays the cascade.
+              key={`${activeTab}-${prod.id || prod.name}`}
+              delay={Math.min(index, 5) * 70}
               className="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs hover:border-[#E4002B]/40 hover:shadow-md transition-all flex flex-col justify-between"
             >
               <div>
@@ -478,7 +481,7 @@ export const SbuBankingView: React.FC<SbuBankingViewProps> = ({ country, onNavig
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
       </section>

@@ -251,9 +251,27 @@ html {
   animation: cbzPulseGlow 3s ease-in-out infinite;
 }
 
+/*
+ * Scroll reveal (see src/lib/useReveal.ts). Only opacity and transform are
+ * animated, so revealing never moves surrounding content and cannot affect
+ * Cumulative Layout Shift.
+ */
+.cbz-reveal {
+  transition-property: opacity, transform;
+  transition-duration: 700ms;
+  /* Decelerating ease: quick to start, settles gently. */
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+  /* Belt and braces: the hook already skips the hidden state for these
+     visitors, so this guarantees content is shown even if that path changes. */
+  .cbz-reveal {
+    opacity: 1 !important;
+    transform: none !important;
   }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;

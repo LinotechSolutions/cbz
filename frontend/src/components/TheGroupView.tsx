@@ -86,7 +86,7 @@ const SUBSIDIARIES: GroupSubsidiary[] = [
     descriptor: 'Long-Term Financial Security & Family Protection',
     tagline: 'Enduring life assurance for the ones who matter most.',
     image: '/images/insurance-family.webp',
-    route: 'journey',
+    route: 'cbz-life',
     actionLabel: 'Explore Life Assurance Plans',
     leadSentences:
       'CBZ Life provides enduring assurance frameworks securing the dignity, healthcare, and financial independence of families across generations.',
@@ -150,7 +150,7 @@ const SUBSIDIARIES: GroupSubsidiary[] = [
     descriptor: 'Fast-Track Working Capital for Traders & Small Businesses',
     tagline: 'Inclusive credit empowering traders and emerging enterprises.',
     image: '/images/cbz-payments.webp',
-    route: 'bank',
+    route: 'red-sphere',
     actionLabel: 'Explore Microfinance Options',
     leadSentences:
       'Red Sphere Finance drives inclusive credit for emerging micro-entrepreneurs, informal traders, and high-potential small businesses.',

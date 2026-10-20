@@ -178,14 +178,23 @@ export function useGroupedProducts(
           const merged: Record<string, ProductItem[]> = { ...fallbackMap };
           for (const [category, items] of Object.entries(grouped)) {
             if (Array.isArray(items) && items.length > 0) {
-              merged[category] = items.map((item) => ({
-                id: item.id || item.item_id || `${subsidiary}-${item.name}`,
-                name: item.name,
-                description: item.description,
-                pricing: item.pricing,
-                icon: item.icon,
-                image: item.image,
-              }));
+              const local = fallbackMap[category] || [];
+              merged[category] = items.map((item) => {
+                const id = item.id || item.item_id || `${subsidiary}-${item.name}`;
+                // The API carries only the headline fields. Keep the local entry's
+                // requirements, benefits and target, which come from the product
+                // documentation, instead of dropping them when the API responds.
+                const match = local.find((p) => p.id === id);
+                return {
+                  ...match,
+                  id,
+                  name: item.name,
+                  description: item.description,
+                  pricing: item.pricing,
+                  icon: item.icon || match?.icon,
+                  image: item.image || match?.image,
+                };
+              });
             }
           }
           setProducts(merged);

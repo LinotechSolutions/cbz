@@ -21,6 +21,8 @@ export const SCREEN_PATHS: Record<ScreenType, string> = {
   'journey-agro': '/agro-journey',
   login: '/login',
   'open-account': '/open-account',
+  'red-sphere': '/red-sphere',
+  'cbz-life': '/cbz-life',
 };
 
 /** Screens that render inside the focused FlowShell (no marketing header, mega-menus or full footer). */

@@ -243,40 +243,91 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS(f"Seeded {stage_count} lifecycle stages."))
 
         # 4. Products across subsidiaries
+        # Product catalogue. The bank, Red Sphere and life rows are generated from
+        # frontend/src/data/products/*.ts, which transcribe the Retail Banking Product
+        # Manual, the Red Sphere products deck and the CBZ Life catalogue. Regenerate
+        # rather than editing by hand, so the API cannot drift from the site.
+        #
+        # NOTE: the insurance, Datvest, Properties and Agro-Yield rows below predate
+        # those documents and still carry unverified figures. Replace them once the
+        # product documentation for those subsidiaries is supplied.
         products_data = [
-            # Bank Accounts
-            ("bank", "accounts", "acc_smart", "Smart Savings Account", "Low-fee personal savings account with attractive interest and mobile banking.", "No monthly fee | $5 min balance", "Wallet", 1),
-            ("bank", "accounts", "acc_fca", "Individual FCA (Nostro) Account", "Foreign currency account for local and international USD deposits and transfers.", "$0 opening fee | Worldwide access", "CreditCard", 2),
-            ("bank", "accounts", "acc_corp", "Corporate Commercial Account", "Tailored enterprise checking with multi-user approvals, bulk payments, and treasury.", "Contact our commercial team", "Building2", 3),
-            # Bank Loans
-            ("bank", "loans", "loan_personal", "Personal Salary Loan", "Quick unsecured personal lending for salaried professionals with terms up to 36 months.", "From 12% p.a. | Fast 48h approval", "Banknote", 1),
-            ("bank", "loans", "loan_sme", "SME Growth Capital", "Working capital lines and invoice discounting designed to help small businesses scale.", "From 10.5% p.a. | Flexible collateral", "Briefcase", 2),
-            ("bank", "loans", "loan_mortgage", "CBZ Home Loan", "Residential mortgage finance for purchasing, building, or improving residential homes.", "From 9.5% p.a. | Up to 20 years", "Home", 3),
-            # Bank Cards
-            ("bank", "cards", "card_visa_plat", "CBZ Visa Platinum Debit", "Global priority card with travel insurance, airport lounge access, and high limits.", "Accepted worldwide & online", "CreditCard", 1),
-            ("bank", "cards", "card_classic", "CBZ Classic Local Card", "Reliable Zimswitch card for nationwide supermarket, fuel, and ATM convenience.", "Zero annual fee", "CreditCard", 2),
-            # Insurance Personal
+            # CBZ Bank - Retail Banking Product Manual
+            ('bank', 'accounts', 'current', 'Current Account', 'Everyday transactional account with a Visa debit card, access to loans in line with your income, and an overdraft facility.', 'Visa debit card included', 'Landmark', 1),
+            ('bank', 'accounts', 'current_joint', 'Current Account (Joint)', 'A single account for legally married couples, where signatories can sign jointly or individually.', 'For legally married couples', 'Users', 2),
+            ('bank', 'accounts', 'current_corporate', 'Current Account (Corporate)', 'Transactional account for registered companies, with access to credit facilities, credit cards and overdrafts.', 'For registered corporates', 'Building2', 3),
+            ('bank', 'accounts', 'fca_individual', 'Foreign Currency Account (Individual)', 'Hold and transact in USD, GBP, ZAR, BWP or EUR, with transfers in and out and cash withdrawals.', 'USD, GBP, ZAR, BWP, EUR', 'Coins', 4),
+            ('bank', 'accounts', 'fca_corporate', 'Foreign Currency Account (Corporate)', 'Foreign currency account for registered companies in GBP, USD, ZAR, BWP or EUR.', 'GBP, USD, ZAR, BWP, EUR', 'Coins', 5),
+            ('bank', 'accounts', 'smartcash_lite', 'SmartCash Lite', 'Instant, KYC-lite account for customers new to banking. A copy of your ID is all you need.', 'Opens instantly with your ID', 'Smartphone', 6),
+            ('bank', 'accounts', 'smartcash_general', 'SmartCash General', 'Everyday account with an instant card and mobile banking, no minimum balance and no monthly service fees.', 'No monthly service fees', 'Wallet', 7),
+            ('bank', 'accounts', 'smartcash_student', 'SmartCash Student', 'SmartCash account for students, with an instant card, mobile banking and no monthly service fees.', 'No monthly service fees', 'Sparkles', 8),
+            ('bank', 'accounts', 'smartcash_extra', 'SmartCash Extra', 'SmartCash account with no daily limit, no transaction limit and no maximum balance, on full KYC.', 'Initial deposit US$5', 'Wallet', 9),
+            ('bank', 'accounts', 'private_banking', 'Private Banking', 'A dedicated service outlet for high net worth clients, offering tailor-made wealth creation and management solutions.', 'Minimum balance $1,500 or investment $5,000', 'Award', 10),
+            ('bank', 'accounts', 'school_current', 'School Current Account', 'Transactional account for schools and School Development Associations, with no monthly charges.', 'No monthly account charges', 'GraduationCap', 11),
+            ('bank', 'accounts', 'church_current', 'Church Current Account', 'Account for churches and church groups, with tiered interest rates and no monthly service fees.', 'Minimum balance $50 · initial deposit $100', 'Church', 12),
+            ('bank', 'savings', 'savings_individual', 'Savings Account (Individual)', 'ATM card based account that lets you deposit funds, earn interest on savings and access credit facilities.', 'Earns interest on savings', 'PiggyBank', 1),
+            ('bank', 'savings', 'savings_corporate', 'Savings Account (Corporate)', 'Savings account for registered companies that earns interest on balances.', 'Earns interest on savings', 'Building2', 2),
+            ('bank', 'savings', 'senior', 'Senior Citizens Savings Account', 'For customers aged 60 and above: no service charges, a free ATM card and priority service in branch.', 'No service charges', 'ShieldCheck', 3),
+            ('bank', 'savings', 'simple_saver', 'Simple Saver', 'Straightforward savings account opened with your ID and US$2, with a debit card and mobile banking.', 'US$2 to open · US$5 initial deposit', 'Wallet', 4),
+            ('bank', 'savings', 'fixed_deposit', 'Fixed Deposit', 'Invest a lump sum for a predefined period at a predetermined rate, in a high interest bearing account.', 'Minimum USD100,000 or ZWL1,000,000', 'Clock', 5),
+            ('bank', 'savings', 'cashplus_junior', 'CashPlus Junior', 'Savings plan for children under 12, with competitive interest and no maintenance fees.', 'Interest 4% per annum', 'Sparkles', 6),
+            ('bank', 'savings', 'cashplus_teen', 'CashPlus Teen', 'Savings account for teenagers with an ATM debit card, mobile banking and monthly interest.', 'No maintenance fees', 'Sparkles', 7),
+            ('bank', 'savings', 'cashplus_student', 'CashPlus Student', 'Savings account for tertiary students, with mobile banking and interest paid monthly.', 'No maintenance fees', 'GraduationCap', 8),
+            ('bank', 'savings', 'cashplus_business', 'CashPlus Business', 'Six-month investment account with tiered interest rates and no account maintenance fees.', '6 month investment period', 'Briefcase', 9),
+            ('bank', 'savings', 'cashplus_individual', 'CashPlus Individual', 'Longer-term savings with tiered interest rates and free cash withdrawals every 90 days.', 'No withdrawals before 12 months', 'PiggyBank', 10),
+            ('bank', 'savings', 'cashplus_housing', 'CashPlus Housing', 'Save towards a home and qualify for a mortgage, with tenures currently ranging from 2 to 10 years.', 'Mortgage tenure 2 to 10 years', 'Home', 11),
+            ('bank', 'loans', 'civil_servant_loan', 'Civil Servant Loan', 'Personal loan for civil servants of up to 10 times net salary, repaid over 36 months by SSB deduction.', 'Up to 10x net salary', 'Banknote', 1),
+            ('bank', 'loans', 'direct_debit_loan', 'Loan — Individual Direct Debit', 'Personal loan for private sector employees of up to 12 times net salary, deducted from payroll.', 'Up to 12x net salary', 'Banknote', 2),
+            ('bank', 'loans', 'nostro_loan', 'Nostro Individual Loan', 'USD personal loan for nostro account holders, up to twice net salary to a maximum of US$5,000.', 'Up to US$5,000', 'Coins', 3),
+            ('bank', 'loans', 'private_school_fees_loan', 'Private School Fees Loan', 'Pays school fees directly into the school account, repayable over 4 months, up to 3 times net salary.', 'Up to 3x net salary', 'GraduationCap', 4),
+            ('bank', 'loans', 'student_loan_facility', 'Student Loan Facility', 'Pays tertiary fees directly into the institution account, repayable over 4 months.', 'Paid direct to the institution', 'GraduationCap', 5),
+            ('bank', 'loans', 'payday_loan', 'Payday Loan', 'Short-term credit for emergencies: 50% of net salary, repayable over 30 days.', '50% of net salary', 'Clock', 6),
+            ('bank', 'cards', 'visa_gold', 'Visa Gold Card', 'Internationally recognised card for ATMs and Visa POS terminals, pre-funded for local and international use.', 'Open to non-account holders', 'CreditCard', 1),
+            ('bank', 'cards', 'student_visa', 'Student Visa Card', 'Pre-funded international card for registered students, including those who do not bank with CBZ.', 'Open to non-account holders', 'GraduationCap', 2),
+            ('bank', 'cards', 'atm_card', 'ATM Card', 'Debit card giving access to your account through ATMs and point of sale terminals.', 'For existing account holders', 'CreditCard', 3),
+            ('bank', 'cards', 'sme_debit_card', 'SME\'s Debit Card', 'Debit card issued to small companies for ATM and POS access.', 'For existing SME clients', 'Briefcase', 4),
+            ('bank', 'channels', 'cbz_touch', 'CBZ Touch', 'Zero-rated mobile banking: transfers, bill payments, school fees, cardless withdrawals and card controls.', 'Zero rated', 'Smartphone', 1),
+            ('bank', 'channels', 'internet_banking', 'Internet Banking', 'Web banking for balances, statements, internal and RTGS transfers, Visa card transfers and utility payments.', 'For existing account holders', 'Globe', 2),
+            ('bank', 'channels', 'e_statements', 'E-statements', 'Password-protected PDF statements delivered automatically to your email address.', 'For existing customers', 'FileCheck', 3),
+            ('bank', 'channels', 'visa_pos', 'Visa Point of Sale (POS)', 'Visa affiliated POS terminals for merchants in retail and services, accepting Visa Gold Card payments.', 'For existing corporate account holders', 'QrCode', 4),
+            ('bank', 'channels', 'local_pos', 'Local Point of Sale (POS)', 'POS terminals accepting ATM card and ZimSwitch payments for retail and service merchants.', 'For existing corporate account holders', 'QrCode', 5),
+            ('bank', 'channels', 'kleva_pos', 'Kleva POS', 'Portable POS machine for SMEs, sole traders and street vendors, free to any qualifying trader.', 'Free to qualifying traders', 'Zap', 6),
+            # Red Sphere Finance - products deck
+            ('micro', 'salary', 'ssb_loan', 'SSB Loan', 'Salary-based lending for government employees, with convenient access to finance and a fast turnaround.', '6% interest · up to US$2,400', 'Banknote', 1),
+            ('micro', 'salary', 'pensioners', 'Pensioners Loan', 'Financial flexibility and independence for government pensioners, even after retirement.', '6% interest', 'ShieldCheck', 2),
+            ('micro', 'salary', 'private_payroll', 'Private Payroll Loan', 'Convenient salary-based finance for employees of participating private employers.', '7.25% interest · 5% admin fee', 'Briefcase', 3),
+            ('micro', 'salary', 'lockable_device', 'Partner Lockable Device — Chipset & Avantvest', 'Access to productive assets for salaried individuals without direct salary deductions, with built-in asset security.', '5% interest', 'Smartphone', 4),
+            ('micro', 'business', 'sme_working_capital', 'SME Working Capital', 'Closes cash-flow gaps for registered enterprises so they can keep trading and fulfil customer orders.', '5% interest · 5.2% admin fee', 'Building2', 1),
+            ('micro', 'business', 'tuckshop', 'SME Tuck-shop Facility', 'Short-term stock finance for tuck-shops: stock more, sell more, grow more.', '5% interest · 5.2% admin fee', 'ShoppingBag', 2),
+            ('micro', 'business', 'individual_business', 'Individual Business Loans', 'Working capital for unregistered small businesses looking to increase capacity.', '5% interest · 5.2% admin fee', 'Briefcase', 3),
+            ('micro', 'business', 'order_finance', 'Order Financing & Invoice Discounting', 'Turns outstanding invoices into working capital and improves supplier capacity.', '5% interest · 90 days', 'FileCheck', 4),
+            ('micro', 'partners', 'partner_personal_loan', 'Agents & Partners Personal Loans', 'Personal lending for Red Sphere agents and partners: more than a partnership, a financial advantage.', '5% interest · up to US$2,000', 'HeartHandshake', 1),
+            ('micro', 'partners', 'partner_car_loan', 'Agents & Partners Car Loan', 'Vehicle finance for Red Sphere agents and partners, on a 30% deposit.', '5% interest · 30% deposit', 'Car', 2),
+            ('micro', 'partners', 'agency_contract', 'Agency Contract', 'Canvass loan applications for Red Sphere\'s salary-based SSB civil servant loans, and other business as agreed, and earn commission.', '5% plus a monthly once-off fee', 'Users', 3),
+            ('micro', 'partners', 'partnership', 'Partnership', 'An MOU with Red Sphere that lets your retail outlets sell to civil servants and salaried staff of approved companies on credit.', '8% commission', 'HeartHandshake', 4),
+            ('micro', 'agriculture', 'profeeds', 'Profeeds SSB and Farmers Product', 'Stock feed finance supporting different farming needs, for farmers and civil service employees.', '5% farmers · 6% civil service', 'Sprout', 1),
+            # CBZ Life - brief product catalogue
+            ('life', 'individual', 'comfortsure', 'Comfortsure Funeral Cashplan', 'A pre-defined funeral benefit paid immediately to the nominated beneficiary on the death of the life insured.', 'Individual life', 'HeartHandshake', 1),
+            ('life', 'individual', 'sarapavana', 'Sarapavana Education Plan', 'A long-term savings plan that builds funds for a child\'s primary and secondary education, with life cover attached.', 'Individual life', 'GraduationCap', 2),
+            ('life', 'employee', 'group_life', 'Group Life Assurance', 'Employer-sponsored life cover paying benefits to beneficiaries on the death of an employee.', 'Employee benefits', 'Users', 1),
+            ('life', 'employee', 'retirement_savings', 'Retirement Savings Products', 'Products designed to help individuals and groups accumulate funds for retirement.', 'Employee benefits', 'PiggyBank', 2),
+            ('life', 'employee', 'annuities', 'Annuities', 'Regular income payments to retirees, drawn from accumulated retirement savings.', 'Employee benefits', 'Coins', 3),
+            ('life', 'employee', 'credit_life', 'Credit Life Insurance', 'Covers the outstanding balance of a loan in the event of death, so the debt does not pass to the family.', 'Employee benefits', 'ShieldCheck', 4),
+            # Awaiting product documentation (figures below are unverified):
             ("insurance", "personal", "ins_motor", "Comprehensive Private Motor Cover", "All-risk protection covering accidental damage, third-party liability, fire, and theft.", "From $46/month", "Car", 1),
             ("insurance", "personal", "ins_home", "Homeowners Comprehensive", "Covers residential structures and contents against storm, burst pipes, and break-ins.", "From $25/month", "Home", 2),
             ("insurance", "personal", "ins_travel", "Worldwide Travel Insurance", "Emergency medical, trip cancellation, and baggage loss protection for travel.", "From $18 per trip", "Plane", 3),
-            # Insurance Business
             ("insurance", "business", "ins_fleet", "Commercial Fleet Insurance", "Tailored multi-vehicle policy with telematics tracking integration and discounts.", "Volume fleet rates", "Truck", 1),
             ("insurance", "business", "ins_assets", "Business All Risks", "Protection for computers, plant, machinery, and office assets against all hazards.", "Custom enterprise quotes", "ShieldCheck", 2),
-            # Datvest Products
             ("datvest", "unitTrusts", "dat_money_market", "Datvest Money Market Fund", "Preserve capital with competitive daily interest yields and instant liquidity.", "Historic yield: 8.5% p.a. | $50 min", "TrendingUp", 1),
             ("datvest", "institutional", "dat_balanced", "Datvest Balanced Growth Fund", "Equities, fixed income, and property mix for mid-to-long term wealth accumulation.", "Target yield: 12.5% p.a.", "PieChart", 2),
             ("datvest", "privateWealth", "dat_equity", "Datvest High Conviction Equity Fund", "Concentrated portfolio of premier listed counters on the Zimbabwe Stock Exchange & VFEX.", "Capital appreciation focus", "BarChart3", 3),
-            # Properties Products
             ("properties", "residential", "prop_stands_harare", "Harare Prime Residential Stands", "Fully serviced residential stands with tarred roads, electricity, and water in place.", "From $35,000 | 15% deposit", "MapPin", 1),
             ("properties", "commercial", "prop_office_park", "CBZ Corporate Park Office Suites", "Grade-A sustainable corporate office space available for long-term lease or purchase.", "Inquire for floor plans", "Building", 2),
             ("properties", "advisory", "prop_valuation", "Property Valuation & Advisory", "Licensed valuation services for commercial portfolios, residential deeds, and collaterals.", "Regulated professional rates", "FileText", 3),
-            # Agro-Yield Products
             ("agri", "seasonal", "agro_grain", "Grain Production Scheme", "End-to-end working capital finance for commercial maize and winter wheat cropping.", "$550 - $850 / hectare", "Wheat", 1),
             ("agri", "mechanization", "agro_tractor", "Tractor & Implement Lease Facility", "Leasing packages for modern John Deere and Massey Ferguson tractors and planters.", "Flexible seasonal payments", "Tractor", 2),
             ("agri", "commercial", "agro_tobacco", "Tobacco Contract Financing", "Comprehensive input pack, curing facility finance, and guaranteed floor marketing.", "Targeted contract rates", "Leaf", 3),
-            # Red Sphere Microfinance
-            ("micro", "loans", "red_salary", "Red Sphere Salary Advance", "Fast micro-credit for civil servants and corporate employees with direct payroll deduction.", "Disbursed in under 2 hours", "Zap", 1),
-            ("micro", "loans", "red_sme", "Micro-Trader Working Capital", "Uncollateralized rapid micro-loans for market vendors, retailers, and artisans.", "Terms: 1 to 6 months", "Coins", 2),
         ]
 
         ProductItem.objects.all().delete()

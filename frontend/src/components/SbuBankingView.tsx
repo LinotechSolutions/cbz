@@ -25,7 +25,8 @@ import {
   Shield
 } from 'lucide-react';
 import { ScreenType, Country } from '../types';
-import { BANK_PRODUCTS, BANK_LIFECYCLE, convertTextWithCurrency } from '../data/cbzData';
+import { BANK_LIFECYCLE, convertTextWithCurrency } from '../data/cbzData';
+import { BANK_PRODUCTS, BANK_PRODUCT_CATEGORIES, BankProductCategory } from '../data/products/bank';
 import { useGroupedProducts } from '../hooks/useCbzData';
 import { CbzLogo } from './CbzLogo';
 import { useSiteImage } from '../context/SiteImagesContext';
@@ -39,18 +40,32 @@ interface SbuBankingViewProps {
 
 export const SbuBankingView: React.FC<SbuBankingViewProps> = ({ country, onNavigate, onOpenAccount }) => {
   const siteImage = useSiteImage();
-  const [activeTab, setActiveTab] = useState<'accounts' | 'loans' | 'cards'>('accounts');
+  const [activeTab, setActiveTab] = useState<BankProductCategory>('accounts');
   const { products } = useGroupedProducts('bank', BANK_PRODUCTS);
   const [selectedStageIndex, setSelectedStageIndex] = useState<number>(0);
 
   const selectedStage = BANK_LIFECYCLE[selectedStageIndex];
 
   // Bank product ids that differ from the account ids used by the /open-account journey
-  const ACCOUNT_TYPE_FOR_PRODUCT: Record<string, string> = { fca: 'nostro', fixed_deposit: 'fixed' };
+  const ACCOUNT_TYPE_FOR_PRODUCT: Record<string, string> = {
+    fca_individual: 'nostro',
+    fca_corporate: 'nostro',
+    current: 'current',
+    smartcash_general: 'smartcash',
+    smartcash_lite: 'smartcash',
+    smartcash_student: 'youth',
+    smartcash_extra: 'smartcash',
+    senior: 'senior',
+    fixed_deposit: 'fixed',
+    church_current: 'church',
+    current_corporate: 'business',
+  };
 
   const handleProductAction = (productId?: string) => {
     if (activeTab === 'loans') return onNavigate('journey-bank');
-    if (activeTab === 'accounts' && productId) return onOpenAccount(ACCOUNT_TYPE_FOR_PRODUCT[productId] ?? productId);
+    if (productId && ACCOUNT_TYPE_FOR_PRODUCT[productId]) {
+      return onOpenAccount(ACCOUNT_TYPE_FOR_PRODUCT[productId]);
+    }
     onOpenAccount();
   };
 
@@ -364,24 +379,19 @@ export const SbuBankingView: React.FC<SbuBankingViewProps> = ({ country, onNavig
 
           {/* Filter Pills */}
           <div className="inline-flex p-1 bg-slate-200/70 rounded-xl">
-            {(['accounts', 'loans', 'cards'] as const).map((tab) => {
-              const isActive = activeTab === tab;
-              const labels = {
-                accounts: 'Accounts & Savings',
-                loans: 'Loans & Borrowing',
-                cards: 'Cards & Digital Banking'
-              };
+            {BANK_PRODUCT_CATEGORIES.map(({ id, label }) => {
+              const isActive = activeTab === id;
               return (
                 <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
+                  key={id}
+                  onClick={() => setActiveTab(id)}
                   className={`px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                     isActive
                       ? 'bg-white text-[#002554] shadow-xs'
                       : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
-                  {labels[tab]}
+                  {label}
                 </button>
               );
             })}
@@ -415,6 +425,39 @@ export const SbuBankingView: React.FC<SbuBankingViewProps> = ({ country, onNavig
                 <p className="text-xs text-slate-600 leading-relaxed">
                   {prod.description}
                 </p>
+
+                {prod.target && (
+                  <p className="mt-3 text-xs text-slate-500">
+                    <span className="font-bold text-slate-700">For:</span> {prod.target}
+                  </p>
+                )}
+
+                {prod.benefits && prod.benefits.length > 0 && (
+                  <ul className="mt-3 space-y-1">
+                    {prod.benefits.slice(0, 4).map((benefit) => (
+                      <li key={benefit} className="flex items-start gap-1.5 text-xs text-slate-600">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                        <span>{benefit}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                {prod.requirements && prod.requirements.length > 0 && (
+                  <details className="mt-3 group">
+                    <summary className="text-xs font-bold text-[#002554] cursor-pointer hover:text-[#E4002B]">
+                      What you need to apply
+                    </summary>
+                    <ul className="mt-2 space-y-1 pl-1">
+                      {prod.requirements.map((requirement) => (
+                        <li key={requirement} className="text-xs text-slate-600 flex items-start gap-1.5">
+                          <span className="text-slate-400 mt-0.5">•</span>
+                          <span>{requirement}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </details>
+                )}
               </div>
 
               <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
@@ -426,11 +469,11 @@ export const SbuBankingView: React.FC<SbuBankingViewProps> = ({ country, onNavig
                   className="font-bold text-[#002554] hover:text-[#E4002B] flex items-center space-x-1 cursor-pointer"
                 >
                   <span>
-                    {activeTab === 'accounts'
-                      ? 'Open Account'
-                      : activeTab === 'loans'
+                    {activeTab === 'loans'
                       ? 'Apply for Facility'
-                      : 'Get Card / App'}
+                      : prod.id && ACCOUNT_TYPE_FOR_PRODUCT[prod.id]
+                      ? 'Open Account'
+                      : 'Enquire'}
                   </span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>

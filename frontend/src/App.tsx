@@ -27,6 +27,8 @@ const SbuInvestmentsView = lazy(() => import('./components/SbuInvestmentsView').
 const SbuPropertiesView = lazy(() => import('./components/SbuPropertiesView').then((m) => ({ default: m.SbuPropertiesView })));
 const SbuBankingView = lazy(() => import('./components/SbuBankingView').then((m) => ({ default: m.SbuBankingView })));
 const TheGroupView = lazy(() => import('./components/TheGroupView').then((m) => ({ default: m.TheGroupView })));
+const SbuRedSphereView = lazy(() => import('./components/SbuRedSphereView').then((m) => ({ default: m.SbuRedSphereView })));
+const SbuLifeView = lazy(() => import('./components/SbuLifeView').then((m) => ({ default: m.SbuLifeView })));
 const ChatWidget = lazy(() => import('./components/ChatWidget'));
 
 export default function App() {
@@ -198,6 +200,10 @@ export default function App() {
             startWith="bank"
           />
         )}
+
+        {currentScreen === 'red-sphere' && <SbuRedSphereView onNavigate={setCurrentScreen} />}
+
+        {currentScreen === 'cbz-life' && <SbuLifeView onNavigate={setCurrentScreen} />}
 
         {currentScreen === 'open-account' && (
           <CustomerJourney

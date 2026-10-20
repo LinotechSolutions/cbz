@@ -15,6 +15,8 @@ export type ScreenType =
   | 'bank'
   | 'open-account'
   | 'the-group'
+  | 'red-sphere'
+  | 'cbz-life'
   | 'journey-invest'
   | 'journey-bank'
   | 'journey-agro'
@@ -110,9 +112,22 @@ export interface ProductItem {
   id?: string;
   name: string;
   description: string;
+  /** Headline commercial line. Only state figures the product documents confirm. */
   pricing: string;
   image?: string;
   icon?: string;
+  /** Who the product is for, as stated in the product documentation. */
+  target?: string;
+  /** What the customer must supply to open or apply. */
+  requirements?: string[];
+  features?: string[];
+  benefits?: string[];
+  /** Repayment or investment period, where the product defines one. */
+  tenor?: string;
+  interestRate?: string;
+  adminFee?: string;
+  /** Maximum advance, where the product defines one. */
+  limit?: string;
 }
 
 export interface LedgerItem {

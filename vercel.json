@@ -55,6 +55,14 @@
     {
       "source": "/open-account",
       "destination": "/open-account/index.html"
+    },
+    {
+      "source": "/red-sphere",
+      "destination": "/red-sphere/index.html"
+    },
+    {
+      "source": "/cbz-life",
+      "destination": "/cbz-life/index.html"
     }
   ],
   "headers": [

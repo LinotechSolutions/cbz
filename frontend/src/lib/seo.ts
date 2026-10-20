@@ -29,6 +29,8 @@ const SUBSIDIARY = {
   insurance: { name: 'CBZ Insurance', type: 'InsuranceAgency' },
   datvest: { name: 'Datvest Asset Management', type: 'FinancialService' },
   properties: { name: 'CBZ Properties', type: 'RealEstateAgent' },
+  redSphere: { name: 'Red Sphere Finance', type: 'FinancialService' },
+  life: { name: 'CBZ Life', type: 'InsuranceAgency' },
   agro: { name: 'CBZ Agro-Yield', type: 'FinancialService' },
 } as const;
 
@@ -113,6 +115,20 @@ export const PAGE_META: Record<ScreenType, PageMeta> = {
     description: 'Apply for seasonal inputs and farming finance from CBZ Agro-Yield.',
     heading: 'Farming finance',
     org: SUBSIDIARY.agro,
+  },
+  'red-sphere': {
+    title: 'Red Sphere Finance | Microfinance & SME Loans in Zimbabwe',
+    description:
+      'Salary-based loans for government and private payrolls, SME and tuck-shop working capital, order financing and partnership programmes from Red Sphere Finance.',
+    heading: 'Red Sphere Finance',
+    org: SUBSIDIARY.redSphere,
+  },
+  'cbz-life': {
+    title: 'CBZ Life | Funeral, Education & Group Life Cover',
+    description:
+      'Comfortsure funeral cashplan, Sarapavana education plan, group life assurance, retirement savings, annuities and credit life from CBZ Life.',
+    heading: 'CBZ Life',
+    org: SUBSIDIARY.life,
   },
   login: {
     title: 'Log In | CBZ Holdings',

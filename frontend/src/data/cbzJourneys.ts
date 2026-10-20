@@ -1,4 +1,5 @@
 import { INSURANCE_ASSETS, INSURANCE_COVERS, INSURANCE_ADDONS } from './cbzData';
+import { BANK_PRODUCTS } from './products/bank';
 
 export type ServiceId =
   | 'account' | 'bank' | 'properties' | 'insurance' | 'life' | 'datvest'
@@ -64,33 +65,36 @@ const LIFE_PURPOSES = [
   opt('credit', 'Credit life (cover my loan)')
 ];
 
-/** Personal and organisation accounts offered by CBZ Bank (also used to seed /open-account). */
-export const ACCOUNT_TYPES = [
-  { id: 'smartcash', name: 'SmartCash Current Account', pricing: 'Zero monthly ledger fees', image: '/images/accounts/current.webp',
-    description: 'Paperless account with a ZimSwitch card, USSD *460# and CBZ Touch.',
-    requirements: ['National ID or valid passport', 'Proof of residence (utility bill or affidavit)', 'USD 5 card fee'] },
-  { id: 'personal', name: 'Personal Current Account', pricing: 'From USD 3 / month', image: '/images/accounts/individual.webp',
-    description: 'Cheque book, salary clearing and access to personal loans and overdrafts.',
-    requirements: ['National ID or valid passport', 'Proof of residence', 'Latest payslip or proof of income'] },
-  { id: 'nostro', name: 'Nostro Foreign Currency Account (FCA)', pricing: 'Zero opening deposit', image: '/images/accounts/diaspora.webp',
-    description: 'Hold USD, EUR, GBP or ZAR with an international Visa debit card.',
-    requirements: ['National ID or valid passport', 'Proof of residence (within 3 months)', '2 passport-size colour photos'] },
-  { id: 'youth', name: 'Youth & Student Account', pricing: 'No maintenance fees', image: '/images/accounts/teen.webp',
-    description: 'For ages 16 to 25. No minimum balance, CBZ Touch and a low-cost card.',
-    requirements: ['National ID or student ID', 'Parent or guardian consent if under 18', 'Proof of residence'] },
-  { id: 'senior', name: 'Senior Citizens Account', pricing: 'Zero ledger fees', image: '/images/accounts/senior.webp',
-    description: 'For ages 60+. Free withdrawals, priority service and free bill standing orders.',
-    requirements: ['National ID showing age 60+', 'Proof of residence', '2 passport-size photos'] },
-  { id: 'fixed', name: 'Fixed Term Deposit', pricing: 'Up to 14.5% p.a.', image: '/images/accounts/savings.webp',
-    description: 'Guaranteed returns over 30 to 365 days. Minimum USD 500.',
-    requirements: ['Existing CBZ account or national ID', 'Minimum deposit of USD 500 or ZWG equivalent', 'Investment mandate form'] },
-  { id: 'business', name: 'SME & Business Account', pricing: 'Tailored business tariff', image: '/images/accounts/partnership.webp',
-    description: 'For partnerships and companies: multiple signatories, internet banking and POS.',
-    requirements: ['Certificate of incorporation (CR14 / CR6)', 'Directors’ national IDs and proof of residence', 'Tax clearance certificate (ITF263)'] },
-  { id: 'church', name: 'ChurchSaver & Community Account', pricing: 'Zero maintenance fees', image: '/images/accounts/churchsaver.webp',
-    description: 'For churches, NGOs, burial societies and community trusts.',
-    requirements: ['Constitution or trust deed', 'Signatories’ national IDs and proof of residence', 'Committee resolution letter'] }
+/**
+ * Accounts offered in the /open-account journey, derived from the CBZ Bank
+ * catalogue so the journey cannot state different terms from the product pages.
+ * The journey keeps its own short ids; the map says which catalogue entry each one is.
+ */
+const JOURNEY_ACCOUNT_SOURCES: { id: string; product: string }[] = [
+  { id: 'smartcash', product: 'smartcash_general' },
+  { id: 'personal', product: 'current' },
+  { id: 'nostro', product: 'fca_individual' },
+  { id: 'youth', product: 'smartcash_student' },
+  { id: 'senior', product: 'senior' },
+  { id: 'fixed', product: 'fixed_deposit' },
+  { id: 'business', product: 'current_corporate' },
+  { id: 'church', product: 'church_current' },
 ];
+
+const ALL_BANK_PRODUCTS = Object.values(BANK_PRODUCTS).flat();
+
+export const ACCOUNT_TYPES = JOURNEY_ACCOUNT_SOURCES.map(({ id, product }) => {
+  const source = ALL_BANK_PRODUCTS.find((p) => p.id === product);
+  if (!source) throw new Error(`Unknown bank product referenced by the account journey: ${product}`);
+  return {
+    id,
+    name: source.name,
+    pricing: source.pricing,
+    image: source.image,
+    description: source.description,
+    requirements: source.requirements ?? [],
+  };
+});
 
 const ORGANISATION_ACCOUNTS = ['business', 'church'];
 const isOrg = (a: Answers) => ORGANISATION_ACCOUNTS.includes(String(a.accountType));

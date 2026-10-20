@@ -43,7 +43,8 @@ services:
     environment:
       - PORT=8000  # local dev keeps 8000 (used by the image healthcheck)
       - DJANGO_DEBUG=False
-      - DJANGO_SECRET_KEY=production-cbz-secret-key-replace-with-env-variable-fifty-chars
+      # Supply via a local .env file or the shell; compose fails fast if unset.
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY:?set DJANGO_SECRET_KEY in a .env file or your shell}
       - DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1,backend
       - DATABASE_URL=postgres://cbz_user:cbz_secure_db_password_2026@db:5432/cbz_holdings
       - REDIS_URL=redis://redis:6379/0

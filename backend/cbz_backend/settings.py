@@ -3,6 +3,7 @@ import sys
 from datetime import timedelta
 from pathlib import Path
 import environ
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -13,13 +14,26 @@ env_file = BASE_DIR / ".env"
 if env_file.exists():
     environ.Env.read_env(env_file)
 
-# Secret key loading: checks DJANGO_SECRET_KEY, then SECRET_KEY, with fallback for automated deployments
+# Secret key loading: checks DJANGO_SECRET_KEY, then SECRET_KEY.
 SECRET_KEY = env.str("DJANGO_SECRET_KEY", default=env.str("SECRET_KEY", default=""))
 DEBUG = env.bool("DJANGO_DEBUG", default=False)
 
-if not SECRET_KEY:
-    # Use a secure fallback so container imports and healthchecks pass even before variables are configured in the dashboard
-    SECRET_KEY = "django-insecure-cbz-production-deploy-key-59a8c1f0e2d3b4a5927c81b0"
+# Values that were once committed to this repository. They also sign every JWT
+# (SIMPLE_JWT["SIGNING_KEY"]), so anyone holding one could mint admin tokens.
+# Deployments must fail rather than fall back to them.
+_COMPROMISED_SECRET_PREFIXES = ("django-insecure", "production-cbz-secret-key")
+
+if not SECRET_KEY or SECRET_KEY.startswith(_COMPROMISED_SECRET_PREFIXES):
+    if DEBUG:
+        # Fixed, never-deployed value: generating one per process would give each
+        # worker a different key and invalidate tokens across workers.
+        SECRET_KEY = "django-insecure-local-development-only-do-not-deploy"
+    else:
+        raise ImproperlyConfigured(
+            "DJANGO_SECRET_KEY must be set to a strong, unpublished random value. "
+            "Generate one with: python -c \"from django.core.management.utils import "
+            "get_random_secret_key; print(get_random_secret_key())\""
+        )
 
 ALLOWED_HOSTS = env.list(
     "DJANGO_ALLOWED_HOSTS",
@@ -48,6 +62,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
     "corsheaders",
+    "axes",
     # CBZ Domain apps
     "core.apps.CoreConfig",
     "accounts.apps.AccountsConfig",
@@ -73,7 +88,31 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # Must stay last: it inspects the outcome of the authentication above.
+    "axes.middleware.AxesMiddleware",
 ]
+
+# ============================================================
+# Brute-force lockout (django-axes)
+# ============================================================
+# Guards the Django admin, which exposes every customer's KYC record, and the
+# customer login API. Rate limiting alone does not stop credential stuffing.
+AUTHENTICATION_BACKENDS = [
+    "axes.backends.AxesStandaloneBackend",
+    "django.contrib.auth.backends.ModelBackend",
+]
+AXES_FAILURE_LIMIT = env.int("AXES_FAILURE_LIMIT", default=5)
+AXES_COOLOFF_TIME = timedelta(hours=env.int("AXES_COOLOFF_HOURS", default=1))
+# Lock the (username, IP) pair rather than the IP alone: locking by IP only would
+# let one attacker lock out every customer behind the same carrier NAT, and would
+# let an attacker rotating IPs walk past the limit.
+AXES_LOCKOUT_PARAMETERS = [["username", "ip_address"]]
+AXES_RESET_ON_SUCCESS = True
+# Take the client IP from the proxy-appended right-most X-Forwarded-For entry,
+# matching core.ip.client_ip. Otherwise every request looks like Railway's proxy
+# and a single attacker could lock out all users at once.
+AXES_IPWARE_PROXY_COUNT = env.int("TRUSTED_PROXY_COUNT", default=1)
+AXES_IPWARE_META_PRECEDENCE_ORDER = ["HTTP_X_FORWARDED_FOR", "REMOTE_ADDR"]
 
 ROOT_URLCONF = "cbz_backend.urls"
 
@@ -211,6 +250,16 @@ SESSION_COOKIE_HTTPONLY = True
 ADMIN_URL_PATH = env.str("ADMIN_URL_PATH", default="cbz-secure-admin/")
 if not ADMIN_URL_PATH.endswith("/"):
     ADMIN_URL_PATH += "/"
+if not DEBUG and ADMIN_URL_PATH == "cbz-secure-admin/":
+    # The default is published in this repository, so it hides nothing. The real
+    # control is the django-axes lockout above; this is defence in depth only.
+    import warnings
+
+    warnings.warn(
+        "ADMIN_URL_PATH is still the public default. Set it to an unguessable "
+        "value in the deployment environment.",
+        RuntimeWarning,
+    )
 
 # Gemini API Key
 GEMINI_API_KEY = env.str("GEMINI_API_KEY", default="")
@@ -228,16 +277,22 @@ AZURE_CLIENT_ID = env.str("AZURE_CLIENT_ID", default="")
 # The Entra app secret is also the SMTP password, so either variable works
 AZURE_CLIENT_SECRET = env.str("AZURE_CLIENT_SECRET", default=env.str("EMAIL_HOST_PASSWORD", default=""))
 
-# Otherwise SMTP if EMAIL_HOST is set; with neither, emails are printed to the logs.
+# Otherwise SMTP if EMAIL_HOST is set. With no provider at all, mail must NOT fall
+# back to the console backend outside local development: these messages carry full
+# KYC data (national ID, date of birth, address) and would be written to the
+# hosting provider's log stream in clear text.
 EMAIL_HOST = env.str("EMAIL_HOST", default="")
-EMAIL_BACKEND = env.str(
-    "EMAIL_BACKEND",
-    default="core.email_backends.AzureCommunicationEmailBackend"
-    if ACS_CONNECTION_STRING or ACS_EMAIL_ENDPOINT
-    else "django.core.mail.backends.smtp.EmailBackend"
-    if EMAIL_HOST
-    else "django.core.mail.backends.console.EmailBackend",
-)
+if ACS_CONNECTION_STRING or ACS_EMAIL_ENDPOINT:
+    _DEFAULT_EMAIL_BACKEND = "core.email_backends.AzureCommunicationEmailBackend"
+elif EMAIL_HOST:
+    _DEFAULT_EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+elif DEBUG:
+    _DEFAULT_EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+else:
+    # Logs that mail could not be sent, with no message body. Deliberately not a
+    # hard failure: a missing mail variable must not take the whole API down.
+    _DEFAULT_EMAIL_BACKEND = "core.email_backends.UnconfiguredEmailBackend"
+EMAIL_BACKEND = env.str("EMAIL_BACKEND", default=_DEFAULT_EMAIL_BACKEND)
 EMAIL_PORT = env.int("EMAIL_PORT", default=587)
 EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", default=True)
 EMAIL_HOST_USER = env.str("EMAIL_HOST_USER", default="webcenter@cbz.co.zw")
@@ -253,6 +308,17 @@ EMAIL_SEND_ASYNC = env.bool("EMAIL_SEND_ASYNC", default=True)
 # Cache & Rate Limiting Backend (Redis / LocMem)
 # ============================================================
 REDIS_URL = env.str("REDIS_URL", default="")
+if not REDIS_URL and not DEBUG:
+    # Rate limiting is only as good as its counter store. LocMemCache is per
+    # process, so each uvicorn worker counts separately and every restart resets
+    # the counts, multiplying the effective limits by the worker count.
+    import warnings
+
+    warnings.warn(
+        "REDIS_URL is not set: throttle counters are per-worker and reset on "
+        "restart, so rate limits are not enforced accurately in production.",
+        RuntimeWarning,
+    )
 if REDIS_URL:
     CACHES = {
         "default": {
@@ -291,8 +357,17 @@ REST_FRAMEWORK = {
         "auth": env.str("AUTH_THROTTLE_RATE", default="5/minute"),
         "chatbot": env.str("CHATBOT_THROTTLE_RATE", default="10/minute"),
     },
+    # Number of trusted proxies appending to X-Forwarded-For. Railway's edge adds
+    # exactly one entry (the real client IP) and does not strip a client-supplied
+    # header, so DRF must key throttles on the right-most entry. Without this it
+    # uses the whole header, which the caller controls, and every rate limit can
+    # be bypassed by varying it per request. Keep in step with TRUSTED_PROXY_COUNT.
+    "NUM_PROXIES": env.int("TRUSTED_PROXY_COUNT", default=1),
     "EXCEPTION_HANDLER": "core.exceptions.custom_exception_handler",
 }
+
+# Used by core.ip.client_ip for the audit trail; mirrors NUM_PROXIES above.
+TRUSTED_PROXY_COUNT = env.int("TRUSTED_PROXY_COUNT", default=1)
 
 # SimpleJWT Settings
 SIMPLE_JWT = {

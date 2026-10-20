@@ -5,12 +5,22 @@ from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
-# ── PII patterns for QA log sanitisation ────────────────────────────────────
+# ── PII patterns ────────────────────────────────────────────────────────────
+# Applied before a message is stored AND before it is sent to the LLM provider.
+# Order matters: the most specific patterns run first so that, for example, a
+# phone number is not swallowed by the generic long-number rule.
 PII_PATTERNS = [
-    (re.compile(r"\b\d{2}-\d{6,7}[A-Z]\d{2}\b", re.IGNORECASE), "[NATIONAL_ID_REDACTED]"),
-    (re.compile(r"\b(?:\+?263|0)[7]\d{8}\b"), "[PHONE_REDACTED]"),
-    (re.compile(r"\b(?:\d[ -]*?){13,16}\b"), "[CARD_REDACTED]"),
-    (re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b"), "[EMAIL_REDACTED]"),
+    # National ID, e.g. "63-1234567-X-42", "63-119284 K18", "631234567X42"
+    (
+        re.compile(r"\b\d{2}[-\s]?\d{6,7}[-\s]?[A-Z][-\s]?\d{2}\b", re.IGNORECASE),
+        "[NATIONAL_ID_REDACTED]",
+    ),
+    # Zimbabwean mobile numbers, with or without separators
+    (re.compile(r"(?:\+?263|0)\s?7\d(?:[\s-]?\d){7}\b"), "[PHONE_REDACTED]"),
+    (re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,7}\b"), "[EMAIL_REDACTED]"),
+    # Card and account numbers last: broad enough to catch grouped digits, but
+    # only from 9 digits up so it leaves amounts and reference numbers alone.
+    (re.compile(r"\b\d(?:[\s-]?\d){8,18}\b"), "[ACCOUNT_OR_CARD_REDACTED]"),
 ]
 
 

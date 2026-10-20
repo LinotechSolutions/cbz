@@ -1,19 +1,19 @@
 import logging
 from audit.models import AuditLog
+from core.ip import client_ip
 
 logger = logging.getLogger(__name__)
 
 
 def get_client_ip(request):
-    """Safely extracts the client IP address from request headers."""
-    if not request:
-        return None
-    x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(",")[0].strip()
-    else:
-        ip = request.META.get("REMOTE_ADDR")
-    return ip
+    """
+    Safely extracts the client IP address.
+
+    Delegates to core.ip.client_ip, which reads the proxy-appended right-most
+    X-Forwarded-For entry. Reading the left-most entry would let a caller forge
+    the address recorded against their own actions.
+    """
+    return client_ip(request)
 
 
 def record_audit_event(

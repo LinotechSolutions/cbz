@@ -14,6 +14,27 @@ from django.core.mail.backends.base import BaseEmailBackend
 logger = logging.getLogger(__name__)
 
 
+class UnconfiguredEmailBackend(BaseEmailBackend):
+    """
+    Last-resort backend when no mail provider is configured outside development.
+
+    Django's console backend would print the whole message, and these messages
+    carry full KYC data (national ID, date of birth, address) that would then sit
+    in the hosting provider's log stream in clear text. This records only that a
+    message could not be sent, never its body or recipients.
+    """
+
+    def send_messages(self, email_messages):
+        for message in email_messages:
+            logger.warning(
+                "No email provider configured; message not sent (subject=%r, recipients=%d)",
+                message.subject,
+                len(message.recipients()),
+            )
+        # Report nothing sent so callers log a failure rather than success.
+        return 0
+
+
 class AzureCommunicationEmailBackend(BaseEmailBackend):
     def __init__(self, fail_silently=False, **kwargs):
         super().__init__(fail_silently=fail_silently, **kwargs)

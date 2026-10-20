@@ -84,15 +84,21 @@ class LoginSerializer(serializers.Serializer):
         username = attrs.get("username").strip()
         password = attrs.get("password")
 
-        # Support email or username login
-        user = authenticate(username=username, password=password)
-        if not user:
-            # Try finding user by email
-            try:
-                user_obj = User.objects.get(email__iexact=username)
-                user = authenticate(username=user_obj.username, password=password)
-            except User.DoesNotExist:
-                user = None
+        # Resolve an email address to its username BEFORE authenticating. Calling
+        # authenticate() twice would register two failures per attempt with
+        # django-axes, locking users out at roughly half the configured limit.
+        if not User.objects.filter(username=username).exists():
+            user_obj = User.objects.filter(email__iexact=username).first()
+            if user_obj:
+                username = user_obj.username
+
+        # request= is required by AxesStandaloneBackend; without it authenticate()
+        # raises AxesBackendRequestParameterRequired and login breaks entirely.
+        user = authenticate(
+            request=self.context.get("request"),
+            username=username,
+            password=password,
+        )
 
         if not user:
             raise serializers.ValidationError("Invalid credentials provided.")

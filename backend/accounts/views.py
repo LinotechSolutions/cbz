@@ -109,7 +109,8 @@ class LoginView(APIView):
     throttle_classes = [AuthRateThrottle]
 
     def post(self, request):
-        serializer = LoginSerializer(data=request.data)
+        # The request must reach authenticate() for django-axes lockout tracking.
+        serializer = LoginSerializer(data=request.data, context={"request": request})
         if not serializer.is_valid():
             username_attempt = request.data.get("username", "")
             record_audit_event(

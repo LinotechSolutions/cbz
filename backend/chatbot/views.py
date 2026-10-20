@@ -1,5 +1,6 @@
 from django.http import StreamingHttpResponse
 from rest_framework import status
+from rest_framework.parsers import JSONParser
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -39,10 +40,14 @@ class ChatbotMessageView(APIView):
     - Conversation continuity via session_id across page navigations
     - Server-side Gemini proxy (API key never leaves the server)
     - Streaming SSE via stream=true
-    - CSRF-protected (same pattern as all other mutating routes)
+
+    Open to anonymous callers, so it is not CSRF-protected. JSON-only parsing
+    keeps it off the list of requests a browser will send cross-site without a
+    preflight against the CORS allowlist.
     """
     permission_classes = [AllowAny]
     throttle_classes = [ChatbotRateThrottle]
+    parser_classes = [JSONParser]
 
     def post(self, request):
         serializer = ChatbotMessageRequestSerializer(data=request.data)
@@ -62,7 +67,9 @@ class ChatbotMessageView(APIView):
         # Retrieve or create session (reload-safe; stored server-side)
         session = _get_or_create_session(request, session_id, language)
 
-        # Persist user message (PII-scrubbed for QA logs; raw message used for LLM)
+        # Scrub once, then use the scrubbed text everywhere: stored for QA AND
+        # sent to the LLM. Sending the raw text handed national IDs, phone and
+        # card numbers to a third-party provider.
         sanitized_user_msg = sanitize_pii(user_message)
         ChatMessage.objects.create(
             session=session,
@@ -82,7 +89,7 @@ class ChatbotMessageView(APIView):
             def _event_stream():
                 full_reply_parts = []
                 gen = ChatbotService.generate_response(
-                    message=user_message,
+                    message=sanitized_user_msg,
                     history=history_list,
                     detected_language=language,
                     stream=True,
@@ -114,13 +121,14 @@ class ChatbotMessageView(APIView):
             )
             http_response["Cache-Control"] = "no-cache, no-store"
             http_response["X-Accel-Buffering"] = "no"
-            http_response["Access-Control-Allow-Origin"] = request.META.get("HTTP_ORIGIN", "*")
-            http_response["Access-Control-Allow-Credentials"] = "true"
+            # CORS headers are set by corsheaders.middleware.CorsMiddleware, which
+            # honours the allowlist. Setting them here reflected ANY Origin back
+            # with Allow-Credentials, letting any site read a visitor's chat.
             return http_response
 
         # ── Non-streaming path ───────────────────────────────────────────────
         reply_text = ChatbotService.generate_response(
-            message=user_message,
+            message=sanitized_user_msg,
             history=history_list,
             detected_language=language,
             stream=False,

@@ -39,6 +39,16 @@ class ClientIpTests(TestCase):
     def test_no_request(self):
         self.assertIsNone(client_ip(None))
 
+    @override_settings(CLIENT_IP_HEADER="HTTP_X_REAL_IP")
+    def test_trusted_single_header_wins_when_configured(self):
+        req = _Req(HTTP_X_REAL_IP="41.175.158.254", HTTP_X_FORWARDED_FOR="1.2.3.4, 9.9.9.9")
+        self.assertEqual(client_ip(req), "41.175.158.254")
+
+    @override_settings(CLIENT_IP_HEADER="HTTP_X_REAL_IP")
+    def test_falls_back_when_trusted_header_absent(self):
+        req = _Req(HTTP_X_FORWARDED_FOR="1.2.3.4, 41.175.158.254")
+        self.assertEqual(client_ip(req), "41.175.158.254")
+
 
 class SanitizePiiTests(TestCase):
     def test_redacts_national_id_formats(self):

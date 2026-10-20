@@ -10,8 +10,8 @@
     "strapi": "strapi"
   },
   "dependencies": {
-    "@strapi/plugin-users-permissions": "5.1.0",
-    "@strapi/strapi": "5.1.0",
+    "@strapi/plugin-users-permissions": "5.58.0",
+    "@strapi/strapi": "5.58.0",
     "better-sqlite3": "^13.0.3",
     "pg": "^8.13.0",
     "react": "^18.3.1",

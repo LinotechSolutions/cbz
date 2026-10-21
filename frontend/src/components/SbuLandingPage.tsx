@@ -102,6 +102,9 @@ export const SbuLandingPage: React.FC<SbuLandingPageProps> = ({ config, onNaviga
             <div className="lg:col-span-5">
               <img
                 {...siteImage(hero.imageKey, hero.image ?? '', hero.headline)}
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
                 className="w-full h-56 sm:h-72 object-cover rounded-2xl border border-slate-200 bg-slate-100"
               />
             </div>

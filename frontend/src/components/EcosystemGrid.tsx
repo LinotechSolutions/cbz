@@ -17,6 +17,16 @@ export const EcosystemGrid: React.FC<EcosystemGridProps> = ({ onNavigate }) => {
   const selectedSub =
     SUBSIDIARIES.find((s) => s.id === selectedSubId) || SUBSIDIARIES[0];
 
+  // Pre-load all subsidiary spotlight images into browser cache so tab switching is instantaneous
+  React.useEffect(() => {
+    SUBSIDIARIES.forEach((sub) => {
+      if (sub.image) {
+        const img = new Image();
+        img.src = sub.image;
+      }
+    });
+  }, []);
+
   // Helper to render official subsidiary logo badge using master SVGs
   const renderSubsidiaryLogo = (sub: Subsidiary, size: 'sm' | 'md' | 'lg' = 'md') => {
     const brand = BRAND_BY_KEY[sub.id] || BRAND_BY_KEY[sub.name.toLowerCase().replace(/^cbz\s+/, '')] || 'holdings';
@@ -96,8 +106,9 @@ export const EcosystemGrid: React.FC<EcosystemGridProps> = ({ onNavigate }) => {
             <div className="lg:col-span-5 relative bg-slate-900 min-h-[200px] sm:min-h-[260px] lg:min-h-full">
               <img
                 {...siteImage(`ecosystem.${selectedSub.id}`, selectedSub.image, selectedSub.name)}
-                loading="lazy"
+                loading="eager"
                 decoding="async"
+                fetchPriority="high"
                 className="w-full h-full object-cover opacity-80"
                 onError={(e) => {
                   (e.target as HTMLImageElement).src = '/images/cbz-banking.webp';

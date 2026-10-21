@@ -42,25 +42,46 @@ function normalizeRecord<T>(record: any): T {
   };
 }
 
+function shouldSkipLocalhostRequest(targetUrl: string): boolean {
+  if (typeof window === 'undefined') return false;
+  const currentHost = window.location.hostname;
+  const isCurrentLocal = currentHost === 'localhost' || currentHost === '127.0.0.1';
+  const isTargetLocal = /^(https?:\/\/)?(localhost|127\.0\.0\.1)(:\d+)?/i.test(targetUrl);
+  // If we are in production or remote (e.g. Vercel, mobile testing), avoid hanging on localhost
+  return !isCurrentLocal && isTargetLocal;
+}
+
 /**
  * Core Strapi fetch helper
  */
 async function strapiFetch<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
-  const url = `${STRAPI_BASE_URL}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
-  const response = await fetch(url, {
-    ...options,
-    headers: {
-      Accept: 'application/json',
-      ...(options.headers as Record<string, string>),
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error(`Strapi API error: ${response.status} ${response.statusText}`);
+  if (shouldSkipLocalhostRequest(STRAPI_BASE_URL)) {
+    throw new Error('Strapi localhost endpoint skipped in remote environment');
   }
 
-  const json = await response.json();
-  return json;
+  const url = `${STRAPI_BASE_URL}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 1500);
+
+  try {
+    const response = await fetch(url, {
+      ...options,
+      signal: options.signal || controller.signal,
+      headers: {
+        Accept: 'application/json',
+        ...(options.headers as Record<string, string>),
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Strapi API error: ${response.status} ${response.statusText}`);
+    }
+
+    const json = await response.json();
+    return json;
+  } finally {
+    clearTimeout(timeoutId);
+  }
 }
 
 export const strapiApi = {

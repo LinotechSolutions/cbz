@@ -21,7 +21,9 @@ export const SiteImagesProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     strapiApi
       .getSiteImages()
       .then((result) => {
-        if (isMounted) setImages(result);
+        if (isMounted && result && Object.keys(result).length > 0) {
+          setImages(result);
+        }
       })
       .catch(() => {
         // CMS unreachable: keep bundled defaults

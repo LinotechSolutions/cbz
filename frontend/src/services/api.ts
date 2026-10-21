@@ -10,15 +10,29 @@ const API_BASE_URL =
 
 let csrfTokenCache: string | null = null;
 
+function shouldSkipLocalhostRequest(targetUrl: string): boolean {
+  if (typeof window === 'undefined') return false;
+  const currentHost = window.location.hostname;
+  const isCurrentLocal = currentHost === 'localhost' || currentHost === '127.0.0.1';
+  const isTargetLocal = /^(https?:\/\/)?(localhost|127\.0\.0\.1)(:\d+)?/i.test(targetUrl);
+  return !isCurrentLocal && isTargetLocal;
+}
+
 /**
  * Fetches the CSRF token from the Django backend and caches it in memory.
  */
 export async function getCsrfToken(): Promise<string> {
   if (csrfTokenCache) return csrfTokenCache;
+  if (shouldSkipLocalhostRequest(API_BASE_URL)) return "";
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 2000);
+
   try {
     const res = await fetch(`${API_BASE_URL}/csrf/`, {
       method: "GET",
       credentials: "include",
+      signal: controller.signal,
     });
     if (res.ok) {
       const data = await res.json();
@@ -26,7 +40,9 @@ export async function getCsrfToken(): Promise<string> {
       return data.csrfToken;
     }
   } catch (err) {
-    console.error("Failed to retrieve CSRF token from backend", err);
+    // Backend offline or unreachable
+  } finally {
+    clearTimeout(timeoutId);
   }
   return "";
 }
@@ -35,6 +51,10 @@ export async function getCsrfToken(): Promise<string> {
  * Core HTTP fetch wrapper with credentials (cookies) and CSRF header.
  */
 async function request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+  if (shouldSkipLocalhostRequest(API_BASE_URL)) {
+    throw new Error("Backend API localhost endpoint skipped in remote environment");
+  }
+
   const url = `${API_BASE_URL}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`;
   const method = (options.method || "GET").toUpperCase();
 
@@ -54,22 +74,30 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
     }
   }
 
-  const response = await fetch(url, {
-    ...options,
-    headers,
-    credentials: "include", // Essential for HttpOnly JWT and CSRF cookies
-  });
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 3500);
 
-  if (!response.ok) {
-    let errorDetail = "An unexpected server error occurred.";
-    try {
-      const errJson = await response.json();
-      errorDetail = errJson.detail || JSON.stringify(errJson);
-    } catch {}
-    throw new Error(errorDetail);
+  try {
+    const response = await fetch(url, {
+      ...options,
+      headers,
+      signal: options.signal || controller.signal,
+      credentials: "include", // Essential for HttpOnly JWT and CSRF cookies
+    });
+
+    if (!response.ok) {
+      let errorDetail = "An unexpected server error occurred.";
+      try {
+        const errJson = await response.json();
+        errorDetail = errJson.detail || JSON.stringify(errJson);
+      } catch {}
+      throw new Error(errorDetail);
+    }
+
+    return response.json();
+  } finally {
+    clearTimeout(timeoutId);
   }
-
-  return response.json();
 }
 
 // ============================================================

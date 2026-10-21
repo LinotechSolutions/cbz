@@ -345,7 +345,7 @@ export const TheGroupView: React.FC<TheGroupViewProps> = ({ onNavigate }) => {
       </section>
 
       {/* 2. ALTERNATING ZIG-ZAG SUBSIDIARIES SHOWCASE (Matching requested layout) */}
-      <RevealSection id="subsidiaries-showcase" className="py-12 sm:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="subsidiaries-showcase" className="py-12 sm:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="space-y-16 sm:space-y-20">
           {SUBSIDIARIES.map((sub, idx) => {
             const isCardLeft = idx % 2 === 0;
@@ -355,8 +355,9 @@ export const TheGroupView: React.FC<TheGroupViewProps> = ({ onNavigate }) => {
                 {/* Full-bleed Photography Image */}
                 <img
                   {...siteImage(`group.${sub.id}`, sub.image, sub.name)}
-                  loading="lazy"
+                  loading={idx < 2 ? "eager" : "lazy"}
                   decoding="async"
+                  fetchPriority={idx === 0 ? "high" : "auto"}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 select-none"
                   draggable={false}
                 />
@@ -460,7 +461,7 @@ export const TheGroupView: React.FC<TheGroupViewProps> = ({ onNavigate }) => {
             );
           })}
         </div>
-      </RevealSection>
+      </section>
 
       {/* 3. "ABOUT US" SECTION (CBZ Holdings Corporate Overview) */}
       <RevealSection id="about-cbz-group" className="py-14 sm:py-20 bg-slate-50/70 border-y border-slate-200/80">

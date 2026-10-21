@@ -1,5 +1,6 @@
 import { EXTERNAL_LINKS, GROUP_FACTS, tbc } from '../facts';
 import { SbuPageConfig, campaignsPending, leadershipPending } from '../sbuPages';
+import { AGRO_CATEGORIES, AGRO_PRODUCTS } from './agro';
 import { LIFE_CATEGORIES, LIFE_PRODUCTS } from './life';
 import { RED_SPHERE_CATEGORIES, RED_SPHERE_PRODUCTS } from './redSphere';
 
@@ -49,6 +50,44 @@ export const RED_SPHERE_PAGE: SbuPageConfig = {
     heading: 'Talk to Red Sphere Finance',
     body: 'Apply online, through the mobile app, or speak to the team about agency and partnership opportunities.',
     primaryCta: { label: 'Request a callback', screen: 'open-account' },
+  },
+};
+
+export const AGRO_PAGE: SbuPageConfig = {
+  brand: 'agro-yield',
+  imageKeyPrefix: 'agro-product',
+  hero: {
+    eyebrow: 'CBZ Agro-Yield',
+    headline: 'Backing the season, from inputs to offtake',
+    valueProposition:
+      'Joint venture schemes, seasonal contract farming, commodity trading and a supply chain division covering mechanisation, equipment and water.',
+    imageKey: 'banner.agro',
+    image: '/images/cbz-agriculture.webp',
+    primaryCta: { label: 'Apply for farming finance', screen: 'journey-agro' },
+    secondaryCta: { label: 'Speak to the team', screen: 'open-account' },
+  },
+  about:
+    'CBZ Agro-Yield is the CBZ Group’s agribusiness. It works with farming enterprises through joint ventures, funds seasonal contract farming, opens market and offtake routes for commodities, and supplies the mechanisation, equipment and water infrastructure that production depends on.',
+  keyFacts: [
+    { value: 'Four', label: 'Operating divisions' },
+    { value: 'Seasonal', label: 'Contract farming cycles' },
+    { value: 'Offtake', label: 'Market routes for commodities' },
+    { value: 'Part of CBZ', label: GROUP_FACTS.zseListed.value },
+  ],
+  products: {
+    heading: 'Products and solutions',
+    intro: 'The four Agro-Yield divisions and what each one covers.',
+    categories: AGRO_CATEGORIES,
+    items: AGRO_PRODUCTS,
+    termsNote:
+      'Scheme terms, pricing and qualifying criteria depend on the crop, the season and the agreement in place. Speak to CBZ Agro-Yield for the current terms.',
+  },
+  campaigns: campaignsPending('Agro-Yield'),
+  leadership: leadershipPending('Agro-Yield'),
+  contact: {
+    heading: 'Talk to CBZ Agro-Yield',
+    body: 'Apply for seasonal finance, discuss a joint venture, or enquire about mechanisation, equipment and borehole drilling.',
+    primaryCta: { label: 'Apply for farming finance', screen: 'journey-agro' },
   },
 };
 

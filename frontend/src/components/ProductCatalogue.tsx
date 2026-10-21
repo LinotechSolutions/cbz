@@ -35,7 +35,12 @@ export const ProductCatalogue: React.FC<ProductCatalogueProps> = ({
 
   return (
     <div>
-      <div className="inline-flex flex-wrap gap-1 p-1 bg-slate-200/70 rounded-xl mb-8">
+      {/* A single category needs no filter: one lone tab is just noise. */}
+      <div
+        className={`inline-flex flex-wrap gap-1 p-1 bg-slate-200/70 rounded-xl mb-8 ${
+          categories.length > 1 ? '' : 'hidden'
+        }`}
+      >
         {categories.map(({ id, label }) => (
           <button
             key={id}

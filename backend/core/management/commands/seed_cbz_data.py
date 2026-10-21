@@ -251,6 +251,14 @@ class Command(BaseCommand):
         # NOTE: the insurance, Datvest, Properties and Agro-Yield rows below predate
         # those documents and still carry unverified figures. Replace them once the
         # product documentation for those subsidiaries is supplied.
+        # Product catalogue. The bank, Red Sphere and life rows are generated from
+        # frontend/src/data/products/*.ts, which transcribe the Retail Banking Product
+        # Manual, the Red Sphere products deck and the CBZ Life catalogue. Regenerate
+        # rather than editing by hand, so the API cannot drift from the site.
+        #
+        # NOTE: the insurance, Datvest, Properties and Agro-Yield rows below predate
+        # those documents and still carry unverified figures. Replace them once the
+        # product documentation for those subsidiaries is supplied.
         products_data = [
             # CBZ Bank - Retail Banking Product Manual
             ('bank', 'accounts', 'current', 'Current Account', 'Everyday transactional account with a Visa debit card, access to loans in line with your income, and an overdraft facility.', 'Visa debit card included', 'Landmark', 1),
@@ -313,6 +321,11 @@ class Command(BaseCommand):
             ('life', 'employee', 'retirement_savings', 'Retirement Savings Products', 'Products designed to help individuals and groups accumulate funds for retirement.', 'Employee benefits', 'PiggyBank', 2),
             ('life', 'employee', 'annuities', 'Annuities', 'Regular income payments to retirees, drawn from accumulated retirement savings.', 'Employee benefits', 'Coins', 3),
             ('life', 'employee', 'credit_life', 'Credit Life Insurance', 'Covers the outstanding balance of a loan in the event of death, so the debt does not pass to the family.', 'Employee benefits', 'ShieldCheck', 4),
+            # CBZ Agro-Yield - divisions supplied by the business
+            ('agri', 'divisions', 'agro_enterprise', 'Agro Enterprise', 'Joint venture schemes with farming enterprises.', 'Joint venture schemes', 'HeartHandshake', 1),
+            ('agri', 'divisions', 'agro_farming', 'Agro Farming', 'Seasonal contract farming.', 'Seasonal contract farming', 'Sprout', 2),
+            ('agri', 'divisions', 'agro_commodity_trading', 'Agro Commodity Trading', 'Market and offtake opportunities for agricultural commodities.', 'Market and offtake opportunities', 'TrendingUp', 3),
+            ('agri', 'divisions', 'agro_supply_chain', 'Agro Supply Chain', 'Farm mechanisation, equipment leasing and sales, borehole drilling and combine harvesters.', 'Mechanisation and equipment', 'Tractor', 4),
             # Awaiting product documentation (figures below are unverified):
             ("insurance", "personal", "ins_motor", "Comprehensive Private Motor Cover", "All-risk protection covering accidental damage, third-party liability, fire, and theft.", "From $46/month", "Car", 1),
             ("insurance", "personal", "ins_home", "Homeowners Comprehensive", "Covers residential structures and contents against storm, burst pipes, and break-ins.", "From $25/month", "Home", 2),
@@ -325,9 +338,6 @@ class Command(BaseCommand):
             ("properties", "residential", "prop_stands_harare", "Harare Prime Residential Stands", "Fully serviced residential stands with tarred roads, electricity, and water in place.", "From $35,000 | 15% deposit", "MapPin", 1),
             ("properties", "commercial", "prop_office_park", "CBZ Corporate Park Office Suites", "Grade-A sustainable corporate office space available for long-term lease or purchase.", "Inquire for floor plans", "Building", 2),
             ("properties", "advisory", "prop_valuation", "Property Valuation & Advisory", "Licensed valuation services for commercial portfolios, residential deeds, and collaterals.", "Regulated professional rates", "FileText", 3),
-            ("agri", "seasonal", "agro_grain", "Grain Production Scheme", "End-to-end working capital finance for commercial maize and winter wheat cropping.", "$550 - $850 / hectare", "Wheat", 1),
-            ("agri", "mechanization", "agro_tractor", "Tractor & Implement Lease Facility", "Leasing packages for modern John Deere and Massey Ferguson tractors and planters.", "Flexible seasonal payments", "Tractor", 2),
-            ("agri", "commercial", "agro_tobacco", "Tobacco Contract Financing", "Comprehensive input pack, curing facility finance, and guaranteed floor marketing.", "Targeted contract rates", "Leaf", 3),
         ]
 
         ProductItem.objects.all().delete()

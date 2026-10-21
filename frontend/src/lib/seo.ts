@@ -32,6 +32,8 @@ const SUBSIDIARY = {
   redSphere: { name: 'Red Sphere Finance', type: 'FinancialService' },
   life: { name: 'CBZ Life', type: 'InsuranceAgency' },
   agro: { name: 'CBZ Agro-Yield', type: 'FinancialService' },
+  capital: { name: 'CBZ Capital', type: 'FinancialService' },
+  riskAdvisory: { name: 'CBZ Risk Advisory Services', type: 'InsuranceAgency' },
 } as const;
 
 export const PAGE_META: Record<ScreenType, PageMeta> = {
@@ -129,6 +131,32 @@ export const PAGE_META: Record<ScreenType, PageMeta> = {
       'Comfortsure funeral cashplan, Sarapavana education plan, group life assurance, retirement savings, annuities and credit life from CBZ Life.',
     heading: 'CBZ Life',
     org: SUBSIDIARY.life,
+  },
+  capital: {
+    title: 'CBZ Capital | Investment Banking, Debt Syndication & M&A',
+    description:
+      'Syndicated debt facilities, corporate advisory, M&A, IPOs, and public-private infrastructure finance from CBZ Capital.',
+    heading: 'CBZ Capital',
+    org: SUBSIDIARY.capital,
+  },
+  'risk-advisory': {
+    title: 'CBZ Risk Advisory Services | Insurance Broking & Risk Consulting',
+    description:
+      'Accredited short-term insurance broking, enterprise risk audits, employee benefits consulting, and regional reinsurance advocacy.',
+    heading: 'CBZ Risk Advisory Services',
+    org: SUBSIDIARY.riskAdvisory,
+  },
+  'journey-capital': {
+    title: 'Corporate Advisory & Capital Raising Inquiry | CBZ Capital',
+    description: 'Tell us about your capital raising or advisory opportunity with CBZ Capital.',
+    heading: 'Capital inquiry',
+    org: SUBSIDIARY.capital,
+  },
+  'journey-risk': {
+    title: 'Risk Consultation & Broking Inquiry | CBZ Risk Advisory Services',
+    description: 'Request an enterprise risk audit or insurance broking review from CBZ Risk Advisory Services.',
+    heading: 'Risk consultation',
+    org: SUBSIDIARY.riskAdvisory,
   },
   diaspora: {
     title: 'Diaspora Banking & Investments | CBZ Holdings',

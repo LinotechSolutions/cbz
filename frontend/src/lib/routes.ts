@@ -23,12 +23,25 @@ export const SCREEN_PATHS: Record<ScreenType, string> = {
   'open-account': '/open-account',
   'red-sphere': '/red-sphere',
   'cbz-life': '/cbz-life',
+  capital: '/capital',
+  'risk-advisory': '/risk-advisory',
+  'journey-capital': '/capital-journey',
+  'journey-risk': '/risk-journey',
   diaspora: '/diaspora',
   security: '/security',
 };
 
 /** Screens that render inside the focused FlowShell (no marketing header, mega-menus or full footer). */
-export const FLOW_SCREENS: ScreenType[] = ['home-journey', 'journey', 'journey-invest', 'journey-bank', 'journey-agro', 'open-account'];
+export const FLOW_SCREENS: ScreenType[] = [
+  'home-journey',
+  'journey',
+  'journey-invest',
+  'journey-bank',
+  'journey-agro',
+  'journey-capital',
+  'journey-risk',
+  'open-account',
+];
 
 export function screenFromPath(pathname: string): ScreenType {
   const clean = pathname.replace(/\/+$/, '') || '/';

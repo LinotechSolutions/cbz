@@ -3,8 +3,10 @@ import { EXTERNAL_LINKS, GROUP_FACTS, tbc } from '../facts';
 import { SbuPageConfig, campaignsPending, leadershipPending } from '../sbuPages';
 import { AGRO_CATEGORIES, AGRO_PRODUCTS } from './agro';
 import { BANK_PRODUCTS, BANK_PRODUCT_CATEGORIES } from './bank';
+import { CAPITAL_CATEGORIES, CAPITAL_PRODUCTS } from './capital';
 import { LIFE_CATEGORIES, LIFE_PRODUCTS } from './life';
 import { RED_SPHERE_CATEGORIES, RED_SPHERE_PRODUCTS } from './redSphere';
+import { RISK_ADVISORY_CATEGORIES, RISK_ADVISORY_PRODUCTS } from './riskAdvisory';
 
 /**
  * Per-business-unit configuration for the standardised landing page.
@@ -300,5 +302,87 @@ export const LIFE_PAGE: SbuPageConfig = {
     heading: 'Talk to CBZ Life',
     body: 'Request a quotation for an individual plan, or speak to us about cover for your employees.',
     primaryCta: { label: 'Request a quotation', screen: 'journey' },
+  },
+};
+
+export const CAPITAL_PAGE: SbuPageConfig = {
+  brand: 'capital',
+  imageKeyPrefix: 'capital-product',
+  hero: {
+    eyebrow: 'CBZ Capital',
+    headline: 'Structuring transactions that shape industries',
+    valueProposition:
+      'Debt capital markets, loan syndications, M&A advisory, IPOs, and public-private infrastructure financing backed by Zimbabwe’s premier financial institution.',
+    imageKey: 'banner.capital',
+    image: '/images/accounts/partnership.webp',
+    primaryCta: { label: 'Start capital inquiry', screen: 'journey-capital' },
+    secondaryCta: { label: 'Explore advisory services', screen: 'the-group' },
+  },
+  about:
+    'CBZ Capital is the dedicated investment banking and corporate advisory arm of CBZ Holdings Limited. We structure and lead-arrange high-impact debt capital syndications, corporate bond issuances, strategic mergers and acquisitions, and public-private partnership (PPP) infrastructure transactions that power economic development across Zimbabwe.',
+  keyFacts: [
+    { value: 'US$1B+', label: 'Debt and syndications structured' },
+    { value: 'ZSE & VFEX', label: 'Listing advisory and sponsorship' },
+    { value: 'M&A Leaders', label: 'Corporate buy-side & sell-side' },
+    { value: 'PPP & Infra', label: 'Concessions and energy financing' },
+    { value: 'Fortress', label: 'CBZ Group balance sheet backing' },
+    { value: 'Part of CBZ', label: GROUP_FACTS.zseListed.value },
+  ],
+  products: {
+    heading: 'Investment banking and advisory solutions',
+    intro:
+      'Structured debt facilities, strategic corporate advisory, equity capital markets, and national infrastructure advisory.',
+    categories: CAPITAL_CATEGORIES,
+    items: CAPITAL_PRODUCTS,
+    termsNote:
+      'Transaction advisory, capital raising, and syndication terms are tailored to each corporate mandate and subject to regulatory approvals. Speak to the CBZ Capital investment banking team to structure your mandate.',
+  },
+  campaigns: campaignsPending('CBZ Capital'),
+  leadership: leadershipPending('CBZ Capital'),
+  contact: {
+    heading: 'Engage CBZ Capital',
+    body: 'Speak with our senior investment bankers regarding capital raising, loan syndications, M&A advisory, or infrastructure financing.',
+    primaryCta: { label: 'Start capital inquiry', screen: 'journey-capital' },
+  },
+};
+
+export const RISK_ADVISORY_PAGE: SbuPageConfig = {
+  brand: 'risk-advisory',
+  imageKeyPrefix: 'risk-product',
+  hero: {
+    eyebrow: 'CBZ Risk Advisory Services',
+    headline: 'Independent broking and precision risk management',
+    valueProposition:
+      'Short-term insurance broking, enterprise risk audits, corporate employee benefit consulting, and regional reinsurance advocacy across Southern Africa.',
+    imageKey: 'banner.risk-advisory',
+    image: '/images/insurance-health.webp',
+    primaryCta: { label: 'Request risk consultation', screen: 'journey-risk' },
+    secondaryCta: { label: 'Explore broking services', screen: 'the-group' },
+  },
+  about:
+    'CBZ Risk Advisory Services is an accredited short-term insurance broker and risk consultancy registered under the Insurance and Pensions Commission (IPEC). We represent corporate clients independently across all licensed underwriters, perform rigorous on-site loss prevention surveys, structure employee benefit schemes, and advocate tirelessly for equitable claim settlements.',
+  keyFacts: [
+    { value: 'IPEC Registered', label: 'Independent insurance broker' },
+    { value: 'Southern Africa', label: 'Regional reinsurance placement' },
+    { value: 'ISO 31000', label: 'Enterprise risk audit standards' },
+    { value: 'Advocacy', label: 'Dedicated claims dispute support' },
+    { value: 'Employee Benefits', label: 'Pensions and medical aid design' },
+    { value: 'Part of CBZ', label: GROUP_FACTS.zseListed.value },
+  ],
+  products: {
+    heading: 'Broking and risk management solutions',
+    intro:
+      'Independent short-term broking, enterprise risk audits, employee healthcare and retirement benefits, and reinsurance placement.',
+    categories: RISK_ADVISORY_CATEGORIES,
+    items: RISK_ADVISORY_PRODUCTS,
+    termsNote:
+      'Insurance broking and advisory services are governed by IPEC regulations. Terms, premium rates, and coverage extensions are negotiated across licensed underwriters based on risk profiling.',
+  },
+  campaigns: campaignsPending('CBZ Risk Advisory'),
+  leadership: leadershipPending('CBZ Risk Advisory'),
+  contact: {
+    heading: 'Consult CBZ Risk Advisory Services',
+    body: 'Schedule an enterprise risk audit, review your corporate insurance portfolio, or discuss pension and healthcare benefit structuring.',
+    primaryCta: { label: 'Request risk consultation', screen: 'journey-risk' },
   },
 };

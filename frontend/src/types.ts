@@ -17,11 +17,15 @@ export type ScreenType =
   | 'the-group'
   | 'red-sphere'
   | 'cbz-life'
+  | 'capital'
+  | 'risk-advisory'
   | 'diaspora'
   | 'security'
   | 'journey-invest'
   | 'journey-bank'
   | 'journey-agro'
+  | 'journey-capital'
+  | 'journey-risk'
   | 'home-journey';
 
 export interface LifecycleStage {

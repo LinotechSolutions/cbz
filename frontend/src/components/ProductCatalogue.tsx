@@ -28,6 +28,8 @@ function getActionLabel(product: ProductItem, categoryId: string): string {
   if (categoryId === 'personal' || categoryId === 'business' || name.includes('cover') || name.includes('insurance')) return 'Get a Quote';
   if (categoryId === 'unitTrusts' || categoryId === 'institutional' || name.includes('fund')) return 'Start Investing';
   if (categoryId === 'residential' || categoryId === 'commercial' || name.includes('stand') || name.includes('cluster')) return 'Enquire / View';
+  if (categoryId === 'debt' || categoryId === 'advisory' || categoryId === 'equity' || categoryId === 'infrastructure') return 'Structure Mandate';
+  if (categoryId === 'broking' || categoryId === 'erm' || categoryId === 'benefits' || categoryId === 'reinsurance') return 'Request Consultation';
   return 'Enquire Now';
 }
 
@@ -96,6 +98,26 @@ const FAQS_BY_PREFIX: Record<string, { q: string; a: string }[]> = {
     {
       q: 'How soon are ComfortSure funeral cash disbursements processed?',
       a: 'ComfortSure funeral claims are prioritized for prompt disbursement within 24 hours of notification with valid documentation.',
+    },
+  ],
+  'capital-product': [
+    {
+      q: 'What transaction sizes does CBZ Capital structure?',
+      a: 'CBZ Capital arranges debt syndications, M&A transactions, and infrastructure project financing ranging from mid-tier corporate balance sheets to multi-million-dollar national syndicated facilities.',
+    },
+    {
+      q: 'Does CBZ Capital sponsor public listings on the stock exchanges?',
+      a: 'Yes. CBZ Capital acts as lead financial advisor and coordinates sponsoring brokers for Initial Public Offerings (IPOs) and listings on both the Zimbabwe Stock Exchange (ZSE) and Victoria Falls Stock Exchange (VFEX).',
+    },
+  ],
+  'risk-product': [
+    {
+      q: 'How does an independent insurance broker differ from a direct insurer?',
+      a: 'CBZ Risk Advisory Services acts solely on behalf of the client, surveying market-wide underwriters to negotiate competitive premiums, tailored policy clauses, and advocate aggressively during claims settlement.',
+    },
+    {
+      q: 'What is covered under an Enterprise Risk Audit?',
+      a: 'Our certified risk engineers evaluate operational, cyber, supply-chain, regulatory, and asset loss risks in compliance with ISO 31000 standards to safeguard business continuity.',
     },
   ],
 };

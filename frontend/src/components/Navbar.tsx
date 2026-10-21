@@ -17,6 +17,8 @@ import {
   PhoneCall
 } from 'lucide-react';
 import { CbzLogo } from './CbzLogo';
+import { Logo } from './Logo';
+import { BRAND_BY_KEY } from '../brand/logos';
 import { ScreenType, Subsidiary } from '../types';
 import { SUBSIDIARIES } from '../data/cbzData';
 
@@ -73,13 +75,27 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   const isItemActive = (key: string) => {
     if (key === 'home') return currentScreen === 'home';
-    if (key === 'ins') return currentScreen === 'sbu' || currentScreen === 'journey';
-    if (key === 'bank') return currentScreen === 'bank' || currentScreen === 'journey-bank';
-    if (key === 'inv') return currentScreen === 'invest' || currentScreen === 'journey-invest';
+    if (key === 'ins')
+      return (
+        currentScreen === 'sbu' ||
+        currentScreen === 'journey' ||
+        currentScreen === 'cbz-life' ||
+        currentScreen === 'risk-advisory' ||
+        currentScreen === 'journey-risk'
+      );
+    if (key === 'bank')
+      return currentScreen === 'bank' || currentScreen === 'journey-bank' || currentScreen === 'red-sphere';
+    if (key === 'inv')
+      return (
+        currentScreen === 'invest' ||
+        currentScreen === 'journey-invest' ||
+        currentScreen === 'capital' ||
+        currentScreen === 'journey-capital'
+      );
     if (key === 'agro') return currentScreen === 'agro' || currentScreen === 'journey-agro';
-    if (key === 'prop') return currentScreen === 'properties';
+    if (key === 'prop') return currentScreen === 'properties' || currentScreen === 'home-journey';
     if (key === 'diaspora') return currentScreen === 'diaspora';
-    if (key === 'group') return currentScreen === 'group';
+    if (key === 'group') return currentScreen === 'group' || currentScreen === 'the-group';
     return false;
   };
 
@@ -550,18 +566,47 @@ export const Navbar: React.FC<NavbarProps> = ({
                 </div>
 
                 <div>
-                  <div className="text-xs font-bold tracking-wider text-cbz-grey uppercase mb-3.5">
-                    Microfinance & SME
+                  <div className="text-xs font-bold tracking-wider text-cbz-grey uppercase mb-3.5 flex items-center justify-between">
+                    <span>Microfinance & SME</span>
+                    <span className="text-[10px] bg-red-100 text-[#E4002B] px-1.5 py-0.5 rounded font-bold">Red Sphere</span>
                   </div>
                   <ul className="space-y-2.5 text-xs text-slate-600 font-medium">
                     <li
                       onClick={() => {
-                        onNavigate('bank');
+                        onNavigate('red-sphere');
+                        setActiveMega(null);
+                      }}
+                      className="hover:text-[#E4002B] cursor-pointer transition-colors font-bold text-[#002554] flex items-center justify-between"
+                    >
+                      <span>Red Sphere Finance Portal</span>
+                      <ArrowRight className="w-3 h-3 text-[#E4002B]" />
+                    </li>
+                    <li
+                      onClick={() => {
+                        onNavigate('red-sphere');
                         setActiveMega(null);
                       }}
                       className="hover:text-[#E4002B] cursor-pointer transition-colors"
                     >
-                      Red Sphere SME Micro-Credit
+                      Salary-Based Lending (SSB & Payroll)
+                    </li>
+                    <li
+                      onClick={() => {
+                        onNavigate('red-sphere');
+                        setActiveMega(null);
+                      }}
+                      className="hover:text-[#E4002B] cursor-pointer transition-colors"
+                    >
+                      SME & Tuck-Shop Working Capital
+                    </li>
+                    <li
+                      onClick={() => {
+                        onNavigate('red-sphere');
+                        setActiveMega(null);
+                      }}
+                      className="hover:text-[#E4002B] cursor-pointer transition-colors"
+                    >
+                      Order Financing & Invoice Discounting
                     </li>
                     <li
                       onClick={() => {
@@ -571,33 +616,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                       className="hover:text-[#E4002B] cursor-pointer transition-colors"
                     >
                       Women Enterprise & Youth Growth Fund
-                    </li>
-                    <li
-                      onClick={() => {
-                        onNavigate('bank');
-                        setActiveMega(null);
-                      }}
-                      className="hover:text-[#E4002B] cursor-pointer transition-colors"
-                    >
-                      CBZ Touch & WhatsApp (+263 774 460 460)
-                    </li>
-                    <li
-                      onClick={() => {
-                        onNavigate('bank');
-                        setActiveMega(null);
-                      }}
-                      className="hover:text-[#E4002B] cursor-pointer transition-colors"
-                    >
-                      Merchant 4G POS & Interoperable QR
-                    </li>
-                    <li
-                      onClick={() => {
-                        onNavigate('bank');
-                        setActiveMega(null);
-                      }}
-                      className="hover:text-[#E4002B] cursor-pointer transition-colors"
-                    >
-                      High-Yield Fixed Term Deposits
                     </li>
                   </ul>
                 </div>
@@ -666,28 +684,146 @@ export const Navbar: React.FC<NavbarProps> = ({
                 </div>
 
                 <div>
-                  <div className="text-xs font-bold tracking-wider text-cbz-grey uppercase mb-3.5">
-                    Life Assurance
+                  <div className="text-xs font-bold tracking-wider text-cbz-grey uppercase mb-3.5 flex items-center justify-between">
+                    <span>Life Assurance</span>
+                    <button
+                      onClick={() => {
+                        onNavigate('cbz-life');
+                        setActiveMega(null);
+                      }}
+                      className="text-[10px] bg-red-100 text-[#E4002B] px-1.5 py-0.5 rounded font-bold hover:bg-red-200 cursor-pointer"
+                    >
+                      CBZ Life
+                    </button>
                   </div>
                   <ul className="space-y-2.5 text-xs text-slate-600 font-medium">
-                    <li className="hover:text-[#E4002B] cursor-pointer transition-colors">ComfortSure Funeral Plan</li>
-                    <li className="hover:text-[#E4002B] cursor-pointer transition-colors">Guaranteed Education Plan</li>
-                    <li className="hover:text-[#E4002B] cursor-pointer transition-colors">Individual & Group Pensions</li>
-                    <li className="hover:text-[#E4002B] cursor-pointer transition-colors">Credit Life Loan Shield</li>
-                    <li className="hover:text-[#E4002B] cursor-pointer transition-colors">Executive Life Protection</li>
+                    <li
+                      onClick={() => {
+                        onNavigate('cbz-life');
+                        setActiveMega(null);
+                      }}
+                      className="hover:text-[#E4002B] cursor-pointer transition-colors font-bold text-[#002554] flex items-center justify-between"
+                    >
+                      <span>Explore CBZ Life Portal</span>
+                      <ArrowRight className="w-3 h-3 text-[#E4002B]" />
+                    </li>
+                    <li
+                      onClick={() => {
+                        onNavigate('cbz-life');
+                        setActiveMega(null);
+                      }}
+                      className="hover:text-[#E4002B] cursor-pointer transition-colors"
+                    >
+                      ComfortSure Funeral Cashplan
+                    </li>
+                    <li
+                      onClick={() => {
+                        onNavigate('cbz-life');
+                        setActiveMega(null);
+                      }}
+                      className="hover:text-[#E4002B] cursor-pointer transition-colors"
+                    >
+                      Sarapavana Child Education Plan
+                    </li>
+                    <li
+                      onClick={() => {
+                        onNavigate('cbz-life');
+                        setActiveMega(null);
+                      }}
+                      className="hover:text-[#E4002B] cursor-pointer transition-colors"
+                    >
+                      Group Life Assurance (GLA)
+                    </li>
+                    <li
+                      onClick={() => {
+                        onNavigate('cbz-life');
+                        setActiveMega(null);
+                      }}
+                      className="hover:text-[#E4002B] cursor-pointer transition-colors"
+                    >
+                      Credit Life Loan Debt Shield
+                    </li>
+                    <li
+                      onClick={() => {
+                        onNavigate('cbz-life');
+                        setActiveMega(null);
+                      }}
+                      className="hover:text-[#E4002B] cursor-pointer transition-colors"
+                    >
+                      Retirement Savings & Annuities
+                    </li>
                   </ul>
                 </div>
 
                 <div>
-                  <div className="text-xs font-bold tracking-wider text-cbz-grey uppercase mb-3.5">
-                    Risk Advisory
+                  <div className="text-xs font-bold tracking-wider text-cbz-grey uppercase mb-3.5 flex items-center justify-between">
+                    <span>Risk Advisory</span>
+                    <button
+                      onClick={() => {
+                        onNavigate('risk-advisory');
+                        setActiveMega(null);
+                      }}
+                      className="text-[10px] bg-blue-100 text-[#002554] px-1.5 py-0.5 rounded font-bold hover:bg-blue-200 cursor-pointer"
+                    >
+                      Risk Advisory
+                    </button>
                   </div>
                   <ul className="space-y-2.5 text-xs text-slate-600 font-medium">
-                    <li className="hover:text-[#E4002B] cursor-pointer transition-colors">Corporate Risk Audits</li>
-                    <li className="hover:text-[#E4002B] cursor-pointer transition-colors">Enterprise Risk Strategy</li>
-                    <li className="hover:text-[#E4002B] cursor-pointer transition-colors">Employee Benefits Consulting</li>
-                    <li className="hover:text-[#E4002B] cursor-pointer transition-colors">Specialist Reinsurance</li>
-                    <li className="hover:text-[#E4002B] cursor-pointer transition-colors">Loss Prevention & Engineering</li>
+                    <li
+                      onClick={() => {
+                        onNavigate('risk-advisory');
+                        setActiveMega(null);
+                      }}
+                      className="hover:text-[#E4002B] cursor-pointer transition-colors font-bold text-[#002554] flex items-center justify-between"
+                    >
+                      <span>Explore Risk Advisory Portal</span>
+                      <ArrowRight className="w-3 h-3 text-[#E4002B]" />
+                    </li>
+                    <li
+                      onClick={() => {
+                        onNavigate('risk-advisory');
+                        setActiveMega(null);
+                      }}
+                      className="hover:text-[#E4002B] cursor-pointer transition-colors"
+                    >
+                      Short-Term Insurance Broking
+                    </li>
+                    <li
+                      onClick={() => {
+                        onNavigate('risk-advisory');
+                        setActiveMega(null);
+                      }}
+                      className="hover:text-[#E4002B] cursor-pointer transition-colors"
+                    >
+                      Enterprise Risk Audits (ISO 31000)
+                    </li>
+                    <li
+                      onClick={() => {
+                        onNavigate('risk-advisory');
+                        setActiveMega(null);
+                      }}
+                      className="hover:text-[#E4002B] cursor-pointer transition-colors"
+                    >
+                      Corporate Employee Benefits & Pensions
+                    </li>
+                    <li
+                      onClick={() => {
+                        onNavigate('risk-advisory');
+                        setActiveMega(null);
+                      }}
+                      className="hover:text-[#E4002B] cursor-pointer transition-colors"
+                    >
+                      Regional Reinsurance Treaty Desk
+                    </li>
+                    <li
+                      onClick={() => {
+                        onNavigate('risk-advisory');
+                        setActiveMega(null);
+                      }}
+                      className="hover:text-[#E4002B] cursor-pointer transition-colors"
+                    >
+                      Loss Prevention Engineering & Claims
+                    </li>
                   </ul>
                 </div>
 
@@ -736,16 +872,27 @@ export const Navbar: React.FC<NavbarProps> = ({
                         Dedicated corporate underwriting and commercial claims management.
                       </p>
                     </div>
-                    <button
-                      onClick={() => {
-                        onNavigate('sbu');
-                        setActiveMega(null);
-                      }}
-                      className="w-full py-1.5 px-3 bg-[#002554] hover:bg-[#0A3E80] text-white text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1 cursor-pointer shadow-xs"
-                    >
-                      <span>Visit Portal</span>
-                      <ArrowRight className="w-3 h-3" />
-                    </button>
+                    <div className="flex flex-col space-y-1.5">
+                      <button
+                        onClick={() => {
+                          onNavigate('sbu');
+                          setActiveMega(null);
+                        }}
+                        className="w-full py-1.5 px-3 bg-[#002554] hover:bg-[#0A3E80] text-white text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1 cursor-pointer shadow-xs"
+                      >
+                        <span>Visit CBZ Insurance</span>
+                        <ArrowRight className="w-3 h-3" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          onNavigate('cbz-life');
+                          setActiveMega(null);
+                        }}
+                        className="w-full py-1.5 px-3 bg-slate-50 hover:bg-slate-100 text-[#002554] text-xs font-semibold rounded-lg transition-all border border-slate-200 flex items-center justify-center space-x-1 cursor-pointer"
+                      >
+                        <span>Explore CBZ Life</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -765,21 +912,19 @@ export const Navbar: React.FC<NavbarProps> = ({
                         if (sub.screen) onNavigate(sub.screen);
                         setActiveMega(null);
                       }}
-                      className="p-3.5 rounded-xl border border-slate-100 hover:border-slate-300 hover:bg-slate-50/80 transition-all cursor-pointer group flex items-start space-x-3"
+                      className="p-3.5 rounded-xl border border-slate-100 hover:border-slate-300 hover:bg-slate-50/80 transition-all cursor-pointer group flex items-start space-x-3.5"
                     >
-                      {sub.logo ? (
-                        <div className="h-6 w-12 flex items-center justify-center flex-shrink-0 mt-0.5">
-                          <img
-                            src={sub.logo}
-                            alt={sub.name}
-                            className="max-h-5 max-w-full object-contain mix-blend-multiply"
-                          />
-                        </div>
-                      ) : (
-                        <div className="w-2.5 h-2.5 rounded-full bg-[#E4002B] mt-1.5 flex-shrink-0 group-hover:scale-125 transition-transform" />
-                      )}
-                      <div>
-                        <div className="font-bold text-sm text-[#002554] group-hover:text-[#E4002B] transition-colors">
+                      <div className="h-7 w-20 sm:w-24 flex items-center justify-start flex-shrink-0 mt-0.5">
+                        <Logo
+                          brand={BRAND_BY_KEY[sub.id] || (sub.id as any)}
+                          variant="full"
+                          height={22}
+                          clearSpace={false}
+                          className="max-h-6 max-w-full object-contain"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-bold text-sm text-[#002554] group-hover:text-[#E4002B] transition-colors truncate">
                           {sub.name}
                         </div>
                         <div className="text-xs text-slate-500 line-clamp-2 mt-0.5 leading-relaxed">
@@ -929,47 +1074,108 @@ export const Navbar: React.FC<NavbarProps> = ({
                 </div>
 
                 <div>
-                  <div className="text-xs font-bold tracking-wider text-cbz-grey uppercase mb-3.5">
-                    Securities & Capital Markets
+                  <div className="text-xs font-bold tracking-wider text-cbz-grey uppercase mb-3.5 flex items-center justify-between">
+                    <span>Investment Banking</span>
+                    <button
+                      onClick={() => {
+                        onNavigate('capital');
+                        setActiveMega(null);
+                      }}
+                      className="text-[10px] bg-red-100 text-[#E4002B] px-1.5 py-0.5 rounded font-bold hover:bg-red-200 cursor-pointer"
+                    >
+                      CBZ Capital
+                    </button>
                   </div>
                   <ul className="space-y-2.5 text-xs text-slate-600 font-medium">
-                    <li className="hover:text-[#E4002B] cursor-pointer transition-colors">Zimbabwe Stock Exchange (ZSE) Equities</li>
-                    <li className="hover:text-[#E4002B] cursor-pointer transition-colors">Victoria Falls Exchange (VFEX) USD Equities</li>
-                    <li className="hover:text-[#E4002B] cursor-pointer transition-colors">Fixed Income & Bond Placement</li>
-                    <li className="hover:text-[#E4002B] cursor-pointer transition-colors">Custodial & Portfolio Accounting</li>
-                    <li className="hover:text-[#E4002B] cursor-pointer transition-colors">Discretionary Investment Portfolios</li>
+                    <li
+                      onClick={() => {
+                        onNavigate('capital');
+                        setActiveMega(null);
+                      }}
+                      className="hover:text-[#E4002B] cursor-pointer transition-colors font-bold text-[#002554] flex items-center justify-between"
+                    >
+                      <span>Explore CBZ Capital Portal</span>
+                      <ArrowRight className="w-3 h-3 text-[#E4002B]" />
+                    </li>
+                    <li
+                      onClick={() => {
+                        onNavigate('capital');
+                        setActiveMega(null);
+                      }}
+                      className="hover:text-[#E4002B] cursor-pointer transition-colors"
+                    >
+                      Syndicated Debt & Loan Facilities
+                    </li>
+                    <li
+                      onClick={() => {
+                        onNavigate('capital');
+                        setActiveMega(null);
+                      }}
+                      className="hover:text-[#E4002B] cursor-pointer transition-colors"
+                    >
+                      Corporate Mergers & Acquisitions (M&A)
+                    </li>
+                    <li
+                      onClick={() => {
+                        onNavigate('capital');
+                        setActiveMega(null);
+                      }}
+                      className="hover:text-[#E4002B] cursor-pointer transition-colors"
+                    >
+                      IPOs & Listings (ZSE & VFEX)
+                    </li>
+                    <li
+                      onClick={() => {
+                        onNavigate('capital');
+                        setActiveMega(null);
+                      }}
+                      className="hover:text-[#E4002B] cursor-pointer transition-colors"
+                    >
+                      PPP & Infrastructure Concessions
+                    </li>
                   </ul>
                 </div>
 
-                <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-5 flex flex-col justify-between">
+                <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 flex flex-col justify-between">
                   <div>
-                    <div className="h-8 mb-2.5 flex items-center">
+                    <div className="h-7 mb-2 flex items-center">
                       <img
                         src="/brand/logos/datvest-full.svg"
                         alt="Datvest Asset Management"
-                        className="h-7 w-auto object-contain"
+                        className="h-6 w-auto object-contain"
                       />
                     </div>
-                    <span className="inline-block px-2 py-0.5 rounded bg-[#002554]/10 text-[#002554] text-xs font-bold tracking-wider uppercase mb-2.5">
+                    <span className="inline-block px-2 py-0.5 rounded bg-[#002554]/10 text-[#002554] text-xs font-bold tracking-wider uppercase mb-1.5">
                       Asset Management
                     </span>
-                    <h4 className="font-bold text-sm text-[#002554] mb-1.5">
+                    <h4 className="font-bold text-xs text-[#002554] mb-1">
                       Datvest Wealth Hub
                     </h4>
-                    <p className="text-xs text-slate-500 leading-relaxed mb-4">
-                      Premier institutional and individual asset management, bespoke wealth preservation, and high-yield unit trusts.
+                    <p className="text-xs text-slate-500 leading-relaxed mb-3">
+                      Institutional asset management, wealth preservation, and high-yield unit trusts.
                     </p>
                   </div>
-                  <button
-                    onClick={() => {
-                      onNavigate('invest');
-                      setActiveMega(null);
-                    }}
-                    className="w-full py-2.5 px-3.5 bg-[#002554] hover:bg-[#0A3E80] text-white text-xs font-bold rounded-xl transition-all flex items-center justify-center space-x-1.5 cursor-pointer shadow-xs"
-                  >
-                    <span>Explore Datvest Hub</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
+                  <div className="flex flex-col space-y-1.5">
+                    <button
+                      onClick={() => {
+                        onNavigate('invest');
+                        setActiveMega(null);
+                      }}
+                      className="w-full py-1.5 px-3 bg-[#002554] hover:bg-[#0A3E80] text-white text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1 cursor-pointer shadow-xs"
+                    >
+                      <span>Explore Datvest</span>
+                      <ArrowRight className="w-3 h-3" />
+                    </button>
+                    <button
+                      onClick={() => {
+                        onNavigate('capital');
+                        setActiveMega(null);
+                      }}
+                      className="w-full py-1.5 px-3 bg-white hover:bg-slate-100 text-[#002554] text-xs font-semibold rounded-lg transition-all border border-slate-200 flex items-center justify-center space-x-1 cursor-pointer"
+                    >
+                      <span>Explore CBZ Capital</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             )}
@@ -1085,6 +1291,18 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
             <button
               onClick={() => {
+                onNavigate('bank');
+                setMobileMenuOpen(false);
+              }}
+              className={`w-full text-left px-3.5 py-2.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
+                currentScreen === 'bank' ? 'bg-[#E4002B] text-white' : 'text-[#002554] hover:bg-slate-50'
+              }`}
+            >
+              <span>Banking · CBZ Bank Commercial</span>
+              <ArrowRight className="w-3.5 h-3.5 opacity-60" />
+            </button>
+            <button
+              onClick={() => {
                 onNavigate('sbu');
                 setMobileMenuOpen(false);
               }}
@@ -1092,7 +1310,55 @@ export const Navbar: React.FC<NavbarProps> = ({
                 currentScreen === 'sbu' ? 'bg-[#E4002B] text-white' : 'text-[#002554] hover:bg-slate-50'
               }`}
             >
-              <span>Insurance · CBZ Insurance SBU</span>
+              <span>Insurance · CBZ Insurance</span>
+              <ArrowRight className="w-3.5 h-3.5 opacity-60" />
+            </button>
+            <button
+              onClick={() => {
+                onNavigate('cbz-life');
+                setMobileMenuOpen(false);
+              }}
+              className={`w-full text-left px-3.5 py-2.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
+                currentScreen === 'cbz-life' ? 'bg-[#E4002B] text-white' : 'text-[#002554] hover:bg-slate-50'
+              }`}
+            >
+              <span>Life Assurance · CBZ Life</span>
+              <span className="text-xs bg-red-100 text-[#E4002B] px-2 py-0.5 rounded font-bold">Life</span>
+            </button>
+            <button
+              onClick={() => {
+                onNavigate('invest');
+                setMobileMenuOpen(false);
+              }}
+              className={`w-full text-left px-3.5 py-2.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
+                currentScreen === 'invest' ? 'bg-[#E4002B] text-white' : 'text-[#002554] hover:bg-slate-50'
+              }`}
+            >
+              <span>Investments · Datvest Asset Management</span>
+              <ArrowRight className="w-3.5 h-3.5 opacity-60" />
+            </button>
+            <button
+              onClick={() => {
+                onNavigate('capital');
+                setMobileMenuOpen(false);
+              }}
+              className={`w-full text-left px-3.5 py-2.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
+                currentScreen === 'capital' ? 'bg-[#E4002B] text-white' : 'text-[#002554] hover:bg-slate-50'
+              }`}
+            >
+              <span>Corporate Finance · CBZ Capital</span>
+              <span className="text-xs bg-red-100 text-[#E4002B] px-2 py-0.5 rounded font-bold">Investment Banking</span>
+            </button>
+            <button
+              onClick={() => {
+                onNavigate('properties');
+                setMobileMenuOpen(false);
+              }}
+              className={`w-full text-left px-3.5 py-2.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
+                currentScreen === 'properties' ? 'bg-[#E4002B] text-white' : 'text-[#002554] hover:bg-slate-50'
+              }`}
+            >
+              <span>Properties · CBZ Properties</span>
               <ArrowRight className="w-3.5 h-3.5 opacity-60" />
             </button>
             <button
@@ -1109,39 +1375,27 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
             <button
               onClick={() => {
-                onNavigate('invest');
+                onNavigate('risk-advisory');
                 setMobileMenuOpen(false);
               }}
               className={`w-full text-left px-3.5 py-2.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
-                currentScreen === 'invest' ? 'bg-[#E4002B] text-white' : 'text-[#002554] hover:bg-slate-50'
+                currentScreen === 'risk-advisory' ? 'bg-[#E4002B] text-white' : 'text-[#002554] hover:bg-slate-50'
               }`}
             >
-              <span>Investments · Datvest Asset Management</span>
-              <ArrowRight className="w-3.5 h-3.5 opacity-60" />
+              <span>Risk & Broking · CBZ Risk Advisory</span>
+              <span className="text-xs bg-blue-100 text-[#002554] px-2 py-0.5 rounded font-bold">Broking</span>
             </button>
             <button
               onClick={() => {
-                onNavigate('properties');
+                onNavigate('red-sphere');
                 setMobileMenuOpen(false);
               }}
               className={`w-full text-left px-3.5 py-2.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
-                currentScreen === 'properties' ? 'bg-[#E4002B] text-white' : 'text-[#002554] hover:bg-slate-50'
+                currentScreen === 'red-sphere' ? 'bg-[#E4002B] text-white' : 'text-[#002554] hover:bg-slate-50'
               }`}
             >
-              <span>Properties · CBZ Properties</span>
-              <ArrowRight className="w-3.5 h-3.5 opacity-60" />
-            </button>
-            <button
-              onClick={() => {
-                onNavigate('bank');
-                setMobileMenuOpen(false);
-              }}
-              className={`w-full text-left px-3.5 py-2.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
-                currentScreen === 'bank' ? 'bg-[#E4002B] text-white' : 'text-[#002554] hover:bg-slate-50'
-              }`}
-            >
-              <span>Banking · CBZ Bank Commercial Portal</span>
-              <ArrowRight className="w-3.5 h-3.5 opacity-60" />
+              <span>Microfinance · Red Sphere Finance</span>
+              <span className="text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-bold">Credit</span>
             </button>
             <button
               onClick={() => {
@@ -1161,10 +1415,10 @@ export const Navbar: React.FC<NavbarProps> = ({
                 setMobileMenuOpen(false);
               }}
               className={`w-full text-left px-3.5 py-2.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
-                currentScreen === 'group' ? 'bg-[#E4002B] text-white' : 'text-[#002554] hover:bg-slate-50'
+                currentScreen === 'group' || currentScreen === 'the-group' ? 'bg-[#E4002B] text-white' : 'text-[#002554] hover:bg-slate-50'
               }`}
             >
-              <span>The Group · Nine Operating Subsidiaries</span>
+              <span>The Group · 9 Operating Subsidiaries</span>
               <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded font-bold">Ecosystem</span>
             </button>
           </div>

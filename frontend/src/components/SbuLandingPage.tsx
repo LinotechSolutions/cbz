@@ -163,6 +163,12 @@ export const SbuLandingPage: React.FC<SbuLandingPageProps> = ({ config, onNaviga
                   onNavigate('home-journey');
                 } else if (config.brand === 'agro-yield') {
                   onNavigate('journey-agro');
+                } else if (config.brand === 'capital') {
+                  onNavigate('journey-capital');
+                } else if (config.brand === 'risk-advisory') {
+                  onNavigate('journey-risk');
+                } else if (config.brand === 'life') {
+                  onNavigate('journey');
                 } else if (config.brand === 'red-sphere') {
                   window.open(EXTERNAL_LINKS.redSphereApply, '_blank', 'noopener,noreferrer');
                 } else {

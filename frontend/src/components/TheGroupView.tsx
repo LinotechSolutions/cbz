@@ -171,8 +171,8 @@ const SUBSIDIARIES: GroupSubsidiary[] = [
     descriptor: 'Short-Term Broking, Employee Benefits & Pension Consultancy',
     tagline: 'Expert broking and enterprise risk consultancy across Southern Africa.',
     image: '/images/insurance-health.webp',
-    route: 'sbu',
-    actionLabel: 'Speak to Risk Advisory',
+    route: 'risk-advisory',
+    actionLabel: 'Explore Risk Advisory Portal',
     leadSentences:
       'CBZ Risk Advisory Services operates across Southern Africa as an accredited short-term insurance broker and risk consultancy.',
     bodySentences:
@@ -187,8 +187,8 @@ const SUBSIDIARIES: GroupSubsidiary[] = [
     descriptor: 'Capital Raising, Syndicated Debt & Strategic M&A',
     tagline: 'High-impact investment banking structuring Zimbabwe’s largest deals.',
     image: '/images/accounts/partnership.webp',
-    route: 'invest',
-    actionLabel: 'Engage CBZ Capital',
+    route: 'capital',
+    actionLabel: 'Explore CBZ Capital Portal',
     leadSentences:
       'CBZ Capital is the investment banking arm structuring Zimbabwe’s most significant debt capital raises and corporate transactions.',
     bodySentences:

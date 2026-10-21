@@ -31,6 +31,8 @@ const SbuBankingView = lazy(() => import('./components/SbuBankingView').then((m)
 const TheGroupView = lazy(() => import('./components/TheGroupView').then((m) => ({ default: m.TheGroupView })));
 const SbuRedSphereView = lazy(() => import('./components/SbuRedSphereView').then((m) => ({ default: m.SbuRedSphereView })));
 const SbuLifeView = lazy(() => import('./components/SbuLifeView').then((m) => ({ default: m.SbuLifeView })));
+const SbuCapitalView = lazy(() => import('./components/SbuCapitalView').then((m) => ({ default: m.SbuCapitalView })));
+const SbuRiskAdvisoryView = lazy(() => import('./components/SbuRiskAdvisoryView').then((m) => ({ default: m.SbuRiskAdvisoryView })));
 const LoginPage = lazy(() => import('./components/LoginPage').then((m) => ({ default: m.LoginPage })));
 const DiasporaView = lazy(() => import('./components/DiasporaView').then((m) => ({ default: m.DiasporaView })));
 const SecurityView = lazy(() => import('./components/SecurityView').then((m) => ({ default: m.SecurityView })));
@@ -88,6 +90,14 @@ export default function App() {
             ? 'CBZ Agro-Yield'
             : currentScreen === 'invest' || currentScreen === 'journey-invest'
             ? 'Datvest Investments'
+            : currentScreen === 'capital' || currentScreen === 'journey-capital'
+            ? 'CBZ Capital'
+            : currentScreen === 'risk-advisory' || currentScreen === 'journey-risk'
+            ? 'CBZ Risk Advisory Services'
+            : currentScreen === 'red-sphere'
+            ? 'Red Sphere Finance'
+            : currentScreen === 'cbz-life'
+            ? 'CBZ Life'
             : currentScreen === 'properties' || currentScreen === 'home-journey'
             ? 'CBZ Properties'
             : currentScreen === 'diaspora'
@@ -115,10 +125,18 @@ export default function App() {
             ? 'Bank'
             : currentScreen === 'sbu' || currentScreen === 'journey'
             ? 'Insurance'
+            : currentScreen === 'cbz-life'
+            ? 'Life'
             : currentScreen === 'agro' || currentScreen === 'journey-agro'
             ? 'Agro-Yield'
             : currentScreen === 'invest' || currentScreen === 'journey-invest'
             ? 'Datvest'
+            : currentScreen === 'capital' || currentScreen === 'journey-capital'
+            ? 'Capital'
+            : currentScreen === 'risk-advisory' || currentScreen === 'journey-risk'
+            ? 'Risk Advisory'
+            : currentScreen === 'red-sphere'
+            ? 'Red Sphere'
             : currentScreen === 'properties' || currentScreen === 'home-journey'
             ? 'Properties'
             : currentScreen === 'diaspora'
@@ -258,6 +276,26 @@ export default function App() {
 
         {currentScreen === 'cbz-life' && <SbuLifeView onNavigate={setCurrentScreen} />}
 
+        {currentScreen === 'capital' && <SbuCapitalView onNavigate={setCurrentScreen} />}
+
+        {currentScreen === 'risk-advisory' && <SbuRiskAdvisoryView onNavigate={setCurrentScreen} />}
+
+        {currentScreen === 'journey-capital' && (
+          <CustomerJourney
+            country={currentCountry}
+            onNavigate={setCurrentScreen}
+            startWith="capital"
+          />
+        )}
+
+        {currentScreen === 'journey-risk' && (
+          <CustomerJourney
+            country={currentCountry}
+            onNavigate={setCurrentScreen}
+            startWith="riskadvisory"
+          />
+        )}
+
         {currentScreen === 'open-account' && (
           <CustomerJourney
             country={currentCountry}
@@ -305,6 +343,14 @@ export default function App() {
             ? 'Bank'
             : currentScreen === 'sbu'
             ? 'Insurance'
+            : currentScreen === 'cbz-life'
+            ? 'Life'
+            : currentScreen === 'capital'
+            ? 'Capital'
+            : currentScreen === 'risk-advisory'
+            ? 'Risk Advisory'
+            : currentScreen === 'red-sphere'
+            ? 'Red Sphere'
             : currentScreen === 'agro'
             ? 'Agro-Yield'
             : currentScreen === 'invest'

@@ -71,6 +71,22 @@
     {
       "source": "/security",
       "destination": "/security/index.html"
+    },
+    {
+      "source": "/capital",
+      "destination": "/capital/index.html"
+    },
+    {
+      "source": "/risk-advisory",
+      "destination": "/risk-advisory/index.html"
+    },
+    {
+      "source": "/capital-journey",
+      "destination": "/capital-journey/index.html"
+    },
+    {
+      "source": "/risk-journey",
+      "destination": "/risk-journey/index.html"
     }
   ],
   "redirects": [

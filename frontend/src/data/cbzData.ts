@@ -119,7 +119,7 @@ export const SUBSIDIARIES: Subsidiary[] = [
     category: 'Life & Health',
     description: 'Long-term financial security: ComfortSure funeral cover, individual pensions, and education plans.',
     cta: 'Protect Your Family',
-    screen: 'group',
+    screen: 'cbz-life',
     tagline: 'Cover for life. Security for your family.',
     image: '/images/insurance-family.webp',
     logo: '/brand/logos/life-full.svg'
@@ -141,7 +141,7 @@ export const SUBSIDIARIES: Subsidiary[] = [
     category: 'Corporate Finance',
     description: 'Investment banking, syndicated lending, balance sheet restructuring, and institutional advisory.',
     cta: 'Corporate Advisory',
-    screen: null,
+    screen: 'capital',
     tagline: 'Capital raised. Strategic ambitions realised.',
     image: '/images/cbz-banking-branch.webp',
     logo: '/brand/logos/capital-full.svg'
@@ -174,7 +174,7 @@ export const SUBSIDIARIES: Subsidiary[] = [
     category: 'Risk & Broking',
     description: 'Independent insurance broking, full portfolio audit, and enterprise risk consulting.',
     cta: 'Audit Your Portfolio',
-    screen: null,
+    screen: 'risk-advisory',
     tagline: 'Risk understood. Exposure managed with precision.',
     image: '/images/cbz-protection.webp',
     logo: '/brand/logos/risk-advisory-full.svg'
@@ -185,9 +185,10 @@ export const SUBSIDIARIES: Subsidiary[] = [
     category: 'Microfinance',
     description: 'Fast, accessible micro-credit for SMEs, civil servants, smallholders, and community entrepreneurs.',
     cta: 'Apply for SME Loan',
-    screen: null,
+    screen: 'red-sphere',
     tagline: 'Financial inclusion. Empowering communities.',
-    image: '/images/loan-education.webp'
+    image: '/images/loan-education.webp',
+    logo: '/brand/logos/red-sphere-full.svg'
   }
 ];
 

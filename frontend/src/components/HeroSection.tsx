@@ -114,11 +114,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           </p>
 
           {/* Action Buttons: Prioritizing "Open an Account" (the primary customer goal) */}
-          <div className="flex flex-wrap items-center gap-3 pt-2">
+          <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 pt-2">
             {onOpenAccount && (
               <button
                 onClick={onOpenAccount}
-                className="px-6 py-3.5 bg-[#E4002B] hover:bg-[#C50025] text-white text-sm font-bold rounded-xl shadow-md transition-all duration-150 transform hover:-translate-y-0.5 flex items-center space-x-2 cursor-pointer"
+                className="px-4 py-2.5 sm:px-6 sm:py-3.5 bg-[#E4002B] hover:bg-[#C50025] text-white text-xs sm:text-sm font-bold rounded-xl shadow-md transition-all duration-150 transform hover:-translate-y-0.5 flex items-center space-x-1.5 sm:space-x-2 cursor-pointer"
               >
                 <UserPlus className="w-4 h-4" />
                 <span>Open an Account</span>
@@ -127,7 +127,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
             <button
               onClick={() => onNavigate('group')}
-              className="px-6 py-3.5 bg-[#002554] hover:bg-[#0A3E80] text-white text-sm font-bold rounded-xl shadow-sm transition-all duration-150 flex items-center space-x-2 cursor-pointer"
+              className="px-4 py-2.5 sm:px-6 sm:py-3.5 bg-[#002554] hover:bg-[#0A3E80] text-white text-xs sm:text-sm font-bold rounded-xl shadow-sm transition-all duration-150 flex items-center space-x-1.5 sm:space-x-2 cursor-pointer"
             >
               <span>Explore the Group</span>
               <ArrowRight className="w-4 h-4" />
@@ -136,7 +136,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             {onOpenContact && (
               <button
                 onClick={onOpenContact}
-                className="px-5 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-sm font-bold rounded-xl transition-all duration-150 flex items-center space-x-2 cursor-pointer"
+                className="px-4 py-2.5 sm:px-5 sm:py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs sm:text-sm font-bold rounded-xl transition-all duration-150 flex items-center space-x-1.5 sm:space-x-2 cursor-pointer"
               >
                 <PhoneCall className="w-4 h-4 text-[#E4002B]" />
                 <span>Toll-Free {CONTACT.tollFreeLabel}</span>
@@ -168,8 +168,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         </div>
 
         {/* Integrated Financial Services Gateway ("I want to...") */}
-        <div className="mt-12 bg-slate-50 rounded-2xl p-6 sm:p-7 border border-slate-200">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-5 border-b border-slate-200">
+        <div className="mt-8 sm:mt-12 bg-slate-50 rounded-xl sm:rounded-2xl p-4 sm:p-7 border border-slate-200">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6 pb-5 border-b border-slate-200">
             <div className="flex-shrink-0">
               <span className="text-xs font-black uppercase tracking-wider text-[#E4002B] block">
                 How Can We Help You Today?
@@ -254,7 +254,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             {/* Main Action Trigger */}
             <button
               onClick={handleShowMeHow}
-              className="px-6 py-3 bg-[#002554] hover:bg-[#0A3E80] text-white text-sm font-bold rounded-xl shadow-xs transition-all duration-150 flex items-center justify-center space-x-2 cursor-pointer flex-shrink-0"
+              className="w-full md:w-auto px-5 py-2.5 sm:px-6 sm:py-3 bg-[#002554] hover:bg-[#0A3E80] text-white text-xs sm:text-sm font-bold rounded-xl shadow-xs transition-all duration-150 flex items-center justify-center space-x-2 cursor-pointer flex-shrink-0"
             >
               <span>Show Me How</span>
               <ArrowRight className="w-4 h-4" />

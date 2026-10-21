@@ -447,7 +447,7 @@ export const ConnectedJourney: React.FC<Props> = ({
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`px-6 py-3 text-white text-xs font-bold rounded-xl flex items-center space-x-1.5 disabled:opacity-50 cursor-pointer transition-all ${
+      className={`px-4 py-2.5 sm:px-6 sm:py-3 text-white text-xs font-bold rounded-xl flex items-center space-x-1.5 disabled:opacity-50 cursor-pointer transition-all ${
         accent ? 'bg-[#E4002B] hover:bg-[#C50025]' : 'bg-[#002554] hover:bg-[#0A3E80]'
       }`}
     >
@@ -457,11 +457,11 @@ export const ConnectedJourney: React.FC<Props> = ({
 
   return (
     <div className="bg-slate-50 min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
           
           {/* LEFT: FORM SECTION */}
-          <section className="lg:col-span-8 bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-xs">
+          <section className="lg:col-span-8 bg-white rounded-xl sm:rounded-2xl border border-slate-200 p-4 sm:p-8 shadow-xs">
             {/* PROFILE PHASE: Captured once, remembered across CBZ */}
             {phase === 'profile' && (
               <div className="space-y-6">
@@ -566,18 +566,18 @@ export const ConnectedJourney: React.FC<Props> = ({
 
                 {error && <p className="text-xs text-red-500 font-semibold">{error}</p>}
 
-                <div className="pt-6 border-t border-slate-100 flex items-center justify-between">
+                <div className="pt-6 border-t border-slate-100 flex flex-wrap sm:flex-nowrap items-center justify-between gap-3">
                   <button
                     onClick={() => (stepIdx === 0 ? setPhase('profile') : setStepIdx((i) => i - 1))}
-                    className="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl flex items-center space-x-1 cursor-pointer transition-colors"
+                    className="px-4 py-2.5 sm:px-5 sm:py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl flex items-center space-x-1 cursor-pointer transition-colors"
                   >
                     <ArrowLeft className="w-4 h-4" />
                     <span>Back</span>
                   </button>
-                  <div className="flex items-center space-x-3">
+                  <div className="flex items-center space-x-2 sm:space-x-3">
                     {touched && !stepValid && (
-                      <span className="text-xs text-red-500 font-semibold">
-                        Please complete the required fields
+                      <span className="text-2xs sm:text-xs text-red-500 font-semibold">
+                        Please complete required fields
                       </span>
                     )}
                     {stepIdx < totalSteps - 1 ? (

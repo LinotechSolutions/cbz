@@ -87,29 +87,29 @@ export const TaskLauncher: React.FC<TaskLauncherProps> = ({
           What would you like to do?
         </h2>
 
-        <ul className="mt-6 grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+        <ul className="mt-6 grid grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-4">
           {LAUNCHER_TASKS.map((task) => {
             const Icon = task.icon;
             return (
               <li key={task.label}>
                 <button
                   onClick={run(task)}
-                  className="group w-full h-full text-left bg-slate-50 hover:bg-white border border-slate-200 hover:border-[#E4002B]/40 rounded-2xl p-4 sm:p-5 transition-all hover:shadow-md cursor-pointer flex items-start gap-3"
+                  className="group w-full h-full text-left bg-slate-50 hover:bg-white border border-slate-200 hover:border-[#E4002B]/40 rounded-xl sm:rounded-2xl p-3 sm:p-5 transition-all hover:shadow-md cursor-pointer flex flex-col sm:flex-row items-start gap-2.5 sm:gap-3"
                 >
-                  <span className="w-10 h-10 rounded-xl bg-white group-hover:bg-red-50 border border-slate-200 flex items-center justify-center flex-shrink-0 transition-colors">
-                    <Icon className="w-5 h-5 text-[#002554] group-hover:text-[#E4002B] transition-colors" />
+                  <span className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-white group-hover:bg-red-50 border border-slate-200 flex items-center justify-center flex-shrink-0 transition-colors">
+                    <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-[#002554] group-hover:text-[#E4002B] transition-colors" />
                   </span>
                   <span className="min-w-0">
-                    <span className="flex items-center gap-1.5">
-                      <span className="font-extrabold text-sm text-[#002554]">{task.label}</span>
-                      <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-[#E4002B] group-hover:translate-x-0.5 transition-all" />
+                    <span className="flex items-center gap-1 sm:gap-1.5">
+                      <span className="font-extrabold text-xs sm:text-sm text-[#002554] leading-tight">{task.label}</span>
+                      <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-slate-300 group-hover:text-[#E4002B] group-hover:translate-x-0.5 transition-all shrink-0" />
                     </span>
-                    <span className="mt-0.5 block text-xs text-slate-500 leading-snug">
+                    <span className="mt-0.5 block text-2xs sm:text-xs text-slate-500 leading-snug">
                       {task.hint}
                     </span>
                     {task.pending && (
-                      <span className="mt-1.5 inline-block text-xs font-bold text-amber-700 bg-amber-50 border border-amber-200 px-1.5 py-0.5 rounded">
-                        Link to be confirmed
+                      <span className="mt-1 inline-block text-[10px] sm:text-xs font-bold text-amber-700 bg-amber-50 border border-amber-200 px-1 py-0.2 sm:px-1.5 sm:py-0.5 rounded">
+                        To be confirmed
                       </span>
                     )}
                   </span>

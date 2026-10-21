@@ -122,7 +122,7 @@ export const ProductCatalogue: React.FC<ProductCatalogueProps> = ({
     <div>
       {/* Category selector tabs */}
       <div
-        className={`inline-flex flex-wrap gap-1 p-1 bg-slate-200/70 rounded-xl mb-8 ${
+        className={`inline-flex flex-wrap gap-1 p-1 bg-slate-200/70 rounded-xl mb-6 sm:mb-8 max-w-full overflow-x-auto ${
           categories.length > 1 ? '' : 'hidden'
         }`}
       >
@@ -133,7 +133,7 @@ export const ProductCatalogue: React.FC<ProductCatalogueProps> = ({
               setActiveTab(id);
               analytics.trackConversionCta('apply', `Category filter: ${label}`, id);
             }}
-            className={`px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+            className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
               activeTab === id
                 ? 'bg-white text-[#002554] shadow-xs'
                 : 'text-slate-600 hover:text-slate-900'
@@ -145,7 +145,7 @@ export const ProductCatalogue: React.FC<ProductCatalogueProps> = ({
       </div>
 
       {/* Product cards grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {items.map((product, index) => {
           const btnLabel = getActionLabel(product, activeTab);
           return (
@@ -153,11 +153,11 @@ export const ProductCatalogue: React.FC<ProductCatalogueProps> = ({
               as="article"
               delay={Math.min(index, 5) * 70}
               key={`${activeTab}-${product.id ?? product.name}`}
-              className="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs hover:border-[#E4002B]/40 hover:shadow-md transition-all flex flex-col justify-between"
+              className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-xs hover:border-[#E4002B]/40 hover:shadow-md transition-all flex flex-col justify-between"
             >
               <div>
                 {product.image && (
-                  <div className="w-full h-36 rounded-xl overflow-hidden mb-4 border border-slate-100 bg-slate-100">
+                  <div className="w-full h-32 sm:h-36 rounded-xl overflow-hidden mb-3 sm:mb-4 border border-slate-100 bg-slate-100">
                     <img
                       {...siteImage(`${imageKeyPrefix}.${product.id}`, product.image, product.name)}
                       loading="lazy"
@@ -167,17 +167,17 @@ export const ProductCatalogue: React.FC<ProductCatalogueProps> = ({
                   </div>
                 )}
 
-                <h3 className="font-extrabold text-base text-[#002554]">{product.name}</h3>
-                <p className="mt-2 text-xs text-slate-600 leading-relaxed">{product.description}</p>
+                <h3 className="font-extrabold text-sm sm:text-base text-[#002554]">{product.name}</h3>
+                <p className="mt-1.5 sm:mt-2 text-xs text-slate-600 leading-relaxed">{product.description}</p>
 
                 {product.target && (
-                  <p className="mt-3 text-xs text-slate-500">
+                  <p className="mt-2.5 sm:mt-3 text-xs text-slate-500">
                     <span className="font-bold text-slate-700">Target customer:</span> {product.target}
                   </p>
                 )}
 
                 {product.features && product.features.length > 0 && (
-                  <dl className="mt-3 flex flex-wrap gap-x-4 gap-y-1">
+                  <dl className="mt-2.5 sm:mt-3 flex flex-wrap gap-x-3 sm:gap-x-4 gap-y-1">
                     {product.tenor && (
                       <div className="text-xs">
                         <dt className="inline font-bold text-slate-700">Tenor: </dt>
@@ -206,7 +206,7 @@ export const ProductCatalogue: React.FC<ProductCatalogueProps> = ({
                 )}
 
                 {product.benefits && product.benefits.length > 0 && (
-                  <ul className="mt-3 space-y-1">
+                  <ul className="mt-2.5 sm:mt-3 space-y-1">
                     {product.benefits.map((benefit) => (
                       <li key={benefit} className="flex items-start gap-1.5 text-xs text-slate-600">
                         <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0 mt-0.5" />
@@ -217,7 +217,7 @@ export const ProductCatalogue: React.FC<ProductCatalogueProps> = ({
                 )}
 
                 {product.requirements && product.requirements.length > 0 && (
-                  <details className="mt-4 pt-3 border-t border-slate-100">
+                  <details className="mt-3.5 sm:mt-4 pt-2.5 sm:pt-3 border-t border-slate-100">
                     <summary className="text-xs font-bold text-[#002554] cursor-pointer hover:text-[#E4002B]">
                       What you need to apply
                     </summary>
@@ -234,7 +234,7 @@ export const ProductCatalogue: React.FC<ProductCatalogueProps> = ({
               </div>
 
               {/* Action and Conversion Bar */}
-              <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between gap-2">
+              <div className="mt-5 sm:mt-6 pt-3.5 sm:pt-4 border-t border-slate-100 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2">
                 <span className="text-2xs font-extrabold text-[#002554] tracking-wider uppercase">
                   {product.pricing || 'Standard Terms'}
                 </span>
@@ -246,7 +246,7 @@ export const ProductCatalogue: React.FC<ProductCatalogueProps> = ({
                       onAction(product, activeTab);
                     }
                   }}
-                  className="px-4 py-2 bg-[#002554] hover:bg-[#E4002B] text-white text-xs font-bold rounded-xl transition-all cursor-pointer inline-flex items-center gap-1.5 shadow-2xs"
+                  className="w-full sm:w-auto justify-center px-3.5 py-2 sm:px-4 sm:py-2 bg-[#002554] hover:bg-[#E4002B] text-white text-xs font-bold rounded-xl transition-all cursor-pointer inline-flex items-center gap-1.5 shadow-2xs"
                 >
                   <span>{btnLabel}</span>
                   <ArrowRight className="w-3.5 h-3.5" />

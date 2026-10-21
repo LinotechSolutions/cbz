@@ -91,7 +91,14 @@ export const Navbar: React.FC<NavbarProps> = ({
           <div className="flex items-center">
             <CbzLogo
               entity={entityName}
+              size={34}
+              className="sm:hidden"
+              onClick={() => onNavigate('home')}
+            />
+            <CbzLogo
+              entity={entityName}
               size={42}
+              className="hidden sm:inline-flex"
               onClick={() => onNavigate('home')}
             />
           </div>
@@ -143,8 +150,8 @@ export const Navbar: React.FC<NavbarProps> = ({
             })}
           </nav>
 
-          {/* Action Buttons */}
-          <div className="hidden sm:flex items-center space-x-3">
+          {/* Action Buttons (Desktop lg+) */}
+          <div className="hidden lg:flex items-center space-x-3">
             {/* Search Trigger */}
             <button
               onClick={() => setSearchOpen(!searchOpen)}
@@ -154,53 +161,69 @@ export const Navbar: React.FC<NavbarProps> = ({
               <Search className="w-4 h-4" />
             </button>
 
-            {/* Open Account Primary CTA (Smaller button, not a pill) */}
+            {/* Open Account Primary CTA */}
             {onOpenAccount && (
               <button
                 onClick={onOpenAccount}
-                className="hidden md:inline-flex items-center space-x-1.5 bg-[#002554] hover:bg-[#0A3E80] text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-all shadow-xs cursor-pointer border border-[#002554]"
+                className="inline-flex items-center space-x-1.5 bg-[#002554] hover:bg-[#0A3E80] text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-all shadow-xs cursor-pointer border border-[#002554]"
               >
                 <UserPlus className="w-3.5 h-3.5 text-red-400" />
                 <span>Open Account</span>
               </button>
             )}
 
-            {/* Internet Banking Button (Not a pill, direct link to official portal) */}
-            <a
-              href="https://obdx.cbz.co.zw/index.html?module=login"
-              target="_blank"
-              rel="noopener noreferrer"
+            {/* Internet Banking Button */}
+            <button
+              onClick={() => onNavigate('login')}
               className="inline-flex items-center space-x-1.5 bg-[#E4002B] hover:bg-[#C50025] text-white px-3.5 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer shadow-xs border border-[#E4002B]"
             >
               <Lock className="w-3.5 h-3.5" />
               <span>Internet Banking</span>
-            </a>
+            </button>
           </div>
 
           {/* Mobile menu button and persistent mobile quick actions */}
-          <div className="flex items-center space-x-1.5 lg:hidden">
+          <div className="flex items-center space-x-1.5 sm:space-x-2 lg:hidden">
+            {/* Search Trigger on Mobile */}
+            <button
+              onClick={() => setSearchOpen(!searchOpen)}
+              className="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-slate-100 text-slate-600 transition-colors cursor-pointer"
+              aria-label="Search CBZ"
+            >
+              <Search className="w-4 h-4" />
+            </button>
+
+            {/* Open Account Icon Button on Mobile */}
             {onOpenAccount && (
               <button
                 onClick={onOpenAccount}
-                className="inline-flex sm:hidden items-center space-x-1 bg-[#002554] text-white px-2.5 py-1.5 rounded-lg text-2xs font-bold shadow-xs cursor-pointer border border-[#002554]"
+                className="h-9 px-2.5 sm:px-3 bg-[#002554] hover:bg-[#0A3E80] text-white rounded-lg text-xs font-bold shadow-xs cursor-pointer border border-[#002554] flex items-center justify-center space-x-1.5 transition-all"
+                title="Open an Account"
+                aria-label="Open an Account"
               >
-                <UserPlus className="w-3 h-3 text-red-400" />
-                <span>Open Account</span>
+                <UserPlus className="w-4 h-4 text-red-400 shrink-0" />
+                <span className="hidden sm:inline">Open Account</span>
               </button>
             )}
+
+            {/* Login Icon Button on Mobile */}
             <button
               onClick={() => onNavigate('login')}
-              className="inline-flex sm:hidden items-center space-x-1 bg-[#E4002B] text-white px-2.5 py-1.5 rounded-lg text-2xs font-bold shadow-xs cursor-pointer border border-[#E4002B]"
+              className="h-9 px-2.5 sm:px-3 bg-[#E4002B] hover:bg-[#C50025] text-white rounded-lg text-xs font-bold shadow-xs cursor-pointer border border-[#E4002B] flex items-center justify-center space-x-1.5 transition-all"
+              title="Log in to Internet Banking"
+              aria-label="Log in to Internet Banking"
             >
-              <Lock className="w-3 h-3" />
-              <span>Log in</span>
+              <Lock className="w-4 h-4 shrink-0" />
+              <span className="hidden sm:inline">Log in</span>
             </button>
+
+            {/* Mobile Menu Drawer Toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-md text-slate-700 hover:bg-slate-100 cursor-pointer"
+              className="w-9 h-9 flex items-center justify-center rounded-lg text-slate-700 hover:bg-slate-100 cursor-pointer border border-slate-200"
               aria-label="Toggle navigation menu"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>

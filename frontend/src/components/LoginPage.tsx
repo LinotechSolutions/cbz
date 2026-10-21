@@ -45,19 +45,19 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate, onOpenAccount 
         </button>
 
         {/* Header Block */}
-        <div className="bg-white rounded-3xl border border-slate-200 p-8 sm:p-10 shadow-xs mb-8">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-8 border-b border-slate-100">
+        <div className="bg-white rounded-2xl sm:rounded-3xl border border-slate-200 p-5 sm:p-10 shadow-xs mb-8">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 sm:pb-8 border-b border-slate-100">
             <div>
-              <Logo brand="bank" height={40} />
-              <h1 className="mt-4 text-2xl sm:text-3xl font-black text-[#002554] tracking-tight">
+              <Logo brand="bank" height={36} />
+              <h1 className="mt-3 sm:mt-4 text-xl sm:text-3xl font-black text-[#002554] tracking-tight">
                 CBZ Internet Banking & Self-Service
               </h1>
-              <p className="mt-2 text-sm text-slate-600 max-w-xl">
+              <p className="mt-1.5 sm:mt-2 text-xs sm:text-sm text-slate-600 max-w-xl">
                 Access your personal, corporate, or mobile accounts safely and conveniently through our verified secure banking platforms.
               </p>
             </div>
 
-            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 shrink-0 max-w-xs">
+            <div className="bg-slate-50 border border-slate-200 rounded-xl sm:rounded-2xl p-4 sm:p-5 shrink-0 w-full sm:max-w-xs">
               <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">
                 New to CBZ Bank?
               </span>
@@ -78,11 +78,11 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate, onOpenAccount 
           </div>
 
           {/* Portal Switcher Tabs */}
-          <div className="mt-8">
-            <div className="flex flex-wrap gap-2 p-1.5 bg-slate-100 rounded-2xl w-fit">
+          <div className="mt-6 sm:mt-8">
+            <div className="grid grid-cols-1 sm:flex flex-wrap gap-1.5 sm:gap-2 p-1.5 bg-slate-100 rounded-xl sm:rounded-2xl w-full sm:w-fit">
               <button
                 onClick={() => setSelectedPortal('personal')}
-                className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-2 ${
+                className={`w-full sm:w-auto px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg sm:rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center sm:justify-start gap-2 ${
                   selectedPortal === 'personal'
                     ? 'bg-white text-[#002554] shadow-xs'
                     : 'text-slate-600 hover:text-slate-900'
@@ -93,7 +93,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate, onOpenAccount 
               </button>
               <button
                 onClick={() => setSelectedPortal('corporate')}
-                className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-2 ${
+                className={`w-full sm:w-auto px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg sm:rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center sm:justify-start gap-2 ${
                   selectedPortal === 'corporate'
                     ? 'bg-white text-[#002554] shadow-xs'
                     : 'text-slate-600 hover:text-slate-900'
@@ -104,7 +104,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate, onOpenAccount 
               </button>
               <button
                 onClick={() => setSelectedPortal('touch')}
-                className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-2 ${
+                className={`w-full sm:w-auto px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg sm:rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center sm:justify-start gap-2 ${
                   selectedPortal === 'touch'
                     ? 'bg-white text-[#002554] shadow-xs'
                     : 'text-slate-600 hover:text-slate-900'
@@ -145,13 +145,13 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate, onOpenAccount 
                     </li>
                   </ul>
 
-                  <div className="pt-4 flex flex-wrap items-center gap-3">
+                  <div className="pt-4 flex flex-wrap items-center gap-2.5 sm:gap-3">
                     <a
                       href={EXTERNAL_LINKS.ibPersonal}
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={() => handlePortalClick('Personal OBDX', EXTERNAL_LINKS.ibPersonal)}
-                      className="px-6 py-3.5 bg-[#E4002B] hover:bg-[#C50025] text-white text-xs font-bold rounded-xl shadow-md transition-all cursor-pointer inline-flex items-center gap-2"
+                      className="w-full sm:w-auto justify-center px-4 py-2.5 sm:px-6 sm:py-3.5 bg-[#E4002B] hover:bg-[#C50025] text-white text-xs font-bold rounded-xl shadow-md transition-all cursor-pointer inline-flex items-center gap-2"
                     >
                       <span>Launch Personal Internet Banking</span>
                       <ArrowRight className="w-4 h-4" />
@@ -160,7 +160,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate, onOpenAccount 
                       href={EXTERNAL_LINKS.forgotPassword}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-5 py-3.5 bg-slate-100 hover:bg-slate-200 text-[#002554] text-xs font-bold rounded-xl transition-all cursor-pointer inline-flex items-center gap-1.5"
+                      className="w-full sm:w-auto justify-center px-4 py-2.5 sm:px-5 sm:py-3.5 bg-slate-100 hover:bg-slate-200 text-[#002554] text-xs font-bold rounded-xl transition-all cursor-pointer inline-flex items-center gap-1.5"
                     >
                       <KeyRound className="w-3.5 h-3.5 text-slate-500" />
                       <span>Reset Password</span>
@@ -228,13 +228,13 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate, onOpenAccount 
                     </li>
                   </ul>
 
-                  <div className="pt-4 flex flex-wrap items-center gap-3">
+                  <div className="pt-4 flex flex-wrap items-center gap-2.5 sm:gap-3">
                     <a
                       href={EXTERNAL_LINKS.ibCorporate}
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={() => handlePortalClick('Corporate OBDX', EXTERNAL_LINKS.ibCorporate)}
-                      className="px-6 py-3.5 bg-[#002554] hover:bg-[#0A3E80] text-white text-xs font-bold rounded-xl shadow-md transition-all cursor-pointer inline-flex items-center gap-2"
+                      className="w-full sm:w-auto justify-center px-4 py-2.5 sm:px-6 sm:py-3.5 bg-[#002554] hover:bg-[#0A3E80] text-white text-xs font-bold rounded-xl shadow-md transition-all cursor-pointer inline-flex items-center gap-2"
                     >
                       <span>Launch Corporate Internet Banking</span>
                       <ArrowRight className="w-4 h-4" />

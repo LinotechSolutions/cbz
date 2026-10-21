@@ -73,7 +73,7 @@ export default function App() {
   return (
     <ClientProfileProvider>
     <SiteImagesProvider>
-      <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans">
+      <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans overflow-x-hidden">
 
       {/* Top Utility Bar (Rotating Indicative FX, Toll-Free, WhatsApp, Channels Trigger) */}
       <TopUtilityBar

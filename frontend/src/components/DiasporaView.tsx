@@ -64,14 +64,14 @@ export const DiasporaView: React.FC<DiasporaViewProps> = ({
                 Whether you live in the United Kingdom, South Africa, the United States, Australia, or anywhere across the globe, CBZ connects you directly to home with foreign currency accounts, mortgage financing, turnkey construction, and asset management.
               </p>
 
-              <div className="mt-6 flex flex-wrap items-center gap-3">
+              <div className="mt-6 flex flex-wrap items-center gap-2.5 sm:gap-3">
                 <button
                   onClick={() =>
                     handleCta('apply', 'Open Diaspora Account', '/open-account', () =>
                       onOpenAccount('diaspora')
                     )
                   }
-                  className="px-6 py-3.5 bg-[#E4002B] hover:bg-[#C50025] text-white text-xs font-bold rounded-xl shadow-md transition-all cursor-pointer flex items-center gap-2"
+                  className="px-4 py-2.5 sm:px-6 sm:py-3.5 bg-[#E4002B] hover:bg-[#C50025] text-white text-xs font-bold rounded-xl shadow-md transition-all cursor-pointer flex items-center gap-2"
                 >
                   <UserPlus className="w-4 h-4" />
                   <span>Open a Diaspora Account</span>
@@ -87,7 +87,7 @@ export const DiasporaView: React.FC<DiasporaViewProps> = ({
                       }
                     })
                   }
-                  className="px-6 py-3.5 bg-slate-100 hover:bg-slate-200 text-[#002554] text-xs font-bold rounded-xl transition-all cursor-pointer"
+                  className="px-4 py-2.5 sm:px-6 sm:py-3.5 bg-slate-100 hover:bg-slate-200 text-[#002554] text-xs font-bold rounded-xl transition-all cursor-pointer"
                 >
                   Speak to a Relationship Manager
                 </button>
@@ -116,12 +116,12 @@ export const DiasporaView: React.FC<DiasporaViewProps> = ({
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {/* 1. Diaspora Banking */}
-          <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs hover:border-[#E4002B]/40 hover:shadow-md transition-all flex flex-col justify-between">
+          <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-xs hover:border-[#E4002B]/40 hover:shadow-md transition-all flex flex-col justify-between">
             <div>
-              <div className="w-12 h-12 rounded-xl bg-red-50 text-[#E4002B] flex items-center justify-center mb-4">
-                <Coins className="w-6 h-6" />
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-red-50 text-[#E4002B] flex items-center justify-center mb-3 sm:mb-4">
+                <Coins className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
               <h3 className="font-extrabold text-base text-[#002554]">FCA Foreign Currency Accounts</h3>
               <p className="mt-2 text-xs text-slate-600 leading-relaxed">
@@ -297,7 +297,7 @@ export const DiasporaView: React.FC<DiasporaViewProps> = ({
               </div>
             </div>
 
-            <div className="lg:col-span-6 bg-gradient-to-br from-[#002554] to-[#0A3E80] text-white rounded-3xl p-8 sm:p-10 shadow-xl">
+            <div className="lg:col-span-6 bg-gradient-to-br from-[#002554] to-[#0A3E80] text-white rounded-2xl sm:rounded-3xl p-5 sm:p-10 shadow-xl">
               <h3 className="text-xl sm:text-2xl font-black tracking-tight">
                 Dedicated Diaspora Relationship Desk
               </h3>
@@ -338,7 +338,7 @@ export const DiasporaView: React.FC<DiasporaViewProps> = ({
                       onOpenAccount('diaspora')
                     )
                   }
-                  className="w-full py-3.5 bg-[#E4002B] hover:bg-[#C50025] text-white text-xs font-bold rounded-xl shadow-md transition-all cursor-pointer flex items-center justify-center gap-2"
+                  className="w-full py-3 sm:py-3.5 bg-[#E4002B] hover:bg-[#C50025] text-white text-xs font-bold rounded-xl shadow-md transition-all cursor-pointer flex items-center justify-center gap-2"
                 >
                   <UserPlus className="w-4 h-4" />
                   <span>Start Online Account Application</span>

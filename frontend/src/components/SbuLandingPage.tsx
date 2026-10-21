@@ -80,10 +80,10 @@ export const SbuLandingPage: React.FC<SbuLandingPageProps> = ({ config, onNaviga
                 {hero.valueProposition}
               </p>
 
-              <div className="mt-6 flex flex-wrap items-center gap-3">
+              <div className="mt-6 flex flex-wrap items-center gap-2.5 sm:gap-3">
                 <button
                   onClick={act(hero.primaryCta)}
-                  className="px-6 py-3.5 bg-[#E4002B] hover:bg-[#C50025] text-white text-xs font-bold rounded-xl shadow-md transition-all cursor-pointer flex items-center gap-2"
+                  className="px-4 py-2.5 sm:px-6 sm:py-3.5 bg-[#E4002B] hover:bg-[#C50025] text-white text-xs font-bold rounded-xl shadow-md transition-all cursor-pointer flex items-center gap-2"
                 >
                   <span>{hero.primaryCta.label}</span>
                   <ArrowRight className="w-4 h-4" />
@@ -91,7 +91,7 @@ export const SbuLandingPage: React.FC<SbuLandingPageProps> = ({ config, onNaviga
                 {hero.secondaryCta && (
                   <button
                     onClick={act(hero.secondaryCta)}
-                    className="px-6 py-3.5 bg-slate-100 hover:bg-slate-200 text-[#002554] text-xs font-bold rounded-xl transition-all cursor-pointer"
+                    className="px-4 py-2.5 sm:px-6 sm:py-3.5 bg-slate-100 hover:bg-slate-200 text-[#002554] text-xs font-bold rounded-xl transition-all cursor-pointer"
                   >
                     {hero.secondaryCta.label}
                   </button>
@@ -246,15 +246,15 @@ export const SbuLandingPage: React.FC<SbuLandingPageProps> = ({ config, onNaviga
       )}
 
       {/* 7. CONTACT AND CONVERSION */}
-      <RevealSection className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="rounded-3xl bg-gradient-to-r from-[#002554] via-[#0A3E80] to-[#001736] text-white p-8 sm:p-12 shadow-xl">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <RevealSection className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
+        <div className="rounded-2xl sm:rounded-3xl bg-gradient-to-r from-[#002554] via-[#0A3E80] to-[#001736] text-white p-5 sm:p-12 shadow-xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
             <div className="lg:col-span-8">
-              <h2 className="text-2xl sm:text-3xl font-black tracking-tight">{contact.heading}</h2>
-              <p className="mt-3 text-xs sm:text-sm text-slate-200 leading-relaxed max-w-2xl">
+              <h2 className="text-xl sm:text-3xl font-black tracking-tight">{contact.heading}</h2>
+              <p className="mt-2 sm:mt-3 text-xs sm:text-sm text-slate-200 leading-relaxed max-w-2xl">
                 {contact.body}
               </p>
-              <div className="mt-5 flex flex-wrap gap-4 text-xs text-slate-200">
+              <div className="mt-4 sm:mt-5 flex flex-wrap gap-3 sm:gap-4 text-xs text-slate-200">
                 <a
                   href={contact.phone ?? CONTACT.switchboard.href}
                   className="flex items-center gap-1.5 hover:text-white"
@@ -274,7 +274,7 @@ export const SbuLandingPage: React.FC<SbuLandingPageProps> = ({ config, onNaviga
             <div className="lg:col-span-4 lg:text-right">
               <button
                 onClick={act(contact.primaryCta)}
-                className="px-6 py-3.5 bg-[#E4002B] hover:bg-[#C50025] text-white text-xs font-bold rounded-xl shadow-md transition-all cursor-pointer inline-flex items-center gap-2"
+                className="w-full sm:w-auto justify-center px-5 py-3 sm:px-6 sm:py-3.5 bg-[#E4002B] hover:bg-[#C50025] text-white text-xs font-bold rounded-xl shadow-md transition-all cursor-pointer inline-flex items-center gap-2"
               >
                 <span>{contact.primaryCta.label}</span>
                 <ArrowRight className="w-4 h-4" />

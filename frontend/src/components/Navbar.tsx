@@ -91,14 +91,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <div className="flex items-center">
             <CbzLogo
               entity={entityName}
-              size={34}
-              className="sm:hidden"
-              onClick={() => onNavigate('home')}
-            />
-            <CbzLogo
-              entity={entityName}
-              size={42}
-              className="hidden sm:inline-flex"
+              size={36}
               onClick={() => onNavigate('home')}
             />
           </div>

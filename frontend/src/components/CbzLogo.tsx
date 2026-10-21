@@ -21,10 +21,10 @@ interface CbzLogoProps {
 export const CbzLogo: React.FC<CbzLogoProps> = ({ entity = 'Holdings', size = 40, lightMode = true, onClick, className = '' }) => {
   const key = entity.toLowerCase().trim().replace(/^cbz\s+/, '').replace(/\s+/g, '-');
   const brand = BRAND_BY_KEY[key] ?? BRAND_BY_KEY[`cbz-${key}`] ?? 'holdings';
-  const logo = <Logo brand={brand} variant={lightMode ? 'full' : 'white'} height={size} className={className} />;
-  if (!onClick) return logo;
+  const logo = <Logo brand={brand} variant={lightMode ? 'full' : 'white'} height={size} />;
+  if (!onClick) return <span className={className}>{logo}</span>;
   return (
-    <button type="button" onClick={onClick} className="inline-flex rounded-md" aria-label={`${entity} home`}>
+    <button type="button" onClick={onClick} className={`inline-flex rounded-md ${className}`} aria-label={`${entity} home`}>
       {logo}
     </button>
   );

@@ -27,7 +27,12 @@ export const GROUP_FACTS = {
     note: 'Homepage/contact said "Over 60 branches"; CBZ Bank page said "120+ branches & agencies". Chose the homepage value.',
   },
   zseListed: { value: 'Listed on the Zimbabwe Stock Exchange (ZSE: CBZ)', confirmed: true },
-  companies: { value: '9 companies', confirmed: true },
+  /**
+   * Spelled out in running copy. The count signals scale to investors, but the
+   * customer-facing proposition leads with the connected ecosystem, not the
+   * number of businesses.
+   */
+  companies: { value: 'nine companies', confirmed: true },
 } satisfies Record<string, Fact>;
 
 export const CONTACT = {
@@ -91,6 +96,9 @@ export const EXTERNAL_LINKS = {
   touchAppStore: '#TBC-cbz-touch-app-store-url',
   touchPlayStore: '#TBC-cbz-touch-google-play-url',
   investorRelations: '#TBC-investor-relations-url',
+  // Red Sphere application routes to be reinstated once the business confirms them.
+  redSphereApply: '#TBC-red-sphere-online-loan-application-url',
+  redSphereApp: '#TBC-red-sphere-mobile-app-url',
   spotFakeSites: '#TBC-how-to-spot-fake-cbz-sites-url',
   forgotPassword: '#TBC-password-reset-url',
 } as const;

@@ -155,9 +155,13 @@ const SUBSIDIARIES: GroupSubsidiary[] = [
     actionLabel: 'Explore Microfinance Options',
     leadSentences:
       'Red Sphere Finance drives inclusive credit for emerging micro-entrepreneurs, informal traders, and high-potential small businesses.',
+    // Red Sphere does not offer equipment leasing, and several facilities do
+    // require security: the product documentation asks for a copy of the
+    // collateral or security to be declared. Both claims were corrected after
+    // the business flagged them.
     bodySentences:
-      'We disburse rapid working capital and equipment leasing with accessible KYC, flexible repayment terms, and no immovable collateral requirements.',
-    highlights: ['Fast-Track SME Working Capital', 'No Immovable Collateral Needed', 'Cash-Flow Aligned Terms', 'Graduation to Corporate Banking']
+      'We lend against a salary, a payroll agreement or a trading record, with working capital for enterprises and tuck-shops and repayment terms matched to how the customer earns.',
+    highlights: ['Salary-Based Lending', 'SME & Tuck-Shop Working Capital', 'Cash-Flow Aligned Terms', 'Agent & Partner Programmes']
   },
   {
     id: 'risk-advisory',

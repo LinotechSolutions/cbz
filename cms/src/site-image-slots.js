@@ -44,6 +44,8 @@ module.exports = [
   { key: 'banner.agro', label: 'CBZ Agro-Yield - page picture', location: 'CBZ Agro-Yield page' },
   { key: 'banner.investments', label: 'Datvest - page picture', location: 'Datvest / investments page' },
   { key: 'banner.properties', label: 'CBZ Properties - page picture', location: 'CBZ Properties page' },
+  { key: 'banner.red-sphere', label: 'Red Sphere Finance - page picture', location: 'Red Sphere Finance page' },
+  { key: 'banner.life', label: 'CBZ Life - page picture', location: 'CBZ Life page' },
   { key: 'handover.property', label: 'Property listing picture', location: 'Home-ownership journey, property card' },
   ...subsidiaries.map(([id, name]) => ({
     key: `ecosystem.${id}`,

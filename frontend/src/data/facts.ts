@@ -99,6 +99,8 @@ export const EXTERNAL_LINKS = {
   // Red Sphere application routes to be reinstated once the business confirms them.
   redSphereApply: '#TBC-red-sphere-online-loan-application-url',
   redSphereApp: '#TBC-red-sphere-mobile-app-url',
+  // Proof of payment verification, surfaced on the homepage task launcher.
+  popVerification: '#TBC-proof-of-payment-verification-url',
   spotFakeSites: '#TBC-how-to-spot-fake-cbz-sites-url',
   forgotPassword: '#TBC-password-reset-url',
 } as const;

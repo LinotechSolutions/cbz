@@ -105,8 +105,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </span>
           </h1>
 
+          {/* Leads with what the connections between the businesses do for the
+              customer. The number of companies signals scale to investors and
+              stays in the credibility strip below, rather than being the
+              customer-facing proposition. */}
           <p className="text-base sm:text-lg text-cbz-grey max-w-2xl leading-relaxed font-normal">
-            Commercial banking, insurance, asset management, property development, and agri-finance — {GROUP_FACTS.companies.value} synergised institutions powering your financial journey under one trusted balance sheet.
+            Bank, insure, invest, build and farm with one group that already knows you. Tell us once, and every CBZ business works from the same picture.
           </p>
 
           {/* Action Buttons: Prioritizing "Open an Account" (the primary customer goal) */}
@@ -125,7 +129,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               onClick={() => onNavigate('group')}
               className="px-6 py-3.5 bg-[#002554] hover:bg-[#0A3E80] text-white text-sm font-bold rounded-xl shadow-sm transition-all duration-150 flex items-center space-x-2 cursor-pointer"
             >
-              <span>Explore the 9 Businesses</span>
+              <span>Explore the Group</span>
               <ArrowRight className="w-4 h-4" />
             </button>
 
@@ -157,7 +161,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <div className="flex items-center space-x-2">
               <CheckCircle2 className="w-4 h-4 text-status-success" />
               <span>
-                <strong>{GROUP_FACTS.companies.value}</strong> Synergised
+                <strong>{GROUP_FACTS.companies.value}</strong> working as one
               </span>
             </div>
           </div>

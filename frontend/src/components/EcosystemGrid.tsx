@@ -40,8 +40,10 @@ export const EcosystemGrid: React.FC<EcosystemGridProps> = ({ onNavigate }) => {
                 Stronger Together.
               </span>
             </h2>
+            {/* The count is already made in the hero's credibility strip; this
+                section leads with what the connections do instead of repeating it. */}
             <p className="text-sm text-cbz-grey mt-1 max-w-2xl">
-              CBZ Holdings brings together nine market-leading financial institutions. Select any subsidiary below by its official brand logo to explore its specialized capabilities.
+              A mortgage that brings its own home insurance. A harvest that funds next season. Choose a business to see what it does, and what it unlocks elsewhere in the Group.
             </p>
           </div>
 

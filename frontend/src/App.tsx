@@ -19,6 +19,7 @@ import { Footer } from './components/Footer';
 import { ClientProfileProvider } from './context/ClientProfileContext';
 import { SiteImagesProvider } from './context/SiteImagesContext';
 import { Reveal } from './components/Reveal';
+import { TaskLauncher } from './components/TaskLauncher';
 
 // Pages other than home load on demand, so the first visit only downloads what it shows
 const CustomerJourney = lazy(() => import('./components/CustomerJourney').then((m) => ({ default: m.CustomerJourney })));
@@ -45,6 +46,14 @@ export default function App() {
   const openAccount = (type?: string) => {
     setAccountType(type);
     setCurrentScreen('open-account');
+  };
+  // Diaspora needs a top-level entry, not a buried option: this opens the
+  // banking journey with the diaspora path already chosen.
+  const [bankProduct, setBankProduct] = useState<string | undefined>();
+  const bankSeed = useMemo(() => (bankProduct ? { product: bankProduct } : undefined), [bankProduct]);
+  const startBankJourney = (product?: string) => {
+    setBankProduct(product);
+    setCurrentScreen('journey-bank');
   };
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
@@ -120,6 +129,15 @@ export default function App() {
               onNavigate={setCurrentScreen}
               onOpenAccount={() => openAccount()}
               onOpenContact={() => setIsContactModalOpen(true)}
+            />
+
+            {/* Task launcher: what visitors arrive to do, placed directly under
+                the hero and ahead of news and campaigns. */}
+            <TaskLauncher
+              onNavigate={setCurrentScreen}
+              onLogin={() => setIsLoginOpen(true)}
+              onOpenAccount={() => openAccount()}
+              onDiaspora={() => startBankJourney('diaspora')}
             />
 
             {/* Each section below rises into place as it scrolls into view.
@@ -215,6 +233,7 @@ export default function App() {
             country={currentCountry}
             onNavigate={setCurrentScreen}
             startWith="bank"
+            seed={bankSeed}
           />
         )}
 

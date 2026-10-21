@@ -22,7 +22,12 @@ export const AnnouncementsSection: React.FC = () => {
 
   const { announcements } = useAnnouncements();
 
-  const filteredAnnouncements = announcements.filter((item) => {
+  // The homepage shows only the most recent notices, with the rest behind
+  // "View more". Showing the whole archive made the page heavy to read.
+  const [showAll, setShowAll] = useState(false);
+  const INITIAL_COUNT = 3;
+
+  const matchingAnnouncements = announcements.filter((item) => {
     const matchesTab = activeTab === 'all' || item.category === activeTab;
     const matchesSearch =
       item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -30,6 +35,13 @@ export const AnnouncementsSection: React.FC = () => {
       item.tag.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesTab && matchesSearch;
   });
+
+  // A search or a tab change is an explicit request to browse, so show everything.
+  const isBrowsing = showAll || searchQuery.trim().length > 0 || activeTab !== 'all';
+  const filteredAnnouncements = isBrowsing
+    ? matchingAnnouncements
+    : matchingAnnouncements.slice(0, INITIAL_COUNT);
+  const hiddenCount = matchingAnnouncements.length - filteredAnnouncements.length;
 
   const handleDownload = (item: Announcement) => {
     setDownloadNotice(item.id);
@@ -167,6 +179,17 @@ export const AnnouncementsSection: React.FC = () => {
             </div>
           )}
         </div>
+
+        {hiddenCount > 0 && (
+          <div className="mt-6 text-center">
+            <button
+              onClick={() => setShowAll(true)}
+              className="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-[#002554] text-xs font-bold rounded-xl transition-colors cursor-pointer"
+            >
+              View {hiddenCount} more {hiddenCount === 1 ? 'announcement' : 'announcements'}
+            </button>
+          </div>
+        )}
 
         {/* Shareholder & Investor Relations Fast Strip */}
         <div className="mt-8 p-5 bg-slate-50 rounded-2xl border border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4 text-xs">

@@ -1,6 +1,8 @@
+import { INVESTMENT_PRODUCTS, PROPERTY_PRODUCTS, SBU_PRODUCTS } from '../cbzData';
 import { EXTERNAL_LINKS, GROUP_FACTS, tbc } from '../facts';
 import { SbuPageConfig, campaignsPending, leadershipPending } from '../sbuPages';
 import { AGRO_CATEGORIES, AGRO_PRODUCTS } from './agro';
+import { BANK_PRODUCTS, BANK_PRODUCT_CATEGORIES } from './bank';
 import { LIFE_CATEGORIES, LIFE_PRODUCTS } from './life';
 import { RED_SPHERE_CATEGORIES, RED_SPHERE_PRODUCTS } from './redSphere';
 
@@ -50,6 +52,178 @@ export const RED_SPHERE_PAGE: SbuPageConfig = {
     heading: 'Talk to Red Sphere Finance',
     body: 'Apply online, through the mobile app, or speak to the team about agency and partnership opportunities.',
     primaryCta: { label: 'Request a callback', screen: 'open-account' },
+  },
+};
+
+/**
+ * Insurance, Datvest and Properties have no product documentation yet. Their
+ * product names and descriptions are drafts awaiting sign-off, and every
+ * invented premium, yield and price has been removed: each card now carries an
+ * action rather than a figure nobody can stand behind.
+ */
+const PENDING_VERIFICATION =
+  'Product details are being confirmed with the business. Terms, pricing and availability are subject to assessment; speak to us for current terms before you rely on anything here.';
+
+export const BANK_PAGE: SbuPageConfig = {
+  brand: 'bank',
+  imageKeyPrefix: 'bank-product',
+  hero: {
+    eyebrow: 'CBZ Bank',
+    headline: 'Banking for every stage of life',
+    valueProposition:
+      'Accounts, savings, cards and loans for individuals, companies, schools and churches, with internet banking and CBZ Touch.',
+    imageKey: 'banner.banking',
+    image: '/images/cbz-banking.webp',
+    primaryCta: { label: 'Open an account', screen: 'open-account' },
+    secondaryCta: { label: 'Apply for a loan', screen: 'journey-bank' },
+  },
+  about:
+    'CBZ Bank is the Group’s commercial bank. It runs everyday transactional and savings accounts, foreign currency accounts, cards, and personal and school fee lending, alongside internet banking, CBZ Touch and merchant point of sale.',
+  keyFacts: [
+    { value: '39', label: 'Products in the retail catalogue' },
+    { value: 'Five', label: 'Foreign currencies held' },
+    { value: 'Zero rated', label: 'CBZ Touch mobile banking' },
+    { value: GROUP_FACTS.branches.value, label: 'Nationwide' },
+    { value: GROUP_FACTS.years.value, label: 'Serving Zimbabwe' },
+    { value: 'ZSE: CBZ', label: 'Listed' },
+  ],
+  products: {
+    heading: 'Products and solutions',
+    intro: 'Everything in the retail banking catalogue, grouped by what it does.',
+    categories: BANK_PRODUCT_CATEGORIES,
+    items: BANK_PRODUCTS,
+    termsNote:
+      'Requirements, features and benefits are those set out in the Retail Banking Product Manual. Lending is subject to credit assessment, and interest rates are subject to change; confirm current terms before you apply.',
+  },
+  campaigns: campaignsPending('CBZ Bank'),
+  leadership: leadershipPending('CBZ Bank'),
+  contact: {
+    heading: 'Open an account with CBZ Bank',
+    body: 'Apply online, or ask a relationship manager to call you back about accounts, cards and lending.',
+    primaryCta: { label: 'Open an account', screen: 'open-account' },
+  },
+};
+
+export const INSURANCE_PAGE: SbuPageConfig = {
+  brand: 'insurance',
+  imageKeyPrefix: 'insurance-product',
+  hero: {
+    eyebrow: 'CBZ Insurance',
+    headline: 'Cover for what you have worked for',
+    valueProposition:
+      'Motor, home, travel and personal cover, business and commercial policies, and agricultural protection for crops, livestock and machinery.',
+    imageKey: 'banner.insurance',
+    image: '/images/insurance-family.webp',
+    primaryCta: { label: 'Get a quote', screen: 'journey' },
+    secondaryCta: { label: 'Request a callback', screen: 'open-account' },
+  },
+  about:
+    'CBZ Insurance is the Group’s short-term insurer, covering individuals, businesses and farms. Cover can be arranged alongside a CBZ Bank facility, so an asset is protected from the day it is financed.',
+  keyFacts: [
+    { value: 'Personal', label: 'Motor, home, travel and accident' },
+    { value: 'Business', label: 'Property, liability, marine and engineering' },
+    { value: 'Agriculture', label: 'Crop, livestock and machinery' },
+    { value: 'Regulated', label: tbc('IPEC registration details') },
+  ],
+  products: {
+    heading: 'Products and solutions',
+    intro: 'Cover for individuals, for businesses, and for farms.',
+    categories: [
+      { id: 'personal', label: 'Personal' },
+      { id: 'business', label: 'Business' },
+      { id: 'agro', label: 'Agriculture' },
+    ] as const,
+    items: SBU_PRODUCTS,
+    termsNote: PENDING_VERIFICATION,
+  },
+  campaigns: campaignsPending('CBZ Insurance'),
+  leadership: leadershipPending('CBZ Insurance'),
+  contact: {
+    heading: 'Get a quote from CBZ Insurance',
+    body: 'Tell us what you need covered and we will come back with a quotation.',
+    primaryCta: { label: 'Get a quote', screen: 'journey' },
+  },
+};
+
+export const DATVEST_PAGE: SbuPageConfig = {
+  brand: 'datvest',
+  imageKeyPrefix: 'datvest-product',
+  hero: {
+    eyebrow: 'Datvest Asset Management',
+    headline: 'Put your money to work',
+    valueProposition:
+      'Unit trusts, institutional mandates and private wealth management, for savers, companies and pension funds.',
+    imageKey: 'banner.investments',
+    image: '/images/cbz-wealth.webp',
+    primaryCta: { label: 'Start investing', screen: 'journey-invest' },
+    secondaryCta: { label: 'Speak to an adviser', screen: 'open-account' },
+  },
+  about:
+    'Datvest is the Group’s asset manager. It runs unit trusts for individual savers, segregated mandates for institutions and pension funds, and private wealth and family office advisory for high net worth clients.',
+  keyFacts: [
+    { value: 'Unit trusts', label: 'For individual savers' },
+    { value: 'Institutional', label: 'Segregated and fiduciary mandates' },
+    { value: 'Private wealth', label: 'Advisory and family office' },
+    { value: 'Licensed', label: tbc('SECZIM licence details') },
+  ],
+  products: {
+    heading: 'Products and solutions',
+    intro: 'Funds and mandates for individuals, institutions and private wealth.',
+    categories: [
+      { id: 'unitTrusts', label: 'Unit trusts' },
+      { id: 'institutional', label: 'Institutional' },
+      { id: 'privateWealth', label: 'Private wealth' },
+    ] as const,
+    items: INVESTMENT_PRODUCTS,
+    termsNote: `${PENDING_VERIFICATION} The value of investments can fall as well as rise, and past performance is not a guide to future returns.`,
+  },
+  campaigns: campaignsPending('Datvest'),
+  leadership: leadershipPending('Datvest'),
+  contact: {
+    heading: 'Talk to Datvest',
+    body: 'Tell us your goal and timeframe, and an adviser will set out the options.',
+    primaryCta: { label: 'Start investing', screen: 'journey-invest' },
+  },
+};
+
+export const PROPERTIES_PAGE: SbuPageConfig = {
+  brand: 'properties',
+  imageKeyPrefix: 'property-product',
+  hero: {
+    eyebrow: 'CBZ Properties',
+    headline: 'Find the space, and the finance behind it',
+    valueProposition:
+      'Residential stands and homes, commercial and retail space, and property advisory, with CBZ Bank mortgages alongside.',
+    imageKey: 'banner.properties',
+    image: '/images/loan-home.webp',
+    primaryCta: { label: 'Request a viewing', screen: 'home-journey' },
+    secondaryCta: { label: 'Explore mortgages', screen: 'journey-bank' },
+  },
+  about:
+    'CBZ Properties develops, sells and manages property across Zimbabwe: serviced residential stands and homes, commercial and retail space, and advisory including valuations and project management. A purchase can be financed by a CBZ Bank mortgage and insured by CBZ Insurance.',
+  keyFacts: [
+    { value: 'Residential', label: 'Stands, homes and clusters' },
+    { value: 'Commercial', label: 'Office, retail and industrial' },
+    { value: 'Advisory', label: 'Valuations and project management' },
+    { value: '2 to 10 years', label: 'CBZ Bank mortgage tenure' },
+  ],
+  products: {
+    heading: 'Products and solutions',
+    intro: 'Residential and commercial property, and the advisory around it.',
+    categories: [
+      { id: 'residential', label: 'Residential' },
+      { id: 'commercial', label: 'Commercial' },
+      { id: 'advisory', label: 'Advisory' },
+    ] as const,
+    items: PROPERTY_PRODUCTS,
+    termsNote: `${PENDING_VERIFICATION} Prices, availability and specifications are confirmed on application.`,
+  },
+  campaigns: campaignsPending('CBZ Properties'),
+  leadership: leadershipPending('CBZ Properties'),
+  contact: {
+    heading: 'Talk to CBZ Properties',
+    body: 'Register your interest in a development, request a viewing, or ask about valuations and project management.',
+    primaryCta: { label: 'Request a viewing', screen: 'home-journey' },
   },
 };
 

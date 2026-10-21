@@ -11,6 +11,12 @@ import { Reveal, RevealSection } from './Reveal';
 interface SbuLandingPageProps {
   config: SbuPageConfig;
   onNavigate: (screen: ScreenType) => void;
+  /**
+   * Unit-specific content rendered after the products section, for things the
+   * standard seven sections do not cover, such as the bank's cross-group
+   * handover. The seven sections stay in the same order either way.
+   */
+  children?: React.ReactNode;
 }
 
 /**
@@ -18,7 +24,7 @@ interface SbuLandingPageProps {
  * campaigns, leadership, contact. Every unit renders through this component so
  * the structure stays consistent, as agreed in the website feedback.
  */
-export const SbuLandingPage: React.FC<SbuLandingPageProps> = ({ config, onNavigate }) => {
+export const SbuLandingPage: React.FC<SbuLandingPageProps> = ({ config, onNavigate, children }) => {
   const siteImage = useSiteImage();
   const { hero, about, keyFacts, products, campaigns, leadership, contact } = config;
 
@@ -124,6 +130,8 @@ export const SbuLandingPage: React.FC<SbuLandingPageProps> = ({ config, onNaviga
           </div>
         </div>
       </RevealSection>
+
+      {children}
 
       {/* 5. CAMPAIGN ADVERTS — one banner, or up to three tiles */}
       {campaigns.length > 0 && (

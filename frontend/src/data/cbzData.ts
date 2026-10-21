@@ -359,12 +359,12 @@ export const INSURANCE_ADDONS: AddonOption[] = [
 
 export const SBU_PRODUCTS: Record<string, ProductItem[]> = {
   personal: [
-    { id: 'motor', icon: 'Car', name: 'Comprehensive Motor Insurance', description: 'Complete vehicle protection with guaranteed claim turnaround and pre-approved repairer panel.', pricing: 'From USD 14/mo' },
-    { id: 'home', icon: 'Building2', name: 'Home & Contents Cover', description: 'Protects building structures and interior household assets from fire, storm, burst pipes, and burglary.', pricing: 'From USD 18/mo' },
-    { id: 'milady', icon: 'ShieldCheck', name: 'Milady Home & Vehicle Package', description: 'Exclusive bespoke insurance tailored for female-headed households with dedicated roadside care.', pricing: 'From USD 16/mo' },
-    { id: 'health', icon: 'Users', name: 'Health & Personal Accident', description: 'Financial compensation for accidental injury, emergency admission, and disability recovery.', pricing: 'From USD 11/mo' },
-    { id: 'travel', icon: 'Shield', name: 'Schengen & International Travel', description: 'Emergency medical repatriation, trip cancellation, and lost luggage cover worldwide.', pricing: 'From USD 25/trip' },
-    { id: 'diaspora', icon: 'ShieldCheck', name: 'Diaspora Property Insurance', description: 'Designed for non-resident Zimbabweans to safeguard property investments back home with USD payouts.', pricing: 'From USD 22/mo' }
+    { id: 'motor', icon: 'Car', name: 'Comprehensive Motor Insurance', description: 'Complete vehicle protection with guaranteed claim turnaround and pre-approved repairer panel.', pricing: 'Request a quote' },
+    { id: 'home', icon: 'Building2', name: 'Home & Contents Cover', description: 'Protects building structures and interior household assets from fire, storm, burst pipes, and burglary.', pricing: 'Request a quote' },
+    { id: 'milady', icon: 'ShieldCheck', name: 'Milady Home & Vehicle Package', description: 'Exclusive bespoke insurance tailored for female-headed households with dedicated roadside care.', pricing: 'Request a quote' },
+    { id: 'health', icon: 'Users', name: 'Health & Personal Accident', description: 'Financial compensation for accidental injury, emergency admission, and disability recovery.', pricing: 'Request a quote' },
+    { id: 'travel', icon: 'Shield', name: 'Schengen & International Travel', description: 'Emergency medical repatriation, trip cancellation, and lost luggage cover worldwide.', pricing: 'Request a quote' },
+    { id: 'diaspora', icon: 'ShieldCheck', name: 'Diaspora Property Insurance', description: 'Designed for non-resident Zimbabweans to safeguard property investments back home with USD payouts.', pricing: 'Request a quote' }
   ],
   business: [
     { id: 'commercial_plant', icon: 'Building2', name: 'Commercial Property & Plant', description: 'Covers physical premises, industrial machinery, and warehoused inventory against perils.', pricing: 'Bespoke Quote' },
@@ -372,7 +372,7 @@ export const SBU_PRODUCTS: Record<string, ProductItem[]> = {
     { id: 'liability', icon: 'ShieldCheck', name: 'Professional & Public Liability', description: 'Protects your company against legal liability arising from bodily injury, third-party loss, or advice.', pricing: 'Bespoke Quote' },
     { id: 'engineering', icon: 'Building2', name: 'Engineering & Construction Works', description: 'Contractors all-risks, plant breakdown, and civil engineering infrastructure protection.', pricing: 'Bespoke Quote' },
     { id: 'marine', icon: 'Shield', name: 'Marine Cargo & Freight In-Transit', description: 'Import, export, and cross-border haulage protection by road, sea, and air cargo routes.', pricing: 'Per Consignment' },
-    { id: 'sme_shield', icon: 'ShieldCheck', name: 'SME Business Shield Package', description: 'Bundled, cost-effective all-in-one insurance suited for retail stores, clinics, and service businesses.', pricing: 'From USD 45/mo' }
+    { id: 'sme_shield', icon: 'ShieldCheck', name: 'SME Business Shield Package', description: 'Bundled, cost-effective all-in-one insurance suited for retail stores, clinics, and service businesses.', pricing: 'Request a quote' }
   ],
   agro: [
     { id: 'multi_peril', icon: 'Wheat', name: 'Multi-Peril Crop Protection', description: 'Safeguards maize, wheat, tobacco, and horticulture against drought, hail, pests, and frost.', pricing: 'Per Hectare' },
@@ -660,7 +660,7 @@ export const INVESTMENT_PRODUCTS: Record<string, ProductItem[]> = {
     {
       name: 'Datvest Money Market Fund',
       description: 'Premier short-term liquidity fund providing daily compounding interest, capital preservation, and 24-hour redemption flexibility.',
-      pricing: 'Indicative Yield 18-22% p.a.'
+      pricing: 'Talk to our advisers'
     },
     {
       name: 'Datvest Balanced & Growth Fund',
@@ -685,7 +685,7 @@ export const INVESTMENT_PRODUCTS: Record<string, ProductItem[]> = {
     {
       name: 'Datvest Diaspora Wealth Fund',
       description: 'Tailored for non-resident Zimbabweans seeking professionally managed investment portfolios in national bonds, equities, and real estate assets.',
-      pricing: 'From USD 100/mo'
+      pricing: 'Talk to our advisers'
     }
   ],
   institutional: [
@@ -734,7 +734,7 @@ export const INVESTMENT_PRODUCTS: Record<string, ProductItem[]> = {
     {
       name: 'Structured Offshore USD Investment Notes',
       description: 'Access to global capital market instruments, foreign currency debt, and international asset classes through compliant regulatory corridors.',
-      pricing: 'From USD 10,000'
+      pricing: 'Talk to our advisers'
     },
     {
       name: 'Victoria Falls Exchange (VFEX) USD Equities',
@@ -835,17 +835,17 @@ export const PROPERTY_PRODUCTS: Record<string, ProductItem[]> = {
     {
       name: 'Bloomingdale Master Luxury Clusters',
       description: 'Exclusive gated community of modern 3-bed and 4-bed duplex cluster homes with integrated solar systems, paved driveways, and 24/7 security.',
-      pricing: 'From USD 165,000'
+      pricing: 'Price on application'
     },
     {
       name: 'Fully Serviced Residential Stands',
       description: 'Ready-to-build residential stands in premier low- and medium-density developments across Harare, Bulawayo, Gweru, and Mutare with title deeds.',
-      pricing: 'From USD 18,000'
+      pricing: 'Price on application'
     },
     {
       name: 'Pomona North Private Residential Estate',
       description: 'Exclusive luxury residential enclave featuring perimeter walling, smart biometric access, paved roads, and dedicated lifestyle community parks.',
-      pricing: 'From USD 195,000'
+      pricing: 'Price on application'
     },
     {
       name: 'Diaspora Turnkey Home Build Scheme',
@@ -855,12 +855,12 @@ export const PROPERTY_PRODUCTS: Record<string, ProductItem[]> = {
     {
       name: 'Eco-Friendly Sustainable Green Enclaves',
       description: 'Solar-powered, borehole-fed smart cluster homes built with low-carbon materials, rainwater harvesting, and smart energy metering.',
-      pricing: 'From USD 145,000'
+      pricing: 'Price on application'
     },
     {
       name: 'Middle-Income Suburban Housing Developments',
       description: 'Affordable, modern 2 and 3-bedroom family apartments and standalone houses eligible for 15-year CBZ Bank mortgages.',
-      pricing: 'From USD 65,000'
+      pricing: 'Price on application'
     }
   ],
   commercial: [
@@ -872,7 +872,7 @@ export const PROPERTY_PRODUCTS: Record<string, ProductItem[]> = {
     {
       name: 'CBZ Centre & Suburban Office Parks',
       description: 'Prime commercial office space, corporate headquarters facilities, and executive suites with full back-up solar and diesel power.',
-      pricing: 'From USD 12/sqm/mo'
+      pricing: 'Price on application'
     },
     {
       name: 'Neighborhood Retail Convenience Hubs',
@@ -887,19 +887,19 @@ export const PROPERTY_PRODUCTS: Record<string, ProductItem[]> = {
     {
       name: 'Commercial Land Subdivisions & Light Industrial',
       description: 'Strategically zoned commercial parcels suited for automotive showrooms, cold storage depots, and light manufacturing plants.',
-      pricing: 'From USD 85,000'
+      pricing: 'Price on application'
     },
     {
       name: 'Flexible Business Incubators & Shared Workspaces',
       description: 'Fully serviced, plug-and-play modern corporate workspaces and boardroom facilities for emerging enterprises and regional consultants.',
-      pricing: 'From USD 150/mo'
+      pricing: 'Price on application'
     }
   ],
   advisory: [
     {
       name: 'Certified Sworn Property Valuations',
       description: 'Independent, court-admissible property appraisals conducted by registered Valuers for mortgage underwriting, insurance, and balance sheet audits.',
-      pricing: 'From USD 200/appraisal'
+      pricing: 'Price on application'
     },
     {
       name: 'Real Estate Development Feasibility Studies',

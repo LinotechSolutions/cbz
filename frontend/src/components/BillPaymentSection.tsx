@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   GraduationCap,
   Zap,
@@ -20,6 +20,7 @@ interface BillPaymentSectionProps {
 }
 
 export const BillPaymentSection: React.FC<BillPaymentSectionProps> = () => {
+  const [showBillers, setShowBillers] = useState(false);
   const { billers } = useBillers();
 
   const getBillerIcon = (iconName: string) => {
@@ -79,22 +80,36 @@ export const BillPaymentSection: React.FC<BillPaymentSectionProps> = () => {
           </div>
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
             <p className="text-xs text-cbz-grey max-w-md leading-relaxed">
-              Directly integrated into the CBZ Touch mobile app and Ziki marketplace. Settle fees, municipal rates, electricity tokens, and subscriptions with zero wait time.
+              Pay electricity, municipal rates, school fees and subscriptions from CBZ Touch or the Ziki marketplace.
             </p>
-            <a
-              href="https://zikimall.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-2 bg-[#002554] hover:bg-[#0A3E80] text-white text-xs font-bold rounded-xl flex items-center space-x-1.5 transition-colors flex-shrink-0 cursor-pointer shadow-xs"
-            >
-              <span>Visit Ziki Mall</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <button
+                onClick={() => setShowBillers((v) => !v)}
+                aria-expanded={showBillers}
+                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-[#002554] text-xs font-bold rounded-xl transition-colors cursor-pointer"
+              >
+                {showBillers ? 'Hide billers' : `See all ${billers.length} billers`}
+              </button>
+              <a
+                href="https://zikimall.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 bg-[#002554] hover:bg-[#0A3E80] text-white text-xs font-bold rounded-xl flex items-center space-x-1.5 transition-colors cursor-pointer shadow-xs"
+              >
+                <span>Visit Ziki Mall</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            </div>
           </div>
         </div>
 
-        {/* Billers Grid - Rerouted to https://zikimall.com/ */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3.5 sm:gap-4">
+        {/* The full biller list is collapsed by default: the section is a compact
+            promotional feature that links through to the full range of services. */}
+        <div
+          className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3.5 sm:gap-4 ${
+            showBillers ? '' : 'hidden'
+          }`}
+        >
           {billers.map((biller) => (
             <a
               key={biller.id}

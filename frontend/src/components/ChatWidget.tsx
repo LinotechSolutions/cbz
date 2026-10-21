@@ -562,16 +562,18 @@ export default function ChatWidget() {
       <button
         id="cbz-chat-toggle"
         onClick={() => setIsOpen((v) => !v)}
-        aria-label={isOpen ? "Close CBZ AI assistant" : "Open CBZ AI assistant"}
+        aria-label={isOpen ? "Close the CBZ chat" : "Chat with us"}
         aria-expanded={isOpen}
         aria-haspopup="dialog"
         className={[
-          "fixed bottom-6 right-6 z-[9998] flex items-center gap-2.5",
+          "fixed bottom-6 right-6 z-[9998] flex items-center gap-2.5 group",
           "h-14 rounded-full shadow-2xl transition-all duration-300 ease-out",
           "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white",
+          // Closed, this is a compact icon that widens to show its label on
+          // hover or keyboard focus, so it sits lighter over the page.
           isOpen
             ? "bg-[#002554] px-5 text-white"
-            : "bg-[#E4002B] px-5 text-white hover:bg-[#C50025] active:scale-95",
+            : "w-14 px-0 hover:w-auto hover:px-5 focus-visible:w-auto focus-visible:px-5 justify-center bg-[#E4002B] text-white hover:bg-[#C50025] active:scale-95",
         ].join(" ")}
         style={{ boxShadow: isOpen ? "0 8px 32px rgba(0,37,84,0.35)" : "0 8px 32px rgba(228,0,43,0.45)" }}
       >
@@ -583,7 +585,9 @@ export default function ChatWidget() {
         ) : (
           <>
             <SparkleIcon />
-            <span className="text-sm font-semibold tracking-wide">AI Assistant</span>
+            <span className="text-sm font-semibold tracking-wide whitespace-nowrap hidden group-hover:inline group-focus-visible:inline">
+              Chat with us
+            </span>
           </>
         )}
       </button>
@@ -594,7 +598,7 @@ export default function ChatWidget() {
           id="cbz-chat-panel"
           ref={panelRef}
           role="dialog"
-          aria-label="CBZ Holdings AI Assistant"
+          aria-label="Chat with CBZ Holdings"
           aria-modal="false"
           className={[
             "fixed bottom-24 right-4 sm:right-6 z-[9997]",

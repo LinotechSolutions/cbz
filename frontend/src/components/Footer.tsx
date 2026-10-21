@@ -108,12 +108,12 @@ export const Footer: React.FC<FooterProps> = ({
                   rel="noreferrer"
                   title={`${s.name} (${s.handle})`}
                   aria-label={`${s.name} - ${s.handle}`}
-                  className={`px-3 py-1.5 rounded-lg bg-white/5 text-white text-xs font-semibold transition-all flex items-center space-x-2 border border-white/10 group cursor-pointer ${getSocialHoverClass(s.name)}`}
+                  // Logo only: the names spelled out made the footer noisy. The
+                  // title and aria-label still carry the network and handle.
+                  className={`w-9 h-9 rounded-lg bg-white/5 text-white transition-all flex items-center justify-center border border-white/10 group cursor-pointer ${getSocialHoverClass(s.name)}`}
                 >
-                  <span className="w-4 h-4 flex items-center justify-center transition-transform group-hover:scale-110 flex-shrink-0">
-                    <BrandSocialIcon name={s.name} className="w-3.5 h-3.5" />
-                  </span>
-                  <span>{s.name}</span>
+                  <BrandSocialIcon name={s.name} className="w-4 h-4 transition-transform group-hover:scale-110" />
+                  <span className="sr-only">{s.name}</span>
                 </a>
               ))}
             </div>

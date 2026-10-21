@@ -259,6 +259,16 @@ export const AUDIENCES: Audience[] = [
     tag: 'Corporate'
   },
   {
+    // Added after the segment review. Grounded in the Private Banking entry of
+    // the Retail Banking Product Manual: a dedicated outlet for high net worth
+    // clients, with wealth creation and management services.
+    title: 'Affluent Banking',
+    description: 'Prime, Private and Wealth: a dedicated outlet for high net worth clients, with tailor-made wealth creation and management.',
+    iconName: 'Award',
+    image: '/images/cbz-wealth.webp',
+    tag: 'Affluent'
+  },
+  {
     title: 'Diaspora Banking',
     description: 'Bank, insure, invest in unit trusts, and buy property in Zimbabwe from anywhere worldwide.',
     iconName: 'Globe',

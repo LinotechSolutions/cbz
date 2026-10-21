@@ -34,6 +34,7 @@ const audiences = [
   ['personal', 'Personal'],
   ['business-smes', 'Business & SMEs'],
   ['corporate-institutional', 'Corporate & Institutional'],
+  ['affluent-banking', 'Affluent Banking'],
   ['diaspora-banking', 'Diaspora Banking'],
 ];
 

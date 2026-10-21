@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, User, Briefcase, Landmark, Globe } from 'lucide-react';
+import { ArrowRight, Award, User, Briefcase, Landmark, Globe } from 'lucide-react';
 import { AUDIENCES } from '../data/cbzData';
 import { ScreenType } from '../types';
 import { useSiteImage } from '../context/SiteImagesContext';
@@ -20,6 +20,8 @@ export const SolutionsSection: React.FC<SolutionsSectionProps> = ({ onNavigate }
         return <Landmark className="w-5 h-5 text-[#E4002B]" />;
       case 'Globe':
         return <Globe className="w-5 h-5 text-[#002554]" />;
+      case 'Award':
+        return <Award className="w-5 h-5 text-[#002554]" />;
       default:
         return <User className="w-5 h-5 text-[#E4002B]" />;
     }
@@ -33,6 +35,8 @@ export const SolutionsSection: React.FC<SolutionsSectionProps> = ({ onNavigate }
         return 'bank';
       case 'corporate & institutional':
         return 'the-group';
+      case 'affluent banking':
+        return 'bank';
       case 'diaspora banking':
         return 'bank';
       default:

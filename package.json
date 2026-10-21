@@ -1,5 +1,6 @@
 {
-  "name": "cbz-platform",
+  "name": "cbzh-website-redesign",
+  "description": "CBZH Website Redesign - Unified Digital Experience Platform for CBZ Holdings",
   "private": true,
   "version": "1.0.0",
   "workspaces": [

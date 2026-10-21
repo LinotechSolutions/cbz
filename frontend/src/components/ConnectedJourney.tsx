@@ -42,6 +42,7 @@ import { Logo } from './Logo';
 import { LogoBrand } from '../brand/logos';
 import { cbzApi } from '../services/api';
 import { useSiteImage } from '../context/SiteImagesContext';
+import { analytics } from '../lib/analytics';
 
 export interface JourneySubmission {
   service: ServiceId;
@@ -234,11 +235,11 @@ const SERVICE_OFFERS: Record<ServiceId, { title: string; brand: LogoBrand; offer
     title: 'What CBZ Agro-Yield offers',
     brand: 'agro-yield',
     offers: [
-      { icon: Sprout, title: 'Seasonal input credit', desc: 'Certified seed, fertilizer, chemicals and fuel' },
-      { icon: Users, title: 'Contract farming', desc: 'Structured grower clusters with collective financing' },
-      { icon: Tractor, title: 'Guaranteed off-take', desc: 'Direct marketing linkages to national silos' },
-      { icon: SunMedium, title: 'Climate index cover', desc: 'Satellite weather index-linked yield insurance' },
-      { icon: Wrench, title: 'Equipment financing', desc: 'Tractor and center-pivot irrigation leasing' }
+      { icon: Sprout, title: 'Agro Enterprise', desc: 'Joint venture schemes with structured participation' },
+      { icon: Users, title: 'Agro Farming', desc: 'Seasonal contract farming across major cropping cycles' },
+      { icon: Tractor, title: 'Agro Commodity Trading', desc: 'Market linkages and guaranteed offtake routes' },
+      { icon: Wrench, title: 'Agro Supply Chain', desc: 'Mechanisation, equipment sales & leasing, and borehole drilling' },
+      { icon: SunMedium, title: 'Climate & crop cover', desc: 'Yield and weather protection linked to CBZ Insurance' }
     ]
   },
   datvest: {
@@ -289,10 +290,10 @@ const SERVICE_OFFERS: Record<ServiceId, { title: string; brand: LogoBrand; offer
     title: 'What Red Sphere offers',
     brand: 'red-sphere',
     offers: [
-      { icon: Zap, title: 'Fast-track working capital', desc: 'Simplified KYC credit for traders and merchants' },
-      { icon: ShoppingBag, title: 'Stock & inventory loans', desc: 'Quick turnaround financing for bulk merchandise' },
-      { icon: Wrench, title: 'Micro-asset leasing', desc: 'Tools, machinery and light equipment' },
-      { icon: CalendarCheck, title: 'Cash-flow repayments', desc: 'Terms aligned to daily and weekly cash receipts' },
+      { icon: Zap, title: 'Salary-based loans', desc: 'SSB and private payroll credit with fast turnaround' },
+      { icon: ShoppingBag, title: 'SME working capital', desc: 'Working capital and tuck-shop facilities' },
+      { icon: Briefcase, title: 'Order financing', desc: 'Invoice discounting and supply chain finance' },
+      { icon: CalendarCheck, title: 'Partner & agent programmes', desc: 'Commissions and personal credit for accredited agents' },
       { icon: Award, title: 'Graduation to banking', desc: 'Repayment track record unlocks bank facilities' }
     ]
   }
@@ -329,6 +330,7 @@ export const ConnectedJourney: React.FC<Props> = ({
     setTouched(false);
     setError('');
     setPhase(profileComplete ? 'form' : 'profile');
+    analytics.trackApplicationStart(id, { source: 'connected_journey' });
   };
 
   useEffect(() => {
@@ -337,6 +339,7 @@ export const ConnectedJourney: React.FC<Props> = ({
       if (seed) setAnswers(seed);
       setStepIdx(0);
       setPhase(profileComplete ? 'form' : 'profile');
+      analytics.trackApplicationStart(startWith, { seed: !!seed });
     }
   }, [startWith, seed, profileComplete]);
 
@@ -372,23 +375,36 @@ export const ConnectedJourney: React.FC<Props> = ({
       profileFields.every((f) => profile[f.id].trim()) &&
       isValidNationalId(profile.nationalId) &&
       consentTick;
-    if (!ok) return setTouched(true);
+    if (!ok) {
+      analytics.trackApplicationError('profile', 0, 'Incomplete profile or invalid national ID');
+      return setTouched(true);
+    }
     giveConsent();
     setTouched(false);
     setPhase('form');
+    analytics.trackApplicationStep(active, 0, step?.title || 'Profile verified', svc?.steps.length || 1);
   };
 
   const nextStep = () => {
-    if (!stepValid) return setTouched(true);
+    if (!stepValid) {
+      analytics.trackApplicationError(active, stepIdx, 'Incomplete required fields');
+      return setTouched(true);
+    }
     setTouched(false);
-    setStepIdx((i) => i + 1);
+    const nextIdx = stepIdx + 1;
+    setStepIdx(nextIdx);
+    analytics.trackApplicationStep(active, nextIdx, svc?.steps[nextIdx]?.title || `Step ${nextIdx + 1}`, svc?.steps.length || 1);
   };
 
   const submit = async () => {
-    if (!stepValid || !svc) return setTouched(true);
+    if (!stepValid || !svc) {
+      analytics.trackApplicationError(active, stepIdx, 'Validation failed on submission');
+      return setTouched(true);
+    }
     let finalRef = `${svc.refPrefix}-${Date.now().toString().slice(-6)}`;
     setSubmitting(true);
     setError('');
+    analytics.trackApplicationSubmission(svc.id, finalRef);
     try {
       if (onSubmitJourney) {
         await onSubmitJourney({ service: svc.id, ref: finalRef, profile, answers });
@@ -404,8 +420,11 @@ export const ConnectedJourney: React.FC<Props> = ({
           finalRef = response.reference_code;
         }
       }
+      analytics.trackApplicationConfirmedCompletion(svc.id, finalRef);
     } catch (err: any) {
-      setError(err?.message || 'We couldn’t submit your request. Please try again.');
+      const errDetail = err?.message || 'We couldn’t submit your request. Please try again.';
+      setError(errDetail);
+      analytics.trackApplicationError(svc.id, stepIdx, errDetail);
       setSubmitting(false);
       return;
     }

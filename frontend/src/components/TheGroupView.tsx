@@ -61,7 +61,7 @@ const SUBSIDIARIES: GroupSubsidiary[] = [
       'As Zimbabwe’s flagship commercial banking institution, CBZ Bank anchors the nation with an unassailable balance sheet and 37 branches nationwide.',
     bodySentences:
       'We deliver everyday SmartCash transactional accounts, high-yield Nostro FCA deposits, and asset financing backed by 24/7 digital banking.',
-    highlights: ['37 Branches Nationwide', 'Universal SmartCash Accounts', '20-Year Home Mortgages', 'OBDX & CBZ Touch 24/7']
+    highlights: ['37 Branches Nationwide', 'Universal SmartCash Accounts', '2 to 10-Year Mortgages', 'OBDX & CBZ Touch 24/7']
   },
   {
     id: 'insurance',
@@ -125,7 +125,7 @@ const SUBSIDIARIES: GroupSubsidiary[] = [
       'CBZ Properties shapes Zimbabwe’s built environment through master-planned residential cluster estates, serviced stands, and commercial hubs.',
     bodySentences:
       'Every stand carries verified title deeds with direct integration into CBZ Bank for long-term residential mortgage financing.',
-    highlights: ['US$150M Northgate Development', 'Titled 400m²–1,200m² Stands', 'Sworn Valuations Included', 'Direct 15-Year Bank Mortgages']
+    highlights: ['US$150M Northgate Development', 'Titled 400m²–1,200m² Stands', 'Sworn Valuations Included', 'CBZ Bank Mortgage Linkage']
   },
   {
     id: 'agro-yield',
@@ -326,7 +326,7 @@ export const TheGroupView: React.FC<TheGroupViewProps> = ({ onNavigate }) => {
               onClick={() => scrollTo('subsidiaries-showcase')}
               className="px-3.5 py-2 rounded-xl bg-white border border-slate-200 hover:border-[#002554] text-xs font-bold text-[#002554] transition-colors shadow-2xs cursor-pointer"
             >
-              9 Subsidiaries
+              Nine Companies
             </button>
             <button
               onClick={() => scrollTo('about-cbz-group')}
@@ -700,7 +700,7 @@ export const TheGroupView: React.FC<TheGroupViewProps> = ({ onNavigate }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
             <h4 className="font-black text-base text-[#002554]">Ready to begin your journey?</h4>
-            <p className="text-xs text-slate-500 mt-0.5">Explore any of our 9 specialized operating companies or speak with our team.</p>
+            <p className="text-xs text-slate-500 mt-0.5">Explore any of our nine specialized operating companies or speak with our team.</p>
           </div>
           <div className="flex items-center space-x-3">
             <button

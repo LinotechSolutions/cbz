@@ -23,6 +23,8 @@ export const SCREEN_PATHS: Record<ScreenType, string> = {
   'open-account': '/open-account',
   'red-sphere': '/red-sphere',
   'cbz-life': '/cbz-life',
+  diaspora: '/diaspora',
+  security: '/security',
 };
 
 /** Screens that render inside the focused FlowShell (no marketing header, mega-menus or full footer). */

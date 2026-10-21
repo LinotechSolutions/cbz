@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ArrowLeft, ArrowRight, Mail, PhoneCall, User } from 'lucide-react';
 import { ScreenType } from '../types';
 import { SbuPageConfig } from '../data/sbuPages';
-import { CONTACT } from '../data/facts';
+import { CONTACT, EXTERNAL_LINKS } from '../data/facts';
 import { useSiteImage } from '../context/SiteImagesContext';
 import { Logo } from './Logo';
 import { ProductCatalogue } from './ProductCatalogue';
 import { Reveal, RevealSection } from './Reveal';
+import { CallbackModal } from './CallbackModal';
+import { analytics } from '../lib/analytics';
 
 interface SbuLandingPageProps {
   config: SbuPageConfig;
@@ -27,10 +29,29 @@ interface SbuLandingPageProps {
 export const SbuLandingPage: React.FC<SbuLandingPageProps> = ({ config, onNavigate, children }) => {
   const siteImage = useSiteImage();
   const { hero, about, keyFacts, products, campaigns, leadership, contact } = config;
+  const [isCallbackOpen, setIsCallbackOpen] = useState(false);
+  const [callbackNote, setCallbackNote] = useState('');
 
-  const act = (target?: { screen?: ScreenType; href?: string }) => () => {
-    if (target?.screen) onNavigate(target.screen);
-    else if (target?.href) window.open(target.href, '_blank', 'noopener,noreferrer');
+  const act = (target?: { label?: string; screen?: ScreenType; href?: string }) => () => {
+    const label = target?.label || '';
+    if (
+      label.toLowerCase().includes('callback') ||
+      label.toLowerCase().includes('speak to') ||
+      label.toLowerCase().includes('consultant')
+    ) {
+      setCallbackNote(`Inquiry via ${hero.eyebrow}: ${label}`);
+      setIsCallbackOpen(true);
+      analytics.trackConversionCta('callback', `${hero.eyebrow}: ${label}`, 'modal');
+      return;
+    }
+
+    if (target?.screen) {
+      analytics.trackConversionCta('apply', `${hero.eyebrow}: ${label}`, target.screen);
+      onNavigate(target.screen);
+    } else if (target?.href) {
+      analytics.trackConversionCta('apply', `${hero.eyebrow}: ${label}`, target.href);
+      window.open(target.href, '_blank', 'noopener,noreferrer');
+    }
   };
 
   return (
@@ -126,6 +147,29 @@ export const SbuLandingPage: React.FC<SbuLandingPageProps> = ({ config, onNaviga
               categories={products.categories}
               products={products.items}
               termsNote={products.termsNote}
+              onAction={(product, categoryId) => {
+                if (config.brand === 'bank') {
+                  if (categoryId === 'accounts') onNavigate('open-account');
+                  else if (categoryId === 'loans') onNavigate('journey-bank');
+                  else {
+                    setCallbackNote(`Enquiry for CBZ Bank: ${product.name}`);
+                    setIsCallbackOpen(true);
+                  }
+                } else if (config.brand === 'insurance') {
+                  onNavigate('journey');
+                } else if (config.brand === 'datvest') {
+                  onNavigate('journey-invest');
+                } else if (config.brand === 'properties') {
+                  onNavigate('home-journey');
+                } else if (config.brand === 'agro-yield') {
+                  onNavigate('journey-agro');
+                } else if (config.brand === 'red-sphere') {
+                  window.open(EXTERNAL_LINKS.redSphereApply, '_blank', 'noopener,noreferrer');
+                } else {
+                  setCallbackNote(`Enquiry for ${hero.eyebrow}: ${product.name}`);
+                  setIsCallbackOpen(true);
+                }
+              }}
             />
           </div>
         </div>
@@ -239,6 +283,13 @@ export const SbuLandingPage: React.FC<SbuLandingPageProps> = ({ config, onNaviga
           </div>
         </div>
       </RevealSection>
+
+      <CallbackModal
+        isOpen={isCallbackOpen}
+        onClose={() => setIsCallbackOpen(false)}
+        initialService={hero.eyebrow}
+        initialNote={callbackNote}
+      />
     </div>
   );
 };

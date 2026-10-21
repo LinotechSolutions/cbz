@@ -130,11 +130,24 @@ export const PAGE_META: Record<ScreenType, PageMeta> = {
     heading: 'CBZ Life',
     org: SUBSIDIARY.life,
   },
+  diaspora: {
+    title: 'Diaspora Banking & Investments | CBZ Holdings',
+    description:
+      'Bank, invest, build, and insure back home in Zimbabwe with CBZ Diaspora Banking: FCA accounts, mortgages, Datvest wealth fund, and property cover.',
+    heading: 'Diaspora Banking',
+    org: SUBSIDIARY.bank,
+  },
+  security: {
+    title: 'Security & Online Safety | CBZ Holdings',
+    description:
+      'How to spot fake CBZ sites, protect your internet banking credentials, and verify official CBZ channels.',
+    heading: 'Security & Online Safety',
+  },
   login: {
-    title: 'Log In | CBZ Holdings',
-    description: 'Log in to CBZ internet banking and self-service portals.',
+    title: 'Log In | CBZ Holdings Internet Banking',
+    description: 'Consolidated login to CBZ personal and corporate internet banking, mobile banking and self-service.',
     heading: 'Log in',
-    noindex: true,
+    noindex: false,
   },
 };
 

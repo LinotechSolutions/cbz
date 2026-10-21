@@ -17,6 +17,8 @@ export type ScreenType =
   | 'the-group'
   | 'red-sphere'
   | 'cbz-life'
+  | 'diaspora'
+  | 'security'
   | 'journey-invest'
   | 'journey-bank'
   | 'journey-agro'

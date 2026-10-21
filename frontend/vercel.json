@@ -63,7 +63,31 @@
     {
       "source": "/cbz-life",
       "destination": "/cbz-life/index.html"
+    },
+    {
+      "source": "/diaspora",
+      "destination": "/diaspora/index.html"
+    },
+    {
+      "source": "/security",
+      "destination": "/security/index.html"
     }
+  ],
+  "redirects": [
+    { "source": "/personal-banking", "destination": "/bank", "permanent": true },
+    { "source": "/personal-banking/accounts", "destination": "/bank", "permanent": true },
+    { "source": "/personal-banking/accounts/current-account", "destination": "/bank", "permanent": true },
+    { "source": "/personal-banking/accounts/savings-account", "destination": "/bank", "permanent": true },
+    { "source": "/personal-banking/accounts/fca-account", "destination": "/bank", "permanent": true },
+    { "source": "/personal-banking/loans", "destination": "/banking-journey", "permanent": true },
+    { "source": "/short-term-insurance", "destination": "/insurance", "permanent": true },
+    { "source": "/insurance/motor", "destination": "/car-insurance-quote", "permanent": true },
+    { "source": "/asset-management", "destination": "/datvest", "permanent": true },
+    { "source": "/cbz-asset-management", "destination": "/datvest", "permanent": true },
+    { "source": "/properties-development", "destination": "/properties", "permanent": true },
+    { "source": "/red-sphere-finance", "destination": "/red-sphere", "permanent": true },
+    { "source": "/life-assurance", "destination": "/cbz-life", "permanent": true },
+    { "source": "/diaspora-banking", "destination": "/diaspora", "permanent": true }
   ],
   "headers": [
     {

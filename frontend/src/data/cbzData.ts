@@ -1046,7 +1046,7 @@ export const BANK_LIFECYCLE: LifecycleStage[] = [
     description: 'Unlock instant credit lines based on your transaction history: fast unsecured personal loans, vehicle asset financing, and Red Sphere micro-credit for entrepreneurs.',
     deliverables: [
       '24-hour approval for salaried personal loans up to 36 months',
-      'Red Sphere fast micro-credit with flexible collateral terms',
+      'Red Sphere salary-based, enterprise and partner credit facilities',
       'Up to 80% vehicle & equipment asset finance lines',
       'Transparent interest schedules with zero hidden balloon fees'
     ],
@@ -1056,10 +1056,10 @@ export const BANK_LIFECYCLE: LifecycleStage[] = [
   {
     step: '04',
     phase: 'Mortgages & Wealth',
-    title: '15 to 20-Year Mortgages, Dual-Currency Accounts & Diaspora Remittances',
-    description: 'Step into homeownership with long-term mortgages, safeguard foreign currency earnings in high-yield Nostro FCA accounts, and send remittances globally.',
+    title: '2 to 10-Year Mortgages, Dual-Currency Accounts & Diaspora Remittances',
+    description: 'Step into homeownership with tailored mortgages, safeguard foreign currency earnings in high-yield Nostro FCA accounts, and send remittances globally.',
     deliverables: [
-      '15 to 20-year residential mortgage approval with CBZ Properties linkage',
+      'CBZ Bank mortgage approval with CBZ Properties linkage',
       'High-yield Nostro FCA foreign currency accounts in USD, EUR, GBP, ZAR',
       'Direct international diaspora remittance sweeps into your account',
       'Dedicated relationship manager for private wealth clients'

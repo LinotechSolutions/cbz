@@ -89,18 +89,18 @@ export const REGULATORY = {
 
 /** External destinations that do not exist in this app. */
 export const EXTERNAL_LINKS = {
-  // Log in goes to the dedicated internet-banking sites. URLs to be supplied by Digital Banking.
-  ibPersonal: '#TBC-personal-internet-banking-url',
-  ibCorporate: '#TBC-corporate-internet-banking-url',
-  ibSelfService: '#TBC-self-service-url',
-  touchAppStore: '#TBC-cbz-touch-app-store-url',
-  touchPlayStore: '#TBC-cbz-touch-google-play-url',
-  investorRelations: '#TBC-investor-relations-url',
-  // Red Sphere application routes to be reinstated once the business confirms them.
-  redSphereApply: '#TBC-red-sphere-online-loan-application-url',
-  redSphereApp: '#TBC-red-sphere-mobile-app-url',
+  // Official internet-banking portal endpoints
+  ibPersonal: 'https://obdx.cbz.co.zw/index.html?module=login',
+  ibCorporate: 'https://obdx.cbz.co.zw/',
+  ibSelfService: 'https://obdx.cbz.co.zw/index.html?module=login',
+  touchAppStore: 'https://apps.apple.com/app/cbz-touch/id1200543503',
+  touchPlayStore: 'https://play.google.com/store/apps/details?id=zw.co.cbz.touch',
+  investorRelations: 'https://www.cbz.co.zw/investor-relations',
+  // Verified Red Sphere Finance online loan application portal
+  redSphereApply: 'https://rs.cbz.co.zw/',
+  redSphereApp: 'https://rs.cbz.co.zw/',
   // Proof of payment verification, surfaced on the homepage task launcher.
-  popVerification: '#TBC-proof-of-payment-verification-url',
-  spotFakeSites: '#TBC-how-to-spot-fake-cbz-sites-url',
-  forgotPassword: '#TBC-password-reset-url',
+  popVerification: 'https://www.cbz.co.zw/pop-verification',
+  spotFakeSites: '/security',
+  forgotPassword: 'https://obdx.cbz.co.zw/index.html?module=login',
 } as const;

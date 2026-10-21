@@ -67,6 +67,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     { label: 'Investments', key: 'inv', screen: 'invest' as ScreenType, hasMenu: true },
     { label: 'Agribusiness', key: 'agro', screen: 'agro' as ScreenType, hasMenu: true },
     { label: 'Properties', key: 'prop', screen: 'properties' as ScreenType, hasMenu: true },
+    { label: 'Diaspora', key: 'diaspora', screen: 'diaspora' as ScreenType, hasMenu: false },
     { label: 'The Group', key: 'group', screen: 'group' as ScreenType, hasMenu: true }
   ];
 
@@ -77,6 +78,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     if (key === 'inv') return currentScreen === 'invest' || currentScreen === 'journey-invest';
     if (key === 'agro') return currentScreen === 'agro' || currentScreen === 'journey-agro';
     if (key === 'prop') return currentScreen === 'properties';
+    if (key === 'diaspora') return currentScreen === 'diaspora';
     if (key === 'group') return currentScreen === 'group';
     return false;
   };
@@ -175,11 +177,28 @@ export const Navbar: React.FC<NavbarProps> = ({
             </a>
           </div>
 
-          {/* Mobile menu button */}
-          <div className="flex items-center lg:hidden">
+          {/* Mobile menu button and persistent mobile quick actions */}
+          <div className="flex items-center space-x-1.5 lg:hidden">
+            {onOpenAccount && (
+              <button
+                onClick={onOpenAccount}
+                className="inline-flex sm:hidden items-center space-x-1 bg-[#002554] text-white px-2.5 py-1.5 rounded-lg text-2xs font-bold shadow-xs cursor-pointer border border-[#002554]"
+              >
+                <UserPlus className="w-3 h-3 text-red-400" />
+                <span>Open Account</span>
+              </button>
+            )}
+            <button
+              onClick={() => onNavigate('login')}
+              className="inline-flex sm:hidden items-center space-x-1 bg-[#E4002B] text-white px-2.5 py-1.5 rounded-lg text-2xs font-bold shadow-xs cursor-pointer border border-[#E4002B]"
+            >
+              <Lock className="w-3 h-3" />
+              <span>Log in</span>
+            </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 rounded-md text-slate-700 hover:bg-slate-100 cursor-pointer"
+              aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -1110,6 +1129,18 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
             <button
               onClick={() => {
+                onNavigate('diaspora');
+                setMobileMenuOpen(false);
+              }}
+              className={`w-full text-left px-3.5 py-2.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
+                currentScreen === 'diaspora' ? 'bg-[#E4002B] text-white' : 'text-[#002554] hover:bg-slate-50'
+              }`}
+            >
+              <span>Diaspora · Non-Resident Banking & Investments</span>
+              <ArrowRight className="w-3.5 h-3.5 opacity-60" />
+            </button>
+            <button
+              onClick={() => {
                 onNavigate('group');
                 setMobileMenuOpen(false);
               }}
@@ -1117,7 +1148,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 currentScreen === 'group' ? 'bg-[#E4002B] text-white' : 'text-[#002554] hover:bg-slate-50'
               }`}
             >
-              <span>The Group · 9 Operating Subsidiaries</span>
+              <span>The Group · Nine Operating Subsidiaries</span>
               <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded font-bold">Ecosystem</span>
             </button>
           </div>
@@ -1135,15 +1166,16 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <span>Open an Account</span>
               </button>
             )}
-            <a
-              href="https://obdx.cbz.co.zw/index.html?module=login"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => {
+                onNavigate('login');
+                setMobileMenuOpen(false);
+              }}
               className="w-full py-2.5 bg-[#E4002B] text-white text-xs font-bold rounded-lg text-center cursor-pointer flex items-center justify-center space-x-2"
             >
               <Lock className="w-3.5 h-3.5" />
-              <span>Internet Banking</span>
-            </a>
+              <span>Internet Banking & Log In</span>
+            </button>
             {onOpenContact && (
               <button
                 onClick={() => {

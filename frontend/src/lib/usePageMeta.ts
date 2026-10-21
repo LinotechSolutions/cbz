@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { ScreenType } from '../types';
 import { SCREEN_PATHS } from './routes';
 import { DEFAULT_SITE_URL, OG_IMAGE_PATH, PAGE_META, canonicalUrl, structuredData } from './seo';
+import { analytics } from './analytics';
 
 const SITE_URL: string = import.meta.env.VITE_SITE_URL || DEFAULT_SITE_URL;
 
@@ -52,5 +53,6 @@ export function usePageMeta(screen: ScreenType) {
         el.textContent = JSON.stringify(structuredData(screen, SITE_URL));
       }
     );
+    analytics.trackPageView(meta.title, SCREEN_PATHS[screen]);
   }, [screen]);
 }

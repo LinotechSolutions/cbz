@@ -31,7 +31,11 @@ const SbuBankingView = lazy(() => import('./components/SbuBankingView').then((m)
 const TheGroupView = lazy(() => import('./components/TheGroupView').then((m) => ({ default: m.TheGroupView })));
 const SbuRedSphereView = lazy(() => import('./components/SbuRedSphereView').then((m) => ({ default: m.SbuRedSphereView })));
 const SbuLifeView = lazy(() => import('./components/SbuLifeView').then((m) => ({ default: m.SbuLifeView })));
+const LoginPage = lazy(() => import('./components/LoginPage').then((m) => ({ default: m.LoginPage })));
+const DiasporaView = lazy(() => import('./components/DiasporaView').then((m) => ({ default: m.DiasporaView })));
+const SecurityView = lazy(() => import('./components/SecurityView').then((m) => ({ default: m.SecurityView })));
 const ChatWidget = lazy(() => import('./components/ChatWidget'));
+import { CallbackModal } from './components/CallbackModal';
 
 export default function App() {
   // URL-backed screen state (see src/lib/routes.ts). navigate() pushes history and scrolls to top.
@@ -40,6 +44,15 @@ export default function App() {
   const [currentCountry, setCurrentCountry] = useState<Country>(COUNTRIES[0]);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [loginPortal, setLoginPortal] = useState<PortalType>('personal');
+  const [isCallbackOpen, setIsCallbackOpen] = useState(false);
+  const [callbackService, setCallbackService] = useState('CBZ Bank');
+  const [callbackNote, setCallbackNote] = useState('');
+
+  const openCallback = (service = 'CBZ Holdings', note = '') => {
+    setCallbackService(service);
+    setCallbackNote(note);
+    setIsCallbackOpen(true);
+  };
   // Account type chosen on the page that sent the user to /open-account (e.g. a product card)
   const [accountType, setAccountType] = useState<string | undefined>();
   const accountSeed = useMemo(() => (accountType ? { accountType } : undefined), [accountType]);
@@ -77,6 +90,8 @@ export default function App() {
             ? 'Datvest Investments'
             : currentScreen === 'properties' || currentScreen === 'home-journey'
             ? 'CBZ Properties'
+            : currentScreen === 'diaspora'
+            ? 'CBZ Diaspora Banking'
             : currentScreen === 'group' || currentScreen === 'the-group'
             ? 'CBZ Holdings Limited'
             : undefined
@@ -106,6 +121,8 @@ export default function App() {
             ? 'Datvest'
             : currentScreen === 'properties' || currentScreen === 'home-journey'
             ? 'Properties'
+            : currentScreen === 'diaspora'
+            ? 'Diaspora'
             : 'Holdings'
         }
       />
@@ -135,9 +152,9 @@ export default function App() {
                 the hero and ahead of news and campaigns. */}
             <TaskLauncher
               onNavigate={setCurrentScreen}
-              onLogin={() => setIsLoginOpen(true)}
+              onLogin={() => setCurrentScreen('login')}
               onOpenAccount={() => openAccount()}
-              onDiaspora={() => startBankJourney('diaspora')}
+              onDiaspora={() => setCurrentScreen('diaspora')}
             />
 
             {/* Each section below rises into place as it scrolls into view.
@@ -257,6 +274,23 @@ export default function App() {
             startWith="agroyield"
           />
         )}
+
+        {currentScreen === 'login' && (
+          <LoginPage onNavigate={setCurrentScreen} onOpenAccount={() => openAccount()} />
+        )}
+
+        {currentScreen === 'diaspora' && (
+          <DiasporaView
+            onNavigate={setCurrentScreen}
+            onOpenAccount={openAccount}
+            onOpenContact={() => setIsContactModalOpen(true)}
+            onRequestEnquiry={(service, note) => openCallback(service, note)}
+          />
+        )}
+
+        {currentScreen === 'security' && (
+          <SecurityView onNavigate={setCurrentScreen} />
+        )}
         </Suspense>
       </main>
 
@@ -277,6 +311,8 @@ export default function App() {
             ? 'Datvest'
             : currentScreen === 'properties'
             ? 'Properties'
+            : currentScreen === 'diaspora'
+            ? 'Bank'
             : undefined
         }
       />
@@ -293,6 +329,14 @@ export default function App() {
       <ContactChannelsModal
         isOpen={isContactModalOpen}
         onClose={() => setIsContactModalOpen(false)}
+      />
+
+      {/* Lead Generation & Callback Modal (Connected to /accounts/onboard/) */}
+      <CallbackModal
+        isOpen={isCallbackOpen}
+        onClose={() => setIsCallbackOpen(false)}
+        initialService={callbackService}
+        initialNote={callbackNote}
       />
 
       {/* Full-site AI Concierge — persists across all screen changes */}

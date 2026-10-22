@@ -231,22 +231,30 @@ export const LIFE_STAGES: LifeStage[] = [
   {
     title: 'Everyday Banking',
     subtitle: 'Current accounts, VISA cards & digital payments',
-    iconName: 'CreditCard'
+    iconName: 'CreditCard',
+    accent: 'navy',
+    image: '/images/cbz-payments.webp'
   },
   {
     title: 'Protection & Care',
     subtitle: 'Motor, home, health, funeral & risk insurance',
-    iconName: 'ShieldCheck'
+    iconName: 'ShieldCheck',
+    accent: 'red',
+    image: '/images/insurance-family.webp'
   },
   {
     title: 'Wealth & Growth',
     subtitle: 'Unit trusts, advisory, capital & pensions',
-    iconName: 'TrendingUp'
+    iconName: 'TrendingUp',
+    accent: 'navy',
+    image: '/images/cbz-wealth.webp'
   },
   {
     title: 'Property & Agribusiness',
     subtitle: 'Mortgages, cluster developments & farm finance',
-    iconName: 'Building'
+    iconName: 'Building',
+    accent: 'purple',
+    image: '/images/cbz-agriculture.webp'
   }
 ];
 

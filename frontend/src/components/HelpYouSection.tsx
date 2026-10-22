@@ -1,35 +1,34 @@
 import React from 'react';
 import {
   ArrowRight,
-  ArrowUpRight,
   Building,
+  Building2,
+  ChevronRight,
   CreditCard,
   ExternalLink,
+  Gem,
+  Globe,
   ShieldCheck,
+  ShieldCheck as BadgeIcon,
   TrendingUp,
+  User,
+  Users,
 } from 'lucide-react';
-import { ScreenType } from '../types';
+import { Accent, ScreenType } from '../types';
 import { AUDIENCES, LIFE_STAGES } from '../data/cbzData';
 import { LAUNCHER_TASKS, LauncherTask } from '../data/launcherTasks';
 import { Logo } from './Logo';
+import { useSiteImage } from '../context/SiteImagesContext';
 
 /**
- * One section covering everything a visitor might be here to do.
+ * One section covering everything a visitor might be here to do, built to the
+ * homepage design guide: a row of quick-action cards with coloured icon tiles,
+ * four photo cards for what the visitor needs, a row of "I am" pills, and the
+ * Ziki bill-payments strip.
  *
  * It replaces four separate sections that all did the same job in different
  * shapes: the task launcher, the life-stage grid, the audience grid and the
- * bill payments band. The homepage feedback was that the page ran long and
- * repeated itself, and those four were the repetition: three consecutive
- * icon-card grids, two of which routed to the same handful of pages.
- *
- * What survives of each:
- *  - task launcher   -> the quick actions row, unchanged in substance
- *  - life stages     -> the four "what do you need" cards, which are the only
- *                       grid whose cards each lead somewhere different
- *  - audiences       -> a single row of links, not five image cards: the
- *                       segment matters for wayfinding, but four of the five
- *                       cards navigated to the same banking page
- *  - bill payments   -> the Ziki strip at the foot of the section
+ * bill payments band. See the git history of this file for that reasoning.
  */
 
 interface HelpYouSectionProps {
@@ -39,33 +38,60 @@ interface HelpYouSectionProps {
   onDiaspora: () => void;
 }
 
+/** Icon tile fills. Navy and red are the brand tokens; the rest follow the guide. */
+const TILE: Record<Accent, string> = {
+  navy: 'bg-cbz-blue',
+  red: 'bg-cbz-red',
+  blue: 'bg-blue-500',
+  green: 'bg-emerald-500',
+  purple: 'bg-violet-600',
+  orange: 'bg-orange-500',
+};
+
 const stageIcon = (iconName: string) => {
+  const cls = 'w-5 h-5';
   switch (iconName) {
-    case 'CreditCard':
-      return <CreditCard className="w-6 h-6 text-[#E4002B]" />;
     case 'ShieldCheck':
-      return <ShieldCheck className="w-6 h-6 text-[#002554]" />;
+      return <ShieldCheck className={cls} />;
     case 'TrendingUp':
-      return <TrendingUp className="w-6 h-6 text-[#E4002B]" />;
+      return <TrendingUp className={cls} />;
     case 'Building':
-      return <Building className="w-6 h-6 text-[#002554]" />;
+      return <Building className={cls} />;
+    case 'CreditCard':
     default:
-      return <CreditCard className="w-6 h-6 text-[#E4002B]" />;
+      return <CreditCard className={cls} />;
   }
 };
 
 const stageRoute = (title: string): ScreenType => {
   switch (title.toLowerCase()) {
-    case 'everyday banking':
-      return 'bank';
     case 'protection & care':
       return 'sbu';
     case 'wealth & growth':
       return 'invest';
     case 'property & agribusiness':
       return 'properties';
+    case 'everyday banking':
     default:
       return 'bank';
+  }
+};
+
+/** Pill icons, matched to the guide's glyphs rather than the data's icon names. */
+const audienceIcon = (iconName: string) => {
+  const cls = 'w-4 h-4';
+  switch (iconName) {
+    case 'Briefcase':
+      return <Building2 className={cls} />;
+    case 'Landmark':
+      return <Users className={cls} />;
+    case 'Award':
+      return <Gem className={cls} />;
+    case 'Globe':
+      return <Globe className={cls} />;
+    case 'User':
+    default:
+      return <User className={cls} />;
   }
 };
 
@@ -80,12 +106,16 @@ const audienceRoute = (title: string): ScreenType => {
   }
 };
 
+const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
 export const HelpYouSection: React.FC<HelpYouSectionProps> = ({
   onNavigate,
   onLogin,
   onOpenAccount,
   onDiaspora,
 }) => {
+  const siteImage = useSiteImage();
+
   const runTask = (task: LauncherTask) => () => {
     if (task.action === 'login') return onLogin();
     if (task.action === 'openAccount') return onOpenAccount();
@@ -99,108 +129,141 @@ export const HelpYouSection: React.FC<HelpYouSectionProps> = ({
   return (
     <section aria-labelledby="help-you-heading" className="bg-white border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-14">
-        {/* Section header, matching the Group subsidiaries section: red rule and
-            eyebrow, black heading, supporting line, and a red link on the right. */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 pb-5 border-b border-slate-200">
-          <div>
-            <div className="flex items-center space-x-2 text-xs font-black uppercase tracking-wider text-[#E4002B] mb-1.5">
-              <span className="w-1.5 h-3.5 bg-[#E4002B] rounded-xs inline-block" />
-              <span>Start here</span>
-            </div>
-            <h2
-              id="help-you-heading"
-              className="text-2xl sm:text-3xl font-black tracking-tight text-[#002554]"
-            >
-              What can we help you with?
-            </h2>
-            <p className="text-sm text-cbz-grey mt-1 max-w-2xl">
-              Pick up where you left off, start something new, or tell us who you are and we will
-              point you to the right part of the Group.
-            </p>
-          </div>
+        <div className="mb-6">
+          <p className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-cbz-red mb-1.5">
+            <span className="w-1.5 h-3.5 bg-cbz-red rounded-xs inline-block" />
+            <span>Start here</span>
+          </p>
+          <h2
+            id="help-you-heading"
+            className="text-2xl sm:text-3xl font-black tracking-tight text-cbz-blue"
+          >
+            What can we help you with?
+          </h2>
+          <p className="text-sm text-cbz-grey mt-1 max-w-2xl">
+            Pick up where you left off, start something new, or tell us who you are and we will
+            point you to the right part of the Group.
+          </p>
+        </div>
 
+        {/* Quick actions. Content is top-aligned, so a card that carries a badge
+            grows downward and the titles stay on one line across the row. */}
+        <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+          {LAUNCHER_TASKS.map((task) => {
+            const Icon = task.icon;
+            return (
+              <li key={task.label}>
+                <button
+                  onClick={runTask(task)}
+                  className="group relative w-full h-full text-left bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-4 sm:p-5 shadow-xs hover:shadow-md transition-all cursor-pointer flex flex-col overflow-hidden"
+                >
+                  <span
+                    aria-hidden
+                    className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-gradient-to-bl from-slate-100 to-transparent pointer-events-none"
+                  />
+
+                  <span
+                    className={`relative w-12 h-12 rounded-xl ${TILE[task.accent]} text-white flex items-center justify-center shadow-sm`}
+                  >
+                    <Icon className="w-5 h-5" />
+                  </span>
+
+                  <span className="relative mt-4 flex items-center justify-between gap-3">
+                    <span className="min-w-0">
+                      <span className="block font-black text-sm sm:text-base text-cbz-blue leading-tight">
+                        {task.label}
+                      </span>
+                      <span className="mt-1 block text-xs text-slate-500 leading-snug">
+                        {task.hint}
+                      </span>
+                    </span>
+                    <span className="w-9 h-9 rounded-full bg-slate-100 group-hover:bg-cbz-blue text-cbz-blue group-hover:text-white flex items-center justify-center shrink-0 transition-colors">
+                      <ArrowRight className="w-4 h-4" />
+                    </span>
+                  </span>
+
+                  {task.pending ? (
+                    <span className="relative mt-3 inline-flex self-start items-center gap-1 text-[11px] font-bold text-amber-800 bg-amber-50 border border-amber-200 px-2 py-1 rounded-md">
+                      To be confirmed
+                    </span>
+                  ) : task.badge ? (
+                    <span className="relative mt-3 inline-flex self-start items-center gap-1 text-[11px] font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-2 py-1 rounded-md">
+                      <BadgeIcon className="w-3.5 h-3.5" />
+                      {task.badge}
+                    </span>
+                  ) : null}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+
+        {/* By need. */}
+        <div className="mt-12 mb-4 flex items-center justify-between gap-4">
+          <h3 className="flex items-center gap-2.5 text-sm font-black uppercase tracking-[0.18em] text-cbz-ink">
+            <span className="w-6 h-0.5 bg-cbz-red inline-block" />
+            <span>Or start with what you need</span>
+          </h3>
           <button
             onClick={() => onNavigate('group')}
-            className="text-xs sm:text-sm font-bold text-[#E4002B] hover:text-[#C50025] flex items-center space-x-1.5 mt-4 md:mt-0 transition-colors cursor-pointer"
+            className="text-xs sm:text-sm font-bold text-cbz-blue hover:text-cbz-red inline-flex items-center gap-1.5 transition-colors cursor-pointer shrink-0"
           >
             <span>Explore all services</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>
 
-        {/* Quick actions, in a tray like the subsidiary selector: white cards on
-            a tinted panel so the row reads as one control, not six loose boxes. */}
-        <div className="bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-200 p-3 sm:p-4 shadow-xs">
-          <ul className="grid grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-2.5">
-            {LAUNCHER_TASKS.map((task) => {
-              const Icon = task.icon;
-              return (
-                <li key={task.label}>
-                  <button
-                    onClick={runTask(task)}
-                    className="group w-full h-full text-left bg-white border border-slate-200 hover:border-[#002554] hover:ring-2 hover:ring-[#002554]/10 rounded-xl p-3 sm:p-4 transition-all hover:shadow-xs cursor-pointer flex items-start gap-2.5 sm:gap-3"
-                  >
-                    <span className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl bg-slate-50 group-hover:bg-red-50 border border-slate-200 flex items-center justify-center flex-shrink-0 transition-colors">
-                      <Icon className="w-4 h-4 text-[#002554] group-hover:text-[#E4002B] transition-colors" />
-                    </span>
-                    <span className="min-w-0">
-                      <span className="flex items-center gap-1 sm:gap-1.5">
-                        <span className="font-extrabold text-xs sm:text-sm text-[#002554] leading-tight">
-                          {task.label}
-                        </span>
-                        <ArrowRight className="w-3 h-3 text-slate-300 group-hover:text-[#E4002B] group-hover:translate-x-0.5 transition-all shrink-0" />
-                      </span>
-                      <span className="mt-0.5 block text-2xs sm:text-xs text-slate-500 leading-snug">
-                        {task.hint}
-                      </span>
-                      {task.pending && (
-                        <span className="mt-1 inline-block text-[10px] font-bold text-amber-700 bg-amber-50 border border-amber-200 px-1 py-0.2 sm:px-1.5 sm:py-0.5 rounded">
-                          To be confirmed
-                        </span>
-                      )}
-                    </span>
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-
-        {/* By need. These four are the only cards on the page that each lead
-            somewhere genuinely different, so they keep the card treatment. */}
-        <div className="flex items-center space-x-2 text-xs font-black uppercase tracking-wider text-[#E4002B] mt-10 mb-4">
-          <span className="w-1.5 h-3.5 bg-[#E4002B] rounded-xs inline-block" />
-          <span>Or start with what you need</span>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {LIFE_STAGES.map((stage) => (
             <button
               key={stage.title}
               onClick={() => onNavigate(stageRoute(stage.title))}
-              className="text-left p-5 rounded-2xl border border-slate-200 bg-white hover:border-[#002554] hover:ring-2 hover:ring-[#002554]/10 hover:shadow-md transition-all duration-200 cursor-pointer group flex flex-col justify-between"
+              className="group text-left bg-white rounded-2xl border border-slate-200 hover:border-slate-300 shadow-xs hover:shadow-md transition-all cursor-pointer flex flex-col overflow-hidden"
             >
-              <div>
-                <div className="w-11 h-11 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center mb-3.5 group-hover:scale-105 transition-transform">
+              <span className="p-5 sm:p-6">
+                <span
+                  className={`w-12 h-12 rounded-xl ${TILE[stage.accent]} text-white flex items-center justify-center shadow-sm`}
+                >
                   {stageIcon(stage.iconName)}
-                </div>
-                <h3 className="font-black text-base text-[#002554] group-hover:text-[#E4002B] transition-colors">
+                </span>
+                <span className="block mt-4 font-black text-lg text-cbz-blue leading-tight">
                   {stage.title}
-                </h3>
-                <p className="text-xs text-cbz-grey mt-1.5 leading-relaxed">{stage.subtitle}</p>
-              </div>
-              <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-[#002554] group-hover:text-[#E4002B]">
-                <span>Explore</span>
-                <ArrowUpRight className="w-4 h-4 opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
-              </div>
+                </span>
+                <span className="block text-sm text-slate-500 mt-1.5 leading-snug">
+                  {stage.subtitle}
+                </span>
+                <span className="mt-4 inline-flex items-center gap-2 text-sm font-black text-cbz-blue group-hover:text-cbz-red transition-colors">
+                  <span>Explore</span>
+                  <span className="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-cbz-red group-hover:text-white flex items-center justify-center transition-colors">
+                    <ArrowRight className="w-4 h-4" />
+                  </span>
+                </span>
+              </span>
+
+              {/* Photo with the accent wedge in the lower-left corner. */}
+              <span className="relative block h-40 sm:h-44 mt-auto">
+                <img
+                  {...siteImage(`need.${slug(stage.title)}`, stage.image, '')}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                />
+                <span
+                  aria-hidden
+                  className={`absolute bottom-0 left-0 w-[52%] h-[58%] ${TILE[stage.accent]} opacity-95`}
+                  style={{ clipPath: 'polygon(0 0, 0 100%, 100% 100%)' }}
+                />
+              </span>
             </button>
           ))}
         </div>
 
-        {/* By segment. A row of links rather than five image cards: it is a
-            wayfinding aid, not a second product grid. Every pill is weighted the
-            same, because none of them is a selected state. */}
-        <div className="mt-8 rounded-xl sm:rounded-2xl border border-slate-200 bg-slate-50 p-3 sm:p-4 flex flex-wrap items-center gap-x-2 gap-y-2">
-          <span className="text-xs font-black uppercase tracking-wider text-cbz-grey mr-1 pl-1">
+        {/* By segment. Every pill carries the same weight at rest: none of
+            these is a selected state, they each lead to a different page. The
+            navy fill from the guide is the hover and focus state instead. */}
+        <div className="mt-8 flex flex-wrap items-center gap-2.5">
+          <span className="text-sm font-black uppercase tracking-[0.2em] text-cbz-grey mr-2">
             I am
           </span>
           {AUDIENCES.map((audience) => (
@@ -208,10 +271,11 @@ export const HelpYouSection: React.FC<HelpYouSectionProps> = ({
               key={audience.title}
               onClick={() => onNavigate(audienceRoute(audience.title))}
               title={audience.description}
-              className="px-3.5 py-2 rounded-xl border border-slate-200 bg-white hover:border-[#002554] hover:ring-2 hover:ring-[#002554]/10 text-xs font-bold text-[#002554] transition-all cursor-pointer inline-flex items-center gap-1.5"
+              className="group inline-flex items-center gap-2.5 pl-3.5 pr-3 py-2.5 rounded-full border border-slate-200 bg-white text-sm font-bold text-cbz-blue hover:bg-cbz-blue hover:border-cbz-blue hover:text-white focus-visible:bg-cbz-blue focus-visible:text-white transition-colors cursor-pointer"
             >
+              {audienceIcon(audience.iconName)}
               <span>{audience.title}</span>
-              <ArrowRight className="w-3 h-3 text-slate-300" />
+              <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-white transition-colors" />
             </button>
           ))}
         </div>
@@ -220,7 +284,7 @@ export const HelpYouSection: React.FC<HelpYouSectionProps> = ({
             biller list lives on Ziki Mall, which is where paying actually happens. */}
         <div
           id="bill-payments"
-          className="mt-4 scroll-mt-24 rounded-xl sm:rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-xs flex flex-col lg:flex-row lg:items-center justify-between gap-4"
+          className="mt-8 scroll-mt-24 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-xs flex flex-col lg:flex-row lg:items-center justify-between gap-4"
         >
           <div className="flex items-center gap-4 min-w-0">
             {/* Rendered through Logo, never as raw artwork: the brand registry
@@ -229,7 +293,7 @@ export const HelpYouSection: React.FC<HelpYouSectionProps> = ({
               <Logo brand="ziki-mall" height={32} clearSpace={false} />
             </span>
             <div className="min-w-0">
-              <h3 className="text-base sm:text-lg font-black text-[#002554]">
+              <h3 className="text-base sm:text-lg font-black text-cbz-blue">
                 Pay every bill in one tap
               </h3>
               <p className="text-xs text-cbz-grey mt-0.5 leading-relaxed">
@@ -242,7 +306,7 @@ export const HelpYouSection: React.FC<HelpYouSectionProps> = ({
             href="https://zikimall.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-5 py-2.5 bg-[#002554] hover:bg-[#0A3E80] text-white text-xs font-bold rounded-xl inline-flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-xs flex-shrink-0"
+            className="px-5 py-2.5 bg-cbz-blue hover:bg-cbz-blue-700 text-white text-xs font-bold rounded-xl inline-flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-xs flex-shrink-0"
           >
             <span>Pay a bill on Ziki Mall</span>
             <ExternalLink className="w-3.5 h-3.5" />

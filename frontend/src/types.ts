@@ -70,10 +70,16 @@ export interface Subsidiary {
   logo?: string;
 }
 
+/** Icon tile and wedge colour on the homepage cards, per the design guide. */
+export type Accent = 'navy' | 'red' | 'blue' | 'green' | 'purple' | 'orange';
+
 export interface LifeStage {
   title: string;
   subtitle: string;
   iconName: string;
+  accent: Accent;
+  /** Photo in the lower half of the card. Replaceable in the CMS by image key. */
+  image: string;
 }
 
 export interface Goal {

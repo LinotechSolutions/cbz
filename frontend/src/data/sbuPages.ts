@@ -49,7 +49,8 @@ export interface SbuPageConfig {
     imageKey: string;
     image?: string;
     primaryCta: { label: string; screen?: ScreenType; href?: string };
-    secondaryCta?: { label: string; screen?: ScreenType; href?: string };
+    /** `anchor` scrolls to a section id on the same page instead of navigating away. */
+    secondaryCta?: { label: string; screen?: ScreenType; href?: string; anchor?: string };
   };
   about: string;
   keyFacts: KeyFact[];

@@ -98,7 +98,7 @@ export const EXTERNAL_LINKS = {
   investorRelations: 'https://www.cbz.co.zw/investor-relations',
   // Verified Red Sphere Finance online loan application portal
   redSphereApply: 'https://rs.cbz.co.zw/',
-  redSphereApp: 'https://rs.cbz.co.zw/',
+  redSphereApp: 'https://play.google.com/store/apps/details?id=zw.co.cbz.redsphere&hl=en',
   // Proof of payment verification, surfaced on the homepage task launcher.
   popVerification: 'https://www.cbz.co.zw/pop-verification',
   spotFakeSites: '/security',

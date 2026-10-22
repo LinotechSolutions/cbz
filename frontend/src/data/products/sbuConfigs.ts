@@ -316,7 +316,7 @@ export const CAPITAL_PAGE: SbuPageConfig = {
     imageKey: 'banner.capital',
     image: '/images/accounts/partnership.webp',
     primaryCta: { label: 'Start capital inquiry', screen: 'journey-capital' },
-    secondaryCta: { label: 'Explore advisory services', screen: 'the-group' },
+    secondaryCta: { label: 'Explore advisory services', anchor: 'products' },
   },
   about:
     'CBZ Capital is the dedicated investment banking and corporate advisory arm of CBZ Holdings Limited. We structure and lead-arrange high-impact debt capital syndications, corporate bond issuances, strategic mergers and acquisitions, and public-private partnership (PPP) infrastructure transactions that power economic development across Zimbabwe.',
@@ -357,7 +357,7 @@ export const RISK_ADVISORY_PAGE: SbuPageConfig = {
     imageKey: 'banner.risk-advisory',
     image: '/images/insurance-health.webp',
     primaryCta: { label: 'Request risk consultation', screen: 'journey-risk' },
-    secondaryCta: { label: 'Explore broking services', screen: 'the-group' },
+    secondaryCta: { label: 'Explore broking services', anchor: 'products' },
   },
   about:
     'CBZ Risk Advisory Services is an accredited short-term insurance broker and risk consultancy registered under the Insurance and Pensions Commission (IPEC). We represent corporate clients independently across all licensed underwriters, perform rigorous on-site loss prevention surveys, structure employee benefit schemes, and advocate tirelessly for equitable claim settlements.',

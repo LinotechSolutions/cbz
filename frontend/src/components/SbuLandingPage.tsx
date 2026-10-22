@@ -32,7 +32,12 @@ export const SbuLandingPage: React.FC<SbuLandingPageProps> = ({ config, onNaviga
   const [isCallbackOpen, setIsCallbackOpen] = useState(false);
   const [callbackNote, setCallbackNote] = useState('');
 
-  const act = (target?: { label?: string; screen?: ScreenType; href?: string }) => () => {
+  const act = (target?: { label?: string; screen?: ScreenType; href?: string; anchor?: string }) => () => {
+    if (target?.anchor) {
+      analytics.trackConversionCta('apply', `${hero.eyebrow}: ${target.label || ''}`, `#${target.anchor}`);
+      document.getElementById(target.anchor)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
     const label = target?.label || '';
     if (
       label.toLowerCase().includes('callback') ||
@@ -136,7 +141,7 @@ export const SbuLandingPage: React.FC<SbuLandingPageProps> = ({ config, onNaviga
       </RevealSection>
 
       {/* 4. PRODUCTS AND SOLUTIONS */}
-      <RevealSection className="bg-white border-y border-slate-200">
+      <RevealSection id="products" className="scroll-mt-24 bg-white border-y border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <h2 className="text-2xl sm:text-3xl font-black text-[#002554] tracking-tight">
             {products.heading}

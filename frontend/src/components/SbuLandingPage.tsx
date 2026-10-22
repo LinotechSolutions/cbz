@@ -117,25 +117,92 @@ export const SbuLandingPage: React.FC<SbuLandingPageProps> = ({ config, onNaviga
         </div>
       </section>
 
-      {/* 2. ABOUT US + 3. KEY FACTS */}
-      <RevealSection className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-          <div className="lg:col-span-6">
-            <h2 className="text-xs font-extrabold uppercase tracking-widest text-slate-400">About us</h2>
-            <p className="mt-3 text-sm text-slate-600 leading-relaxed">{about}</p>
+      {/* 2. ABOUT US + 3. KEY FACTS.
+          Two panels that answer the heading in order: what the business does on
+          the left, and the facts that back it on the right. The facts read as a
+          ledger rather than a grid of tiles, so a visitor scans label to figure
+          down one column instead of across six boxes. */}
+      <RevealSection className="bg-slate-50 border-y border-slate-200/80 py-14 sm:py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-10">
+            <p className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-cbz-red mb-3">
+              <span className="w-1.5 h-3.5 bg-cbz-red rounded-xs inline-block" />
+              <span>About {hero.eyebrow}</span>
+            </p>
+            <h2 className="text-cbz-blue text-3xl md:text-5xl font-black tracking-tight leading-[1.08]">
+              What we do,
+              <br />
+              <em className="text-cbz-red not-italic">and what backs it.</em>
+            </h2>
           </div>
 
-          <div className="lg:col-span-6">
-            <h2 className="text-xs font-extrabold uppercase tracking-widest text-slate-400">Key facts</h2>
-            <dl className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-4">
-              {keyFacts.map((fact) => (
-                <div key={fact.label} className="bg-white rounded-xl border border-slate-200 p-4">
-                  <dt className="sr-only">{fact.label}</dt>
-                  <dd className="text-xl font-black text-[#002554]">{fact.value}</dd>
-                  <dd className="mt-1 text-xs text-slate-500 leading-snug">{fact.label}</dd>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
+            {/* What we do. */}
+            <div className="lg:col-span-6 bg-white p-7 sm:p-9 rounded-2xl border border-slate-200/90 shadow-sm flex flex-col">
+              <strong className="block text-cbz-blue text-xs uppercase tracking-wider mb-4">
+                The business
+              </strong>
+              <p className="text-sm text-slate-600 leading-relaxed">{about}</p>
+
+              <div className="mt-auto pt-7">
+                <div className="h-10 flex items-center">
+                  <Logo brand={config.brand} variant="full" height={30} clearSpace={false} />
                 </div>
-              ))}
-            </dl>
+              </div>
+            </div>
+
+            {/* What backs it. */}
+            <div className="lg:col-span-6 bg-cbz-blue text-white p-7 sm:p-9 rounded-2xl flex flex-col justify-between relative overflow-hidden shadow-xl">
+              {hero.image && (
+                <div
+                  aria-hidden
+                  className="absolute right-0 bottom-0 w-72 h-72 opacity-15 pointer-events-none bg-contain bg-no-repeat bg-right-bottom"
+                  style={{ backgroundImage: `url("${hero.image}")` }}
+                />
+              )}
+              <div
+                aria-hidden
+                className="absolute -top-24 -right-16 w-72 h-72 rounded-full bg-cbz-red/15 blur-3xl pointer-events-none"
+              />
+
+              <div className="relative z-10">
+                <span className="block text-[10px] uppercase font-bold tracking-widest text-red-300 mb-1.5">
+                  Key facts
+                </span>
+                <h3 className="text-2xl sm:text-3xl font-black text-white mb-5 leading-tight">
+                  {hero.eyebrow}
+                </h3>
+
+                {/* The figure leads and the descriptor follows. Across the nine
+                    units `value` is not always a number: for CBZ Insurance it is
+                    "Personal" against "Motor, home, travel and accident". Putting
+                    the descriptor first read backwards for those, so the value
+                    takes the left column in every case. */}
+                <dl className="bg-white/10 p-5 rounded-xl border border-white/15 backdrop-blur-sm divide-y divide-white/10">
+                  {keyFacts.map((fact) => (
+                    <div
+                      key={fact.label}
+                      className="flex items-baseline justify-between gap-5 py-2.5 first:pt-0 last:pb-0"
+                    >
+                      <dt className="text-sm font-black text-white leading-snug">{fact.value}</dt>
+                      <dd className="text-xs text-slate-200 leading-snug text-right">
+                        {fact.label}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+
+              <div className="relative z-10 pt-6">
+                <button
+                  onClick={act(contact.primaryCta)}
+                  className="w-full px-5 py-3 rounded-xl bg-cbz-red hover:bg-cbz-red-hover text-white text-xs font-bold transition-colors cursor-pointer inline-flex items-center justify-center gap-2 shadow-sm"
+                >
+                  <span>{contact.primaryCta.label}</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </RevealSection>

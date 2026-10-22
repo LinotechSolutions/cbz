@@ -98,68 +98,94 @@ export const HelpYouSection: React.FC<HelpYouSectionProps> = ({
 
   return (
     <section aria-labelledby="help-you-heading" className="bg-white border-b border-slate-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        <h2
-          id="help-you-heading"
-          className="text-2xl sm:text-3xl font-black tracking-tight text-[#002554]"
-        >
-          What can we help you with?
-        </h2>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-14">
+        {/* Section header, matching the Group subsidiaries section: red rule and
+            eyebrow, black heading, supporting line, and a red link on the right. */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 pb-5 border-b border-slate-200">
+          <div>
+            <div className="flex items-center space-x-2 text-xs font-black uppercase tracking-wider text-[#E4002B] mb-1.5">
+              <span className="w-1.5 h-3.5 bg-[#E4002B] rounded-xs inline-block" />
+              <span>Start here</span>
+            </div>
+            <h2
+              id="help-you-heading"
+              className="text-2xl sm:text-3xl font-black tracking-tight text-[#002554]"
+            >
+              What can we help you with?
+            </h2>
+            <p className="text-sm text-cbz-grey mt-1 max-w-2xl">
+              Pick up where you left off, start something new, or tell us who you are and we will
+              point you to the right part of the Group.
+            </p>
+          </div>
 
-        {/* Quick actions: what visitors arrive to do. */}
-        <ul className="mt-6 grid grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3">
-          {LAUNCHER_TASKS.map((task) => {
-            const Icon = task.icon;
-            return (
-              <li key={task.label}>
-                <button
-                  onClick={runTask(task)}
-                  className="group w-full h-full text-left bg-slate-50 hover:bg-white border border-slate-200 hover:border-[#E4002B]/40 rounded-xl sm:rounded-2xl p-3 sm:p-4 transition-all hover:shadow-md cursor-pointer flex items-start gap-2.5 sm:gap-3"
-                >
-                  <span className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl bg-white group-hover:bg-red-50 border border-slate-200 flex items-center justify-center flex-shrink-0 transition-colors">
-                    <Icon className="w-4 h-4 text-[#002554] group-hover:text-[#E4002B] transition-colors" />
-                  </span>
-                  <span className="min-w-0">
-                    <span className="flex items-center gap-1 sm:gap-1.5">
-                      <span className="font-extrabold text-xs sm:text-sm text-[#002554] leading-tight">
-                        {task.label}
-                      </span>
-                      <ArrowRight className="w-3 h-3 text-slate-300 group-hover:text-[#E4002B] group-hover:translate-x-0.5 transition-all shrink-0" />
+          <button
+            onClick={() => onNavigate('group')}
+            className="text-xs sm:text-sm font-bold text-[#E4002B] hover:text-[#C50025] flex items-center space-x-1.5 mt-4 md:mt-0 transition-colors cursor-pointer"
+          >
+            <span>Explore all services</span>
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
+
+        {/* Quick actions, in a tray like the subsidiary selector: white cards on
+            a tinted panel so the row reads as one control, not six loose boxes. */}
+        <div className="bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-200 p-3 sm:p-4 shadow-xs">
+          <ul className="grid grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-2.5">
+            {LAUNCHER_TASKS.map((task) => {
+              const Icon = task.icon;
+              return (
+                <li key={task.label}>
+                  <button
+                    onClick={runTask(task)}
+                    className="group w-full h-full text-left bg-white border border-slate-200 hover:border-[#002554] hover:ring-2 hover:ring-[#002554]/10 rounded-xl p-3 sm:p-4 transition-all hover:shadow-xs cursor-pointer flex items-start gap-2.5 sm:gap-3"
+                  >
+                    <span className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl bg-slate-50 group-hover:bg-red-50 border border-slate-200 flex items-center justify-center flex-shrink-0 transition-colors">
+                      <Icon className="w-4 h-4 text-[#002554] group-hover:text-[#E4002B] transition-colors" />
                     </span>
-                    <span className="mt-0.5 block text-2xs sm:text-xs text-slate-500 leading-snug">
-                      {task.hint}
-                    </span>
-                    {task.pending && (
-                      <span className="mt-1 inline-block text-[10px] font-bold text-amber-700 bg-amber-50 border border-amber-200 px-1 py-0.2 sm:px-1.5 sm:py-0.5 rounded">
-                        To be confirmed
+                    <span className="min-w-0">
+                      <span className="flex items-center gap-1 sm:gap-1.5">
+                        <span className="font-extrabold text-xs sm:text-sm text-[#002554] leading-tight">
+                          {task.label}
+                        </span>
+                        <ArrowRight className="w-3 h-3 text-slate-300 group-hover:text-[#E4002B] group-hover:translate-x-0.5 transition-all shrink-0" />
                       </span>
-                    )}
-                  </span>
-                </button>
-              </li>
-            );
-          })}
-        </ul>
+                      <span className="mt-0.5 block text-2xs sm:text-xs text-slate-500 leading-snug">
+                        {task.hint}
+                      </span>
+                      {task.pending && (
+                        <span className="mt-1 inline-block text-[10px] font-bold text-amber-700 bg-amber-50 border border-amber-200 px-1 py-0.2 sm:px-1.5 sm:py-0.5 rounded">
+                          To be confirmed
+                        </span>
+                      )}
+                    </span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
 
         {/* By need. These four are the only cards on the page that each lead
             somewhere genuinely different, so they keep the card treatment. */}
-        <h3 className="text-sm font-black uppercase tracking-wider text-cbz-grey mt-12 mb-4">
-          Or start with what you need
-        </h3>
+        <div className="flex items-center space-x-2 text-xs font-black uppercase tracking-wider text-[#E4002B] mt-10 mb-4">
+          <span className="w-1.5 h-3.5 bg-[#E4002B] rounded-xs inline-block" />
+          <span>Or start with what you need</span>
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {LIFE_STAGES.map((stage) => (
             <button
               key={stage.title}
               onClick={() => onNavigate(stageRoute(stage.title))}
-              className="text-left p-5 rounded-2xl border border-slate-200/90 bg-slate-50/50 hover:bg-white hover:border-[#002554]/30 hover:shadow-md transition-all duration-200 cursor-pointer group flex flex-col justify-between"
+              className="text-left p-5 rounded-2xl border border-slate-200 bg-white hover:border-[#002554] hover:ring-2 hover:ring-[#002554]/10 hover:shadow-md transition-all duration-200 cursor-pointer group flex flex-col justify-between"
             >
               <div>
-                <div className="w-11 h-11 rounded-xl bg-white shadow-xs border border-slate-100 flex items-center justify-center mb-3.5 group-hover:scale-105 transition-transform">
+                <div className="w-11 h-11 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center mb-3.5 group-hover:scale-105 transition-transform">
                   {stageIcon(stage.iconName)}
                 </div>
-                <h4 className="font-bold text-base text-[#002554] group-hover:text-[#E4002B] transition-colors">
+                <h3 className="font-black text-base text-[#002554] group-hover:text-[#E4002B] transition-colors">
                   {stage.title}
-                </h4>
+                </h3>
                 <p className="text-xs text-cbz-grey mt-1.5 leading-relaxed">{stage.subtitle}</p>
               </div>
               <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-[#002554] group-hover:text-[#E4002B]">
@@ -171,9 +197,10 @@ export const HelpYouSection: React.FC<HelpYouSectionProps> = ({
         </div>
 
         {/* By segment. A row of links rather than five image cards: it is a
-            wayfinding aid, not a second product grid. */}
-        <div className="mt-8 flex flex-wrap items-center gap-x-2 gap-y-2.5">
-          <span className="text-sm font-black uppercase tracking-wider text-cbz-grey mr-1">
+            wayfinding aid, not a second product grid. Every pill is weighted the
+            same, because none of them is a selected state. */}
+        <div className="mt-8 rounded-xl sm:rounded-2xl border border-slate-200 bg-slate-50 p-3 sm:p-4 flex flex-wrap items-center gap-x-2 gap-y-2">
+          <span className="text-xs font-black uppercase tracking-wider text-cbz-grey mr-1 pl-1">
             I am
           </span>
           {AUDIENCES.map((audience) => (
@@ -181,7 +208,7 @@ export const HelpYouSection: React.FC<HelpYouSectionProps> = ({
               key={audience.title}
               onClick={() => onNavigate(audienceRoute(audience.title))}
               title={audience.description}
-              className="px-3.5 py-2 rounded-xl border border-slate-200 bg-white hover:border-[#E4002B]/50 hover:bg-red-50/40 text-xs font-bold text-[#002554] transition-colors cursor-pointer inline-flex items-center gap-1.5"
+              className="px-3.5 py-2 rounded-xl border border-slate-200 bg-white hover:border-[#002554] hover:ring-2 hover:ring-[#002554]/10 text-xs font-bold text-[#002554] transition-all cursor-pointer inline-flex items-center gap-1.5"
             >
               <span>{audience.title}</span>
               <ArrowRight className="w-3 h-3 text-slate-300" />
@@ -193,7 +220,7 @@ export const HelpYouSection: React.FC<HelpYouSectionProps> = ({
             biller list lives on Ziki Mall, which is where paying actually happens. */}
         <div
           id="bill-payments"
-          className="mt-10 scroll-mt-24 rounded-2xl border border-slate-200 bg-slate-50/70 p-5 sm:p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-4"
+          className="mt-4 scroll-mt-24 rounded-xl sm:rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-xs flex flex-col lg:flex-row lg:items-center justify-between gap-4"
         >
           <div className="flex items-center gap-4 min-w-0">
             {/* Rendered through Logo, never as raw artwork: the brand registry
@@ -215,7 +242,7 @@ export const HelpYouSection: React.FC<HelpYouSectionProps> = ({
             href="https://zikimall.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-4 py-2.5 bg-[#002554] hover:bg-[#0A3E80] text-white text-xs font-bold rounded-xl inline-flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-xs flex-shrink-0"
+            className="px-5 py-2.5 bg-[#002554] hover:bg-[#0A3E80] text-white text-xs font-bold rounded-xl inline-flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-xs flex-shrink-0"
           >
             <span>Pay a bill on Ziki Mall</span>
             <ExternalLink className="w-3.5 h-3.5" />

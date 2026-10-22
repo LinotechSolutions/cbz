@@ -218,8 +218,8 @@ export const TopUtilityBar: React.FC<TopUtilityBarProps> = ({
             <div className="w-5 h-5 rounded-full bg-red-500/20 group-hover:bg-red-500/30 flex items-center justify-center">
               <PhoneCall className="w-3 h-3 text-red-400" />
             </div>
-            <span className="text-white/60 hidden md:inline">Toll-Free:</span>
-            <span className="font-bold text-white tabular-nums">{CONTACT.tollFreeLabel}</span>
+            <span className="text-white/60 hidden md:inline">Contact:</span>
+            <span className="font-bold text-white tabular-nums">{CONTACT.phoneDisplay}</span>
           </button>
 
           {/* WhatsApp Direct */}

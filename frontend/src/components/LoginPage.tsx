@@ -372,11 +372,11 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate, onOpenAccount 
                   Read our full Security & Anti-Phishing Guide
                 </button>
                 <a
-                  href={`tel:${CONTACT.tollFree[0]}`}
+                  href={CONTACT.phoneHref}
                   className="text-slate-600 hover:text-slate-900 flex items-center gap-1"
                 >
                   <PhoneCall className="w-3.5 h-3.5 text-[#E4002B]" />
-                  <span>Report suspicious activity: 460 / 461</span>
+                  <span>Report suspicious activity: {CONTACT.phoneDisplay}</span>
                 </a>
               </div>
             </div>

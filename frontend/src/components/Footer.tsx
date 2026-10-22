@@ -46,18 +46,18 @@ export const Footer: React.FC<FooterProps> = ({
         <div className="pb-10 mb-10 border-b border-white/10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           {/* Contact Highlight: Toll Free & WhatsApp & Support Email */}
           <div className="flex flex-wrap items-center gap-6 text-xs">
-            {/* Toll-Free */}
+            {/* Contact Centre */}
             <a
-              href="tel:460"
+              href="tel:+2638677004050"
               className="flex items-center space-x-2.5 group hover:opacity-90 transition-opacity"
-              title="Call Toll-Free 460 / 461"
+              title="Call +263 8677 004050"
             >
               <div className="w-9 h-9 rounded-xl bg-[#E4002B]/20 text-[#E4002B] border border-[#E4002B]/30 flex items-center justify-center font-bold transition-all group-hover:bg-[#E4002B] group-hover:text-white shadow-xs">
                 <PhoneCall className="w-4 h-4" />
               </div>
               <div>
-                <div className="text-[10px] uppercase font-bold text-white/60 tracking-wider">Toll-Free (All Networks)</div>
-                <div className="text-sm font-black text-white tabular-nums group-hover:text-red-300 transition-colors">{CONTACT.tollFreeLabel}</div>
+                <div className="text-[10px] uppercase font-bold text-white/60 tracking-wider">Contact Centre</div>
+                <div className="text-sm font-black text-white tabular-nums group-hover:text-red-300 transition-colors">{CONTACT.phoneDisplay}</div>
               </div>
             </a>
 

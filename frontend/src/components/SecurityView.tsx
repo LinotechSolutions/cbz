@@ -112,11 +112,11 @@ export const SecurityView: React.FC<SecurityViewProps> = ({ onNavigate }) => {
               <p className="text-xs text-slate-200 mt-1">Our fraud monitoring team is active 24/7/365.</p>
             </div>
             <a
-              href={`tel:${CONTACT.tollFree[0]}`}
+              href={CONTACT.phoneHref}
               className="px-5 py-2.5 bg-[#E4002B] hover:bg-[#C50025] text-white text-xs font-bold rounded-xl transition-all cursor-pointer inline-flex items-center gap-2 shrink-0"
             >
               <PhoneCall className="w-4 h-4" />
-              <span>Call Toll-Free {CONTACT.tollFreeLabel}</span>
+              <span>Call {CONTACT.phoneDisplay}</span>
             </a>
           </div>
         </div>

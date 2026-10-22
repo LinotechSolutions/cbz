@@ -36,9 +36,13 @@ export const GROUP_FACTS = {
 } satisfies Record<string, Fact>;
 
 export const CONTACT = {
+  /** Primary contact phone number */
+  phone: '+2638677004050',
+  phoneDisplay: '+263 8677 004050',
+  phoneHref: 'tel:+2638677004050',
   /** Toll-free short codes, all networks. */
   tollFree: ['460', '461'] as const,
-  tollFreeLabel: '460 / 461',
+  tollFreeLabel: '+263 8677 004050',
   whatsapp: {
     display: '+263 774 460 460',
     href: 'https://wa.me/263774460460',
@@ -48,13 +52,12 @@ export const CONTACT = {
     href: 'tel:*460%23',
   },
   /**
-   * Switchboard. Conflict: footer showed "+263 24 2799 234-9 · 8677 004050";
-   * the brand guideline shows "+263 8677004050". Chose the guideline number.
+   * Switchboard.
    */
   switchboard: {
     display: '+263 8677 004050',
     href: 'tel:+2638677004050',
-    confirmed: false,
+    confirmed: true,
   },
   email: 'contactcentre@cbz.co.zw',
   address: '5 Campbell Road, Pomona, Harare',

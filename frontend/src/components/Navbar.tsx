@@ -1484,7 +1484,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 className="w-full py-2 min-h-11 border border-slate-300 text-slate-700 text-sm font-bold rounded-lg text-center cursor-pointer flex items-center justify-center space-x-2"
               >
                 <PhoneCall className="w-3.5 h-3.5 text-[#E4002B]" />
-                <span>Contact Channels & Toll-Free 460</span>
+                <span>Contact Channels & +263 8677 004050</span>
               </button>
             )}
           </div>

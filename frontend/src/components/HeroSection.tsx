@@ -139,7 +139,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 className="min-h-11 px-4 py-2.5 sm:px-5 sm:py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-sm font-bold rounded-xl transition-all duration-150 flex items-center justify-center space-x-1.5 sm:space-x-2 cursor-pointer"
               >
                 <PhoneCall className="w-4 h-4 text-[#E4002B]" />
-                <span>Toll-Free {CONTACT.tollFreeLabel}</span>
+                <span>Call {CONTACT.phoneDisplay}</span>
               </button>
             )}
           </div>

@@ -193,7 +193,9 @@ export const Footer: React.FC<FooterProps> = ({
               <li><button onClick={() => onNavigate('journey')} className="hover:text-white cursor-pointer">Motor Vehicle Insurance</button></li>
               <li><button onClick={() => onNavigate('sbu')} className="hover:text-white cursor-pointer">Home & Contents Cover</button></li>
               <li><button onClick={() => onNavigate('properties')} className="hover:text-white cursor-pointer">Properties & Mortgages</button></li>
-              <li><button onClick={() => onNavigate('sbu')} className="hover:text-white cursor-pointer">ComfortSure Funeral Plan</button></li>
+              {/* ComfortSure is a CBZ Life product, not a CBZ Insurance one, so
+                  this links to the CBZ Life page rather than the short-term insurer. */}
+              <li><button onClick={() => onNavigate('cbz-life')} className="hover:text-white cursor-pointer">ComfortSure Funeral Plan</button></li>
               <li><button onClick={() => onNavigate('invest')} className="hover:text-white cursor-pointer">Datvest Money Market</button></li>
               <li><button onClick={() => onNavigate('agro')} className="hover:text-white cursor-pointer">Agro Input Financing</button></li>
             </ul>

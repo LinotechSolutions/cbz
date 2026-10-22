@@ -161,7 +161,7 @@ export const DATVEST_PAGE: SbuPageConfig = {
     secondaryCta: { label: 'Speak to an adviser', screen: 'open-account' },
   },
   about:
-    'Datvest is the Group’s asset manager. It runs unit trusts for individual savers, segregated mandates for institutions and pension funds, and private wealth and family office advisory for high net worth clients.',
+    'Datvest is the investment management arm of CBZ Holdings, serving individuals, corporates, pension funds, institutions and high-net-worth clients. It runs unit trusts for individual savers, wealth and portfolio management, pension fund management, treasury bills and bonds, equity and money-market investments, and alternative investments — focused on capital preservation, value growth and risk-adjusted returns.',
   keyFacts: [
     { value: 'Unit trusts', label: 'For individual savers' },
     { value: 'Institutional', label: 'Segregated and fiduciary mandates' },
@@ -202,7 +202,7 @@ export const PROPERTIES_PAGE: SbuPageConfig = {
     secondaryCta: { label: 'Explore mortgages', screen: 'journey-bank' },
   },
   about:
-    'CBZ Properties develops, sells and manages property across Zimbabwe: serviced residential stands and homes, commercial and retail space, and advisory including valuations and project management. A purchase can be financed by a CBZ Bank mortgage and insured by CBZ Insurance.',
+    'CBZ Properties manages and develops the Group’s real estate interests, serving individuals, SMEs, corporates and institutions. Its mandate spans property development and project management, residential and commercial sales, leasing and property management, valuations and advisory, estate agency and facilities management. A purchase can be financed by a CBZ Bank mortgage and insured by CBZ Insurance.',
   keyFacts: [
     { value: 'Residential', label: 'Stands, homes and clusters' },
     { value: 'Commercial', label: 'Office, retail and industrial' },
@@ -320,12 +320,14 @@ export const CAPITAL_PAGE: SbuPageConfig = {
   },
   about:
     'CBZ Capital is the dedicated investment banking and corporate advisory arm of CBZ Holdings Limited. We structure and lead-arrange high-impact debt capital syndications, corporate bond issuances, strategic mergers and acquisitions, and public-private partnership (PPP) infrastructure transactions that power economic development across Zimbabwe.',
+  // The "US$1B+ structured" figure had no source behind it and has been
+  // replaced with the offerings the Group itself publishes for CBZ Capital.
   keyFacts: [
-    { value: 'US$1B+', label: 'Debt and syndications structured' },
+    { value: 'Equity, debt & mezzanine', label: 'Structuring and capital raising' },
     { value: 'ZSE & VFEX', label: 'Listing advisory and sponsorship' },
-    { value: 'M&A Leaders', label: 'Corporate buy-side & sell-side' },
-    { value: 'PPP & Infra', label: 'Concessions and energy financing' },
-    { value: 'Fortress', label: 'CBZ Group balance sheet backing' },
+    { value: 'M&A advisory', label: 'Corporate buy-side and sell-side' },
+    { value: 'Private equity', label: 'Venture solutions and syndicated finance' },
+    { value: 'Investment Cluster', label: 'With Datvest and CBZ Properties' },
     { value: 'Part of CBZ', label: GROUP_FACTS.zseListed.value },
   ],
   products: {
@@ -360,13 +362,15 @@ export const RISK_ADVISORY_PAGE: SbuPageConfig = {
     secondaryCta: { label: 'Explore broking services', anchor: 'products' },
   },
   about:
-    'CBZ Risk Advisory Services is an accredited short-term insurance broker and risk consultancy registered under the Insurance and Pensions Commission (IPEC). We represent corporate clients independently across all licensed underwriters, perform rigorous on-site loss prevention surveys, structure employee benefit schemes, and advocate tirelessly for equitable claim settlements.',
+    'CBZ Risk Advisory Services supports the Group and its clients through enterprise-wide risk management and tailored advisory. It covers short-term insurance broking across motor, residential and commercial cover, risk assessment with control measures and financing solutions such as captive management, and independent claims assessment and lodgement. Alongside that sit employee benefits and pensions — pension advisory and healthcare consulting — and individual life financial planning. Botswana Reinsurance Brokers, wholly owned, extends the broking reach regionally.',
+  // The "ISO 31000" accreditation claim had no source behind it. Replaced with
+  // the services and the wholly owned reinsurance broker the Group publishes.
   keyFacts: [
-    { value: 'IPEC Registered', label: 'Independent insurance broker' },
-    { value: 'Southern Africa', label: 'Regional reinsurance placement' },
-    { value: 'ISO 31000', label: 'Enterprise risk audit standards' },
-    { value: 'Advocacy', label: 'Dedicated claims dispute support' },
-    { value: 'Employee Benefits', label: 'Pensions and medical aid design' },
+    { value: 'IPEC Registered', label: tbc('broker registration number') },
+    { value: 'Botswana Re Brokers', label: '100% owned reinsurance broker' },
+    { value: 'Risk assessment', label: 'Control measures and captive management' },
+    { value: 'Claims management', label: 'Independent assessment and lodgement' },
+    { value: 'Employee Benefits', label: 'Pension advisory and healthcare consulting' },
     { value: 'Part of CBZ', label: GROUP_FACTS.zseListed.value },
   ],
   products: {

@@ -31,8 +31,25 @@ export const GROUP_FACTS = {
    * Spelled out in running copy. The count signals scale to investors, but the
    * customer-facing proposition leads with the connected ecosystem, not the
    * number of businesses.
+   *
+   * Corrected against the CBZ Holdings Pitchbook 2026 structure chart, which
+   * shows ten operating companies across four clusters: Banking (CBZ Bank, Red
+   * Sphere Finance, CBZ Custodial Services), Investments (CBZ Properties, CBZ
+   * Capital, Datvest), Insurance (CBZ Life, CBZ Insurance, CBZ Risk Advisory
+   * Services) and Agro-Business (CBZ Agro-Yield). The site previously said
+   * "nine", which counted only the companies that have a page here.
    */
-  companies: { value: 'nine companies', confirmed: true },
+  companies: { value: 'ten operating companies', confirmed: true },
+  /** The four operating clusters. Philanthropy is held separately, not a cluster. */
+  clusters: { value: 'four business clusters', confirmed: true },
+  /** Pitchbook milestones slide: "Established in 1980". */
+  founded: { value: '1980', confirmed: true },
+  /** Companies with a dedicated page on this site, out of the ten operating companies. */
+  companiesWithPages: {
+    value: 'nine',
+    confirmed: true,
+    note: 'CBZ Custodial Services has no page yet, so the showcase lists nine of the ten operating companies.',
+  },
 } satisfies Record<string, Fact>;
 
 export const CONTACT = {

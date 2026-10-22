@@ -249,7 +249,7 @@ const SERVICE_OFFERS: Record<ServiceId, { title: string; brand: LogoBrand; offer
       { icon: TrendingUp, title: 'ZSE-listed ETFs', desc: 'Low-cost, liquid exposure to top blue chips' },
       { icon: Landmark, title: 'Money market fund', desc: 'High-liquidity capital preservation yields' },
       { icon: PieChart, title: 'Balanced unit trusts', desc: 'Multi-asset inflation hedge portfolios' },
-      { icon: Shield, title: 'Pension management', desc: 'Over five decades of institutional leadership' },
+      { icon: Shield, title: 'Pension management', desc: 'Fund management under a strong governance framework' },
       { icon: ArrowLeftRight, title: 'Surplus sweeps', desc: 'Automated investing linked to CBZ accounts' }
     ]
   },

@@ -89,12 +89,25 @@ export const COUNTRIES: Country[] = [
   }
 ];
 
+/**
+ * The operating companies that have a page on this site, ordered by the cluster
+ * they sit in: Banking, Investments, Insurance, Agro-Business.
+ *
+ * Names, clusters and the offerings each description summarises are taken from
+ * the CBZ Holdings Pitchbook 2026. The full Group structure, including CBZ
+ * Custodial Services, CBZ Foundation and the entities held beneath operating
+ * companies, lives in data/groupStructure.ts — this list is only the companies
+ * with a destination to send a customer to.
+ */
 export const SUBSIDIARIES: Subsidiary[] = [
+  // Banking Cluster
   {
     id: 'bank',
     name: 'CBZ Bank',
     category: 'Banking',
-    description: 'Commercial banking, cards, private wealth, mortgages, and the Group’s flagship balance sheet.',
+    cluster: 'banking',
+    description:
+      'Corporate and retail banking, treasury and transactional services: loans, deposits, payments, trade finance, cash management and cards.',
     cta: 'Accounts & Mortgages',
     screen: 'bank',
     tagline: 'Banking solutions for every stage of life.',
@@ -103,54 +116,27 @@ export const SUBSIDIARIES: Subsidiary[] = [
     logo: '/brand/logos/bank-full.svg'
   },
   {
-    id: 'insurance',
-    name: 'CBZ Insurance',
-    category: 'Insurance',
-    description: 'Short-term underwriting for motor, property, commercial, marine cargo, liability, and agriculture.',
-    cta: 'Get a 4-Step Quote',
-    screen: 'sbu',
-    tagline: 'Protection for what matters most.',
-    image: '/images/insurance-car.webp',
-    logo: '/brand/logos/insurance-full.svg'
+    id: 'micro',
+    name: 'Red Sphere Finance',
+    category: 'Microfinance',
+    cluster: 'banking',
+    description:
+      'Microfinance lending against a salary, a payroll agreement or a trading record, with working capital for small enterprises.',
+    cta: 'Apply for SME Loan',
+    screen: 'red-sphere',
+    tagline: 'Financial inclusion. Empowering communities.',
+    image: '/images/loan-education.webp',
+    logo: '/brand/logos/red-sphere-full.svg'
   },
-  {
-    id: 'life',
-    name: 'CBZ Life',
-    category: 'Life & Health',
-    description: 'Long-term financial security: ComfortSure funeral cover, individual pensions, and education plans.',
-    cta: 'Protect Your Family',
-    screen: 'cbz-life',
-    tagline: 'Cover for life. Security for your family.',
-    image: '/images/insurance-family.webp',
-    logo: '/brand/logos/life-full.svg'
-  },
-  {
-    id: 'datvest',
-    name: 'Datvest',
-    category: 'Investments',
-    description: 'Pioneering asset management, unit trusts, money market funds, and equities portfolio management.',
-    cta: 'Invest with Datvest',
-    screen: 'invest',
-    tagline: 'Growing wealth. Building resilient futures.',
-    image: '/images/cbz-wealth.webp',
-    logo: '/brand/logos/datvest-full.svg'
-  },
-  {
-    id: 'capital',
-    name: 'CBZ Capital',
-    category: 'Corporate Finance',
-    description: 'Investment banking, syndicated lending, balance sheet restructuring, and institutional advisory.',
-    cta: 'Corporate Advisory',
-    screen: 'capital',
-    tagline: 'Capital raised. Strategic ambitions realised.',
-    image: '/images/cbz-banking-branch.webp',
-    logo: '/brand/logos/capital-full.svg'
-  },
+
+  // Investment Cluster
   {
     id: 'properties',
     name: 'CBZ Properties',
     category: 'Real Estate',
-    description: 'Property development, residential cluster projects, commercial sales, and facilities management.',
+    cluster: 'investments',
+    description:
+      'Property development and project management, residential and commercial sales, leasing, valuations, estate agency and facilities management.',
     cta: 'Browse Properties',
     screen: 'properties',
     tagline: 'Spaces for living. Places for life.',
@@ -158,37 +144,86 @@ export const SUBSIDIARIES: Subsidiary[] = [
     logo: '/brand/logos/properties-full.svg'
   },
   {
-    id: 'agri',
-    name: 'CBZ Agro-Yield',
-    category: 'Agriculture',
-    description: 'Specialised contract farming financing, agro input supply, and agricultural value-chain support.',
-    cta: 'Finance a Season',
-    screen: 'agro',
-    tagline: 'Financing harvest across the entire food chain.',
-    image: '/images/cbz-agriculture.webp',
-    logo: '/brand/logos/agro-yield-full.svg'
+    id: 'capital',
+    name: 'CBZ Capital',
+    category: 'Corporate Finance',
+    cluster: 'investments',
+    description:
+      'Corporate finance advisory, capital raising across equity, debt and mezzanine, M&A advisory, private equity and syndicated finance.',
+    cta: 'Corporate Advisory',
+    screen: 'capital',
+    tagline: 'Capital raised. Strategic ambitions realised.',
+    image: '/images/cbz-banking-branch.webp',
+    logo: '/brand/logos/capital-full.svg'
+  },
+  {
+    id: 'datvest',
+    name: 'Datvest',
+    category: 'Investments',
+    cluster: 'investments',
+    description:
+      'Unit trusts, wealth and portfolio management, pension fund management, and money-market and equity investments.',
+    cta: 'Invest with Datvest',
+    screen: 'invest',
+    tagline: 'Growing wealth. Building resilient futures.',
+    image: '/images/cbz-wealth.webp',
+    logo: '/brand/logos/datvest-full.svg'
+  },
+
+  // Insurance Cluster
+  {
+    id: 'life',
+    name: 'CBZ Life',
+    category: 'Life Assurance',
+    cluster: 'insurance',
+    description:
+      'Life cover, funeral assurance, investment, endowment and education policies, credit life, and retirement and pension solutions.',
+    cta: 'Protect Your Family',
+    screen: 'cbz-life',
+    tagline: 'Cover for life. Security for your family.',
+    image: '/images/insurance-family.webp',
+    logo: '/brand/logos/life-full.svg'
+  },
+  {
+    id: 'insurance',
+    name: 'CBZ Insurance',
+    category: 'Short-Term Insurance',
+    cluster: 'insurance',
+    description:
+      'Short-term cover for personal, SME, agricultural and corporate risks: motor, homeowners, marine, fire, travel and personal accident.',
+    cta: 'Get a 4-Step Quote',
+    screen: 'sbu',
+    tagline: 'Protection for what matters most.',
+    image: '/images/insurance-car.webp',
+    logo: '/brand/logos/insurance-full.svg'
   },
   {
     id: 'risk',
-    name: 'CBZ Risk Advisory',
-    category: 'Risk & Broking',
-    description: 'Independent insurance broking, full portfolio audit, and enterprise risk consulting.',
+    name: 'CBZ Risk Advisory Services',
+    category: 'Risk Advisory',
+    cluster: 'insurance',
+    description:
+      'Insurance broking and risk advisory, employee benefits and pensions consulting, and individual life financial planning.',
     cta: 'Audit Your Portfolio',
     screen: 'risk-advisory',
     tagline: 'Risk understood. Exposure managed with precision.',
     image: '/images/cbz-protection.webp',
     logo: '/brand/logos/risk-advisory-full.svg'
   },
+
+  // Agro Business Cluster
   {
-    id: 'micro',
-    name: 'Red Sphere Finance',
-    category: 'Microfinance',
-    description: 'Fast, accessible micro-credit for SMEs, civil servants, smallholders, and community entrepreneurs.',
-    cta: 'Apply for SME Loan',
-    screen: 'red-sphere',
-    tagline: 'Financial inclusion. Empowering communities.',
-    image: '/images/loan-education.webp',
-    logo: '/brand/logos/red-sphere-full.svg'
+    id: 'agri',
+    name: 'CBZ Agro-Yield',
+    category: 'Agro-Business',
+    cluster: 'agro',
+    description:
+      'Farming and contract farming, commodity trading in grain, oilseeds, legumes and horticulture, agri-supply chain management, and out-grower schemes.',
+    cta: 'Finance a Season',
+    screen: 'agro',
+    tagline: 'Financing harvest across the entire food chain.',
+    image: '/images/cbz-agriculture.webp',
+    logo: '/brand/logos/agro-yield-full.svg'
   }
 ];
 

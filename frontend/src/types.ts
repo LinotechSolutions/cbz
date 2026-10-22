@@ -54,7 +54,13 @@ export interface Country {
 export interface Subsidiary {
   id: string;
   name: string;
+  /** The specialism, used as the tile label. */
   category: string;
+  /**
+   * The Group cluster this company sits in, per the CBZ Holdings Pitchbook
+   * structure chart. See data/groupStructure.ts.
+   */
+  cluster: 'banking' | 'investments' | 'insurance' | 'agro' | 'philanthropy';
   description: string;
   cta: string;
   screen?: ScreenType | null;

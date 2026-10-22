@@ -206,7 +206,9 @@ function getLocalKnowledgeResponse(message: string, currentLang: Language): { re
     }
     if (/(invest|datvest|mari|unit trust|shares)/i.test(msg)) {
       return {
-        reply: "Datvest Asset Management inopa nzira dzekukudza mari kuburikidza ne-Money Market Unit Trusts (inobereka mari inosvika ~8.5% p.a.) uye Equity Funds dzekudyara mumasheya eZSE & VFEX.\n\nOna Investment-Pathway Guide yedu kuti usarudze chirongwa chinoenderana nezvinangwa zvako!",
+        // The "~8.5% p.a." yield had no source and a quoted return must not be
+        // promised by a chatbot. Removed; the product list stands on its own.
+        reply: "Datvest Asset Management inopa nzira dzekukudza mari kuburikidza ne-Money Market Unit Trusts, Equity Funds, pension fund management uye wealth & portfolio management.\n\nOna Investment-Pathway Guide yedu kuti usarudze chirongwa chinoenderana nezvinangwa zvako!",
         detectedLang: "sn"
       };
     }
@@ -278,21 +280,23 @@ function getLocalKnowledgeResponse(message: string, currentLang: Language): { re
 
   if (/(invest|datvest|fund|unit trust|portfolio|shares|wealth|stocks|asset)/i.test(msg)) {
     return {
-      reply: "Datvest Asset Management (CBZ Holdings) provides institutional and retail wealth solutions:\n\n• **Money Market Unit Trust**: High liquidity, competitive annualised yields (~8.5% p.a.), with an opening investment from only $50.\n• **Balanced Growth Fund**: Diversified mix of fixed income and top-tier equities for steady capital appreciation.\n• **Equity Fund**: Direct participation in high-performing Zimbabwe Stock Exchange (ZSE) and Victoria Falls Stock Exchange (VFEX) counters.\n\nExplore our **Investment-Pathway Guide** on the Datvest page to profile your risk and forecast your growth!",
+      // Quoted yields and opening amounts were removed: neither had a source,
+      // and a chatbot must not promise a return. The fund line-up is unchanged.
+      reply: "Datvest Asset Management (CBZ Holdings) provides institutional and retail wealth solutions:\n\n• **Money Market Unit Trust**: High liquidity, for short-term savings.\n• **Balanced Growth Fund**: Diversified mix of fixed income and top-tier equities for steady capital appreciation.\n• **Equity Fund**: Direct participation in Zimbabwe Stock Exchange (ZSE) and Victoria Falls Stock Exchange (VFEX) counters.\n• **Pension fund management** and **wealth & portfolio management** for institutions and high-net-worth clients.\n\nExplore our **Investment-Pathway Guide** on the Datvest page to profile your goals. The value of investments can fall as well as rise.",
       detectedLang: "en"
     };
   }
 
   if (/(loan|credit|borrow|sme|micro|salary advance|red sphere|personal loan)/i.test(msg)) {
     return {
-      reply: "CBZ Holdings provides several credit facilities tailored to your needs:\n\n• **Red Sphere Salary Advance**: Instant micro-loans for salaried individuals disbursed in under 2 hours.\n• **CBZ Personal Loans**: Flexible repayment terms up to 36 months.\n• **SME Growth Capital**: Working capital, order financing, and invoice discounting for growing enterprises.\n• **Home Loans**: Long-term mortgage facilities up to 20 years.\n\nWhich loan facility would you like to explore?",
+      reply: "CBZ Holdings provides several credit facilities tailored to your needs:\n\n• **Red Sphere Salary Advance**: Instant micro-loans for salaried individuals disbursed in under 2 hours.\n• **CBZ Personal Loans**: Flexible repayment terms up to 36 months.\n• **SME Growth Capital**: Working capital, order financing, and invoice discounting for growing enterprises.\n• **Home Loans**: Mortgage facilities of 2 to 10 years.\n\nWhich loan facility would you like to explore?",
       detectedLang: "en"
     };
   }
 
   if (/(branch|atm|location|where|address|hours|harare|bulawayo)/i.test(msg)) {
     return {
-      reply: "CBZ Bank operates over 60 full-service branches and 24/7 ATMs across Zimbabwe, including Harare (Kwame Nkrumah, Samora Machel, Avondale, Borrowdale), Bulawayo (Fife St, 8th Ave), Gweru, Mutare, and Victoria Falls.\n\n• Standard Hours: Monday–Friday 08:00–15:00 | Saturday 08:00–11:30\n• Use our **Branch & ATM Finder** on the CBZ Bank page for GPS routing to your nearest facility!",
+      reply: "CBZ Bank operates over 60 full-service branches and 24/7 ATMs across Zimbabwe, including Harare (Kwame Nkrumah, Samora Machel, Avondale, Borrowdale), Bulawayo (Fife St, 8th Ave), Gweru, Mutare, and Victoria Falls.\n\n• Standard Hours: Monday–Friday 08:00–15:00 | Saturday 08:00–13:00\n• Use our **Branch & ATM Finder** on the CBZ Bank page for GPS routing to your nearest facility!",
       detectedLang: "en"
     };
   }

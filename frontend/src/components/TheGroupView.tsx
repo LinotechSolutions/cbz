@@ -15,6 +15,14 @@ import { Logo } from './Logo';
 import { LogoBrand } from '../brand/logos';
 import { useSiteImage } from '../context/SiteImagesContext';
 import { RevealSection } from './Reveal';
+import {
+  GROUP_AWARDS,
+  GROUP_CLUSTERS,
+  GROUP_MILESTONES,
+  companiesInCluster,
+  heldEntitiesOf,
+} from '../data/groupStructure';
+import { GROUP_FACTS } from '../data/facts';
 
 interface TheGroupViewProps {
   country: Country;
@@ -57,11 +65,13 @@ const SUBSIDIARIES: GroupSubsidiary[] = [
     image: '/images/cbz-banking.webp',
     route: 'bank',
     actionLabel: 'Explore CBZ Bank Portal',
+    // Branch count now reads from GROUP_FACTS so the page cannot drift from the
+    // rest of the site. The figure itself is still awaiting business sign-off.
     leadSentences:
-      'As Zimbabwe’s flagship commercial banking institution, CBZ Bank anchors the nation with an unassailable balance sheet and 37 branches nationwide.',
+      'CBZ Bank is the Group’s commercial bank, serving large corporates, public sector enterprises, SMEs and individuals through a nationwide branch network.',
     bodySentences:
-      'We deliver everyday SmartCash transactional accounts, high-yield Nostro FCA deposits, and asset financing backed by 24/7 digital banking.',
-    highlights: ['37 Branches Nationwide', 'Universal SmartCash Accounts', '2 to 10-Year Mortgages', 'OBDX & CBZ Touch 24/7']
+      'We deliver everyday transactional accounts, foreign currency deposits, trade finance, cash management and asset financing, backed by 24/7 digital banking.',
+    highlights: [GROUP_FACTS.branches.value, 'Corporate, Retail & Treasury', '2 to 10-Year Mortgages', 'OBDX & CBZ Touch 24/7']
   },
   {
     id: 'insurance',
@@ -101,15 +111,19 @@ const SUBSIDIARIES: GroupSubsidiary[] = [
     brand: 'datvest',
     category: 'Asset Management',
     descriptor: 'Unit Trusts, Equity Portfolios & Wealth Management',
-    tagline: 'Over five decades of fiduciary leadership and capital growth.',
+    tagline: 'Capital preservation, value growth and risk-adjusted returns.',
     image: '/images/cbz-wealth.webp',
     route: 'invest',
     actionLabel: 'Explore Datvest Portfolios',
+    // The "established 1969 / five decades" claim was not supported by any
+    // source. The pitchbook milestones place the Group's asset management
+    // business in the 2004-2007 holding company formation, so the copy now
+    // leads on the mandate rather than a date nobody could stand behind.
     leadSentences:
-      'With over five decades of fiduciary leadership, Datvest manages premier unit trusts and institutional pension portfolios.',
+      'Datvest is the investment management arm of CBZ Holdings, serving individuals, corporates, pension funds, institutions and high-net-worth clients.',
     bodySentences:
-      'Investors access low-cost equity ETFs, capital preservation funds, and automated monthly sweeps connected directly to their CBZ accounts.',
-    highlights: ['Established 1969 (55+ Years)', 'ZSE-Listed Index ETFs', 'High-Yield Money Market Funds', 'Automated Bank Surplus Sweeps']
+      'Under a strong governance framework, Datvest focuses on capital preservation, value growth and superior risk-adjusted returns across multiple asset classes.',
+    highlights: ['Unit Trust Funds', 'Pension Fund Management', 'Treasury Bills & Bonds', 'Wealth & Portfolio Management']
   },
   {
     id: 'properties',
@@ -315,8 +329,9 @@ export const TheGroupView: React.FC<TheGroupViewProps> = ({ onNavigate }) => {
               Our Operating Subsidiaries
             </h1>
             <p className="text-sm sm:text-base text-slate-600 max-w-2xl mt-2 leading-relaxed font-normal">
-              Explore our nine market-leading institutions collaborating under one roof to deliver universal banking,
-              insurance protection, fiduciary wealth management, and landmark property development.
+              CBZ Holdings runs {GROUP_FACTS.companies.value} across {GROUP_FACTS.clusters.value} — Banking,
+              Investments, Insurance and Agro-Business — alongside the CBZ Foundation. Explore the{' '}
+              {GROUP_FACTS.companiesWithPages.value} with a portal here, or see the full Group structure below.
             </p>
           </div>
 
@@ -326,7 +341,13 @@ export const TheGroupView: React.FC<TheGroupViewProps> = ({ onNavigate }) => {
               onClick={() => scrollTo('subsidiaries-showcase')}
               className="px-3.5 py-2 rounded-xl bg-white border border-slate-200 hover:border-[#002554] text-xs font-bold text-[#002554] transition-colors shadow-2xs cursor-pointer"
             >
-              Nine Companies
+              Our Companies
+            </button>
+            <button
+              onClick={() => scrollTo('group-structure')}
+              className="px-3.5 py-2 rounded-xl bg-white border border-slate-200 hover:border-[#002554] text-xs font-bold text-[#002554] transition-colors shadow-2xs cursor-pointer"
+            >
+              Group Structure
             </button>
             <button
               onClick={() => scrollTo('about-cbz-group')}
@@ -369,7 +390,7 @@ export const TheGroupView: React.FC<TheGroupViewProps> = ({ onNavigate }) => {
                     <Logo brand={sub.brand} variant="full" height={24} />
                   </div>
                   <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-[11px] font-black uppercase tracking-wider text-white border border-white/20">
-                    0{idx + 1} / 09
+                    0{idx + 1} / {String(SUBSIDIARIES.length).padStart(2, '0')}
                   </span>
                 </div>
 
@@ -391,7 +412,7 @@ export const TheGroupView: React.FC<TheGroupViewProps> = ({ onNavigate }) => {
             const InfoSide = (
               <div className="space-y-4 sm:space-y-5">
                 <div className="flex items-center space-x-2 text-xs font-black uppercase tracking-wider text-[#E4002B]">
-                  <span>Subsidiary 0{idx + 1} of 09</span>
+                  <span>Subsidiary 0{idx + 1} of {String(SUBSIDIARIES.length).padStart(2, '0')}</span>
                   <span>•</span>
                   <span>{sub.category}</span>
                 </div>
@@ -463,6 +484,174 @@ export const TheGroupView: React.FC<TheGroupViewProps> = ({ onNavigate }) => {
         </div>
       </section>
 
+      {/* 2b. FULL GROUP STRUCTURE.
+          The showcase above only lists companies with a portal on this site. The
+          Group is larger than that: CBZ Custodial Services and CBZ Foundation
+          have no portal, and four entities are held beneath operating companies.
+          This section states the structure as the Group itself publishes it. */}
+      <RevealSection id="group-structure" className="py-14 sm:py-20 bg-[#002554]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl mb-10 sm:mb-12">
+            <span className="text-xs font-black uppercase tracking-widest text-[#E4002B]">
+              Group Structure
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight mt-1.5 leading-tight">
+              How CBZ Holdings is organised
+            </h2>
+            <p className="text-sm sm:text-base text-white/70 mt-3 leading-relaxed">
+              CBZ Holdings Limited holds {GROUP_FACTS.companies.value} across {GROUP_FACTS.clusters.value},
+              together with the CBZ Foundation. Shareholdings are shown where the Group states them; every other
+              company is held directly.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+            {GROUP_CLUSTERS.map((cluster) => (
+              <div
+                key={cluster.id}
+                className="rounded-2xl bg-white/5 border border-white/15 p-5 sm:p-6 flex flex-col"
+              >
+                <div className="flex items-start justify-between gap-3 pb-3 border-b border-white/10">
+                  <h3 className="text-base sm:text-lg font-black text-white leading-snug">
+                    {cluster.name}
+                  </h3>
+                  {!cluster.isOperating && (
+                    <span className="px-2 py-0.5 rounded-full bg-white/10 text-[9px] font-black uppercase tracking-wider text-white/70 border border-white/15 whitespace-nowrap">
+                      Not a cluster
+                    </span>
+                  )}
+                </div>
+
+                <p className="text-xs text-white/60 leading-relaxed mt-3">{cluster.summary}</p>
+
+                <ul className="mt-4 space-y-4">
+                  {companiesInCluster(cluster.id).map((company) => {
+                    const held = heldEntitiesOf(company.id);
+                    return (
+                      <li key={company.id}>
+                        {/* The lockup sits above the name rather than beside it:
+                            the lockups vary from 1.6 to 4.9 in aspect, so a row
+                            would wrap unevenly. The name always shows, because
+                            CBZ Custodial Services and CBZ Foundation both use
+                            the CBZ Bank mark as a stand-in for their own. */}
+                        {company.brand && (
+                          <span className="flex items-center mb-1.5">
+                            {/* decorative: the name below already announces the
+                                company, and for the two stand-ins the mark would
+                                otherwise announce "CBZ Bank" over the wrong name.
+                                No fixed height here — Logo raises the height to
+                                honour the 65px minimum lockup width. */}
+                            <Logo
+                              brand={company.brand}
+                              variant="white"
+                              height={20}
+                              clearSpace={false}
+                              decorative
+                            />
+                          </span>
+                        )}
+                        <div className="flex items-center gap-2">
+                          {!company.brand && (
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#E4002B] shrink-0" />
+                          )}
+                          <span className="text-sm font-bold text-white">{company.name}</span>
+                          {!company.route && (
+                            <span className="text-[9px] font-bold uppercase tracking-wider text-white/40">
+                              No portal yet
+                            </span>
+                          )}
+                        </div>
+                        {held.length > 0 && (
+                          <ul className="mt-1.5 ml-3.5 pl-3 border-l border-white/15 space-y-1">
+                            {held.map((entity) => (
+                              <li
+                                key={entity.id}
+                                className="text-xs text-white/65 flex flex-wrap items-center gap-x-2"
+                              >
+                                <span>{entity.name}</span>
+                                {entity.ownership && (
+                                  <span className="text-[10px] font-bold text-[#E4002B]">
+                                    {entity.ownership}
+                                  </span>
+                                )}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </RevealSection>
+
+      {/* 2c. AWARDS AND MILESTONES. */}
+      <RevealSection className="py-14 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
+          <div className="lg:col-span-5">
+            <span className="text-xs font-black uppercase tracking-widest text-[#E4002B]">
+              Recognition
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-black text-[#002554] tracking-tight mt-1.5 leading-tight">
+              Awards
+            </h2>
+
+            <div className="mt-6 space-y-4">
+              {GROUP_AWARDS.map((award) => (
+                <div
+                  key={`${award.awarder}-${award.title}`}
+                  className="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-2xs flex items-start gap-4"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
+                    <Award className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <div className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                      {award.awarder}
+                    </div>
+                    <h3 className="text-sm font-black text-[#002554] mt-0.5">{award.title}</h3>
+                    <div className="flex flex-wrap gap-1.5 mt-2">
+                      {award.years.map((year) => (
+                        <span
+                          key={year}
+                          className="px-2 py-0.5 rounded-md bg-slate-100 text-[11px] font-bold text-slate-600"
+                        >
+                          {year}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="lg:col-span-7">
+            <span className="text-xs font-black uppercase tracking-widest text-[#E4002B]">
+              Since {GROUP_FACTS.founded.value}
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-black text-[#002554] tracking-tight mt-1.5 leading-tight">
+              Key corporate milestones
+            </h2>
+
+            <ol className="mt-6 border-l-2 border-slate-200 space-y-6">
+              {GROUP_MILESTONES.map((milestone) => (
+                <li key={milestone.period} className="relative pl-6">
+                  <span className="absolute -left-[7px] top-1.5 w-3 h-3 rounded-full bg-[#002554] border-2 border-white shadow-xs" />
+                  <div className="text-sm font-black text-[#E4002B]">{milestone.period}</div>
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mt-1">
+                    {milestone.description}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </RevealSection>
+
       {/* 3. "ABOUT US" SECTION (CBZ Holdings Corporate Overview) */}
       <RevealSection id="about-cbz-group" className="py-14 sm:py-20 bg-slate-50/70 border-y border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -474,29 +663,32 @@ export const TheGroupView: React.FC<TheGroupViewProps> = ({ onNavigate }) => {
               Anchoring Zimbabwe’s Economic Growth
             </h2>
             <p className="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
-              CBZ Holdings Limited is Zimbabwe’s largest diversified financial services conglomerate, listed on the
-              Victoria Falls Stock Exchange (VFEX). We empower individuals, enterprises, and national infrastructure
-              by combining fortress balance sheets with cutting-edge digital platforms.
+              Established in {GROUP_FACTS.founded.value}, CBZ Holdings Limited has grown into one of Africa’s largest
+              publicly listed financial groups, operating across banking, insurance, trading, investments and
+              agribusiness. {GROUP_FACTS.zseListed.value}.
             </p>
           </div>
 
-          {/* 4 Anchor Group Metrics */}
+          {/* 4 Anchor Group Metrics.
+              The previous "US$2.5B+ assets" and "55+ Yrs" figures had no source
+              behind them, and "55 years" contradicted a 1980 founding. Every
+              figure here is one the Group states in its own pitchbook. */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-14">
             <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-2xs text-center">
-              <div className="text-3xl sm:text-4xl font-black text-[#002554]">37+</div>
-              <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mt-1">Branches Nationwide</div>
+              <div className="text-3xl sm:text-4xl font-black text-[#002554]">{GROUP_FACTS.founded.value}</div>
+              <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mt-1">Established</div>
             </div>
             <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-2xs text-center">
-              <div className="text-3xl sm:text-4xl font-black text-[#E4002B]">US$2.5B+</div>
-              <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mt-1">Assets & Fiduciary Scale</div>
+              <div className="text-3xl sm:text-4xl font-black text-[#E4002B]">10</div>
+              <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mt-1">Operating Companies</div>
             </div>
             <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-2xs text-center">
-              <div className="text-3xl sm:text-4xl font-black text-[#002554]">09</div>
-              <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mt-1">Operating Subsidiaries</div>
+              <div className="text-3xl sm:text-4xl font-black text-[#002554]">04</div>
+              <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mt-1">Business Clusters</div>
             </div>
             <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-2xs text-center">
-              <div className="text-3xl sm:text-4xl font-black text-[#E4002B]">55+ Yrs</div>
-              <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mt-1">Fiduciary Track Record</div>
+              <div className="text-3xl sm:text-4xl font-black text-[#E4002B]">ZSE: CBZ</div>
+              <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mt-1">Publicly Listed</div>
             </div>
           </div>
 
@@ -671,7 +863,7 @@ export const TheGroupView: React.FC<TheGroupViewProps> = ({ onNavigate }) => {
             </div>
             <div className="flex items-center space-x-1.5 text-xs text-slate-500 font-semibold">
               <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-              <span>Full compliance with Reserve Bank of Zimbabwe (RBZ) & VFEX Listing Rules</span>
+              <span>Full compliance with Reserve Bank of Zimbabwe (RBZ) &amp; ZSE Listing Rules</span>
             </div>
           </div>
 
@@ -701,7 +893,7 @@ export const TheGroupView: React.FC<TheGroupViewProps> = ({ onNavigate }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
             <h4 className="font-black text-base text-[#002554]">Ready to begin your journey?</h4>
-            <p className="text-xs text-slate-500 mt-0.5">Explore any of our nine specialized operating companies or speak with our team.</p>
+            <p className="text-xs text-slate-500 mt-0.5">Explore any of our operating companies or speak with our team.</p>
           </div>
           <div className="flex items-center space-x-3">
             <button

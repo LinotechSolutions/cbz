@@ -49,6 +49,24 @@ export const Navbar: React.FC<NavbarProps> = ({
   const authMenuRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLDivElement>(null);
 
+  // Close the mobile drawer / mega menu whenever the page changes, and on Escape.
+  useEffect(() => {
+    setMobileMenuOpen(false);
+    setActiveMega(null);
+  }, [currentScreen]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setMobileMenuOpen(false);
+        setActiveMega(null);
+        setSearchOpen(false);
+      }
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, []);
+
   useEffect(() => {
     const handleOutside = (e: MouseEvent) => {
       if (authMenuRef.current && !authMenuRef.current.contains(e.target as Node)) {
@@ -131,11 +149,21 @@ export const Navbar: React.FC<NavbarProps> = ({
                 >
                   <button
                     onClick={() => {
+                      // Touch devices have no hover: the first tap opens the mega menu,
+                      // a second tap goes to the page.
+                      const isTouch =
+                        typeof window !== 'undefined' &&
+                        window.matchMedia?.('(hover: none)').matches;
+                      if (item.hasMenu && isTouch && activeMega !== item.key) {
+                        setActiveMega(item.key);
+                        return;
+                      }
                       if (item.screen) {
                         onNavigate(item.screen);
                         setActiveMega(null);
                       }
                     }}
+                    aria-expanded={item.hasMenu ? isOpen : undefined}
                     className={`relative flex items-center space-x-1 px-3 py-2 font-medium text-[13px] transition-colors cursor-pointer whitespace-nowrap ${
                       isOpen || isCurrent
                         ? 'text-[#002554] font-bold'
@@ -192,11 +220,11 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
 
           {/* Mobile menu button and persistent mobile quick actions */}
-          <div className="flex items-center space-x-1.5 sm:space-x-2 lg:hidden">
-            {/* Search Trigger on Mobile */}
+          <div className="flex items-center gap-1 sm:gap-2 lg:hidden shrink-0">
+            {/* Search Trigger on Mobile (hidden on very narrow phones to keep the row from overflowing) */}
             <button
               onClick={() => setSearchOpen(!searchOpen)}
-              className="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-slate-100 text-slate-600 transition-colors cursor-pointer"
+              className="hidden min-[360px]:flex w-10 h-10 items-center justify-center rounded-lg hover:bg-slate-100 text-slate-600 transition-colors cursor-pointer"
               aria-label="Search CBZ"
             >
               <Search className="w-4 h-4" />
@@ -206,7 +234,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             {onOpenAccount && (
               <button
                 onClick={onOpenAccount}
-                className="h-9 px-2.5 sm:px-3 bg-[#002554] hover:bg-[#0A3E80] text-white rounded-lg text-xs font-bold shadow-xs cursor-pointer border border-[#002554] flex items-center justify-center space-x-1.5 transition-all"
+                className="h-10 min-w-10 px-2.5 sm:px-3 bg-[#002554] hover:bg-[#0A3E80] text-white rounded-lg text-xs font-bold shadow-xs cursor-pointer border border-[#002554] flex items-center justify-center space-x-1.5 transition-all"
                 title="Open an Account"
                 aria-label="Open an Account"
               >
@@ -218,7 +246,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Login Icon Button on Mobile */}
             <button
               onClick={() => onNavigate('login')}
-              className="h-9 px-2.5 sm:px-3 bg-[#E4002B] hover:bg-[#C50025] text-white rounded-lg text-xs font-bold shadow-xs cursor-pointer border border-[#E4002B] flex items-center justify-center space-x-1.5 transition-all"
+              className="h-10 min-w-10 px-2.5 sm:px-3 bg-[#E4002B] hover:bg-[#C50025] text-white rounded-lg text-xs font-bold shadow-xs cursor-pointer border border-[#E4002B] flex items-center justify-center space-x-1.5 transition-all"
               title="Log in to Internet Banking"
               aria-label="Log in to Internet Banking"
             >
@@ -229,8 +257,9 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Mobile Menu Drawer Toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="w-9 h-9 flex items-center justify-center rounded-lg text-slate-700 hover:bg-slate-100 cursor-pointer border border-slate-200"
+              className="w-10 h-10 flex items-center justify-center rounded-lg text-slate-700 hover:bg-slate-100 cursor-pointer border border-slate-200"
               aria-label="Toggle navigation menu"
+              aria-expanded={mobileMenuOpen}
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -1260,7 +1289,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-6 space-y-4">
+        <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-[max(1.5rem,env(safe-area-inset-bottom))] space-y-4 max-h-[calc(100dvh-5rem)] overflow-y-auto overscroll-contain">
           <div className="text-xs font-bold text-cbz-grey uppercase tracking-wider">
             Explore Portals
           </div>
@@ -1270,7 +1299,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onNavigate('home');
                 setMobileMenuOpen(false);
               }}
-              className={`w-full text-left px-3.5 py-2.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
+              className={`w-full text-left px-3.5 py-2.5 min-h-11 gap-2 text-sm font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
                 currentScreen === 'home' ? 'bg-[#E4002B] text-white' : 'text-[#002554] hover:bg-slate-50'
               }`}
             >
@@ -1282,7 +1311,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onNavigate('journey');
                 setMobileMenuOpen(false);
               }}
-              className={`w-full text-left px-3.5 py-2.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
+              className={`w-full text-left px-3.5 py-2.5 min-h-11 gap-2 text-sm font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
                 currentScreen === 'journey' ? 'bg-[#E4002B] text-white' : 'text-[#002554] hover:bg-slate-50'
               }`}
             >
@@ -1294,7 +1323,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onNavigate('bank');
                 setMobileMenuOpen(false);
               }}
-              className={`w-full text-left px-3.5 py-2.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
+              className={`w-full text-left px-3.5 py-2.5 min-h-11 gap-2 text-sm font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
                 currentScreen === 'bank' ? 'bg-[#E4002B] text-white' : 'text-[#002554] hover:bg-slate-50'
               }`}
             >
@@ -1306,7 +1335,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onNavigate('sbu');
                 setMobileMenuOpen(false);
               }}
-              className={`w-full text-left px-3.5 py-2.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
+              className={`w-full text-left px-3.5 py-2.5 min-h-11 gap-2 text-sm font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
                 currentScreen === 'sbu' ? 'bg-[#E4002B] text-white' : 'text-[#002554] hover:bg-slate-50'
               }`}
             >
@@ -1318,7 +1347,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onNavigate('cbz-life');
                 setMobileMenuOpen(false);
               }}
-              className={`w-full text-left px-3.5 py-2.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
+              className={`w-full text-left px-3.5 py-2.5 min-h-11 gap-2 text-sm font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
                 currentScreen === 'cbz-life' ? 'bg-[#E4002B] text-white' : 'text-[#002554] hover:bg-slate-50'
               }`}
             >
@@ -1330,7 +1359,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onNavigate('invest');
                 setMobileMenuOpen(false);
               }}
-              className={`w-full text-left px-3.5 py-2.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
+              className={`w-full text-left px-3.5 py-2.5 min-h-11 gap-2 text-sm font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
                 currentScreen === 'invest' ? 'bg-[#E4002B] text-white' : 'text-[#002554] hover:bg-slate-50'
               }`}
             >
@@ -1342,7 +1371,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onNavigate('capital');
                 setMobileMenuOpen(false);
               }}
-              className={`w-full text-left px-3.5 py-2.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
+              className={`w-full text-left px-3.5 py-2.5 min-h-11 gap-2 text-sm font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
                 currentScreen === 'capital' ? 'bg-[#E4002B] text-white' : 'text-[#002554] hover:bg-slate-50'
               }`}
             >
@@ -1354,7 +1383,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onNavigate('properties');
                 setMobileMenuOpen(false);
               }}
-              className={`w-full text-left px-3.5 py-2.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
+              className={`w-full text-left px-3.5 py-2.5 min-h-11 gap-2 text-sm font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
                 currentScreen === 'properties' ? 'bg-[#E4002B] text-white' : 'text-[#002554] hover:bg-slate-50'
               }`}
             >
@@ -1366,7 +1395,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onNavigate('agro');
                 setMobileMenuOpen(false);
               }}
-              className={`w-full text-left px-3.5 py-2.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
+              className={`w-full text-left px-3.5 py-2.5 min-h-11 gap-2 text-sm font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
                 currentScreen === 'agro' ? 'bg-[#E4002B] text-white' : 'text-[#002554] hover:bg-slate-50'
               }`}
             >
@@ -1378,7 +1407,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onNavigate('risk-advisory');
                 setMobileMenuOpen(false);
               }}
-              className={`w-full text-left px-3.5 py-2.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
+              className={`w-full text-left px-3.5 py-2.5 min-h-11 gap-2 text-sm font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
                 currentScreen === 'risk-advisory' ? 'bg-[#E4002B] text-white' : 'text-[#002554] hover:bg-slate-50'
               }`}
             >
@@ -1390,7 +1419,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onNavigate('red-sphere');
                 setMobileMenuOpen(false);
               }}
-              className={`w-full text-left px-3.5 py-2.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
+              className={`w-full text-left px-3.5 py-2.5 min-h-11 gap-2 text-sm font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
                 currentScreen === 'red-sphere' ? 'bg-[#E4002B] text-white' : 'text-[#002554] hover:bg-slate-50'
               }`}
             >
@@ -1402,7 +1431,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onNavigate('diaspora');
                 setMobileMenuOpen(false);
               }}
-              className={`w-full text-left px-3.5 py-2.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
+              className={`w-full text-left px-3.5 py-2.5 min-h-11 gap-2 text-sm font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
                 currentScreen === 'diaspora' ? 'bg-[#E4002B] text-white' : 'text-[#002554] hover:bg-slate-50'
               }`}
             >
@@ -1414,7 +1443,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onNavigate('group');
                 setMobileMenuOpen(false);
               }}
-              className={`w-full text-left px-3.5 py-2.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
+              className={`w-full text-left px-3.5 py-2.5 min-h-11 gap-2 text-sm font-bold rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
                 currentScreen === 'group' || currentScreen === 'the-group' ? 'bg-[#E4002B] text-white' : 'text-[#002554] hover:bg-slate-50'
               }`}
             >
@@ -1430,7 +1459,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   onOpenAccount();
                   setMobileMenuOpen(false);
                 }}
-                className="w-full py-2.5 bg-[#002554] text-white text-xs font-bold rounded-lg text-center cursor-pointer flex items-center justify-center space-x-2"
+                className="w-full py-2.5 min-h-11 text-sm bg-[#002554] text-white font-bold rounded-lg text-center cursor-pointer flex items-center justify-center space-x-2"
               >
                 <UserPlus className="w-3.5 h-3.5 text-red-400" />
                 <span>Open an Account</span>
@@ -1441,7 +1470,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onNavigate('login');
                 setMobileMenuOpen(false);
               }}
-              className="w-full py-2.5 bg-[#E4002B] text-white text-xs font-bold rounded-lg text-center cursor-pointer flex items-center justify-center space-x-2"
+              className="w-full py-2.5 min-h-11 text-sm bg-[#E4002B] text-white font-bold rounded-lg text-center cursor-pointer flex items-center justify-center space-x-2"
             >
               <Lock className="w-3.5 h-3.5" />
               <span>Internet Banking & Log In</span>
@@ -1452,7 +1481,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   onOpenContact();
                   setMobileMenuOpen(false);
                 }}
-                className="w-full py-2 border border-slate-300 text-slate-700 text-xs font-bold rounded-lg text-center cursor-pointer flex items-center justify-center space-x-2"
+                className="w-full py-2 min-h-11 border border-slate-300 text-slate-700 text-sm font-bold rounded-lg text-center cursor-pointer flex items-center justify-center space-x-2"
               >
                 <PhoneCall className="w-3.5 h-3.5 text-[#E4002B]" />
                 <span>Contact Channels & Toll-Free 460</span>

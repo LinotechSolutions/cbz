@@ -118,7 +118,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             {onOpenAccount && (
               <button
                 onClick={onOpenAccount}
-                className="px-4 py-2.5 sm:px-6 sm:py-3.5 bg-[#E4002B] hover:bg-[#C50025] text-white text-xs sm:text-sm font-bold rounded-xl shadow-md transition-all duration-150 transform hover:-translate-y-0.5 flex items-center space-x-1.5 sm:space-x-2 cursor-pointer"
+                className="min-h-11 px-4 py-2.5 sm:px-6 sm:py-3.5 bg-[#E4002B] hover:bg-[#C50025] text-white text-sm font-bold rounded-xl shadow-md transition-all duration-150 transform hover:-translate-y-0.5 flex items-center justify-center space-x-1.5 sm:space-x-2 cursor-pointer"
               >
                 <UserPlus className="w-4 h-4" />
                 <span>Open an Account</span>
@@ -127,7 +127,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
             <button
               onClick={() => onNavigate('group')}
-              className="px-4 py-2.5 sm:px-6 sm:py-3.5 bg-[#002554] hover:bg-[#0A3E80] text-white text-xs sm:text-sm font-bold rounded-xl shadow-sm transition-all duration-150 flex items-center space-x-1.5 sm:space-x-2 cursor-pointer"
+              className="min-h-11 px-4 py-2.5 sm:px-6 sm:py-3.5 bg-[#002554] hover:bg-[#0A3E80] text-white text-sm font-bold rounded-xl shadow-sm transition-all duration-150 flex items-center justify-center space-x-1.5 sm:space-x-2 cursor-pointer"
             >
               <span>Explore the Group</span>
               <ArrowRight className="w-4 h-4" />
@@ -136,7 +136,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             {onOpenContact && (
               <button
                 onClick={onOpenContact}
-                className="px-4 py-2.5 sm:px-5 sm:py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs sm:text-sm font-bold rounded-xl transition-all duration-150 flex items-center space-x-1.5 sm:space-x-2 cursor-pointer"
+                className="min-h-11 px-4 py-2.5 sm:px-5 sm:py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-sm font-bold rounded-xl transition-all duration-150 flex items-center justify-center space-x-1.5 sm:space-x-2 cursor-pointer"
               >
                 <PhoneCall className="w-4 h-4 text-[#E4002B]" />
                 <span>Toll-Free {CONTACT.tollFreeLabel}</span>

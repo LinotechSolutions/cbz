@@ -566,7 +566,7 @@ export default function ChatWidget() {
         aria-expanded={isOpen}
         aria-haspopup="dialog"
         className={[
-          "fixed bottom-6 right-6 z-[9998] flex items-center gap-2.5 group",
+          "fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-[max(1rem,env(safe-area-inset-right))] sm:bottom-6 sm:right-6 z-[9998] flex items-center gap-2.5 group",
           "h-14 rounded-full shadow-2xl transition-all duration-300 ease-out",
           "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white",
           // Closed, this is a compact icon that widens to show its label on
@@ -601,9 +601,9 @@ export default function ChatWidget() {
           aria-label="Chat with CBZ Holdings"
           aria-modal="false"
           className={[
-            "fixed bottom-24 right-4 sm:right-6 z-[9997]",
+            "fixed bottom-[calc(max(1rem,env(safe-area-inset-bottom))+4rem)] right-4 sm:bottom-24 sm:right-6 z-[9997]",
             "w-[calc(100vw-2rem)] sm:w-[420px]",
-            "max-h-[calc(100vh-8rem)] flex flex-col",
+            "max-h-[calc(100dvh-8rem)] flex flex-col",
             "rounded-2xl overflow-hidden",
             "bg-white",
             "animate-chat-slide-in",

@@ -305,11 +305,25 @@ export const EcosystemGrid: React.FC<EcosystemGridProps> = ({ onNavigate }) => {
                   />
                 )}
                 <span className="relative shrink-0">{renderDisc(node, 76)}</span>
-                <strong
-                  className={`text-sm font-bold ${isActive ? 'text-cbz-blue' : 'text-cbz-grey'}`}
-                >
-                  {node.sub.category}
-                </strong>
+                <span className="min-w-0 flex flex-col items-start gap-1">
+                  <strong
+                    className={`text-sm font-bold ${isActive ? 'text-cbz-blue' : 'text-cbz-grey'}`}
+                  >
+                    {node.sub.category}
+                  </strong>
+                  {/* Straight to the business from the timeline, so a phone
+                      visitor need not open the chapter card first. */}
+                  <button
+                    type="button"
+                    onClick={() => onNavigate(node.sub.screen ?? 'group')}
+                    aria-label={`Visit ${node.sub.name}`}
+                    className="group inline-flex items-center gap-1 text-xs font-black cursor-pointer transition-colors hover:text-cbz-red"
+                    style={{ color: colour }}
+                  >
+                    <span>Visit</span>
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                  </button>
+                </span>
               </li>
             );
           })}
@@ -331,8 +345,6 @@ export const EcosystemGrid: React.FC<EcosystemGridProps> = ({ onNavigate }) => {
                   (e.target as HTMLImageElement).src = '/images/cbz-banking.webp';
                 }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-cbz-blue-900 via-cbz-blue-900/35 to-transparent" />
-
               <span className="absolute top-4 right-4 px-2.5 py-1 rounded-md bg-black/45 backdrop-blur-sm border border-white/20 text-[10px] font-black tabular-nums tracking-wider text-white">
                 {chapter(activeIndex)} / {chapter(total - 1)}
               </span>

@@ -7,19 +7,15 @@ import { TopUtilityBar } from './components/TopUtilityBar';
 import { Navbar } from './components/Navbar';
 import { AnnouncementsBar } from './components/AnnouncementsBar';
 import { HeroSection } from './components/HeroSection';
-import { AnnouncementsSection } from './components/AnnouncementsSection';
-import { LifeStageSection } from './components/LifeStageSection';
+import { HelpYouSection } from './components/HelpYouSection';
 import { EcosystemGrid } from './components/EcosystemGrid';
-import { SolutionsSection } from './components/SolutionsSection';
-import { BillPaymentSection } from './components/BillPaymentSection';
-import { NewsAndSupport } from './components/NewsAndSupport';
+import { HelpAndNotices } from './components/HelpAndNotices';
 import { LoginModal, PortalType } from './components/LoginModal';
 import { ContactChannelsModal } from './components/ContactChannelsModal';
 import { Footer } from './components/Footer';
 import { ClientProfileProvider } from './context/ClientProfileContext';
 import { SiteImagesProvider } from './context/SiteImagesContext';
 import { Reveal } from './components/Reveal';
-import { TaskLauncher } from './components/TaskLauncher';
 
 // Pages other than home load on demand, so the first visit only downloads what it shows
 const CustomerJourney = lazy(() => import('./components/CustomerJourney').then((m) => ({ default: m.CustomerJourney })));
@@ -166,9 +162,14 @@ export default function App() {
               onOpenContact={() => setIsContactModalOpen(true)}
             />
 
-            {/* Task launcher: what visitors arrive to do, placed directly under
-                the hero and ahead of news and campaigns. */}
-            <TaskLauncher
+            {/* The homepage is four sections: hero, what we can help with,
+                who we are, and help plus notices. It used to be eight, three of
+                which were the same icon-card grid in different clothes. See
+                HelpYouSection and HelpAndNotices for what was folded into each. */}
+
+            {/* What visitors arrive to do, what they might need, and who they
+                are: one section instead of the four that used to follow the hero. */}
+            <HelpYouSection
               onNavigate={setCurrentScreen}
               onLogin={() => setCurrentScreen('login')}
               onOpenAccount={() => openAccount()}
@@ -179,37 +180,14 @@ export default function App() {
                 The hero is deliberately left alone: it is above the fold, and
                 animating it would delay the first thing a visitor reads. */}
 
-            {/* Life Stage Framework */}
-            <Reveal>
-              <LifeStageSection onNavigate={setCurrentScreen} />
-            </Reveal>
-
             {/* Group Subsidiaries (Showcasing Official Logos instead of card repetition) */}
             <Reveal>
               <EcosystemGrid onNavigate={setCurrentScreen} />
             </Reveal>
 
-            {/* Solutions Section */}
+            {/* Support channels and the latest notices, in one section. */}
             <Reveal>
-              <SolutionsSection onNavigate={setCurrentScreen} />
-            </Reveal>
-
-            {/* Ziki Bill Payments */}
-            <Reveal>
-              <BillPaymentSection country={currentCountry} />
-            </Reveal>
-
-            {/* Omnichannel Support & Contact Directory */}
-            <Reveal>
-              <NewsAndSupport
-                country={currentCountry}
-                onOpenContact={() => setIsContactModalOpen(true)}
-              />
-            </Reveal>
-
-            {/* Dedicated Announcements & Press Room Section */}
-            <Reveal>
-              <AnnouncementsSection />
+              <HelpAndNotices onOpenContact={() => setIsContactModalOpen(true)} />
             </Reveal>
           </div>
         )}

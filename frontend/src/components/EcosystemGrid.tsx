@@ -4,8 +4,7 @@ import { Subsidiary, ScreenType } from '../types';
 import { SUBSIDIARIES } from '../data/cbzData';
 import { Logo } from './Logo';
 import { BRAND_BY_KEY, LOGOS, LogoBrand } from '../brand/logos';
-import { useSiteImage } from '../context/SiteImagesContext';
-import { ClusterId, GROUP_CLUSTERS } from '../data/groupStructure';
+import { ClusterId } from '../data/groupStructure';
 
 interface EcosystemGridProps {
   onNavigate: (screen: ScreenType) => void;
@@ -45,12 +44,11 @@ interface NodePos {
  * vertical timeline, because a three-column snake has no room for a 65px
  * lockup inside each disc at phone width.
  *
- * The feature panel underneath, and all the text in this section, are
- * unchanged from the previous layout; only the rail and the way the logos
- * are presented were redesigned.
+ * There is no detail card under the road: each disc carries a "Visit" link
+ * straight to the business, and the business's own page holds the detail.
+ * Selecting a disc marks the road travelled up to it.
  */
 export const EcosystemGrid: React.FC<EcosystemGridProps> = ({ onNavigate }) => {
-  const siteImage = useSiteImage();
   const [selectedSubId, setSelectedSubId] = useState<string>('bank');
 
   const total = SUBSIDIARIES.length;
@@ -58,24 +56,9 @@ export const EcosystemGrid: React.FC<EcosystemGridProps> = ({ onNavigate }) => {
     0,
     SUBSIDIARIES.findIndex((s) => s.id === selectedSubId),
   );
-  const selectedSub = SUBSIDIARIES[activeIndex];
-  const nextSub = SUBSIDIARIES[(activeIndex + 1) % total];
-
-  // Which of the Group's four operating clusters the selected company sits in.
-  const selectedCluster = GROUP_CLUSTERS.find((c) => c.id === selectedSub.cluster);
 
   /** Two digits, so the numbers align: 01, 02 … 09. */
   const chapter = (index: number) => String(index + 1).padStart(2, '0');
-
-  // Pre-load all subsidiary spotlight images into browser cache so tab switching is instantaneous
-  useEffect(() => {
-    SUBSIDIARIES.forEach((sub) => {
-      if (sub.image) {
-        const img = new Image();
-        img.src = sub.image;
-      }
-    });
-  }, []);
 
   const brandOf = (sub: Subsidiary): LogoBrand =>
     BRAND_BY_KEY[sub.id] ||
@@ -280,6 +263,16 @@ export const EcosystemGrid: React.FC<EcosystemGridProps> = ({ onNavigate }) => {
                   >
                     {node.sub.category}
                   </strong>
+                  <button
+                    type="button"
+                    onClick={() => onNavigate(node.sub.screen ?? 'group')}
+                    aria-label={`Visit ${node.sub.name}`}
+                    className="group mt-1 inline-flex items-center gap-1 text-[11px] font-black cursor-pointer transition-colors hover:text-cbz-red"
+                    style={{ color: CLUSTER_COLOUR[node.sub.cluster] }}
+                  >
+                    <span>Visit</span>
+                    <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                  </button>
                 </div>
               ))}
             </>
@@ -329,106 +322,6 @@ export const EcosystemGrid: React.FC<EcosystemGridProps> = ({ onNavigate }) => {
           })}
         </ol>
 
-        {/* The chapter in view. Text unchanged; the card is now white to sit with
-            the flow chart rather than against it. */}
-        <article className="mt-6 rounded-xl sm:rounded-2xl overflow-hidden border border-slate-200 bg-white shadow-sm">
-          <div className="grid grid-cols-1 lg:grid-cols-12">
-            {/* Image side, stamped with the chapter number. */}
-            <div className="lg:col-span-5 relative bg-cbz-blue-900 min-h-[190px] sm:min-h-[240px] lg:min-h-full">
-              <img
-                {...siteImage(`ecosystem.${selectedSub.id}`, selectedSub.image, selectedSub.name)}
-                loading="eager"
-                decoding="async"
-                fetchPriority="high"
-                className="w-full h-full object-cover opacity-85"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = '/images/cbz-banking.webp';
-                }}
-              />
-              <span className="absolute top-4 right-4 px-2.5 py-1 rounded-md bg-black/45 backdrop-blur-sm border border-white/20 text-[10px] font-black tabular-nums tracking-wider text-white">
-                {chapter(activeIndex)} / {chapter(total - 1)}
-              </span>
-
-              <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6">
-                <span
-                  className="px-2.5 py-1 rounded-md text-[10px] font-extrabold uppercase tracking-wider text-white"
-                  style={{ backgroundColor: CLUSTER_COLOUR[selectedSub.cluster] }}
-                >
-                  {selectedCluster ? selectedCluster.name : selectedSub.category}
-                </span>
-                <p className="text-sm sm:text-base font-bold text-white mt-2 leading-snug">
-                  “{selectedSub.tagline}”
-                </p>
-              </div>
-            </div>
-
-            {/* Copy side. */}
-            <div className="lg:col-span-7 p-5 sm:p-8 flex flex-col justify-between">
-              <div>
-                {/* The eyebrow says what the business is; the badge over the
-                    image says where it sits in the Group. No overlap. */}
-                <p className="flex items-center gap-2 text-[11px] font-black uppercase tracking-wider text-cbz-grey mb-4">
-                  <span
-                    className="w-1.5 h-3 rounded-xs inline-block"
-                    style={{ backgroundColor: CLUSTER_COLOUR[selectedSub.cluster] }}
-                  />
-                  <span>{selectedSub.category}</span>
-                </p>
-
-                <span className="inline-flex items-center justify-center h-12 px-4 rounded-xl bg-slate-50 border border-slate-200">
-                  <Logo brand={brandOf(selectedSub)} variant="full" height={26} clearSpace={false} decorative />
-                </span>
-
-                <h3 className="text-xl sm:text-2xl lg:text-3xl font-black text-cbz-blue mt-5 leading-tight">
-                  {selectedSub.name}
-                </h3>
-                <p className="text-sm text-cbz-grey leading-relaxed mt-3 max-w-xl">
-                  {selectedSub.description}
-                </p>
-
-                {selectedSub.isCore && (
-                  <span className="inline-block mt-4 px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-cbz-blue-50 border border-cbz-blue-100 text-cbz-blue">
-                    Core balance sheet flagship
-                  </span>
-                )}
-              </div>
-
-              {/* Footer: into this business, or on to the next one. */}
-              <div className="mt-7 pt-5 border-t border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                {selectedSub.screen ? (
-                  <button
-                    onClick={() => onNavigate(selectedSub.screen!)}
-                    className="group inline-flex items-center gap-2 text-sm font-black text-cbz-blue hover:text-cbz-red transition-colors cursor-pointer"
-                  >
-                    <span>Explore {selectedSub.name}</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => onNavigate('group')}
-                    className="group inline-flex items-center gap-2 text-sm font-black text-cbz-blue hover:text-cbz-red transition-colors cursor-pointer"
-                  >
-                    <span>See the full Group</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                  </button>
-                )}
-
-                <button
-                  onClick={() => setSelectedSubId(nextSub.id)}
-                  className="group text-left px-4 py-2.5 rounded-xl bg-cbz-blue hover:bg-cbz-blue-700 text-white transition-colors cursor-pointer inline-flex items-center gap-3"
-                >
-                  <span>
-                    <span className="block text-[10px] font-bold uppercase tracking-wider text-white/60">
-                      Continue your journey
-                    </span>
-                    <span className="block text-xs font-black text-white">{nextSub.name}</span>
-                  </span>
-                  <ArrowRight className="w-4 h-4 text-white/80 group-hover:translate-x-0.5 group-hover:text-white transition-all shrink-0" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </article>
       </div>
     </section>
   );

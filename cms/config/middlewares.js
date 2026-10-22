@@ -1,19 +1,23 @@
-// Comma-separated list, e.g. "https://cbz.co.zw,https://*.up.railway.app".
-const ALLOWED_ORIGINS = (
-  process.env.CORS_ORIGINS ||
-  [
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
-    'http://localhost:5173',
-    'http://127.0.0.1:5173',
-    'https://cbz.co.zw',
-    'https://www.cbz.co.zw',
-    'https://*.vercel.app',
-    'https://*.up.railway.app',
-  ].join(',')
-)
-  .split(',')
-  .map((origin) => origin.trim())
+// CORS_ORIGINS (comma-separated, e.g. "https://cbz.co.zw,https://*.up.railway.app")
+// ADDS to these defaults; it never replaces them, so setting the variable on the
+// host can't accidentally block the production frontend.
+const DEFAULT_ORIGINS = [
+  'http://localhost:3000',
+  'http://127.0.0.1:3000',
+  'http://localhost:5173',
+  'http://127.0.0.1:5173',
+  'https://cbz.co.zw',
+  'https://www.cbz.co.zw',
+  'https://cbz.vercel.app',
+  'https://*.vercel.app',
+  'https://*.up.railway.app',
+];
+
+const ALLOWED_ORIGINS = [
+  ...DEFAULT_ORIGINS,
+  ...(process.env.CORS_ORIGINS || '').split(','),
+]
+  .map((origin) => origin.trim().replace(/\/+$/, ''))
   .filter(Boolean);
 
 module.exports = [

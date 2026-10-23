@@ -23,12 +23,14 @@ interface SbuLandingPageProps {
 }
 
 /**
- * The standardised business-unit landing page: hero, about (with key facts and
- * the campaign slot as rows of one band), products, what-else-fits, leadership,
- * contact. Every unit renders through this component so the structure stays
- * consistent, as agreed in the website feedback. The campaign slot was folded
- * into the About band so a unit page has one fewer section boundary and the
- * placeholder sits in a designed context.
+ * The standardised business-unit landing page: one opening section (hero,
+ * about, key facts and the campaign slot), then products, what-else-fits,
+ * leadership, contact. Every unit renders through this component so the
+ * structure stays consistent, as agreed in the website feedback.
+ *
+ * The opening used to be three sections: hero, about + key facts, campaigns.
+ * They repeated each other (logo, unit name, headline, primary CTA and photo
+ * each appeared twice), so they were folded into one with each element once.
  */
 export const SbuLandingPage: React.FC<SbuLandingPageProps> = ({ config, onNavigate, children }) => {
   const siteImage = useSiteImage();
@@ -65,7 +67,12 @@ export const SbuLandingPage: React.FC<SbuLandingPageProps> = ({ config, onNaviga
 
   return (
     <div className="bg-slate-50 min-h-screen">
-      {/* 1. HERO BANNER — value proposition, image and primary action */}
+      {/* 1. OPENING: hero, about, key facts and the campaign slot as one section.
+          The hero and the About band used to repeat each other: the logo, the
+          unit name, a headline, "Open an account" and the photo all appeared
+          twice. Each now appears once. The hero photo is the key-facts panel's
+          backdrop instead of a separate image; the about paragraph sits under
+          the hero copy instead of in its own card under its own heading. */}
       <section className="bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
           <button
@@ -76,13 +83,14 @@ export const SbuLandingPage: React.FC<SbuLandingPageProps> = ({ config, onNaviga
             <span>The CBZ Group</span>
           </button>
 
-          <div className="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-7">
+          <div className="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
+            {/* Who we are, what we offer, and what we do. */}
+            <div className="lg:col-span-7 flex flex-col">
               <Logo brand={config.brand} height={38} />
               <span className="mt-5 block text-xs font-extrabold uppercase tracking-widest text-[#E4002B]">
                 {hero.eyebrow}
               </span>
-              <h1 className="mt-1 text-3xl sm:text-4xl font-black text-[#002554] tracking-tight leading-tight">
+              <h1 className="mt-1 text-3xl sm:text-4xl lg:text-5xl font-black text-[#002554] tracking-tight leading-tight">
                 {hero.headline}
               </h1>
               <p className="mt-3 text-sm text-slate-600 max-w-xl leading-relaxed">
@@ -106,116 +114,57 @@ export const SbuLandingPage: React.FC<SbuLandingPageProps> = ({ config, onNaviga
                   </button>
                 )}
               </div>
+
+              <div className="mt-8 pt-7 border-t border-slate-200">
+                <strong className="block text-cbz-blue text-xs uppercase tracking-wider mb-3">
+                  The business
+                </strong>
+                <p className="text-sm text-slate-600 leading-relaxed max-w-2xl">{about}</p>
+              </div>
             </div>
 
-            <div className="lg:col-span-5">
+            {/* The photo, with the facts over its foot. Top reads as image,
+                bottom reads as navy, so the ledger stays legible on any photo. */}
+            <div className="lg:col-span-5 relative rounded-2xl overflow-hidden bg-cbz-blue text-white shadow-xl min-h-[22rem] sm:min-h-[26rem] flex flex-col justify-end">
               <img
                 {...siteImage(hero.imageKey, hero.image ?? '', hero.headline)}
                 loading="eager"
                 decoding="async"
                 fetchPriority="high"
-                className="w-full h-56 sm:h-72 object-cover rounded-2xl border border-slate-200 bg-slate-100"
+                className="absolute inset-0 w-full h-full object-cover opacity-70"
               />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 2. ABOUT US + 3. KEY FACTS.
-          Two panels that answer the heading in order: what the business does on
-          the left, and the facts that back it on the right. The facts read as a
-          ledger rather than a grid of tiles, so a visitor scans label to figure
-          down one column instead of across six boxes. */}
-      <RevealSection className="bg-slate-50 border-y border-slate-200/80 py-14 sm:py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-10">
-            <p className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-cbz-red mb-3">
-              <span className="w-1.5 h-3.5 bg-cbz-red rounded-xs inline-block" />
-              <span>About {hero.eyebrow}</span>
-            </p>
-            <h2 className="text-cbz-blue text-3xl md:text-5xl font-black tracking-tight leading-[1.08]">
-              What we do,
-              <br />
-              <em className="text-cbz-red not-italic">and what backs it.</em>
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
-            {/* What we do. */}
-            <div className="lg:col-span-6 bg-white p-7 sm:p-9 rounded-2xl border border-slate-200/90 shadow-sm flex flex-col">
-              <strong className="block text-cbz-blue text-xs uppercase tracking-wider mb-4">
-                The business
-              </strong>
-              <p className="text-sm text-slate-600 leading-relaxed">{about}</p>
-
-              <div className="mt-auto pt-7">
-                <div className="h-10 flex items-center">
-                  <Logo brand={config.brand} variant="full" height={30} clearSpace={false} />
-                </div>
-              </div>
-            </div>
-
-            {/* What backs it. */}
-            <div className="lg:col-span-6 bg-cbz-blue text-white p-7 sm:p-9 rounded-2xl flex flex-col justify-between relative overflow-hidden shadow-xl">
-              {hero.image && (
-                <div
-                  aria-hidden
-                  className="absolute right-0 bottom-0 w-72 h-72 opacity-15 pointer-events-none bg-contain bg-no-repeat bg-right-bottom"
-                  style={{ backgroundImage: `url("${hero.image}")` }}
-                />
-              )}
               <div
                 aria-hidden
-                className="absolute -top-24 -right-16 w-72 h-72 rounded-full bg-cbz-red/15 blur-3xl pointer-events-none"
+                className="absolute inset-0 bg-gradient-to-t from-cbz-blue via-cbz-blue/80 to-cbz-blue/5"
               />
-
-              <div className="relative z-10">
-                <span className="block text-[10px] uppercase font-bold tracking-widest text-red-300 mb-1.5">
+              <div className="relative z-10 p-6 sm:p-8">
+                <span className="block text-[10px] uppercase font-bold tracking-widest text-red-300 mb-3">
                   Key facts
                 </span>
-                <h3 className="text-2xl sm:text-3xl font-black text-white mb-5 leading-tight">
-                  {hero.eyebrow}
-                </h3>
-
-                {/* The figure leads and the descriptor follows. Across the nine
-                    units `value` is not always a number: for CBZ Insurance it is
-                    "Personal" against "Motor, home, travel and accident". Putting
-                    the descriptor first read backwards for those, so the value
-                    takes the left column in every case. */}
-                <dl className="bg-white/10 p-5 rounded-xl border border-white/15 backdrop-blur-sm divide-y divide-white/10">
+                {/* The figure leads and the descriptor follows: `value` is not
+                    always a number across the nine units, and descriptor-first
+                    read backwards for some. */}
+                <dl className="bg-white/10 p-5 rounded-xl border border-white/15 backdrop-blur-md divide-y divide-white/10">
                   {keyFacts.map((fact) => (
                     <div
                       key={fact.label}
                       className="flex items-baseline justify-between gap-5 py-2.5 first:pt-0 last:pb-0"
                     >
                       <dt className="text-sm font-black text-white leading-snug">{fact.value}</dt>
-                      <dd className="text-xs text-slate-200 leading-snug text-right">
-                        {fact.label}
-                      </dd>
+                      <dd className="text-xs text-slate-200 leading-snug text-right">{fact.label}</dd>
                     </div>
                   ))}
                 </dl>
               </div>
-
-              <div className="relative z-10 pt-6">
-                <button
-                  onClick={act(contact.primaryCta)}
-                  className="w-full px-5 py-3 rounded-xl bg-cbz-red hover:bg-cbz-red-hover text-white text-xs font-bold transition-colors cursor-pointer inline-flex items-center justify-center gap-2 shadow-sm"
-                >
-                  <span>{contact.primaryCta.label}</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
             </div>
           </div>
 
-          {/* The campaign slot, as the third row of this band rather than a
-              section of its own: one banner across the full width, or up to
-              three tiles. It inherits the band's container and rhythm, so the
-              placeholder below sits inside a designed context instead of
-              floating between sections. */}
+          {/* The campaign slot, as the last row of the opening section: one
+              banner across the full width, or up to three tiles. The dashed
+              outline is reserved for [TBC placeholders; a card with an image
+              renders it as a soft backdrop. */}
           {campaigns.length > 0 && (
-            <div className="mt-6">
+            <div className="mt-8">
               <p className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-cbz-blue/60 mb-3">
                 <span className="w-1.5 h-3.5 bg-cbz-blue/40 rounded-xs inline-block" />
                 <span>On now</span>
@@ -272,9 +221,9 @@ export const SbuLandingPage: React.FC<SbuLandingPageProps> = ({ config, onNaviga
             </div>
           )}
         </div>
-      </RevealSection>
+      </section>
 
-      {/* 4. PRODUCTS AND SOLUTIONS */}
+      {/* 2. PRODUCTS AND SOLUTIONS */}
       <RevealSection id="products" className="scroll-mt-24 bg-white border-y border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <h2 className="text-2xl sm:text-3xl font-black text-[#002554] tracking-tight">

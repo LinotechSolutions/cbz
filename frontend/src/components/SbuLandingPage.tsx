@@ -8,6 +8,7 @@ import { Logo } from './Logo';
 import { ProductCatalogue } from './ProductCatalogue';
 import { Reveal, RevealSection } from './Reveal';
 import { CallbackModal } from './CallbackModal';
+import { StageRecommendations } from './StageRecommendations';
 import { analytics } from '../lib/analytics';
 
 interface SbuLandingPageProps {
@@ -22,9 +23,12 @@ interface SbuLandingPageProps {
 }
 
 /**
- * The standardised business-unit landing page: hero, about, key facts, products,
- * campaigns, leadership, contact. Every unit renders through this component so
- * the structure stays consistent, as agreed in the website feedback.
+ * The standardised business-unit landing page: hero, about (with key facts and
+ * the campaign slot as rows of one band), products, what-else-fits, leadership,
+ * contact. Every unit renders through this component so the structure stays
+ * consistent, as agreed in the website feedback. The campaign slot was folded
+ * into the About band so a unit page has one fewer section boundary and the
+ * placeholder sits in a designed context.
  */
 export const SbuLandingPage: React.FC<SbuLandingPageProps> = ({ config, onNavigate, children }) => {
   const siteImage = useSiteImage();
@@ -204,6 +208,69 @@ export const SbuLandingPage: React.FC<SbuLandingPageProps> = ({ config, onNaviga
               </div>
             </div>
           </div>
+
+          {/* The campaign slot, as the third row of this band rather than a
+              section of its own: one banner across the full width, or up to
+              three tiles. It inherits the band's container and rhythm, so the
+              placeholder below sits inside a designed context instead of
+              floating between sections. */}
+          {campaigns.length > 0 && (
+            <div className="mt-6">
+              <p className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-cbz-blue/60 mb-3">
+                <span className="w-1.5 h-3.5 bg-cbz-blue/40 rounded-xs inline-block" />
+                <span>On now</span>
+              </p>
+              <div
+                className={
+                  campaigns[0]?.kind === 'banner'
+                    ? 'grid grid-cols-1 gap-6'
+                    : 'grid grid-cols-1 md:grid-cols-3 gap-6'
+                }
+              >
+                {campaigns.slice(0, campaigns[0]?.kind === 'banner' ? 1 : 3).map((campaign) => {
+                  const pending = campaign.title.startsWith('[TBC');
+                  return (
+                    <article
+                      key={campaign.title}
+                      className={`relative overflow-hidden rounded-2xl p-6 sm:p-8 ${
+                        pending
+                          ? 'border border-dashed border-slate-300 bg-white'
+                          : 'border border-slate-200/90 bg-white shadow-sm'
+                      }`}
+                    >
+                      {!pending && campaign.image && (
+                        <img
+                          {...siteImage(
+                            campaign.imageKey ?? `campaign.${config.brand}`,
+                            campaign.image,
+                            '',
+                          )}
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
+                          className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none"
+                        />
+                      )}
+                      <div className="relative">
+                        <h3 className="font-extrabold text-base text-cbz-blue">{campaign.title}</h3>
+                        {campaign.body && (
+                          <p className="mt-2 text-xs text-slate-600 leading-relaxed">{campaign.body}</p>
+                        )}
+                        {campaign.cta && (
+                          <button
+                            onClick={act(campaign.cta)}
+                            className="mt-4 text-xs font-bold text-cbz-red hover:underline cursor-pointer"
+                          >
+                            {campaign.cta.label}
+                          </button>
+                        )}
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
       </RevealSection>
 
@@ -258,40 +325,12 @@ export const SbuLandingPage: React.FC<SbuLandingPageProps> = ({ config, onNaviga
 
       {children}
 
-      {/* 5. CAMPAIGN ADVERTS — one banner, or up to three tiles */}
-      {campaigns.length > 0 && (
-        <RevealSection className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div
-            className={
-              campaigns[0]?.kind === 'banner'
-                ? 'grid grid-cols-1 gap-6'
-                : 'grid grid-cols-1 md:grid-cols-3 gap-6'
-            }
-          >
-            {campaigns.slice(0, campaigns[0]?.kind === 'banner' ? 1 : 3).map((campaign) => (
-              <article
-                key={campaign.title}
-                className="rounded-2xl border border-dashed border-slate-300 bg-white p-6 sm:p-8"
-              >
-                <h3 className="font-extrabold text-base text-[#002554]">{campaign.title}</h3>
-                {campaign.body && (
-                  <p className="mt-2 text-xs text-slate-600 leading-relaxed">{campaign.body}</p>
-                )}
-                {campaign.cta && (
-                  <button
-                    onClick={act(campaign.cta)}
-                    className="mt-4 text-xs font-bold text-[#E4002B] hover:underline cursor-pointer"
-                  >
-                    {campaign.cta.label}
-                  </button>
-                )}
-              </article>
-            ))}
-          </div>
-        </RevealSection>
-      )}
+      {/* 4b. WHAT ELSE FITS. Stage picker and a fanned carousel of services from
+          the rest of the Group, never this unit's own. Sits between products and
+          leadership on every unit so the cross-sell is in the same place everywhere. */}
+      <StageRecommendations brand={config.brand} onNavigate={onNavigate} />
 
-      {/* 6. LEADERSHIP */}
+      {/* 5. LEADERSHIP (campaigns now live inside the About band, section 2) */}
       {leadership.length > 0 && (
         <RevealSection className="bg-white border-y border-slate-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

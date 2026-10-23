@@ -88,6 +88,14 @@ const FAN_POSE = [
 ];
 
 /**
+ * Journeys that share a business with another journey, and so would put two
+ * cards wearing the same photo in the fan. "Open an Account" is CBZ Bank's
+ * entry point and "Banking & Loans" is CBZ Bank's catalogue; one card for the
+ * bank is enough here, and the bank page itself offers both.
+ */
+const COLLAPSED_INTO_ANOTHER: ServiceId[] = ['account'];
+
+/**
  * The chosen stage first, then the stages either side of it in the order the
  * journeys list them, so the fan is never short of cards on a page that has
  * excluded its own service from a small stage.
@@ -104,7 +112,7 @@ function recommend(stage: Stage, exclude: ServiceId[]): ServiceDef[] {
   const out: ServiceDef[] = [];
   ring.forEach((s) => {
     SERVICE_LIST.filter((svc) => svc.stage === s).forEach((svc) => {
-      if (exclude.includes(svc.id) || seen.has(svc.id)) return;
+      if (exclude.includes(svc.id) || COLLAPSED_INTO_ANOTHER.includes(svc.id) || seen.has(svc.id)) return;
       seen.add(svc.id);
       out.push(svc);
     });

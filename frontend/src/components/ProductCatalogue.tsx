@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowRight, CheckCircle2, ChevronDown, HelpCircle } from 'lucide-react';
+import { ArrowRight, CheckCircle2, ChevronDown } from 'lucide-react';
 import { ProductItem } from '../types';
 import { useSiteImage } from '../context/SiteImagesContext';
 import { Reveal } from './Reveal';
@@ -19,6 +19,10 @@ interface ProductCatalogueProps {
   termsNote?: string;
   /** Direct conversion action handler */
   onAction?: (product: ProductItem, categoryId: string) => void;
+  /** Photo beside the FAQ list, fading into the page. Usually the unit's hero image. */
+  faqImage?: string;
+  /** CMS slot for that photo. */
+  faqImageKey?: string;
 }
 
 function getActionLabel(product: ProductItem, categoryId: string): string {
@@ -132,6 +136,8 @@ export const ProductCatalogue: React.FC<ProductCatalogueProps> = ({
   products,
   termsNote,
   onAction,
+  faqImage,
+  faqImageKey,
 }) => {
   const siteImage = useSiteImage();
   const [activeTab, setActiveTab] = useState<string>(categories[0]?.id ?? '');
@@ -281,42 +287,93 @@ export const ProductCatalogue: React.FC<ProductCatalogueProps> = ({
 
       {termsNote && <p className="mt-8 text-xs text-slate-500 max-w-3xl">{termsNote}</p>}
 
-      {/* Product FAQs & AI Search Optimization */}
+      {/* Product FAQs & AI Search Optimization.
+          After the reference: a quiet two-column layout. Heading, one line of
+          intro and a photo that fades into the page on the left; on the right
+          an accordion of hairline-divided rows, question set large and light,
+          one answer open at a time. No boxes, no icons, no uppercase labels. */}
       {faqs.length > 0 && (
-        <div className="mt-14 pt-8 border-t border-slate-200">
-          <div className="flex items-center gap-2 mb-4">
-            <HelpCircle className="w-4 h-4 text-[#E4002B]" />
-            <h3 className="text-sm font-extrabold uppercase tracking-wider text-[#002554]">
-              Frequently Asked Questions
-            </h3>
-          </div>
-          <div className="space-y-3 max-w-3xl">
-            {faqs.map((faq, idx) => (
-              <div
-                key={faq.q}
-                className="bg-slate-50 border border-slate-200 rounded-xl overflow-hidden"
+        <section
+          aria-labelledby="product-faq-heading"
+          className="mt-16 pt-12 border-t border-slate-200"
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+            {/* Left: heading, intro, and the fading photo. */}
+            <div className="lg:col-span-5 relative">
+              <h3
+                id="product-faq-heading"
+                className="text-3xl sm:text-4xl lg:text-5xl font-medium text-cbz-ink tracking-tight leading-[1.1]"
               >
-                <button
-                  type="button"
-                  onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
-                  className="w-full p-4 text-left font-bold text-xs sm:text-sm text-[#002554] flex items-center justify-between gap-3 cursor-pointer"
-                >
-                  <span>{faq.q}</span>
-                  <ChevronDown
-                    className={`w-4 h-4 text-slate-400 transition-transform ${
-                      openFaq === idx ? 'rotate-180 text-[#E4002B]' : ''
-                    }`}
+                Frequently
+                <br />
+                asked questions
+              </h3>
+              <p className="mt-4 text-sm text-slate-600 leading-relaxed max-w-xs">
+                A few quick answers about how this works and what to expect.
+              </p>
+
+              {faqImage && (
+                <div className="relative mt-8 lg:mt-12 h-56 sm:h-72 lg:h-[22rem] overflow-hidden">
+                  <img
+                    {...siteImage(faqImageKey ?? `${imageKeyPrefix}.faq`, faqImage, '')}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    className="absolute inset-0 w-full h-full object-cover"
                   />
-                </button>
-                {openFaq === idx && (
-                  <div className="px-4 pb-4 text-xs text-slate-600 leading-relaxed border-t border-slate-200/60 pt-3">
-                    {faq.a}
-                  </div>
-                )}
-              </div>
-            ))}
+                  {/* Fade the photo into the page along its top and right edges,
+                      so it reads as part of the layout rather than a framed box. */}
+                  <span
+                    aria-hidden
+                    className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white via-white/70 to-transparent"
+                  />
+                  <span
+                    aria-hidden
+                    className="absolute inset-y-0 right-0 w-1/2 bg-gradient-to-l from-white via-white/60 to-transparent"
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* Right: the accordion. */}
+            <div className="lg:col-span-7">
+              <ul className="divide-y divide-slate-300/80 border-b border-slate-300/80">
+                {faqs.map((faq, idx) => {
+                  const open = openFaq === idx;
+                  const panelId = `product-faq-panel-${idx}`;
+                  return (
+                    <li key={faq.q}>
+                      <button
+                        type="button"
+                        onClick={() => setOpenFaq(open ? null : idx)}
+                        aria-expanded={open}
+                        aria-controls={panelId}
+                        className="w-full py-6 sm:py-7 text-left flex items-start justify-between gap-6 cursor-pointer group"
+                      >
+                        <span className="text-lg sm:text-xl lg:text-2xl font-medium text-cbz-ink leading-snug group-hover:text-cbz-blue transition-colors">
+                          {faq.q}
+                        </span>
+                        <ChevronDown
+                          aria-hidden
+                          className={`w-5 h-5 mt-1.5 shrink-0 text-cbz-ink transition-transform duration-200 ${
+                            open ? 'rotate-180' : ''
+                          }`}
+                        />
+                      </button>
+                      <div
+                        id={panelId}
+                        hidden={!open}
+                        className="pb-7 pr-10 text-sm text-slate-600 leading-relaxed border-t border-slate-300/80 pt-6"
+                      >
+                        {faq.a}
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
           </div>
-        </div>
+        </section>
       )}
     </div>
   );

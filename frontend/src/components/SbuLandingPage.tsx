@@ -9,6 +9,7 @@ import { ProductCatalogue } from './ProductCatalogue';
 import { Reveal, RevealSection } from './Reveal';
 import { CallbackModal } from './CallbackModal';
 import { StageRecommendations } from './StageRecommendations';
+import { CampaignBanner } from './CampaignBanner';
 import { analytics } from '../lib/analytics';
 
 interface SbuLandingPageProps {
@@ -176,47 +177,16 @@ export const SbuLandingPage: React.FC<SbuLandingPageProps> = ({ config, onNaviga
                     : 'grid grid-cols-1 md:grid-cols-3 gap-6'
                 }
               >
-                {campaigns.slice(0, campaigns[0]?.kind === 'banner' ? 1 : 3).map((campaign) => {
-                  const pending = campaign.title.startsWith('[TBC');
-                  return (
-                    <article
-                      key={campaign.title}
-                      className={`relative overflow-hidden rounded-2xl p-6 sm:p-8 ${
-                        pending
-                          ? 'border border-dashed border-slate-300 bg-white'
-                          : 'border border-slate-200/90 bg-white shadow-sm'
-                      }`}
-                    >
-                      {!pending && campaign.image && (
-                        <img
-                          {...siteImage(
-                            campaign.imageKey ?? `campaign.${config.brand}`,
-                            campaign.image,
-                            '',
-                          )}
-                          alt=""
-                          loading="lazy"
-                          decoding="async"
-                          className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none"
-                        />
-                      )}
-                      <div className="relative">
-                        <h3 className="font-extrabold text-base text-cbz-blue">{campaign.title}</h3>
-                        {campaign.body && (
-                          <p className="mt-2 text-xs text-slate-600 leading-relaxed">{campaign.body}</p>
-                        )}
-                        {campaign.cta && (
-                          <button
-                            onClick={act(campaign.cta)}
-                            className="mt-4 text-xs font-bold text-cbz-red hover:underline cursor-pointer"
-                          >
-                            {campaign.cta.label}
-                          </button>
-                        )}
-                      </div>
-                    </article>
-                  );
-                })}
+                {campaigns.slice(0, campaigns[0]?.kind === 'banner' ? 1 : 3).map((campaign) => (
+                  <CampaignBanner
+                    key={campaign.title}
+                    campaign={campaign}
+                    brand={config.brand}
+                    fallbackImage={hero.image}
+                    compact={campaign.kind === 'tile'}
+                    onCta={(cta) => act(cta)()}
+                  />
+                ))}
               </div>
             </div>
           )}
@@ -235,6 +205,8 @@ export const SbuLandingPage: React.FC<SbuLandingPageProps> = ({ config, onNaviga
           <div className="mt-8">
             <ProductCatalogue
               imageKeyPrefix={config.imageKeyPrefix}
+              faqImage={hero.image}
+              faqImageKey={`${hero.imageKey}.faq`}
               categories={products.categories}
               products={products.items}
               termsNote={products.termsNote}

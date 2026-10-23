@@ -30,11 +30,19 @@ export interface LeadershipProfile {
 export interface CampaignSlot {
   /** 'banner' fills the row; up to three 'tile's sit side by side. */
   kind: 'banner' | 'tile';
+  /** The headline on the banner's colour block. */
   title: string;
+  /** The line under the headline. */
   body?: string;
   cta?: { label: string; href?: string; screen?: ScreenType };
   imageKey?: string;
   image?: string;
+  /** The big offer figure, e.g. "30% off" or "From 5%". Shown large, top-left. */
+  offer?: string;
+  /** One short line in italic above the headline, e.g. "Discover your next step". */
+  tagline?: string;
+  /** Small strip above the colour block: a lead line and a sentence of detail. */
+  note?: { lead: string; detail: string };
 }
 
 export interface SbuPageConfig {
@@ -82,7 +90,17 @@ export const leadershipPending = (unit: string): LeadershipProfile[] => [
 export const campaignsPending = (unit: string): CampaignSlot[] => [
   {
     kind: 'banner',
+    // Every slot of the banner carries a placeholder, so Marketing sees the
+    // whole template and what each field is for, not a dashed box.
     title: tbc(`${unit} campaign banner`),
-    body: 'Reserved for one main promotional banner, or up to three smaller tiles. Artwork and dimensions to be confirmed with Marketing.',
+    body: tbc('one line under the headline'),
+    offer: tbc('offer'),
+    tagline: tbc('short italic line'),
+    note: {
+      lead: tbc('lead line'),
+      detail:
+        'Reserved for one main promotional banner, or up to three smaller tiles. Artwork and dimensions to be confirmed with Marketing.',
+    },
+    cta: { label: tbc('call to action') },
   },
 ];

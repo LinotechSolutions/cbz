@@ -77,6 +77,7 @@ export const CONTACT = {
     confirmed: true,
   },
   email: 'contactcentre@cbz.co.zw',
+  website: { display: 'www.cbz.co.zw', href: 'https://www.cbz.co.zw' },
   address: '5 Campbell Road, Pomona, Harare',
   /** Branch locator target on the homepage help section. */
   branchLocatorHref: '/#branch-directory',

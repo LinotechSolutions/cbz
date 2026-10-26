@@ -60,13 +60,20 @@ export const CONTACT = {
   /** Toll-free short codes, all networks. */
   tollFree: ['460', '461'] as const,
   tollFreeLabel: '+263 8677 004050',
+  /**
+   * Flagged by the business as incorrect (Oct 2026). Every WhatsApp number on
+   * the site reads from here, so the fix is this one entry once the correct
+   * number is supplied: `display` as people read it, `href` as wa.me/<digits>.
+   */
   whatsapp: {
     display: '+263 774 460 460',
     href: 'https://wa.me/263774460460',
+    confirmed: false,
   },
+  /** Corrected from *460# on the business's instruction (Oct 2026). */
   ussd: {
-    display: '*460#',
-    href: 'tel:*460%23',
+    display: '*230#',
+    href: 'tel:*230%23',
   },
   /**
    * Switchboard.
@@ -110,10 +117,22 @@ export const REGULATORY = {
 
 /** External destinations that do not exist in this app. */
 export const EXTERNAL_LINKS = {
-  // Official internet-banking portal endpoints
+  // Official internet-banking portal endpoints (current platform, OBDX)
   ibPersonal: 'https://obdx.cbz.co.zw/index.html?module=login',
   ibCorporate: 'https://obdx.cbz.co.zw/',
-  ibSelfService: 'https://obdx.cbz.co.zw/index.html?module=login',
+  // The bank's own self-service portal (selfservice.cbz.co.zw), not the OBDX
+  // log-in page it pointed at before.
+  ibSelfService: 'https://selfservice.cbz.co.zw/',
+  /**
+   * The new internet-banking platform, in use alongside OBDX during the
+   * migration. Leave empty until the official URLs are confirmed: the log-in
+   * chooser only shows a platform whose URL is set, so nothing points at a
+   * guessed address.
+   */
+  ibNewPersonal: '',
+  ibNewCorporate: '',
+  /** Independent whistleblowing channel. Empty until Compliance confirms the provider and details. */
+  tipOffsWeb: '',
   touchAppStore: 'https://apps.apple.com/app/cbz-touch/id1200543503',
   touchPlayStore: 'https://play.google.com/store/apps/details?id=zw.co.cbz.touch',
   investorRelations: 'https://www.cbz.co.zw/investor-relations',

@@ -26,7 +26,12 @@ export type ScreenType =
   | 'journey-agro'
   | 'journey-capital'
   | 'journey-risk'
-  | 'home-journey';
+  | 'home-journey'
+  // Group information and regulatory pages
+  | 'business-conditions'
+  | 'privacy-policy'
+  | 'tip-offs'
+  | 'foundation';
 
 export interface LifecycleStage {
   step: string;

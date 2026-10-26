@@ -338,15 +338,25 @@ export const HelpAndNotices: React.FC<HelpAndNoticesProps> = ({ onOpenContact })
               </div>
 
               <ul className="mt-3 bg-white text-cbz-ink rounded-xl divide-y divide-slate-100 shadow-sm">
-                <li className="flex items-center gap-3 p-3">
-                  <span className="w-9 h-9 rounded-full bg-cbz-blue text-white flex items-center justify-center shrink-0">
-                    <Clock className="w-4 h-4" />
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block text-xs sm:text-sm font-black text-cbz-blue">Branch operating hours</span>
-                    <span className="block text-[11px] text-cbz-grey mt-0.5">{branchHoursLine()}</span>
-                  </span>
-                  <ChevronRight className="w-4 h-4 text-cbz-blue shrink-0" aria-hidden />
+                {/* Links to the branch and ATM map further down the page. */}
+                <li>
+                  <a
+                    href="#branch-directory"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.getElementById('branch-directory')?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className="flex items-center gap-3 p-3 rounded-t-xl hover:bg-slate-50 transition-colors"
+                  >
+                    <span className="w-9 h-9 rounded-full bg-cbz-blue text-white flex items-center justify-center shrink-0">
+                      <Clock className="w-4 h-4" />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-xs sm:text-sm font-black text-cbz-blue">Branches, ATMs &amp; hours</span>
+                      <span className="block text-[11px] text-cbz-grey mt-0.5">{branchHoursLine()} · Find your nearest</span>
+                    </span>
+                    <ChevronRight className="w-4 h-4 text-cbz-blue shrink-0" aria-hidden />
+                  </a>
                 </li>
                 <li className="flex items-center gap-3 p-3">
                   <span className="w-9 h-9 rounded-full bg-cbz-blue text-white flex items-center justify-center shrink-0">

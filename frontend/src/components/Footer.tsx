@@ -11,12 +11,12 @@ import { CbzLogo } from './CbzLogo';
 import { Country, ScreenType } from '../types';
 import { SUBSIDIARIES } from '../data/cbzData';
 import { SOCIAL_LINKS } from '../data/announcementsData';
-import { CONTACT, branchHoursLine } from '../data/facts';
+import { CONTACT, EXTERNAL_LINKS, branchHoursLine } from '../data/facts';
 import { WhatsAppIcon, BrandSocialIcon } from './ui/BrandIcons';
 
 interface FooterProps {
   country: Country;
-  onNavigate: (screen: ScreenType) => void;
+  onNavigate: (screen: ScreenType, hash?: string) => void;
   onOpenAccount?: () => void;
   onOpenContact?: () => void;
   activeEntity?: string;
@@ -67,7 +67,7 @@ export const Footer: React.FC<FooterProps> = ({
               target="_blank"
               rel="noreferrer"
               className="flex items-center space-x-2.5 group hover:opacity-90 transition-opacity"
-              title="Chat on WhatsApp +263 774 460 460"
+              title={`Chat on WhatsApp ${CONTACT.whatsapp.display}`}
             >
               <div className="w-9 h-9 rounded-xl bg-[#25D366]/20 text-[#25D366] border border-[#25D366]/30 flex items-center justify-center font-bold transition-all group-hover:bg-[#25D366] group-hover:text-white shadow-xs">
                 <WhatsAppIcon className="w-4 h-4 fill-current" />
@@ -206,13 +206,20 @@ export const Footer: React.FC<FooterProps> = ({
             <div className="text-xs font-extrabold uppercase tracking-widest text-white/60 mb-3">
               Digital Platforms
             </div>
+            {/* Real links. These were plain text that looked clickable and did nothing. */}
             <ul className="space-y-1.5 text-xs text-slate-300">
-              <li><span className="hover:text-white cursor-pointer">CBZ Touch Mobile App</span></li>
-              <li><span className="hover:text-white cursor-pointer">Internet Banking (Personal)</span></li>
-              <li><span className="hover:text-white cursor-pointer">Corporate Internet Banking</span></li>
-              <li><span className="hover:text-white cursor-pointer">USSD Banking (*460#)</span></li>
-              <li><span className="hover:text-white cursor-pointer">Ziki Marketplace</span></li>
-              <li><span className="hover:text-white cursor-pointer">POP Payment Verification</span></li>
+              <li><a href={EXTERNAL_LINKS.touchPlayStore} target="_blank" rel="noopener noreferrer" className="hover:text-white">CBZ Touch Mobile App</a></li>
+              {EXTERNAL_LINKS.ibNewPersonal && (
+                <li><a href={EXTERNAL_LINKS.ibNewPersonal} className="hover:text-white">Internet Banking (Personal) — new platform</a></li>
+              )}
+              <li><a href={EXTERNAL_LINKS.ibPersonal} className="hover:text-white">Internet Banking (Personal){EXTERNAL_LINKS.ibNewPersonal ? ' — current platform' : ''}</a></li>
+              {EXTERNAL_LINKS.ibNewCorporate && (
+                <li><a href={EXTERNAL_LINKS.ibNewCorporate} className="hover:text-white">Corporate Internet Banking — new platform</a></li>
+              )}
+              <li><a href={EXTERNAL_LINKS.ibCorporate} className="hover:text-white">Corporate Internet Banking{EXTERNAL_LINKS.ibNewCorporate ? ' — current platform' : ''}</a></li>
+              <li><a href={CONTACT.ussd.href} className="hover:text-white">USSD Banking ({CONTACT.ussd.display})</a></li>
+              <li><a href="https://zikimall.com/" target="_blank" rel="noopener noreferrer" className="hover:text-white">Ziki Marketplace</a></li>
+              <li><a href={EXTERNAL_LINKS.popVerification} target="_blank" rel="noopener noreferrer" className="hover:text-white">POP Payment Verification</a></li>
             </ul>
           </div>
 
@@ -233,12 +240,12 @@ export const Footer: React.FC<FooterProps> = ({
                   Shareholder Circulars & Notices
                 </button>
               </li>
-              <li><span className="hover:text-white cursor-pointer">Annual Reports Archive</span></li>
-              <li><span className="hover:text-white cursor-pointer">Terms & Conditions</span></li>
-              <li><span className="hover:text-white cursor-pointer">Privacy & Cookie Notice</span></li>
-              <li><span className="hover:text-white cursor-pointer">Deposit Protection Scheme</span></li>
-              <li><span className="hover:text-white cursor-pointer">Anti-Money Laundering Policy</span></li>
-              <li><span className="hover:text-white cursor-pointer">Whistleblowing Hotline</span></li>
+              <li><a href={EXTERNAL_LINKS.investorRelations} target="_blank" rel="noopener noreferrer" className="hover:text-white">Annual Reports Archive</a></li>
+              <li><button onClick={() => onNavigate('business-conditions')} className="hover:text-white text-left cursor-pointer">General Business Conditions</button></li>
+              <li><button onClick={() => onNavigate('privacy-policy')} className="hover:text-white text-left cursor-pointer">Privacy Policy</button></li>
+              <li><button onClick={() => onNavigate('tip-offs')} className="hover:text-white text-left cursor-pointer">Tip-offs Anonymous</button></li>
+              <li><button onClick={() => onNavigate('foundation')} className="hover:text-white text-left cursor-pointer">CBZ Foundation</button></li>
+              <li><button onClick={() => onNavigate('security')} className="hover:text-white text-left cursor-pointer">Security &amp; Online Safety</button></li>
             </ul>
           </div>
         </div>

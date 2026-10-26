@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrowRight, CheckCircle2, ChevronDown } from 'lucide-react';
 import { ProductItem } from '../types';
 import { useSiteImage } from '../context/SiteImagesContext';
@@ -142,7 +142,34 @@ export const ProductCatalogue: React.FC<ProductCatalogueProps> = ({
   const siteImage = useSiteImage();
   const [activeTab, setActiveTab] = useState<string>(categories[0]?.id ?? '');
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [highlighted, setHighlighted] = useState<string | null>(null);
   const items = products[activeTab] ?? [];
+
+  // Deep links. A URL hash of `product-<id>` (what the navigation menus and
+  // footer send) switches to the category that holds that product, scrolls to
+  // the card and rings it for a moment. Without this, every menu entry landed
+  // on the top of the page and the visitor had to find the product again.
+  useEffect(() => {
+    const apply = () => {
+      const m = /^#product-(.+)$/.exec(window.location.hash);
+      if (!m) return;
+      const id = decodeURIComponent(m[1]);
+      const category = categories.find((c) => (products[c.id] ?? []).some((p) => p.id === id));
+      if (!category) return;
+      setActiveTab(category.id);
+      setHighlighted(id);
+      // Wait for the tab's cards to render before scrolling.
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          document.getElementById(`product-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }),
+      );
+      window.setTimeout(() => setHighlighted((h) => (h === id ? null : h)), 3500);
+    };
+    apply();
+    window.addEventListener('hashchange', apply);
+    return () => window.removeEventListener('hashchange', apply);
+  }, [categories, products]);
 
   const faqs = FAQS_BY_PREFIX[imageKeyPrefix] || [];
 
@@ -181,7 +208,12 @@ export const ProductCatalogue: React.FC<ProductCatalogueProps> = ({
               as="article"
               delay={Math.min(index, 5) * 70}
               key={`${activeTab}-${product.id ?? product.name}`}
-              className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-xs hover:border-[#E4002B]/40 hover:shadow-md transition-all flex flex-col justify-between"
+              id={product.id ? `product-${product.id}` : undefined}
+              className={`bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border shadow-xs hover:border-[#E4002B]/40 hover:shadow-md transition-all flex flex-col justify-between scroll-mt-28 ${
+                highlighted && highlighted === product.id
+                  ? 'border-[#E4002B] ring-4 ring-[#E4002B]/15'
+                  : 'border-slate-200'
+              }`}
             >
               <div>
                 {product.image && (

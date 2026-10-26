@@ -5,7 +5,7 @@ import { ScreenType } from '../types';
 import { EXTERNAL_LINKS, tbc } from '../data/facts';
 import { useDialog } from '../lib/useDialog';
 
-export type PortalType = 'personal' | 'corporate' | 'self-service';
+export type PortalType = 'personal' | 'corporate' | 'self-service' | 'personal-new' | 'corporate-new';
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -15,19 +15,45 @@ interface LoginModalProps {
   initialPortal?: PortalType;
 }
 
-const PORTALS: {
+interface Portal {
   id: PortalType;
   title: string;
   description: string;
   href: string;
   Icon: React.ComponentType<{ className?: string; 'aria-hidden'?: boolean }>;
-}[] = [
+  /** Small tag beside the title, used to tell the two platforms apart. */
+  tag?: string;
+}
+
+/**
+ * Both internet-banking platforms are in use while customers migrate, so the
+ * chooser lists the new platform first when its URL is set, then the current
+ * one. An entry with no URL is left out rather than pointed at a guess.
+ */
+const ALL_PORTALS: Portal[] = [
+  {
+    id: 'personal-new',
+    title: 'Personal online banking',
+    description: 'The new platform. Check balances, pay bills and send money from your personal accounts.',
+    href: EXTERNAL_LINKS.ibNewPersonal,
+    Icon: User,
+    tag: 'New platform',
+  },
+  {
+    id: 'corporate-new',
+    title: 'Corporate online banking',
+    description: 'The new platform. Payments, approvals and account management for your business.',
+    href: EXTERNAL_LINKS.ibNewCorporate,
+    Icon: Building2,
+    tag: 'New platform',
+  },
   {
     id: 'personal',
     title: 'Personal online banking',
     description: 'Check balances, pay bills and send money from your personal accounts.',
     href: EXTERNAL_LINKS.ibPersonal,
     Icon: User,
+    tag: EXTERNAL_LINKS.ibNewPersonal ? 'Current platform' : undefined,
   },
   {
     id: 'corporate',
@@ -35,6 +61,7 @@ const PORTALS: {
     description: 'Payments, approvals and account management for your business.',
     href: EXTERNAL_LINKS.ibCorporate,
     Icon: Building2,
+    tag: EXTERNAL_LINKS.ibNewCorporate ? 'Current platform' : undefined,
   },
   {
     id: 'self-service',
@@ -44,6 +71,8 @@ const PORTALS: {
     Icon: HelpCircle,
   },
 ];
+
+const PORTALS: Portal[] = ALL_PORTALS.filter((p) => Boolean(p.href));
 
 /**
  * Log-in portal chooser. There is no credential form on this site: each option
@@ -90,7 +119,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, initial
         </div>
 
         <ul className="space-y-2.5">
-          {PORTALS.map(({ id, title, description, href, Icon }) => {
+          {PORTALS.map(({ id, title, description, href, Icon, tag }) => {
             const highlighted = id === initialPortal;
             return (
               <li key={id}>
@@ -105,7 +134,14 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, initial
                 >
                   <Icon className="w-5 h-5 mt-0.5 shrink-0 text-cbz-blue" aria-hidden />
                   <span className="flex-1 min-w-0">
-                    <span className="block text-sm font-bold text-cbz-blue">{title}</span>
+                    <span className="flex items-center gap-2">
+                      <span className="text-sm font-bold text-cbz-blue">{title}</span>
+                      {tag && (
+                        <span className="px-1.5 py-0.5 rounded bg-cbz-red-50 text-cbz-red text-[10px] font-black uppercase tracking-wider">
+                          {tag}
+                        </span>
+                      )}
+                    </span>
                     <span className="block text-sm text-cbz-grey mt-0.5">{description}</span>
                   </span>
                   <ArrowRight

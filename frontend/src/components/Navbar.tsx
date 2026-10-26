@@ -24,7 +24,8 @@ import { SUBSIDIARIES } from '../data/cbzData';
 
 interface NavbarProps {
   currentScreen: ScreenType;
-  onNavigate: (screen: ScreenType) => void;
+  /** `hash` deep-links inside the page, e.g. `product-<id>` opens that product card. */
+  onNavigate: (screen: ScreenType, hash?: string) => void;
   onOpenLogin: (portal?: 'personal' | 'corporate' | 'self-service') => void;
   onOpenAccount?: () => void;
   onOpenContact?: () => void;
@@ -491,19 +492,23 @@ export const Navbar: React.FC<NavbarProps> = ({
                   <div className="text-xs font-bold tracking-wider text-cbz-grey uppercase mb-3.5">
                     Everyday Banking
                   </div>
+                  {/* Each entry opens its product card on the bank page. These
+                      used to all land on the top of the page, which the business
+                      reported as "all linking to the generic information". Two
+                      labels corrected on the business's instruction. */}
                   <ul className="space-y-2.5 text-xs text-slate-600 font-medium">
                     <li
                       onClick={() => {
-                        onNavigate('bank');
+                        onNavigate('bank', 'product-smartcash_general');
                         setActiveMega(null);
                       }}
                       className="hover:text-[#E4002B] cursor-pointer transition-colors"
                     >
-                      SmartCash Current Account
+                      SmartCash Saving Account
                     </li>
                     <li
                       onClick={() => {
-                        onNavigate('bank');
+                        onNavigate('bank', 'product-cashplus_junior');
                         setActiveMega(null);
                       }}
                       className="hover:text-[#E4002B] cursor-pointer transition-colors"
@@ -512,7 +517,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     </li>
                     <li
                       onClick={() => {
-                        onNavigate('bank');
+                        onNavigate('bank', 'product-fca_individual');
                         setActiveMega(null);
                       }}
                       className="hover:text-[#E4002B] cursor-pointer transition-colors"
@@ -521,16 +526,16 @@ export const Navbar: React.FC<NavbarProps> = ({
                     </li>
                     <li
                       onClick={() => {
-                        onNavigate('bank');
+                        onNavigate('bank', 'product-current_corporate');
                         setActiveMega(null);
                       }}
                       className="hover:text-[#E4002B] cursor-pointer transition-colors"
                     >
-                      Corporate Operating Accounts
+                      Corporate Banking Account
                     </li>
                     <li
                       onClick={() => {
-                        onNavigate('bank');
+                        onNavigate('bank', 'product-visa_gold');
                         setActiveMega(null);
                       }}
                       className="hover:text-[#E4002B] cursor-pointer transition-colors"
@@ -545,19 +550,21 @@ export const Navbar: React.FC<NavbarProps> = ({
                     Borrowing & Mortgages
                   </div>
                   <ul className="space-y-2.5 text-xs text-slate-600 font-medium">
+                    {/* Mortgage tenure is 2 to 10 years everywhere else on the
+                        site; the old "15-20 Yrs" here contradicted it. */}
                     <li
                       onClick={() => {
-                        onNavigate('bank');
+                        onNavigate('home-journey');
                         setActiveMega(null);
                       }}
                       className="hover:text-[#E4002B] cursor-pointer transition-colors font-semibold text-[#002554] flex items-center justify-between"
                     >
-                      <span>Private Home Mortgages (15-20 Yrs)</span>
+                      <span>Home Mortgages (2-10 Yrs)</span>
                       <span className="text-xs bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-medium">Popular</span>
                     </li>
                     <li
                       onClick={() => {
-                        onNavigate('bank');
+                        onNavigate('bank', 'product-civil_servant_loan');
                         setActiveMega(null);
                       }}
                       className="hover:text-[#E4002B] cursor-pointer transition-colors"
@@ -566,30 +573,30 @@ export const Navbar: React.FC<NavbarProps> = ({
                     </li>
                     <li
                       onClick={() => {
-                        onNavigate('bank');
+                        onNavigate('bank', 'product-direct_debit_loan');
                         setActiveMega(null);
                       }}
                       className="hover:text-[#E4002B] cursor-pointer transition-colors"
                     >
-                      Vehicle & Asset Finance (VAF)
+                      Individual Direct Debit Loans
                     </li>
                     <li
                       onClick={() => {
-                        onNavigate('bank');
+                        onNavigate('bank', 'product-private_school_fees_loan');
                         setActiveMega(null);
                       }}
                       className="hover:text-[#E4002B] cursor-pointer transition-colors"
                     >
-                      SME Working Capital & Overdrafts
+                      School Fees & Student Loans
                     </li>
                     <li
                       onClick={() => {
-                        onNavigate('bank');
+                        onNavigate('bank', 'product-payday_loan');
                         setActiveMega(null);
                       }}
                       className="hover:text-[#E4002B] cursor-pointer transition-colors"
                     >
-                      Invoice Discounting & Order Finance
+                      Payday Loans
                     </li>
                   </ul>
                 </div>
@@ -639,12 +646,12 @@ export const Navbar: React.FC<NavbarProps> = ({
                     </li>
                     <li
                       onClick={() => {
-                        onNavigate('bank');
+                        onNavigate('red-sphere');
                         setActiveMega(null);
                       }}
                       className="hover:text-[#E4002B] cursor-pointer transition-colors"
                     >
-                      Women Enterprise & Youth Growth Fund
+                      Agency & Partnership Programmes
                     </li>
                   </ul>
                 </div>

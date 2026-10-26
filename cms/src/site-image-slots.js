@@ -5,19 +5,26 @@
  * Keys must match the ones the frontend asks for (see frontend/src/context/SiteImagesContext.tsx
  * and the components that call siteImage()). Adding a slot here without using it
  * in the frontend does nothing.
+ *
+ * `size` is the recommended upload, about twice the rendered box so the image
+ * stays sharp on high-density screens. `framing` says where to keep the subject
+ * where a slot crops or fades part of the picture.
  */
-const subsidiaries = [
-  ['bank', 'CBZ Bank'],
-  ['insurance', 'CBZ Insurance'],
-  ['life', 'CBZ Life'],
-  ['datvest', 'Datvest'],
-  ['capital', 'CBZ Capital'],
-  ['properties', 'CBZ Properties'],
-  ['agri', 'CBZ Agro-Yield'],
-  ['risk', 'CBZ Risk Advisory'],
-  ['micro', 'Red Sphere Finance'],
+
+/** Unit pages: [imageKey prefix used in sbuConfigs, campaign brand id, display name]. */
+const units = [
+  ['banner.banking', 'bank', 'CBZ Bank'],
+  ['banner.insurance', 'insurance', 'CBZ Insurance'],
+  ['banner.life', 'life', 'CBZ Life'],
+  ['banner.investments', 'datvest', 'Datvest'],
+  ['banner.properties', 'properties', 'CBZ Properties'],
+  ['banner.agro', 'agro-yield', 'CBZ Agro-Yield'],
+  ['banner.red-sphere', 'red-sphere', 'Red Sphere Finance'],
+  ['banner.capital', 'capital', 'CBZ Capital'],
+  ['banner.risk-advisory', 'risk-advisory', 'CBZ Risk Advisory Services'],
 ];
 
+/** The Group page cards: [subsidiary id in TheGroupView, display name]. */
 const groupSubsidiaries = [
   ['bank', 'CBZ Bank'],
   ['insurance', 'CBZ Insurance'],
@@ -26,82 +33,196 @@ const groupSubsidiaries = [
   ['properties', 'CBZ Properties'],
   ['agro-yield', 'CBZ Agro-Yield'],
   ['red-sphere', 'Red Sphere Finance'],
-  ['risk-advisory', 'CBZ Risk Advisory'],
+  ['risk-advisory', 'CBZ Risk Advisory Services'],
   ['capital', 'CBZ Capital'],
 ];
 
-const audiences = [
-  ['personal', 'Personal'],
-  ['business-smes', 'Business & SMEs'],
-  ['corporate-institutional', 'Corporate & Institutional'],
-  ['affluent-banking', 'Affluent Banking'],
-  ['diaspora-banking', 'Diaspora Banking'],
+/** Recommendation carousel: [journey service id, display name]. */
+const services = [
+  ['bank', 'Banking & Loans (CBZ Bank)'],
+  ['properties', 'Property (CBZ Properties)'],
+  ['insurance', 'General Insurance (CBZ Insurance)'],
+  ['life', 'Life Assurance (CBZ Life)'],
+  ['datvest', 'Investments (Datvest)'],
+  ['agroyield', 'Farming Finance (CBZ Agro-Yield)'],
+  ['redsphere', 'Microfinance (Red Sphere Finance)'],
+  ['riskadvisory', 'Risk Advisory (CBZ Risk Advisory Services)'],
+  ['capital', 'Investment Banking (CBZ Capital)'],
+];
+
+/** Homepage "what you need" cards: [slug of the stage title, display name]. */
+const needs = [
+  ['everyday-banking', 'Everyday Banking'],
+  ['protection-care', 'Protection & Care'],
+  ['wealth-growth', 'Wealth & Growth'],
+  ['property-agribusiness', 'Property & Agribusiness'],
+];
+
+/** Notice thumbnails, by announcement id. Add a line when a notice is added. */
+const notices = [
+  ['fy2025-results', 'Audited results FY2025 & final dividend'],
+  ['saturday-banking', 'Extended Saturday banking hours'],
+  ['agm-notice-2026', '37th AGM notice'],
+  ['digital-card-upgrade', '3D Secure card upgrade'],
+  ['monetary-policy-circular', 'Monetary policy circular'],
+  ['cautionary-statement', 'Cautionary statement'],
+];
+
+const bankProducts = [
+  ['current', 'Current Account'],
+  ['current_joint', 'Current Account (Joint)'],
+  ['current_corporate', 'Current Account (Corporate)'],
+  ['fca_individual', 'Foreign Currency Account (Individual)'],
+  ['fca_corporate', 'Foreign Currency Account (Corporate)'],
+  ['smartcash_lite', 'SmartCash Lite'],
+  ['smartcash_general', 'SmartCash General'],
+  ['smartcash_student', 'SmartCash Student'],
+  ['smartcash_extra', 'SmartCash Extra'],
+  ['private_banking', 'Private Banking'],
+  ['school_current', 'School Current Account'],
+  ['church_current', 'Church Current Account'],
+  ['savings_individual', 'Savings Account (Individual)'],
+  ['savings_corporate', 'Savings Account (Corporate)'],
+  ['senior', 'Senior Citizens Savings Account'],
+  ['simple_saver', 'Simple Saver'],
+  ['fixed_deposit', 'Fixed Deposit'],
+  ['cashplus_junior', 'CashPlus Junior'],
+  ['cashplus_teen', 'CashPlus Teen'],
+  ['cashplus_student', 'CashPlus Student'],
+  ['cashplus_business', 'CashPlus Business'],
+  ['cashplus_individual', 'CashPlus Individual'],
+  ['cashplus_housing', 'CashPlus Housing'],
+  ['civil_servant_loan', 'Civil Servant Loan'],
+  ['direct_debit_loan', 'Loan - Individual Direct Debit'],
+  ['nostro_loan', 'Nostro Individual Loan'],
+  ['private_school_fees_loan', 'Private School Fees Loan'],
+  ['student_loan_facility', 'Student Loan Facility'],
+  ['payday_loan', 'Payday Loan'],
+];
+
+const agroProducts = [
+  ['agro_enterprise', 'Agro Enterprise'],
+  ['agro_farming', 'Agro Farming'],
+  ['agro_commodity_trading', 'Agro Commodity Trading'],
+  ['agro_supply_chain', 'Agro Supply Chain'],
+];
+
+const accountChoices = [
+  ['smartcash', 'SmartCash General'],
+  ['personal', 'Current Account'],
+  ['nostro', 'Foreign Currency Account'],
+  ['youth', 'SmartCash Student'],
+  ['senior', 'Senior Citizens Savings Account'],
+  ['fixed', 'Fixed Deposit'],
+  ['business', 'Current Account (Corporate)'],
+  ['church', 'Church Current Account'],
 ];
 
 module.exports = [
-  { key: 'home.hero', label: 'Home - hero picture', location: 'Home page, top banner' },
-  { key: 'banner.banking', label: 'CBZ Bank - page picture', location: 'CBZ Bank page' },
-  { key: 'banner.insurance', label: 'CBZ Insurance - page picture', location: 'CBZ Insurance page' },
-  { key: 'banner.agro', label: 'CBZ Agro-Yield - page picture', location: 'CBZ Agro-Yield page' },
-  { key: 'banner.investments', label: 'Datvest - page picture', location: 'Datvest / investments page' },
-  { key: 'banner.properties', label: 'CBZ Properties - page picture', location: 'CBZ Properties page' },
-  { key: 'banner.red-sphere', label: 'Red Sphere Finance - page picture', location: 'Red Sphere Finance page' },
-  { key: 'banner.life', label: 'CBZ Life - page picture', location: 'CBZ Life page' },
-  { key: 'handover.property', label: 'Property listing picture', location: 'Home-ownership journey, property card' },
-  ...subsidiaries.map(([id, name]) => ({
-    key: `ecosystem.${id}`,
-    label: `Ecosystem - ${name}`,
-    location: 'Home page, "Our ecosystem" panel',
+  // Homepage
+  {
+    key: 'home.hero',
+    label: 'Home - hero artwork',
+    location: 'Home page, top banner (right side, shown whole, not cropped)',
+    size: '1600 x 800',
+  },
+  ...needs.map(([id, name]) => ({
+    key: `need.${id}`,
+    label: `Home - what you need - ${name}`,
+    location: 'Home page, "Or start with what you need" cards (lower half of the card)',
+    size: '900 x 540',
   })),
-  ...audiences.map(([id, name]) => ({
-    key: `audience.${id}`,
-    label: `Solutions - ${name}`,
-    location: 'Home page, "Solutions for" cards',
+  {
+    key: 'notices.header',
+    label: 'Home - notices header strip',
+    location: 'Home page, "Latest from CBZ" header, top right, heavily faded',
+    size: '1600 x 480',
+  },
+  ...notices.map(([id, name]) => ({
+    key: `notice.${id}`,
+    label: `Home - notice thumbnail - ${name}`,
+    location: 'Home page, "Latest from CBZ" rows',
+    size: '300 x 300',
   })),
+  {
+    key: 'support.hero',
+    label: 'Home - support panel backdrop',
+    location: 'Home page, "Need a hand?" panel, faded under navy',
+    size: '900 x 1200',
+  },
+
+  // The Group page
   ...groupSubsidiaries.map(([id, name]) => ({
     key: `group.${id}`,
     label: `The Group - ${name}`,
-    location: 'The Group page, subsidiary cards',
+    location: 'The Group page, subsidiary cards (4:3)',
+    size: '1200 x 900',
   })),
-  { key: 'bank-product.current', label: 'Bank product - Current Account', location: 'CBZ Bank page, product cards' },
-  { key: 'bank-product.current_joint', label: 'Bank product - Current Account (Joint)', location: 'CBZ Bank page, product cards' },
-  { key: 'bank-product.current_corporate', label: 'Bank product - Current Account (Corporate)', location: 'CBZ Bank page, product cards' },
-  { key: 'bank-product.fca_individual', label: 'Bank product - Foreign Currency Account (Individual)', location: 'CBZ Bank page, product cards' },
-  { key: 'bank-product.fca_corporate', label: 'Bank product - Foreign Currency Account (Corporate)', location: 'CBZ Bank page, product cards' },
-  { key: 'bank-product.smartcash_lite', label: 'Bank product - SmartCash Lite', location: 'CBZ Bank page, product cards' },
-  { key: 'bank-product.smartcash_general', label: 'Bank product - SmartCash General', location: 'CBZ Bank page, product cards' },
-  { key: 'bank-product.smartcash_student', label: 'Bank product - SmartCash Student', location: 'CBZ Bank page, product cards' },
-  { key: 'bank-product.smartcash_extra', label: 'Bank product - SmartCash Extra', location: 'CBZ Bank page, product cards' },
-  { key: 'bank-product.private_banking', label: 'Bank product - Private Banking', location: 'CBZ Bank page, product cards' },
-  { key: 'bank-product.school_current', label: 'Bank product - School Current Account', location: 'CBZ Bank page, product cards' },
-  { key: 'bank-product.church_current', label: 'Bank product - Church Current Account', location: 'CBZ Bank page, product cards' },
-  { key: 'bank-product.savings_individual', label: 'Bank product - Savings Account (Individual)', location: 'CBZ Bank page, product cards' },
-  { key: 'bank-product.savings_corporate', label: 'Bank product - Savings Account (Corporate)', location: 'CBZ Bank page, product cards' },
-  { key: 'bank-product.senior', label: 'Bank product - Senior Citizens Savings Account', location: 'CBZ Bank page, product cards' },
-  { key: 'bank-product.simple_saver', label: 'Bank product - Simple Saver', location: 'CBZ Bank page, product cards' },
-  { key: 'bank-product.fixed_deposit', label: 'Bank product - Fixed Deposit', location: 'CBZ Bank page, product cards' },
-  { key: 'bank-product.cashplus_junior', label: 'Bank product - CashPlus Junior', location: 'CBZ Bank page, product cards' },
-  { key: 'bank-product.cashplus_teen', label: 'Bank product - CashPlus Teen', location: 'CBZ Bank page, product cards' },
-  { key: 'bank-product.cashplus_student', label: 'Bank product - CashPlus Student', location: 'CBZ Bank page, product cards' },
-  { key: 'bank-product.cashplus_business', label: 'Bank product - CashPlus Business', location: 'CBZ Bank page, product cards' },
-  { key: 'bank-product.cashplus_individual', label: 'Bank product - CashPlus Individual', location: 'CBZ Bank page, product cards' },
-  { key: 'bank-product.cashplus_housing', label: 'Bank product - CashPlus Housing', location: 'CBZ Bank page, product cards' },
-  { key: 'bank-product.civil_servant_loan', label: 'Bank product - Civil Servant Loan', location: 'CBZ Bank page, product cards' },
-  { key: 'bank-product.direct_debit_loan', label: 'Bank product - Loan — Individual Direct Debit', location: 'CBZ Bank page, product cards' },
-  { key: 'bank-product.nostro_loan', label: 'Bank product - Nostro Individual Loan', location: 'CBZ Bank page, product cards' },
-  { key: 'bank-product.private_school_fees_loan', label: 'Bank product - Private School Fees Loan', location: 'CBZ Bank page, product cards' },
-  { key: 'bank-product.student_loan_facility', label: 'Bank product - Student Loan Facility', location: 'CBZ Bank page, product cards' },
-  { key: 'bank-product.payday_loan', label: 'Bank product - Payday Loan', location: 'CBZ Bank page, product cards' },
-  { key: 'agro-product.agro_enterprise', label: 'Agro-Yield - Agro Enterprise', location: 'CBZ Agro-Yield page, division cards' },
-  { key: 'agro-product.agro_farming', label: 'Agro-Yield - Agro Farming', location: 'CBZ Agro-Yield page, division cards' },
-  { key: 'agro-product.agro_commodity_trading', label: 'Agro-Yield - Agro Commodity Trading', location: 'CBZ Agro-Yield page, division cards' },
-  { key: 'agro-product.agro_supply_chain', label: 'Agro-Yield - Agro Supply Chain', location: 'CBZ Agro-Yield page, division cards' },
-  { key: 'account.smartcash', label: 'Open account - SmartCash General', location: 'Open an account page, account choice cards' },
-  { key: 'account.personal', label: 'Open account - Current Account', location: 'Open an account page, account choice cards' },
-  { key: 'account.nostro', label: 'Open account - Foreign Currency Account', location: 'Open an account page, account choice cards' },
-  { key: 'account.youth', label: 'Open account - SmartCash Student', location: 'Open an account page, account choice cards' },
-  { key: 'account.senior', label: 'Open account - Senior Citizens Savings Account', location: 'Open an account page, account choice cards' },
-  { key: 'account.fixed', label: 'Open account - Fixed Deposit', location: 'Open an account page, account choice cards' },
-  { key: 'account.business', label: 'Open account - Current Account (Corporate)', location: 'Open an account page, account choice cards' },
-  { key: 'account.church', label: 'Open account - Church Current Account', location: 'Open an account page, account choice cards' },
+
+  // Unit pages: opening photo, FAQ photo, campaign photo
+  ...units.flatMap(([bannerKey, brand, name]) => [
+    {
+      key: bannerKey,
+      label: `${name} - opening photo`,
+      location: `${name} page, opening section, right panel`,
+      size: '1000 x 1200',
+      framing: 'Keep the subject in the upper half; the lower half fades to navy under the key facts.',
+    },
+    {
+      key: `${bannerKey}.faq`,
+      label: `${name} - FAQ photo`,
+      location: `${name} page, frequently asked questions, bottom left`,
+      size: '1000 x 720',
+      framing: 'Keep the subject bottom-left; the top and right edges fade into the page.',
+    },
+    {
+      key: `campaign.${brand}`,
+      label: `${name} - campaign photo`,
+      location: `${name} page, promotional banner, hexagon on the right`,
+      size: '900 x 1080',
+      framing: 'Keep the subject centred; the hexagon clips all four corners.',
+    },
+  ]),
+
+  // Recommendation carousel, shared by every unit page
+  ...services.map(([id, name]) => ({
+    key: `recommend.${id}`,
+    label: `Recommendations - ${name}`,
+    location: 'Every unit page, "Find the right fit" carousel card (portrait)',
+    size: '600 x 800',
+  })),
+
+  // Product cards
+  ...bankProducts.map(([id, name]) => ({
+    key: `bank-product.${id}`,
+    label: `Bank product - ${name}`,
+    location: 'CBZ Bank page, product cards (top strip)',
+    size: '800 x 300',
+  })),
+  ...agroProducts.map(([id, name]) => ({
+    key: `agro-product.${id}`,
+    label: `Agro-Yield - ${name}`,
+    location: 'CBZ Agro-Yield page, division cards (top strip)',
+    size: '800 x 300',
+  })),
+
+  // Journeys and other pages
+  ...accountChoices.map(([id, name]) => ({
+    key: `account.${id}`,
+    label: `Open account - ${name}`,
+    location: 'Open an account page, account choice cards',
+    size: '800 x 300',
+  })),
+  {
+    key: 'handover.property',
+    label: 'Property listing picture',
+    location: 'Home-ownership journey, property card (4:3)',
+    size: '1200 x 900',
+  },
+  {
+    key: 'diaspora.hero',
+    label: 'Diaspora - page picture',
+    location: 'Diaspora banking page, top right',
+    size: '1200 x 800',
+  },
 ];

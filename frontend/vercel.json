@@ -87,6 +87,22 @@
     {
       "source": "/risk-journey",
       "destination": "/risk-journey/index.html"
+    },
+    {
+      "source": "/business-conditions",
+      "destination": "/business-conditions/index.html"
+    },
+    {
+      "source": "/privacy-policy",
+      "destination": "/privacy-policy/index.html"
+    },
+    {
+      "source": "/tip-offs",
+      "destination": "/tip-offs/index.html"
+    },
+    {
+      "source": "/cbz-foundation",
+      "destination": "/cbz-foundation/index.html"
     }
   ],
   "redirects": [
@@ -140,7 +156,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https://images.unsplash.com https://*.railway.app https://*.up.railway.app https://cbz.co.zw; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://*.railway.app https://*.up.railway.app https://*.cbz.co.zw https://api.cbz.co.zw; frame-ancestors 'none'; base-uri 'self'; form-action 'self';"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https://images.unsplash.com https://*.railway.app https://*.up.railway.app https://cbz.co.zw; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://*.railway.app https://*.up.railway.app https://*.cbz.co.zw https://api.cbz.co.zw; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; frame-src https://www.google.com;"
         }
       ]
     },

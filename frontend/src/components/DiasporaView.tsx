@@ -19,6 +19,7 @@ import { CONTACT } from '../data/facts';
 import { Logo } from './Logo';
 import { Reveal, RevealSection } from './Reveal';
 import { analytics } from '../lib/analytics';
+import { useSiteImage } from '../context/SiteImagesContext';
 
 interface DiasporaViewProps {
   onNavigate: (screen: ScreenType) => void;
@@ -33,6 +34,7 @@ export const DiasporaView: React.FC<DiasporaViewProps> = ({
   onOpenContact,
   onRequestEnquiry
 }) => {
+  const siteImage = useSiteImage();
   const handleCta = (action: 'apply' | 'quote' | 'callback', label: string, dest: string, callback: () => void) => {
     analytics.trackConversionCta(action, `Diaspora: ${label}`, dest);
     callback();
@@ -95,9 +97,11 @@ export const DiasporaView: React.FC<DiasporaViewProps> = ({
             </div>
 
             <div className="lg:col-span-5">
+              {/* A CMS slot like every other page picture, instead of a hard-coded path. */}
               <img
-                src="/images/accounts/diaspora.webp"
-                alt="CBZ Diaspora Banking"
+                {...siteImage('diaspora.hero', '/images/accounts/diaspora.webp', 'CBZ Diaspora Banking')}
+                loading="eager"
+                decoding="async"
                 className="w-full h-64 sm:h-80 object-cover rounded-2xl border border-slate-200 shadow-sm"
               />
             </div>

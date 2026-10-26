@@ -269,7 +269,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate, onOpenAccount 
                     <span>Zero-Rated Mobile Banking</span>
                   </div>
                   <h2 className="text-xl font-black text-[#002554]">
-                    CBZ Touch Mobile App & *460# USSD
+                    CBZ Touch Mobile App &amp; {CONTACT.ussd.display} USSD
                   </h2>
                   <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                     Transact on the go without consuming your mobile data on selected networks. Send money, scan to pay via QR, buy airtime, manage virtual cards, and track spending in real time.
@@ -314,7 +314,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate, onOpenAccount 
                       </p>
                       <div className="p-3 bg-slate-50 border border-dashed border-slate-300 rounded-lg text-center">
                         <span className="text-lg font-black text-[#002554] tracking-wider block">
-                          *460#
+                          {CONTACT.ussd.display}
                         </span>
                         <span className="text-2xs text-slate-500">Dial to bank instantly</span>
                       </div>

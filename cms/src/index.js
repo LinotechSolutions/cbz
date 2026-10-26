@@ -36,19 +36,48 @@ async function grantPublicReadAccess(strapi) {
 
 /**
  * Creates an empty Site Image entry for every slot the website uses, so editors
- * see the full list in the admin and only have to upload. Existing entries
- * (and any images already uploaded) are never touched.
+ * see the full list in the admin and only have to upload.
+ *
+ * Existing entries keep their image and alt text untouched. Their descriptive
+ * fields (label, location, size, framing) are refreshed from the registry, so
+ * the guidance editors see stays in step with where the website actually puts
+ * each picture. Entries whose key the website no longer asks for are logged,
+ * not deleted: they may carry an upload someone wants back.
  */
 async function seedSiteImageSlots(strapi) {
   const existing = await strapi.db
     .query('api::site-image.site-image')
-    .findMany({ select: ['key'] });
-  const existingKeys = new Set(existing.map((entry) => entry.key));
+    .findMany({ select: ['documentId', 'key', 'label', 'location', 'size', 'framing'] });
+  const byKey = new Map(existing.map((entry) => [entry.key, entry]));
+  const wanted = new Set(SITE_IMAGE_SLOTS.map((slot) => slot.key));
 
   for (const slot of SITE_IMAGE_SLOTS) {
-    if (existingKeys.has(slot.key)) continue;
-    await strapi.documents('api::site-image.site-image').create({ data: slot });
-    strapi.log.info(`Created site image slot: ${slot.key}`);
+    const current = byKey.get(slot.key);
+    if (!current) {
+      await strapi.documents('api::site-image.site-image').create({ data: slot });
+      strapi.log.info(`Created site image slot: ${slot.key}`);
+      continue;
+    }
+    const descriptive = {
+      label: slot.label,
+      location: slot.location ?? null,
+      size: slot.size ?? null,
+      framing: slot.framing ?? null,
+    };
+    const changed = Object.keys(descriptive).some((field) => (current[field] ?? null) !== descriptive[field]);
+    if (changed) {
+      await strapi.documents('api::site-image.site-image').update({
+        documentId: current.documentId,
+        data: descriptive,
+      });
+      strapi.log.info(`Refreshed site image slot: ${slot.key}`);
+    }
+  }
+
+  for (const entry of existing) {
+    if (!wanted.has(entry.key)) {
+      strapi.log.warn(`Site image slot no longer used by the website: ${entry.key} (left in place)`);
+    }
   }
 }
 

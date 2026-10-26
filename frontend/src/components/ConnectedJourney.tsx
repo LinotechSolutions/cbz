@@ -38,6 +38,7 @@ import { Country, ScreenType } from '../types';
 import { formatMoney } from '../data/cbzData';
 import { useClientProfile, isValidNationalId, ClientProfile } from '../context/ClientProfileContext';
 import { SERVICES, ServiceId, Answers, Field, num } from '../data/cbzJourneys';
+import { CONTACT } from '../data/facts';
 import { Logo } from './Logo';
 import { LogoBrand } from '../brand/logos';
 import { cbzApi } from '../services/api';
@@ -214,7 +215,7 @@ const SERVICE_OFFERS: Record<ServiceId, { title: string; brand: LogoBrand; offer
     brand: 'bank',
     offers: [
       { icon: CreditCard, title: 'Card from day one', desc: 'ZimSwitch or international Visa debit cards' },
-      { icon: Smartphone, title: 'CBZ Touch & USSD *460#', desc: 'Bank from your phone, with or without data' },
+      { icon: Smartphone, title: `CBZ Touch & USSD ${CONTACT.ussd.display}`, desc: 'Bank from your phone, with or without data' },
       { icon: Coins, title: 'Zero-fee options', desc: 'SmartCash, youth and senior accounts with no ledger fees' },
       { icon: Globe, title: 'Foreign currency accounts', desc: 'Hold USD, EUR, GBP or ZAR' },
       { icon: Landmark, title: 'Branches nationwide', desc: 'Verify in person at any of our branches' }

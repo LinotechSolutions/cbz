@@ -177,6 +177,27 @@ export const PAGE_META: Record<ScreenType, PageMeta> = {
     heading: 'Log in',
     noindex: false,
   },
+  'business-conditions': {
+    title: 'General Business Conditions | CBZ Bank',
+    description: 'The general business conditions that govern accounts, products and services provided by CBZ Bank Limited.',
+    heading: 'General Business Conditions',
+    org: SUBSIDIARY.bank,
+  },
+  'privacy-policy': {
+    title: 'Privacy Policy | CBZ Holdings',
+    description: 'How CBZ Holdings and its subsidiaries collect, use, share and protect your personal information.',
+    heading: 'Privacy Policy',
+  },
+  'tip-offs': {
+    title: 'Tip-offs Anonymous | CBZ Holdings',
+    description: 'Report fraud, corruption or unethical conduct at CBZ anonymously and in confidence.',
+    heading: 'Tip-offs Anonymous',
+  },
+  foundation: {
+    title: 'CBZ Foundation | CBZ Holdings',
+    description: 'The CBZ Foundation is the philanthropic arm of CBZ Holdings, investing in communities across Zimbabwe.',
+    heading: 'CBZ Foundation',
+  },
 };
 
 /** One entry per distinct URL ('group' and 'the-group' share /the-group). */
@@ -194,7 +215,7 @@ const SOCIAL_PROFILES = [
   'https://www.facebook.com/cbzholdings',
   'https://x.com/cbzholdings',
   'https://www.linkedin.com/company/cbz-holdings-limited',
-  'https://www.youtube.com/@CBZHoldings',
+  'https://www.youtube.com/@cbzholdings975',
   'https://www.instagram.com/cbzholdings',
 ];
 

@@ -32,7 +32,7 @@ import { useSiteImage } from '../context/SiteImagesContext';
  */
 
 interface HelpYouSectionProps {
-  onNavigate: (screen: ScreenType) => void;
+  onNavigate: (screen: ScreenType, hash?: string) => void;
   onLogin: () => void;
   onOpenAccount: () => void;
   onDiaspora: () => void;
@@ -95,14 +95,22 @@ const audienceIcon = (iconName: string) => {
   }
 };
 
-const audienceRoute = (title: string): ScreenType => {
+/**
+ * Where each segment lands. Three of the five used to land on the top of the
+ * same bank page; they now open the product that fits the segment.
+ */
+const audienceRoute = (title: string): [ScreenType, string?] => {
   switch (title.toLowerCase()) {
+    case 'business & smes':
+      return ['bank', 'product-current_corporate'];
+    case 'affluent banking':
+      return ['bank', 'product-private_banking'];
     case 'corporate & institutional':
-      return 'the-group';
+      return ['the-group'];
     case 'diaspora banking':
-      return 'diaspora';
+      return ['diaspora'];
     default:
-      return 'bank';
+      return ['bank', 'product-current'];
   }
 };
 
@@ -269,7 +277,7 @@ export const HelpYouSection: React.FC<HelpYouSectionProps> = ({
           {AUDIENCES.map((audience) => (
             <button
               key={audience.title}
-              onClick={() => onNavigate(audienceRoute(audience.title))}
+              onClick={() => onNavigate(...audienceRoute(audience.title))}
               title={audience.description}
               className="group inline-flex items-center gap-2.5 pl-3.5 pr-3 py-2.5 rounded-full border border-slate-200 bg-white text-sm font-bold text-cbz-blue hover:bg-cbz-blue hover:border-cbz-blue hover:text-white focus-visible:bg-cbz-blue focus-visible:text-white transition-colors cursor-pointer"
             >

@@ -29,6 +29,10 @@ export const SCREEN_PATHS: Record<ScreenType, string> = {
   'journey-risk': '/risk-journey',
   diaspora: '/diaspora',
   security: '/security',
+  'business-conditions': '/business-conditions',
+  'privacy-policy': '/privacy-policy',
+  'tip-offs': '/tip-offs',
+  foundation: '/cbz-foundation',
 };
 
 /** Screens that render inside the focused FlowShell (no marketing header, mega-menus or full footer). */

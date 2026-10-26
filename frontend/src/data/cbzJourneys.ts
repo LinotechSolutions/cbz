@@ -1,5 +1,6 @@
 import { INSURANCE_ASSETS, INSURANCE_COVERS, INSURANCE_ADDONS } from './cbzData';
 import { BANK_PRODUCTS } from './products/bank';
+import { CONTACT } from './facts';
 
 export type ServiceId =
   | 'account' | 'bank' | 'properties' | 'insurance' | 'life' | 'datvest'
@@ -151,7 +152,7 @@ export const SERVICES: Record<ServiceId, ServiceDef> = {
             options: [
               opt('card', 'Debit card', 'ZimSwitch or Visa, depending on the account'),
               opt('touch', 'CBZ Touch app', 'Mobile and internet banking'),
-              opt('ussd', 'USSD *460#', 'Bank from any phone, no data needed'),
+              opt('ussd', `USSD ${CONTACT.ussd.display}`, 'Bank from any phone, no data needed'),
               opt('alerts', 'SMS & email alerts', 'Know about every transaction')
             ] }
         ]

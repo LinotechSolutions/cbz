@@ -19,6 +19,14 @@
     "location": {
       "type": "string"
     },
+    "size": {
+      "type": "string",
+      "description": "Recommended upload size in pixels, width x height."
+    },
+    "framing": {
+      "type": "string",
+      "description": "Where to keep the subject, for slots that crop or fade part of the picture."
+    },
     "image": {
       "type": "media",
       "multiple": false,

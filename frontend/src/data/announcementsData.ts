@@ -1,3 +1,5 @@
+import { CONTACT } from './facts';
+
 export interface Announcement {
   id: string;
   category: 'shareholder' | 'customer' | 'regulatory' | 'operational';
@@ -118,9 +120,9 @@ export const CONTACT_CHANNELS: ContactChannel[] = [
     id: 'whatsapp',
     name: 'Official WhatsApp Banking',
     description: 'Check balances, mini-statements, buy airtime, and chat with an agent',
-    value: '+263 774 460 460',
+    value: CONTACT.whatsapp.display,
     actionText: 'Open WhatsApp Chat',
-    actionHref: 'https://wa.me/263774460460?text=Hi%20CBZ%20I%20would%20like%20assistance',
+    actionHref: `${CONTACT.whatsapp.href}?text=Hi%20CBZ%20I%20would%20like%20assistance`,
     badge: 'Instant Bot & Agents',
     iconName: 'MessageSquare',
     availability: '24/7 Active'
@@ -139,9 +141,9 @@ export const CONTACT_CHANNELS: ContactChannel[] = [
     id: 'ussd',
     name: 'USSD Fast Banking',
     description: 'Perform transactions on any phone without data or internet connection',
-    value: '*460#',
-    actionText: 'Dial *460#',
-    actionHref: 'tel:*460%23',
+    value: CONTACT.ussd.display,
+    actionText: `Dial ${CONTACT.ussd.display}`,
+    actionHref: CONTACT.ussd.href,
     badge: 'No Data Required',
     iconName: 'Smartphone',
     availability: 'Always Available'
@@ -190,7 +192,7 @@ export const SOCIAL_LINKS = [
   {
     name: 'YouTube',
     handle: '@CBZHoldings',
-    url: 'https://www.youtube.com/@CBZHoldings',
+    url: 'https://www.youtube.com/@cbzholdings975',
     followers: 'Official Video Channel'
   },
   {

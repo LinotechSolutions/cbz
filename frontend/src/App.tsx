@@ -10,6 +10,7 @@ import { HeroSection } from './components/HeroSection';
 import { HelpYouSection } from './components/HelpYouSection';
 import { EcosystemGrid } from './components/EcosystemGrid';
 import { HelpAndNotices } from './components/HelpAndNotices';
+import { BranchFinder } from './components/BranchFinder';
 import { LoginModal, PortalType } from './components/LoginModal';
 import { ContactChannelsModal } from './components/ContactChannelsModal';
 import { Footer } from './components/Footer';
@@ -32,6 +33,7 @@ const SbuRiskAdvisoryView = lazy(() => import('./components/SbuRiskAdvisoryView'
 const LoginPage = lazy(() => import('./components/LoginPage').then((m) => ({ default: m.LoginPage })));
 const DiasporaView = lazy(() => import('./components/DiasporaView').then((m) => ({ default: m.DiasporaView })));
 const SecurityView = lazy(() => import('./components/SecurityView').then((m) => ({ default: m.SecurityView })));
+const InfoPage = lazy(() => import('./components/InfoPage').then((m) => ({ default: m.InfoPage })));
 const ChatWidget = lazy(() => import('./components/ChatWidget'));
 import { CallbackModal } from './components/CallbackModal';
 
@@ -189,6 +191,12 @@ export default function App() {
             <Reveal>
               <HelpAndNotices onOpenContact={() => setIsContactModalOpen(true)} />
             </Reveal>
+
+            {/* Branch and ATM map. Owns the #branch-directory anchor that the
+                contact modal, footer and hero all point at. */}
+            <Reveal>
+              <BranchFinder />
+            </Reveal>
           </div>
         )}
 
@@ -306,6 +314,14 @@ export default function App() {
 
         {currentScreen === 'security' && (
           <SecurityView onNavigate={setCurrentScreen} />
+        )}
+
+        {/* Group information and regulatory pages share one document layout. */}
+        {(currentScreen === 'business-conditions' ||
+          currentScreen === 'privacy-policy' ||
+          currentScreen === 'tip-offs' ||
+          currentScreen === 'foundation') && (
+          <InfoPage page={currentScreen} onNavigate={setCurrentScreen} />
         )}
         </Suspense>
       </main>

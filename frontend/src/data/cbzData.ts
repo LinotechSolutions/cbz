@@ -13,6 +13,7 @@ import {
   HandoverStep,
   LifecycleStage
 } from '../types';
+import { CONTACT } from './facts';
 
 export const COUNTRIES: Country[] = [
   {
@@ -1078,7 +1079,7 @@ export const BANK_LIFECYCLE: LifecycleStage[] = [
       'Automated salary direct deposit with zero incoming transfer fee',
       'Instant ZIPIT & ZimSwitch interbank payments across Zimbabwe',
       'Zero-charge utility bill settlement (ZESA, City Council, DStv)',
-      '24/7 conversational banking assistant on WhatsApp (+263 774 460 460)'
+      `24/7 conversational banking assistant on WhatsApp (${CONTACT.whatsapp.display})`
     ],
     partnerEntity: 'CBZ Retail Banking & Payments Desk',
     tag: 'Transacting'

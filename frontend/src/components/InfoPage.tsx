@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, Download, Info } from 'lucide-react';
+import { ArrowLeft, Download, ExternalLink, Info } from 'lucide-react';
 import { ScreenType } from '../types';
 import { INFO_PAGES, InfoPageId, isPending } from '../data/infoPages';
 import { Logo } from './Logo';
@@ -112,6 +112,37 @@ export const InfoPage: React.FC<InfoPageProps> = ({ page, onNavigate }) => {
             </section>
           ))}
         </div>
+
+        {def.links && def.links.length > 0 && (
+          <section className="mt-12 pt-8 border-t border-slate-200">
+            <h2 className="text-xl font-black text-cbz-blue">Official documents</h2>
+            <ul className="mt-4 divide-y divide-slate-200 border-y border-slate-200">
+              {def.links.map((l) => {
+                const placeholder = l.href.startsWith('[TBC');
+                return (
+                  <li key={l.label} className="py-3.5 flex items-start justify-between gap-4">
+                    <span className="min-w-0">
+                      {placeholder ? (
+                        <span className="text-sm font-bold text-amber-800 italic">{l.label} — {l.href}</span>
+                      ) : (
+                        <a
+                          href={l.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm font-bold text-cbz-blue hover:text-cbz-red transition-colors"
+                        >
+                          {l.label}
+                        </a>
+                      )}
+                      {l.note && <span className="block text-xs text-cbz-grey mt-0.5">{l.note}</span>}
+                    </span>
+                    {!placeholder && <ExternalLink className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" aria-hidden />}
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        )}
 
         {def.channels && def.channels.length > 0 && (
           <section className="mt-12 pt-8 border-t border-slate-200">

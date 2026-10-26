@@ -146,14 +146,31 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate, onOpenAccount 
                   </ul>
 
                   <div className="pt-4 flex flex-wrap items-center gap-2.5 sm:gap-3">
+                    {EXTERNAL_LINKS.ibNewPersonal && (
+                      <a
+                        href={EXTERNAL_LINKS.ibNewPersonal}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => handlePortalClick('Personal IB (new platform)', EXTERNAL_LINKS.ibNewPersonal)}
+                        className="w-full sm:w-auto justify-center px-4 py-2.5 sm:px-6 sm:py-3.5 bg-[#E4002B] hover:bg-[#C50025] text-white text-xs font-bold rounded-xl shadow-md transition-all cursor-pointer inline-flex items-center gap-2"
+                      >
+                        <span>Launch Personal Internet Banking</span>
+                        <span className="px-1.5 py-0.5 rounded bg-white/15 text-[10px] font-black uppercase tracking-wider">New platform</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </a>
+                    )}
                     <a
                       href={EXTERNAL_LINKS.ibPersonal}
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={() => handlePortalClick('Personal OBDX', EXTERNAL_LINKS.ibPersonal)}
-                      className="w-full sm:w-auto justify-center px-4 py-2.5 sm:px-6 sm:py-3.5 bg-[#E4002B] hover:bg-[#C50025] text-white text-xs font-bold rounded-xl shadow-md transition-all cursor-pointer inline-flex items-center gap-2"
+                      className={`w-full sm:w-auto justify-center px-4 py-2.5 sm:px-6 sm:py-3.5 text-xs font-bold rounded-xl transition-all cursor-pointer inline-flex items-center gap-2 ${
+                        EXTERNAL_LINKS.ibNewPersonal
+                          ? 'bg-slate-100 hover:bg-slate-200 text-[#002554]'
+                          : 'bg-[#E4002B] hover:bg-[#C50025] text-white shadow-md'
+                      }`}
                     >
-                      <span>Launch Personal Internet Banking</span>
+                      <span>{EXTERNAL_LINKS.ibNewPersonal ? 'Personal Internet Banking (current platform)' : 'Launch Personal Internet Banking'}</span>
                       <ArrowRight className="w-4 h-4" />
                     </a>
                     <a
@@ -228,15 +245,34 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate, onOpenAccount 
                     </li>
                   </ul>
 
+                  {/* Both platforms are in use during the migration: the new
+                      one leads when its URL is set, the current one stays. */}
                   <div className="pt-4 flex flex-wrap items-center gap-2.5 sm:gap-3">
+                    {EXTERNAL_LINKS.ibNewCorporate && (
+                      <a
+                        href={EXTERNAL_LINKS.ibNewCorporate}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => handlePortalClick('Corporate IB (new platform)', EXTERNAL_LINKS.ibNewCorporate)}
+                        className="w-full sm:w-auto justify-center px-4 py-2.5 sm:px-6 sm:py-3.5 bg-[#002554] hover:bg-[#0A3E80] text-white text-xs font-bold rounded-xl shadow-md transition-all cursor-pointer inline-flex items-center gap-2"
+                      >
+                        <span>Launch Corporate Internet Banking</span>
+                        <span className="px-1.5 py-0.5 rounded bg-white/15 text-[10px] font-black uppercase tracking-wider">New platform</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </a>
+                    )}
                     <a
                       href={EXTERNAL_LINKS.ibCorporate}
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={() => handlePortalClick('Corporate OBDX', EXTERNAL_LINKS.ibCorporate)}
-                      className="w-full sm:w-auto justify-center px-4 py-2.5 sm:px-6 sm:py-3.5 bg-[#002554] hover:bg-[#0A3E80] text-white text-xs font-bold rounded-xl shadow-md transition-all cursor-pointer inline-flex items-center gap-2"
+                      className={`w-full sm:w-auto justify-center px-4 py-2.5 sm:px-6 sm:py-3.5 text-xs font-bold rounded-xl transition-all cursor-pointer inline-flex items-center gap-2 ${
+                        EXTERNAL_LINKS.ibNewCorporate
+                          ? 'bg-slate-100 hover:bg-slate-200 text-[#002554]'
+                          : 'bg-[#002554] hover:bg-[#0A3E80] text-white shadow-md'
+                      }`}
                     >
-                      <span>Launch Corporate Internet Banking</span>
+                      <span>{EXTERNAL_LINKS.ibNewCorporate ? 'Corporate Internet Banking (current platform)' : 'Launch Corporate Internet Banking'}</span>
                       <ArrowRight className="w-4 h-4" />
                     </a>
                   </div>
@@ -362,7 +398,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate, onOpenAccount 
                 Security Checklist: Protect Your Banking Credentials
               </h3>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                CBZ will <strong>never</strong> call, SMS, or email you asking for your password, PIN, OTP (One-Time Password), or card CVV. Always verify the address bar displays our official encrypted domain: <code className="bg-slate-100 text-slate-800 px-1.5 py-0.5 rounded font-mono text-xs">obdx.cbz.co.zw</code> with a valid padlock icon.
+                CBZ will <strong>never</strong> call, SMS, or email you asking for your password, PIN, OTP (One-Time Password), or card CVV. Always verify the address bar displays one of our official encrypted domains, <code className="bg-slate-100 text-slate-800 px-1.5 py-0.5 rounded font-mono text-xs">obdx.cbz.co.zw</code> or <code className="bg-slate-100 text-slate-800 px-1.5 py-0.5 rounded font-mono text-xs">cbzonline.cbz.co.zw</code>, with a valid padlock icon.
               </p>
               <div className="pt-2 flex flex-wrap gap-4 text-xs font-bold">
                 <button

@@ -44,6 +44,8 @@ export const SecurityView: React.FC<SecurityViewProps> = ({ onNavigate }) => {
               <ul className="space-y-1.5 text-xs font-mono text-slate-800">
                 <li className="bg-white px-3 py-1.5 rounded-lg border border-slate-200">https://www.cbz.co.zw</li>
                 <li className="bg-white px-3 py-1.5 rounded-lg border border-slate-200">https://obdx.cbz.co.zw</li>
+                <li className="bg-white px-3 py-1.5 rounded-lg border border-slate-200">https://cbzonline.cbz.co.zw</li>
+                <li className="bg-white px-3 py-1.5 rounded-lg border border-slate-200">https://selfservice.cbz.co.zw</li>
                 <li className="bg-white px-3 py-1.5 rounded-lg border border-slate-200">https://rs.cbz.co.zw</li>
               </ul>
             </div>

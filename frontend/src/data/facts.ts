@@ -61,14 +61,13 @@ export const CONTACT = {
   tollFree: ['460', '461'] as const,
   tollFreeLabel: '+263 8677 004050',
   /**
-   * Flagged by the business as incorrect (Oct 2026). Every WhatsApp number on
-   * the site reads from here, so the fix is this one entry once the correct
-   * number is supplied: `display` as people read it, `href` as wa.me/<digits>.
+   * Confirmed by the business, 26 Oct 2026. Every WhatsApp number on the site
+   * reads from here: `display` as people read it, `href` as wa.me/<digits>.
    */
   whatsapp: {
     display: '+263 774 460 460',
     href: 'https://wa.me/263774460460',
-    confirmed: false,
+    confirmed: true,
   },
   /** Corrected from *460# on the business's instruction (Oct 2026). */
   ussd: {
@@ -130,7 +129,9 @@ export const EXTERNAL_LINKS = {
    * guessed address.
    */
   ibNewPersonal: '',
-  ibNewCorporate: '',
+  // Confirmed by the business, 26 Oct 2026. The personal-banking address on
+  // the new platform is still awaited.
+  ibNewCorporate: 'https://cbzonline.cbz.co.zw/mfmbs/cbz-corp/',
   /** Independent whistleblowing channel. Empty until Compliance confirms the provider and details. */
   tipOffsWeb: '',
   touchAppStore: 'https://apps.apple.com/app/cbz-touch/id1200543503',

@@ -160,8 +160,8 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, initial
             <div className="text-sm text-cbz-ink">
               <p className="font-bold text-cbz-blue">Stay safe online</p>
               <p className="mt-1">
-                Always check the address bar shows {tbc('official internet banking domain')} and a padlock before
-                entering your details.
+                Always check the address bar shows <strong>obdx.cbz.co.zw</strong> or{' '}
+                <strong>cbzonline.cbz.co.zw</strong> and a padlock before entering your details.
               </p>
               <a
                 href={EXTERNAL_LINKS.spotFakeSites}

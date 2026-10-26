@@ -149,11 +149,11 @@ export const StageRecommendations: React.FC<StageRecommendationsProps> = ({ bran
       aria-labelledby="stage-recommendations-heading"
       className="bg-white border-y border-slate-200 overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
         <div className="text-center max-w-2xl mx-auto">
           <h2
             id="stage-recommendations-heading"
-            className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-[0.08em] text-cbz-blue leading-tight"
+            className="text-2xl sm:text-3xl font-black uppercase tracking-[0.08em] text-cbz-blue leading-tight"
           >
             Find the right fit
             <br />
@@ -186,7 +186,7 @@ export const StageRecommendations: React.FC<StageRecommendationsProps> = ({ bran
         </div>
 
         {/* The fan. */}
-        <div className="mt-12 sm:mt-14 flex justify-center items-end gap-4 sm:gap-6 lg:gap-8">
+        <div className="mt-8 sm:mt-10 flex justify-center items-end gap-4 sm:gap-6">
           {visible.map((svc, k) => {
             const pose = FAN_POSE[k] ?? FAN_POSE[0];
             const sub = SUBSIDIARIES.find((s) => s.id === SUBSIDIARY_FOR[svc.id]);
@@ -201,7 +201,7 @@ export const StageRecommendations: React.FC<StageRecommendationsProps> = ({ bran
                 onClick={() => onNavigate(SCREEN_FOR[svc.id])}
                 aria-label={`${svc.name} from ${svc.entity}`}
                 style={{ transform: `rotate(${pose.rotate}deg) translateY(${pose.lift}px)` }}
-                className={`${reveal} group relative w-40 sm:w-48 lg:w-56 aspect-[3/4] rounded-[1.4rem] overflow-hidden shadow-[0_24px_50px_-20px_rgba(0,37,84,0.45)] border border-white/60 cursor-pointer transition-transform duration-300 hover:!rotate-0 hover:!translate-y-[-18px] focus:outline-none focus-visible:ring-4 focus-visible:ring-cbz-red/40`}
+                className={`${reveal} group relative w-36 sm:w-44 lg:w-48 aspect-[3/4] rounded-2xl overflow-hidden shadow-[0_24px_50px_-20px_rgba(0,37,84,0.45)] border border-white/60 cursor-pointer transition-transform duration-300 hover:!rotate-0 hover:!translate-y-[-12px] focus:outline-none focus-visible:ring-4 focus-visible:ring-cbz-red/40`}
               >
                 <img
                   {...siteImage(`recommend.${svc.id}`, image, '')}
@@ -228,7 +228,7 @@ export const StageRecommendations: React.FC<StageRecommendationsProps> = ({ bran
         </div>
 
         {/* Pager, centred under the fan, as in the reference. */}
-        <div className="mt-10 flex items-center justify-center gap-3">
+        <div className="mt-6 flex items-center justify-center gap-3">
           <button
             type="button"
             onClick={() => page(-1)}

@@ -366,13 +366,13 @@ export const TheGroupView: React.FC<TheGroupViewProps> = ({ onNavigate }) => {
       </section>
 
       {/* 2. ALTERNATING ZIG-ZAG SUBSIDIARIES SHOWCASE (Matching requested layout) */}
-      <section id="subsidiaries-showcase" className="py-12 sm:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="space-y-16 sm:space-y-20">
+      <section id="subsidiaries-showcase" className="py-10 sm:py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="space-y-8 sm:space-y-10">
           {SUBSIDIARIES.map((sub, idx) => {
             const isCardLeft = idx % 2 === 0;
 
             const LogoCard = (
-              <div className="relative rounded-3xl overflow-hidden shadow-lg border border-slate-200/90 bg-white group transition-all duration-300 hover:shadow-2xl hover:border-[#002554]/40 aspect-[16/10] sm:aspect-[16/9] lg:aspect-[4/3] flex flex-col justify-between p-5 sm:p-7">
+              <div className="relative rounded-3xl overflow-hidden shadow-lg border border-slate-200/90 bg-white group transition-all duration-300 hover:shadow-2xl hover:border-[#002554]/40 aspect-[16/10] sm:aspect-[16/9] lg:aspect-[16/10] flex flex-col justify-between p-5 sm:p-6">
                 {/* Full-bleed Photography Image */}
                 <img
                   {...siteImage(`group.${sub.id}`, sub.image, sub.name)}

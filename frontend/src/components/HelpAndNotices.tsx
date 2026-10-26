@@ -117,15 +117,15 @@ export const HelpAndNotices: React.FC<HelpAndNoticesProps> = ({ onOpenContact })
             <span className="w-4 h-0.5 bg-cbz-red inline-block" />
             <span>News &amp; updates</span>
           </p>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-cbz-blue leading-tight">
+          <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-cbz-blue leading-tight">
             Latest from CBZ
           </h2>
-          <p className="mt-2 text-sm text-cbz-grey leading-relaxed">
+          <p className="mt-1.5 text-sm text-cbz-grey leading-relaxed">
             Stay informed with the latest announcements, notices and updates from CBZ Holdings.
           </p>
         </div>
 
-        <div className="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-start">
+        <div className="mt-5 grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-start">
           {/* Notices. */}
           <div className="lg:col-span-8 bg-white rounded-2xl border border-slate-200 shadow-sm p-3 sm:p-5">
             {/* Filters and search. On phones the pills scroll in one row
@@ -170,7 +170,7 @@ export const HelpAndNotices: React.FC<HelpAndNoticesProps> = ({ onOpenContact })
             </div>
 
             {/* Rows. */}
-            <ul className="mt-4 space-y-3">
+            <ul className="mt-3 space-y-2">
               {visible.length === 0 && (
                 <li className="py-8 text-center text-sm text-cbz-grey">No notices match.</li>
               )}
@@ -181,21 +181,21 @@ export const HelpAndNotices: React.FC<HelpAndNoticesProps> = ({ onOpenContact })
                 return (
                   <li
                     key={item.id}
-                    className={`relative rounded-xl border p-3 sm:p-4 ${
+                    className={`relative rounded-lg border p-2.5 sm:p-3 ${
                       urgent
                         ? 'bg-cbz-red-50 border-red-100 border-l-4 border-l-cbz-red'
                         : 'bg-slate-50/70 border-slate-200'
                     }`}
                   >
-                    <div className="grid grid-cols-[auto_1fr] md:grid-cols-[auto_auto_1fr_auto] gap-3 sm:gap-4 items-start">
+                    <div className="grid grid-cols-[auto_1fr] md:grid-cols-[auto_auto_1fr_auto] gap-3 items-start">
                       {/* Date. */}
-                      <div className="w-11 shrink-0">
-                        <span className="block text-xl font-black text-cbz-blue leading-none">{day}</span>
-                        <span className="block mt-1 text-[10px] font-semibold text-cbz-grey leading-tight">{rest}</span>
+                      <div className="w-10 shrink-0">
+                        <span className="block text-lg font-black text-cbz-blue leading-none">{day}</span>
+                        <span className="block mt-0.5 text-[10px] font-semibold text-cbz-grey leading-tight">{rest}</span>
                       </div>
 
                       {/* Thumbnail: a small square from md up, none on phones. */}
-                      <div className="hidden md:block w-24 h-24 rounded-lg overflow-hidden bg-slate-100 shrink-0">
+                      <div className="hidden md:block w-16 h-16 rounded-md overflow-hidden bg-slate-100 shrink-0">
                         <img
                           {...siteImage(`notice.${item.id}`, THUMB_FOR[item.category], '')}
                           alt=""
@@ -217,17 +217,19 @@ export const HelpAndNotices: React.FC<HelpAndNoticesProps> = ({ onOpenContact })
                             </span>
                           )}
                         </div>
-                        <h3 className="mt-1.5 text-sm sm:text-base font-black text-cbz-blue leading-snug">
+                        <h3 className="mt-1 text-sm font-black text-cbz-blue leading-snug">
                           {item.title}
                         </h3>
+                        {/* One line closed on phones, two on wider screens; the
+                            full text is a tap away on "Read notice". */}
                         <p
                           id={`notice-${item.id}`}
-                          className={`mt-1.5 text-xs sm:text-sm text-cbz-grey leading-relaxed ${open ? '' : 'line-clamp-2'}`}
+                          className={`mt-1 text-xs text-cbz-grey leading-snug ${open ? '' : 'line-clamp-1 sm:line-clamp-2'}`}
                         >
                           {item.summary}
                         </p>
                         {item.circularRef && (
-                          <div className="mt-2 text-[10px] font-semibold text-slate-400 tabular-nums">
+                          <div className="mt-1 text-[10px] font-semibold text-slate-400 tabular-nums">
                             {item.circularRef}
                           </div>
                         )}
@@ -265,7 +267,7 @@ export const HelpAndNotices: React.FC<HelpAndNoticesProps> = ({ onOpenContact })
               <button
                 type="button"
                 onClick={() => setShowAll((v) => !v)}
-                className="mt-4 w-full rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 py-2.5 text-xs sm:text-sm font-black text-cbz-blue inline-flex items-center justify-center gap-3 transition-colors cursor-pointer"
+                className="mt-3 w-full rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200 py-2 text-xs font-black text-cbz-blue inline-flex items-center justify-center gap-2 transition-colors cursor-pointer"
               >
                 <LayoutGrid className="w-4 h-4 text-cbz-blue" />
                 <span>{showAll ? 'Show fewer announcements' : 'View all announcements'}</span>
@@ -374,7 +376,7 @@ export const HelpAndNotices: React.FC<HelpAndNoticesProps> = ({ onOpenContact })
                 <button
                   type="button"
                   onClick={onOpenContact}
-                  className="mt-3 w-full rounded-xl bg-cbz-blue-900 hover:bg-black/60 border border-white/15 px-4 py-3 inline-flex items-center gap-3 transition-colors cursor-pointer"
+                  className="mt-3 w-full rounded-lg bg-cbz-blue-900 hover:bg-black/60 border border-white/15 px-4 py-2.5 inline-flex items-center gap-3 transition-colors cursor-pointer"
                 >
                   <Headset className="w-5 h-5 shrink-0" />
                   <span className="flex-1 text-left text-xs sm:text-sm font-black">Explore all support options</span>

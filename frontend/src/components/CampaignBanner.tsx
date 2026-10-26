@@ -70,108 +70,90 @@ export const CampaignBanner: React.FC<CampaignBannerProps> = ({
 
   return (
     <article
-      className={`relative overflow-hidden rounded-[1.75rem] bg-cbz-blue text-white shadow-xl ${
-        compact ? 'p-6 sm:p-7' : 'p-6 sm:p-8 lg:p-10'
+      className={`relative overflow-hidden rounded-2xl bg-cbz-blue text-white shadow-xl ${
+        compact ? 'p-5' : 'p-5 sm:p-6'
       }`}
     >
-      {/* Flourishes. */}
-      <Dots className="absolute top-6 right-[14%] opacity-70" />
-      <Dots className="absolute top-9 right-[12%] opacity-50" />
-      <Dots className="absolute bottom-7 left-6 opacity-60" count={8} />
-      <Dots className="absolute bottom-10 left-9 opacity-40" count={8} />
-      <Curl className="absolute -top-2 right-[26%] w-20 h-20 text-white/40" />
-      <Curl className="absolute bottom-4 right-4 w-24 h-24 text-white/25" flip />
+      {/* Flourishes, kept to two so they read as detail rather than clutter. */}
+      <Dots className="absolute top-4 right-[14%] opacity-60" />
+      <Curl className="absolute bottom-2 right-2 w-16 h-16 text-white/25" flip />
 
+      {/* Height is set by the copy, not the photo: the photo column is a fixed
+          square that fits beside the copy instead of dictating the row. */}
       <div
-        className={`relative grid gap-8 items-center ${
+        className={`relative grid gap-5 lg:gap-6 items-center ${
           compact ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-12'
         }`}
       >
         {/* Copy side. */}
-        <div className={compact ? '' : 'lg:col-span-7'}>
-          <div className="flex items-start justify-between gap-6">
-            <span className="inline-flex items-center justify-center h-12 px-3 rounded-xl bg-white/95">
-              <Logo brand={brand} variant="full" height={26} clearSpace={false} decorative />
+        <div className={compact ? '' : 'lg:col-span-8'}>
+          <div className="flex items-center justify-between gap-4">
+            <span className="inline-flex items-center justify-center h-9 px-2.5 rounded-lg bg-white/95">
+              <Logo brand={brand} variant="full" height={20} clearSpace={false} decorative />
             </span>
             {campaign.offer && (
-              <span className="text-right leading-none">
-                <span className="block text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight">
-                  {campaign.offer}
-                </span>
+              <span className="text-right text-2xl sm:text-3xl font-black tracking-tight leading-none">
+                {campaign.offer}
               </span>
             )}
           </div>
 
           {campaign.note && (
-            <div className="mt-6 rounded-xl bg-white text-cbz-ink px-5 py-4">
-              <strong className="block text-xs font-extrabold text-cbz-blue">{campaign.note.lead}</strong>
-              <p className="mt-1 text-[11px] text-slate-600 leading-relaxed">{campaign.note.detail}</p>
-            </div>
+            <p className="mt-3 text-[11px] text-white/80 leading-snug">
+              <strong className="font-extrabold text-white">{campaign.note.lead}.</strong> {campaign.note.detail}
+            </p>
           )}
 
-          <div
-            className={`mt-6 rounded-[1.5rem] bg-cbz-red text-white ${
-              compact ? 'px-6 py-6' : 'px-7 py-7 sm:px-9 sm:py-9'
-            }`}
-          >
+          <div className={`mt-3 rounded-xl bg-cbz-red text-white ${compact ? 'px-4 py-3.5' : 'px-5 py-4'}`}>
             {campaign.tagline && (
-              <p className="italic text-base sm:text-lg text-white/90 leading-snug">{campaign.tagline}</p>
+              <p className="italic text-sm text-white/90 leading-snug">{campaign.tagline}</p>
             )}
-            <h3
-              className={`font-black tracking-tight leading-tight ${
-                compact ? 'text-xl sm:text-2xl mt-1' : 'text-2xl sm:text-3xl lg:text-4xl mt-1.5'
-              }`}
-            >
+            <h3 className={`font-black tracking-tight leading-tight ${compact ? 'text-lg mt-0.5' : 'text-xl sm:text-2xl mt-1'}`}>
               {campaign.title}
             </h3>
             {campaign.body && (
-              <p className={`mt-2 text-white/90 leading-snug ${compact ? 'text-sm' : 'text-base sm:text-lg'}`}>
-                {campaign.body}
-              </p>
+              <p className="mt-1 text-sm text-white/90 leading-snug">{campaign.body}</p>
             )}
           </div>
 
-          <div className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-4">
+          <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2">
             {campaign.cta && (
               <button
                 type="button"
                 onClick={() => onCta(campaign.cta!)}
-                className="px-7 py-3 rounded-full bg-cbz-red hover:bg-cbz-red-hover text-white text-sm font-black uppercase tracking-wider inline-flex items-center gap-2 transition-colors cursor-pointer shadow-md"
+                className="px-4 py-2 rounded-full bg-cbz-red hover:bg-cbz-red-hover text-white text-xs font-black uppercase tracking-wider inline-flex items-center gap-1.5 transition-colors cursor-pointer shadow-sm"
               >
                 <span>{campaign.cta.label}</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-3.5 h-3.5" />
               </button>
             )}
-            <span className="leading-tight">
-              <a
-                href={CONTACT.phoneHref}
-                className="block text-xl sm:text-2xl font-black tabular-nums text-white hover:text-red-200 transition-colors"
-              >
+            <span className="leading-tight text-sm">
+              <a href={CONTACT.phoneHref} className="font-black tabular-nums text-white hover:text-red-200 transition-colors">
                 {CONTACT.phoneDisplay}
               </a>
+              <span className="text-white/50 mx-2">·</span>
               <a
                 href={CONTACT.website.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block text-sm text-white/80 hover:text-white transition-colors"
+                className="text-white/80 hover:text-white transition-colors"
               >
                 {CONTACT.website.display}
               </a>
             </span>
+            {pending && (
+              <span className="inline-flex items-center text-[10px] font-bold text-amber-900 bg-amber-100 border border-amber-200 px-1.5 py-0.5 rounded">
+                To be confirmed with Marketing
+              </span>
+            )}
           </div>
-
-          {pending && (
-            <span className="mt-5 inline-flex items-center text-[11px] font-bold text-amber-900 bg-amber-100 border border-amber-200 px-2 py-1 rounded-md">
-              To be confirmed with Marketing
-            </span>
-          )}
         </div>
 
-        {/* Photo side: a hexagon, as in the reference. */}
+        {/* Photo side: a hexagon, as in the reference, at a fixed size. */}
         {!compact && image && (
-          <div className="lg:col-span-5 relative">
+          <div className="lg:col-span-4 flex justify-center lg:justify-end">
             <div
-              className="relative aspect-[4/5] sm:aspect-[5/6] max-w-md mx-auto"
+              className="relative w-40 h-44 sm:w-48 sm:h-52 lg:w-52 lg:h-56"
               style={{ clipPath: 'polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%)' }}
             >
               <img
@@ -181,13 +163,11 @@ export const CampaignBanner: React.FC<CampaignBannerProps> = ({
                 decoding="async"
                 className="absolute inset-0 w-full h-full object-cover"
               />
-              {/* The reference fades the photo's left edge into the panel. */}
               <span
                 aria-hidden
                 className="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-cbz-blue/80 to-transparent"
               />
             </div>
-            <Dots className="absolute top-8 left-[18%] opacity-60" />
           </div>
         )}
       </div>

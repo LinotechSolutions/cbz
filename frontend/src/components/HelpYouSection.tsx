@@ -163,7 +163,7 @@ export const HelpYouSection: React.FC<HelpYouSectionProps> = ({
               <li key={task.label}>
                 <button
                   onClick={runTask(task)}
-                  className="group relative w-full h-full text-left bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-4 sm:p-5 shadow-xs hover:shadow-md transition-all cursor-pointer flex flex-col overflow-hidden"
+                  className="group relative w-full h-full text-left bg-white border border-slate-200 hover:border-slate-300 rounded-xl p-3.5 sm:p-4 shadow-xs hover:shadow-md transition-all cursor-pointer flex flex-col overflow-hidden"
                 >
                   <span
                     aria-hidden
@@ -171,12 +171,12 @@ export const HelpYouSection: React.FC<HelpYouSectionProps> = ({
                   />
 
                   <span
-                    className={`relative w-12 h-12 rounded-xl ${TILE[task.accent]} text-white flex items-center justify-center shadow-sm`}
+                    className={`relative w-10 h-10 rounded-lg ${TILE[task.accent]} text-white flex items-center justify-center shadow-sm`}
                   >
-                    <Icon className="w-5 h-5" />
+                    <Icon className="w-4.5 h-4.5" />
                   </span>
 
-                  <span className="relative mt-4 flex items-center justify-between gap-3">
+                  <span className="relative mt-3 flex items-center justify-between gap-3">
                     <span className="min-w-0">
                       <span className="block font-black text-sm sm:text-base text-cbz-blue leading-tight">
                         {task.label}
@@ -185,8 +185,8 @@ export const HelpYouSection: React.FC<HelpYouSectionProps> = ({
                         {task.hint}
                       </span>
                     </span>
-                    <span className="w-9 h-9 rounded-full bg-slate-100 group-hover:bg-cbz-blue text-cbz-blue group-hover:text-white flex items-center justify-center shrink-0 transition-colors">
-                      <ArrowRight className="w-4 h-4" />
+                    <span className="w-7 h-7 rounded-full bg-slate-100 group-hover:bg-cbz-blue text-cbz-blue group-hover:text-white flex items-center justify-center shrink-0 transition-colors">
+                      <ArrowRight className="w-3.5 h-3.5" />
                     </span>
                   </span>
 
@@ -207,7 +207,7 @@ export const HelpYouSection: React.FC<HelpYouSectionProps> = ({
         </ul>
 
         {/* By need. */}
-        <div className="mt-12 mb-4 flex items-center justify-between gap-4">
+        <div className="mt-8 mb-3 flex items-center justify-between gap-4">
           <h3 className="flex items-center gap-2.5 text-sm font-black uppercase tracking-[0.18em] text-cbz-ink">
             <span className="w-6 h-0.5 bg-cbz-red inline-block" />
             <span>Or start with what you need</span>
@@ -228,28 +228,28 @@ export const HelpYouSection: React.FC<HelpYouSectionProps> = ({
               onClick={() => onNavigate(stageRoute(stage.title))}
               className="group text-left bg-white rounded-2xl border border-slate-200 hover:border-slate-300 shadow-xs hover:shadow-md transition-all cursor-pointer flex flex-col overflow-hidden"
             >
-              <span className="p-5 sm:p-6">
+              <span className="p-4 sm:p-5">
                 <span
-                  className={`w-12 h-12 rounded-xl ${TILE[stage.accent]} text-white flex items-center justify-center shadow-sm`}
+                  className={`w-10 h-10 rounded-lg ${TILE[stage.accent]} text-white flex items-center justify-center shadow-sm`}
                 >
                   {stageIcon(stage.iconName)}
                 </span>
-                <span className="block mt-4 font-black text-lg text-cbz-blue leading-tight">
+                <span className="block mt-3 font-black text-base text-cbz-blue leading-tight">
                   {stage.title}
                 </span>
-                <span className="block text-sm text-slate-500 mt-1.5 leading-snug">
+                <span className="block text-xs text-slate-500 mt-1 leading-snug">
                   {stage.subtitle}
                 </span>
-                <span className="mt-4 inline-flex items-center gap-2 text-sm font-black text-cbz-blue group-hover:text-cbz-red transition-colors">
+                <span className="mt-3 inline-flex items-center gap-2 text-xs font-black text-cbz-blue group-hover:text-cbz-red transition-colors">
                   <span>Explore</span>
-                  <span className="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-cbz-red group-hover:text-white flex items-center justify-center transition-colors">
-                    <ArrowRight className="w-4 h-4" />
+                  <span className="w-6 h-6 rounded-full bg-slate-100 group-hover:bg-cbz-red group-hover:text-white flex items-center justify-center transition-colors">
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </span>
                 </span>
               </span>
 
               {/* Photo with the accent wedge in the lower-left corner. */}
-              <span className="relative block h-40 sm:h-44 mt-auto">
+              <span className="relative block h-32 sm:h-36 mt-auto">
                 <img
                   {...siteImage(`need.${slug(stage.title)}`, stage.image, '')}
                   alt=""
@@ -270,7 +270,7 @@ export const HelpYouSection: React.FC<HelpYouSectionProps> = ({
         {/* By segment. Every pill carries the same weight at rest: none of
             these is a selected state, they each lead to a different page. The
             navy fill from the guide is the hover and focus state instead. */}
-        <div className="mt-8 flex flex-wrap items-center gap-2.5">
+        <div className="mt-6 flex flex-wrap items-center gap-2">
           <span className="text-sm font-black uppercase tracking-[0.2em] text-cbz-grey mr-2">
             I am
           </span>
@@ -279,7 +279,7 @@ export const HelpYouSection: React.FC<HelpYouSectionProps> = ({
               key={audience.title}
               onClick={() => onNavigate(...audienceRoute(audience.title))}
               title={audience.description}
-              className="group inline-flex items-center gap-2.5 pl-3.5 pr-3 py-2.5 rounded-full border border-slate-200 bg-white text-sm font-bold text-cbz-blue hover:bg-cbz-blue hover:border-cbz-blue hover:text-white focus-visible:bg-cbz-blue focus-visible:text-white transition-colors cursor-pointer"
+              className="group inline-flex items-center gap-2 pl-3 pr-2.5 py-2 rounded-full border border-slate-200 bg-white text-xs font-bold text-cbz-blue hover:bg-cbz-blue hover:border-cbz-blue hover:text-white focus-visible:bg-cbz-blue focus-visible:text-white transition-colors cursor-pointer"
             >
               {audienceIcon(audience.iconName)}
               <span>{audience.title}</span>
@@ -292,7 +292,7 @@ export const HelpYouSection: React.FC<HelpYouSectionProps> = ({
             biller list lives on Ziki Mall, which is where paying actually happens. */}
         <div
           id="bill-payments"
-          className="mt-8 scroll-mt-24 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-xs flex flex-col lg:flex-row lg:items-center justify-between gap-4"
+          className="mt-6 scroll-mt-24 rounded-xl border border-slate-200 bg-white p-3.5 sm:p-4 shadow-xs flex flex-col lg:flex-row lg:items-center justify-between gap-3"
         >
           <div className="flex items-center gap-4 min-w-0">
             {/* Rendered through Logo, never as raw artwork: the brand registry

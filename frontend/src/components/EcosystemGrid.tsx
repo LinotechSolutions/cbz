@@ -81,8 +81,8 @@ export const EcosystemGrid: React.FC<EcosystemGridProps> = ({ onNavigate }) => {
   }, []);
 
   const W = roadWidth;
-  const disc = Math.min(116, Math.max(96, W / 9)); // disc diameter
-  const rowH = Math.round(disc * 1.85); // disc + label + breathing room
+  const disc = Math.min(104, Math.max(92, W / 10)); // disc diameter
+  const rowH = Math.round(disc * 1.6); // disc + label + Visit link, no more
   const stroke = Math.round(disc * 0.2);
   const rows = Math.ceil(total / COLS);
   const roadHeight = rows * rowH;

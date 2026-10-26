@@ -91,17 +91,17 @@ export const SbuLandingPage: React.FC<SbuLandingPageProps> = ({ config, onNaviga
               <span className="mt-5 block text-xs font-extrabold uppercase tracking-widest text-[#E4002B]">
                 {hero.eyebrow}
               </span>
-              <h1 className="mt-1 text-3xl sm:text-4xl lg:text-5xl font-black text-[#002554] tracking-tight leading-tight">
+              <h1 className="mt-1 text-3xl sm:text-4xl font-black text-[#002554] tracking-tight leading-tight">
                 {hero.headline}
               </h1>
               <p className="mt-3 text-sm text-slate-600 max-w-xl leading-relaxed">
                 {hero.valueProposition}
               </p>
 
-              <div className="mt-6 flex flex-wrap items-center gap-2.5 sm:gap-3">
+              <div className="mt-5 flex flex-wrap items-center gap-2.5">
                 <button
                   onClick={act(hero.primaryCta)}
-                  className="px-4 py-2.5 sm:px-6 sm:py-3.5 bg-[#E4002B] hover:bg-[#C50025] text-white text-xs font-bold rounded-xl shadow-md transition-all cursor-pointer flex items-center gap-2"
+                  className="px-4 py-2.5 sm:px-5 bg-[#E4002B] hover:bg-[#C50025] text-white text-xs font-bold rounded-xl shadow-sm transition-all cursor-pointer flex items-center gap-2"
                 >
                   <span>{hero.primaryCta.label}</span>
                   <ArrowRight className="w-4 h-4" />
@@ -109,15 +109,15 @@ export const SbuLandingPage: React.FC<SbuLandingPageProps> = ({ config, onNaviga
                 {hero.secondaryCta && (
                   <button
                     onClick={act(hero.secondaryCta)}
-                    className="px-4 py-2.5 sm:px-6 sm:py-3.5 bg-slate-100 hover:bg-slate-200 text-[#002554] text-xs font-bold rounded-xl transition-all cursor-pointer"
+                    className="px-4 py-2.5 sm:px-5 bg-slate-100 hover:bg-slate-200 text-[#002554] text-xs font-bold rounded-xl transition-all cursor-pointer"
                   >
                     {hero.secondaryCta.label}
                   </button>
                 )}
               </div>
 
-              <div className="mt-8 pt-7 border-t border-slate-200">
-                <strong className="block text-cbz-blue text-xs uppercase tracking-wider mb-3">
+              <div className="mt-6 pt-5 border-t border-slate-200">
+                <strong className="block text-cbz-blue text-xs uppercase tracking-wider mb-2">
                   The business
                 </strong>
                 <p className="text-sm text-slate-600 leading-relaxed max-w-2xl">{about}</p>
@@ -126,7 +126,7 @@ export const SbuLandingPage: React.FC<SbuLandingPageProps> = ({ config, onNaviga
 
             {/* The photo, with the facts over its foot. Top reads as image,
                 bottom reads as navy, so the ledger stays legible on any photo. */}
-            <div className="lg:col-span-5 relative rounded-2xl overflow-hidden bg-cbz-blue text-white shadow-xl min-h-[22rem] sm:min-h-[26rem] flex flex-col justify-end">
+            <div className="lg:col-span-5 relative rounded-2xl overflow-hidden bg-cbz-blue text-white shadow-xl min-h-[19rem] sm:min-h-[22rem] flex flex-col justify-end">
               <img
                 {...siteImage(hero.imageKey, hero.image ?? '', hero.headline)}
                 loading="eager"
@@ -138,18 +138,18 @@ export const SbuLandingPage: React.FC<SbuLandingPageProps> = ({ config, onNaviga
                 aria-hidden
                 className="absolute inset-0 bg-gradient-to-t from-cbz-blue via-cbz-blue/80 to-cbz-blue/5"
               />
-              <div className="relative z-10 p-6 sm:p-8">
-                <span className="block text-[10px] uppercase font-bold tracking-widest text-red-300 mb-3">
+              <div className="relative z-10 p-5 sm:p-6">
+                <span className="block text-[10px] uppercase font-bold tracking-widest text-red-300 mb-2">
                   Key facts
                 </span>
                 {/* The figure leads and the descriptor follows: `value` is not
                     always a number across the nine units, and descriptor-first
                     read backwards for some. */}
-                <dl className="bg-white/10 p-5 rounded-xl border border-white/15 backdrop-blur-md divide-y divide-white/10">
+                <dl className="bg-white/10 p-4 rounded-xl border border-white/15 backdrop-blur-md divide-y divide-white/10">
                   {keyFacts.map((fact) => (
                     <div
                       key={fact.label}
-                      className="flex items-baseline justify-between gap-5 py-2.5 first:pt-0 last:pb-0"
+                      className="flex items-baseline justify-between gap-5 py-1.5 first:pt-0 last:pb-0"
                     >
                       <dt className="text-sm font-black text-white leading-snug">{fact.value}</dt>
                       <dd className="text-xs text-slate-200 leading-snug text-right">{fact.label}</dd>
@@ -165,8 +165,8 @@ export const SbuLandingPage: React.FC<SbuLandingPageProps> = ({ config, onNaviga
               outline is reserved for [TBC placeholders; a card with an image
               renders it as a soft backdrop. */}
           {campaigns.length > 0 && (
-            <div className="mt-8">
-              <p className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-cbz-blue/60 mb-3">
+            <div className="mt-5">
+              <p className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-cbz-blue/60 mb-2">
                 <span className="w-1.5 h-3.5 bg-cbz-blue/40 rounded-xs inline-block" />
                 <span>On now</span>
               </p>

@@ -1,8 +1,8 @@
 ---
 /**
- * Footer. Columns mirror the site map: businesses, journeys, the Group and
- * access, regulatory, and off-site links. Everything comes from nav.ts and
- * facts.ts; a null link is hidden.
+ * Footer. Three columns from the site map: businesses, journeys, the Group
+ * and access. Everything comes from nav.ts and facts.ts; a null link is
+ * hidden. Regulatory and off-site links live on the sitemap page.
  */
 import Logo from './Logo.astro';
 import Icon from './Icon.astro';
@@ -16,8 +16,6 @@ const columns: { heading: string; links: readonly { label: string; href: string 
   { heading: 'Our businesses', links: FOOTER.businesses },
   { heading: 'Journeys', links: FOOTER.journeys },
   { heading: 'The Group and access', links: FOOTER.group },
-  { heading: 'Regulatory', links: FOOTER.regulatory },
-  { heading: 'Off-site', links: FOOTER.offsite },
 ];
 const year = new Date().getFullYear();
 ---
@@ -27,7 +25,6 @@ const year = new Date().getFullYear();
     <div class="footer__top">
       <div class="footer__brand">
         <Logo brand="holdings" on="dark" height={36} />
-        <p class="footer__line">{GROUP.listingLine}. {GROUP.companies.toLowerCase()} in {GROUP.clusters.toLowerCase()}.</p>
         <address class="footer__address">
           {CONTACT.address.line1}, {CONTACT.address.line2}
         </address>
@@ -144,9 +141,6 @@ const year = new Date().getFullYear();
     align-content: start;
     justify-items: start;
   }
-  .footer__line {
-    max-width: 36ch;
-  }
   .footer__address {
     font-style: normal;
   }
@@ -186,7 +180,7 @@ const year = new Date().getFullYear();
   }
   @media (min-width: 900px) {
     .footer__cols {
-      grid-template-columns: repeat(5, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
   .footer__heading {

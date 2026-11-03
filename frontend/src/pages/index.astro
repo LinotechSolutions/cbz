@@ -1,8 +1,8 @@
 ---
 /**
- * Home: Hero, What can we help you with?, Ziki Mall and digital channels,
- * Learn more. A navy top that fades to white, phone mockups with a badge,
- * benefit cards with shield badges, a channels row, and the article rail.
+ * Home: Hero with the life-stage journey carousel, What can we help you
+ * with?, Ziki Mall and digital channels, Learn more. A navy top that fades
+ * to white, benefit cards with shield badges, a channels row, and the rail.
  */
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -14,6 +14,7 @@ import { OPEN_ACCOUNT_ITEMS } from '../data/nav';
 import { CONTACT, GROUP } from '../data/facts';
 import { LINKS } from '../data/links';
 import { CLUSTERS } from '../data/group';
+import { LIFE_STAGES } from '../data/lifeStages';
 import type { IconName } from '../components/icons';
 
 const clusterIcon: Record<string, IconName> = { banking: 'bank', investments: 'chart', insurance: 'shield', 'agro-business': 'leaf' };
@@ -42,7 +43,6 @@ const articles = (await getCollection('notices'))
     <div class="container hero">
       <div class="hero__copy">
         <h1 id="hero-heading" class="hero__title display">Bank, insure, invest and grow, in one place</h1>
-        <p class="hero__lede">Nine businesses, one group. Open an account, get a quote or start investing today.</p>
         <div class="hero__actions">
           <OpenAccountMenu client:idle items={OPEN_ACCOUNT_ITEMS} />
           <a href={CONTACT.whatsapp.chatHref} class="round" target="_blank" rel="noopener noreferrer" aria-label="Chat with us on WhatsApp (opens in a new tab)">
@@ -52,39 +52,43 @@ const articles = (await getCollection('notices'))
         </div>
       </div>
 
-      <div class="hero__visual" aria-hidden="true">
-        <div class="tick">
-          <span class="tick__icon"><Icon name="check" size={14} /></span>
-          <span>Listed on the Zimbabwe Stock Exchange</span>
-        </div>
-        <div class="phones">
-          <div class="phone phone--back">
-            <div class="phone__screen phone__screen--alt">
-              <span class="screen__pill">ZikiCash</span>
-              <span class="screen__bars"><i></i><i></i><i></i></span>
-            </div>
-          </div>
-          <div class="phone phone--front">
-            <div class="phone__screen">
-              <span class="screen__brand"><Logo brand="cbz-touch" on="light" height={26} decorative clearSpace={false} /></span>
-              <span class="screen__card">
-                <span class="screen__card-title">Zero-rated mobile banking</span>
-                <span class="screen__card-line">No data charges on local networks</span>
-              </span>
-              <ul class="screen__list">
-                <li>Send money</li>
-                <li>Pay bills</li>
-                <li>School fees</li>
-                <li>Card controls</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="badge">
-          <span class="badge__big">Since {GROUP.founded}</span>
-          <span class="badge__line">Partners for success</span>
+    </div>
+
+    <!-- Life-stage journeys: a carousel of the moments we help with -->
+    <div class="container stages" id="journeys" aria-labelledby="stages-heading" data-stages>
+      <div class="stages__head">
+        <h2 id="stages-heading" class="stages__title">Wherever you are in life, <strong>we have a next step</strong></h2>
+        <div class="stages__arrows">
+          <button type="button" class="stages__arrow" data-prev aria-label="Previous">
+            <Icon name="arrowRight" size={20} class="stages__flip" />
+          </button>
+          <button type="button" class="stages__arrow" data-next aria-label="Next">
+            <Icon name="arrowRight" size={20} />
+          </button>
         </div>
       </div>
+      <ul role="list" class="stages__row" data-row>
+        {
+          LIFE_STAGES.map((s) => (
+            <li class="stage">
+              <a href={s.href} class="stage__link" data-track="apply_click" data-track-props={JSON.stringify({ unit: s.unit, from: 'home-stages' })}>
+                <img src={s.image.src} alt="" width={600} height={750} loading="lazy" decoding="async" class="stage__img" />
+                <span class="stage__shade" aria-hidden="true" />
+                <span class="stage__body">
+                  <span class="stage__q">{s.question}</span>
+                  <span class="stage__promise">{s.promise}</span>
+                </span>
+                <span class="stage__go" aria-hidden="true">
+                  <Icon name="arrowRight" size={18} />
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <ol class="stages__dots" role="list" aria-hidden="true">
+        {LIFE_STAGES.map(() => <li class="stages__dot" />)}
+      </ol>
     </div>
 
     <!-- 2. What can we help you with? -->
@@ -170,6 +174,25 @@ const articles = (await getCollection('notices'))
   }
 </BaseLayout>
 
+<script>
+  // Arrows step one card at a time; the dots follow the scroll position.
+  document.querySelectorAll<HTMLElement>('[data-stages]').forEach((wrap) => {
+    const row = wrap.querySelector<HTMLElement>('[data-row]');
+    if (!row) return;
+    const dots = Array.from(wrap.querySelectorAll<HTMLElement>('.stages__dot'));
+    const step = () => (row.querySelector<HTMLElement>('.stage')?.offsetWidth ?? 280) + 16;
+    const smooth = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+    wrap.querySelector('[data-prev]')?.addEventListener('click', () => row.scrollBy({ left: -step(), behavior: smooth }));
+    wrap.querySelector('[data-next]')?.addEventListener('click', () => row.scrollBy({ left: step(), behavior: smooth }));
+    const mark = () => {
+      const i = Math.round(row.scrollLeft / step());
+      dots.forEach((d, k) => d.classList.toggle('stages__dot--on', k === i));
+    };
+    row.addEventListener('scroll', mark, { passive: true });
+    mark();
+  });
+</script>
+
 <style>
   /* ---------- Top: navy fading to white ---------- */
   .top {
@@ -198,29 +221,21 @@ const articles = (await getCollection('notices'))
   .hero {
     display: grid;
     gap: var(--s-10, 40px);
-    padding-block: var(--s-12) var(--s-12);
+    padding-block: var(--s-12) var(--s-8);
   }
   @media (min-width: 900px) {
     .hero {
-      grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
-      align-items: center;
-      padding-block: var(--s-16) var(--s-16);
-      gap: var(--s-12);
+      padding-block: var(--s-16) var(--s-10, 40px);
     }
   }
   .hero__copy {
     display: grid;
-    gap: var(--s-5, 20px);
+    gap: var(--s-6);
     justify-items: start;
   }
   .hero__title {
     color: var(--white);
-    max-width: 14ch;
-  }
-  .hero__lede {
-    color: rgba(255, 255, 255, 0.82);
-    font-size: var(--t-lg);
-    max-width: 34rem;
+    max-width: 16ch;
   }
   .hero__actions {
     display: flex;
@@ -300,164 +315,160 @@ const articles = (await getCollection('notices'))
     margin-left: 0;
   }
 
-  /* Phones */
-  .hero__visual {
-    position: relative;
-    min-height: 420px;
+  /* Life-stage journeys: photo cards in a row that snaps as you scroll */
+  .stages {
+    display: grid;
+    gap: var(--s-6);
+    padding-bottom: var(--s-16);
+  }
+  .stages__head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: var(--s-4);
+  }
+  .stages__title {
+    font-size: var(--t-xl);
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.85);
+    max-width: 24ch;
+  }
+  .stages__title strong {
+    font-weight: 700;
+    color: var(--white);
+  }
+  .stages__arrows {
     display: none;
+    gap: var(--s-2);
+    flex-shrink: 0;
   }
   @media (min-width: 640px) {
-    .hero__visual {
-      display: block;
+    .stages__arrows {
+      display: flex;
     }
   }
-  .tick {
-    position: absolute;
-    top: 6%;
-    left: 0;
-    display: inline-flex;
-    align-items: center;
-    gap: var(--s-2);
-    font-size: var(--t-xs);
-    color: rgba(255, 255, 255, 0.85);
-    max-width: 180px;
-  }
-  .tick__icon {
+  .stages__arrow {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 22px;
-    height: 22px;
+    width: var(--tap);
+    height: var(--tap);
+    border-radius: 50%;
+    color: var(--white);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    transition: background-color var(--dur) var(--ease);
+  }
+  .stages__arrow:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+  .stages__arrow :global(.stages__flip) {
+    transform: scaleX(-1);
+  }
+  .stages__row {
+    display: flex;
+    gap: var(--s-4);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+    margin-inline: calc(-1 * var(--gutter));
+    padding-inline: var(--gutter);
+    padding-bottom: var(--s-2);
+  }
+  .stages__row::-webkit-scrollbar {
+    display: none;
+  }
+  .stage {
+    flex: 0 0 min(72vw, 280px);
+    scroll-snap-align: start;
+  }
+  @media (min-width: 900px) {
+    .stage {
+      flex-basis: calc((100% - 3 * var(--s-4)) / 4);
+    }
+  }
+  .stage__link {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    color: var(--white);
+    text-decoration: none;
+    background: var(--blue);
+    isolation: isolate;
+    box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.6);
+  }
+  .stage__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+    transition: transform var(--dur-slow) var(--ease);
+  }
+  .stage__link:hover .stage__img {
+    transform: scale(1.05);
+  }
+  .stage__shade {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(to top, rgba(0, 23, 54, 0.95) 0%, rgba(0, 23, 54, 0.55) 40%, rgba(0, 23, 54, 0) 70%);
+  }
+  .stage__body {
+    position: absolute;
+    left: var(--s-5, 20px);
+    right: var(--s-5, 20px);
+    bottom: var(--s-5, 20px);
+    display: grid;
+    gap: var(--s-1);
+    padding-right: 48px;
+  }
+  .stage__q {
+    font-size: var(--t-lg);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--white);
+  }
+  .stage__promise {
+    font-size: var(--t-sm);
+    color: rgba(255, 255, 255, 0.85);
+  }
+  .stage__go {
+    position: absolute;
+    right: var(--s-4);
+    bottom: var(--s-4);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     background: var(--red);
     color: var(--white);
-    flex-shrink: 0;
+    transition: transform var(--dur) var(--ease);
   }
-  .phones {
-    position: absolute;
-    inset: 0;
+  .stage__link:hover .stage__go {
+    transform: translateX(3px);
   }
-  .phone {
-    position: absolute;
-    width: 220px;
-    height: 440px;
-    border-radius: 36px;
-    background: #0b1220;
-    border: 6px solid #1a2436;
-    box-shadow: 0 30px 60px -24px rgba(0, 0, 0, 0.6);
-    padding: 14px;
-  }
-  .phone--front {
-    right: 14%;
-    top: 0;
-    transform: rotate(8deg);
-    z-index: 2;
-  }
-  .phone--back {
-    right: 36%;
-    top: 12%;
-    transform: rotate(-10deg) scale(0.92);
-    opacity: 0.9;
-  }
-  .phone__screen {
-    height: 100%;
-    border-radius: 24px;
-    background: var(--white);
-    padding: var(--s-4);
-    display: grid;
-    gap: var(--s-3);
-    align-content: start;
-    color: var(--ink);
-  }
-  .phone__screen--alt {
-    background: var(--blue-50);
-    align-content: center;
-    justify-items: center;
-    gap: var(--s-6);
-  }
-  .screen__pill {
-    padding: var(--s-2) var(--s-4);
-    border-radius: var(--r-pill);
-    background: var(--white);
-    color: var(--blue);
-    font-weight: 700;
-    font-size: var(--t-sm);
-  }
-  .screen__bars {
+  .stages__dots {
     display: flex;
-    gap: 6px;
-    align-items: flex-end;
-    height: 60px;
-  }
-  .screen__bars i {
-    width: 14px;
-    border-radius: 4px 4px 0 0;
-    background: var(--blue-100);
-  }
-  .screen__bars i:nth-child(1) {
-    height: 40%;
-  }
-  .screen__bars i:nth-child(2) {
-    height: 70%;
-    background: var(--blue);
-  }
-  .screen__bars i:nth-child(3) {
-    height: 100%;
-  }
-  .screen__brand {
-    display: block;
-  }
-  .screen__card {
-    display: grid;
-    gap: 2px;
-    padding: var(--s-4);
-    border-radius: var(--r-md);
-    background: var(--blue);
-    color: var(--white);
-  }
-  .screen__card-title {
-    font-weight: 700;
-    font-size: var(--t-sm);
-  }
-  .screen__card-line {
-    font-size: 11px;
-    color: rgba(255, 255, 255, 0.8);
-  }
-  .screen__list {
-    display: grid;
     gap: var(--s-2);
-    padding: 0;
-    list-style: none;
   }
-  .screen__list li {
-    padding: var(--s-2) var(--s-3);
-    border-radius: var(--r-sm);
-    background: var(--surface);
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--blue);
+  .stages__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.3);
+    transition:
+      width var(--dur) var(--ease),
+      background-color var(--dur) var(--ease);
   }
-  .badge {
-    position: absolute;
-    right: 0;
-    bottom: -4%;
-    display: grid;
-    gap: 2px;
-    padding: var(--s-4) var(--s-6);
-    border-radius: var(--r-md);
-    background: var(--red-700);
-    color: var(--white);
-    box-shadow: var(--shadow-float);
-    z-index: 3;
-  }
-  .badge__big {
-    font-size: var(--t-xl);
-    font-weight: 700;
-    line-height: 1;
-  }
-  .badge__line {
-    font-size: var(--t-xs);
-    color: var(--white);
+  .stages__dot--on {
+    width: 28px;
+    background: var(--red);
   }
 
   /* Sustainability band */

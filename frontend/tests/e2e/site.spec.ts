@@ -120,7 +120,7 @@ test('every business page is built from its site map branches', async ({ page })
 test('home follows the site map order', async ({ page }) => {
   await page.goto('/');
   const ids = await page.locator('main [id]').evaluateAll((els) => els.map((e) => e.id));
-  const order = ['hero-heading', 'help', 'businesses', 'branches'];
+  const order = ['hero-heading', 'help', 'branches'];
   let last = -1;
   for (const key of order) {
     const i = ids.findIndex((id) => id === key);

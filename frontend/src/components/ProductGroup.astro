@@ -7,6 +7,7 @@
  * card shows and every panel is open.
  */
 import Button from './Button.astro';
+import Icon from './Icon.astro';
 import { visible } from '../lib/visible';
 
 export interface ProductRow {
@@ -20,6 +21,8 @@ export interface ProductRow {
   pricing: string | null;
   details?: { tenor: string | null; interestRate: string | null; adminFee: string | null; limit: string | null };
   apply: { label: string; href: string };
+  /** When set, these replace `apply` on the card: first primary, the rest secondary. */
+  actions?: { label: string; href: string }[] | null;
 }
 
 interface Props {
@@ -78,6 +81,7 @@ const costLine = (p: ProductRow) =>
       products.map((p) => {
         const facts = factsFor(p);
         const did = `detail-${idPrefix}-${p.productId}`;
+        const actions = p.actions && p.actions.length > 0 ? p.actions : [p.apply];
         return (
           <li class="pcard" id={`product-${unitSlug}-${p.productId}`} data-category={p.category}>
             <div class="pcard__body">
@@ -96,16 +100,24 @@ const costLine = (p: ProductRow) =>
                 </dl>
               )}
               <div class="pcard__actions">
-                <Button href={p.apply.href} variant="primary" track="apply_click" trackProps={{ unit: unitSlug, product: p.productId }}>
-                  {p.apply.label}
-                </Button>
-                <button type="button" class="btn btn--secondary pcard__more" aria-expanded="false" aria-controls={did} data-more>
+                {actions.map((a, ai) => (
+                  <Button href={a.href} variant={ai === 0 ? 'primary' : 'secondary'} track="apply_click" trackProps={{ unit: unitSlug, product: p.productId, action: a.label }}>
+                    {a.label}
+                  </Button>
+                ))}
+                <button type="button" class="btn btn--secondary pcard__more" aria-haspopup="dialog" aria-controls={did} data-more>
                   Tell me more
                 </button>
               </div>
             </div>
 
-            <div class="pdetail" id={did} data-detail>
+            <dialog class="pdetail" id={did} data-detail aria-labelledby={`${did}-title`}>
+              <div class="pdetail__head">
+                <p class="pdetail__title" id={`${did}-title`}>{p.name}</p>
+                <button type="button" class="pdetail__close" data-close aria-label="Close">
+                  <Icon name="close" size={20} />
+                </button>
+              </div>
               <div class="pdetail__tabs" role="tablist" aria-label={`${p.name} details`}>
                 <button type="button" role="tab" class="pdetail__tab" aria-selected="true" data-tab="get">What you get</button>
                 <button type="button" role="tab" class="pdetail__tab" aria-selected="false" data-tab="who">Who it's for</button>
@@ -154,15 +166,17 @@ const costLine = (p: ProductRow) =>
                       </ul>
                     </>
                   )}
-                  <p>
-                    <Button href={p.apply.href} variant="primary" track="apply_click" trackProps={{ unit: unitSlug, product: p.productId, from: 'detail' }}>
-                      {p.apply.label}
-                    </Button>
+                  <p class="pdetail__actions">
+                    {actions.map((a, ai) => (
+                      <Button href={a.href} variant={ai === 0 ? 'primary' : 'secondary'} track="apply_click" trackProps={{ unit: unitSlug, product: p.productId, action: a.label, from: 'detail' }}>
+                        {a.label}
+                      </Button>
+                    ))}
                   </p>
                 </section>
                 {visible(note) && <p class="pdetail__note small muted">{note}</p>}
               </div>
-            </div>
+            </dialog>
           </li>
         );
       })
@@ -202,18 +216,19 @@ const costLine = (p: ProductRow) =>
       });
     });
 
-    // Tell me more + detail tabs
+    // Tell me more opens the details in a modal dialog; Escape, the close
+    // button and a click on the backdrop close it, and focus returns to the opener.
     cards.forEach((card) => {
       const more = card.querySelector<HTMLButtonElement>('[data-more]');
-      const detail = card.querySelector<HTMLElement>('[data-detail]');
+      const detail = card.querySelector<HTMLDialogElement>('[data-detail]');
       if (!more || !detail) return;
-      detail.hidden = true;
       more.addEventListener('click', () => {
-        const open = detail.hidden;
-        detail.hidden = !open;
-        more.setAttribute('aria-expanded', open ? 'true' : 'false');
-        more.textContent = open ? 'Show less' : 'Tell me more';
-        if (open) detail.querySelector<HTMLElement>('[role="tab"]')?.focus();
+        detail.showModal();
+        detail.querySelector<HTMLElement>('[role="tab"][aria-selected="true"]')?.focus();
+      });
+      detail.querySelector('[data-close]')?.addEventListener('click', () => detail.close());
+      detail.addEventListener('click', (e) => {
+        if (e.target === detail) detail.close();
       });
       const tabs = Array.from(detail.querySelectorAll<HTMLButtonElement>('[data-tab]'));
       const panels = Array.from(detail.querySelectorAll<HTMLElement>('[data-panel]'));
@@ -250,9 +265,9 @@ const costLine = (p: ProductRow) =>
       const card = root.querySelector<HTMLElement>(`#${CSS.escape(id)}`);
       if (!card) return;
       filter('all');
-      const more = card.querySelector<HTMLButtonElement>('[data-more]');
-      if (more && more.getAttribute('aria-expanded') !== 'true') more.click();
       card.scrollIntoView({ block: 'start' });
+      const detail = card.querySelector<HTMLDialogElement>('[data-detail]');
+      if (detail && !detail.open) detail.showModal();
     }
     window.addEventListener('hashchange', openHash);
     openHash();
@@ -394,12 +409,66 @@ const costLine = (p: ProductRow) =>
     font-size: var(--t-xs);
   }
 
-  /* Detail panel: pill tabs over a grey body */
+  /* Detail popup: a modal dialog with pill tabs over a grey body */
   .pdetail {
-    padding: 0 var(--s-4) var(--s-4);
+    width: min(92vw, 640px);
+    max-height: min(85vh, 720px);
+    margin: auto;
+    padding: var(--s-4);
+    border: 0;
+    border-radius: var(--r-lg);
+    background: var(--white);
+    color: var(--ink);
+    box-shadow: var(--shadow-float);
+    overflow: auto;
   }
-  .pdetail[hidden] {
+  .pdetail::backdrop {
+    background: rgba(0, 23, 54, 0.6);
+    backdrop-filter: blur(2px);
+  }
+  /* Without JavaScript the details simply sit under the card. */
+  .pc:not(.pc--js) .pdetail {
+    display: block;
+    position: static;
+    width: auto;
+    max-height: none;
+    margin: 0;
+    box-shadow: none;
+    border-top: 1px solid var(--line);
+    border-radius: 0;
+  }
+  .pc:not(.pc--js) .pdetail__close {
     display: none;
+  }
+  .pdetail__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-4);
+    padding: var(--s-2) var(--s-2) var(--s-4);
+  }
+  .pdetail__title {
+    font-size: var(--t-lg);
+    font-weight: 700;
+    color: var(--blue);
+  }
+  .pdetail__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--tap);
+    height: var(--tap);
+    border-radius: 50%;
+    color: var(--blue);
+    flex-shrink: 0;
+  }
+  .pdetail__close:hover {
+    background: var(--blue-50);
+  }
+  .pdetail__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
   }
   .pdetail__tabs {
     display: flex;

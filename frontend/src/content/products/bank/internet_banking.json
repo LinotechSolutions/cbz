@@ -28,6 +28,12 @@
     "label": "Open an account",
     "href": "/bank/open-account"
   },
+  "actions": [
+    {
+      "label": "Log in to internet banking",
+      "href": "/login"
+    }
+  ],
   "image": null,
   "order": 1,
   "verified": true

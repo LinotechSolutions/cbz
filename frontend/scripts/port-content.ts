@@ -26,14 +26,36 @@ import type { ProductItem } from '../src/content/_import/types';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const out = (...p: string[]) => join(root, 'src', 'content', ...p);
 
+interface Cta {
+  label: string;
+  href: string;
+}
 interface UnitPort {
   unit: string;
   source: Record<string, ProductItem[]>;
   verified: boolean;
-  apply: (category: string) => { label: string; href: string };
+  apply: (category: string) => Cta;
+  /** Per-product buttons that replace the category default, keyed by product id. */
+  actions?: Record<string, Cta[]>;
   /** Rename source categories where the new site uses a different id. */
   category?: (id: string) => string;
 }
+
+/* Digital channels and merchant devices do not open an account: they go to
+   the app stores, to internet banking, or to a relationship manager. */
+const LOGIN: Cta = { label: 'Log in to internet banking', href: '/login' };
+const AGENT: Cta = { label: 'Speak to an agent', href: '/bank/call-me-back' };
+const BANK_ACTIONS: Record<string, Cta[]> = {
+  cbz_touch: [
+    { label: 'App Store', href: 'https://apps.apple.com/zw/app/cbz-touch/id1099147682' },
+    { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=zw.co.cbz.touch' },
+  ],
+  internet_banking: [LOGIN],
+  e_statements: [LOGIN],
+  visa_pos: [AGENT],
+  local_pos: [AGENT],
+  kleva_pos: [AGENT],
+};
 
 const UNITS: UnitPort[] = [
   {
@@ -44,6 +66,7 @@ const UNITS: UnitPort[] = [
       c === 'loans'
         ? { label: 'Apply for a loan', href: '/bank/apply' }
         : { label: 'Open an account', href: '/bank/open-account' },
+    actions: BANK_ACTIONS,
   },
   {
     unit: 'red-sphere',
@@ -136,6 +159,7 @@ for (const u of UNITS) {
           limit: orNull(p.limit, u.verified),
         },
         apply: u.apply(category),
+        actions: u.actions?.[productId] ?? null,
         image: p.image ? { src: p.image, alt: '' } : null,
         order: i,
         verified: u.verified,

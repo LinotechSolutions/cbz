@@ -20,6 +20,7 @@
     "label": "Request a quotation",
     "href": "/cbz-life/quote"
   },
+  "actions": null,
   "image": null,
   "order": 2,
   "verified": true

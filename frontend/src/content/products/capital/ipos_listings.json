@@ -28,6 +28,7 @@
     "label": "Start a capital enquiry",
     "href": "/capital/enquiry"
   },
+  "actions": null,
   "image": null,
   "order": 0,
   "verified": true

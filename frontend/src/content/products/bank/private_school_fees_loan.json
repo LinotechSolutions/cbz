@@ -26,6 +26,7 @@
     "label": "Apply for a loan",
     "href": "/bank/apply"
   },
+  "actions": null,
   "image": {
     "src": "/images/loan-education.webp",
     "alt": ""

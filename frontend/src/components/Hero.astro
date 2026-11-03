@@ -1,14 +1,15 @@
 ---
 /**
- * The hero: a navy block with the photo on the right, cut by a diagonal edge.
- * The block beneath the hero overlaps it (see TaskCard), so the hero leaves
- * room at the bottom with --overlap.
+ * The hero: a rounded panel with the photograph full-bleed behind a navy
+ * gradient, the copy on the left, and a frosted glass chip on the photo that
+ * carries one fact. On phones the gradient rises from the bottom.
  */
-import ResponsiveImage from './ResponsiveImage.astro';
 import Logo from './Logo.astro';
 import Button from './Button.astro';
 import Breadcrumbs from './Breadcrumbs.astro';
+import Icon from './Icon.astro';
 import type { DarkSafeLogoKey } from '../data/logos';
+import type { IconName } from './icons';
 
 interface Cta {
   label: string;
@@ -20,85 +21,127 @@ interface Props {
   title: string;
   lede: string;
   image: { src: string; alt: string };
-  /** Shown as the white lockup above the title on unit pages. */
   logo?: DarkSafeLogoKey;
   eyebrow?: string;
   crumbs?: { label: string; href?: string }[];
   primary?: Cta;
   secondary?: Cta;
-  /** The home page uses the display size and a red eyebrow rule. */
+  /** One fact shown on a frosted chip over the photo. */
+  chip?: { icon?: IconName; title: string; line?: string };
   variant?: 'unit' | 'home';
   overlap?: boolean;
 }
-const { title, lede, image, logo, eyebrow, crumbs, primary, secondary, variant = 'unit', overlap = true } = Astro.props;
+const { title, lede, image, logo, eyebrow, crumbs, primary, secondary, chip, variant = 'unit', overlap = true } = Astro.props;
 ---
 
-<header class:list={['hero', `hero--${variant}`, overlap && 'hero--overlap', 'on-dark']}>
-  <div class="hero__media">
-    <ResponsiveImage src={image.src} alt={image.alt} ratio="16:9" mobileRatio="4:5" priority class="hero__img" />
-  </div>
-  <div class="container hero__inner">
-    <div class="hero__copy">
-      {crumbs && <Breadcrumbs items={crumbs} tone="dark" />}
-      {logo && <Logo brand={logo} on="dark" height={30} class="hero__logo" />}
-      {eyebrow && <p class="hero__eyebrow">{eyebrow}</p>}
-      <h1 class:list={['hero__title', variant === 'home' && 'display']}>{title}</h1>
-      <p class="hero__lede">{lede}</p>
-      {
-        (primary || secondary) && (
-          <div class="hero__actions">
-            <slot name="primary">
-              {primary && (
-                <Button href={primary.href} variant="primary" size="lg" track={primary.track} trackProps={primary.trackProps}>
-                  {primary.label}
-                </Button>
-              )}
-            </slot>
-            {secondary && (
-              <Button href={secondary.href} variant="secondary" size="lg" track={secondary.track} trackProps={secondary.trackProps}>
-                {secondary.label}
-              </Button>
-            )}
-          </div>
-        )
-      }
+<header class:list={['hero-wrap', overlap && 'hero-wrap--overlap']}>
+  <div class="container">
+    <div class:list={['hero', `hero--${variant}`, 'on-dark']}>
+      <img
+        class="hero__img"
+        src={image.src}
+        alt={image.alt}
+        width={1400}
+        height={900}
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+        sizes="(min-width: 1200px) 1200px, 100vw"
+      />
+      <div class="hero__shade" aria-hidden="true"></div>
+
+      <div class="hero__inner">
+        <div class="hero__copy">
+          {crumbs && <Breadcrumbs items={crumbs} tone="dark" />}
+          {logo && <Logo brand={logo} on="dark" height={30} class="hero__logo" />}
+          {eyebrow && <p class="hero__eyebrow">{eyebrow}</p>}
+          <h1 class:list={['hero__title', variant === 'home' && 'display']}>{title}</h1>
+          <p class="hero__lede">{lede}</p>
+          {
+            (primary || secondary || Astro.slots.has('primary')) && (
+              <div class="hero__actions">
+                <slot name="primary">
+                  {primary && (
+                    <Button href={primary.href} variant="primary" size="lg" track={primary.track} trackProps={primary.trackProps}>
+                      {primary.label}
+                    </Button>
+                  )}
+                </slot>
+                {secondary && (
+                  <Button href={secondary.href} variant="secondary" size="lg" track={secondary.track} trackProps={secondary.trackProps}>
+                    {secondary.label}
+                  </Button>
+                )}
+              </div>
+            )
+          }
+        </div>
+
+        {
+          chip && (
+            <div class="hero__chip" aria-hidden="true">
+              <span class="hero__chip-icon">
+                <Icon name={chip.icon ?? 'check'} size={18} />
+              </span>
+              <span class="hero__chip-text">
+                <span class="hero__chip-title">{chip.title}</span>
+                {chip.line && <span class="hero__chip-line">{chip.line}</span>}
+              </span>
+            </div>
+          )
+        }
+      </div>
     </div>
   </div>
 </header>
 
 <style>
-  .hero {
-    position: relative;
-    background: var(--blue);
-    color: var(--white);
-    overflow: hidden;
+  .hero-wrap {
+    padding-top: var(--s-4);
   }
-  .hero--overlap {
+  .hero-wrap--overlap {
     padding-bottom: var(--overlap, 56px);
   }
-  .hero__media {
+  .hero {
     position: relative;
+    overflow: hidden;
+    border-radius: var(--r-lg);
+    background: var(--blue-900);
+    color: var(--white);
+    min-height: 560px;
+    display: grid;
+    isolation: isolate;
   }
-  .hero__media :global(.frame) {
-    border-radius: 0;
+  .hero--home {
+    min-height: 640px;
   }
-  /* Navy wash rises from the bottom of the photo on phones so the copy reads. */
-  .hero__media::after {
-    content: '';
+  .hero__img {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, rgba(0, 37, 84, 0) 35%, var(--blue) 100%);
-    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 70% 50%;
+    z-index: -2;
+  }
+  .hero__shade {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(to top, rgba(0, 23, 54, 0.96) 0%, rgba(0, 23, 54, 0.72) 45%, rgba(0, 23, 54, 0.15) 100%);
   }
   .hero__inner {
     position: relative;
-    margin-top: calc(-1 * var(--s-16));
-    padding-bottom: var(--s-8);
+    display: grid;
+    align-content: end;
+    gap: var(--s-6);
+    padding: var(--s-8) var(--s-6);
   }
   .hero__copy {
     display: grid;
     gap: var(--s-4);
-    max-width: 36rem;
+    max-width: 38rem;
   }
   .hero__logo {
     margin-left: calc(-1 * var(--s-1));
@@ -123,9 +166,10 @@ const { title, lede, image, logo, eyebrow, crumbs, primary, secondary, variant =
   }
   .hero__title {
     color: var(--white);
+    text-shadow: 0 1px 2px rgba(0, 23, 54, 0.3);
   }
   .hero__lede {
-    color: rgba(255, 255, 255, 0.85);
+    color: rgba(255, 255, 255, 0.88);
     font-size: var(--t-lg);
     line-height: 1.4;
     max-width: 32rem;
@@ -136,39 +180,75 @@ const { title, lede, image, logo, eyebrow, crumbs, primary, secondary, variant =
     gap: var(--s-3);
     margin-top: var(--s-2);
   }
+  .hero__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-3);
+    justify-self: start;
+    padding: var(--s-3) var(--s-4) var(--s-3) var(--s-3);
+    border-radius: var(--r-md);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-line);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 10px 30px -12px rgba(0, 23, 54, 0.5);
+  }
+  .hero__chip-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--white);
+    color: var(--blue);
+    flex-shrink: 0;
+  }
+  .hero__chip-text {
+    display: grid;
+    gap: 1px;
+  }
+  .hero__chip-title {
+    font-weight: 700;
+    font-size: var(--t-sm);
+    color: var(--white);
+  }
+  .hero__chip-line {
+    font-size: var(--t-xs);
+    color: rgba(255, 255, 255, 0.8);
+  }
 
   @media (min-width: 900px) {
-    .hero {
-      min-height: 520px;
-      display: grid;
-    }
-    .hero--home {
-      min-height: 600px;
-    }
-    .hero__media {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      width: 52%;
-      clip-path: polygon(14% 0, 100% 0, 100% 100%, 0 100%);
-    }
-    .hero__media :global(.frame) {
-      height: 100%;
-      aspect-ratio: auto;
-    }
-    .hero__media::after {
-      background: linear-gradient(to right, rgba(0, 37, 84, 0.35) 0%, rgba(0, 37, 84, 0) 40%);
+    .hero__shade {
+      background:
+        linear-gradient(to right, rgba(0, 23, 54, 0.94) 0%, rgba(0, 23, 54, 0.78) 38%, rgba(0, 23, 54, 0.25) 70%, rgba(0, 23, 54, 0.1) 100%);
     }
     .hero__inner {
-      margin-top: 0;
-      display: flex;
-      align-items: center;
-      padding-block: var(--s-16);
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      align-items: end;
+      align-content: stretch;
+      padding: var(--s-12) var(--s-12);
+      min-height: inherit;
     }
     .hero__copy {
-      width: 48%;
+      align-self: center;
       padding-right: var(--s-8);
+    }
+    .hero__chip {
+      justify-self: end;
+      align-self: end;
+    }
+  }
+  @media (max-width: 639px) {
+    .hero-wrap {
+      padding-top: 0;
+    }
+    .hero {
+      border-radius: 0 0 var(--r-lg) var(--r-lg);
+      min-height: 520px;
+    }
+    .hero__inner {
+      padding: var(--s-6) var(--gutter) var(--s-8);
     }
   }
 </style>

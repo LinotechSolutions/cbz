@@ -54,6 +54,7 @@ const cluster = clusterLabel[unit.cluster];
 const actions = unit.actions.filter((a) => visible(a.href));
 const hiddenActions = unit.actions.filter((a) => !visible(a.href));
 const leadership = visible(unit.leadership) ? unit.leadership! : [];
+const firstFact = unit.keyFacts.find((f) => visible(f.value));
 const site = Astro.site ?? new URL('https://www.cbz.co.zw');
 
 const jsonLd = [
@@ -107,6 +108,7 @@ const jsonLd = [
     crumbs={[{ label: 'Home', href: '/' }, { label: cluster.label, href: cluster.href }, { label: unit.shortName }]}
     primary={{ ...unit.primaryCta, track: 'apply_click', trackProps: { unit: unit.slug, from: 'hero' } }}
     secondary={unit.secondaryCta ?? undefined}
+    chip={firstFact ? { title: firstFact.value!, line: firstFact.label } : undefined}
     overlap={actions.length > 0}
   />
 
@@ -133,7 +135,9 @@ const jsonLd = [
                         {ext && <span class="sr-only"> (opens in a new tab)</span>}
                       </span>
                       {visible(a.line) && <span class="action__line">{a.line}</span>}
-                      <Icon name={ext ? 'external' : a.kind === 'anchor' ? 'chevronDown' : 'chevronRight'} size={18} class="action__icon" />
+                      <span class="icon-pill action__icon">
+                        <Icon name={ext ? 'external' : a.kind === 'anchor' ? 'chevronDown' : 'arrowRight'} size={16} />
+                      </span>
                     </a>
                   </li>
                 );
@@ -236,10 +240,12 @@ const jsonLd = [
           <ul role="list" class="segments" style={`--n:${Math.min(unit.segments.length, 4)}`}>
             {unit.segments.map((s) => (
               <li>
-                <a href={s.href} class="segment">
+                <a href={s.href} class="segment card-base">
                   <span class="segment__label">{s.label}</span>
                   {visible(s.line) && <span class="segment__line">{s.line}</span>}
-                  <Icon name="arrowRight" size={18} class="segment__icon" />
+                  <span class="icon-pill segment__icon">
+                    <Icon name="arrowRight" size={16} />
+                  </span>
                 </a>
               </li>
             ))}
@@ -328,35 +334,38 @@ const jsonLd = [
     background: var(--white);
     border: 1px solid var(--line);
     border-radius: var(--r-lg);
-    padding: var(--s-3);
+    padding: var(--s-4);
+    box-shadow: var(--shadow-card);
   }
   .actions__list {
     display: grid;
-    gap: var(--s-1);
+    gap: var(--s-2);
   }
   @media (min-width: 900px) {
     .actions__list {
       grid-template-columns: repeat(var(--n), minmax(0, 1fr));
-      gap: 0;
-    }
-    .actions__list > li + li {
-      border-left: 1px solid var(--line);
+      gap: var(--s-3);
     }
   }
   .action {
     position: relative;
     display: grid;
     gap: 2px;
-    padding: var(--s-3) var(--s-10, 40px) var(--s-3) var(--s-4);
-    min-height: var(--tap);
-    border-radius: var(--r-sm);
+    align-content: start;
+    padding: var(--s-4) var(--s-12) var(--s-4) var(--s-4);
+    min-height: 88px;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
     text-decoration: none;
     color: var(--ink);
     height: 100%;
-    transition: background-color var(--dur) var(--ease);
+    transition:
+      border-color var(--dur) var(--ease),
+      box-shadow var(--dur) var(--ease);
   }
   .action:hover {
-    background: var(--blue-50);
+    border-color: var(--blue-100);
+    box-shadow: var(--shadow-card);
     color: var(--ink);
   }
   .action__label {
@@ -371,7 +380,6 @@ const jsonLd = [
     position: absolute;
     right: var(--s-3);
     top: var(--s-3);
-    color: var(--blue-700);
   }
   .about {
     display: grid;
@@ -455,17 +463,14 @@ const jsonLd = [
     position: relative;
     display: grid;
     gap: var(--s-1);
+    align-content: start;
     padding: var(--s-6) var(--s-12) var(--s-6) var(--s-6);
-    min-height: 120px;
-    background: var(--white);
-    border: 1px solid var(--line);
-    border-radius: var(--r-md);
+    min-height: 128px;
+    height: 100%;
     text-decoration: none;
     color: var(--ink);
-    transition: border-color var(--dur) var(--ease);
   }
   .segment:hover {
-    border-color: var(--blue-700);
     color: var(--ink);
   }
   .segment__label {

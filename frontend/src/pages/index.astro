@@ -1,8 +1,8 @@
 ---
 /**
  * Home: Hero, What can we help you with?, Life-stage journeys, Learn more.
- * A navy top that fades to white, benefit cards with shield badges, the
- * journey carousel, and the article rail.
+ * A white split hero with the photograph bleeding right, a navy band that
+ * fades to white under the benefit cards, the journey carousel, and the rail.
  */
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -35,26 +35,36 @@ const articles = (await getCollection('notices'))
 <BaseLayout
   title={GROUP.name}
   description="CBZ Holdings: banking, insurance, investments and agribusiness in one place. Open an account, apply for a loan, get a quote or start investing."
+  preloadImage="/images/insurance-family.webp"
 >
-  <!-- 1. Hero: navy top fading to white -->
-  <section class="top on-dark" aria-labelledby="hero-heading">
-    <div class="container hero">
+  <!-- 1. Hero: white split banner, copy left and a photograph bleeding right -->
+  <header class="hero" aria-labelledby="hero-heading">
+    <div class="hero__inner">
       <div class="hero__copy">
-        <h1 id="hero-heading" class="hero__title display">Bank, insure, invest and grow, in one place</h1>
-        <div class="hero__actions">
-          <OpenAccountMenu client:idle items={OPEN_ACCOUNT_ITEMS} />
-          <a href={CONTACT.whatsapp.chatHref} class="round" target="_blank" rel="noopener noreferrer" aria-label="Chat with us on WhatsApp (opens in a new tab)">
-            <Icon name="whatsapp" size={22} />
-          </a>
-          <a href="/contact" class="btn btn--secondary btn--lg">Talk to us</a>
+        <div class="hero__copy-in">
+          <h1 id="hero-heading" class="hero__title">
+            <strong>Bank, insure, invest</strong> and grow, in one place
+          </h1>
+          <p class="hero__lede">Accounts, cover, investments and finance for the season or the business, from one group that has partnered Zimbabweans since {GROUP.founded}.</p>
+          <div class="hero__actions">
+            <OpenAccountMenu client:idle items={OPEN_ACCOUNT_ITEMS} />
+            <a href={CONTACT.whatsapp.chatHref} class="round" target="_blank" rel="noopener noreferrer" aria-label="Chat with us on WhatsApp (opens in a new tab)">
+              <Icon name="whatsapp" size={22} />
+            </a>
+            <a href="/contact" class="btn btn--secondary btn--lg">Talk to us</a>
+          </div>
         </div>
       </div>
-
+      <div class="hero__media">
+        <img src="/images/insurance-family.webp" alt="A family together outdoors" width={1400} height={900} loading="eager" fetchpriority="high" decoding="async" />
+      </div>
     </div>
+  </header>
 
-    <!-- 2. What can we help you with? -->
+  <!-- 2. What can we help you with? A navy band fading to white -->
+  <section class="top on-dark" aria-labelledby="help-heading">
     <div class="container help" id="help">
-      <h2 class="sr-only">What can we help you with?</h2>
+      <h2 id="help-heading" class="sr-only">What can we help you with?</h2>
       <a href="/login#apps" class="help__photo">
         <span class="help__photo-mark" aria-hidden="true"><Icon name="phoneMobile" size={40} /></span>
         <span class="help__photo-body">
@@ -145,54 +155,83 @@ const articles = (await getCollection('notices'))
 </script>
 
 <style>
-  /* ---------- Top: navy fading to white ---------- */
+  /* ---------- Hero: white split banner ---------- */
+  .hero {
+    background: var(--white);
+  }
+  .hero__inner {
+    display: grid;
+  }
+  .hero__copy {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .hero__copy-in {
+    width: 100%;
+    max-width: calc(var(--max) / 2);
+    padding: var(--s-12) var(--gutter) var(--s-8);
+    display: grid;
+    gap: var(--s-5, 20px);
+    justify-items: start;
+    align-content: center;
+  }
+  .hero__title {
+    font-size: var(--t-3xl);
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: -0.015em;
+    max-width: 16ch;
+  }
+  .hero__title strong {
+    font-weight: 700;
+  }
+  .hero__lede {
+    color: var(--grey);
+    font-size: var(--t-md);
+    max-width: 44ch;
+  }
+  .hero__media {
+    position: relative;
+    min-height: 260px;
+    background: var(--blue-50);
+  }
+  .hero__media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: 16 / 10;
+  }
+  @media (min-width: 900px) {
+    .hero__inner {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      min-height: 560px;
+    }
+    .hero__copy-in {
+      padding: var(--s-12) var(--s-10, 40px) var(--s-12) var(--gutter);
+    }
+    .hero__media {
+      margin-block: var(--s-6) 0;
+      box-shadow: 0 24px 40px -28px rgba(0, 23, 54, 0.5);
+    }
+    .hero__media img {
+      aspect-ratio: auto;
+      height: 100%;
+    }
+  }
+  /* ---------- Help band: navy fading to white ---------- */
   .top {
     position: relative;
     color: var(--white);
     background: linear-gradient(to bottom, var(--blue-900) 0%, var(--blue-900) 58%, var(--blue) 78%, var(--white) 100%);
-    padding-bottom: var(--s-8);
-  }
-  .eyebrow {
-    display: inline-flex;
-    align-items: center;
-    min-height: 32px;
-    padding: 0 var(--s-4);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: var(--r-pill);
-    font-size: var(--t-xs);
-    color: var(--white);
-    width: fit-content;
-  }
-  .eyebrow--light {
-    color: var(--red-700);
-    border-color: var(--red-50);
-    background: var(--red-50);
-    font-weight: 700;
-  }
-  .hero {
-    display: grid;
-    gap: var(--s-10, 40px);
-    padding-block: var(--s-12) var(--s-12);
-  }
-  @media (min-width: 900px) {
-    .hero {
-      padding-block: var(--s-16) var(--s-16);
-    }
-  }
-  .hero__copy {
-    display: grid;
-    gap: var(--s-6);
-    justify-items: start;
-  }
-  .hero__title {
-    color: var(--white);
-    max-width: 16ch;
+    padding-block: var(--s-10, 40px) var(--s-8);
   }
   .hero__actions {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: var(--s-3);
+    margin-top: var(--s-2);
   }
   .round {
     display: inline-flex;
@@ -201,69 +240,16 @@ const articles = (await getCollection('notices'))
     width: 52px;
     height: 52px;
     border-radius: 50%;
-    background: var(--white);
-    color: var(--blue-900);
-    transition: transform var(--dur) var(--ease);
+    background: var(--blue-50);
+    color: var(--blue);
+    transition:
+      transform var(--dur) var(--ease),
+      background-color var(--dur) var(--ease);
   }
   .round:hover {
     transform: scale(1.05);
-    color: var(--blue-900);
-  }
-  .hero__proof {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--s-8);
-    margin-top: var(--s-4);
-    padding-top: var(--s-6);
-    border-top: 1px solid rgba(255, 255, 255, 0.14);
-    width: 100%;
-  }
-  .proof {
-    display: flex;
-    align-items: center;
-    gap: var(--s-3);
-  }
-  .proof__big {
-    font-size: var(--t-2xl);
-    font-weight: 700;
-    color: var(--white);
-    line-height: 1;
-  }
-  .proof__text {
-    display: grid;
-    gap: 2px;
-  }
-  .proof__title {
-    font-weight: 700;
-    color: var(--white);
-    font-size: var(--t-sm);
-  }
-  .proof__line {
-    font-size: var(--t-xs);
-    color: rgba(255, 255, 255, 0.72);
-  }
-  .proof__link {
-    color: var(--white);
-    text-decoration: underline;
-    text-underline-offset: 0.2em;
-  }
-  .proof__logos {
-    display: flex;
-  }
-  .proof__dot {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    background: var(--red);
-    color: var(--white);
-    border: 2px solid var(--blue-900);
-    margin-left: -8px;
-  }
-  .proof__dot:first-child {
-    margin-left: 0;
+    background: var(--blue-100);
+    color: var(--blue);
   }
 
   /* Life-stage journeys: photo cards in a row that snaps as you scroll */

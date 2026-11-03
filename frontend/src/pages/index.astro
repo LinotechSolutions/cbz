@@ -14,6 +14,7 @@ import Icon from '../components/Icon.astro';
 import { OpenAccountMenu } from '../islands/OpenAccountMenu';
 import { OPEN_ACCOUNT_ITEMS } from '../data/nav';
 import { CONTACT, GROUP } from '../data/facts';
+import { LINKS } from '../data/links';
 import { CLUSTERS } from '../data/group';
 import type { IconName } from '../components/icons';
 
@@ -104,15 +105,15 @@ const clusters = CLUSTERS.filter((c) => c.isOperating);
     </div>
   </section>
 
-  <!-- 3. Sustainability -->
-  <section class="container sus-band" aria-labelledby="sus-heading" id="sustainability">
-    <a href="/sustainability" class="sus card-base">
-      <span class="sus__icon"><Icon name="leaf" size={24} /></span>
+  <!-- 3. Ziki Mall -->
+  <section class="container sus-band" aria-labelledby="ziki-heading" id="ziki-mall">
+    <a href={LINKS.zikiMall} class="sus card-base" target="_blank" rel="noopener noreferrer">
+      <span class="sus__logo"><Logo brand="ziki-mall" on="light" height={32} decorative clearSpace={false} /></span>
       <span class="sus__text">
-        <span id="sus-heading" class="sus__title">Sustainability</span>
-        <span class="sus__line">Our reports, the Grievance Procedure and the Grievance Resolution Form, and how to raise a grievance online.</span>
+        <span id="ziki-heading" class="sus__title">Ziki Mall</span>
+        <span class="sus__line">Shop online from Zimbabwean sellers and pay with CBZ. Opens zikimall.com in a new tab.</span>
       </span>
-      <span class="icon-pill"><Icon name="arrowRight" size={16} /></span>
+      <span class="icon-pill"><Icon name="external" size={16} /></span>
     </a>
   </section>
 
@@ -428,15 +429,15 @@ const clusters = CLUSTERS.filter((c) => c.isOperating);
   .sus:hover {
     color: var(--ink);
   }
-  .sus__icon {
+  .sus__logo {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 48px;
+    min-width: 64px;
     height: 48px;
-    border-radius: 50%;
+    padding: 0 var(--s-2);
+    border-radius: var(--r-sm);
     background: var(--blue-50);
-    color: var(--success);
   }
   .sus__text {
     display: grid;

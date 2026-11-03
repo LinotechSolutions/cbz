@@ -18,7 +18,7 @@ export interface NavGroup {
 /** Cluster mega-menu. Order matches the Group structure chart. */
 export const CLUSTERS: NavGroup[] = [
   {
-    label: 'Bank',
+    label: 'Finance',
     href: '/clusters/banking',
     items: [
       { label: 'CBZ Bank', href: '/bank', line: 'Accounts, cards, loans and mortgages' },

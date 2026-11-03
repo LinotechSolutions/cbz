@@ -1,8 +1,8 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": "astro",
-  "installCommand": "npm --prefix frontend ci",
-  "buildCommand": "npm --prefix frontend run build",
+  "framework": null,
+  "installCommand": "npm ci",
+  "buildCommand": "npm run build",
   "outputDirectory": "frontend/dist",
   "cleanUrls": true,
   "trailingSlash": false,

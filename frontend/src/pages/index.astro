@@ -13,14 +13,13 @@ import BranchFinder from '../components/BranchFinder.astro';
 import Icon from '../components/Icon.astro';
 import { OpenAccountMenu } from '../islands/OpenAccountMenu';
 import { OPEN_ACCOUNT_ITEMS } from '../data/nav';
-import { AWARDS, CONTACT, GROUP } from '../data/facts';
+import { CONTACT, GROUP } from '../data/facts';
 import { CLUSTERS } from '../data/group';
 import type { IconName } from '../components/icons';
 
 const clusterIcon: Record<string, IconName> = { banking: 'bank', investments: 'chart', insurance: 'shield', 'agro-business': 'leaf' };
 const clusters = CLUSTERS.filter((c) => c.isOperating);
 
-const bestBank = AWARDS[0];
 ---
 
 <BaseLayout
@@ -31,7 +30,6 @@ const bestBank = AWARDS[0];
   <section class="top on-dark" aria-labelledby="hero-heading">
     <div class="container hero">
       <div class="hero__copy">
-        <p class="eyebrow">Welcome to CBZ Holdings</p>
         <h1 id="hero-heading" class="hero__title display">Bank, insure, invest and grow, in one place</h1>
         <p class="hero__lede">Nine businesses, one group. Open an account, get a quote or start investing today.</p>
         <div class="hero__actions">
@@ -40,26 +38,6 @@ const bestBank = AWARDS[0];
             <Icon name="whatsapp" size={22} />
           </a>
           <a href="/contact" class="btn btn--secondary btn--lg">Talk to us</a>
-        </div>
-        <div class="hero__proof">
-          <div class="proof">
-            <span class="proof__big">{bestBank.years.length}×</span>
-            <span class="proof__text">
-              <span class="proof__title">{bestBank.title}</span>
-              <span class="proof__line">{bestBank.awarder}, {bestBank.years.join(', ')}</span>
-            </span>
-          </div>
-          <div class="proof">
-            <span class="proof__logos">
-              {clusters.map((c) => (
-                <span class="proof__dot"><Icon name={clusterIcon[c.id]} size={14} /></span>
-              ))}
-            </span>
-            <span class="proof__text">
-              <span class="proof__title">Four clusters</span>
-              <a href="#help" class="proof__line proof__link">See what we can help with</a>
-            </span>
-          </div>
         </div>
       </div>
 
@@ -102,16 +80,7 @@ const bestBank = AWARDS[0];
     <div class="container help" id="help">
       <h2 class="sr-only">What can we help you with?</h2>
       <a href="/login#apps" class="help__photo">
-        <img
-          src="/images/accounts/individual-600.webp"
-          srcset="/images/accounts/individual-600.webp 600w, /images/accounts/individual.webp 1000w"
-          sizes="(min-width: 900px) 400px, 100vw"
-          alt=""
-          width={800}
-          height={600}
-          loading="lazy"
-          decoding="async"
-        />
+        <span class="help__photo-mark" aria-hidden="true"><Icon name="phoneMobile" size={40} /></span>
         <span class="help__photo-body">
           <span class="help__photo-title">Bank from your phone</span>
           <span class="help__photo-line">CBZ Touch, ZikiCash and internet banking <Icon name="arrowRight" size={16} /></span>
@@ -503,12 +472,21 @@ const bestBank = AWARDS[0];
     text-decoration: none;
     box-shadow: var(--shadow-float);
   }
-  .help__photo img {
+  .help__photo {
+    background: linear-gradient(135deg, var(--blue) 0%, var(--blue-900) 100%);
+  }
+  .help__photo-mark {
     position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    top: var(--s-6);
+    left: var(--s-6);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--red);
+    color: var(--white);
   }
   .help__photo-body {
     position: absolute;

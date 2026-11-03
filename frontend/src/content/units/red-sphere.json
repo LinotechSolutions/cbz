@@ -8,10 +8,19 @@
   "hero": {
     "title": "Credit that fits how you earn",
     "lede": "Salary-based loans for government and private payrolls, working capital for small enterprises, and lending through agents and partners.",
-    "image": { "src": "/images/hero-digital.webp", "alt": "A customer applying for a loan on her phone" }
+    "image": {
+      "src": "/images/hero-digital.webp",
+      "alt": "A customer applying for a loan on her phone"
+    }
   },
-  "primaryCta": { "label": "Apply online", "href": "https://rs.cbz.co.zw/" },
-  "secondaryCta": { "label": "Loan calculator", "href": "#loan-calculator" },
+  "primaryCta": {
+    "label": "Apply online",
+    "href": "https://play.google.com/store/apps/details?id=zw.co.cbz.redsphere&hl=en"
+  },
+  "secondaryCta": {
+    "label": "Loan calculator",
+    "href": "#loan-calculator"
+  },
   "segments": [],
   "branches": [
     {
@@ -19,50 +28,134 @@
       "title": "Explore loan products",
       "line": "SME, SSB, private individual and cash loans.",
       "items": [
-        { "label": "SME loans", "line": "Working capital, tuck-shop, order finance and invoice discounting", "kind": "products", "categories": ["business"] },
-        { "label": "SSB loans", "line": "Government payroll loans", "kind": "products", "productIds": ["ssb_loan"] },
-        { "label": "Private individual loans", "line": "Private payroll and pensioner loans", "kind": "products", "productIds": ["private_payroll", "pensioners", "lockable_device"] },
-        { "label": "Cash loans", "line": "Agents, partners and farmers", "kind": "products", "categories": ["partners", "agriculture"] }
+        {
+          "label": "SME loans",
+          "line": "Working capital, tuck-shop, order finance and invoice discounting",
+          "kind": "products",
+          "categories": [
+            "business"
+          ]
+        },
+        {
+          "label": "SSB loans",
+          "line": "Government payroll loans",
+          "kind": "products",
+          "productIds": [
+            "ssb_loan"
+          ]
+        },
+        {
+          "label": "Private individual loans",
+          "line": "Private payroll and pensioner loans",
+          "kind": "products",
+          "productIds": [
+            "private_payroll",
+            "pensioners",
+            "lockable_device"
+          ]
+        },
+        {
+          "label": "Cash loans",
+          "line": "Agents, partners and farmers",
+          "kind": "products",
+          "categories": [
+            "partners",
+            "agriculture"
+          ]
+        }
       ]
     },
     {
       "id": "loan-calculator",
       "title": "Loan calculator",
       "line": "Select a product, enter the amount and term, and see an indicative monthly repayment.",
-      "items": [{ "label": "Indicative result", "line": "With disclaimer", "kind": "calculator", "calculator": "loan" }]
+      "items": [
+        {
+          "label": "Indicative result",
+          "line": "With disclaimer",
+          "kind": "calculator",
+          "calculator": "loan"
+        }
+      ]
     },
     {
       "id": "apply-or-enquire",
       "title": "Apply or enquire",
       "line": "Apply online, or send an enquiry to Red Sphere business development.",
       "items": [
-        { "label": "Online loan application", "line": "On the Red Sphere portal", "kind": "external", "href": "https://rs.cbz.co.zw/" },
-        { "label": "Explore Invoice Discounting", "line": "Through Zeex, with Red Sphere Finance as the financier", "kind": "external", "href": "https://zeex.co.zw/" },
-        { "label": "Enquiry form", "line": "Includes the product and customer type", "kind": "form", "href": "/red-sphere/enquire" },
-        { "label": "Red Sphere business development", "line": "The team comes back to you, usually within one working day", "kind": "note" }
+        {
+          "label": "Online loan application",
+          "line": "Through the Red Sphere app on Google Play",
+          "kind": "external",
+          "href": "https://play.google.com/store/apps/details?id=zw.co.cbz.redsphere&hl=en"
+        },
+        {
+          "label": "Explore Invoice Discounting",
+          "line": "Through Zeex, with Red Sphere Finance as the financier",
+          "kind": "external",
+          "href": "https://zeex.co.zw/"
+        },
+        {
+          "label": "Enquiry form",
+          "line": "Includes the product and customer type",
+          "kind": "form",
+          "href": "/red-sphere/enquire"
+        },
+        {
+          "label": "Red Sphere business development",
+          "line": "The team comes back to you, usually within one working day",
+          "kind": "note"
+        }
       ]
     },
     {
       "id": "download-the-app",
       "title": "Download the app",
       "line": "Apply, upload documents and track your loan.",
-      "items": [{ "label": "Red Sphere app", "kind": "app", "app": "red-sphere" }]
+      "items": [
+        {
+          "label": "Red Sphere app",
+          "kind": "app",
+          "app": "red-sphere"
+        }
+      ]
     },
     {
       "id": "explore-invoice-discounting",
       "title": "Explore invoice discounting",
       "line": "Red Sphere Finance partners with Zeex to provide financing for eligible invoice-discounting transactions. Red Sphere Finance is the financier.",
       "items": [
-        { "label": "Explore Invoice Discounting", "line": "Access invoice discounting through Zeex. Opens zeex.co.zw in a new tab.", "kind": "external", "href": "https://zeex.co.zw/" },
-        { "label": "How it works", "line": "List an eligible invoice on Zeex; Red Sphere Finance finances it and you receive working capital before your customer pays.", "kind": "note" }
+        {
+          "label": "Explore Invoice Discounting",
+          "line": "Access invoice discounting through Zeex. Opens zeex.co.zw in a new tab.",
+          "kind": "external",
+          "href": "https://zeex.co.zw/"
+        },
+        {
+          "label": "How it works",
+          "line": "List an eligible invoice on Zeex; Red Sphere Finance finances it and you receive working capital before your customer pays.",
+          "kind": "note"
+        }
       ]
     }
   ],
   "categories": [
-    { "id": "salary", "label": "Salary-based lending" },
-    { "id": "business", "label": "Business lending" },
-    { "id": "partners", "label": "Agents and partners" },
-    { "id": "agriculture", "label": "Agriculture" }
+    {
+      "id": "salary",
+      "label": "Salary-based lending"
+    },
+    {
+      "id": "business",
+      "label": "Business lending"
+    },
+    {
+      "id": "partners",
+      "label": "Agents and partners"
+    },
+    {
+      "id": "agriculture",
+      "label": "Agriculture"
+    }
   ],
   "productsNote": "Tenors, interest rates and administration fees are those set out in the Red Sphere Finance product documentation and are subject to credit assessment and approval. Interest rates may change, so confirm the current terms before you apply.",
   "systems": [],

@@ -8,46 +8,122 @@
   "hero": {
     "title": "Find the space, and the finance behind it",
     "lede": "Residential stands and homes, commercial and retail space, and property advisory, with CBZ Bank mortgages alongside.",
-    "image": { "src": "/images/hero-home.webp", "alt": "A customer celebrating with the keys to her new home" }
+    "image": {
+      "src": "/images/hero-home.webp",
+      "alt": "A customer celebrating with the keys to her new home"
+    }
   },
-  "primaryCta": { "label": "Schedule a viewing", "href": "/properties/request-a-viewing" },
-  "secondaryCta": { "label": "See the listings", "href": "#property-listing" },
+  "primaryCta": {
+    "label": "Schedule a viewing",
+    "href": "/properties/request-a-viewing"
+  },
+  "secondaryCta": {
+    "label": "See the listings",
+    "href": "#property-listing"
+  },
   "segments": [
-    { "label": "Individuals", "line": "Stands, homes and cluster units, with a CBZ Bank mortgage", "href": "#property-listing" },
-    { "label": "Business", "line": "Office, retail and industrial space", "href": "#property-listing" }
+    {
+      "label": "Individuals",
+      "line": "Stands, homes and cluster units, with a CBZ Bank mortgage",
+      "href": "#property-listing"
+    },
+    {
+      "label": "Business",
+      "line": "Office, retail and industrial space",
+      "href": "#property-listing"
+    }
   ],
   "branches": [
     {
       "id": "property-listing",
       "title": "Property listing",
       "line": "Filter by type, location and status. The link updates so you can share what you find.",
-      "items": [{ "label": "Filter by key categories", "kind": "listings" }]
+      "items": [
+        {
+          "label": "Filter by key categories",
+          "kind": "listings"
+        }
+      ]
     },
     {
       "id": "virtual-tours",
       "title": "Virtual tours",
       "line": "Walk through a property from wherever you are.",
       "items": [
-        { "label": "Property virtual tour", "line": "On listings that offer one, press Take a virtual tour on the listing page. The tour loads only when you ask for it.", "kind": "note" }
+        {
+          "label": "Browse listings on Propertybook",
+          "line": "Every CBZ Properties listing with photos and viewing details. Opens in a new tab.",
+          "kind": "external",
+          "href": "https://www.propertybook.co.zw/listed-agencies/cbz-properties/for-sale"
+        },
+        {
+          "label": "Property virtual tour",
+          "line": "On listings that offer one, press Take a virtual tour on the listing page. The tour loads only when you ask for it.",
+          "kind": "note"
+        }
       ]
     },
     {
       "id": "schedule-viewing",
       "title": "Schedule a viewing",
       "line": "Name the property and when suits you; an agent confirms a time.",
-      "items": [{ "label": "Viewing request form", "line": "The property, whether you want to buy or rent, and your details", "kind": "form", "href": "/properties/request-a-viewing" }]
+      "items": [
+        {
+          "label": "Viewing request form",
+          "line": "The property, whether you want to buy or rent, and your details",
+          "kind": "form",
+          "href": "/properties/request-a-viewing"
+        }
+      ]
     },
     {
-      "id": "request-call-back",
-      "title": "Request a call back",
-      "line": "An agent calls you about buying, renting, valuations or property management.",
-      "items": [{ "label": "Call-back form", "line": "Your number and what it is about", "kind": "form", "href": "/properties/call-back" }]
+      "id": "faq",
+      "title": "Let's answer the questions in your mind",
+      "line": "You can find the answers to frequently asked questions below.",
+      "items": [
+        {
+          "label": "Contact us",
+          "kind": "faq",
+          "href": "/properties/call-back",
+          "faqs": [
+            {
+              "question": "How do I view a property?",
+              "answer": "Use Schedule a viewing to name the property and when suits you, and an agent confirms a time. Every listing also opens on Propertybook, where you can browse photos and details."
+            },
+            {
+              "question": "Can I finance a purchase through CBZ?",
+              "answer": "Yes. CBZ Bank mortgages sit alongside our listings. The mortgage calculator on each property page gives an indicative monthly repayment before you apply."
+            },
+            {
+              "question": "Why do some listings show \"price on application\"?",
+              "answer": "Prices, availability and specifications are confirmed when you enquire, so you always get the current figure rather than one that may have changed."
+            },
+            {
+              "question": "Do you offer virtual tours?",
+              "answer": "On listings that have one, press Take a virtual tour on the listing page. The tour loads only when you ask for it."
+            },
+            {
+              "question": "Can I buy from the diaspora?",
+              "answer": "Yes. Several developments are designed for buyers abroad, and the diaspora banking page explains how to open the account and mortgage from outside Zimbabwe."
+            }
+          ]
+        }
+      ]
     }
   ],
   "categories": [
-    { "id": "residential", "label": "Residential" },
-    { "id": "commercial", "label": "Commercial" },
-    { "id": "advisory", "label": "Advisory" }
+    {
+      "id": "residential",
+      "label": "Residential"
+    },
+    {
+      "id": "commercial",
+      "label": "Commercial"
+    },
+    {
+      "id": "advisory",
+      "label": "Advisory"
+    }
   ],
   "productsNote": "Prices, availability and specifications are confirmed on application.",
   "systems": [],

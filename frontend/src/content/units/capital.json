@@ -8,33 +8,104 @@
   "hero": {
     "title": "Capital raised. Transactions structured.",
     "lede": "Debt and equity raising, loan syndications, M&A advisory, listings and infrastructure finance from the Group's investment bank.",
-    "image": { "src": "/images/hero-advice.webp", "alt": "An executive reviewing a transaction analysis" }
+    "image": {
+      "src": "/images/hero-advice.webp",
+      "alt": "An executive reviewing a transaction analysis"
+    }
   },
-  "primaryCta": { "label": "Call me back", "href": "/capital/call-me-back" },
-  "secondaryCta": { "label": "Start a capital enquiry", "href": "/capital/enquiry" },
-  "segments": [{ "label": "Corporates", "line": "Debt, equity, M&A and infrastructure finance", "href": "#learn-more" }],
+  "primaryCta": {
+    "label": "Call me back",
+    "href": "/capital/call-me-back"
+  },
+  "secondaryCta": {
+    "label": "Start a capital enquiry",
+    "href": "/capital/enquiry"
+  },
+  "segments": [
+    {
+      "label": "Corporates",
+      "line": "Debt, equity, M&A and infrastructure finance",
+      "href": "#learn-more"
+    }
+  ],
   "branches": [
     {
       "id": "learn-more",
       "title": "Learn more",
       "line": "Investment products and corporate finance advisory.",
       "items": [
-        { "label": "Investment products", "line": "Debt and equity capital markets", "kind": "products", "categories": ["debt", "equity"] },
-        { "label": "Corporate finance advisory", "line": "M&A, restructuring, valuations and infrastructure", "kind": "products", "categories": ["advisory", "infrastructure"] }
+        {
+          "label": "Investment products",
+          "line": "Debt and equity capital markets",
+          "kind": "products",
+          "categories": [
+            "debt",
+            "equity"
+          ]
+        },
+        {
+          "label": "Corporate finance advisory",
+          "line": "M&A, restructuring, valuations and infrastructure",
+          "kind": "products",
+          "categories": [
+            "advisory",
+            "infrastructure"
+          ]
+        }
       ]
     },
     {
-      "id": "call-me-back",
-      "title": "Call me back",
-      "line": "A senior banker calls you.",
-      "items": [{ "label": "Call-back form", "line": "Your company, what you need and your number", "kind": "form", "href": "/capital/call-me-back" }]
+      "id": "faq",
+      "title": "Let's answer the questions in your mind",
+      "line": "You can find the answers to frequently asked questions below.",
+      "items": [
+        {
+          "label": "Contact us",
+          "kind": "faq",
+          "href": "/capital/call-me-back",
+          "faqs": [
+            {
+              "question": "What does CBZ Capital do?",
+              "answer": "Debt and equity raising, loan syndications, mergers and acquisitions advisory, listings and infrastructure finance. It is the investment banking arm of the Group."
+            },
+            {
+              "question": "How do I start a conversation?",
+              "answer": "Send a capital enquiry with what you are raising or restructuring, or ask for a call back. A transaction adviser comes back to you to scope the engagement."
+            },
+            {
+              "question": "Can you take a company to the stock exchange?",
+              "answer": "Yes. CBZ Capital advises on initial public offerings, listings, rights issues and placements from preparation through to the market."
+            },
+            {
+              "question": "Do you structure project and infrastructure finance?",
+              "answer": "Yes. Public-private partnerships, concessions and structured finance for large projects are part of what the team does."
+            },
+            {
+              "question": "Who does CBZ Capital work with?",
+              "answer": "Corporates, parastatals, institutions and large family businesses that need capital, a transaction partner or an independent valuation."
+            }
+          ]
+        }
+      ]
     }
   ],
   "categories": [
-    { "id": "debt", "label": "Debt capital markets and syndications" },
-    { "id": "equity", "label": "Equity capital markets and IPOs" },
-    { "id": "advisory", "label": "Corporate advisory and M&A" },
-    { "id": "infrastructure", "label": "PPPs and infrastructure" }
+    {
+      "id": "debt",
+      "label": "Debt capital markets and syndications"
+    },
+    {
+      "id": "equity",
+      "label": "Equity capital markets and IPOs"
+    },
+    {
+      "id": "advisory",
+      "label": "Corporate advisory and M&A"
+    },
+    {
+      "id": "infrastructure",
+      "label": "PPPs and infrastructure"
+    }
   ],
   "productsNote": "Transaction advisory, capital raising and syndication terms are tailored to each mandate and subject to regulatory approvals.",
   "systems": [],

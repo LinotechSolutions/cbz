@@ -79,7 +79,7 @@ export const LOGIN_ITEMS: NavLink[] = [
 /** Red "Open an account" menu. Each item deep-links to that unit's application. */
 export const OPEN_ACCOUNT_ITEMS: NavLink[] = [
   { label: 'Sign up for CBZ Bank', href: '/bank/open-account', line: 'Current, savings and foreign currency accounts' },
-  { label: 'Apply with Red Sphere', href: LINKS.redSphere.portal, line: 'Salary and business loans', external: true },
+  { label: 'Apply with Red Sphere', href: LINKS.redSphere.playStore, line: 'Salary and business loans, through the app', external: true },
   { label: 'Sign up for Agro-Yield', href: '/agro-yield/apply', line: 'Contract farming and seasonal finance' },
   { label: 'Start investing with Datvest', href: '/datvest/start-investing', line: 'Unit trusts and managed portfolios' },
   { label: 'Get a quote from CBZ Insurance', href: '/insurance/quote', line: 'Motor, home and business cover' },
@@ -103,7 +103,7 @@ export const OFFSITE: NavLink[] = [
   { label: 'Internet banking (new platform)', href: LINKS.internetBanking.newCorporate, external: true },
   { label: 'Internet banking (OBDX)', href: LINKS.internetBanking.personal, external: true },
   { label: 'Self-service portal', href: LINKS.internetBanking.selfService, external: true },
-  { label: 'Red Sphere loan application', href: LINKS.redSphere.portal, external: true },
+  { label: 'Red Sphere loan application', href: LINKS.redSphere.playStore, external: true },
   { label: 'CBZ Touch on Google Play', href: LINKS.touch.playStore, external: true },
   { label: 'CBZ Touch on the App Store', href: LINKS.touch.appStore, external: true },
   { label: 'Red Sphere on Google Play', href: LINKS.redSphere.playStore, external: true },

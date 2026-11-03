@@ -8,14 +8,35 @@
   "hero": {
     "title": "Put your money to work",
     "lede": "Unit trusts for savers, institutional mandates for pension funds and companies, and private wealth management.",
-    "image": { "src": "/images/hero-digital.webp", "alt": "A customer checking her investments on her phone" }
+    "image": {
+      "src": "/images/hero-digital.webp",
+      "alt": "A customer checking her investments on her phone"
+    }
   },
-  "primaryCta": { "label": "Call me back", "href": "/datvest/call-me-back" },
-  "secondaryCta": { "label": "Start investing", "href": "/datvest/start-investing" },
+  "primaryCta": {
+    "label": "Call me back",
+    "href": "/datvest/call-me-back"
+  },
+  "secondaryCta": {
+    "label": "Start investing",
+    "href": "/datvest/start-investing"
+  },
   "segments": [
-    { "label": "Retail", "line": "Unit trusts for individual savers", "href": "#panel-datvest-unit-trusts" },
-    { "label": "Institutional", "line": "Segregated and fiduciary mandates", "href": "#panel-datvest-institutional" },
-    { "label": "Pension funds", "line": "Pension fund management", "href": "#panel-datvest-institutional" }
+    {
+      "label": "Retail",
+      "line": "Unit trusts for individual savers",
+      "href": "#panel-datvest-unit-trusts"
+    },
+    {
+      "label": "Institutional",
+      "line": "Segregated and fiduciary mandates",
+      "href": "#panel-datvest-institutional"
+    },
+    {
+      "label": "Pension funds",
+      "line": "Pension fund management",
+      "href": "#panel-datvest-institutional"
+    }
   ],
   "branches": [
     {
@@ -23,21 +44,70 @@
       "title": "Learn more",
       "line": "What Datvest manages, and how an adviser helps you build wealth.",
       "items": [
-        { "label": "Product information hub", "kind": "products", "categories": ["unit-trusts", "institutional", "private-wealth"] },
-        { "label": "Wealth-creation advisory", "line": "An adviser sets out the options against your goal and timeframe, from a first unit trust to a managed portfolio. Start with a call back.", "kind": "note" }
+        {
+          "label": "Product information hub",
+          "kind": "products",
+          "categories": [
+            "unit-trusts",
+            "institutional",
+            "private-wealth"
+          ]
+        },
+        {
+          "label": "Wealth-creation advisory",
+          "line": "An adviser sets out the options against your goal and timeframe, from a first unit trust to a managed portfolio. Start with a call back.",
+          "kind": "note"
+        }
       ]
     },
     {
-      "id": "call-me-back",
-      "title": "Call me back",
-      "line": "A Datvest adviser calls you.",
-      "items": [{ "label": "Call-back form", "line": "Your number and what you want to discuss", "kind": "form", "href": "/datvest/call-me-back" }]
+      "id": "faq",
+      "title": "Let's answer the questions in your mind",
+      "line": "You can find the answers to frequently asked questions below.",
+      "items": [
+        {
+          "label": "Contact us",
+          "kind": "faq",
+          "href": "/datvest/call-me-back",
+          "faqs": [
+            {
+              "question": "How do I start investing?",
+              "answer": "Send the Start investing form with how much you would like to invest and for how long. A Datvest adviser calls you to match you with a fund or a managed portfolio."
+            },
+            {
+              "question": "What is a unit trust?",
+              "answer": "A fund that pools money from many investors and is managed by Datvest. You own units in the fund, so you can start small and spread your risk across many investments."
+            },
+            {
+              "question": "What is the minimum investment?",
+              "answer": "Minimums differ by fund and are confirmed when you apply, so the figure you get is current. Ask us and we will tell you before you commit anything."
+            },
+            {
+              "question": "Do you manage money for institutions?",
+              "answer": "Yes. Datvest runs institutional mandates for pension funds, companies and other institutions, alongside private wealth management for individuals."
+            },
+            {
+              "question": "Can I invest from outside Zimbabwe?",
+              "answer": "Yes. The Datvest Diaspora Wealth Fund is built for investors abroad, and the Start investing form works wherever you live."
+            }
+          ]
+        }
+      ]
     }
   ],
   "categories": [
-    { "id": "unit-trusts", "label": "Unit trusts" },
-    { "id": "institutional", "label": "Institutional" },
-    { "id": "private-wealth", "label": "Private wealth" }
+    {
+      "id": "unit-trusts",
+      "label": "Unit trusts"
+    },
+    {
+      "id": "institutional",
+      "label": "Institutional"
+    },
+    {
+      "id": "private-wealth",
+      "label": "Private wealth"
+    }
   ],
   "productsNote": "The value of investments can fall as well as rise, and past performance is not a guide to future returns. Fund terms and pricing are confirmed on application.",
   "systems": [],

@@ -72,7 +72,8 @@ const UNITS: UnitPort[] = [
     unit: 'red-sphere',
     source: RED_SPHERE_PRODUCTS,
     verified: true,
-    apply: () => ({ label: 'Apply online', href: 'https://rs.cbz.co.zw/' }),
+    // Applications go through the Red Sphere app on Google Play.
+    apply: () => ({ label: 'Apply online', href: 'https://play.google.com/store/apps/details?id=zw.co.cbz.redsphere&hl=en' }),
   },
   {
     unit: 'capital',

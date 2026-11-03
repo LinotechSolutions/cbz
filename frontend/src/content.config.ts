@@ -43,12 +43,15 @@ const cta = z.object({ label: z.string().min(1), href: z.string().min(1) });
  *  - calculator: the named calculator, inline
  *  - listings: the property listings grid with filters, inline
  *  - note: a dashed information card with no link
+ *  - faq: an accordion of `faqs`, then a "still unanswered?" card whose
+ *    button goes to `href` (usually the unit's call-back form)
  */
 const branchItem = z.object({
   label: z.string().min(1),
   line: nullableString.default(null),
-  kind: z.enum(['form', 'page', 'external', 'app', 'products', 'calculator', 'listings', 'note']),
+  kind: z.enum(['form', 'page', 'external', 'app', 'products', 'calculator', 'listings', 'note', 'faq']),
   href: nullableString.default(null),
+  faqs: z.array(z.object({ question: z.string().min(1), answer: z.string().min(1) })).optional(),
   app: z.enum(['cbz-touch', 'red-sphere', 'ziki-cash']).optional(),
   categories: z.array(z.string()).optional(),
   productIds: z.array(z.string()).optional(),

@@ -105,16 +105,51 @@ const clusters = CLUSTERS.filter((c) => c.isOperating);
     </div>
   </section>
 
-  <!-- 3. Ziki Mall -->
+  <!-- 3. Ziki Mall and digital channels -->
   <section class="container sus-band" aria-labelledby="ziki-heading" id="ziki-mall">
-    <a href={LINKS.zikiMall} class="sus card-base" target="_blank" rel="noopener noreferrer">
-      <span class="sus__logo"><Logo brand="ziki-mall" on="light" height={32} decorative clearSpace={false} /></span>
-      <span class="sus__text">
-        <span id="ziki-heading" class="sus__title">Ziki Mall</span>
-        <span class="sus__line">Shop online from Zimbabwean sellers and pay with CBZ. Opens zikimall.com in a new tab.</span>
-      </span>
-      <span class="icon-pill"><Icon name="external" size={16} /></span>
-    </a>
+    <h2 id="ziki-heading" class="sr-only">Ziki Mall and digital channels</h2>
+    <ul role="list" class="chan">
+      <li>
+        <a href={LINKS.zikiMall} class="sus card-base sus--lead" target="_blank" rel="noopener noreferrer">
+          <span class="sus__logo"><Logo brand="ziki-mall" on="light" height={32} decorative clearSpace={false} /></span>
+          <span class="sus__text">
+            <span class="sus__title">Ziki Mall</span>
+            <span class="sus__line">Shop online from Zimbabwean sellers and pay with CBZ. Opens zikimall.com in a new tab.</span>
+          </span>
+          <span class="icon-pill"><Icon name="external" size={16} /></span>
+        </a>
+      </li>
+      <li>
+        <a href={LINKS.zikiCash.site ?? '/contact'} class="sus card-base">
+          <span class="sus__logo"><Logo brand="ziki-cash" on="light" height={22} decorative clearSpace={false} /></span>
+          <span class="sus__text">
+            <span class="sus__title">ZikiCash</span>
+            <span class="sus__line">{LINKS.zikiCash.site ? 'Send and receive money, pay bills and buy airtime.' : 'Send and receive money, pay bills and buy airtime. Ask us how to start.'}</span>
+          </span>
+          <span class="icon-pill"><Icon name="arrowRight" size={16} /></span>
+        </a>
+      </li>
+      <li>
+        <a href="/login#apps" class="sus card-base">
+          <span class="sus__logo"><Logo brand="cbz-touch" on="light" height={30} decorative clearSpace={false} /></span>
+          <span class="sus__text">
+            <span class="sus__title">CBZ Touch</span>
+            <span class="sus__line">Zero-rated mobile banking: transfers, bills, school fees and card controls.</span>
+          </span>
+          <span class="icon-pill"><Icon name="arrowRight" size={16} /></span>
+        </a>
+      </li>
+      <li>
+        <a href="/login" class="sus card-base">
+          <span class="sus__logo sus__logo--glyph"><Icon name="globe" size={24} /></span>
+          <span class="sus__text">
+            <span class="sus__title">Internet banking</span>
+            <span class="sus__line">Personal and corporate platforms, on the official CBZ domains.</span>
+          </span>
+          <span class="icon-pill"><Icon name="arrowRight" size={16} /></span>
+        </a>
+      </li>
+    </ul>
   </section>
 
   <!-- 4. Branches and ATMs -->
@@ -417,14 +452,38 @@ const clusters = CLUSTERS.filter((c) => c.isOperating);
   .sus-band {
     padding-block: var(--band) 0;
   }
+  .chan {
+    display: grid;
+    gap: var(--gap);
+  }
+  @media (min-width: 640px) {
+    .chan {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 900px) {
+    .chan {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .chan > li:first-child {
+      grid-column: span 2;
+    }
+  }
   .sus {
     display: grid;
     grid-template-columns: auto 1fr auto;
     align-items: center;
     gap: var(--s-4);
+    height: 100%;
     padding: var(--s-5, 20px) var(--s-6);
     text-decoration: none;
     color: var(--ink);
+  }
+  .sus--lead {
+    background: var(--blue-50);
+  }
+  .sus__logo--glyph {
+    color: var(--blue);
   }
   .sus:hover {
     color: var(--ink);

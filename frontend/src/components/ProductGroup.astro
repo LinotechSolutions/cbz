@@ -1,11 +1,12 @@
 ---
 /**
- * Products as a directory: category tabs on desktop, accordions on mobile, and
- * a row per product that expands in place. Without JavaScript every category
- * is an open <details> with its rows visible, so nothing is lost.
+ * Products as cards: filter tabs with a blue underline, then a card per
+ * product with its name over a short rule, a summary, up to four big facts,
+ * and two buttons. "Tell me more" opens a panel with pill tabs: What you
+ * get, Who it's for, What it costs, How to get it. Without JavaScript every
+ * card shows and every panel is open.
  */
 import Button from './Button.astro';
-import Icon from './Icon.astro';
 import { visible } from '../lib/visible';
 
 export interface ProductRow {
@@ -27,461 +28,438 @@ interface Props {
   products: ProductRow[];
   primaryCta: { label: string; href: string };
   note?: string | null;
-  /** Namespaces element ids when the same category renders more than once on a page. */
   idPrefix?: string;
-  /** Hide the repeated call to action under each group (when the branch has its own). */
   hideCta?: boolean;
 }
-const { unitSlug, categories, products, primaryCta, note, idPrefix = unitSlug, hideCta = false } = Astro.props;
+const { unitSlug, categories, products, note, idPrefix = unitSlug } = Astro.props;
 
-const groups = categories
-  .map((c) => ({ ...c, items: products.filter((p) => p.category === c.id) }))
-  .filter((g) => g.items.length > 0);
-const single = groups.length <= 1;
+const cats = categories.filter((c) => products.some((p) => p.category === c.id));
+const showFilters = cats.length > 1;
 
-const detailLabels: Record<string, string> = {
-  tenor: 'Term',
+const factLabels: Record<string, string> = {
   interestRate: 'Interest',
+  tenor: 'Term',
   adminFee: 'Admin fee',
   limit: 'Maximum',
 };
+function factsFor(p: ProductRow) {
+  const facts: { value: string; label: string }[] = [];
+  for (const [k, label] of Object.entries(factLabels)) {
+    const v = p.details?.[k as keyof NonNullable<ProductRow['details']>];
+    if (visible(v)) facts.push({ value: v!, label });
+  }
+  return facts.slice(0, 4);
+}
+/** Long lists open on the first category so the page stays short; "All" is a tap away. */
+const startFilter = products.length > 6 && cats.length > 1 ? cats[0].id : 'all';
+const costLine = (p: ProductRow) =>
+  visible(p.pricing) ? p.pricing! : 'Pricing is confirmed on application. Ask us for current terms before you rely on anything here.';
 ---
 
-<div class:list={['pg', single && 'pg--single']} data-product-group={single ? undefined : ''} data-unit={unitSlug}>
+<div class="pc" data-product-cards data-unit={unitSlug} data-start={startFilter}>
   {
-    !single && (
-      <div class="pg__tabs" role="tablist" aria-label="Product categories" hidden>
-        {groups.map((g, i) => (
-          <button
-            type="button"
-            role="tab"
-            id={`tab-${idPrefix}-${g.id}`}
-            aria-controls={`panel-${idPrefix}-${g.id}`}
-            aria-selected={i === 0 ? 'true' : 'false'}
-            tabindex={i === 0 ? 0 : -1}
-            class="pg__tab"
-          >
-            {g.label}
-            <span class="pg__count">{g.items.length}</span>
+    showFilters && (
+      <div class="pc__filters" role="tablist" aria-label="Filter products">
+        <button type="button" role="tab" class="pc__filter" aria-selected={startFilter === 'all' ? 'true' : 'false'} data-filter="all">
+          All
+        </button>
+        {cats.map((c) => (
+          <button type="button" role="tab" class="pc__filter" aria-selected={startFilter === c.id ? 'true' : 'false'} data-filter={c.id} id={`panel-${idPrefix}-${c.id}`}>
+            {c.label}
           </button>
         ))}
       </div>
     )
   }
 
-  {
-    groups.map((g, i) => (
-      <details class="pg__group" id={`panel-${idPrefix}-${g.id}`} open={i === 0 || single} data-group={g.id}>
-        <summary class="pg__summary">
-          <span class="pg__summary-text">
-            {g.label} <span class="pg__count">{g.items.length}</span>
-          </span>
-          <Icon name="chevronDown" size={20} class="pg__summary-chev" />
-        </summary>
-        <ul role="list" class="pg__rows rule-list">
-          {g.items.map((p) => (
-            <li class="row" id={`product-${unitSlug}-${p.productId}`}>
-              <details class="row__details">
-                <summary class="row__summary">
-                  <span class="row__head">
-                    <span class="row__name">{p.name}</span>
-                    <span class="row__text">{p.summary}</span>
-                    {visible(p.pricing) && <span class="row__pricing">{p.pricing}</span>}
-                  </span>
-                  <Icon name="chevronDown" size={20} class="row__chev" />
-                </summary>
-                <div class="row__body">
-                  {visible(p.benefits) && (
-                    <div class="row__col">
-                      <h4>What you get</h4>
-                      <ul class="row__list">
-                        {p.benefits.map((b) => (
-                          <li>{b}</li>
+  <ul role="list" class="pc__grid">
+    {
+      products.map((p) => {
+        const facts = factsFor(p);
+        const did = `detail-${idPrefix}-${p.productId}`;
+        return (
+          <li class="pcard" id={`product-${unitSlug}-${p.productId}`} data-category={p.category}>
+            <div class="pcard__body">
+              <h3 class="pcard__title">{p.name}</h3>
+              <span class="pcard__rule" aria-hidden="true" />
+              <p class="pcard__summary">{p.summary}</p>
+              {visible(p.pricing) && <p class="pcard__pricing">{p.pricing}</p>}
+              {facts.length > 0 && (
+                <dl class="pcard__facts">
+                  {facts.map((f) => (
+                    <div class="fact">
+                      <dd class="fact__value">{f.value}</dd>
+                      <dt class="fact__label">{f.label}</dt>
+                    </div>
+                  ))}
+                </dl>
+              )}
+              <div class="pcard__actions">
+                <Button href={p.apply.href} variant="primary" track="apply_click" trackProps={{ unit: unitSlug, product: p.productId }}>
+                  {p.apply.label}
+                </Button>
+                <button type="button" class="btn btn--secondary pcard__more" aria-expanded="false" aria-controls={did} data-more>
+                  Tell me more
+                </button>
+              </div>
+            </div>
+
+            <div class="pdetail" id={did} data-detail>
+              <div class="pdetail__tabs" role="tablist" aria-label={`${p.name} details`}>
+                <button type="button" role="tab" class="pdetail__tab" aria-selected="true" data-tab="get">What you get</button>
+                <button type="button" role="tab" class="pdetail__tab" aria-selected="false" data-tab="who">Who it's for</button>
+                <button type="button" role="tab" class="pdetail__tab" aria-selected="false" data-tab="cost">What it costs</button>
+                <button type="button" role="tab" class="pdetail__tab" aria-selected="false" data-tab="how">How to get it</button>
+              </div>
+              <div class="pdetail__panels">
+                <section class="pdetail__panel" data-panel="get" role="tabpanel">
+                  <h4 class="pdetail__h">What you get</h4>
+                  {visible(p.benefits) ? (
+                    <ul class="tri">
+                      {p.benefits.map((b) => (
+                        <li>{b}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p class="muted">{p.summary}</p>
+                  )}
+                </section>
+                <section class="pdetail__panel" data-panel="who" role="tabpanel">
+                  <h4 class="pdetail__h">Who it's for</h4>
+                  {visible(p.audience) ? <p>{p.audience}</p> : <p class="muted">Ask us whether this product fits you.</p>}
+                </section>
+                <section class="pdetail__panel" data-panel="cost" role="tabpanel">
+                  <h4 class="pdetail__h">What it costs</h4>
+                  <p>{costLine(p)}</p>
+                  {facts.length > 0 && (
+                    <ul class="tri">
+                      {facts.map((f) => (
+                        <li>
+                          {f.label}: {f.value}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </section>
+                <section class="pdetail__panel" data-panel="how" role="tabpanel">
+                  <h4 class="pdetail__h">How to get it</h4>
+                  {visible(p.eligibility) && (
+                    <>
+                      <p class="small muted">You will need</p>
+                      <ul class="tri">
+                        {p.eligibility!.map((e) => (
+                          <li>{e}</li>
                         ))}
                       </ul>
-                    </div>
+                    </>
                   )}
-                  {(visible(p.audience) || visible(p.eligibility)) && (
-                    <div class="row__col">
-                      <h4>Who it's for</h4>
-                      {visible(p.audience) && <p>{p.audience}</p>}
-                      {visible(p.eligibility) && (
-                        <>
-                          <p class="small muted">You will need</p>
-                          <ul class="row__list">
-                            {p.eligibility!.map((e) => (
-                              <li>{e}</li>
-                            ))}
-                          </ul>
-                        </>
-                      )}
-                    </div>
-                  )}
-                  <div class="row__col">
-                    <h4>How to apply</h4>
-                    {p.details && Object.entries(p.details).some(([, v]) => visible(v)) && (
-                      <dl class="row__terms">
-                        {Object.entries(p.details)
-                          .filter(([, v]) => visible(v))
-                          .map(([k, v]) => (
-                            <div>
-                              <dt>{detailLabels[k] ?? k}</dt>
-                              <dd>{v}</dd>
-                            </div>
-                          ))}
-                      </dl>
-                    )}
-                    <Button
-                      href={p.apply.href}
-                      variant="primary"
-                      track="apply_click"
-                      trackProps={{ unit: unitSlug, product: p.productId }}
-                    >
+                  <p>
+                    <Button href={p.apply.href} variant="primary" track="apply_click" trackProps={{ unit: unitSlug, product: p.productId, from: 'detail' }}>
                       {p.apply.label}
                     </Button>
-                  </div>
-                </div>
-              </details>
-            </li>
-          ))}
-        </ul>
-        {!hideCta && (
-          <div class="pg__cta">
-            <Button href={primaryCta.href} variant="primary" track="apply_click" trackProps={{ unit: unitSlug, from: g.id }}>
-              {primaryCta.label}
-            </Button>
-          </div>
-        )}
-      </details>
-    ))
-  }
-
-  {visible(note) && <p class="pg__note small muted">{note}</p>}
+                  </p>
+                </section>
+                {visible(note) && <p class="pdetail__note small muted">{note}</p>}
+              </div>
+            </div>
+          </li>
+        );
+      })
+    }
+  </ul>
 </div>
 
 <script>
-  /**
-   * Upgrades the category <details> list into tabs at desktop width. Keeps
-   * the accordions on phones. ARIA tabs pattern: arrow keys move focus,
-   * Home/End jump, Enter/Space (native) activate.
-   */
-  const mq = window.matchMedia('(min-width: 900px)');
+  document.querySelectorAll<HTMLElement>('[data-product-cards]').forEach((root) => {
+    root.classList.add('pc--js');
 
-  function setup(root: HTMLElement) {
-    const tablist = root.querySelector<HTMLElement>('[role="tablist"]')!;
-    const tabs = Array.from(tablist.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
-    const groups = Array.from(root.querySelectorAll<HTMLDetailsElement>('.pg__group'));
-
-    function select(index: number, focus = false) {
-      tabs.forEach((t, i) => {
-        const on = i === index;
-        t.setAttribute('aria-selected', on ? 'true' : 'false');
-        t.tabIndex = on ? 0 : -1;
-        groups[i].open = on;
-        groups[i].classList.toggle('pg__group--active', on);
+    // Filter tabs
+    const filters = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-filter]'));
+    const cards = Array.from(root.querySelectorAll<HTMLElement>('.pcard'));
+    function filter(id: string) {
+      filters.forEach((f) => {
+        const on = f.dataset.filter === id;
+        f.setAttribute('aria-selected', on ? 'true' : 'false');
+        f.tabIndex = on ? 0 : -1;
       });
-      if (focus) tabs[index].focus();
+      cards.forEach((c) => {
+        c.hidden = id !== 'all' && c.dataset.category !== id;
+      });
     }
-
-    function apply() {
-      const desktop = mq.matches;
-      tablist.hidden = !desktop;
-      root.classList.toggle('pg--tabs', desktop);
-      if (desktop) {
-        const current = Math.max(0, tabs.findIndex((t) => t.getAttribute('aria-selected') === 'true'));
-        select(current);
-      } else {
-        groups.forEach((g, i) => {
-          g.classList.remove('pg__group--active');
-          g.open = i === 0;
-        });
-      }
-    }
-
-    tabs.forEach((tab, i) => {
-      tab.addEventListener('click', () => select(i));
-      tab.addEventListener('keydown', (e) => {
-        const n = tabs.length;
-        let next = -1;
-        if (e.key === 'ArrowRight') next = (i + 1) % n;
-        else if (e.key === 'ArrowLeft') next = (i - 1 + n) % n;
-        else if (e.key === 'Home') next = 0;
-        else if (e.key === 'End') next = n - 1;
-        if (next >= 0) {
+    if (filters.length) filter(root.dataset.start || 'all');
+    filters.forEach((f, i) => {
+      f.addEventListener('click', () => filter(f.dataset.filter!));
+      f.addEventListener('keydown', (e) => {
+        let n = -1;
+        if (e.key === 'ArrowRight') n = (i + 1) % filters.length;
+        if (e.key === 'ArrowLeft') n = (i - 1 + filters.length) % filters.length;
+        if (n >= 0) {
           e.preventDefault();
-          select(next, true);
+          filters[n].focus();
+          filter(filters[n].dataset.filter!);
         }
       });
     });
 
-    // Deep links like #product-bank-current open the right category and row.
+    // Tell me more + detail tabs
+    cards.forEach((card) => {
+      const more = card.querySelector<HTMLButtonElement>('[data-more]');
+      const detail = card.querySelector<HTMLElement>('[data-detail]');
+      if (!more || !detail) return;
+      detail.hidden = true;
+      more.addEventListener('click', () => {
+        const open = detail.hidden;
+        detail.hidden = !open;
+        more.setAttribute('aria-expanded', open ? 'true' : 'false');
+        more.textContent = open ? 'Show less' : 'Tell me more';
+        if (open) detail.querySelector<HTMLElement>('[role="tab"]')?.focus();
+      });
+      const tabs = Array.from(detail.querySelectorAll<HTMLButtonElement>('[data-tab]'));
+      const panels = Array.from(detail.querySelectorAll<HTMLElement>('[data-panel]'));
+      function select(id: string, focus = false) {
+        tabs.forEach((t) => {
+          const on = t.dataset.tab === id;
+          t.setAttribute('aria-selected', on ? 'true' : 'false');
+          t.tabIndex = on ? 0 : -1;
+          if (on && focus) t.focus();
+        });
+        panels.forEach((p) => {
+          p.hidden = p.dataset.panel !== id;
+        });
+      }
+      select('get');
+      tabs.forEach((t, i) => {
+        t.addEventListener('click', () => select(t.dataset.tab!));
+        t.addEventListener('keydown', (e) => {
+          let n = -1;
+          if (e.key === 'ArrowRight') n = (i + 1) % tabs.length;
+          if (e.key === 'ArrowLeft') n = (i - 1 + tabs.length) % tabs.length;
+          if (n >= 0) {
+            e.preventDefault();
+            select(tabs[n].dataset.tab!, true);
+          }
+        });
+      });
+    });
+
+    // Deep links: #product-<unit>-<id> opens that card's detail.
     function openHash() {
       const id = decodeURIComponent(location.hash.slice(1));
       if (!id) return;
-      const row = root.querySelector<HTMLElement>(`#${CSS.escape(id)}`);
-      if (!row) return;
-      const group = row.closest<HTMLDetailsElement>('.pg__group');
-      if (group) {
-        const gi = groups.indexOf(group);
-        if (mq.matches && gi >= 0) select(gi);
-        else group.open = true;
-      }
-      const details = row.querySelector<HTMLDetailsElement>('.row__details');
-      if (details) details.open = true;
-      row.scrollIntoView({ block: 'start' });
+      const card = root.querySelector<HTMLElement>(`#${CSS.escape(id)}`);
+      if (!card) return;
+      filter('all');
+      const more = card.querySelector<HTMLButtonElement>('[data-more]');
+      if (more && more.getAttribute('aria-expanded') !== 'true') more.click();
+      card.scrollIntoView({ block: 'start' });
     }
-
-    apply();
-    mq.addEventListener('change', apply);
     window.addEventListener('hashchange', openHash);
     openHash();
-  }
-
-  document.querySelectorAll<HTMLElement>('[data-product-group]').forEach(setup);
+  });
 </script>
 
 <style>
-  .pg {
-    display: grid;
-    gap: var(--s-4);
-  }
-  .pg__tabs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--s-2);
-    border-bottom: 1px solid var(--line);
-    padding-bottom: var(--s-2);
-    margin-bottom: var(--s-2);
-  }
-  .pg__tab {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--s-2);
-    min-height: var(--tap);
-    padding: 0 var(--s-4);
-    border-radius: var(--r-sm);
-    font-weight: 700;
-    color: var(--grey);
-    position: relative;
-    transition: color var(--dur) var(--ease);
-  }
-  .pg__tab:hover {
-    color: var(--blue);
-  }
-  .pg__tab[aria-selected='true'] {
-    color: var(--blue);
-  }
-  .pg__tab[aria-selected='true']::after {
-    content: '';
-    position: absolute;
-    left: var(--s-4);
-    right: var(--s-4);
-    bottom: calc(-1 * var(--s-2) - 1px);
-    height: 2px;
-    background: var(--blue);
-  }
-  .pg__count {
-    font-size: var(--t-xs);
-    font-weight: 400;
-    color: var(--grey);
-    background: var(--surface);
-    border-radius: 999px;
-    padding: 0 var(--s-2);
-    min-width: 22px;
-    text-align: center;
-    line-height: 22px;
-  }
-  .pg__group {
-    border: 1px solid var(--line);
-    border-radius: var(--r-md);
-    background: var(--white);
-  }
-  .pg--tabs .pg__group {
-    border: 0;
-  }
-  .pg--tabs .pg__group:not(.pg__group--active) {
-    display: none;
-  }
-  .pg__summary {
-    list-style: none;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--s-4);
-    padding: var(--s-4) var(--s-6);
-    min-height: var(--tap);
-    cursor: pointer;
-    font-weight: 700;
-    color: var(--blue);
-    font-size: var(--t-lg);
-  }
-  .pg__summary::-webkit-details-marker {
-    display: none;
-  }
-  .pg--tabs .pg__summary {
-    display: none;
-  }
-  .pg__summary-text {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--s-3);
-  }
-  .pg__summary-chev {
-    transition: transform var(--dur) var(--ease);
-    color: var(--blue-700);
-  }
-  .pg__group[open] > .pg__summary .pg__summary-chev {
-    transform: rotate(180deg);
-  }
-  .pg__rows {
-    border-top: 1px solid var(--line);
-  }
-  /* A single category needs no accordion header or tabs. */
-  .pg--single .pg__summary {
-    display: none;
-  }
-  .pg--single .pg__rows {
-    border-top: 0;
-  }
-  @media (min-width: 900px) {
-    .pg--single .pg__rows {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      column-gap: var(--s-8);
-    }
-    .pg--single .pg__rows > li {
-      border-top: 1px solid var(--line);
-    }
-    .pg--single .row__summary {
-      padding-inline: var(--s-2);
-    }
-  }
-  .pg--tabs .pg__rows {
-    border-top: 0;
-  }
-  @media (min-width: 900px) {
-    .pg--tabs .pg__rows {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      column-gap: var(--s-8);
-    }
-    .pg--tabs .pg__rows > li {
-      border-top: 1px solid var(--line);
-    }
-  }
-  .row__details {
-    width: 100%;
-  }
-  .row__summary {
-    list-style: none;
-    display: flex;
-    align-items: flex-start;
-    gap: var(--s-4);
-    padding: var(--s-4) var(--s-6);
-    cursor: pointer;
-    min-height: var(--tap);
-  }
-  .pg--tabs .row__summary {
-    padding-inline: var(--s-2);
-  }
-  .row__summary::-webkit-details-marker {
-    display: none;
-  }
-  .row__summary:hover .row__name {
-    color: var(--blue-700);
-  }
-  .row__head {
-    display: grid;
-    gap: var(--s-1);
-    flex: 1;
-  }
-  .row__name {
-    font-weight: 700;
-    color: var(--blue);
-    font-size: var(--t-md);
-  }
-  .row__text {
-    color: var(--grey);
-    font-size: var(--t-sm);
-    max-width: 48ch;
-  }
-  .row__pricing {
-    font-size: var(--t-xs);
-    color: var(--blue-700);
-    font-weight: 700;
-    margin-top: var(--s-1);
-  }
-  .row__chev {
-    color: var(--blue-700);
-    flex-shrink: 0;
-    margin-top: 2px;
-    transition: transform var(--dur) var(--ease);
-  }
-  .row__details[open] > .row__summary .row__chev {
-    transform: rotate(180deg);
-  }
-  .row__body {
+  .pc {
     display: grid;
     gap: var(--s-6);
-    padding: 0 var(--s-6) var(--s-6);
-    background: var(--blue-50);
-    border-radius: var(--r-md);
-    margin: 0 var(--s-2) var(--s-4);
-    padding-top: var(--s-6);
   }
-  @media (min-width: 640px) {
-    .row__body {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
+  .pc__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2) var(--s-6);
+    border-bottom: 1px solid var(--line);
   }
-  .row__col {
-    display: grid;
-    gap: var(--s-3);
-    align-content: start;
-  }
-  .row__col h4 {
+  .pc__filter {
+    position: relative;
+    min-height: var(--tap);
+    padding: 0 var(--s-1);
+    font-weight: 700;
     font-size: var(--t-sm);
+    color: var(--grey);
+    letter-spacing: 0.01em;
+    transition: color var(--dur) var(--ease);
+  }
+  .pc__filter:hover,
+  .pc__filter[aria-selected='true'] {
     color: var(--blue);
   }
-  .row__col p {
-    font-size: var(--t-sm);
+  .pc__filter[aria-selected='true']::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 3px;
+    background: var(--blue);
   }
-  .row__list {
-    padding-left: 1.1em;
+  .pc__grid {
+    display: grid;
+    gap: var(--gap);
+  }
+  @media (min-width: 900px) {
+    .pc__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .pcard {
+    display: grid;
+    align-content: start;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    overflow: hidden;
+  }
+  .pcard[hidden] {
+    display: none;
+  }
+  .pcard__body {
+    display: grid;
+    gap: var(--s-4);
+    padding: var(--s-8) var(--s-6);
+  }
+  @media (min-width: 640px) {
+    .pcard__body {
+      padding: var(--s-8);
+    }
+  }
+  .pcard__title {
+    font-size: var(--t-xl);
+    font-weight: 400;
+    color: var(--blue);
+  }
+  .pcard__rule {
+    display: block;
+    width: 56px;
+    height: 3px;
+    background: var(--red);
+    margin-top: calc(-1 * var(--s-2));
+  }
+  .pcard__summary {
+    color: var(--ink);
+    max-width: 60ch;
+  }
+  .pcard__pricing {
     font-size: var(--t-sm);
+    font-weight: 700;
+    color: var(--blue-700);
+  }
+  .pcard__facts {
+    margin: var(--s-2) 0 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s-6) var(--s-4);
+  }
+  .fact {
     display: grid;
     gap: var(--s-1);
   }
-  .row__terms {
+  .fact__value {
     margin: 0;
-    display: grid;
-    gap: var(--s-2);
-    font-size: var(--t-sm);
+    font-size: var(--t-xl);
+    font-weight: 400;
+    color: var(--blue);
+    line-height: 1.1;
+    overflow-wrap: anywhere;
   }
-  .row__terms div {
-    display: flex;
-    justify-content: space-between;
-    gap: var(--s-4);
-    border-bottom: 1px solid var(--line);
-    padding-bottom: var(--s-1);
-  }
-  .row__terms dt {
+  .fact__label {
+    font-size: var(--t-xs);
     color: var(--grey);
   }
-  .row__terms dd {
-    margin: 0;
-    font-weight: 700;
+  .pcard__actions {
+    display: grid;
+    gap: var(--s-3);
+    margin-top: var(--s-4);
+  }
+  @media (min-width: 640px) {
+    .pcard__actions {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .pcard__actions :global(.btn) {
+    width: 100%;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: var(--t-xs);
+  }
+
+  /* Detail panel: pill tabs over a grey body */
+  .pdetail {
+    padding: 0 var(--s-4) var(--s-4);
+  }
+  .pdetail[hidden] {
+    display: none;
+  }
+  .pdetail__tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-1);
+  }
+  .pc:not(.pc--js) .pdetail__tabs {
+    display: none;
+  }
+  .pdetail__tab {
+    min-height: var(--tap);
+    padding: 0 var(--s-5, 20px);
+    border-radius: var(--r-md) var(--r-md) 0 0;
+    background: var(--line);
     color: var(--blue);
-    text-align: right;
+    font-weight: 700;
+    font-size: var(--t-sm);
+    transition: background-color var(--dur) var(--ease);
   }
-  .pg__cta {
+  .pdetail__tab[aria-selected='true'] {
+    background: var(--surface);
+  }
+  .pdetail__panels {
+    background: var(--surface);
+    border-radius: 0 var(--r-md) var(--r-md) var(--r-md);
     padding: var(--s-6);
-    border-top: 1px solid var(--line);
+    display: grid;
+    gap: var(--s-6);
   }
-  .pg--tabs .pg__cta {
-    padding-inline: 0;
+  .pdetail__panel {
+    display: grid;
+    gap: var(--s-3);
   }
-  .pg__note {
+  .pdetail__panel[hidden] {
+    display: none;
+  }
+  .pdetail__h {
+    font-size: var(--t-sm);
+    color: var(--grey);
+    font-weight: 400;
+  }
+  .pc--js .pdetail__h {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+  }
+  .tri {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--s-3);
+  }
+  .tri li {
+    position: relative;
+    padding-left: var(--s-8);
+  }
+  .tri li::before {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 0.45em;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 10px solid var(--red);
+  }
+  .pdetail__note {
     max-width: var(--measure);
+    padding-top: var(--s-2);
+    border-top: 1px solid var(--line);
   }
 </style>

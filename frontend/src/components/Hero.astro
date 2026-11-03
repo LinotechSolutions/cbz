@@ -28,12 +28,50 @@ interface Props {
   secondary?: Cta;
   /** One fact shown on a frosted chip over the photo. */
   chip?: { icon?: IconName; title: string; line?: string };
-  variant?: 'unit' | 'home';
+  /** 'split' is the white-left, photo-right banner; 'unit' and 'home' are the navy panel. */
+  variant?: 'unit' | 'home' | 'split';
   overlap?: boolean;
 }
 const { title, lede, image, logo, eyebrow, crumbs, primary, secondary, chip, variant = 'unit', overlap = true } = Astro.props;
 ---
 
+{
+  variant === 'split' ? (
+    <header class:list={['split', overlap && 'split--overlap']}>
+      <div class="split__inner">
+        <div class="split__copy">
+          <div class="split__copy-in">
+            {crumbs && <Breadcrumbs items={crumbs} />}
+            {logo && <Logo brand={logo} on="light" height={30} class="split__logo" />}
+            <h1 class="split__title">{title}</h1>
+            <p class="split__lede">{lede}</p>
+            {(primary || secondary) && (
+              <div class="split__actions">
+                {primary && (
+                  <Button href={primary.href} variant="primary" size="lg" track={primary.track} trackProps={primary.trackProps}>
+                    {primary.label}
+                  </Button>
+                )}
+                {secondary && (
+                  <Button href={secondary.href} variant="secondary" size="lg" track={secondary.track} trackProps={secondary.trackProps}>
+                    {secondary.label}
+                  </Button>
+                )}
+              </div>
+            )}
+            <span class="split__marks" aria-hidden="true">
+              <i />
+              <i class="is-on" />
+              <i />
+            </span>
+          </div>
+        </div>
+        <div class="split__media">
+          <img src={image.src} alt={image.alt} width={1400} height={900} loading="eager" fetchpriority="high" decoding="async" />
+        </div>
+      </div>
+    </header>
+  ) : (
 <header class:list={['hero-wrap', overlap && 'hero-wrap--overlap']}>
   <div class="container">
     <div class:list={['hero', `hero--${variant}`, 'on-dark']}>
@@ -94,8 +132,99 @@ const { title, lede, image, logo, eyebrow, crumbs, primary, secondary, chip, var
     </div>
   </div>
 </header>
+  )
+}
 
 <style>
+  /* Split banner: white copy on the left, the photograph bleeding to the right edge */
+  .split {
+    background: var(--white);
+    border-bottom: 1px solid var(--line);
+  }
+  .split--overlap {
+    padding-bottom: var(--overlap, 56px);
+  }
+  .split__inner {
+    display: grid;
+  }
+  .split__copy {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .split__copy-in {
+    width: 100%;
+    max-width: calc(var(--max) / 2);
+    padding: var(--s-10, 40px) var(--gutter) var(--s-8);
+    display: grid;
+    gap: var(--s-4);
+    justify-items: start;
+    align-content: center;
+  }
+  .split__logo {
+    margin-left: calc(-1 * var(--s-1));
+  }
+  .split__title {
+    font-size: var(--t-3xl);
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: -0.015em;
+    max-width: 14ch;
+  }
+  .split__lede {
+    color: var(--grey);
+    font-size: var(--t-md);
+    max-width: 44ch;
+  }
+  .split__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    margin-top: var(--s-2);
+  }
+  .split__actions :global(.btn--primary) {
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: var(--t-xs);
+    min-width: 220px;
+  }
+  .split__marks {
+    display: flex;
+    gap: var(--s-2);
+    margin-top: var(--s-2);
+  }
+  .split__marks i {
+    width: 28px;
+    height: 3px;
+    background: var(--line);
+    border-radius: 2px;
+  }
+  .split__marks i.is-on {
+    background: var(--blue-700);
+  }
+  .split__media {
+    min-height: 260px;
+    background: var(--blue-100);
+  }
+  .split__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: 16 / 9;
+  }
+  @media (min-width: 900px) {
+    .split__inner {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      min-height: 480px;
+    }
+    .split__copy-in {
+      padding: var(--s-12) var(--s-8) var(--s-12) var(--gutter);
+    }
+    .split__media img {
+      aspect-ratio: auto;
+      height: 100%;
+    }
+  }
+
   .hero-wrap {
     padding-top: var(--s-4);
   }

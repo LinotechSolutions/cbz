@@ -1,0 +1,38 @@
+{
+  "unit": "red-sphere",
+  "category": "business",
+  "productId": "tuckshop",
+  "name": "SME Tuck-shop Facility",
+  "summary": "Short-term stock finance for tuck-shops: stock more, sell more, grow more.",
+  "benefits": [
+    "Tenor: 1 month",
+    "Interest: 5%",
+    "Admin fees: 5.2%",
+    "Stock replenishment",
+    "Business growth"
+  ],
+  "eligibility": [
+    "Company KYC documents",
+    "Financials for the past year",
+    "Management accounts",
+    "Shop licence",
+    "Bank statement",
+    "KYC for all directors",
+    "Copy of security to be declared"
+  ],
+  "audience": "Tuck-shops, registered or not registered",
+  "pricing": "5% interest · 5.2% admin fee",
+  "details": {
+    "tenor": "1 month",
+    "interestRate": "5%",
+    "adminFee": "5.2%",
+    "limit": null
+  },
+  "apply": {
+    "label": "Apply online",
+    "href": "https://rs.cbz.co.zw/"
+  },
+  "image": null,
+  "order": 1,
+  "verified": true
+}

@@ -1,0 +1,34 @@
+{
+  "unit": "capital",
+  "category": "debt",
+  "productId": "loan_syndications",
+  "name": "Syndicated Loan Facilities",
+  "summary": "Structuring, lead-arranging, and placing multi-bank debt facilities for large-scale corporate and parastatal borrowers.",
+  "benefits": [
+    "Lead arranger and facility agent services across Southern African banking syndicates",
+    "Multi-currency debt tranches in USD and ZWG",
+    "Tenors matched to project cash flows and repayment capabilities",
+    "Access to larger capital pools beyond single-lender balance sheet limits",
+    "Consolidated documentation, covenant management, and single administrative agency"
+  ],
+  "eligibility": [
+    "Audited financial statements (3 years)",
+    "Detailed business plan and financial projections",
+    "Feasibility study and asset/collateral schedule"
+  ],
+  "audience": "Corporates, parastatals, and institutional developers",
+  "pricing": "Structured Debt",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Start a capital enquiry",
+    "href": "/capital/enquiry"
+  },
+  "image": null,
+  "order": 0,
+  "verified": true
+}

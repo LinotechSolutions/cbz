@@ -1,0 +1,120 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/Hero.astro';
+import Section from '../../components/Section.astro';
+import Logo from '../../components/Logo.astro';
+import Icon from '../../components/Icon.astro';
+import { CLUSTERS, companiesIn, heldBy, type ClusterId } from '../../data/group';
+import type { DarkSafeLogoKey } from '../../data/logos';
+
+export function getStaticPaths() {
+  return CLUSTERS.filter((c) => c.isOperating).map((c) => ({ params: { cluster: c.id }, props: { cluster: c } }));
+}
+
+const { cluster } = Astro.props;
+const companies = companiesIn(cluster.id as ClusterId);
+---
+
+<BaseLayout title={cluster.name} description={cluster.summary}>
+  <Hero
+    title={cluster.name}
+    lede={cluster.summary}
+    image={{ src: cluster.image.src, alt: cluster.image.alt }}
+    crumbs={[{ label: 'Home', href: '/' }, { label: cluster.shortName }]}
+    overlap={false}
+  />
+
+  <Section id="companies" heading={`Companies in the ${cluster.shortName.toLowerCase()} cluster`} hideHeading>
+    <ul role="list" class="companies">
+      {
+        companies.map((c) => {
+          const held = heldBy(c.id);
+          const inner = (
+            <>
+              {c.logo && <Logo brand={c.logo as DarkSafeLogoKey} on="light" height={36} decorative />}
+              <span class="co__name">{c.name}</span>
+              <span class="co__summary small muted">{c.summary}</span>
+              {held.length > 0 && (
+                <span class="co__held small">
+                  Also holds {held.map((h) => `${h.name} (${h.ownership})`).join(' and ')}
+                </span>
+              )}
+              {c.route ? (
+                <span class="co__more">
+                  Visit {c.name} <Icon name="chevronRight" size={16} />
+                </span>
+              ) : (
+                <span class="co__more co__more--none">Page coming soon</span>
+              )}
+            </>
+          );
+          return (
+            <li>
+              {c.route ? (
+                <a href={c.route} class="co">
+                  {inner}
+                </a>
+              ) : (
+                <div class="co co--static">{inner}</div>
+              )}
+            </li>
+          );
+        })
+      }
+    </ul>
+  </Section>
+</BaseLayout>
+
+<style>
+  .companies {
+    display: grid;
+    gap: var(--gap);
+  }
+  @media (min-width: 640px) {
+    .companies {
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+  }
+  .co {
+    display: grid;
+    gap: var(--s-3);
+    align-content: start;
+    height: 100%;
+    padding: var(--s-6);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    text-decoration: none;
+    color: var(--ink);
+    transition:
+      background-color var(--dur) var(--ease),
+      border-color var(--dur) var(--ease);
+  }
+  a.co:hover {
+    background: var(--blue-50);
+    border-color: var(--blue-100);
+    color: var(--ink);
+  }
+  .co--static {
+    background: var(--surface);
+  }
+  .co__name {
+    font-weight: 700;
+    font-size: var(--t-lg);
+    color: var(--blue);
+  }
+  .co__held {
+    color: var(--blue-700);
+  }
+  .co__more {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-1);
+    font-weight: 700;
+    color: var(--blue-700);
+    margin-top: auto;
+  }
+  .co__more--none {
+    color: var(--grey);
+    font-weight: 400;
+  }
+</style>

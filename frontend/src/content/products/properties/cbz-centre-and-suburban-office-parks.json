@@ -1,0 +1,24 @@
+{
+  "unit": "properties",
+  "category": "commercial",
+  "productId": "cbz-centre-and-suburban-office-parks",
+  "name": "CBZ Centre & Suburban Office Parks",
+  "summary": "Prime commercial office space, corporate headquarters facilities, and executive suites with full back-up solar and diesel power.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Request a viewing",
+    "href": "/properties/request-a-viewing"
+  },
+  "image": null,
+  "order": 1,
+  "verified": false
+}

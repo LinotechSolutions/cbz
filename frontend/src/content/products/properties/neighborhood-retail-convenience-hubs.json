@@ -1,0 +1,24 @@
+{
+  "unit": "properties",
+  "category": "commercial",
+  "productId": "neighborhood-retail-convenience-hubs",
+  "name": "Neighborhood Retail Convenience Hubs",
+  "summary": "Master-planned suburban retail strips anchored by national supermarkets, pharmacies, fuel stations, and drive-through food outlets.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Request a viewing",
+    "href": "/properties/request-a-viewing"
+  },
+  "image": null,
+  "order": 2,
+  "verified": false
+}

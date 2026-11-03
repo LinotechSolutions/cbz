@@ -1,0 +1,24 @@
+{
+  "unit": "properties",
+  "category": "residential",
+  "productId": "fully-serviced-residential-stands",
+  "name": "Fully Serviced Residential Stands",
+  "summary": "Ready-to-build residential stands in premier low- and medium-density developments across Harare, Bulawayo, Gweru, and Mutare with title deeds.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Request a viewing",
+    "href": "/properties/request-a-viewing"
+  },
+  "image": null,
+  "order": 1,
+  "verified": false
+}

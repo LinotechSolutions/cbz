@@ -1,0 +1,78 @@
+---
+/**
+ * Large figure over a small label, on a hairline grid. Facts whose value is
+ * null are left out entirely.
+ */
+import { visible } from '../lib/visible';
+
+interface Props {
+  facts: { label: string; value: string | null }[];
+  tone?: 'light' | 'dark';
+}
+const { facts, tone = 'light' } = Astro.props;
+const shown = facts.filter((f) => visible(f.value));
+---
+
+{
+  shown.length > 0 && (
+    <dl class:list={['facts', `facts--${tone}`]} style={`--n:${Math.min(shown.length, 3)}`}>
+      {shown.map((f) => (
+        <div class="fact">
+          <dd class="fact__value">{f.value}</dd>
+          <dt class="fact__label">{f.label}</dt>
+        </div>
+      ))}
+    </dl>
+  )
+}
+
+<style>
+  .facts {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    overflow: hidden;
+  }
+  @media (min-width: 640px) {
+    .facts {
+      grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+    }
+  }
+  .fact {
+    background: var(--white);
+    padding: var(--s-6) var(--s-4);
+    display: grid;
+    gap: var(--s-2);
+    align-content: start;
+  }
+  .fact__value {
+    margin: 0;
+    font-size: var(--t-xl);
+    font-weight: 700;
+    color: var(--blue);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  .fact__label {
+    font-size: var(--t-xs);
+    color: var(--grey);
+  }
+  .facts--dark {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+  .facts--dark .fact {
+    background: var(--blue-900);
+  }
+  .facts--dark .fact__value {
+    color: var(--white);
+  }
+  .facts--dark .fact__label {
+    color: rgba(255, 255, 255, 0.72);
+  }
+</style>

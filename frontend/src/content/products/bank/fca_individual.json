@@ -1,0 +1,37 @@
+{
+  "unit": "bank",
+  "category": "accounts",
+  "productId": "fca_individual",
+  "name": "Foreign Currency Account (Individual)",
+  "summary": "Hold and transact in USD, GBP, ZAR, BWP or EUR, with transfers in and out and cash withdrawals.",
+  "benefits": [
+    "Foreign currency account in USD, GBP, ZAR, BWP or EUR",
+    "Deposit in a range of foreign currencies",
+    "Receive and initiate transfers, make payments, or withdraw cash"
+  ],
+  "eligibility": [
+    "2 passport size photos",
+    "Proof of residence (latest utility bill)",
+    "Latest payslip",
+    "Valid ID",
+    "Can also be opened for directors of a company that banks with CBZ"
+  ],
+  "audience": "Individuals",
+  "pricing": "USD, GBP, ZAR, BWP, EUR",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Open an account",
+    "href": "/bank/open-account"
+  },
+  "image": {
+    "src": "/images/accounts/diaspora.webp",
+    "alt": ""
+  },
+  "order": 3,
+  "verified": true
+}

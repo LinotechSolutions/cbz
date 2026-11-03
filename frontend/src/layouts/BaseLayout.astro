@@ -1,0 +1,125 @@
+---
+import '../styles/global.css';
+import UtilityBar from '../components/UtilityBar.astro';
+import Footer from '../components/Footer.astro';
+import { Header } from '../islands/Header';
+import { ChatLauncher } from '../islands/ChatLauncher';
+import { ConsentBanner } from '../islands/ConsentBanner';
+import { CLUSTERS, LOGIN_ITEMS, OPEN_ACCOUNT_ITEMS } from '../data/nav';
+import { CONTACT, GROUP, SOCIAL } from '../data/facts';
+import { LOGOS, type DarkSafeLogoKey } from '../data/logos';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Absolute or site-relative path to the share image. */
+  image?: string;
+  /** Extra JSON-LD objects for this page. */
+  jsonLd?: Record<string, unknown>[];
+  /** The unit whose logo sits in the header beside the Holdings mark. */
+  unitLogo?: DarkSafeLogoKey;
+  noindex?: boolean;
+  /** Pages that hold a form: the chat pill moves up less, and the sticky bar is absent. */
+  bodyClass?: string;
+  /** The hero image, preloaded so it starts downloading before the stylesheet is parsed. */
+  preloadImage?: string;
+}
+
+const {
+  title,
+  description,
+  image = '/og/cbz-holdings.jpg',
+  jsonLd = [],
+  unitLogo,
+  noindex = false,
+  bodyClass = '',
+  preloadImage,
+} = Astro.props;
+
+const site = Astro.site ?? new URL('https://www.cbz.co.zw');
+const canonical = new URL(Astro.url.pathname, site).toString();
+const ogImage = new URL(image, site).toString();
+const fullTitle = title === GROUP.name ? title : `${title} | ${GROUP.name}`;
+
+const organisation = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: GROUP.legalName,
+  url: site.toString(),
+  logo: new URL(LOGOS.holdings.full.src, site).toString(),
+  foundingDate: GROUP.founded,
+  telephone: CONTACT.contactCentre.display,
+  email: CONTACT.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: CONTACT.address.line1,
+    addressLocality: 'Harare',
+    addressCountry: 'ZW',
+  },
+  sameAs: SOCIAL.map((s) => s.href),
+};
+const ld = [organisation, ...jsonLd];
+const pathname = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="theme-color" content="#001736" />
+    <link rel="icon" href="/brand/logos/cbz-roundel-red.png" sizes="any" />
+    <link rel="apple-touch-icon" href="/brand/logos/cbz-roundel-red.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={GROUP.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    {preloadImage && <link rel="preload" as="image" href={preloadImage} fetchpriority="high" />}
+    <link rel="preload" href="/fonts/CBZSans-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/CBZSans-Bold.woff2" as="font" type="font/woff2" crossorigin />
+
+    {ld.map((obj) => <script type="application/ld+json" set:html={JSON.stringify(obj)} />)}
+  </head>
+  <body class={bodyClass}>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <UtilityBar />
+    <Header
+      client:load
+      clusters={CLUSTERS}
+      loginItems={LOGIN_ITEMS}
+      openAccountItems={OPEN_ACCOUNT_ITEMS}
+      unitLogo={unitLogo ? { key: unitLogo, name: LOGOS[unitLogo].name, src: LOGOS[unitLogo].full.src, aspect: LOGOS[unitLogo].full.aspect } : null}
+      holdings={{ src: LOGOS.holdings.full.src, aspect: LOGOS.holdings.full.aspect, name: LOGOS.holdings.name }}
+      currentPath={pathname}
+    />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+    <ChatLauncher client:idle whatsapp={CONTACT.whatsapp.chatHref} phone={CONTACT.contactCentre} email={CONTACT.email} />
+    <ConsentBanner client:idle privacyHref="/privacy-policy" />
+    <script>
+      import { bindDataTrack } from '../lib/analytics';
+      bindDataTrack();
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  main:focus {
+    outline: none;
+  }
+</style>

@@ -1,0 +1,24 @@
+{
+  "unit": "datvest",
+  "category": "institutional",
+  "productId": "corporate-treasury-liquidity-placement",
+  "name": "Corporate Treasury Liquidity Placement",
+  "summary": "Bespoke treasury management for multinationals, NGOs, and corporations seeking maximum return on operating surplus capital.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Start investing",
+    "href": "/datvest/start-investing"
+  },
+  "image": null,
+  "order": 1,
+  "verified": false
+}

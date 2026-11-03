@@ -1,0 +1,36 @@
+{
+  "unit": "bank",
+  "category": "cards",
+  "productId": "visa_gold",
+  "name": "Visa Gold Card",
+  "summary": "Internationally recognised card for ATMs and Visa POS terminals, pre-funded for local and international use.",
+  "benefits": [
+    "Currently works as a debit card, pre-funded for use locally or internationally",
+    "Access funds through ATMs and Visa POS terminals",
+    "Safe and secure",
+    "Online payments",
+    "ATM cash withdrawals",
+    "Car rental and hotel bookings",
+    "Instant payments with no clearing period",
+    "Instant balance top up"
+  ],
+  "eligibility": [
+    "Open to account holders and non-account holders",
+    "Open to companies, where cards are funded from an existing corporate account"
+  ],
+  "audience": "Individuals and corporates",
+  "pricing": "Open to non-account holders",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Open an account",
+    "href": "/bank/open-account"
+  },
+  "image": null,
+  "order": 0,
+  "verified": true
+}

@@ -1,0 +1,38 @@
+{
+  "unit": "bank",
+  "category": "accounts",
+  "productId": "church_current",
+  "name": "Church Current Account",
+  "summary": "Account for churches and church groups, with tiered interest rates and no monthly service fees.",
+  "benefits": [
+    "Minimum balance $50.00",
+    "Initial deposit $100.00 on monthly minimum balance",
+    "Tiered interest rates",
+    "No withdrawal fees",
+    "No internal transfer fees",
+    "No monthly service fees"
+  ],
+  "eligibility": [
+    "Copies of national IDs and proof of residence for signatories",
+    "Signing mandates",
+    "Church constitution"
+  ],
+  "audience": "Churches and church groups",
+  "pricing": "Minimum balance $50 · initial deposit $100",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Open an account",
+    "href": "/bank/open-account"
+  },
+  "image": {
+    "src": "/images/accounts/churchsaver.webp",
+    "alt": ""
+  },
+  "order": 11,
+  "verified": true
+}

@@ -1,0 +1,34 @@
+{
+  "unit": "capital",
+  "category": "equity",
+  "productId": "ipos_listings",
+  "name": "IPOs & Stock Exchange Listings",
+  "summary": "Lead financial advisory, underwriting coordination, and sponsoring broker management for public offerings.",
+  "benefits": [
+    "Prospectus preparation, listing compliance, and roadshow marketing",
+    "Equity valuation, share pricing, and book-building management",
+    "VFEX USD listing frameworks and offshore capital attraction",
+    "Unlocks substantial permanent growth equity and institutional liquidity",
+    "Elevates market reputation and provides liquidity for early investors"
+  ],
+  "eligibility": [
+    "Minimum 3–5 year audited track record",
+    "Corporate governance structures compliant with national code (ZimCode)",
+    "Auditors and legal counsel approval documents"
+  ],
+  "audience": "High-growth private firms and public entities listing on ZSE or VFEX",
+  "pricing": "Capital Raising",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Start a capital enquiry",
+    "href": "/capital/enquiry"
+  },
+  "image": null,
+  "order": 0,
+  "verified": true
+}

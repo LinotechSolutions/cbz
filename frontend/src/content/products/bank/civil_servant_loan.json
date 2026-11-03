@@ -1,0 +1,36 @@
+{
+  "unit": "bank",
+  "category": "loans",
+  "productId": "civil_servant_loan",
+  "name": "Civil Servant Loan",
+  "summary": "Personal loan for civil servants of up to 10 times net salary, repaid over 36 months by SSB deduction.",
+  "benefits": [
+    "Loan of up to 10 times net salary",
+    "Tenure of 36 months",
+    "Salary deducted from SSB",
+    "Interest rates subject to change",
+    "Personal loan to ease financial obligations"
+  ],
+  "eligibility": [
+    "Proof of income",
+    "Salary to be deducted from SSB"
+  ],
+  "audience": "Civil servants",
+  "pricing": "Up to 10x net salary",
+  "details": {
+    "tenor": "36 months",
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Apply for a loan",
+    "href": "/bank/apply"
+  },
+  "image": {
+    "src": "/images/loan-education.webp",
+    "alt": ""
+  },
+  "order": 0,
+  "verified": true
+}

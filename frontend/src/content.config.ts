@@ -1,0 +1,158 @@
+import { defineCollection, z } from 'astro:content';
+import { glob } from 'astro/loaders';
+
+/**
+ * Content collections. A missing or malformed value fails the build instead of
+ * reaching the page. Unconfirmed values are `null`, never placeholder strings.
+ */
+
+const nullableString = z.string().nullable();
+
+export const clusterSchema = z.enum(['banking', 'investments', 'insurance', 'agro-business', 'philanthropy']);
+
+export const logoKeySchema = z.enum([
+  'holdings',
+  'bank',
+  'insurance',
+  'life',
+  'datvest',
+  'capital',
+  'properties',
+  'agro-yield',
+  'risk-advisory',
+  'red-sphere',
+  'cbz-touch',
+  'ziki-cash',
+  'ziki-mall',
+  'cbz-way',
+]);
+
+const imageRef = z.object({
+  src: z.string().min(1),
+  alt: z.string(),
+});
+
+const cta = z.object({ label: z.string().min(1), href: z.string().min(1) });
+
+const units = defineCollection({
+  loader: glob({ pattern: '*.json', base: './src/content/units' }),
+  schema: z.object({
+    slug: z.string().min(1),
+    name: z.string().min(1),
+    shortName: z.string().min(1),
+    cluster: clusterSchema,
+    logo: logoKeySchema,
+    order: z.number().int(),
+    hero: z.object({ title: z.string().max(60), lede: z.string().max(160), image: imageRef }),
+    about: z.string().max(520),
+    keyFacts: z.array(z.object({ label: z.string(), value: nullableString })).max(6),
+    primaryCta: cta,
+    secondaryCta: cta.nullable(),
+    objectives: z.array(z.string()).nullable(),
+    audience: z.array(z.string()).nullable(),
+    heldEntities: z.array(z.object({ name: z.string(), stake: z.number().min(0).max(100) })).optional(),
+    leadership: z
+      .array(z.object({ name: z.string(), role: z.string(), image: imageRef.nullable() }))
+      .nullable(),
+    calculators: z.array(z.enum(['mortgage', 'carFinance', 'carInsurance', 'policyQuote'])).optional(),
+    categories: z.array(z.object({ id: z.string(), label: z.string() })),
+    /** Regulatory line, e.g. an IPEC registration. Hidden until confirmed. */
+    regulator: nullableString,
+    productsNote: nullableString,
+    contact: z.object({ heading: z.string(), body: z.string() }),
+    seo: z.object({ title: z.string().max(70), description: z.string().max(160) }),
+  }),
+});
+
+const products = defineCollection({
+  loader: glob({ pattern: '**/*.json', base: './src/content/products' }),
+  schema: z.object({
+    unit: z.string().min(1),
+    category: z.string().min(1),
+    productId: z.string().min(1),
+    name: z.string().min(1),
+    summary: z.string().max(320),
+    benefits: z.array(z.string()),
+    eligibility: z.array(z.string()).nullable(),
+    audience: nullableString,
+    pricing: nullableString,
+    details: z
+      .object({
+        tenor: nullableString,
+        interestRate: nullableString,
+        adminFee: nullableString,
+        limit: nullableString,
+      })
+      .optional(),
+    apply: cta,
+    image: imageRef.nullable(),
+    order: z.number().int(),
+    /** Draft products carry names only; figures were removed pending sign-off. */
+    verified: z.boolean(),
+  }),
+});
+
+const properties = defineCollection({
+  loader: glob({ pattern: '*.json', base: './src/content/properties' }),
+  schema: z.object({
+    id: z.string().min(1),
+    title: z.string().min(1),
+    type: z.enum(['residential', 'commercial', 'land']),
+    location: z.string().min(1),
+    status: z.enum(['for-sale', 'to-let', 'sold']),
+    price: nullableString,
+    summary: z.string().max(320),
+    details: z.array(z.object({ label: z.string(), value: z.string() })),
+    images: z.array(imageRef).min(1),
+    tourUrl: nullableString,
+    order: z.number().int(),
+    verified: z.boolean(),
+  }),
+});
+
+const deals = defineCollection({
+  loader: glob({ pattern: '*.json', base: './src/content/deals' }),
+  schema: z.object({
+    unit: z.enum(['capital', 'datvest']),
+    client: z.string().min(1),
+    sector: z.string().min(1),
+    type: z.string().min(1),
+    size: nullableString,
+    year: z.number().int().min(1980).max(2100),
+  }),
+});
+
+const campaigns = defineCollection({
+  loader: glob({ pattern: '*.json', base: './src/content/campaigns' }),
+  schema: z.object({
+    title: z.string().max(80),
+    body: z.string().max(160),
+    /** Unit slug, or null for a group-wide campaign shown on the home page. */
+    unit: nullableString,
+    offer: nullableString,
+    image: imageRef,
+    cta,
+    starts: z.string().date(),
+    ends: z.string().date(),
+    order: z.number().int().default(0),
+  }),
+});
+
+const notices = defineCollection({
+  loader: glob({ pattern: '*.md', base: './src/content/notices' }),
+  schema: z.object({
+    title: z.string().min(1),
+    /** YAML turns an unquoted 2026-03-10 into a Date; both forms end up as YYYY-MM-DD. */
+    date: z
+      .union([z.string().date(), z.date()])
+      .transform((d) => (typeof d === 'string' ? d : d.toISOString().slice(0, 10))),
+    category: z.enum(['shareholder', 'customer', 'regulatory', 'operational', 'security']),
+    summary: z.string().max(400),
+    reference: nullableString,
+    urgent: z.boolean().default(false),
+    document: nullableString,
+    confirmed: z.boolean().default(false),
+  }),
+});
+
+export const collections = { units, products, properties, deals, campaigns, notices };

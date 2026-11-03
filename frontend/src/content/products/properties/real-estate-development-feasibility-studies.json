@@ -1,0 +1,24 @@
+{
+  "unit": "properties",
+  "category": "advisory",
+  "productId": "real-estate-development-feasibility-studies",
+  "name": "Real Estate Development Feasibility Studies",
+  "summary": "Comprehensive market absorption studies, architectural concept optimization, financial DCF modeling, and municipal approvals.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Request a viewing",
+    "href": "/properties/request-a-viewing"
+  },
+  "image": null,
+  "order": 1,
+  "verified": false
+}

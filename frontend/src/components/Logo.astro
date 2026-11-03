@@ -1,0 +1,64 @@
+---
+/**
+ * The only way to put a CBZ logo on screen. Uses the supplied master artwork,
+ * picks the variant from the background, enforces the minimum width and the
+ * 1x clear space, and never boxes the logo in a chip.
+ */
+import { LOGOS, LOGO_MIN_WIDTH, CLEAR_SPACE_RATIO, type LogoKey, type DarkSafeLogoKey } from '../data/logos';
+
+type Props =
+  | {
+      brand: DarkSafeLogoKey;
+      on: 'light' | 'dark';
+      height?: number;
+      roundel?: boolean;
+      clearSpace?: boolean;
+      decorative?: boolean;
+      class?: string;
+    }
+  | {
+      /** Ziki Mall has no white file, so it may only sit on a light background. */
+      brand: Extract<LogoKey, 'ziki-mall'>;
+      on: 'light';
+      height?: number;
+      roundel?: boolean;
+      clearSpace?: boolean;
+      decorative?: boolean;
+      class?: string;
+    };
+
+const { brand, on, height = 40, roundel = false, clearSpace = true, decorative = false, class: className = '' } =
+  Astro.props;
+
+const entry = LOGOS[brand];
+const art = roundel ? (entry.roundel ?? entry.full) : on === 'dark' ? (entry.white ?? entry.full) : entry.full;
+const minWidth = roundel ? LOGO_MIN_WIDTH.roundel : LOGO_MIN_WIDTH.lockup;
+const artHeight = Math.max(height, Math.ceil(minWidth / art.aspect));
+const artWidth = Math.round(artHeight * art.aspect);
+const pad = clearSpace ? Math.round(artHeight * CLEAR_SPACE_RATIO) : 0;
+---
+
+<span class={`logo ${className}`} style={`padding:${pad}px`}>
+  <img
+    src={art.src}
+    alt={decorative ? '' : entry.name}
+    width={artWidth}
+    height={artHeight}
+    style={`width:${artWidth}px;height:${artHeight}px`}
+    draggable="false"
+    loading="eager"
+    decoding="async"
+  />
+</span>
+
+<style>
+  .logo {
+    display: inline-flex;
+    flex-shrink: 0;
+    line-height: 0;
+  }
+  .logo img {
+    display: block;
+    max-width: none;
+  }
+</style>

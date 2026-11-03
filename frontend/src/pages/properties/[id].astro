@@ -1,0 +1,249 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Section from '../../components/Section.astro';
+import Button from '../../components/Button.astro';
+import ResponsiveImage from '../../components/ResponsiveImage.astro';
+import StickyCta from '../../components/StickyCta.astro';
+import Icon from '../../components/Icon.astro';
+import { PropertyGallery } from '../../islands/PropertyGallery';
+import { Calculator } from '../../islands/Calculator';
+import { CALCULATORS } from '../../data/calculators';
+import { CONTACT } from '../../data/facts';
+import { visible } from '../../lib/visible';
+
+export async function getStaticPaths() {
+  const all = await getCollection('properties');
+  return all.map((p) => ({ params: { id: p.data.id }, props: { property: p.data, all: all.map((a) => a.data) } }));
+}
+
+const { property, all } = Astro.props;
+const statusLabel = { 'for-sale': 'For sale', 'to-let': 'To let', sold: 'Sold' } as const;
+const typeLabel = { residential: 'Residential', commercial: 'Commercial', land: 'Land' } as const;
+const more = all.filter((p) => p.id !== property.id && p.type === property.type).slice(0, 3);
+const viewingHref = `/properties/request-a-viewing?property=${encodeURIComponent(property.title)}`;
+const site = Astro.site ?? new URL('https://www.cbz.co.zw');
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', site).toString() },
+      { '@type': 'ListItem', position: 2, name: 'CBZ Properties', item: new URL('/properties', site).toString() },
+      { '@type': 'ListItem', position: 3, name: property.title },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title={`${property.title}, ${property.location}`}
+  description={property.summary}
+  image={property.images[0].src}
+  jsonLd={jsonLd}
+  unitLogo="properties"
+>
+  <article class="pd">
+    <div class="container pd__inner">
+      <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'CBZ Properties', href: '/properties' }, { label: property.title }]} />
+
+      <div class="pd__gallery">
+        <PropertyGallery client:visible images={property.images} title={property.title} />
+        {
+          visible(property.tourUrl) && (
+            <div class="tour" data-tour data-src={property.tourUrl}>
+              <button type="button" class="btn btn--secondary" data-tour-open>
+                <Icon name="globe" size={18} /> Take a virtual tour
+              </button>
+              <div class="tour__frame" hidden />
+            </div>
+          )
+        }
+      </div>
+
+      <div class="pd__body">
+        <div class="pd__main">
+          <p class="small muted">
+            {typeLabel[property.type]}, {property.location}, {statusLabel[property.status].toLowerCase()}
+          </p>
+          <h1>{property.title}</h1>
+          <p class="lede">{property.summary}</p>
+          {
+            property.details.length > 0 && (
+              <dl class="pd__details">
+                {property.details.map((d) => (
+                  <div>
+                    <dt>{d.label}</dt>
+                    <dd>{d.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            )
+          }
+        </div>
+        <aside class="pd__aside">
+          <p class="pd__price">{visible(property.price) ? property.price : 'Price on application'}</p>
+          <Button href={viewingHref} variant="primary" size="lg" block track="apply_click" trackProps={{ unit: 'properties', property: property.id }}>
+            Request a viewing
+          </Button>
+          <a href={CONTACT.contactCentre.href} class="btn btn--secondary btn--block">
+            Call {CONTACT.contactCentre.display}
+          </a>
+          <a href={CONTACT.whatsapp.href} class="pd__wa" target="_blank" rel="noopener noreferrer">
+            <Icon name="whatsapp" size={18} /> WhatsApp us <span class="sr-only">(opens in a new tab)</span>
+          </a>
+        </aside>
+      </div>
+    </div>
+  </article>
+
+  <Section id="finance" tone="tint" heading="Finance it" lede="Estimate the monthly repayment on a CBZ Bank mortgage.">
+    <Calculator client:visible variant="mortgage" config={CALCULATORS.mortgage} />
+  </Section>
+
+  {
+    more.length > 0 && (
+      <Section id="more" heading="More from CBZ Properties" compact>
+        <ul role="list" class="more">
+          {more.map((p) => (
+            <li>
+              <a href={`/properties/${p.id}`} class="more__link">
+                <ResponsiveImage src={p.images[0].src} alt={p.images[0].alt || p.title} ratio="3:2" />
+                <span class="more__title">{p.title}</span>
+                <span class="small muted">{p.location}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </Section>
+    )
+  }
+
+  <StickyCta label="Request a viewing" href={viewingHref} unit="properties" />
+</BaseLayout>
+
+<script>
+  // The 360° or 3D tour loads only when asked for, in a sandboxed iframe.
+  document.querySelectorAll<HTMLElement>('[data-tour]').forEach((wrap) => {
+    const btn = wrap.querySelector<HTMLButtonElement>('[data-tour-open]');
+    const frame = wrap.querySelector<HTMLElement>('.tour__frame');
+    const src = wrap.dataset.src;
+    if (!btn || !frame || !src) return;
+    btn.addEventListener('click', () => {
+      const iframe = document.createElement('iframe');
+      iframe.src = src;
+      iframe.title = 'Virtual tour';
+      iframe.loading = 'lazy';
+      iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
+      iframe.setAttribute('allow', 'fullscreen; xr-spatial-tracking; gyroscope; accelerometer');
+      iframe.referrerPolicy = 'no-referrer';
+      frame.replaceChildren(iframe);
+      frame.hidden = false;
+      btn.hidden = true;
+      iframe.focus();
+    });
+  });
+</script>
+
+<style>
+  .pd {
+    padding-block: var(--s-6) var(--band);
+  }
+  .pd__inner {
+    display: grid;
+    gap: var(--s-6);
+  }
+  .pd__gallery {
+    display: grid;
+    gap: var(--s-4);
+  }
+  .tour__frame iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 0;
+    border-radius: var(--r-md);
+  }
+  .pd__body {
+    display: grid;
+    gap: var(--s-8);
+  }
+  @media (min-width: 900px) {
+    .pd__body {
+      grid-template-columns: 7fr 4fr;
+      gap: var(--s-16);
+      align-items: start;
+    }
+  }
+  .pd__main {
+    display: grid;
+    gap: var(--s-4);
+  }
+  .pd__details {
+    margin: var(--s-4) 0 0;
+    display: grid;
+    gap: var(--s-2);
+    font-size: var(--t-sm);
+  }
+  .pd__details div {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--s-4);
+    padding-bottom: var(--s-2);
+    border-bottom: 1px solid var(--line);
+  }
+  .pd__details dt {
+    color: var(--grey);
+  }
+  .pd__details dd {
+    margin: 0;
+    font-weight: 700;
+    color: var(--blue);
+  }
+  .pd__aside {
+    display: grid;
+    gap: var(--s-3);
+    padding: var(--s-6);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    position: sticky;
+    top: calc(var(--header-h) + var(--s-4));
+  }
+  .pd__price {
+    font-size: var(--t-xl);
+    font-weight: 700;
+    color: var(--blue);
+  }
+  .pd__wa {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    justify-content: center;
+    min-height: var(--tap);
+    text-decoration: none;
+    font-weight: 700;
+  }
+  .pd__wa svg {
+    color: var(--whatsapp);
+  }
+  .more {
+    display: grid;
+    gap: var(--gap);
+  }
+  @media (min-width: 640px) {
+    .more {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .more__link {
+    display: grid;
+    gap: var(--s-2);
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .more__title {
+    font-weight: 700;
+    color: var(--blue);
+  }
+</style>

@@ -1,0 +1,26 @@
+{
+  "unit": "cbz-life",
+  "category": "employee",
+  "productId": "annuities",
+  "name": "Annuities",
+  "summary": "Regular income payments to retirees, drawn from accumulated retirement savings.",
+  "benefits": [
+    "Provide regular income payments to retirees from accumulated retirement savings"
+  ],
+  "eligibility": null,
+  "audience": "Retirees",
+  "pricing": "Employee benefits",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Request a quotation",
+    "href": "/cbz-life/quote"
+  },
+  "image": null,
+  "order": 2,
+  "verified": true
+}

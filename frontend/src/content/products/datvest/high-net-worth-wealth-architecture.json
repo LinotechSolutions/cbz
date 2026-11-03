@@ -1,0 +1,24 @@
+{
+  "unit": "datvest",
+  "category": "private-wealth",
+  "productId": "high-net-worth-wealth-architecture",
+  "name": "High-Net-Worth Wealth Architecture",
+  "summary": "Bespoke multi-asset portfolio construction, discretionary management, and dedicated senior private banker access for family offices.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Start investing",
+    "href": "/datvest/start-investing"
+  },
+  "image": null,
+  "order": 0,
+  "verified": false
+}

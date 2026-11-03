@@ -1,0 +1,34 @@
+{
+  "unit": "bank",
+  "category": "cards",
+  "productId": "student_visa",
+  "name": "Student Visa Card",
+  "summary": "Pre-funded international card for registered students, including those who do not bank with CBZ.",
+  "benefits": [
+    "The card is pre-funded for use locally and internationally",
+    "Access funds through ATMs and Visa POS terminals",
+    "Safe and secure",
+    "Online payments",
+    "ATM cash withdrawals",
+    "Instant payments with no clearing period"
+  ],
+  "eligibility": [
+    "Open to any student registered with a local or international university, or any academic or professional institution",
+    "Students who are not CBZ account holders can also apply"
+  ],
+  "audience": "Students",
+  "pricing": "Open to non-account holders",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Open an account",
+    "href": "/bank/open-account"
+  },
+  "image": null,
+  "order": 1,
+  "verified": true
+}

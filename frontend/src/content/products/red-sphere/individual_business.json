@@ -1,0 +1,35 @@
+{
+  "unit": "red-sphere",
+  "category": "business",
+  "productId": "individual_business",
+  "name": "Individual Business Loans",
+  "summary": "Working capital for unregistered small businesses looking to increase capacity.",
+  "benefits": [
+    "Tenor: 6 months",
+    "Interest: 5%",
+    "Admin fees: 5.2%",
+    "Working capital support",
+    "Business sustainability"
+  ],
+  "eligibility": [
+    "Shop licence",
+    "KYC for the sole proprietor",
+    "Copy of collateral to be used",
+    "Financials for 6 months"
+  ],
+  "audience": "Unregistered small business",
+  "pricing": "5% interest · 5.2% admin fee",
+  "details": {
+    "tenor": "6 months",
+    "interestRate": "5%",
+    "adminFee": "5.2%",
+    "limit": null
+  },
+  "apply": {
+    "label": "Apply online",
+    "href": "https://rs.cbz.co.zw/"
+  },
+  "image": null,
+  "order": 2,
+  "verified": true
+}

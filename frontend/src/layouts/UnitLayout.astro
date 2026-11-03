@@ -1,0 +1,313 @@
+---
+/**
+ * Every business unit page, in the agreed order: hero, about, key facts,
+ * products, campaigns, leadership, contact. Campaigns, leadership, objectives
+ * and audience render only when their data is present.
+ */
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import TaskCard from '../components/TaskCard.astro';
+import Section from '../components/Section.astro';
+import KeyFacts from '../components/KeyFacts.astro';
+import ProductGroup from '../components/ProductGroup.astro';
+import Button from '../components/Button.astro';
+import ResponsiveImage from '../components/ResponsiveImage.astro';
+import StickyCta from '../components/StickyCta.astro';
+import { visible } from '../lib/visible';
+import { CONTACT } from '../data/facts';
+import type { DarkSafeLogoKey } from '../data/logos';
+
+interface Props {
+  unit: CollectionEntry<'units'>['data'];
+  /** Override the hero image when the page has its own. */
+  heroImage?: { src: string; alt: string };
+}
+const { unit, heroImage } = Astro.props;
+
+const products = (await getCollection('products', (p) => p.data.unit === unit.slug))
+  .map((p) => p.data)
+  .sort((a, b) => a.order - b.order);
+
+const campaigns = (await getCollection('campaigns', (c) => c.data.unit === unit.slug))
+  .map((c) => c.data)
+  .filter((c) => {
+    const now = new Date();
+    return new Date(c.starts) <= now && new Date(c.ends) >= now;
+  })
+  .sort((a, b) => a.order - b.order)
+  .slice(0, 3);
+
+const clusterLabel: Record<string, { label: string; href: string }> = {
+  banking: { label: 'Banking', href: '/clusters/banking' },
+  investments: { label: 'Investments', href: '/clusters/investments' },
+  insurance: { label: 'Insurance', href: '/clusters/insurance' },
+  'agro-business': { label: 'Agro-Business', href: '/clusters/agro-business' },
+  philanthropy: { label: 'About', href: '/about' },
+};
+const cluster = clusterLabel[unit.cluster];
+
+const jumpItems = unit.categories
+  .filter((c) => products.some((p) => p.category === c.id))
+  .map((c) => ({ label: c.label, href: `#panel-${unit.slug}-${c.id}` }));
+
+const leadership = visible(unit.leadership) ? unit.leadership! : [];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FinancialService',
+    name: unit.name,
+    description: unit.seo.description,
+    parentOrganization: { '@type': 'Organization', name: 'CBZ Holdings Limited' },
+    url: new URL(`/${unit.slug}`, Astro.site ?? 'https://www.cbz.co.zw').toString(),
+    telephone: CONTACT.contactCentre.display,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site ?? 'https://www.cbz.co.zw').toString() },
+      { '@type': 'ListItem', position: 2, name: cluster.label, item: new URL(cluster.href, Astro.site ?? 'https://www.cbz.co.zw').toString() },
+      { '@type': 'ListItem', position: 3, name: unit.name },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title={unit.seo.title}
+  description={unit.seo.description}
+  jsonLd={jsonLd}
+  unitLogo={unit.logo as DarkSafeLogoKey}
+  preloadImage={(heroImage ?? unit.hero.image).src}
+>
+  <Hero
+    title={unit.hero.title}
+    lede={unit.hero.lede}
+    image={heroImage ?? unit.hero.image}
+    logo={unit.logo as DarkSafeLogoKey}
+    crumbs={[{ label: 'Home', href: '/' }, { label: cluster.label, href: cluster.href }, { label: unit.shortName }]}
+    primary={{ ...unit.primaryCta, track: 'apply_click', trackProps: { unit: unit.slug, from: 'hero' } }}
+    secondary={unit.secondaryCta ?? undefined}
+    overlap={jumpItems.length > 0}
+  />
+
+  {jumpItems.length > 0 && <TaskCard heading="Jump to" items={jumpItems} kind="jump" />}
+
+  <Section id="about" heading={`About ${unit.shortName}`} hideHeading>
+    <div class="about">
+      <div class="about__copy stack">
+        <h2 class="about__h">About {unit.shortName}</h2>
+        <p>{unit.about}</p>
+        {
+          visible(unit.heldEntities) && (
+            <p class="small muted">
+              Also holds {unit.heldEntities!.map((h) => `${h.name} (${h.stake}%)`).join(' and ')}.
+            </p>
+          )
+        }
+        {visible(unit.regulator) && <p class="small muted">{unit.regulator}</p>}
+      </div>
+      <div class="about__facts">
+        <KeyFacts facts={unit.keyFacts} />
+      </div>
+    </div>
+    {
+      (visible(unit.objectives) || visible(unit.audience)) && (
+        <div class="about__extra">
+          {visible(unit.objectives) && (
+            <div class="stack">
+              <h3>Our objectives</h3>
+              <ul class="about__list">
+                {unit.objectives!.map((o) => (
+                  <li>{o}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {visible(unit.audience) && (
+            <div class="stack">
+              <h3>Who we serve</h3>
+              <ul class="about__list">
+                {unit.audience!.map((a) => (
+                  <li>{a}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      )
+    }
+  </Section>
+
+  <slot name="before-products" />
+
+  {
+    products.length > 0 && (
+      <Section id="products" tone="tint" heading="Products and services">
+        <ProductGroup
+          unitSlug={unit.slug}
+          categories={unit.categories}
+          products={products}
+          primaryCta={unit.primaryCta}
+          note={unit.productsNote}
+        />
+      </Section>
+    )
+  }
+
+  <slot name="after-products" />
+
+  {
+    campaigns.length > 0 && (
+      <Section id="offers" heading="Offers" compact>
+        <ul role="list" class="offers" style={`--n:${campaigns.length}`}>
+          {campaigns.map((c) => (
+            <li class="offer">
+              <ResponsiveImage src={c.image.src} alt={c.image.alt} ratio="4:3" />
+              <div class="offer__body stack">
+                {visible(c.offer) && <p class="figure">{c.offer}</p>}
+                <h3>{c.title}</h3>
+                <p class="small muted">{c.body}</p>
+                <Button href={c.cta.href} variant="secondary">
+                  {c.cta.label}
+                </Button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </Section>
+    )
+  }
+
+  {
+    leadership.length > 0 && (
+      <Section id="leadership" tone="surface" heading="Leadership" compact>
+        <ul role="list" class="people">
+          {leadership.map((p) => (
+            <li class="person">
+              {p.image ? (
+                <ResponsiveImage src={p.image.src} alt={p.image.alt} ratio="1:1" class="person__img" />
+              ) : (
+                <div class="person__placeholder" aria-hidden="true" />
+              )}
+              <span class="person__name">{p.name}</span>
+              <span class="person__role small muted">{p.role}</span>
+            </li>
+          ))}
+        </ul>
+      </Section>
+    )
+  }
+
+  <Section id="contact" tone="dark">
+    <div class="contact on-dark">
+      <div class="stack">
+        <h2>{unit.contact.heading}</h2>
+        <p class="contact__body">{unit.contact.body}</p>
+      </div>
+      <div class="contact__actions">
+        <Button href={unit.primaryCta.href} variant="primary" size="lg" track="apply_click" trackProps={{ unit: unit.slug, from: 'contact' }}>
+          {unit.primaryCta.label}
+        </Button>
+        <a href={CONTACT.contactCentre.href} class="btn btn--secondary btn--lg">
+          Call {CONTACT.contactCentre.display}
+        </a>
+      </div>
+    </div>
+  </Section>
+
+  <StickyCta label={unit.primaryCta.label} href={unit.primaryCta.href} unit={unit.slug} />
+</BaseLayout>
+
+<style>
+  .about {
+    display: grid;
+    gap: var(--s-8);
+  }
+  @media (min-width: 900px) {
+    .about {
+      grid-template-columns: 7fr 5fr;
+      gap: var(--s-12);
+      align-items: start;
+    }
+  }
+  .about__h {
+    font-size: var(--t-xl);
+  }
+  .about__extra {
+    display: grid;
+    gap: var(--s-8);
+    margin-top: var(--s-12);
+    padding-top: var(--s-8);
+    border-top: 1px solid var(--line);
+  }
+  @media (min-width: 640px) {
+    .about__extra {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .about__list {
+    padding-left: 1.1em;
+    display: grid;
+    gap: var(--s-2);
+  }
+  .offers {
+    display: grid;
+    gap: var(--gap);
+  }
+  @media (min-width: 900px) {
+    .offers {
+      grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+    }
+  }
+  .offer {
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    overflow: hidden;
+  }
+  .offer :global(.frame) {
+    border-radius: 0;
+  }
+  .offer__body {
+    padding: var(--s-6);
+  }
+  .people {
+    display: grid;
+    gap: var(--gap);
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+  .person {
+    display: grid;
+    gap: var(--s-2);
+  }
+  .person__placeholder {
+    aspect-ratio: 1;
+    background: var(--blue-100);
+    border-radius: var(--r-md);
+  }
+  .person__name {
+    font-weight: 700;
+    color: var(--blue);
+  }
+  .contact {
+    display: grid;
+    gap: var(--s-8);
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .contact {
+      grid-template-columns: 1fr auto;
+    }
+  }
+  .contact__body {
+    color: rgba(255, 255, 255, 0.82);
+  }
+  .contact__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+  }
+</style>

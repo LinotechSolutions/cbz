@@ -1,0 +1,40 @@
+{
+  "slug": "capital",
+  "name": "CBZ Capital",
+  "shortName": "CBZ Capital",
+  "cluster": "investments",
+  "logo": "capital",
+  "order": 4,
+  "hero": {
+    "title": "Capital raised. Transactions structured.",
+    "lede": "Debt and equity raising, loan syndications, M&A advisory, listings and infrastructure finance from the Group's investment bank.",
+    "image": { "src": "/images/accounts/partnership.webp", "alt": "Two executives shaking hands across a boardroom table" }
+  },
+  "about": "CBZ Capital is the investment banking and corporate advisory arm of CBZ Holdings. It structures and lead-arranges debt syndications and corporate bond issues, advises on mergers, acquisitions and restructurings, sponsors listings on the ZSE and VFEX, and arranges public-private partnership infrastructure finance.",
+  "keyFacts": [
+    { "label": "Structuring and capital raising", "value": "Equity, debt and mezzanine" },
+    { "label": "Listing advisory and sponsorship", "value": "ZSE and VFEX" },
+    { "label": "Buy-side and sell-side", "value": "M&A advisory" }
+  ],
+  "primaryCta": { "label": "Start a capital enquiry", "href": "/capital/enquiry" },
+  "secondaryCta": { "label": "See our services", "href": "#products" },
+  "objectives": null,
+  "audience": null,
+  "leadership": null,
+  "categories": [
+    { "id": "debt", "label": "Debt capital markets and syndications" },
+    { "id": "advisory", "label": "Corporate advisory and M&A" },
+    { "id": "equity", "label": "Equity capital markets and IPOs" },
+    { "id": "infrastructure", "label": "PPPs and infrastructure" }
+  ],
+  "regulator": null,
+  "productsNote": "Transaction advisory, capital raising and syndication terms are tailored to each mandate and subject to regulatory approvals.",
+  "contact": {
+    "heading": "Engage CBZ Capital",
+    "body": "Speak with a senior banker about capital raising, loan syndications, M&A advisory or infrastructure financing."
+  },
+  "seo": {
+    "title": "CBZ Capital: investment banking and corporate advisory",
+    "description": "Debt and equity raising, loan syndications, M&A advisory, ZSE and VFEX listings and PPP infrastructure finance from CBZ Capital."
+  }
+}

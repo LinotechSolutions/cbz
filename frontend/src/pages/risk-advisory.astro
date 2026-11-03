@@ -1,0 +1,68 @@
+---
+import { getEntry } from 'astro:content';
+import UnitLayout from '../layouts/UnitLayout.astro';
+import Section from '../components/Section.astro';
+import Icon from '../components/Icon.astro';
+import type { IconName } from '../components/icons';
+
+const unit = (await getEntry('units', 'risk-advisory'))!.data;
+
+/** How the team works, in the order a client meets it. Descriptions of services, not claims. */
+const approach: { icon: IconName; title: string; body: string }[] = [
+  {
+    icon: 'shield',
+    title: 'Assess the risk first',
+    body: 'A risk assessment maps what could go wrong, what it would cost, and which control measures reduce it before any cover is placed.',
+  },
+  {
+    icon: 'chart',
+    title: 'Place cover independently',
+    body: 'As a broker, the team negotiates across licensed underwriters on your behalf, and can structure captive and self-insurance where that fits better.',
+  },
+  {
+    icon: 'check',
+    title: 'Stand with you at claim time',
+    body: 'Claims are assessed and lodged independently, so the policy pays what it should, when it should.',
+  },
+];
+---
+
+<UnitLayout unit={unit}>
+  <Fragment slot="before-products">
+    <Section id="approach" heading="How we work" lede="Insight before insurance: the risk is understood before the cover is placed.">
+      <ol class="approach" role="list">
+        {
+          approach.map((a) => (
+            <li class="approach__item">
+              <Icon name={a.icon} size={28} class="approach__icon" />
+              <h3>{a.title}</h3>
+              <p class="small">{a.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </Section>
+  </Fragment>
+</UnitLayout>
+
+<style>
+  .approach {
+    display: grid;
+    gap: var(--gap);
+  }
+  @media (min-width: 640px) {
+    .approach {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .approach__item {
+    display: grid;
+    gap: var(--s-3);
+    align-content: start;
+    padding: var(--s-6);
+    border-left: 2px solid var(--blue-100);
+  }
+  .approach__icon {
+    color: var(--blue-700);
+  }
+</style>

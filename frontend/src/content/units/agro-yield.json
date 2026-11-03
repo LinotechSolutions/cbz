@@ -1,0 +1,36 @@
+{
+  "slug": "agro-yield",
+  "name": "CBZ Agro-Yield",
+  "shortName": "CBZ Agro-Yield",
+  "cluster": "agro-business",
+  "logo": "agro-yield",
+  "order": 9,
+  "hero": {
+    "title": "Backing the season, from inputs to offtake",
+    "lede": "Joint ventures, seasonal contract farming, commodity trading and a supply chain division covering mechanisation, equipment and water.",
+    "image": { "src": "/images/cbz-agriculture.webp", "alt": "A farmer in a maize field at harvest" }
+  },
+  "about": "CBZ Agro-Yield is the CBZ Group's agribusiness. It works with farming enterprises through joint ventures, funds seasonal contract farming, opens market and offtake routes for commodities, and supplies the mechanisation, equipment and water infrastructure that production depends on.",
+  "keyFacts": [
+    { "label": "Operating divisions", "value": "Four" },
+    { "label": "Contract farming cycles", "value": "Seasonal" },
+    { "label": "Market routes for commodities", "value": "Offtake" }
+  ],
+  "primaryCta": { "label": "Apply for farming finance", "href": "/agro-yield/apply" },
+  "secondaryCta": { "label": "Speak to the team", "href": "/contact" },
+  "objectives": null,
+  "audience": null,
+  "heldEntities": [{ "name": "ATDC Zimbabwe", "stake": 40 }],
+  "leadership": null,
+  "categories": [{ "id": "divisions", "label": "Divisions" }],
+  "regulator": null,
+  "productsNote": "Scheme terms, pricing and qualifying criteria depend on the crop, the season and the agreement in place. Speak to CBZ Agro-Yield for the current terms.",
+  "contact": {
+    "heading": "Talk to CBZ Agro-Yield",
+    "body": "Apply for seasonal finance, discuss a joint venture, or enquire about mechanisation, equipment and borehole drilling."
+  },
+  "seo": {
+    "title": "CBZ Agro-Yield: contract farming, inputs and offtake",
+    "description": "Seasonal contract farming finance, joint ventures, commodity trading and farm supply chain from CBZ Agro-Yield."
+  }
+}

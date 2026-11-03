@@ -1,0 +1,34 @@
+{
+  "unit": "bank",
+  "category": "loans",
+  "productId": "student_loan_facility",
+  "name": "Student Loan Facility",
+  "summary": "Pays tertiary fees directly into the institution account, repayable over 4 months.",
+  "benefits": [
+    "Loan amount paid directly into the tertiary institution account",
+    "Repayable over 4 months",
+    "Applicants can apply for any number of children, provided the total does not exceed 3 times net salary",
+    "Facility to ease the tertiary fees burden"
+  ],
+  "eligibility": [
+    "Account holder should have at least one month's salary coming through CBZ Bank"
+  ],
+  "audience": "Parents with children at any tertiary institution in Zimbabwe",
+  "pricing": "Paid direct to the institution",
+  "details": {
+    "tenor": "4 months",
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Apply for a loan",
+    "href": "/bank/apply"
+  },
+  "image": {
+    "src": "/images/loan-education.webp",
+    "alt": ""
+  },
+  "order": 4,
+  "verified": true
+}

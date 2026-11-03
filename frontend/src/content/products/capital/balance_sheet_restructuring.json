@@ -1,0 +1,33 @@
+{
+  "unit": "capital",
+  "category": "advisory",
+  "productId": "balance_sheet_restructuring",
+  "name": "Recapitalisation & Restructuring",
+  "summary": "Right-sizing capital structures, debt rescheduling, capital reorganization, and distressed asset advisory.",
+  "benefits": [
+    "Independent debt sustainability and covenant stress-testing",
+    "Debt-for-equity conversion frameworks and moratorium negotiations",
+    "Optimisation of debt maturity profiles and working capital cycles",
+    "Restores balance sheet health and lender confidence",
+    "Preserves going-concern enterprise value and operational continuity"
+  ],
+  "eligibility": [
+    "Comprehensive asset register and creditor schedule",
+    "Independent audit reports and turnaround strategy plan"
+  ],
+  "audience": "Enterprises undergoing strategic operational transitions or restructuring",
+  "pricing": "Strategic Advisory",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Start a capital enquiry",
+    "href": "/capital/enquiry"
+  },
+  "image": null,
+  "order": 1,
+  "verified": true
+}

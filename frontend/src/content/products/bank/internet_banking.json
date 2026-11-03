@@ -1,0 +1,34 @@
+{
+  "unit": "bank",
+  "category": "channels",
+  "productId": "internet_banking",
+  "name": "Internet Banking",
+  "summary": "Web banking for balances, statements, internal and RTGS transfers, Visa card transfers and utility payments.",
+  "benefits": [
+    "An internet based system that gives customers access to their accounts",
+    "Access account information and make payments without visiting the bank",
+    "Check balances, view and print statements",
+    "Effect internal transfers",
+    "Effect external transfers (RTGS)",
+    "Effect transfers to a Visa card",
+    "Effect payments for utilities"
+  ],
+  "eligibility": [
+    "Existing account holders"
+  ],
+  "audience": "Individuals and corporates",
+  "pricing": "For existing account holders",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Open an account",
+    "href": "/bank/open-account"
+  },
+  "image": null,
+  "order": 1,
+  "verified": true
+}

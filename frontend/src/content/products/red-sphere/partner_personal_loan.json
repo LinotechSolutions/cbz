@@ -1,0 +1,33 @@
+{
+  "unit": "red-sphere",
+  "category": "partners",
+  "productId": "partner_personal_loan",
+  "name": "Agents & Partners Personal Loans",
+  "summary": "Personal lending for Red Sphere agents and partners: more than a partnership, a financial advantage.",
+  "benefits": [
+    "Tenor: 12 months",
+    "Interest rate: 5%",
+    "Admin fees: 5.2%",
+    "Loan amount up to US$2,000",
+    "Acts as a lock-in effect for agents and partners"
+  ],
+  "eligibility": [
+    "Agent / partner KYC",
+    "Disbursement history"
+  ],
+  "audience": "All agents and partners",
+  "pricing": "5% interest · up to US$2,000",
+  "details": {
+    "tenor": "12 months",
+    "interestRate": "5%",
+    "adminFee": "5.2%",
+    "limit": "US$2,000"
+  },
+  "apply": {
+    "label": "Apply online",
+    "href": "https://rs.cbz.co.zw/"
+  },
+  "image": null,
+  "order": 0,
+  "verified": true
+}

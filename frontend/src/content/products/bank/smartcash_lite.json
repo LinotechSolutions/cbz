@@ -1,0 +1,35 @@
+{
+  "unit": "bank",
+  "category": "accounts",
+  "productId": "smartcash_lite",
+  "name": "SmartCash Lite",
+  "summary": "Instant, KYC-lite account for customers new to banking. A copy of your ID is all you need.",
+  "benefits": [
+    "CBZ debit card",
+    "Access to CBZ mobile banking (Smart Money)",
+    "No minimum balance",
+    "Instant account",
+    "KYC lite"
+  ],
+  "eligibility": [
+    "Copy of ID"
+  ],
+  "audience": "All individual clients, especially the unbanked, students and low income earners",
+  "pricing": "Opens instantly with your ID",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Open an account",
+    "href": "/bank/open-account"
+  },
+  "image": {
+    "src": "/images/accounts/individual.webp",
+    "alt": ""
+  },
+  "order": 5,
+  "verified": true
+}

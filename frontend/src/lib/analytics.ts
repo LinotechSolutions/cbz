@@ -1,137 +1,87 @@
 /**
- * Google Tag Manager / GA4 DataLayer Event Dispatcher
- *
- * Implements Kuda Tinarwo's digital analytics recommendations:
- * Distinguishes application starts, step progression, validation errors,
- * submissions, and confirmed backend completions instead of relying only
- * on a single generic form_submit event.
+ * Analytics. `track()` does nothing until the visitor has consented (Cyber and
+ * Data Protection Act). No personal data is ever passed in `props`.
  */
+export type AnalyticsEvent =
+  | 'open_account_choice'
+  | 'apply_click'
+  | 'quote_click'
+  | 'calculator_used'
+  | 'form_step'
+  | 'form_submitted'
+  | 'store_badge_click'
+  | 'chat_opened'
+  | 'login_choice';
 
-declare global {
-  interface Window {
-    dataLayer?: Record<string, any>[];
+export type Props = Record<string, string | number | boolean>;
+
+const CONSENT_KEY = 'cbz:consent';
+const queue: { event: AnalyticsEvent; props: Props }[] = [];
+
+export function hasConsent(): boolean {
+  try {
+    return typeof window !== 'undefined' && window.localStorage.getItem(CONSENT_KEY) === 'granted';
+  } catch {
+    return false;
   }
 }
 
-/** Ensure window.dataLayer exists safely in browser runtime */
-function pushToDataLayer(eventPayload: Record<string, any>) {
-  if (typeof window === 'undefined') return;
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({
-    timestamp: new Date().toISOString(),
-    ...eventPayload,
-  });
+export function setConsent(granted: boolean): void {
+  try {
+    window.localStorage.setItem(CONSENT_KEY, granted ? 'granted' : 'denied');
+  } catch {
+    /* ignore */
+  }
+  if (granted) flush();
+  window.dispatchEvent(new CustomEvent('cbz:consent', { detail: { granted } }));
+}
 
-  if (import.meta.env.DEV) {
-    console.debug('[Analytics GTM dataLayer]', eventPayload);
+export function consentDecided(): boolean {
+  try {
+    return typeof window !== 'undefined' && window.localStorage.getItem(CONSENT_KEY) !== null;
+  } catch {
+    return true; // storage blocked: do not nag
   }
 }
 
-export const analytics = {
-  /**
-   * Fired when a customer initiates an onboarding flow or application journey
-   */
-  trackApplicationStart(service: string, metadata: Record<string, any> = {}) {
-    pushToDataLayer({
-      event: 'application_start',
-      journey_service: service,
-      journey_source: metadata.source || 'web_direct',
-      ...metadata,
-    });
-  },
-
-  /**
-   * Fired when a customer navigates between steps inside a journey
-   */
-  trackApplicationStep(
-    service: string,
-    stepIndex: number,
-    stepName: string,
-    totalSteps: number,
-    metadata: Record<string, any> = {}
-  ) {
-    pushToDataLayer({
-      event: 'application_step_view',
-      journey_service: service,
-      step_index: stepIndex + 1,
-      step_name: stepName,
-      total_steps: totalSteps,
-      ...metadata,
-    });
-  },
-
-  /**
-   * Fired when validation fails or submission encounters an API/network error
-   */
-  trackApplicationError(
-    service: string,
-    stepIndex: number,
-    errorMessage: string,
-    fieldId?: string
-  ) {
-    pushToDataLayer({
-      event: 'application_error',
-      journey_service: service,
-      step_index: stepIndex + 1,
-      error_message: errorMessage,
-      field_id: fieldId || 'general',
-    });
-  },
-
-  /**
-   * Fired when the customer clicks Submit on an application
-   */
-  trackApplicationSubmission(service: string, ref: string, metadata: Record<string, any> = {}) {
-    pushToDataLayer({
-      event: 'application_submission',
-      journey_service: service,
-      application_ref: ref,
-      ...metadata,
-    });
-  },
-
-  /**
-   * Fired when the server responds 201 Created and confirms receipt of the application
-   */
-  trackApplicationConfirmedCompletion(
-    service: string,
-    referenceCode: string,
-    metadata: Record<string, any> = {}
-  ) {
-    pushToDataLayer({
-      event: 'application_confirmed_completion',
-      journey_service: service,
-      reference_code: referenceCode,
-      status: 'confirmed',
-      ...metadata,
-    });
-  },
-
-  /**
-   * Fired when a customer clicks a conversion CTA (Apply, Get Quote, Request Callback)
-   */
-  trackConversionCta(
-    action: 'apply' | 'quote' | 'callback' | 'relationship_manager' | 'login' | 'diaspora',
-    label: string,
-    destination: string
-  ) {
-    pushToDataLayer({
-      event: 'conversion_cta_click',
-      cta_action: action,
-      cta_label: label,
-      cta_destination: destination,
-    });
-  },
-
-  /**
-   * Page view tracking on virtual route changes
-   */
-  trackPageView(pageTitle: string, pagePath: string) {
-    pushToDataLayer({
-      event: 'page_view',
-      page_title: pageTitle,
-      page_location: window.location.href,
-      page_path: pagePath,
-    });
-  },
+/** Provider hook. Replace with the real tag once a vendor is chosen. */
+let sink: (event: AnalyticsEvent, props: Props) => void = (event, props) => {
+  if (import.meta.env.DEV) console.debug('[analytics]', event, props);
 };
+
+export function setSink(fn: typeof sink): void {
+  sink = fn;
+}
+
+function flush() {
+  while (queue.length) {
+    const e = queue.shift()!;
+    sink(e.event, e.props);
+  }
+}
+
+export function track(event: AnalyticsEvent, props: Props = {}): void {
+  if (typeof window === 'undefined') return;
+  if (hasConsent()) {
+    sink(event, props);
+  } else if (!consentDecided()) {
+    queue.push({ event, props });
+  }
+}
+
+/** Progressive enhancement: any element with data-track="event" data-track-props='{"k":"v"}' */
+export function bindDataTrack(root: ParentNode = document): void {
+  root.querySelectorAll<HTMLElement>('[data-track]').forEach((el) => {
+    if (el.dataset.trackBound) return;
+    el.dataset.trackBound = '1';
+    el.addEventListener('click', () => {
+      let props: Props = {};
+      try {
+        props = el.dataset.trackProps ? (JSON.parse(el.dataset.trackProps) as Props) : {};
+      } catch {
+        props = {};
+      }
+      track(el.dataset.track as AnalyticsEvent, props);
+    });
+  });
+}

@@ -1,0 +1,38 @@
+{
+  "unit": "bank",
+  "category": "channels",
+  "productId": "cbz_touch",
+  "name": "CBZ Touch",
+  "summary": "Zero-rated mobile banking: transfers, bill payments, school fees, cardless withdrawals and card controls.",
+  "benefits": [
+    "Funds transfer",
+    "Balance enquiry",
+    "Card blocking and unblocking",
+    "Cardless withdrawals",
+    "Bill payments",
+    "Mini statement requests",
+    "School fees payment",
+    "Visa on Mobile (CBZ Pay)",
+    "Dual currency",
+    "Zero rated",
+    "Access to your bank account or wallet anytime"
+  ],
+  "eligibility": [
+    "Active CBZ Bank account or wallet"
+  ],
+  "audience": "Individual clients and single signatory SMEs",
+  "pricing": "Zero rated",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Open an account",
+    "href": "/bank/open-account"
+  },
+  "image": null,
+  "order": 0,
+  "verified": true
+}

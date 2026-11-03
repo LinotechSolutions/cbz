@@ -1,0 +1,24 @@
+{
+  "unit": "datvest",
+  "category": "private-wealth",
+  "productId": "philanthropic-and-endowment-structuring",
+  "name": "Philanthropic & Endowment Structuring",
+  "summary": "Structuring enduring charitable foundations, educational endowment trusts, and impact investment funds with transparent governance.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Start investing",
+    "href": "/datvest/start-investing"
+  },
+  "image": null,
+  "order": 5,
+  "verified": false
+}

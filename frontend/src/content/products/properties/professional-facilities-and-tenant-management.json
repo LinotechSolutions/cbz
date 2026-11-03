@@ -1,0 +1,24 @@
+{
+  "unit": "properties",
+  "category": "advisory",
+  "productId": "professional-facilities-and-tenant-management",
+  "name": "Professional Facilities & Tenant Management",
+  "summary": "Lease administration, rent collection, preventative maintenance, security audits, and tenant relationship management for landlords.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Request a viewing",
+    "href": "/properties/request-a-viewing"
+  },
+  "image": null,
+  "order": 3,
+  "verified": false
+}

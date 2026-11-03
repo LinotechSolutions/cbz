@@ -1,0 +1,24 @@
+{
+  "unit": "properties",
+  "category": "residential",
+  "productId": "pomona-north-private-residential-estate",
+  "name": "Pomona North Private Residential Estate",
+  "summary": "Exclusive luxury residential enclave featuring perimeter walling, smart biometric access, paved roads, and dedicated lifestyle community parks.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Request a viewing",
+    "href": "/properties/request-a-viewing"
+  },
+  "image": null,
+  "order": 2,
+  "verified": false
+}

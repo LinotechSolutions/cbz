@@ -1,26 +1,14 @@
 {
+  "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
-    "target": "ES2022",
-    "experimentalDecorators": true,
-    "useDefineForClassFields": false,
-    "module": "ESNext",
-    "lib": [
-      "ES2022",
-      "DOM",
-      "DOM.Iterable"
-    ],
-    "skipLibCheck": true,
-    "moduleResolution": "bundler",
-    "isolatedModules": true,
-    "moduleDetection": "force",
-    "allowJs": true,
     "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["src/*"]
     },
-    "allowImportingTsExtensions": true,
-    "noEmit": true
-  }
+    "types": ["vitest/globals"]
+  },
+  "include": [".astro/types.d.ts", "src/**/*", "tests/**/*", "scripts/**/*"],
+  "exclude": ["dist", "node_modules", "src/content/_import"]
 }

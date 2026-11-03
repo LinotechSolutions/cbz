@@ -1,0 +1,41 @@
+{
+  "slug": "insurance",
+  "name": "CBZ Insurance",
+  "shortName": "CBZ Insurance",
+  "cluster": "insurance",
+  "logo": "insurance",
+  "order": 7,
+  "hero": {
+    "title": "Cover for what you have worked for",
+    "lede": "Motor, home, travel and personal cover, business and commercial policies, and protection for crops, livestock and machinery.",
+    "image": { "src": "/images/insurance-car.webp", "alt": "A car parked outside a family home" }
+  },
+  "about": "CBZ Insurance is the Group's short-term insurer, covering individuals, businesses and farms. Cover can be arranged alongside a CBZ Bank facility, so an asset is protected from the day it is financed.",
+  "keyFacts": [
+    { "label": "Motor, home, travel and accident", "value": "Personal" },
+    { "label": "Property, liability, marine and engineering", "value": "Business" },
+    { "label": "Crop, livestock and machinery", "value": "Agriculture" }
+  ],
+  "primaryCta": { "label": "Get a quote", "href": "/insurance/quote" },
+  "secondaryCta": { "label": "Car insurance calculator", "href": "#calculator" },
+  "objectives": null,
+  "audience": null,
+  "heldEntities": [{ "name": "CBZ Secure", "stake": 100 }],
+  "leadership": null,
+  "calculators": ["carInsurance"],
+  "categories": [
+    { "id": "personal", "label": "Personal" },
+    { "id": "business", "label": "Business" },
+    { "id": "agro", "label": "Agriculture" }
+  ],
+  "regulator": null,
+  "productsNote": "Terms, pricing and availability are subject to assessment. Speak to us for current terms before you rely on anything here.",
+  "contact": {
+    "heading": "Get a quote from CBZ Insurance",
+    "body": "Tell us what you need covered and we will come back with a quotation."
+  },
+  "seo": {
+    "title": "CBZ Insurance: motor, home, business and farm cover",
+    "description": "Short-term insurance from CBZ Insurance: motor, home and contents, travel, personal accident, business cover and agricultural protection."
+  }
+}

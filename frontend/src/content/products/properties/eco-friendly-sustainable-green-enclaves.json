@@ -1,0 +1,24 @@
+{
+  "unit": "properties",
+  "category": "residential",
+  "productId": "eco-friendly-sustainable-green-enclaves",
+  "name": "Eco-Friendly Sustainable Green Enclaves",
+  "summary": "Solar-powered, borehole-fed smart cluster homes built with low-carbon materials, rainwater harvesting, and smart energy metering.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Request a viewing",
+    "href": "/properties/request-a-viewing"
+  },
+  "image": null,
+  "order": 4,
+  "verified": false
+}

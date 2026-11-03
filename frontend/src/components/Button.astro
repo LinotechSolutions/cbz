@@ -1,0 +1,70 @@
+---
+import Icon from './Icon.astro';
+import { isExternal } from '../data/links';
+
+interface Props {
+  href?: string;
+  type?: 'button' | 'submit';
+  variant?: 'primary' | 'secondary' | 'quiet';
+  size?: 'md' | 'lg';
+  block?: boolean;
+  /** Analytics event name; props as a JSON string. */
+  track?: string;
+  trackProps?: Record<string, string | number | boolean>;
+  class?: string;
+  id?: string;
+  ariaLabel?: string;
+}
+
+const {
+  href,
+  type = 'button',
+  variant = 'primary',
+  size = 'md',
+  block = false,
+  track,
+  trackProps,
+  class: className = '',
+  id,
+  ariaLabel,
+} = Astro.props;
+
+const external = href ? isExternal(href) : false;
+const classes = ['btn', `btn--${variant}`, size === 'lg' && 'btn--lg', block && 'btn--block', className]
+  .filter(Boolean)
+  .join(' ');
+---
+
+{
+  href ? (
+    <a
+      id={id}
+      href={href}
+      class={classes}
+      target={external ? '_blank' : undefined}
+      rel={external ? 'noopener noreferrer' : undefined}
+      data-track={track}
+      data-track-props={trackProps ? JSON.stringify(trackProps) : undefined}
+      aria-label={ariaLabel}
+    >
+      <slot />
+      {external && (
+        <>
+          <Icon name="external" size={16} class="ext" />
+          <span class="sr-only">(opens in a new tab)</span>
+        </>
+      )}
+    </a>
+  ) : (
+    <button
+      id={id}
+      type={type}
+      class={classes}
+      data-track={track}
+      data-track-props={trackProps ? JSON.stringify(trackProps) : undefined}
+      aria-label={ariaLabel}
+    >
+      <slot />
+    </button>
+  )
+}

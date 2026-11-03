@@ -1,0 +1,36 @@
+{
+  "unit": "red-sphere",
+  "category": "business",
+  "productId": "order_finance",
+  "name": "Order Financing & Invoice Discounting",
+  "summary": "Turns outstanding invoices into working capital and improves supplier capacity.",
+  "benefits": [
+    "Tenor: 90 days",
+    "Interest: 5%",
+    "Maintain operations",
+    "Meet supplier obligations",
+    "Support business growth"
+  ],
+  "eligibility": [
+    "Company KYC",
+    "Financial and management statements",
+    "Bank statement",
+    "Letter of undertaking",
+    "Invoice or order"
+  ],
+  "audience": "Registered companies",
+  "pricing": "5% interest · 90 days",
+  "details": {
+    "tenor": "90 days",
+    "interestRate": "5%",
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Apply online",
+    "href": "https://rs.cbz.co.zw/"
+  },
+  "image": null,
+  "order": 3,
+  "verified": true
+}

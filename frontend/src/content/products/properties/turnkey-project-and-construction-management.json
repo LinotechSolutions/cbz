@@ -1,0 +1,24 @@
+{
+  "unit": "properties",
+  "category": "advisory",
+  "productId": "turnkey-project-and-construction-management",
+  "name": "Turnkey Project & Construction Management",
+  "summary": "Owner-representative management ensuring contractors deliver within budget, on schedule, and to structural engineering standards.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Request a viewing",
+    "href": "/properties/request-a-viewing"
+  },
+  "image": null,
+  "order": 2,
+  "verified": false
+}

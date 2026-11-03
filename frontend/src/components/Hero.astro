@@ -1,0 +1,174 @@
+---
+/**
+ * The hero: a navy block with the photo on the right, cut by a diagonal edge.
+ * The block beneath the hero overlaps it (see TaskCard), so the hero leaves
+ * room at the bottom with --overlap.
+ */
+import ResponsiveImage from './ResponsiveImage.astro';
+import Logo from './Logo.astro';
+import Button from './Button.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import type { DarkSafeLogoKey } from '../data/logos';
+
+interface Cta {
+  label: string;
+  href: string;
+  track?: string;
+  trackProps?: Record<string, string | number | boolean>;
+}
+interface Props {
+  title: string;
+  lede: string;
+  image: { src: string; alt: string };
+  /** Shown as the white lockup above the title on unit pages. */
+  logo?: DarkSafeLogoKey;
+  eyebrow?: string;
+  crumbs?: { label: string; href?: string }[];
+  primary?: Cta;
+  secondary?: Cta;
+  /** The home page uses the display size and a red eyebrow rule. */
+  variant?: 'unit' | 'home';
+  overlap?: boolean;
+}
+const { title, lede, image, logo, eyebrow, crumbs, primary, secondary, variant = 'unit', overlap = true } = Astro.props;
+---
+
+<header class:list={['hero', `hero--${variant}`, overlap && 'hero--overlap', 'on-dark']}>
+  <div class="hero__media">
+    <ResponsiveImage src={image.src} alt={image.alt} ratio="16:9" mobileRatio="4:5" priority class="hero__img" />
+  </div>
+  <div class="container hero__inner">
+    <div class="hero__copy">
+      {crumbs && <Breadcrumbs items={crumbs} tone="dark" />}
+      {logo && <Logo brand={logo} on="dark" height={30} class="hero__logo" />}
+      {eyebrow && <p class="hero__eyebrow">{eyebrow}</p>}
+      <h1 class:list={['hero__title', variant === 'home' && 'display']}>{title}</h1>
+      <p class="hero__lede">{lede}</p>
+      {
+        (primary || secondary) && (
+          <div class="hero__actions">
+            <slot name="primary">
+              {primary && (
+                <Button href={primary.href} variant="primary" size="lg" track={primary.track} trackProps={primary.trackProps}>
+                  {primary.label}
+                </Button>
+              )}
+            </slot>
+            {secondary && (
+              <Button href={secondary.href} variant="secondary" size="lg" track={secondary.track} trackProps={secondary.trackProps}>
+                {secondary.label}
+              </Button>
+            )}
+          </div>
+        )
+      }
+    </div>
+  </div>
+</header>
+
+<style>
+  .hero {
+    position: relative;
+    background: var(--blue);
+    color: var(--white);
+    overflow: hidden;
+  }
+  .hero--overlap {
+    padding-bottom: var(--overlap, 56px);
+  }
+  .hero__media {
+    position: relative;
+  }
+  .hero__media :global(.frame) {
+    border-radius: 0;
+  }
+  /* Navy wash rises from the bottom of the photo on phones so the copy reads. */
+  .hero__media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0, 37, 84, 0) 35%, var(--blue) 100%);
+    pointer-events: none;
+  }
+  .hero__inner {
+    position: relative;
+    margin-top: calc(-1 * var(--s-16));
+    padding-bottom: var(--s-8);
+  }
+  .hero__copy {
+    display: grid;
+    gap: var(--s-4);
+    max-width: 36rem;
+  }
+  .hero__logo {
+    margin-left: calc(-1 * var(--s-1));
+  }
+  .hero__eyebrow {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: var(--t-sm);
+    padding-top: var(--s-3);
+    position: relative;
+  }
+  .hero__eyebrow::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: var(--red);
+  }
+  .hero--unit .hero__eyebrow::before {
+    background: var(--blue-100);
+  }
+  .hero__title {
+    color: var(--white);
+  }
+  .hero__lede {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: var(--t-lg);
+    line-height: 1.4;
+    max-width: 32rem;
+  }
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    margin-top: var(--s-2);
+  }
+
+  @media (min-width: 900px) {
+    .hero {
+      min-height: 520px;
+      display: grid;
+    }
+    .hero--home {
+      min-height: 600px;
+    }
+    .hero__media {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 52%;
+      clip-path: polygon(14% 0, 100% 0, 100% 100%, 0 100%);
+    }
+    .hero__media :global(.frame) {
+      height: 100%;
+      aspect-ratio: auto;
+    }
+    .hero__media::after {
+      background: linear-gradient(to right, rgba(0, 37, 84, 0.35) 0%, rgba(0, 37, 84, 0) 40%);
+    }
+    .hero__inner {
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+      padding-block: var(--s-16);
+    }
+    .hero__copy {
+      width: 48%;
+      padding-right: var(--s-8);
+    }
+  }
+</style>

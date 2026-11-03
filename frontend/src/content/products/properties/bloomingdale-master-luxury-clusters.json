@@ -1,0 +1,24 @@
+{
+  "unit": "properties",
+  "category": "residential",
+  "productId": "bloomingdale-master-luxury-clusters",
+  "name": "Bloomingdale Master Luxury Clusters",
+  "summary": "Exclusive gated community of modern 3-bed and 4-bed duplex cluster homes with integrated solar systems, paved driveways, and 24/7 security.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Request a viewing",
+    "href": "/properties/request-a-viewing"
+  },
+  "image": null,
+  "order": 0,
+  "verified": false
+}

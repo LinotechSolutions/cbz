@@ -1,0 +1,24 @@
+{
+  "unit": "properties",
+  "category": "advisory",
+  "productId": "real-estate-investment-trust-reit-structuring",
+  "name": "Real Estate Investment Trust (REIT) Structuring",
+  "summary": "Advisory and structuring of yield-generating commercial property portfolios for public and institutional capital market listing.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Request a viewing",
+    "href": "/properties/request-a-viewing"
+  },
+  "image": null,
+  "order": 5,
+  "verified": false
+}

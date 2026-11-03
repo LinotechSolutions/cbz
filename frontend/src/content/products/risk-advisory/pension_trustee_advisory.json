@@ -1,0 +1,33 @@
+{
+  "unit": "risk-advisory",
+  "category": "benefits",
+  "productId": "pension_trustee_advisory",
+  "name": "Pension Fund Structuring & Trustee Advisory",
+  "summary": "Independent consulting to pension fund trustees on scheme design, investment policy statements, and IPEC regulatory compliance.",
+  "benefits": [
+    "Review and drafting of pension fund rules and member communications",
+    "Asset-liability modeling and independent investment performance monitoring",
+    "Prescribed asset compliance advisory and governance health checks",
+    "Ensures full statutory alignment with IPEC pension regulations",
+    "Optimises fund performance to safeguard member retirement benefits"
+  ],
+  "eligibility": [
+    "Current pension fund rules and registration certificate",
+    "Actuarial valuation reports and asset manager statements"
+  ],
+  "audience": "Pension fund boards of trustees, principal officers, and employers",
+  "pricing": "Retirement Advisory",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Request a risk consultation",
+    "href": "/risk-advisory/consultation"
+  },
+  "image": null,
+  "order": 0,
+  "verified": true
+}

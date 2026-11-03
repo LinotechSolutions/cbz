@@ -1,0 +1,112 @@
+/* CBZ Sans, self-hosted. Only Regular, Bold and Italic ship; nothing else is needed. */
+@font-face {
+  font-family: 'CBZ Sans';
+  src: url('/fonts/CBZSans-Regular.woff2') format('woff2'), url('/fonts/CBZSans-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'CBZ Sans';
+  src: url('/fonts/CBZSans-Italic.woff2') format('woff2'), url('/fonts/CBZSans-Italic.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'CBZ Sans';
+  src: url('/fonts/CBZSans-Bold.woff2') format('woff2'), url('/fonts/CBZSans-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+html {
+  font-family: var(--font);
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-size: var(--t-md);
+  line-height: var(--lh-body);
+  color: var(--ink);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 700;
+  color: var(--blue);
+  line-height: var(--lh-heading);
+  text-wrap: balance;
+  margin: 0;
+}
+
+h1 {
+  font-size: var(--t-2xl);
+  line-height: var(--lh-display);
+  letter-spacing: -0.01em;
+}
+h2 {
+  font-size: var(--t-xl);
+}
+h3 {
+  font-size: var(--t-lg);
+}
+h4 {
+  font-size: var(--t-md);
+}
+
+p {
+  margin: 0;
+  max-width: var(--measure);
+}
+p + p {
+  margin-top: var(--s-4);
+}
+
+.display {
+  font-size: var(--t-3xl);
+  line-height: var(--lh-display);
+  letter-spacing: -0.015em;
+}
+
+.lede {
+  font-size: var(--t-lg);
+  line-height: 1.4;
+  color: var(--grey);
+}
+
+.small {
+  font-size: var(--t-xs);
+}
+
+.muted {
+  color: var(--grey);
+}
+
+.figure {
+  font-size: var(--t-2xl);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--blue);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+strong,
+b {
+  font-weight: 700;
+}
+
+a {
+  color: var(--blue-700);
+  text-underline-offset: 0.15em;
+  text-decoration-thickness: 1px;
+}
+a:hover {
+  color: var(--blue);
+}

@@ -1,0 +1,458 @@
+---
+/**
+ * Products as a directory: category tabs on desktop, accordions on mobile, and
+ * a row per product that expands in place. Without JavaScript every category
+ * is an open <details> with its rows visible, so nothing is lost.
+ */
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+import { visible } from '../lib/visible';
+
+export interface ProductRow {
+  productId: string;
+  category: string;
+  name: string;
+  summary: string;
+  benefits: string[];
+  eligibility: string[] | null;
+  audience: string | null;
+  pricing: string | null;
+  details?: { tenor: string | null; interestRate: string | null; adminFee: string | null; limit: string | null };
+  apply: { label: string; href: string };
+}
+
+interface Props {
+  unitSlug: string;
+  categories: readonly { id: string; label: string }[];
+  products: ProductRow[];
+  primaryCta: { label: string; href: string };
+  note?: string | null;
+}
+const { unitSlug, categories, products, primaryCta, note } = Astro.props;
+
+const groups = categories
+  .map((c) => ({ ...c, items: products.filter((p) => p.category === c.id) }))
+  .filter((g) => g.items.length > 0);
+
+const detailLabels: Record<string, string> = {
+  tenor: 'Term',
+  interestRate: 'Interest',
+  adminFee: 'Admin fee',
+  limit: 'Maximum',
+};
+---
+
+<div class="pg" data-product-group data-unit={unitSlug}>
+  <div class="pg__tabs" role="tablist" aria-label="Product categories" hidden>
+    {
+      groups.map((g, i) => (
+        <button
+          type="button"
+          role="tab"
+          id={`tab-${unitSlug}-${g.id}`}
+          aria-controls={`panel-${unitSlug}-${g.id}`}
+          aria-selected={i === 0 ? 'true' : 'false'}
+          tabindex={i === 0 ? 0 : -1}
+          class="pg__tab"
+        >
+          {g.label}
+          <span class="pg__count">{g.items.length}</span>
+        </button>
+      ))
+    }
+  </div>
+
+  {
+    groups.map((g, i) => (
+      <details class="pg__group" id={`panel-${unitSlug}-${g.id}`} open={i === 0} data-group={g.id}>
+        <summary class="pg__summary">
+          <span class="pg__summary-text">
+            {g.label} <span class="pg__count">{g.items.length}</span>
+          </span>
+          <Icon name="chevronDown" size={20} class="pg__summary-chev" />
+        </summary>
+        <ul role="list" class="pg__rows rule-list">
+          {g.items.map((p) => (
+            <li class="row" id={`product-${unitSlug}-${p.productId}`}>
+              <details class="row__details">
+                <summary class="row__summary">
+                  <span class="row__head">
+                    <span class="row__name">{p.name}</span>
+                    <span class="row__text">{p.summary}</span>
+                    {visible(p.pricing) && <span class="row__pricing">{p.pricing}</span>}
+                  </span>
+                  <Icon name="chevronDown" size={20} class="row__chev" />
+                </summary>
+                <div class="row__body">
+                  {visible(p.benefits) && (
+                    <div class="row__col">
+                      <h4>What you get</h4>
+                      <ul class="row__list">
+                        {p.benefits.map((b) => (
+                          <li>{b}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {(visible(p.audience) || visible(p.eligibility)) && (
+                    <div class="row__col">
+                      <h4>Who it's for</h4>
+                      {visible(p.audience) && <p>{p.audience}</p>}
+                      {visible(p.eligibility) && (
+                        <>
+                          <p class="small muted">You will need</p>
+                          <ul class="row__list">
+                            {p.eligibility!.map((e) => (
+                              <li>{e}</li>
+                            ))}
+                          </ul>
+                        </>
+                      )}
+                    </div>
+                  )}
+                  <div class="row__col">
+                    <h4>How to apply</h4>
+                    {p.details && Object.entries(p.details).some(([, v]) => visible(v)) && (
+                      <dl class="row__terms">
+                        {Object.entries(p.details)
+                          .filter(([, v]) => visible(v))
+                          .map(([k, v]) => (
+                            <div>
+                              <dt>{detailLabels[k] ?? k}</dt>
+                              <dd>{v}</dd>
+                            </div>
+                          ))}
+                      </dl>
+                    )}
+                    <Button
+                      href={p.apply.href}
+                      variant="primary"
+                      track="apply_click"
+                      trackProps={{ unit: unitSlug, product: p.productId }}
+                    >
+                      {p.apply.label}
+                    </Button>
+                  </div>
+                </div>
+              </details>
+            </li>
+          ))}
+        </ul>
+        <div class="pg__cta">
+          <Button href={primaryCta.href} variant="primary" track="apply_click" trackProps={{ unit: unitSlug, from: g.id }}>
+            {primaryCta.label}
+          </Button>
+        </div>
+      </details>
+    ))
+  }
+
+  {visible(note) && <p class="pg__note small muted">{note}</p>}
+</div>
+
+<script>
+  /**
+   * Upgrades the category <details> list into tabs at desktop width. Keeps
+   * the accordions on phones. ARIA tabs pattern: arrow keys move focus,
+   * Home/End jump, Enter/Space (native) activate.
+   */
+  const mq = window.matchMedia('(min-width: 900px)');
+
+  function setup(root: HTMLElement) {
+    const tablist = root.querySelector<HTMLElement>('[role="tablist"]')!;
+    const tabs = Array.from(tablist.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+    const groups = Array.from(root.querySelectorAll<HTMLDetailsElement>('.pg__group'));
+
+    function select(index: number, focus = false) {
+      tabs.forEach((t, i) => {
+        const on = i === index;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        t.tabIndex = on ? 0 : -1;
+        groups[i].open = on;
+        groups[i].classList.toggle('pg__group--active', on);
+      });
+      if (focus) tabs[index].focus();
+    }
+
+    function apply() {
+      const desktop = mq.matches;
+      tablist.hidden = !desktop;
+      root.classList.toggle('pg--tabs', desktop);
+      if (desktop) {
+        const current = Math.max(0, tabs.findIndex((t) => t.getAttribute('aria-selected') === 'true'));
+        select(current);
+      } else {
+        groups.forEach((g, i) => {
+          g.classList.remove('pg__group--active');
+          g.open = i === 0;
+        });
+      }
+    }
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => select(i));
+      tab.addEventListener('keydown', (e) => {
+        const n = tabs.length;
+        let next = -1;
+        if (e.key === 'ArrowRight') next = (i + 1) % n;
+        else if (e.key === 'ArrowLeft') next = (i - 1 + n) % n;
+        else if (e.key === 'Home') next = 0;
+        else if (e.key === 'End') next = n - 1;
+        if (next >= 0) {
+          e.preventDefault();
+          select(next, true);
+        }
+      });
+    });
+
+    // Deep links like #product-bank-current open the right category and row.
+    function openHash() {
+      const id = decodeURIComponent(location.hash.slice(1));
+      if (!id) return;
+      const row = root.querySelector<HTMLElement>(`#${CSS.escape(id)}`);
+      if (!row) return;
+      const group = row.closest<HTMLDetailsElement>('.pg__group');
+      if (group) {
+        const gi = groups.indexOf(group);
+        if (mq.matches && gi >= 0) select(gi);
+        else group.open = true;
+      }
+      const details = row.querySelector<HTMLDetailsElement>('.row__details');
+      if (details) details.open = true;
+      row.scrollIntoView({ block: 'start' });
+    }
+
+    apply();
+    mq.addEventListener('change', apply);
+    window.addEventListener('hashchange', openHash);
+    openHash();
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-product-group]').forEach(setup);
+</script>
+
+<style>
+  .pg {
+    display: grid;
+    gap: var(--s-4);
+  }
+  .pg__tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: var(--s-2);
+    margin-bottom: var(--s-2);
+  }
+  .pg__tab {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    min-height: var(--tap);
+    padding: 0 var(--s-4);
+    border-radius: var(--r-sm);
+    font-weight: 700;
+    color: var(--grey);
+    position: relative;
+    transition: color var(--dur) var(--ease);
+  }
+  .pg__tab:hover {
+    color: var(--blue);
+  }
+  .pg__tab[aria-selected='true'] {
+    color: var(--blue);
+  }
+  .pg__tab[aria-selected='true']::after {
+    content: '';
+    position: absolute;
+    left: var(--s-4);
+    right: var(--s-4);
+    bottom: calc(-1 * var(--s-2) - 1px);
+    height: 2px;
+    background: var(--blue);
+  }
+  .pg__count {
+    font-size: var(--t-xs);
+    font-weight: 400;
+    color: var(--grey);
+    background: var(--surface);
+    border-radius: 999px;
+    padding: 0 var(--s-2);
+    min-width: 22px;
+    text-align: center;
+    line-height: 22px;
+  }
+  .pg__group {
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: var(--white);
+  }
+  .pg--tabs .pg__group {
+    border: 0;
+  }
+  .pg--tabs .pg__group:not(.pg__group--active) {
+    display: none;
+  }
+  .pg__summary {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-4);
+    padding: var(--s-4) var(--s-6);
+    min-height: var(--tap);
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--blue);
+    font-size: var(--t-lg);
+  }
+  .pg__summary::-webkit-details-marker {
+    display: none;
+  }
+  .pg--tabs .pg__summary {
+    display: none;
+  }
+  .pg__summary-text {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-3);
+  }
+  .pg__summary-chev {
+    transition: transform var(--dur) var(--ease);
+    color: var(--blue-700);
+  }
+  .pg__group[open] > .pg__summary .pg__summary-chev {
+    transform: rotate(180deg);
+  }
+  .pg__rows {
+    border-top: 1px solid var(--line);
+  }
+  .pg--tabs .pg__rows {
+    border-top: 0;
+  }
+  @media (min-width: 900px) {
+    .pg--tabs .pg__rows {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: var(--s-8);
+    }
+    .pg--tabs .pg__rows > li {
+      border-top: 1px solid var(--line);
+    }
+  }
+  .row__details {
+    width: 100%;
+  }
+  .row__summary {
+    list-style: none;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--s-4);
+    padding: var(--s-4) var(--s-6);
+    cursor: pointer;
+    min-height: var(--tap);
+  }
+  .pg--tabs .row__summary {
+    padding-inline: var(--s-2);
+  }
+  .row__summary::-webkit-details-marker {
+    display: none;
+  }
+  .row__summary:hover .row__name {
+    color: var(--blue-700);
+  }
+  .row__head {
+    display: grid;
+    gap: var(--s-1);
+    flex: 1;
+  }
+  .row__name {
+    font-weight: 700;
+    color: var(--blue);
+    font-size: var(--t-md);
+  }
+  .row__text {
+    color: var(--grey);
+    font-size: var(--t-sm);
+    max-width: 48ch;
+  }
+  .row__pricing {
+    font-size: var(--t-xs);
+    color: var(--blue-700);
+    font-weight: 700;
+    margin-top: var(--s-1);
+  }
+  .row__chev {
+    color: var(--blue-700);
+    flex-shrink: 0;
+    margin-top: 2px;
+    transition: transform var(--dur) var(--ease);
+  }
+  .row__details[open] > .row__summary .row__chev {
+    transform: rotate(180deg);
+  }
+  .row__body {
+    display: grid;
+    gap: var(--s-6);
+    padding: 0 var(--s-6) var(--s-6);
+    background: var(--blue-50);
+    border-radius: var(--r-md);
+    margin: 0 var(--s-2) var(--s-4);
+    padding-top: var(--s-6);
+  }
+  @media (min-width: 640px) {
+    .row__body {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .row__col {
+    display: grid;
+    gap: var(--s-3);
+    align-content: start;
+  }
+  .row__col h4 {
+    font-size: var(--t-sm);
+    color: var(--blue);
+  }
+  .row__col p {
+    font-size: var(--t-sm);
+  }
+  .row__list {
+    padding-left: 1.1em;
+    font-size: var(--t-sm);
+    display: grid;
+    gap: var(--s-1);
+  }
+  .row__terms {
+    margin: 0;
+    display: grid;
+    gap: var(--s-2);
+    font-size: var(--t-sm);
+  }
+  .row__terms div {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--s-4);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: var(--s-1);
+  }
+  .row__terms dt {
+    color: var(--grey);
+  }
+  .row__terms dd {
+    margin: 0;
+    font-weight: 700;
+    color: var(--blue);
+    text-align: right;
+  }
+  .pg__cta {
+    padding: var(--s-6);
+    border-top: 1px solid var(--line);
+  }
+  .pg--tabs .pg__cta {
+    padding-inline: 0;
+  }
+  .pg__note {
+    max-width: var(--measure);
+  }
+</style>

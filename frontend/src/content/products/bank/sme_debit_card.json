@@ -1,0 +1,29 @@
+{
+  "unit": "bank",
+  "category": "cards",
+  "productId": "sme_debit_card",
+  "name": "SME's Debit Card",
+  "summary": "Debit card issued to small companies for ATM and POS access.",
+  "benefits": [
+    "Issued to small companies",
+    "Debit card access via Automated Teller Machines or Point of Sale terminals"
+  ],
+  "eligibility": [
+    "For already existing SME clients"
+  ],
+  "audience": "SME's",
+  "pricing": "For existing SME clients",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Open an account",
+    "href": "/bank/open-account"
+  },
+  "image": null,
+  "order": 3,
+  "verified": true
+}

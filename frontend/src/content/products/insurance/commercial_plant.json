@@ -1,0 +1,24 @@
+{
+  "unit": "insurance",
+  "category": "business",
+  "productId": "commercial_plant",
+  "name": "Commercial Property & Plant",
+  "summary": "Covers physical premises, industrial machinery, and warehoused inventory against perils.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Get a quote",
+    "href": "/insurance/quote"
+  },
+  "image": null,
+  "order": 0,
+  "verified": false
+}

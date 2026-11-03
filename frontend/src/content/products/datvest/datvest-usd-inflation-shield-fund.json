@@ -1,0 +1,24 @@
+{
+  "unit": "datvest",
+  "category": "unit-trusts",
+  "productId": "datvest-usd-inflation-shield-fund",
+  "name": "Datvest USD Inflation-Shield Fund",
+  "summary": "Hard-currency denominated portfolio safeguarding purchasing power through US Dollar securities, corporate notes, and export paper.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Start investing",
+    "href": "/datvest/start-investing"
+  },
+  "image": null,
+  "order": 4,
+  "verified": false
+}

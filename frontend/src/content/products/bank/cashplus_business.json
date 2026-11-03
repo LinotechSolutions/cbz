@@ -1,0 +1,34 @@
+{
+  "unit": "bank",
+  "category": "savings",
+  "productId": "cashplus_business",
+  "name": "CashPlus Business",
+  "summary": "Six-month investment account with tiered interest rates and no account maintenance fees.",
+  "benefits": [
+    "Minimum balance, for individuals only",
+    "Tiered interest rates, calculated on the minimum monthly balance and paid monthly",
+    "6 months investment period",
+    "No account maintenance fees"
+  ],
+  "eligibility": [
+    "New and existing account holders"
+  ],
+  "audience": "Individuals",
+  "pricing": "6 month investment period",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Open an account",
+    "href": "/bank/open-account"
+  },
+  "image": {
+    "src": "/images/accounts/partnership.webp",
+    "alt": ""
+  },
+  "order": 8,
+  "verified": true
+}

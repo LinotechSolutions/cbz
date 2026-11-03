@@ -1,0 +1,100 @@
+---
+/**
+ * App Store and Play Store links. Official badge artwork has not been supplied,
+ * so these are neutral buttons for now; swap the inner markup for the badge
+ * images when Marketing provides them. A link is hidden when its URL is null.
+ */
+import Icon from './Icon.astro';
+import { visible } from '../lib/visible';
+
+interface Props {
+  app: string;
+  appStore: string | null;
+  playStore: string | null;
+  tone?: 'light' | 'dark';
+}
+const { app, appStore, playStore, tone = 'light' } = Astro.props;
+---
+
+{
+  (visible(appStore) || visible(playStore)) && (
+    <div class:list={['badges', `badges--${tone}`]}>
+      {visible(appStore) && (
+        <a
+          href={appStore}
+          class="badge"
+          target="_blank"
+          rel="noopener noreferrer"
+          data-track="store_badge_click"
+          data-track-props={JSON.stringify({ app, store: 'app-store' })}
+        >
+          <Icon name="apple" size={22} />
+          <span>
+            <span class="badge__small">Download on the</span>
+            <span class="badge__big">App Store</span>
+          </span>
+          <span class="sr-only">(opens in a new tab)</span>
+        </a>
+      )}
+      {visible(playStore) && (
+        <a
+          href={playStore}
+          class="badge"
+          target="_blank"
+          rel="noopener noreferrer"
+          data-track="store_badge_click"
+          data-track-props={JSON.stringify({ app, store: 'play-store' })}
+        >
+          <Icon name="play" size={22} />
+          <span>
+            <span class="badge__small">Get it on</span>
+            <span class="badge__big">Google Play</span>
+          </span>
+          <span class="sr-only">(opens in a new tab)</span>
+        </a>
+      )}
+    </div>
+  )
+}
+
+<style>
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-3);
+    min-height: var(--tap);
+    padding: var(--s-2) var(--s-4);
+    border-radius: var(--r-sm);
+    background: var(--ink);
+    color: var(--white);
+    text-decoration: none;
+    line-height: 1.1;
+  }
+  .badge:hover {
+    background: #000;
+    color: var(--white);
+  }
+  .badges--dark .badge {
+    background: var(--white);
+    color: var(--blue-900);
+  }
+  .badges--dark .badge:hover {
+    background: var(--blue-50);
+    color: var(--blue-900);
+  }
+  .badge > span {
+    display: grid;
+  }
+  .badge__small {
+    font-size: 10px;
+  }
+  .badge__big {
+    font-size: var(--t-sm);
+    font-weight: 700;
+  }
+</style>

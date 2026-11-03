@@ -1,0 +1,42 @@
+{
+  "slug": "bank",
+  "name": "CBZ Bank",
+  "shortName": "CBZ Bank",
+  "cluster": "banking",
+  "logo": "bank",
+  "order": 1,
+  "hero": {
+    "title": "Banking for every stage of life",
+    "lede": "Accounts, cards, savings and loans for individuals, companies, schools and churches, with CBZ Touch and internet banking.",
+    "image": { "src": "/images/cbz-banking.webp", "alt": "A customer at a CBZ Bank counter" }
+  },
+  "about": "CBZ Bank is the Group's commercial bank. It runs everyday transactional and savings accounts, foreign currency accounts, cards, and personal and school fee lending, alongside internet banking, CBZ Touch and merchant point of sale.",
+  "keyFacts": [
+    { "label": "Products in the retail catalogue", "value": "39" },
+    { "label": "Foreign currencies held", "value": "Five" },
+    { "label": "CBZ Touch mobile banking", "value": "Zero rated" }
+  ],
+  "primaryCta": { "label": "Open an account", "href": "/bank/open-account" },
+  "secondaryCta": { "label": "Apply for a loan", "href": "/bank/apply" },
+  "objectives": null,
+  "audience": null,
+  "leadership": null,
+  "calculators": ["mortgage", "carFinance"],
+  "categories": [
+    { "id": "accounts", "label": "Accounts" },
+    { "id": "savings", "label": "Savings and investments" },
+    { "id": "loans", "label": "Loans" },
+    { "id": "cards", "label": "Cards" },
+    { "id": "channels", "label": "Digital and merchant" }
+  ],
+  "regulator": "CBZ Bank Limited is a registered commercial bank supervised by the Reserve Bank of Zimbabwe.",
+  "productsNote": "Requirements, features and benefits are those set out in the Retail Banking Product Manual. Lending is subject to credit assessment, and interest rates are subject to change; confirm current terms before you apply.",
+  "contact": {
+    "heading": "Open an account with CBZ Bank",
+    "body": "Apply online, or ask a relationship manager to call you back about accounts, cards and lending."
+  },
+  "seo": {
+    "title": "CBZ Bank: accounts, cards, loans and mortgages",
+    "description": "Open a CBZ Bank account, apply for a loan or mortgage, and bank on CBZ Touch. Accounts for individuals, companies, schools and churches."
+  }
+}

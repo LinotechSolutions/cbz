@@ -1,0 +1,40 @@
+{
+  "unit": "red-sphere",
+  "category": "business",
+  "productId": "sme_working_capital",
+  "name": "SME Working Capital",
+  "summary": "Closes cash-flow gaps for registered enterprises so they can keep trading and fulfil customer orders.",
+  "benefits": [
+    "Tenor: 12 months",
+    "Interest: 5%",
+    "Admin fees: 5.2%",
+    "Business continuity",
+    "Supports business growth",
+    "Fulfil customer orders"
+  ],
+  "eligibility": [
+    "Company KYC documents",
+    "Financials for the past year",
+    "Management accounts",
+    "Shop licence",
+    "Tax clearance",
+    "KYC for all directors",
+    "Bank statement",
+    "Copy of security to be declared"
+  ],
+  "audience": "Registered enterprises",
+  "pricing": "5% interest · 5.2% admin fee",
+  "details": {
+    "tenor": "12 months",
+    "interestRate": "5%",
+    "adminFee": "5.2%",
+    "limit": null
+  },
+  "apply": {
+    "label": "Apply online",
+    "href": "https://rs.cbz.co.zw/"
+  },
+  "image": null,
+  "order": 0,
+  "verified": true
+}

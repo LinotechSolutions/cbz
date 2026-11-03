@@ -1,0 +1,27 @@
+{
+  "id": "neighborhood-retail-convenience-hubs",
+  "title": "Neighborhood Retail Convenience Hubs",
+  "type": "commercial",
+  "location": "Harare",
+  "status": "to-let",
+  "price": null,
+  "summary": "Master-planned suburban retail strips anchored by national supermarkets, pharmacies, fuel stations, and drive-through food outlets.",
+  "details": [],
+  "images": [
+    {
+      "src": "/images/loan-home.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking-branch.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 2,
+  "verified": false
+}

@@ -5,21 +5,21 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Copy package management manifests
+# Copy package management manifests. The lockfile lives at the npm workspace
+# root, so it is only present when the build context is the repo root.
 COPY package.json package-lock.json* ./
 
-# Install dependencies with legacy peer deps flag for React 19 compatibility
-RUN npm ci --legacy-peer-deps || npm install --legacy-peer-deps
+# Install dependencies (dev deps included: the build needs tsx and astro)
+RUN if [ -f package-lock.json ]; then npm ci; else npm install --no-audit --no-fund; fi
 
 # Copy project source files
 COPY . .
 
-# Vite inlines VITE_* vars at build time, so they must be build args
-# (Railway passes service variables to declared ARGs automatically)
-ARG VITE_STRAPI_URL
-ENV VITE_STRAPI_URL=$VITE_STRAPI_URL
+# Public site URL for canonical links and the sitemap
+ARG SITE_URL=https://www.cbz.co.zw
+ENV SITE_URL=$SITE_URL
 
-# Build production bundle
+# Port content, build the static site, write HANDOFF.md
 RUN npm run build
 
 # ==========================================

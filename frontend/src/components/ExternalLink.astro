@@ -1,0 +1,30 @@
+---
+import Icon from './Icon.astro';
+import { isExternal } from '../data/links';
+
+interface Props {
+  href: string;
+  class?: string;
+  /** Force new-tab behaviour off, e.g. for tel: and mailto: links. */
+  sameTab?: boolean;
+}
+const { href, class: className = '', sameTab = false } = Astro.props;
+const external = isExternal(href) && !sameTab;
+---
+
+<a
+  href={href}
+  class={className}
+  target={external ? '_blank' : undefined}
+  rel={external ? 'noopener noreferrer' : undefined}
+>
+  <slot />
+  {
+    external && (
+      <>
+        <Icon name="external" size={14} class="ext" />
+        <span class="sr-only">(opens in a new tab)</span>
+      </>
+    )
+  }
+</a>

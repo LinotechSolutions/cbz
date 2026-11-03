@@ -1,0 +1,27 @@
+{
+  "id": "eco-friendly-sustainable-green-enclaves",
+  "title": "Eco-Friendly Sustainable Green Enclaves",
+  "type": "residential",
+  "location": "Harare",
+  "status": "for-sale",
+  "price": null,
+  "summary": "Solar-powered, borehole-fed smart cluster homes built with low-carbon materials, rainwater harvesting, and smart energy metering.",
+  "details": [],
+  "images": [
+    {
+      "src": "/images/loan-home.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking-branch.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 4,
+  "verified": false
+}

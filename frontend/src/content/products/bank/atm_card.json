@@ -1,0 +1,29 @@
+{
+  "unit": "bank",
+  "category": "cards",
+  "productId": "atm_card",
+  "name": "ATM Card",
+  "summary": "Debit card giving access to your account through ATMs and point of sale terminals.",
+  "benefits": [
+    "Access funds in your individual account through ATMs or POS terminals",
+    "Debit card access via Automated Teller Machines or Point of Sale terminals"
+  ],
+  "eligibility": [
+    "Existing individual account holders"
+  ],
+  "audience": "Individuals",
+  "pricing": "For existing account holders",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Open an account",
+    "href": "/bank/open-account"
+  },
+  "image": null,
+  "order": 2,
+  "verified": true
+}

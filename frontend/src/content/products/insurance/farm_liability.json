@@ -1,0 +1,24 @@
+{
+  "unit": "insurance",
+  "category": "agro",
+  "productId": "farm_liability",
+  "name": "Agro Farm Liability Cover",
+  "summary": "Third-party liability protection covering pesticide drift, farm vehicle incidents, and public visitors.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Get a quote",
+    "href": "/insurance/quote"
+  },
+  "image": null,
+  "order": 5,
+  "verified": false
+}

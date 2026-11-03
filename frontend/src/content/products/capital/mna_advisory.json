@@ -1,0 +1,34 @@
+{
+  "unit": "capital",
+  "category": "advisory",
+  "productId": "mna_advisory",
+  "name": "Mergers & Acquisitions (M&A)",
+  "summary": "Comprehensive buy-side and sell-side advisory, target valuation, transaction structuring, and deal execution.",
+  "benefits": [
+    "Target screening, strategic alignment assessment, and synergy quantification",
+    "Transaction structuring, valuation modeling (DCF, comparable multiples, NAV)",
+    "Full management of regulatory approvals (ZSE, SECZIM, CTC, Reserve Bank)",
+    "Maximised shareholder realization value and disciplined acquisition pricing",
+    "Navigates complex statutory compliance and antitrust hurdles seamlessly"
+  ],
+  "eligibility": [
+    "Company memorandum and articles of association",
+    "Historical audited accounts and management records",
+    "Board resolution authorising transaction mandate"
+  ],
+  "audience": "Shareholders, institutional investors, and expanding corporates",
+  "pricing": "Corporate Advisory",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Start a capital enquiry",
+    "href": "/capital/enquiry"
+  },
+  "image": null,
+  "order": 0,
+  "verified": true
+}

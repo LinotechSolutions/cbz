@@ -1,147 +1,104 @@
 /**
- * Single source of truth for group facts, contact details and branch hours.
- * Every page must read from here — never hardcode these values in a component.
- *
- * Values marked `confirmed: false` were in conflict across the site and one was
- * chosen (see `note`). Business owners must confirm before release.
+ * Group facts and contact details. Every page reads from here; nothing is
+ * hardcoded in a component. Unconfirmed values are `null` and never render.
  */
 
-/** Visible placeholder for anything awaiting business / compliance confirmation. */
-export const tbc = (what: string) => `[TBC: ${what}]`;
-
-export interface Fact {
-  value: string;
-  confirmed: boolean;
-  note?: string;
-}
-
-export const GROUP_FACTS = {
-  years: {
-    value: '46 years',
-    confirmed: false,
-    note: 'Homepage said "46 Years"; CBZ Bank page said "40+ Yrs". Chose the homepage value.',
-  },
-  branches: {
-    value: 'Over 60 branches',
-    confirmed: false,
-    note: 'Homepage/contact said "Over 60 branches"; CBZ Bank page said "120+ branches & agencies". Chose the homepage value.',
-  },
-  zseListed: { value: 'Listed on the Zimbabwe Stock Exchange (ZSE: CBZ)', confirmed: true },
-  /**
-   * Spelled out in running copy. The count signals scale to investors, but the
-   * customer-facing proposition leads with the connected ecosystem, not the
-   * number of businesses.
-   *
-   * Corrected against the CBZ Holdings Pitchbook 2026 structure chart, which
-   * shows ten operating companies across four clusters: Banking (CBZ Bank, Red
-   * Sphere Finance, CBZ Custodial Services), Investments (CBZ Properties, CBZ
-   * Capital, Datvest), Insurance (CBZ Life, CBZ Insurance, CBZ Risk Advisory
-   * Services) and Agro-Business (CBZ Agro-Yield). The site previously said
-   * "nine", which counted only the companies that have a page here.
-   */
-  companies: { value: 'ten operating companies', confirmed: true },
-  /** The four operating clusters. Philanthropy is held separately, not a cluster. */
-  clusters: { value: 'four business clusters', confirmed: true },
-  /** Pitchbook milestones slide: "Established in 1980". */
-  founded: { value: '1980', confirmed: true },
-  /** Companies with a dedicated page on this site, out of the ten operating companies. */
-  companiesWithPages: {
-    value: 'nine',
-    confirmed: true,
-    note: 'CBZ Custodial Services has no page yet, so the showcase lists nine of the ten operating companies.',
-  },
-} satisfies Record<string, Fact>;
+export const GROUP = {
+  name: 'CBZ Holdings',
+  legalName: 'CBZ Holdings Limited',
+  founded: '1980',
+  listing: 'ZSE: CBZ',
+  listingLine: 'Listed on the Zimbabwe Stock Exchange',
+  companies: 'Ten operating companies',
+  clusters: 'Four clusters',
+  /** Not confirmed by the business; stays out of the UI until it is. */
+  yearsOfService: null as string | null,
+  /** Not confirmed by the business; stays out of the UI until it is. */
+  branchCount: null as string | null,
+  regulatorLine: 'Regulated by the Reserve Bank of Zimbabwe and IPEC',
+  tagline: 'Partners for success',
+} as const;
 
 export const CONTACT = {
-  /** Primary contact phone number */
-  phone: '+2638677004050',
-  phoneDisplay: '+263 8677 004050',
-  phoneHref: 'tel:+2638677004050',
-  /** Toll-free short codes, all networks. */
-  tollFree: ['460', '461'] as const,
-  tollFreeLabel: '+263 8677 004050',
-  /**
-   * Confirmed by the business, 26 Oct 2026. Every WhatsApp number on the site
-   * reads from here: `display` as people read it, `href` as wa.me/<digits>.
-   */
+  contactCentre: { display: '+263 8677 004050', href: 'tel:+2638677004050' },
+  contactCentreSecond: { display: '+263 24 2799 234-9', href: 'tel:+2632427992349' },
+  tollFree: [
+    { display: '460', href: 'tel:460' },
+    { display: '461', href: 'tel:461' },
+  ],
   whatsapp: {
     display: '+263 774 460 460',
     href: 'https://wa.me/263774460460',
-    confirmed: true,
+    chatHref: 'https://wa.me/263774460460?text=Hi%20CBZ%2C%20I%20would%20like%20some%20help',
   },
-  /** Corrected from *460# on the business's instruction (Oct 2026). */
-  ussd: {
-    display: '*230#',
-    href: 'tel:*230%23',
-  },
-  /**
-   * Switchboard.
-   */
-  switchboard: {
-    display: '+263 8677 004050',
-    href: 'tel:+2638677004050',
-    confirmed: true,
-  },
+  ussd: { display: '*230#', href: 'tel:*230%23' },
   email: 'contactcentre@cbz.co.zw',
-  website: { display: 'www.cbz.co.zw', href: 'https://www.cbz.co.zw' },
-  address: '5 Campbell Road, Pomona, Harare',
-  /** Branch locator target on the homepage help section. */
-  branchLocatorHref: '/#branch-directory',
+  address: { line1: '5 Campbell Road', line2: 'Pomona, Harare', country: 'Zimbabwe' },
+  /** Not yet supplied. */
+  dpoEmail: null as string | null,
+  tipOffs: {
+    hotline: null as string | null,
+    email: null as string | null,
+    web: null as string | null,
+  },
+  foundationEmail: null as string | null,
 } as const;
 
-/**
- * Branch hours, 24-hour format "08:00–15:00".
- * Conflict: contact section, contact modal and the March 2026 customer notice said
- * Mon–Fri 08:00–15:00, Sat 08:00–13:00; the hero card said 08:00–16:00, Sat 08:00–12:30.
- * Chose the former (it appears in more places, including an official notice).
- */
-export const BRANCH_HOURS = {
-  weekdays: { label: 'Mon–Fri', hours: '08:00–15:00' },
-  saturday: { label: 'Sat', hours: '08:00–13:00' },
-  sunday: { label: 'Sun and public holidays', hours: 'Closed' },
-  digital: '24/7',
+export const HOURS = {
+  branches: [
+    { days: 'Monday to Friday', hours: '08:00 to 15:00' },
+    { days: 'Saturday', hours: '08:00 to 13:00' },
+    { days: 'Sunday and public holidays', hours: 'Closed' },
+  ],
+  digital: '24 hours a day, 7 days a week',
+  /** The business has not confirmed branch hours. Listed in HANDOFF.md. */
   confirmed: false,
 } as const;
 
-export const branchHoursLine = () =>
-  `${BRANCH_HOURS.weekdays.label} ${BRANCH_HOURS.weekdays.hours} · ${BRANCH_HOURS.saturday.label} ${BRANCH_HOURS.saturday.hours}`;
+export const SOCIAL = [
+  { name: 'Facebook', handle: '@cbzholdings', href: 'https://www.facebook.com/cbzholdings' },
+  { name: 'X', handle: '@cbzholdings', href: 'https://x.com/cbzholdings' },
+  { name: 'LinkedIn', handle: 'CBZ Holdings Limited', href: 'https://www.linkedin.com/company/cbz-holdings-limited' },
+  { name: 'YouTube', handle: '@cbzholdings', href: 'https://www.youtube.com/@cbzholdings975' },
+  { name: 'Instagram', handle: '@cbzholdings', href: 'https://www.instagram.com/cbzholdings' },
+] as const;
 
-/** Regulatory lines for footers and flow shells. Wording needs compliance sign-off. */
-export const REGULATORY = {
-  bank: `CBZ Bank Limited is a registered commercial bank supervised by the Reserve Bank of Zimbabwe. ${tbc('licence number and approved wording')}`,
-  insurance: `CBZ Insurance and CBZ Life are regulated by the Insurance and Pensions Commission (IPEC). ${tbc('approved wording')}`,
-  investments: `Datvest Asset Management is licensed by the Securities and Exchange Commission of Zimbabwe (SECZIM). ${tbc('licence number and approved wording')}`,
-  depositProtection: tbc('Deposit Protection Corporation membership mark and wording'),
-} as const;
+export const AWARDS = [
+  { awarder: 'Global Finance Magazine', title: 'Best Bank in Zimbabwe', years: ['2023', '2024', '2025'] },
+  { awarder: 'Euromoney', title: 'Best Bank in Zimbabwe', years: ['2024', '2025'] },
+  {
+    awarder: 'Afreximbank Pan-African Business & Development Awards',
+    title: 'Best Financial Institution of the Year',
+    years: ['2025'],
+  },
+] as const;
 
-/** External destinations that do not exist in this app. */
-export const EXTERNAL_LINKS = {
-  // Official internet-banking portal endpoints (current platform, OBDX)
-  ibPersonal: 'https://obdx.cbz.co.zw/index.html?module=login',
-  ibCorporate: 'https://obdx.cbz.co.zw/',
-  // The bank's own self-service portal (selfservice.cbz.co.zw), not the OBDX
-  // log-in page it pointed at before.
-  ibSelfService: 'https://selfservice.cbz.co.zw/',
-  /**
-   * The new internet-banking platform, in use alongside OBDX during the
-   * migration. Leave empty until the official URLs are confirmed: the log-in
-   * chooser only shows a platform whose URL is set, so nothing points at a
-   * guessed address.
-   */
-  ibNewPersonal: '',
-  // Confirmed by the business, 26 Oct 2026. The personal-banking address on
-  // the new platform is still awaited.
-  ibNewCorporate: 'https://cbzonline.cbz.co.zw/mfmbs/cbz-corp/',
-  /** Independent whistleblowing channel. Empty until Compliance confirms the provider and details. */
-  tipOffsWeb: '',
-  touchAppStore: 'https://apps.apple.com/app/cbz-touch/id1200543503',
-  touchPlayStore: 'https://play.google.com/store/apps/details?id=zw.co.cbz.touch',
-  investorRelations: 'https://www.cbz.co.zw/investor-relations',
-  // Verified Red Sphere Finance online loan application portal
-  redSphereApply: 'https://rs.cbz.co.zw/',
-  redSphereApp: 'https://play.google.com/store/apps/details?id=zw.co.cbz.redsphere&hl=en',
-  // Proof of payment verification, surfaced on the homepage task launcher.
-  popVerification: 'https://www.cbz.co.zw/pop-verification',
-  spotFakeSites: '/security',
-  forgotPassword: 'https://obdx.cbz.co.zw/index.html?module=login',
-} as const;
+export const MILESTONES = [
+  { period: '1980', text: 'Established.' },
+  { period: '1991', text: 'The Government acquired a significant shareholding in the banking operations.' },
+  { period: '1997', text: 'The International Finance Corporation acquired additional equity.' },
+  { period: '1998', text: 'Listed on the stock exchange, with about 55% of bank shares issued to the public. A microfinance unit was established.' },
+  { period: '2004 to 2007', text: 'A holding company was formed and key subsidiaries established, including asset management and mortgage financing.' },
+  { period: '2016 to 2019', text: 'Risk advisory started in 2016; microfinance initiatives drove a collaborative business.' },
+  { period: '2023', text: 'CBZ Foundation established.' },
+  { period: '2025', text: 'A growth strategy to expand within the Sub-Saharan Africa region.' },
+] as const;
+
+/** Items the business must confirm before launch, printed in HANDOFF.md. */
+export const UNCONFIRMED: { item: string; owner: string; note?: string }[] = [
+  { item: 'Branch hours (Mon to Fri 08:00 to 15:00, Sat 08:00 to 13:00)', owner: 'Retail Banking' },
+  { item: '"46 years" and "Over 60 branches" claims', owner: 'Marketing', note: 'Hidden until confirmed.' },
+  { item: 'Mortgage term limits (2 to 10 years used in the calculator)', owner: 'CBZ Bank' },
+  { item: 'Car finance term limits (1 to 5 years used in the calculator)', owner: 'CBZ Bank' },
+  { item: 'Unit mailboxes for form routing', owner: 'Marketing managers' },
+  { item: 'Final photography for heroes and tiles', owner: 'Marketing' },
+  { item: 'Campaign artwork and copy', owner: 'Marketing' },
+  { item: 'Leadership profiles per unit', owner: 'Each unit' },
+  { item: 'Objectives and customer segmentation per unit', owner: 'Marketing' },
+  { item: 'Property listings, prices and photography', owner: 'CBZ Properties' },
+  { item: 'Datvest and CBZ Capital track record (deals)', owner: 'Datvest, CBZ Capital' },
+  { item: 'Car insurance and life policy rate tables', owner: 'CBZ Insurance, CBZ Life' },
+  { item: 'Chatbot provider and endpoint', owner: 'Digital' },
+  { item: 'Analytics vendor and tag', owner: 'Digital' },
+  { item: 'Notices content (the six ported notices are sample content)', owner: 'Corporate Communications' },
+];

@@ -1,0 +1,54 @@
+---
+/**
+ * Mobile-only bottom bar with the page's one main action. Hidden while a form
+ * is on screen so it never covers a submit button.
+ */
+import Button from './Button.astro';
+
+interface Props {
+  label: string;
+  href: string;
+  unit: string;
+}
+const { label, href, unit } = Astro.props;
+---
+
+<div class="sticky" data-sticky-cta>
+  <Button href={href} variant="primary" block track="apply_click" trackProps={{ unit, from: 'sticky' }}>
+    {label}
+  </Button>
+</div>
+
+<script>
+  document.body.classList.add('has-sticky-cta');
+  const bar = document.querySelector<HTMLElement>('[data-sticky-cta]');
+  const forms = document.querySelectorAll('form[data-hides-sticky], [data-hides-sticky]');
+  if (bar && forms.length && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      const anyVisible = entries.some((e) => e.isIntersecting);
+      bar.toggleAttribute('hidden', anyVisible);
+    });
+    forms.forEach((f) => io.observe(f));
+  }
+</script>
+
+<style>
+  .sticky {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 40;
+    padding: var(--s-2) var(--s-4) max(var(--s-2), env(safe-area-inset-bottom));
+    background: rgba(255, 255, 255, 0.96);
+    border-top: 1px solid var(--line);
+    backdrop-filter: blur(8px);
+  }
+  .sticky[hidden] {
+    display: none;
+  }
+  @media (min-width: 900px) {
+    .sticky {
+      display: none;
+    }
+  }
+</style>

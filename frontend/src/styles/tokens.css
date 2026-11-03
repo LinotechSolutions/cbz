@@ -1,0 +1,80 @@
+/*
+ * CBZ design tokens. The only palette allowed on the site.
+ * Brand Identity Guideline 1.0: Red #E4002B, Blue #002554, Grey #636466.
+ * Logo master artwork uses #EA0029 / #636569 and is never recoloured.
+ */
+:root {
+  /* Colour */
+  --red: #e4002b;
+  --red-hover: #c50025;
+  --red-700: #920019;
+  --red-50: #fff1f3;
+  --blue: #002554;
+  --blue-900: #001736;
+  --blue-700: #0a3e80;
+  --blue-100: #dce6f2;
+  --blue-50: #f0f5fc;
+  --grey: #636466;
+  --ink: #1d1d1f;
+  --line: #dde1e6;
+  --surface: #f6f7f9;
+  --white: #ffffff;
+  --success: #007a56;
+  --warning: #8a5300;
+  --whatsapp: #25d366;
+
+  /* Type: one family, fluid scale between 360px and 1200px viewports */
+  --font: 'CBZ Sans', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --t-xs: 0.875rem;
+  --t-sm: 1rem;
+  --t-md: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --t-lg: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+  --t-xl: clamp(1.375rem, 1.2rem + 0.8vw, 1.75rem);
+  --t-2xl: clamp(1.75rem, 1.4rem + 1.5vw, 2.5rem);
+  --t-3xl: clamp(2.25rem, 1.6rem + 2.8vw, 3.5rem);
+  --lh-display: 1.1;
+  --lh-heading: 1.25;
+  --lh-body: 1.5;
+  --measure: 68ch;
+
+  /* Space: 4px base */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-6: 24px;
+  --s-8: 32px;
+  --s-12: 48px;
+  --s-16: 64px;
+  --s-24: 96px;
+  --band: clamp(48px, 8vw, 96px);
+  --gutter: clamp(16px, 3vw, 32px);
+  --gap: clamp(16px, 2vw, 24px);
+  --max: 1200px;
+
+  /* Shape */
+  --r-sm: 6px;
+  --r-md: 12px;
+  --r-lg: 20px;
+
+  /* Elevation: one shadow, for things that float (menus, sheets, modals) */
+  --shadow-float: 0 12px 32px -8px rgba(0, 37, 84, 0.18), 0 2px 6px rgba(0, 37, 84, 0.06);
+
+  /* Motion: only in response to the user */
+  --dur: 180ms;
+  --dur-slow: 220ms;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* Layout constants */
+  --header-h: 64px;
+  --utility-h: 36px;
+  --sticky-cta-h: 64px;
+  --tap: 44px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur: 0ms;
+    --dur-slow: 0ms;
+  }
+}

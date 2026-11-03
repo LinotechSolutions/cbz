@@ -1,0 +1,34 @@
+{
+  "unit": "red-sphere",
+  "category": "salary",
+  "productId": "ssb_loan",
+  "name": "SSB Loan",
+  "summary": "Salary-based lending for government employees, with convenient access to finance and a fast turnaround.",
+  "benefits": [
+    "Tenor: 24 months",
+    "Limit: US$2,400",
+    "Interest rate: 6%",
+    "Convenient access to finance",
+    "Fast turnaround time"
+  ],
+  "eligibility": [
+    "Customer national ID",
+    "Pay slip",
+    "Proof of employment / residence"
+  ],
+  "audience": "Government employees",
+  "pricing": "6% interest · up to US$2,400",
+  "details": {
+    "tenor": "24 months",
+    "interestRate": "6%",
+    "adminFee": null,
+    "limit": "US$2,400"
+  },
+  "apply": {
+    "label": "Apply online",
+    "href": "https://rs.cbz.co.zw/"
+  },
+  "image": null,
+  "order": 0,
+  "verified": true
+}

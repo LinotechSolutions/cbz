@@ -1,0 +1,24 @@
+{
+  "unit": "insurance",
+  "category": "business",
+  "productId": "engineering",
+  "name": "Engineering & Construction Works",
+  "summary": "Contractors all-risks, plant breakdown, and civil engineering infrastructure protection.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Get a quote",
+    "href": "/insurance/quote"
+  },
+  "image": null,
+  "order": 3,
+  "verified": false
+}

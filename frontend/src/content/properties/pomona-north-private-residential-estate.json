@@ -1,0 +1,27 @@
+{
+  "id": "pomona-north-private-residential-estate",
+  "title": "Pomona North Private Residential Estate",
+  "type": "residential",
+  "location": "Harare",
+  "status": "for-sale",
+  "price": null,
+  "summary": "Exclusive luxury residential enclave featuring perimeter walling, smart biometric access, paved roads, and dedicated lifestyle community parks.",
+  "details": [],
+  "images": [
+    {
+      "src": "/images/loan-home.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking-branch.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 2,
+  "verified": false
+}

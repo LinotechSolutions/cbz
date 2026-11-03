@@ -1,0 +1,39 @@
+{
+  "unit": "bank",
+  "category": "savings",
+  "productId": "savings_corporate",
+  "name": "Savings Account (Corporate)",
+  "summary": "Savings account for registered companies that earns interest on balances.",
+  "benefits": [
+    "Access to a loan",
+    "Earns interest on corporate savings",
+    "Access to credit facilities"
+  ],
+  "eligibility": [
+    "Copy of memorandum and articles of association",
+    "Certificate of incorporation",
+    "CR6",
+    "CR2 (where applicable)",
+    "Tax clearance",
+    "Directors' valid ID",
+    "Directors' proof of residence (latest utility bill)"
+  ],
+  "audience": "Registered corporates",
+  "pricing": "Earns interest on savings",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Open an account",
+    "href": "/bank/open-account"
+  },
+  "image": {
+    "src": "/images/accounts/partnership.webp",
+    "alt": ""
+  },
+  "order": 1,
+  "verified": true
+}

@@ -1,0 +1,34 @@
+{
+  "unit": "capital",
+  "category": "debt",
+  "productId": "corporate_bonds",
+  "name": "Corporate Bonds & Commercial Paper",
+  "summary": "Issuance, credit structuring, and private placement of medium-term notes, municipal bonds, and commercial paper.",
+  "benefits": [
+    "Short-term commercial paper programmes for working capital",
+    "Medium-to-long term corporate debt notes listed on ZSE/VFEX or unlisted private placement",
+    "Advisory on credit ratings and sinking fund structures",
+    "Diversification of funding sources away from pure bank lending",
+    "Optimised weighted average cost of capital (WACC)"
+  ],
+  "eligibility": [
+    "Credit rating or internal risk evaluation dossier",
+    "Board and regulatory listing/placement approvals",
+    "Legal opinion and trust deed documentation"
+  ],
+  "audience": "Listed corporates, local authorities, and tier-one enterprises",
+  "pricing": "Capital Markets",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Start a capital enquiry",
+    "href": "/capital/enquiry"
+  },
+  "image": null,
+  "order": 1,
+  "verified": true
+}

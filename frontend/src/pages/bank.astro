@@ -1,0 +1,75 @@
+---
+import { getEntry } from 'astro:content';
+import UnitLayout from '../layouts/UnitLayout.astro';
+import Section from '../components/Section.astro';
+import ExternalLink from '../components/ExternalLink.astro';
+import { Calculator } from '../islands/Calculator';
+import { CALCULATORS } from '../data/calculators';
+import { LINKS } from '../data/links';
+import { visible } from '../lib/visible';
+
+const unit = (await getEntry('units', 'bank'))!.data;
+---
+
+<UnitLayout unit={unit}>
+  <Fragment slot="after-products">
+    <Section id="mortgages" heading="Mortgages" lede="Finance a home or a stand with a CBZ Bank mortgage.">
+      <div class="split">
+        <div class="stack">
+          <p>
+            A CBZ Bank mortgage can finance a stand, a completed home or a cluster unit, including developments by CBZ
+            Properties. Repayments run over two to ten years, and the home can be insured by CBZ Insurance from the
+            day it is financed.
+          </p>
+          <ul class="list">
+            <li>Serviced stands and completed homes</li>
+            <li>Two to ten year terms</li>
+            <li>Cover arranged alongside the loan</li>
+          </ul>
+          {
+            visible(LINKS.propertiesSite) && (
+              <p>
+                <ExternalLink href={LINKS.propertiesSite!}>Browse developments on the CBZ Properties site</ExternalLink>
+              </p>
+            )
+          }
+          <p>
+            <a href="/properties">See current CBZ Properties listings</a>
+          </p>
+        </div>
+        <Calculator client:visible variant="mortgage" config={CALCULATORS.mortgage} embedded />
+      </div>
+    </Section>
+
+    <Section id="car-finance" tone="tint" heading="Car finance" lede="Estimate what a vehicle will cost each month.">
+      <div class="split">
+        <div class="stack">
+          <p>
+            Vehicle finance for private and business use, with the car insured by CBZ Insurance from delivery. Enter the
+            rate quoted to you and the calculator shows the monthly repayment.
+          </p>
+        </div>
+        <Calculator client:visible variant="carFinance" config={CALCULATORS.carFinance} embedded />
+      </div>
+    </Section>
+  </Fragment>
+</UnitLayout>
+
+<style>
+  .split {
+    display: grid;
+    gap: var(--s-8);
+  }
+  @media (min-width: 900px) {
+    .split {
+      grid-template-columns: 5fr 7fr;
+      gap: var(--s-12);
+      align-items: start;
+    }
+  }
+  .list {
+    padding-left: 1.2em;
+    display: grid;
+    gap: var(--s-2);
+  }
+</style>

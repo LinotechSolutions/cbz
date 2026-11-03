@@ -1,0 +1,39 @@
+{
+  "slug": "datvest",
+  "name": "Datvest",
+  "shortName": "Datvest",
+  "cluster": "investments",
+  "logo": "datvest",
+  "order": 5,
+  "hero": {
+    "title": "Put your money to work",
+    "lede": "Unit trusts for savers, institutional mandates for pension funds and companies, and private wealth management.",
+    "image": { "src": "/images/cbz-wealth.webp", "alt": "An adviser reviewing a portfolio with a client" }
+  },
+  "about": "Datvest is the investment management arm of CBZ Holdings, serving individuals, corporates, pension funds, institutions and high-net-worth clients. It runs unit trusts, wealth and portfolio management, pension fund management, treasury bills and bonds, equity and money-market investments, and alternative investments, focused on capital preservation, growth and risk-adjusted returns.",
+  "keyFacts": [
+    { "label": "For individual savers", "value": "Unit trusts" },
+    { "label": "Segregated and fiduciary mandates", "value": "Institutional" },
+    { "label": "Advisory and family office", "value": "Private wealth" }
+  ],
+  "primaryCta": { "label": "Start investing", "href": "/datvest/start-investing" },
+  "secondaryCta": { "label": "Speak to an adviser", "href": "/contact" },
+  "objectives": null,
+  "audience": null,
+  "leadership": null,
+  "categories": [
+    { "id": "unit-trusts", "label": "Unit trusts" },
+    { "id": "institutional", "label": "Institutional" },
+    { "id": "private-wealth", "label": "Private wealth" }
+  ],
+  "regulator": null,
+  "productsNote": "The value of investments can fall as well as rise, and past performance is not a guide to future returns. Fund terms and pricing are confirmed on application.",
+  "contact": {
+    "heading": "Talk to Datvest",
+    "body": "Tell us your goal and timeframe, and an adviser will set out the options."
+  },
+  "seo": {
+    "title": "Datvest: unit trusts, pensions and wealth management",
+    "description": "Invest with Datvest, the asset manager of CBZ Holdings: unit trusts, institutional and pension fund mandates, and private wealth management."
+  }
+}

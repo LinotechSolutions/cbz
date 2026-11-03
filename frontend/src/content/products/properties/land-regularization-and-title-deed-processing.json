@@ -1,0 +1,24 @@
+{
+  "unit": "properties",
+  "category": "advisory",
+  "productId": "land-regularization-and-title-deed-processing",
+  "name": "Land Regularization & Title Deed Processing",
+  "summary": "Statutory survey regularisation, town planning approvals, certificate of compliance, and Deed of Grant registration.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Request a viewing",
+    "href": "/properties/request-a-viewing"
+  },
+  "image": null,
+  "order": 4,
+  "verified": false
+}

@@ -1,0 +1,34 @@
+{
+  "unit": "bank",
+  "category": "loans",
+  "productId": "direct_debit_loan",
+  "name": "Loan — Individual Direct Debit",
+  "summary": "Personal loan for private sector employees of up to 12 times net salary, deducted from payroll.",
+  "benefits": [
+    "Loan of a maximum of 12 times net salary",
+    "Maximum tenure of 36 months",
+    "Salary deducted from payroll",
+    "Personal loan to ease financial obligations"
+  ],
+  "eligibility": [
+    "New and existing corporates"
+  ],
+  "audience": "Employees in the private sector",
+  "pricing": "Up to 12x net salary",
+  "details": {
+    "tenor": "Up to 36 months",
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Apply for a loan",
+    "href": "/bank/apply"
+  },
+  "image": {
+    "src": "/images/accounts/individual.webp",
+    "alt": ""
+  },
+  "order": 1,
+  "verified": true
+}

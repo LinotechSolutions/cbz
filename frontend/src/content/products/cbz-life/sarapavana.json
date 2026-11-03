@@ -1,0 +1,27 @@
+{
+  "unit": "cbz-life",
+  "category": "individual",
+  "productId": "sarapavana",
+  "name": "Sarapavana Education Plan",
+  "summary": "A long-term savings plan that builds funds for a child's primary and secondary education, with life cover attached.",
+  "benefits": [
+    "A long-term education savings plan that helps parents and guardians build funds for a child’s primary and secondary school education",
+    "Provides life cover, helping to secure the child’s education if the policyholder dies during the policy term"
+  ],
+  "eligibility": null,
+  "audience": "Parents and guardians saving for a child’s education",
+  "pricing": "Individual life",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Request a quotation",
+    "href": "/cbz-life/quote"
+  },
+  "image": null,
+  "order": 1,
+  "verified": true
+}

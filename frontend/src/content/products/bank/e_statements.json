@@ -1,0 +1,30 @@
+{
+  "unit": "bank",
+  "category": "channels",
+  "productId": "e_statements",
+  "name": "E-statements",
+  "summary": "Password-protected PDF statements delivered automatically to your email address.",
+  "benefits": [
+    "A safe, fast way of delivering statements electronically to an email address",
+    "Automated statements sent to email, password protected",
+    "PDF statements by email"
+  ],
+  "eligibility": [
+    "Existing customers"
+  ],
+  "audience": "Corporates",
+  "pricing": "For existing customers",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Open an account",
+    "href": "/bank/open-account"
+  },
+  "image": null,
+  "order": 2,
+  "verified": true
+}

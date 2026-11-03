@@ -1,0 +1,26 @@
+{
+  "unit": "cbz-life",
+  "category": "employee",
+  "productId": "retirement_savings",
+  "name": "Retirement Savings Products",
+  "summary": "Products designed to help individuals and groups accumulate funds for retirement.",
+  "benefits": [
+    "Designed to help individuals and groups accumulate funds for retirement"
+  ],
+  "eligibility": null,
+  "audience": "Individuals and groups saving for retirement",
+  "pricing": "Employee benefits",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Request a quotation",
+    "href": "/cbz-life/quote"
+  },
+  "image": null,
+  "order": 1,
+  "verified": true
+}

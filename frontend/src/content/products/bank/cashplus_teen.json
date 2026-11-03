@@ -1,0 +1,39 @@
+{
+  "unit": "bank",
+  "category": "savings",
+  "productId": "cashplus_teen",
+  "name": "CashPlus Teen",
+  "summary": "Savings account for teenagers with an ATM debit card, mobile banking and monthly interest.",
+  "benefits": [
+    "Minimum balance",
+    "No maintenance fees",
+    "ATM debit card",
+    "Mobile banking",
+    "Interest calculated on the minimum monthly balance and paid monthly",
+    "Competitive interest rates",
+    "No maintenance fees",
+    "4 free cash withdrawals per month",
+    "ATM card"
+  ],
+  "eligibility": [
+    "For parents with teenagers"
+  ],
+  "audience": "Teenagers",
+  "pricing": "No maintenance fees",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Open an account",
+    "href": "/bank/open-account"
+  },
+  "image": {
+    "src": "/images/accounts/teen.webp",
+    "alt": ""
+  },
+  "order": 6,
+  "verified": true
+}

@@ -1,0 +1,38 @@
+{
+  "unit": "bank",
+  "category": "savings",
+  "productId": "cashplus_student",
+  "name": "CashPlus Student",
+  "summary": "Savings account for tertiary students, with mobile banking and interest paid monthly.",
+  "benefits": [
+    "Minimum balance",
+    "No maintenance fees",
+    "Mobile banking",
+    "Interest calculated on the minimum monthly balance and paid monthly",
+    "Competitive interest rates",
+    "No maintenance fees",
+    "4 free cash withdrawals per month",
+    "ATM card"
+  ],
+  "eligibility": [
+    "Tertiary students"
+  ],
+  "audience": "Students",
+  "pricing": "No maintenance fees",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Open an account",
+    "href": "/bank/open-account"
+  },
+  "image": {
+    "src": "/images/loan-education.webp",
+    "alt": ""
+  },
+  "order": 7,
+  "verified": true
+}

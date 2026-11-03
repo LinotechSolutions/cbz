@@ -1,0 +1,33 @@
+{
+  "unit": "capital",
+  "category": "advisory",
+  "productId": "independent_valuations",
+  "name": "Enterprise Valuations & Fairness Opinions",
+  "summary": "Rigorous, market-tested business valuations, asset appraisals, and statutory fairness opinions.",
+  "benefits": [
+    "Defensible discounted cash flow, net asset value, and market precedent analyses",
+    "Statutory fairness opinions for listed company corporate actions",
+    "Independent reports complying with International Valuation Standards (IVS)",
+    "Objective benchmark pricing for transactions, disputes, and stakeholder negotiations",
+    "Satisfies regulatory scrutiny from exchange and governance authorities"
+  ],
+  "eligibility": [
+    "Company operational and financial records",
+    "Strategic business plan and asset condition reports"
+  ],
+  "audience": "Boards of directors, special committees, and institutional investors",
+  "pricing": "Valuation Mandate",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Start a capital enquiry",
+    "href": "/capital/enquiry"
+  },
+  "image": null,
+  "order": 2,
+  "verified": true
+}

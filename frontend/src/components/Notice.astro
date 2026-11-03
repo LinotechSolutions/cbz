@@ -1,0 +1,54 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  kind?: 'info' | 'warning' | 'success';
+  title?: string;
+  class?: string;
+}
+const { kind = 'info', title, class: className = '' } = Astro.props;
+const icon = kind === 'warning' ? 'warning' : kind === 'success' ? 'check' : 'info';
+---
+
+<div class:list={['notice', `notice--${kind}`, className]} role={kind === 'warning' ? 'alert' : 'status'}>
+  <Icon name={icon} size={20} class="notice__icon" />
+  <div class="notice__body">
+    {title && <strong class="notice__title">{title}</strong>}
+    <slot />
+  </div>
+</div>
+
+<style>
+  .notice {
+    display: flex;
+    gap: var(--s-3);
+    padding: var(--s-4);
+    border-radius: var(--r-md);
+    border: 1px solid var(--line);
+    background: var(--surface);
+    font-size: var(--t-sm);
+  }
+  .notice__icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .notice__body {
+    display: grid;
+    gap: var(--s-1);
+  }
+  .notice--info {
+    background: var(--blue-50);
+    border-color: var(--blue-100);
+    color: var(--blue);
+  }
+  .notice--warning {
+    background: #fff5e0;
+    border-color: #f2d59b;
+    color: var(--warning);
+  }
+  .notice--success {
+    background: #e8f5ef;
+    border-color: #b9e2d0;
+    color: var(--success);
+  }
+</style>

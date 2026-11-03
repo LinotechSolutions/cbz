@@ -1,0 +1,29 @@
+{
+  "unit": "agro-yield",
+  "category": "divisions",
+  "productId": "agro_farming",
+  "name": "Agro Farming",
+  "summary": "Seasonal contract farming.",
+  "benefits": [
+    "Seasonal contract farming"
+  ],
+  "eligibility": null,
+  "audience": null,
+  "pricing": "Seasonal contract farming",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Apply for farming finance",
+    "href": "/agro-yield/apply"
+  },
+  "image": {
+    "src": "/images/cbz-agriculture.webp",
+    "alt": ""
+  },
+  "order": 1,
+  "verified": true
+}

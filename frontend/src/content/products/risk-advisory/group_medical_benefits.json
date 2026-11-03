@@ -1,0 +1,33 @@
+{
+  "unit": "risk-advisory",
+  "category": "benefits",
+  "productId": "group_medical_benefits",
+  "name": "Corporate Healthcare & Group Benefits",
+  "summary": "Structuring, negotiating, and managing corporate employee medical aid schemes, wellness programmes, and group life benefits.",
+  "benefits": [
+    "Comparative benchmarking across leading medical aid societies",
+    "Design of cost-containment measures and wellness incentive programs",
+    "Dedicated broker helpdesk for rapid resolution of member claim rejections",
+    "Enhances employee attraction and retention with superior health cover",
+    "Reduces corporate healthcare expenditure through expert tariff negotiations"
+  ],
+  "eligibility": [
+    "Staff census including age distribution and family dependants",
+    "Current medical aid package details and historical premium claims loss ratio"
+  ],
+  "audience": "Corporate HR departments and employee benefit committees",
+  "pricing": "Employee Benefits",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Request a risk consultation",
+    "href": "/risk-advisory/consultation"
+  },
+  "image": null,
+  "order": 1,
+  "verified": true
+}

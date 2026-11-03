@@ -1,0 +1,60 @@
+---
+import Icon from './Icon.astro';
+import { CONTACT } from '../data/facts';
+---
+
+<div class="util on-dark">
+  <div class="container util__inner">
+    <a href={CONTACT.contactCentre.href} class="util__item">
+      <Icon name="phone" size={16} />
+      <span class="util__text">{CONTACT.contactCentre.display}</span>
+    </a>
+    <a href={CONTACT.whatsapp.href} class="util__item" target="_blank" rel="noopener noreferrer">
+      <Icon name="whatsapp" size={16} class="util__wa" />
+      <span class="util__text">WhatsApp</span>
+      <span class="sr-only">{CONTACT.whatsapp.display} (opens in a new tab)</span>
+    </a>
+    <a href="/contact#branches" class="util__item util__item--end">
+      <Icon name="pin" size={16} />
+      <span class="util__text">Find a branch</span>
+    </a>
+  </div>
+</div>
+
+<style>
+  .util {
+    background: var(--blue-900);
+    color: rgba(255, 255, 255, 0.85);
+    font-size: var(--t-xs);
+    height: var(--utility-h);
+  }
+  .util__inner {
+    display: flex;
+    align-items: center;
+    gap: var(--s-6);
+    height: 100%;
+  }
+  .util__item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    color: inherit;
+    text-decoration: none;
+    height: 100%;
+    font-variant-numeric: tabular-nums;
+  }
+  .util__item:hover {
+    color: var(--white);
+  }
+  .util__item--end {
+    margin-left: auto;
+  }
+  .util__wa {
+    color: var(--whatsapp);
+  }
+  @media (max-width: 400px) {
+    .util__item:nth-child(2) .util__text {
+      display: none;
+    }
+  }
+</style>

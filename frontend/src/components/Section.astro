@@ -1,0 +1,68 @@
+---
+/**
+ * A page band. Bands alternate white and blue-50; separation comes from colour
+ * and space, never from shadows.
+ */
+interface Props {
+  id?: string;
+  tone?: 'white' | 'tint' | 'surface' | 'dark';
+  heading?: string;
+  lede?: string;
+  /** Visually hide the heading but keep it for assistive tech. */
+  hideHeading?: boolean;
+  width?: 'default' | 'narrow';
+  class?: string;
+  /** Tighter vertical padding for secondary bands. */
+  compact?: boolean;
+}
+
+const {
+  id,
+  tone = 'white',
+  heading,
+  lede,
+  hideHeading = false,
+  width = 'default',
+  class: className = '',
+  compact = false,
+} = Astro.props;
+const headingId = id ? `${id}-heading` : undefined;
+---
+
+<section
+  id={id}
+  class:list={['band', `band--${tone}`, compact && 'band--compact', className]}
+  aria-labelledby={heading ? headingId : undefined}
+>
+  <div class:list={['container', width === 'narrow' && 'container--narrow']}>
+    {
+      heading && (
+        <header class:list={['head', hideHeading && 'sr-only']}>
+          <h2 id={headingId}>{heading}</h2>
+          {lede && <p class="lede">{lede}</p>}
+        </header>
+      )
+    }
+    <slot />
+  </div>
+</section>
+
+<style>
+  .band--white {
+    background: var(--white);
+  }
+  .band--compact {
+    padding-block: var(--s-12);
+  }
+  .container--narrow {
+    max-width: 800px;
+  }
+  .head {
+    margin-bottom: var(--s-8);
+    display: grid;
+    gap: var(--s-3);
+  }
+  .band--dark .lede {
+    color: rgba(255, 255, 255, 0.78);
+  }
+</style>

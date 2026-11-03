@@ -1,0 +1,16 @@
+---
+import { getEntry } from 'astro:content';
+import UnitLayout from '../layouts/UnitLayout.astro';
+import Section from '../components/Section.astro';
+import SeasonalBanner from '../components/SeasonalBanner.astro';
+
+const unit = (await getEntry('units', 'agro-yield'))!.data;
+---
+
+<UnitLayout unit={unit}>
+  <Fragment slot="before-products">
+    <Section id="season" compact>
+      <SeasonalBanner />
+    </Section>
+  </Fragment>
+</UnitLayout>

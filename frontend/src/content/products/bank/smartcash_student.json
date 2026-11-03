@@ -1,0 +1,36 @@
+{
+  "unit": "bank",
+  "category": "accounts",
+  "productId": "smartcash_student",
+  "name": "SmartCash Student",
+  "summary": "SmartCash account for students, with an instant card, mobile banking and no monthly service fees.",
+  "benefits": [
+    "CBZ debit card",
+    "Access to CBZ Touch",
+    "No minimum balance",
+    "No monthly service fees",
+    "Instant card and mobile banking services"
+  ],
+  "eligibility": [
+    "Copy of ID",
+    "Opening deposit"
+  ],
+  "audience": "Students",
+  "pricing": "No monthly service fees",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Open an account",
+    "href": "/bank/open-account"
+  },
+  "image": {
+    "src": "/images/accounts/teen.webp",
+    "alt": ""
+  },
+  "order": 7,
+  "verified": true
+}

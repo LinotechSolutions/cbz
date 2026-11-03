@@ -1,0 +1,33 @@
+{
+  "unit": "red-sphere",
+  "category": "salary",
+  "productId": "pensioners",
+  "name": "Pensioners Loan",
+  "summary": "Financial flexibility and independence for government pensioners, even after retirement.",
+  "benefits": [
+    "Tenor: 12 months",
+    "Interest rate: 6%",
+    "Access to finance after retirement",
+    "Financial independence"
+  ],
+  "eligibility": [
+    "Customer national ID",
+    "Pay slip",
+    "Proof of employment / residence"
+  ],
+  "audience": "Government pensioners",
+  "pricing": "6% interest",
+  "details": {
+    "tenor": "12 months",
+    "interestRate": "6%",
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Apply online",
+    "href": "https://rs.cbz.co.zw/"
+  },
+  "image": null,
+  "order": 1,
+  "verified": true
+}

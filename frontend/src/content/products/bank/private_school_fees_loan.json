@@ -1,0 +1,35 @@
+{
+  "unit": "bank",
+  "category": "loans",
+  "productId": "private_school_fees_loan",
+  "name": "Private School Fees Loan",
+  "summary": "Pays school fees directly into the school account, repayable over 4 months, up to 3 times net salary.",
+  "benefits": [
+    "Loan of up to 3 times net salary",
+    "Loan amount paid directly into the school account",
+    "Repayable over 4 months",
+    "Applicants can apply for any number of children, provided the total does not exceed 3 times net salary",
+    "Facility to ease the school fees burden"
+  ],
+  "eligibility": [
+    "Account holder should have at least one month's salary coming through CBZ Bank"
+  ],
+  "audience": "Parents with children in private school",
+  "pricing": "Up to 3x net salary",
+  "details": {
+    "tenor": "4 months",
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Apply for a loan",
+    "href": "/bank/apply"
+  },
+  "image": {
+    "src": "/images/loan-education.webp",
+    "alt": ""
+  },
+  "order": 3,
+  "verified": true
+}

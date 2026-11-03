@@ -1,0 +1,24 @@
+{
+  "unit": "insurance",
+  "category": "personal",
+  "productId": "motor",
+  "name": "Comprehensive Motor Insurance",
+  "summary": "Complete vehicle protection with guaranteed claim turnaround and pre-approved repairer panel.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Get a quote",
+    "href": "/insurance/quote"
+  },
+  "image": null,
+  "order": 0,
+  "verified": false
+}

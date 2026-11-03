@@ -1,0 +1,30 @@
+{
+  "unit": "agro-yield",
+  "category": "divisions",
+  "productId": "agro_commodity_trading",
+  "name": "Agro Commodity Trading",
+  "summary": "Market and offtake opportunities for agricultural commodities.",
+  "benefits": [
+    "Market opportunities",
+    "Offtake opportunities"
+  ],
+  "eligibility": null,
+  "audience": null,
+  "pricing": "Market and offtake opportunities",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Apply for farming finance",
+    "href": "/agro-yield/apply"
+  },
+  "image": {
+    "src": "/images/cbz-payments.webp",
+    "alt": ""
+  },
+  "order": 2,
+  "verified": true
+}

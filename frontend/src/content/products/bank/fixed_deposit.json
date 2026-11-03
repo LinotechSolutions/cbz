@@ -1,0 +1,33 @@
+{
+  "unit": "bank",
+  "category": "savings",
+  "productId": "fixed_deposit",
+  "name": "Fixed Deposit",
+  "summary": "Invest a lump sum for a predefined period at a predetermined rate, in a high interest bearing account.",
+  "benefits": [
+    "Term deposit where the customer invests for a predefined period at a predetermined rate",
+    "A high interest bearing investment account"
+  ],
+  "eligibility": [
+    "Normally opened for existing customers",
+    "Minimum investment of ZWL1,000,000.00 or USD100,000.00"
+  ],
+  "audience": "Pension funds, individuals, private investors, unit trust companies, insurance and assurance companies, asset managers and corporate investors",
+  "pricing": "Minimum USD100,000 or ZWL1,000,000",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Open an account",
+    "href": "/bank/open-account"
+  },
+  "image": {
+    "src": "/images/cbz-wealth.webp",
+    "alt": ""
+  },
+  "order": 4,
+  "verified": true
+}

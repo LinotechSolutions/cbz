@@ -1,0 +1,34 @@
+{
+  "unit": "risk-advisory",
+  "category": "broking",
+  "productId": "corporate_property_broking",
+  "name": "Corporate Property & Assets Broking",
+  "summary": "Independent risk placement of Industrial All Risks (IAR), fire, allied perils, and business interruption policies across licensed insurers.",
+  "benefits": [
+    "Multi-underwriter quote comparison to secure competitive premium rates",
+    "Bespoke policy wordings eliminating restrictive endorsements and loopholes",
+    "Business interruption extensions covering loss of gross profit and standing charges",
+    "Unbiased, independent market representation focused solely on the client’s interest",
+    "Consolidated insurance portfolio under a single dedicated broker team"
+  ],
+  "eligibility": [
+    "Updated asset valuation register",
+    "Historical claims loss history (past 3 to 5 years)",
+    "Site risk survey reports"
+  ],
+  "audience": "Commercial enterprises, manufacturers, and property funds",
+  "pricing": "Commission Broking",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Request a risk consultation",
+    "href": "/risk-advisory/consultation"
+  },
+  "image": null,
+  "order": 0,
+  "verified": true
+}

@@ -1,0 +1,35 @@
+{
+  "unit": "bank",
+  "category": "accounts",
+  "productId": "school_current",
+  "name": "School Current Account",
+  "summary": "Transactional account for schools and School Development Associations, with no monthly charges.",
+  "benefits": [
+    "Cheque book",
+    "Cash deposit book",
+    "No monthly charges on the account"
+  ],
+  "eligibility": [
+    "Constitution of the school or SDA",
+    "Copies of national IDs and proof of residence for signatories",
+    "Signing mandates"
+  ],
+  "audience": "Primary, secondary and tertiary institutions",
+  "pricing": "No monthly account charges",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Open an account",
+    "href": "/bank/open-account"
+  },
+  "image": {
+    "src": "/images/loan-education.webp",
+    "alt": ""
+  },
+  "order": 10,
+  "verified": true
+}

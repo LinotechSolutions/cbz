@@ -1,0 +1,24 @@
+{
+  "unit": "properties",
+  "category": "commercial",
+  "productId": "commercial-land-subdivisions-and-light-industrial",
+  "name": "Commercial Land Subdivisions & Light Industrial",
+  "summary": "Strategically zoned commercial parcels suited for automotive showrooms, cold storage depots, and light manufacturing plants.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Request a viewing",
+    "href": "/properties/request-a-viewing"
+  },
+  "image": null,
+  "order": 4,
+  "verified": false
+}

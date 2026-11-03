@@ -1,0 +1,34 @@
+{
+  "unit": "risk-advisory",
+  "category": "broking",
+  "productId": "liability_directors_officers",
+  "name": "Directors & Officers (D&O) and Liability",
+  "summary": "Comprehensive protection against regulatory fines, shareholder litigation, professional negligence, and public liability.",
+  "benefits": [
+    "Directors & Officers (D&O) liability indemnifying board members personally",
+    "Professional Indemnity (PI) for lawyers, accountants, medical practitioners, and engineers",
+    "Cyber liability shield against data breaches, ransom attacks, and system outages",
+    "Protects personal net worth and reputation of directors and senior managers",
+    "Guarantees defense cost funding during lengthy litigation"
+  ],
+  "eligibility": [
+    "Completed liability proposal form",
+    "Latest audited annual report",
+    "Details of internal governance and cyber compliance controls"
+  ],
+  "audience": "Company boards, trustees, professionals, and corporate executives",
+  "pricing": "Liability Placement",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Request a risk consultation",
+    "href": "/risk-advisory/consultation"
+  },
+  "image": null,
+  "order": 2,
+  "verified": true
+}

@@ -1,0 +1,24 @@
+{
+  "unit": "properties",
+  "category": "commercial",
+  "productId": "modern-medical-chambers-and-specialist-clinics",
+  "name": "Modern Medical Chambers & Specialist Clinics",
+  "summary": "Purpose-built medical consulting suites, diagnostic laboratories, and surgical day clinics with medical-grade backup infrastructure.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Request a viewing",
+    "href": "/properties/request-a-viewing"
+  },
+  "image": null,
+  "order": 3,
+  "verified": false
+}

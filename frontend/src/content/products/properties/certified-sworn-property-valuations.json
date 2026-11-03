@@ -1,0 +1,24 @@
+{
+  "unit": "properties",
+  "category": "advisory",
+  "productId": "certified-sworn-property-valuations",
+  "name": "Certified Sworn Property Valuations",
+  "summary": "Independent, court-admissible property appraisals conducted by registered Valuers for mortgage underwriting, insurance, and balance sheet audits.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Request a viewing",
+    "href": "/properties/request-a-viewing"
+  },
+  "image": null,
+  "order": 0,
+  "verified": false
+}

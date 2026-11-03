@@ -1,0 +1,27 @@
+{
+  "id": "commercial-land-subdivisions-and-light-industrial",
+  "title": "Commercial Land Subdivisions & Light Industrial",
+  "type": "commercial",
+  "location": "Harare",
+  "status": "to-let",
+  "price": null,
+  "summary": "Strategically zoned commercial parcels suited for automotive showrooms, cold storage depots, and light manufacturing plants.",
+  "details": [],
+  "images": [
+    {
+      "src": "/images/loan-home.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking-branch.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 4,
+  "verified": false
+}

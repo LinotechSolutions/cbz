@@ -1,0 +1,33 @@
+---
+import InfoPage from '../layouts/InfoPage.astro';
+import { LINKS } from '../data/links';
+---
+
+<InfoPage
+  title="General business conditions"
+  description="The conditions that govern the relationship between CBZ Bank Limited and its customers, with links to the official documents."
+  intro="The conditions that govern the relationship between CBZ Bank Limited and its customers for accounts, products and services. The official documents are published by the bank; the links on this page go to them."
+  meta={[{ label: 'Applies to', value: 'CBZ Bank Limited' }]}
+  sections={[
+    {
+      heading: 'What the conditions cover',
+      body: [
+        'The general business conditions set out how accounts are opened and operated, how instructions and payments are handled, how fees, charges and interest apply, what each party is liable for, how complaints are dealt with, and how the conditions may change.',
+        'Separate conditions apply to specific products. The bank publishes these by product in its Business Conditions library, alongside the terms for personal accounts.',
+      ],
+    },
+    {
+      heading: 'Which document applies to you',
+      body: [
+        '- Personal customers: the Terms and Conditions for Personal Accounts, covering current, savings and term accounts, mandates, cheques and dormant accounts.',
+        '- Business and corporate customers: the Business Conditions for the relevant product, including corporate banking accounts, money market and foreign exchange products.',
+        '- All customers: the website Terms and Conditions, which govern use of this site.',
+      ],
+    },
+  ]}
+  links={[
+    { label: 'Business Conditions library', href: LINKS.documents.businessConditions, note: 'The bank’s published conditions, by product.' },
+    { label: 'Terms and Conditions, Personal Account', href: LINKS.documents.personalAccountTerms, note: 'Current, savings and term accounts.' },
+    { label: 'Website Terms and Conditions', href: LINKS.documents.websiteTerms },
+  ]}
+/>

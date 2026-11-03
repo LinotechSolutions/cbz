@@ -1,0 +1,35 @@
+{
+  "unit": "red-sphere",
+  "category": "partners",
+  "productId": "agency_contract",
+  "name": "Agency Contract",
+  "summary": "Canvass loan applications for Red Sphere's salary-based SSB civil servant loans, and other business as agreed, and earn commission.",
+  "benefits": [
+    "Commission of a once-off 5% plus $250 once off per month for disbursements up to US$25,000",
+    "5% plus $300 once off per month for sales above US$30,000 on USD loans",
+    "Earn commission",
+    "Build a long-term relationship with Red Sphere"
+  ],
+  "eligibility": [
+    "Curriculum vitae",
+    "National ID",
+    "Proof of residence",
+    "Tax clearance",
+    "CBZ account holder"
+  ],
+  "audience": "All",
+  "pricing": "5% plus a monthly once-off fee",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Apply online",
+    "href": "https://rs.cbz.co.zw/"
+  },
+  "image": null,
+  "order": 2,
+  "verified": true
+}

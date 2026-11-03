@@ -1,0 +1,35 @@
+{
+  "unit": "red-sphere",
+  "category": "salary",
+  "productId": "private_payroll",
+  "name": "Private Payroll Loan",
+  "summary": "Convenient salary-based finance for employees of participating private employers.",
+  "benefits": [
+    "Tenor: 12 months",
+    "Interest rate: 7.25%",
+    "Admin fee: 5%",
+    "Flexible personal financing",
+    "Employer partnership benefits"
+  ],
+  "eligibility": [
+    "Customer national ID",
+    "Pay slip",
+    "Proof of employment / residence",
+    "Bank statement"
+  ],
+  "audience": "Salary based individuals",
+  "pricing": "7.25% interest · 5% admin fee",
+  "details": {
+    "tenor": "12 months",
+    "interestRate": "7.25%",
+    "adminFee": "5%",
+    "limit": null
+  },
+  "apply": {
+    "label": "Apply online",
+    "href": "https://rs.cbz.co.zw/"
+  },
+  "image": null,
+  "order": 2,
+  "verified": true
+}

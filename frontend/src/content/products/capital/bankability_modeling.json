@@ -1,0 +1,33 @@
+{
+  "unit": "capital",
+  "category": "infrastructure",
+  "productId": "bankability_modeling",
+  "name": "Feasibility & Bankability Modeling",
+  "summary": "Rigorous quantitative financial modeling, sensitivity testing, and bankability preparation for major capital ventures.",
+  "benefits": [
+    "Comprehensive multi-scenario financial models with sensitivity indices",
+    "Identification and mitigation of unhedged currency, inflation, and off-take risks",
+    "Preparation of comprehensive information memoranda for international DFIs",
+    "Enhances likelihood of securing commercial debt and developmental funding",
+    "Provides decision-makers with transparent risk-return trade-offs"
+  ],
+  "eligibility": [
+    "Technical project specifications and capital expenditure estimates",
+    "Market demand analysis and pricing study"
+  ],
+  "audience": "Infrastructure consortia, energy developers, and industrial ventures",
+  "pricing": "Financial Modeling",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Start a capital enquiry",
+    "href": "/capital/enquiry"
+  },
+  "image": null,
+  "order": 1,
+  "verified": true
+}

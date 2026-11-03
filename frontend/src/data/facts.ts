@@ -106,6 +106,7 @@ export const UNCONFIRMED: { item: string; owner: string; note?: string }[] = [
   { item: 'Notices content (the six ported notices are sample content)', owner: 'Corporate Communications' },
   { item: 'CBZ Bank calls to action (site map says "to be confirmed"; Open an account, Apply for a loan and Call me back are in place)', owner: 'CBZ Bank' },
   { item: 'Board of directors: names, roles and photos', owner: 'Corporate Affairs' },
+  { item: 'Sustainability: Grievance Procedure PDF, Grievance Resolution Form PDF, grievance mailbox, and the reports to publish', owner: 'Sustainability', note: 'src/data/sustainability.ts; links are hidden until set.' },
   { item: 'Off-site links: Zeex, farmer onboarding, ATDC, ZikiCash, property management sign-in', owner: 'Red Sphere, Agro-Yield, Digital, CBZ Properties' },
   { item: 'Integrations behind the forms: SSP Pure, ICECASH and Flex Cube (Insurance), Life Central (Life)', owner: 'Digital', note: 'Recorded on each unit JSON under "systems"; nothing is wired yet.' },
 ];

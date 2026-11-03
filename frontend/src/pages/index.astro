@@ -133,7 +133,19 @@ const bestBank = AWARDS[0];
     </div>
   </section>
 
-  <!-- 3. Branches and ATMs -->
+  <!-- 3. Sustainability -->
+  <section class="container sus-band" aria-labelledby="sus-heading" id="sustainability">
+    <a href="/sustainability" class="sus card-base">
+      <span class="sus__icon"><Icon name="leaf" size={24} /></span>
+      <span class="sus__text">
+        <span id="sus-heading" class="sus__title">Sustainability</span>
+        <span class="sus__line">Our reports, the Grievance Procedure and the Grievance Resolution Form, and how to raise a grievance online.</span>
+      </span>
+      <span class="icon-pill"><Icon name="arrowRight" size={16} /></span>
+    </a>
+  </section>
+
+  <!-- 4. Branches and ATMs -->
   <Section id="branches" heading="Branches and ATMs" lede="Search the map, or open it in your own maps app for directions.">
     <BranchFinder id="home-branches" />
   </Section>
@@ -427,6 +439,46 @@ const bestBank = AWARDS[0];
   .badge__line {
     font-size: var(--t-xs);
     color: var(--white);
+  }
+
+  /* Sustainability band */
+  .sus-band {
+    padding-block: var(--band) 0;
+  }
+  .sus {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: var(--s-4);
+    padding: var(--s-5, 20px) var(--s-6);
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .sus:hover {
+    color: var(--ink);
+  }
+  .sus__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--blue-50);
+    color: var(--success);
+  }
+  .sus__text {
+    display: grid;
+    gap: 2px;
+  }
+  .sus__title {
+    font-weight: 700;
+    font-size: var(--t-lg);
+    color: var(--blue);
+  }
+  .sus__line {
+    font-size: var(--t-sm);
+    color: var(--grey);
   }
 
   /* Help row: photo card + dark cards */

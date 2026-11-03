@@ -79,6 +79,7 @@ _Generated 2026-11-03 by `npm run handoff`. Do not edit between the markers._
 | Notices content (the six ported notices are sample content) | Corporate Communications |  |
 | CBZ Bank calls to action (site map says "to be confirmed"; Open an account, Apply for a loan and Call me back are in place) | CBZ Bank |  |
 | Board of directors: names, roles and photos | Corporate Affairs |  |
+| Sustainability: Grievance Procedure PDF, Grievance Resolution Form PDF, grievance mailbox, and the reports to publish | Sustainability | src/data/sustainability.ts; links are hidden until set. |
 | Off-site links: Zeex, farmer onboarding, ATDC, ZikiCash, property management sign-in | Red Sphere, Agro-Yield, Digital, CBZ Properties |  |
 | Integrations behind the forms: SSP Pure, ICECASH and Flex Cube (Insurance), Life Central (Life) | Digital | Recorded on each unit JSON under "systems"; nothing is wired yet. |
 
@@ -114,6 +115,9 @@ _Generated 2026-11-03 by `npm run handoff`. Do not edit between the markers._
 - `calculators.carInsurance.rates`
 - `calculators.policyQuote.value.default`
 - `calculators.policyQuote.rates`
+- `sustainability.grievance.documents[0].href`
+- `sustainability.grievance.documents[1].href`
+- `sustainability.grievance.email`
 
 ### Values still null in content
 

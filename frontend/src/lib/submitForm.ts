@@ -14,6 +14,7 @@ export type Unit =
   | 'risk-advisory'
   | 'agro-yield'
   | 'cbz-foundation'
+  | 'sustainability'
   | 'group';
 
 export interface SubmitResult {

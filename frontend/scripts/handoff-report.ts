@@ -8,6 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { CONTACT, GROUP, HOURS, UNCONFIRMED } from '../src/data/facts';
 import { LINKS } from '../src/data/links';
 import { CALCULATORS } from '../src/data/calculators';
+import { SUSTAINABILITY } from '../src/data/sustainability';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -39,6 +40,7 @@ const dataNulls: string[] = [];
 walk({ GROUP, CONTACT, HOURS }, 'facts', dataNulls);
 walk(LINKS, 'links', dataNulls);
 walk(CALCULATORS, 'calculators', dataNulls);
+walk(SUSTAINABILITY, 'sustainability', dataNulls);
 
 const contentNulls: Record<string, string[]> = {};
 const contentDir = join(root, 'src', 'content');

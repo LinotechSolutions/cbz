@@ -59,6 +59,7 @@ export const CLUSTERS: NavGroup[] = [
       { label: 'The Group', href: '/the-group', line: 'Structure, awards, milestones and board' },
       { label: 'Journeys', href: '/journeys', line: 'Eight guided flows, from account to advice' },
       { label: 'CBZ Foundation', href: '/cbz-foundation', line: 'Our philanthropic arm' },
+      { label: 'Sustainability', href: '/sustainability', line: 'Grievance mechanism and reports' },
       { label: 'Latest from CBZ', href: '/notices', line: 'Shareholder and customer notices' },
       { label: 'Contact us', href: '/contact', line: 'Call, chat or find a branch' },
     ],
@@ -130,6 +131,7 @@ export const FOOTER = {
   group: [
     { label: 'The Group', href: '/the-group' },
     { label: 'CBZ Foundation', href: '/cbz-foundation' },
+    { label: 'Sustainability', href: '/sustainability' },
     { label: 'Diaspora banking', href: '/diaspora' },
     { label: 'Log in', href: '/login' },
     { label: 'Security', href: '/security' },

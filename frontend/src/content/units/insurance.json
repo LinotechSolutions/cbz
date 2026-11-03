@@ -28,6 +28,25 @@
     { "id": "business", "label": "Business" },
     { "id": "agro", "label": "Agriculture" }
   ],
+  "segments": [
+    { "label": "Individuals", "line": "Motor, home and contents, travel and personal accident", "href": "#panel-insurance-personal" },
+    { "label": "Corporates", "line": "Property, liability, engineering and marine", "href": "#panel-insurance-business" },
+    { "label": "Farms", "line": "Crop, livestock and machinery", "href": "#panel-insurance-agro" }
+  ],
+  "actions": [
+    { "label": "Request a quote", "line": "Quote generation", "href": "/insurance/quote", "kind": "form" },
+    { "label": "Insure now", "line": "Personal lines application, premium by direct debit or mobile money", "href": "/insurance/insure-now", "kind": "form" },
+    { "label": "Submit a claim", "line": "Register a claim on your policy", "href": "/insurance/claim", "kind": "form" },
+    { "label": "Policy changes", "line": "Status, cancellation, renewal, statement and premium enquiries", "href": "/insurance/policy-changes", "kind": "form" },
+    { "label": "Call me back", "line": "A consultant calls you", "href": "/insurance/call-me-back", "kind": "form" }
+  ],
+  "faq": [
+    { "q": "How do I get a quote?", "a": "Use Request a quote, tell us what you want covered, and a consultant sends a quotation, usually within one working day." },
+    { "q": "How do I pay my premium?", "a": "By direct debit from your CBZ account or by mobile money. You choose when you apply." },
+    { "q": "How do I claim?", "a": "Use Submit a claim with your policy number and what happened. A claims assessor contacts you about the next steps and any documents." },
+    { "q": "Can I insure something CBZ Bank is financing?", "a": "Yes. Cover can be arranged alongside a CBZ Bank facility, so the asset is protected from the day it is financed." }
+  ],
+  "systems": ["SSP Pure", "ICECASH", "Flex Cube"],
   "regulator": null,
   "productsNote": "Terms, pricing and availability are subject to assessment. Speak to us for current terms before you rely on anything here.",
   "contact": {

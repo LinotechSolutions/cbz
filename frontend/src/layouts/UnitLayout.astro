@@ -1,27 +1,32 @@
 ---
 /**
- * Every business unit page, in the agreed order: hero, about, key facts,
- * products, campaigns, leadership, contact. Campaigns, leadership, objectives
- * and audience render only when their data is present.
+ * Every business unit page, in the site map's order:
+ *   Opening (hero, the unit's actions, about and key facts)
+ *   Products & FAQ
+ *   Find the right fit
+ *   Leadership
+ *   Contact
+ * Campaigns, leadership, objectives and audience render only when present.
+ * Slots: before-products, after-products, fit (for a suggestion island).
  */
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 import BaseLayout from './BaseLayout.astro';
 import Hero from '../components/Hero.astro';
-import TaskCard from '../components/TaskCard.astro';
 import Section from '../components/Section.astro';
 import KeyFacts from '../components/KeyFacts.astro';
 import ProductGroup from '../components/ProductGroup.astro';
 import Button from '../components/Button.astro';
+import Icon from '../components/Icon.astro';
 import ResponsiveImage from '../components/ResponsiveImage.astro';
 import StickyCta from '../components/StickyCta.astro';
 import { visible } from '../lib/visible';
+import { isExternal } from '../data/links';
 import { CONTACT } from '../data/facts';
 import type { DarkSafeLogoKey } from '../data/logos';
 
 interface Props {
   unit: CollectionEntry<'units'>['data'];
-  /** Override the hero image when the page has its own. */
   heroImage?: { src: string; alt: string };
 }
 const { unit, heroImage } = Astro.props;
@@ -30,12 +35,10 @@ const products = (await getCollection('products', (p) => p.data.unit === unit.sl
   .map((p) => p.data)
   .sort((a, b) => a.order - b.order);
 
+const now = new Date();
 const campaigns = (await getCollection('campaigns', (c) => c.data.unit === unit.slug))
   .map((c) => c.data)
-  .filter((c) => {
-    const now = new Date();
-    return new Date(c.starts) <= now && new Date(c.ends) >= now;
-  })
+  .filter((c) => new Date(c.starts) <= now && new Date(c.ends) >= now)
   .sort((a, b) => a.order - b.order)
   .slice(0, 3);
 
@@ -44,15 +47,14 @@ const clusterLabel: Record<string, { label: string; href: string }> = {
   investments: { label: 'Investments', href: '/clusters/investments' },
   insurance: { label: 'Insurance', href: '/clusters/insurance' },
   'agro-business': { label: 'Agro-Business', href: '/clusters/agro-business' },
-  philanthropy: { label: 'About', href: '/about' },
+  philanthropy: { label: 'The Group', href: '/the-group' },
 };
 const cluster = clusterLabel[unit.cluster];
 
-const jumpItems = unit.categories
-  .filter((c) => products.some((p) => p.category === c.id))
-  .map((c) => ({ label: c.label, href: `#panel-${unit.slug}-${c.id}` }));
-
+const actions = unit.actions.filter((a) => visible(a.href));
+const hiddenActions = unit.actions.filter((a) => !visible(a.href));
 const leadership = visible(unit.leadership) ? unit.leadership! : [];
+const site = Astro.site ?? new URL('https://www.cbz.co.zw');
 
 const jsonLd = [
   {
@@ -61,18 +63,31 @@ const jsonLd = [
     name: unit.name,
     description: unit.seo.description,
     parentOrganization: { '@type': 'Organization', name: 'CBZ Holdings Limited' },
-    url: new URL(`/${unit.slug}`, Astro.site ?? 'https://www.cbz.co.zw').toString(),
+    url: new URL(`/${unit.slug}`, site).toString(),
     telephone: CONTACT.contactCentre.display,
   },
   {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site ?? 'https://www.cbz.co.zw').toString() },
-      { '@type': 'ListItem', position: 2, name: cluster.label, item: new URL(cluster.href, Astro.site ?? 'https://www.cbz.co.zw').toString() },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', site).toString() },
+      { '@type': 'ListItem', position: 2, name: cluster.label, item: new URL(cluster.href, site).toString() },
       { '@type': 'ListItem', position: 3, name: unit.name },
     ],
   },
+  ...(unit.faq.length
+    ? [
+        {
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: unit.faq.map((f) => ({
+            '@type': 'Question',
+            name: f.q,
+            acceptedAnswer: { '@type': 'Answer', text: f.a },
+          })),
+        },
+      ]
+    : []),
 ];
 ---
 
@@ -83,6 +98,7 @@ const jsonLd = [
   unitLogo={unit.logo as DarkSafeLogoKey}
   preloadImage={(heroImage ?? unit.hero.image).src}
 >
+  <!-- 1. Opening -->
   <Hero
     title={unit.hero.title}
     lede={unit.hero.lede}
@@ -91,10 +107,43 @@ const jsonLd = [
     crumbs={[{ label: 'Home', href: '/' }, { label: cluster.label, href: cluster.href }, { label: unit.shortName }]}
     primary={{ ...unit.primaryCta, track: 'apply_click', trackProps: { unit: unit.slug, from: 'hero' } }}
     secondary={unit.secondaryCta ?? undefined}
-    overlap={jumpItems.length > 0}
+    overlap={actions.length > 0}
   />
 
-  {jumpItems.length > 0 && <TaskCard heading="Jump to" items={jumpItems} kind="jump" />}
+  {
+    actions.length > 0 && (
+      <div class="actions-wrap">
+        <div class="container">
+          <nav class="actions" aria-label={`What you can do with ${unit.shortName}`}>
+            <ul role="list" class="actions__list" style={`--n:${Math.min(actions.length, 5)}`}>
+              {actions.map((a) => {
+                const ext = a.kind === 'external' || isExternal(a.href!);
+                return (
+                  <li>
+                    <a
+                      href={a.href!}
+                      class="action"
+                      target={ext ? '_blank' : undefined}
+                      rel={ext ? 'noopener noreferrer' : undefined}
+                      data-track="apply_click"
+                      data-track-props={JSON.stringify({ unit: unit.slug, action: a.label })}
+                    >
+                      <span class="action__label">
+                        {a.label}
+                        {ext && <span class="sr-only"> (opens in a new tab)</span>}
+                      </span>
+                      {visible(a.line) && <span class="action__line">{a.line}</span>}
+                      <Icon name={ext ? 'external' : a.kind === 'anchor' ? 'chevronDown' : 'chevronRight'} size={18} class="action__icon" />
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+        </div>
+      </div>
+    )
+  }
 
   <Section id="about" heading={`About ${unit.shortName}`} hideHeading>
     <div class="about">
@@ -144,6 +193,7 @@ const jsonLd = [
 
   <slot name="before-products" />
 
+  <!-- 2. Products & FAQ -->
   {
     products.length > 0 && (
       <Section id="products" tone="tint" heading="Products and services">
@@ -158,7 +208,49 @@ const jsonLd = [
     )
   }
 
+  {
+    unit.faq.length > 0 && (
+      <Section id="faq" heading="Questions people ask" compact>
+        <div class="faq rule-list">
+          {unit.faq.map((f) => (
+            <details class="faq__item">
+              <summary class="faq__q">
+                {f.q}
+                <Icon name="chevronDown" size={20} class="faq__chev" />
+              </summary>
+              <p class="faq__a">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </Section>
+    )
+  }
+
   <slot name="after-products" />
+
+  <!-- 3. Find the right fit -->
+  {
+    (unit.segments.length > 0 || Astro.slots.has('fit')) && (
+      <Section id="fit" tone="tint" heading="Find the right fit" lede="Start from who you are, or answer two questions.">
+        {unit.segments.length > 0 && (
+          <ul role="list" class="segments" style={`--n:${Math.min(unit.segments.length, 4)}`}>
+            {unit.segments.map((s) => (
+              <li>
+                <a href={s.href} class="segment">
+                  <span class="segment__label">{s.label}</span>
+                  {visible(s.line) && <span class="segment__line">{s.line}</span>}
+                  <Icon name="arrowRight" size={18} class="segment__icon" />
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+        <div class="fit-slot">
+          <slot name="fit" />
+        </div>
+      </Section>
+    )
+  }
 
   {
     campaigns.length > 0 && (
@@ -182,6 +274,7 @@ const jsonLd = [
     )
   }
 
+  <!-- 4. Leadership -->
   {
     leadership.length > 0 && (
       <Section id="leadership" tone="surface" heading="Leadership" compact>
@@ -202,6 +295,7 @@ const jsonLd = [
     )
   }
 
+  <!-- 5. Contact -->
   <Section id="contact" tone="dark">
     <div class="contact on-dark">
       <div class="stack">
@@ -219,10 +313,66 @@ const jsonLd = [
     </div>
   </Section>
 
+  {hiddenActions.length > 0 && <span hidden data-actions-awaiting-link={hiddenActions.map((a) => a.label).join(', ')} />}
+
   <StickyCta label={unit.primaryCta.label} href={unit.primaryCta.href} unit={unit.slug} />
 </BaseLayout>
 
 <style>
+  .actions-wrap {
+    position: relative;
+    z-index: 2;
+    margin-top: calc(-1 * var(--overlap, 56px));
+  }
+  .actions {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    padding: var(--s-3);
+  }
+  .actions__list {
+    display: grid;
+    gap: var(--s-1);
+  }
+  @media (min-width: 900px) {
+    .actions__list {
+      grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+      gap: 0;
+    }
+    .actions__list > li + li {
+      border-left: 1px solid var(--line);
+    }
+  }
+  .action {
+    position: relative;
+    display: grid;
+    gap: 2px;
+    padding: var(--s-3) var(--s-10, 40px) var(--s-3) var(--s-4);
+    min-height: var(--tap);
+    border-radius: var(--r-sm);
+    text-decoration: none;
+    color: var(--ink);
+    height: 100%;
+    transition: background-color var(--dur) var(--ease);
+  }
+  .action:hover {
+    background: var(--blue-50);
+    color: var(--ink);
+  }
+  .action__label {
+    font-weight: 700;
+    color: var(--blue);
+  }
+  .action__line {
+    font-size: var(--t-xs);
+    color: var(--grey);
+  }
+  .action__icon {
+    position: absolute;
+    right: var(--s-3);
+    top: var(--s-3);
+    color: var(--blue-700);
+  }
   .about {
     display: grid;
     gap: var(--s-8);
@@ -253,6 +403,88 @@ const jsonLd = [
     padding-left: 1.1em;
     display: grid;
     gap: var(--s-2);
+  }
+  .faq {
+    max-width: 800px;
+  }
+  .faq__item {
+    padding: var(--s-2) 0;
+  }
+  .faq__q {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--s-4);
+    min-height: var(--tap);
+    padding: var(--s-2) 0;
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--blue);
+  }
+  .faq__q::-webkit-details-marker {
+    display: none;
+  }
+  .faq__chev {
+    flex-shrink: 0;
+    color: var(--blue-700);
+    transition: transform var(--dur) var(--ease);
+  }
+  .faq__item[open] .faq__chev {
+    transform: rotate(180deg);
+  }
+  .faq__a {
+    padding: 0 0 var(--s-4);
+    max-width: var(--measure);
+  }
+  .segments {
+    display: grid;
+    gap: var(--gap);
+  }
+  @media (min-width: 640px) {
+    .segments {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 900px) {
+    .segments {
+      grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+    }
+  }
+  .segment {
+    position: relative;
+    display: grid;
+    gap: var(--s-1);
+    padding: var(--s-6) var(--s-12) var(--s-6) var(--s-6);
+    min-height: 120px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    text-decoration: none;
+    color: var(--ink);
+    transition: border-color var(--dur) var(--ease);
+  }
+  .segment:hover {
+    border-color: var(--blue-700);
+    color: var(--ink);
+  }
+  .segment__label {
+    font-weight: 700;
+    font-size: var(--t-lg);
+    color: var(--blue);
+  }
+  .segment__line {
+    font-size: var(--t-sm);
+    color: var(--grey);
+  }
+  .segment__icon {
+    position: absolute;
+    right: var(--s-6);
+    top: var(--s-6);
+    color: var(--blue-700);
+  }
+  .fit-slot:not(:empty) {
+    margin-top: var(--s-8);
   }
   .offers {
     display: grid;

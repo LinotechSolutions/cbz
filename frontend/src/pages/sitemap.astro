@@ -1,80 +1,165 @@
 ---
+/**
+ * Human sitemap, grouped exactly as the site map: Home, Business pages,
+ * Journeys, The Group, Customers & access, Group & regulatory, Off-site links.
+ */
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-import { CLUSTERS, companiesIn, type ClusterId } from '../data/group';
+import Icon from '../components/Icon.astro';
+import { JOURNEYS, OFFSITE } from '../data/nav';
+import { isExternal } from '../data/links';
+import { visible } from '../lib/visible';
 
-const units = (await getCollection('units')).map((u) => u.data).sort((a, b) => a.order - b.order);
+const units = (await getCollection('units', (u) => u.data.cluster !== 'philanthropy'))
+  .map((u) => u.data)
+  .sort((a, b) => a.order - b.order);
 const properties = (await getCollection('properties')).map((p) => p.data).sort((a, b) => a.order - b.order);
 const notices = (await getCollection('notices')).sort((a, b) => b.data.date.localeCompare(a.data.date));
 
-const groups: { heading: string; links: { label: string; href: string }[] }[] = [
+interface Link {
+  label: string;
+  href: string;
+  line?: string | null;
+}
+interface Group {
+  heading: string;
+  note?: string;
+  links: Link[];
+  /** Nested lists, e.g. each business page's actions. */
+  nested?: { label: string; href: string; links: Link[] }[];
+}
+
+const groups: Group[] = [
   {
-    heading: 'Clusters',
-    links: CLUSTERS.filter((c) => c.isOperating).map((c) => ({ label: c.name, href: c.route })),
-  },
-  {
-    heading: 'Companies',
-    links: units.map((u) => ({ label: u.name, href: `/${u.slug}` })),
-  },
-  {
-    heading: 'Apply, quote and enquire',
+    heading: 'Home',
     links: [
-      { label: 'Open a CBZ Bank account', href: '/bank/open-account' },
-      { label: 'Apply for a loan or mortgage', href: '/bank/apply' },
-      { label: 'Get a CBZ Insurance quote', href: '/insurance/quote' },
-      { label: 'Request a CBZ Life quotation', href: '/cbz-life/quote' },
-      { label: 'Start investing with Datvest', href: '/datvest/start-investing' },
-      { label: 'Request a property viewing', href: '/properties/request-a-viewing' },
-      { label: 'Start a CBZ Capital enquiry', href: '/capital/enquiry' },
-      { label: 'Request a risk consultation', href: '/risk-advisory/consultation' },
-      { label: 'Apply for farming finance', href: '/agro-yield/apply' },
+      { label: 'Hero', href: '/#main' },
+      { label: 'What can we help you with?', href: '/#digital-channels' },
+      { label: 'Nine businesses', href: '/#businesses' },
+      { label: 'Latest from CBZ', href: '/#latest' },
+      { label: 'Branches and ATMs', href: '/#branches' },
     ],
   },
   {
-    heading: 'Help and information',
+    heading: 'Business pages',
+    note: 'Every business page has: Opening, Products and FAQ, Find the right fit, Leadership, Contact.',
+    links: [],
+    nested: units.map((u) => ({
+      label: u.name,
+      href: `/${u.slug}`,
+      links: u.actions
+        .filter((a) => visible(a.href))
+        .map((a) => ({ label: a.label, href: a.href!.startsWith('#') ? `/${u.slug}${a.href}` : a.href!, line: a.line })),
+    })),
+  },
+  {
+    heading: 'Journeys',
+    note: 'Eight guided flows.',
+    links: JOURNEYS.map((j) => ({ label: j.label, href: j.href, line: j.line })),
+  },
+  {
+    heading: 'The Group',
+    links: [
+      { label: 'The Group', href: '/the-group' },
+      { label: 'Structure', href: '/the-group#structure' },
+      { label: 'Awards', href: '/the-group#awards' },
+      { label: 'Milestones', href: '/the-group#milestones' },
+      { label: 'Board', href: '/the-group#board' },
+      { label: 'Banking cluster', href: '/clusters/banking' },
+      { label: 'Investment cluster', href: '/clusters/investments' },
+      { label: 'Insurance cluster', href: '/clusters/insurance' },
+      { label: 'Agro-Business cluster', href: '/clusters/agro-business' },
+    ],
+  },
+  {
+    heading: 'Customers and access',
     links: [
       { label: 'Diaspora banking', href: '/diaspora' },
+      { label: 'Log in', href: '/login' },
+      { label: 'Security', href: '/security' },
       { label: 'Calculators', href: '/calculators' },
       { label: 'Contact us', href: '/contact' },
-      { label: 'About CBZ Holdings', href: '/about' },
-      { label: 'Notices', href: '/notices' },
-      { label: 'Security and online safety', href: '/security' },
-      { label: 'General business conditions', href: '/business-conditions' },
-      { label: 'Privacy policy', href: '/privacy-policy' },
-      { label: 'Tip-offs anonymous', href: '/tip-offs' },
     ],
   },
+  {
+    heading: 'Group and regulatory',
+    links: [
+      { label: 'Business conditions', href: '/business-conditions' },
+      { label: 'Privacy policy', href: '/privacy-policy' },
+      { label: 'Tip-offs anonymous', href: '/tip-offs' },
+      { label: 'CBZ Foundation', href: '/cbz-foundation' },
+    ],
+  },
+  {
+    heading: 'Off-site links',
+    links: OFFSITE.filter((o) => visible(o.href)).map((o) => ({ label: o.label, href: o.href! })),
+  },
   { heading: 'Properties', links: properties.map((p) => ({ label: p.title, href: `/properties/${p.id}` })) },
-  { heading: 'Notices', links: notices.map((n) => ({ label: n.data.title, href: `/notices/${n.id}` })) },
+  { heading: 'Latest from CBZ', links: notices.map((n) => ({ label: n.data.title, href: `/notices/${n.id}` })) },
 ];
 ---
 
-<BaseLayout title="Sitemap" description="Every page on the CBZ Holdings website.">
+<BaseLayout title="Sitemap" description="Every page on the CBZ Holdings website, grouped as the site is structured.">
   <div class="container page">
     <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Sitemap' }]} />
     <h1>Sitemap</h1>
     <div class="groups">
       {
         groups
-          .filter((g) => g.links.length > 0)
+          .filter((g) => g.links.length > 0 || (g.nested && g.nested.length > 0))
           .map((g) => (
             <nav aria-label={g.heading} class="group">
               <h2 class="group__h">{g.heading}</h2>
-              <ul role="list" class="group__list">
-                {g.links.map((l) => (
-                  <li>
-                    <a href={l.href}>{l.label}</a>
-                  </li>
-                ))}
-              </ul>
+              {g.note && <p class="small muted">{g.note}</p>}
+              {g.links.length > 0 && (
+                <ul role="list" class="group__list">
+                  {g.links.map((l) => (
+                    <li>
+                      <a href={l.href} target={isExternal(l.href) ? '_blank' : undefined} rel={isExternal(l.href) ? 'noopener noreferrer' : undefined}>
+                        {l.label}
+                        {isExternal(l.href) && (
+                          <>
+                            <Icon name="external" size={12} class="ext" />
+                            <span class="sr-only">(opens in a new tab)</span>
+                          </>
+                        )}
+                      </a>
+                      {visible(l.line) && <span class="small muted"> {l.line}</span>}
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {g.nested && (
+                <ul role="list" class="group__nested">
+                  {g.nested.map((n) => (
+                    <li>
+                      <a href={n.href} class="group__parent">
+                        {n.label}
+                      </a>
+                      <ul role="list" class="group__list group__list--sub">
+                        {n.links.map((l) => (
+                          <li>
+                            <a href={l.href} target={isExternal(l.href) ? '_blank' : undefined} rel={isExternal(l.href) ? 'noopener noreferrer' : undefined}>
+                              {l.label}
+                              {isExternal(l.href) && (
+                                <>
+                                  <Icon name="external" size={12} class="ext" />
+                                  <span class="sr-only">(opens in a new tab)</span>
+                                </>
+                              )}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </nav>
           ))
       }
     </div>
-    <p class="small muted">
-      Companies in the Banking cluster without a page yet: {companiesIn('banking' as ClusterId).filter((c) => !c.route).map((c) => c.name).join(', ')}.
-    </p>
   </div>
 </BaseLayout>
 
@@ -86,32 +171,64 @@ const groups: { heading: string; links: { label: string; href: string }[] }[] = 
   }
   .groups {
     display: grid;
-    gap: var(--s-8) var(--gap);
+    gap: var(--s-10, 40px);
   }
-  @media (min-width: 640px) {
-    .groups {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-  @media (min-width: 900px) {
-    .groups {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
+  .group {
+    display: grid;
+    gap: var(--s-3);
   }
   .group__h {
-    font-size: var(--t-md);
-    margin-bottom: var(--s-3);
+    font-size: var(--t-lg);
   }
   .group__list {
     display: grid;
     gap: var(--s-2);
   }
+  @media (min-width: 640px) {
+    .group__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 900px) {
+    .group__list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
   .group__list a {
     display: inline-block;
     padding-block: var(--s-1);
     text-decoration: none;
+    font-weight: 700;
   }
   .group__list a:hover {
     text-decoration: underline;
+  }
+  .group__nested {
+    display: grid;
+    gap: var(--s-6);
+  }
+  @media (min-width: 900px) {
+    .group__nested {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .group__parent {
+    font-weight: 700;
+    font-size: var(--t-md);
+    color: var(--blue);
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: var(--s-2);
+  }
+  .group__parent:hover {
+    text-decoration: underline;
+  }
+  .group__list--sub {
+    grid-template-columns: 1fr;
+    padding-left: var(--s-4);
+    border-left: 2px solid var(--blue-100);
+  }
+  .group__list--sub a {
+    font-weight: 400;
   }
 </style>

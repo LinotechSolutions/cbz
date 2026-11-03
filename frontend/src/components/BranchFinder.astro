@@ -1,0 +1,136 @@
+---
+/**
+ * Branches and ATMs. A Google Maps search that loads only when asked for, with
+ * a one-tap hand-off to the visitor's own maps app. Used on the home page and
+ * the contact page. A bank-maintained branch list can replace the search later.
+ */
+import Icon from './Icon.astro';
+import { CONTACT, HOURS } from '../data/facts';
+
+interface Props {
+  /** Unique per page, so two finders never share element ids. */
+  id?: string;
+}
+const { id = 'branches' } = Astro.props;
+---
+
+<div class="bf" data-branch-finder>
+  <div class="bf__controls">
+    <label class="field">
+      <span class="field__label">Town or suburb</span>
+      <input class="input" type="search" data-town placeholder="e.g. Borrowdale, Bulawayo, Mutare" />
+    </label>
+    <div class="bf__btns">
+      <button type="button" class="btn btn--primary" data-load>Show branches on the map</button>
+      <a
+        href="https://www.google.com/maps/search/?api=1&query=CBZ+Bank+branch+Zimbabwe"
+        class="btn btn--secondary"
+        target="_blank"
+        rel="noopener noreferrer"
+        data-open
+      >
+        Open in Google Maps <Icon name="external" size={16} class="ext" /><span class="sr-only">(opens in a new tab)</span>
+      </a>
+    </div>
+    <dl class="bf__hours">
+      {
+        HOURS.branches.map((h) => (
+          <div>
+            <dt>{h.days}</dt>
+            <dd>{h.hours}</dd>
+          </div>
+        ))
+      }
+      <div>
+        <dt>ATMs</dt>
+        <dd>24 hours</dd>
+      </div>
+    </dl>
+    <p class="small muted">
+      Head office: {CONTACT.address.line1}, {CONTACT.address.line2}. Can't find a branch? Call
+      <a href={CONTACT.contactCentre.href}>{CONTACT.contactCentre.display}</a>.
+    </p>
+  </div>
+  <div class="bf__frame" data-frame hidden aria-live="polite" id={`${id}-map`}></div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-branch-finder]').forEach((root) => {
+    const town = root.querySelector<HTMLInputElement>('[data-town]');
+    const load = root.querySelector<HTMLButtonElement>('[data-load]');
+    const open = root.querySelector<HTMLAnchorElement>('[data-open]');
+    const frame = root.querySelector<HTMLElement>('[data-frame]');
+    const query = () => `CBZ Bank branch ${town?.value.trim() ?? ''} Zimbabwe`.replace(/\s+/g, ' ');
+    town?.addEventListener('input', () => {
+      if (open) open.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query())}`;
+    });
+    load?.addEventListener('click', () => {
+      if (!frame) return;
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.google.com/maps?q=${encodeURIComponent(query())}&output=embed`;
+      iframe.title = 'Map of CBZ Bank branches';
+      iframe.loading = 'lazy';
+      iframe.referrerPolicy = 'no-referrer-when-downgrade';
+      frame.replaceChildren(iframe);
+      frame.hidden = false;
+      load.textContent = 'Update the map';
+    });
+  });
+</script>
+
+<style>
+  .bf {
+    display: grid;
+    gap: var(--s-6);
+  }
+  @media (min-width: 900px) {
+    .bf {
+      grid-template-columns: 4fr 8fr;
+      align-items: start;
+    }
+  }
+  .bf__controls {
+    display: grid;
+    gap: var(--s-4);
+  }
+  .bf__btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+  }
+  .bf__hours {
+    margin: 0;
+    display: grid;
+    gap: var(--s-2);
+    font-size: var(--t-sm);
+  }
+  .bf__hours div {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--s-4);
+    padding-bottom: var(--s-2);
+    border-bottom: 1px solid var(--line);
+  }
+  .bf__hours dt {
+    color: var(--grey);
+  }
+  .bf__hours dd {
+    margin: 0;
+    font-weight: 700;
+    color: var(--blue);
+  }
+  .bf__frame {
+    min-height: 360px;
+    border-radius: var(--r-md);
+    overflow: hidden;
+    background: var(--blue-100);
+  }
+  .bf__frame[hidden] {
+    display: none;
+  }
+  .bf__frame :global(iframe) {
+    width: 100%;
+    height: 420px;
+    border: 0;
+  }
+</style>

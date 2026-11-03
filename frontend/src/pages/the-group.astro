@@ -1,17 +1,31 @@
 ---
+/**
+ * The Group: Structure, Awards, Milestones and Board, as on the site map.
+ * The Board renders only once the business supplies the profiles.
+ */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import Section from '../components/Section.astro';
 import Logo from '../components/Logo.astro';
 import ExternalLink from '../components/ExternalLink.astro';
+import ResponsiveImage from '../components/ResponsiveImage.astro';
 import { CLUSTERS, companiesIn, heldBy, VALUE_PROPOSITION, type ClusterId } from '../data/group';
-import { AWARDS, GROUP, MILESTONES } from '../data/facts';
+import { AWARDS, GROUP, MILESTONES, BOARD } from '../data/facts';
 import { LINKS } from '../data/links';
+import { visible } from '../lib/visible';
 import type { DarkSafeLogoKey } from '../data/logos';
+
+const board = visible(BOARD) ? BOARD! : [];
+const jump = [
+  { label: 'Structure', href: '#structure' },
+  { label: 'Awards', href: '#awards' },
+  { label: 'Milestones', href: '#milestones' },
+  ...(board.length ? [{ label: 'Board', href: '#board' }] : []),
+];
 ---
 
 <BaseLayout
-  title="About CBZ Holdings"
+  title="The Group"
   description="CBZ Holdings, founded in 1980 and listed on the Zimbabwe Stock Exchange, is ten operating companies in four clusters: banking, investments, insurance and agro-business."
 >
   <Hero
@@ -19,11 +33,15 @@ import type { DarkSafeLogoKey } from '../data/logos';
     lede={`Founded in ${GROUP.founded} and ${GROUP.listingLine.toLowerCase()}, CBZ Holdings brings banking, investments, insurance and agribusiness under one roof.`}
     image={{ src: '/images/cbzpicture1.webp', alt: 'CBZ Holdings head office' }}
     logo="holdings"
-    crumbs={[{ label: 'Home', href: '/' }, { label: 'About' }]}
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'The Group' }]}
     overlap={false}
   />
 
-  <Section id="why" heading="Why one group" hideHeading>
+  <nav class="container jump" aria-label="On this page">
+    {jump.map((j) => <a href={j.href}>{j.label}</a>)}
+  </nav>
+
+  <Section id="why" heading="Why one group" hideHeading compact>
     <ul role="list" class="why">
       {
         VALUE_PROPOSITION.map((v) => (
@@ -36,7 +54,7 @@ import type { DarkSafeLogoKey } from '../data/logos';
     </ul>
   </Section>
 
-  <Section id="structure" tone="tint" heading="How we are structured" lede="Four operating clusters, plus the CBZ Foundation held directly by the Group.">
+  <Section id="structure" tone="tint" heading="Structure" lede="Four operating clusters, plus the CBZ Foundation held directly by the Group.">
     <div class="structure">
       {
         CLUSTERS.map((c) => (
@@ -68,20 +86,7 @@ import type { DarkSafeLogoKey } from '../data/logos';
     </div>
   </Section>
 
-  <Section id="milestones" heading="Milestones">
-    <ol class="timeline" role="list">
-      {
-        MILESTONES.map((m) => (
-          <li class="timeline__item">
-            <span class="timeline__period">{m.period}</span>
-            <span class="timeline__text">{m.text}</span>
-          </li>
-        ))
-      }
-    </ol>
-  </Section>
-
-  <Section id="awards" tone="tint" heading="Recognition">
+  <Section id="awards" heading="Awards">
     <ul role="list" class="awards">
       {
         AWARDS.map((a) => (
@@ -98,9 +103,54 @@ import type { DarkSafeLogoKey } from '../data/logos';
       <ExternalLink href={LINKS.investorRelations}>Investor relations and annual reports</ExternalLink>
     </p>
   </Section>
+
+  <Section id="milestones" tone="tint" heading="Milestones">
+    <ol class="timeline" role="list">
+      {
+        MILESTONES.map((m) => (
+          <li class="timeline__item">
+            <span class="timeline__period">{m.period}</span>
+            <span class="timeline__text">{m.text}</span>
+          </li>
+        ))
+      }
+    </ol>
+  </Section>
+
+  {
+    board.length > 0 && (
+      <Section id="board" heading="Board">
+        <ul role="list" class="board">
+          {board.map((p) => (
+            <li class="person">
+              {p.image ? <ResponsiveImage src={p.image.src} alt={p.image.alt} ratio="1:1" /> : <div class="person__placeholder" aria-hidden="true" />}
+              <span class="person__name">{p.name}</span>
+              <span class="small muted">{p.role}</span>
+            </li>
+          ))}
+        </ul>
+      </Section>
+    )
+  }
 </BaseLayout>
 
 <style>
+  .jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2) var(--s-6);
+    padding-top: var(--s-6);
+  }
+  .jump a {
+    font-weight: 700;
+    text-decoration: none;
+    min-height: var(--tap);
+    display: inline-flex;
+    align-items: center;
+  }
+  .jump a:hover {
+    text-decoration: underline;
+  }
   .why {
     display: grid;
     gap: var(--gap);
@@ -172,6 +222,29 @@ import type { DarkSafeLogoKey } from '../data/logos';
   .company__text a:hover {
     text-decoration: underline;
   }
+  .awards {
+    display: grid;
+    gap: var(--gap);
+  }
+  @media (min-width: 640px) {
+    .awards {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .award {
+    display: grid;
+    gap: var(--s-1);
+    padding: var(--s-6);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+  }
+  .award__title {
+    font-weight: 700;
+    color: var(--blue);
+  }
+  .ir {
+    margin-top: var(--s-8);
+  }
   .timeline {
     display: grid;
     gap: var(--s-4);
@@ -189,28 +262,22 @@ import type { DarkSafeLogoKey } from '../data/logos';
     color: var(--blue);
     font-variant-numeric: tabular-nums;
   }
-  .awards {
+  .board {
     display: grid;
     gap: var(--gap);
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   }
-  @media (min-width: 640px) {
-    .awards {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-  }
-  .award {
+  .person {
     display: grid;
-    gap: var(--s-1);
-    padding: var(--s-6);
-    background: var(--white);
-    border: 1px solid var(--line);
+    gap: var(--s-2);
+  }
+  .person__placeholder {
+    aspect-ratio: 1;
+    background: var(--blue-100);
     border-radius: var(--r-md);
   }
-  .award__title {
+  .person__name {
     font-weight: 700;
     color: var(--blue);
-  }
-  .ir {
-    margin-top: var(--s-8);
   }
 </style>

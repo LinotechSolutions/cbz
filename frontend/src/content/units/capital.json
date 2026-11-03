@@ -27,6 +27,20 @@
     { "id": "equity", "label": "Equity capital markets and IPOs" },
     { "id": "infrastructure", "label": "PPPs and infrastructure" }
   ],
+  "segments": [
+    { "label": "Corporates", "line": "Debt, equity, M&A and infrastructure finance", "href": "#products" }
+  ],
+  "actions": [
+    { "label": "Learn more", "line": "Investment products and corporate finance advisory", "href": "#products", "kind": "anchor" },
+    { "label": "Start a capital enquiry", "line": "Tell us about the transaction", "href": "/capital/enquiry", "kind": "form" },
+    { "label": "Call me back", "line": "A senior banker calls you", "href": "/capital/call-me-back", "kind": "form" }
+  ],
+  "faq": [
+    { "q": "What does CBZ Capital do?", "a": "It structures and lead-arranges debt syndications and bond issues, advises on mergers, acquisitions and restructurings, sponsors listings on the ZSE and VFEX, and arranges public-private partnership finance." },
+    { "q": "Can you take my company to market?", "a": "Yes. CBZ Capital advises on and sponsors IPOs, listings, rights issues and private placements on the ZSE and VFEX." },
+    { "q": "How do I engage you?", "a": "Start a capital enquiry with the company, what you need and the approximate size, and a senior banker comes back within two working days." }
+  ],
+  "systems": [],
   "regulator": null,
   "productsNote": "Transaction advisory, capital raising and syndication terms are tailored to each mandate and subject to regulatory approvals.",
   "contact": {

@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-const PAGES = ['/', '/bank', '/properties', '/calculators', '/contact', '/about', '/notices'];
+const PAGES = ['/', '/bank', '/insurance', '/properties', '/calculators', '/contact', '/the-group', '/journeys', '/login', '/notices', '/sitemap'];
 
 for (const path of PAGES) {
   test(`${path} has no serious accessibility violations`, async ({ page }) => {
@@ -43,6 +43,8 @@ test('escape closes a header menu and returns focus', async ({ page, isMobile })
 
 test('property filters sync to the URL', async ({ page }) => {
   await page.goto('/properties');
+  // The filters hydrate on idle; wait until the island has taken over.
+  await page.locator('astro-island:not([ssr])').filter({ has: page.getByLabel('Type') }).waitFor();
   await page.getByLabel('Type').selectOption('commercial');
   await expect(page).toHaveURL(/type=commercial/);
   const visible = page.locator('[data-property]:not([hidden])');
@@ -85,6 +87,29 @@ test('calculator announces a result', async ({ page }) => {
 });
 
 test('old routes redirect', async ({ page }) => {
-  await page.goto('/the-group');
-  await expect(page).toHaveURL(/\/about$/);
+  await page.goto('/about');
+  await expect(page).toHaveURL(/\/the-group$/);
+});
+
+test('every business page follows the site map sections', async ({ page }) => {
+  for (const slug of ['bank', 'insurance', 'cbz-life', 'datvest', 'properties', 'agro-yield', 'red-sphere', 'capital', 'risk-advisory']) {
+    await page.goto(`/${slug}`);
+    await expect(page.locator('#products')).toHaveCount(1);
+    await expect(page.locator('#faq')).toHaveCount(1);
+    await expect(page.locator('#fit')).toHaveCount(1);
+    await expect(page.locator('#contact')).toHaveCount(1);
+    await expect(page.getByRole('navigation', { name: /What you can do with/ })).toBeVisible();
+  }
+});
+
+test('home follows the site map order', async ({ page }) => {
+  await page.goto('/');
+  const ids = await page.locator('main section[id], main nav[aria-label]').evaluateAll((els) => els.map((e) => e.id || e.getAttribute('aria-label')));
+  const order = ['What can we help you with?', 'businesses', 'latest', 'branches'];
+  let last = -1;
+  for (const key of order) {
+    const i = ids.findIndex((id) => id === key);
+    expect(i, `${key} present`).toBeGreaterThan(last);
+    last = i;
+  }
 });

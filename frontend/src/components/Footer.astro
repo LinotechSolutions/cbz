@@ -1,4 +1,9 @@
 ---
+/**
+ * Footer. Columns mirror the site map: businesses, journeys, the Group and
+ * access, regulatory, and off-site links. Everything comes from nav.ts and
+ * facts.ts; a null link is hidden.
+ */
 import Logo from './Logo.astro';
 import Icon from './Icon.astro';
 import { SOCIAL_ICON } from './icons';
@@ -8,10 +13,11 @@ import { visible } from '../lib/visible';
 import { isExternal } from '../data/links';
 
 const columns: { heading: string; links: readonly { label: string; href: string | null; external?: boolean }[] }[] = [
-  { heading: 'Clusters', links: FOOTER.clusters },
-  { heading: 'Digital channels', links: FOOTER.digital },
-  { heading: 'Help', links: FOOTER.help },
-  { heading: 'Legal', links: FOOTER.legal },
+  { heading: 'Our businesses', links: FOOTER.businesses },
+  { heading: 'Journeys', links: FOOTER.journeys },
+  { heading: 'The Group and access', links: FOOTER.group },
+  { heading: 'Regulatory', links: FOOTER.regulatory },
+  { heading: 'Off-site', links: FOOTER.offsite },
 ];
 const year = new Date().getFullYear();
 ---
@@ -180,7 +186,7 @@ const year = new Date().getFullYear();
   }
   @media (min-width: 900px) {
     .footer__cols {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(5, minmax(0, 1fr));
     }
   }
   .footer__heading {

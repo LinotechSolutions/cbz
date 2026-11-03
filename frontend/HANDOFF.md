@@ -15,6 +15,18 @@ The frontend is complete and static. Nothing on the public site needs a server t
 | Campaigns | `src/content/campaigns/` | Empty, band hidden | Marketing artwork and copy per unit |
 | Rate tables | `src/data/calculators.ts` | `rates: null`, calculators say "Indicative rates coming soon" | CBZ Insurance and CBZ Life rate bands |
 
+## Site map actions and the systems behind them
+
+Every solid box on the site map is a page or a form; every grey box is an off-site link that stays hidden until its URL is set in `src/data/links.ts` or the unit's `actions`. The forms post through `submitForm` and will need routing to these systems:
+
+| Unit | Forms | System |
+|---|---|---|
+| CBZ Insurance | Request quote, Insure now (premium by direct debit or mobile money), Submit claim, Policy changes, Call me back | SSP Pure, ICECASH, Flex Cube |
+| CBZ Life | Get a quote, Take cover, Submit claim, Talk to an agent; Pay online explains CBZ Touch, internet banking and USSD and takes no payment on the site | Life Central |
+| Red Sphere | Enquire about financing; Apply for a loan goes to rs.cbz.co.zw; Zeex invoice discounting link pending | Red Sphere portal |
+| Agro-Yield | Apply for farming finance, Enquire now; Register as a farmer and Explore ATDC links pending | Farmer onboarding portal |
+| Others | Call me back per unit, Insurance audit and Get a quote (Risk Advisory), Schedule viewing and Call back (Properties) | Unit mailboxes |
+
 ## Decisions and assets still outstanding
 
 - Official App Store and Google Play badge artwork (`src/components/StoreBadges.astro` uses neutral buttons).
@@ -65,6 +77,10 @@ _Generated 2026-11-03 by `npm run handoff`. Do not edit between the markers._
 | Chatbot provider and endpoint | Digital |  |
 | Analytics vendor and tag | Digital |  |
 | Notices content (the six ported notices are sample content) | Corporate Communications |  |
+| CBZ Bank calls to action (site map says "to be confirmed"; Open an account, Apply for a loan and Call me back are in place) | CBZ Bank |  |
+| Board of directors: names, roles and photos | Corporate Affairs |  |
+| Off-site links: Zeex, farmer onboarding, ATDC, ZikiCash, property management sign-in | Red Sphere, Agro-Yield, Digital, CBZ Properties |  |
+| Integrations behind the forms: SSP Pure, ICECASH and Flex Cube (Insurance), Life Central (Life) | Digital | Recorded on each unit JSON under "systems"; nothing is wired yet. |
 
 ### Values still null in data modules
 
@@ -82,12 +98,18 @@ _Generated 2026-11-03 by `npm run handoff`. Do not edit between the markers._
 - `links.zikiCash.playStore`
 - `links.zse`
 - `links.propertiesSite`
+- `links.zeex`
+- `links.farmerOnboarding`
+- `links.atdc`
 - `calculators.mortgage.price.default`
 - `calculators.mortgage.deposit.default`
 - `calculators.mortgage.ratePct.default`
 - `calculators.carFinance.price.default`
 - `calculators.carFinance.deposit.default`
 - `calculators.carFinance.ratePct.default`
+- `calculators.loan.price.default`
+- `calculators.loan.deposit`
+- `calculators.loan.ratePct.default`
 - `calculators.carInsurance.value.default`
 - `calculators.carInsurance.rates`
 - `calculators.policyQuote.value.default`
@@ -116,7 +138,7 @@ _Generated 2026-11-03 by `npm run handoff`. Do not edit between the markers._
 - `properties/neighborhood-retail-convenience-hubs.json`: price, tourUrl
 - `properties/pomona-industrial-logistics-and-warehouse-park.json`: price, tourUrl
 - `properties/pomona-north-private-residential-estate.json`: price, tourUrl
-- `units/agro-yield.json`: objectives, audience, leadership, regulator
+- `units/agro-yield.json`: objectives, audience, leadership, actions[2].href, actions[4].href, regulator
 - `units/bank.json`: objectives, audience, leadership
 - `units/capital.json`: objectives, audience, leadership, regulator
 - `units/cbz-foundation.json`: secondaryCta, objectives, audience, leadership, regulator, productsNote
@@ -124,7 +146,7 @@ _Generated 2026-11-03 by `npm run handoff`. Do not edit between the markers._
 - `units/datvest.json`: objectives, audience, leadership, regulator
 - `units/insurance.json`: objectives, audience, leadership, regulator
 - `units/properties.json`: objectives, audience, leadership, regulator
-- `units/red-sphere.json`: objectives, audience, leadership, regulator
+- `units/red-sphere.json`: objectives, audience, leadership, actions[5].href, regulator
 - `units/risk-advisory.json`: objectives, audience, leadership, regulator
 
 <!-- handoff:end -->

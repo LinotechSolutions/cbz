@@ -27,6 +27,25 @@
     { "id": "individual", "label": "Individual life" },
     { "id": "employee", "label": "Employee benefits" }
   ],
+  "segments": [
+    { "label": "Individuals", "line": "Comfortsure funeral and Sarapavana education plans", "href": "#panel-cbz-life-individual" },
+    { "label": "Business", "line": "Group life, retirement savings, annuities and credit life", "href": "#panel-cbz-life-employee" },
+    { "label": "SMEs and the informal sector", "line": "Group cover sized for small teams and associations", "href": "#panel-cbz-life-employee" }
+  ],
+  "actions": [
+    { "label": "Get a quote", "line": "For an individual plan or group cover", "href": "/cbz-life/quote", "kind": "form" },
+    { "label": "Take cover", "line": "Policy onboarding", "href": "/cbz-life/take-cover", "kind": "form" },
+    { "label": "Submit a claim", "line": "Register a claim on a policy", "href": "/cbz-life/claim", "kind": "form" },
+    { "label": "Pay online", "line": "Policy administration and premium payments", "href": "/cbz-life/pay", "kind": "page" },
+    { "label": "Talk to an agent", "line": "A consultant calls you", "href": "/cbz-life/talk-to-an-agent", "kind": "form" }
+  ],
+  "faq": [
+    { "q": "What does Comfortsure pay?", "a": "A pre-defined funeral benefit, paid immediately to the nominated beneficiary on the death of the life insured." },
+    { "q": "What does Sarapavana cover?", "a": "Savings towards a child's primary and secondary education, with life cover attached so the plan continues if the parent dies." },
+    { "q": "How do I pay my premium?", "a": "Through CBZ Touch, internet banking or USSD using your policy number as the reference. The Pay online page explains each route." },
+    { "q": "How do I claim?", "a": "Use Submit a claim with the policy number and the date of the event. A claims consultant guides you through the documents." }
+  ],
+  "systems": ["Life Central"],
   "regulator": null,
   "productsNote": "Benefits, premiums and terms depend on the cover selected and on underwriting. Speak to a CBZ Life consultant for a quotation and the full policy terms.",
   "contact": {

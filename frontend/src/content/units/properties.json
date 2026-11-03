@@ -27,6 +27,22 @@
     { "id": "commercial", "label": "Commercial" },
     { "id": "advisory", "label": "Advisory" }
   ],
+  "segments": [
+    { "label": "Individuals", "line": "Stands, homes and cluster units, with a CBZ Bank mortgage", "href": "#panel-properties-residential" },
+    { "label": "Business", "line": "Office, retail, industrial and advisory", "href": "#panel-properties-commercial" }
+  ],
+  "actions": [
+    { "label": "Property listing", "line": "Filter by type, location and status", "href": "#listings", "kind": "anchor" },
+    { "label": "Virtual tours", "line": "Take a 360° tour on listings that offer one", "href": "#listings", "kind": "anchor" },
+    { "label": "Schedule a viewing", "line": "We confirm a time with you", "href": "/properties/request-a-viewing", "kind": "form" },
+    { "label": "Request a call back", "line": "An agent calls you", "href": "/properties/call-back", "kind": "form" }
+  ],
+  "faq": [
+    { "q": "Can I finance a purchase?", "a": "Yes. A CBZ Bank mortgage can finance a stand, a completed home or a cluster unit over two to ten years, and CBZ Insurance can cover it from the day it is financed." },
+    { "q": "How do I view a property?", "a": "Use Schedule a viewing, name the listing, and an agent confirms a time. Some listings also offer a virtual tour you can take from the listing page." },
+    { "q": "Do you manage property?", "a": "Yes. CBZ Properties manages leases, rent collection, maintenance and facilities for landlords and tenants, and offers valuations and project management." }
+  ],
+  "systems": [],
   "regulator": null,
   "productsNote": "Prices, availability and specifications are confirmed on application.",
   "contact": {

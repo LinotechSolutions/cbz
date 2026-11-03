@@ -1,7 +1,7 @@
 import type { RateTable } from '../lib/calc/quote';
 import type { SeasonWindow } from '../lib/season';
 
-export type CalculatorKey = 'mortgage' | 'carFinance' | 'carInsurance' | 'policyQuote';
+export type CalculatorKey = 'mortgage' | 'carFinance' | 'carInsurance' | 'policyQuote' | 'loan';
 
 export interface Range {
   min: number;
@@ -17,8 +17,8 @@ export interface LoanCalculatorConfig {
   intro: string;
   currency: 'USD';
   price: Range & { label: string };
-  deposit: Range & { label: string };
-  termYears: Range & { label: string };
+  deposit: (Range & { label: string }) | null;
+  term: Range & { label: string; unit: 'years' | 'months' };
   ratePct: Range & { label: string; hint: string };
   disclaimer: string;
   cta: { label: string; href: string };
@@ -41,6 +41,8 @@ export type CalculatorConfig = LoanCalculatorConfig | QuoteCalculatorConfig;
 const DISCLAIMER =
   'Indicative only. Your actual repayment depends on credit assessment and the rate offered at the time of your application.';
 
+const RATE_HINT = 'Enter the rate quoted to you. Rates are confirmed on application.';
+
 export const CALCULATORS: Record<CalculatorKey, CalculatorConfig> = {
   mortgage: {
     kind: 'loan',
@@ -49,15 +51,8 @@ export const CALCULATORS: Record<CalculatorKey, CalculatorConfig> = {
     currency: 'USD',
     price: { label: 'Property price', min: 5_000, max: 2_000_000, step: 500, default: null },
     deposit: { label: 'Deposit', min: 0, max: 2_000_000, step: 500, default: null },
-    termYears: { label: 'Term in years', min: 2, max: 10, step: 1, default: 10 },
-    ratePct: {
-      label: 'Interest rate per year',
-      hint: 'Enter the rate quoted to you. Rates are confirmed on application.',
-      min: 1,
-      max: 40,
-      step: 0.25,
-      default: null,
-    },
+    term: { label: 'Term in years', unit: 'years', min: 2, max: 10, step: 1, default: 10 },
+    ratePct: { label: 'Interest rate per year', hint: RATE_HINT, min: 1, max: 40, step: 0.25, default: null },
     disclaimer: DISCLAIMER,
     cta: { label: 'Apply for a mortgage', href: '/bank/apply' },
   },
@@ -68,17 +63,30 @@ export const CALCULATORS: Record<CalculatorKey, CalculatorConfig> = {
     currency: 'USD',
     price: { label: 'Vehicle price', min: 1_000, max: 500_000, step: 100, default: null },
     deposit: { label: 'Deposit', min: 0, max: 500_000, step: 100, default: null },
-    termYears: { label: 'Term in years', min: 1, max: 5, step: 1, default: 3 },
+    term: { label: 'Term in years', unit: 'years', min: 1, max: 5, step: 1, default: 3 },
+    ratePct: { label: 'Interest rate per year', hint: RATE_HINT, min: 1, max: 40, step: 0.25, default: null },
+    disclaimer: DISCLAIMER,
+    cta: { label: 'Apply for car finance', href: '/bank/apply' },
+  },
+  loan: {
+    kind: 'loan',
+    title: 'Loan calculator',
+    intro: 'Estimate the monthly repayment on a Red Sphere loan.',
+    currency: 'USD',
+    price: { label: 'Loan amount', min: 50, max: 50_000, step: 10, default: null },
+    deposit: null,
+    term: { label: 'Term in months', unit: 'months', min: 1, max: 24, step: 1, default: 12 },
     ratePct: {
       label: 'Interest rate per year',
-      hint: 'Enter the rate quoted to you. Rates are confirmed on application.',
+      hint: 'Enter the rate for the product you are applying for. Rates start from 5% on business and partner facilities.',
       min: 1,
-      max: 40,
+      max: 120,
       step: 0.25,
       default: null,
     },
-    disclaimer: DISCLAIMER,
-    cta: { label: 'Apply for car finance', href: '/bank/apply' },
+    disclaimer:
+      'Indicative only. Administration fees are not included. Your repayment depends on the product, the tenor and credit assessment.',
+    cta: { label: 'Apply online', href: 'https://rs.cbz.co.zw/' },
   },
   carInsurance: {
     kind: 'quote',

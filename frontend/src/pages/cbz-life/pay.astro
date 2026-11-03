@@ -1,0 +1,103 @@
+---
+/**
+ * Pay online: how to pay a CBZ Life premium through the channels that exist
+ * today. No payment is taken on this site; policy administration goes to
+ * Life Central through the backend when it is connected.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Section from '../../components/Section.astro';
+import Icon from '../../components/Icon.astro';
+import Button from '../../components/Button.astro';
+import { StepForm } from '../../islands/StepForm';
+import { FORMS } from '../../lib/forms';
+import { CONTACT } from '../../data/facts';
+import { LINKS } from '../../data/links';
+import type { IconName } from '../../components/icons';
+
+const routes: { icon: IconName; title: string; body: string; href: string; label: string; external?: boolean }[] = [
+  {
+    icon: 'phoneMobile',
+    title: 'CBZ Touch',
+    body: 'Pay from your CBZ account in the app. Use your policy number as the payment reference.',
+    href: '/login#apps',
+    label: 'Get CBZ Touch',
+  },
+  {
+    icon: 'globe',
+    title: 'Internet banking',
+    body: 'Set up a once-off or recurring payment to CBZ Life with your policy number as the reference.',
+    href: LINKS.internetBanking.personal,
+    label: 'Open internet banking',
+    external: true,
+  },
+  {
+    icon: 'phone',
+    title: `USSD ${CONTACT.ussd.display}`,
+    body: 'On any phone, without data. Follow the payments menu and enter your policy number.',
+    href: CONTACT.ussd.href,
+    label: `Dial ${CONTACT.ussd.display}`,
+  },
+];
+---
+
+<BaseLayout title="Pay your CBZ Life premium" description="Pay a CBZ Life premium through CBZ Touch, internet banking or USSD, and manage your policy." unitLogo="life">
+  <div class="container head">
+    <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'CBZ Life', href: '/cbz-life' }, { label: 'Pay online' }]} />
+    <h1>Pay your premium</h1>
+    <p class="lede">Three ways to pay, each using your policy number as the reference so the payment lands on the right policy.</p>
+  </div>
+
+  <Section id="routes" heading="Ways to pay" hideHeading compact>
+    <ul role="list" class="routes">
+      {
+        routes.map((r) => (
+          <li class="route">
+            <Icon name={r.icon} size={28} class="route__icon" />
+            <h2 class="route__title">{r.title}</h2>
+            <p class="small">{r.body}</p>
+            <Button href={r.href} variant="secondary">
+              {r.label}
+            </Button>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+
+  <Section id="admin" tone="tint" heading="Policy administration" lede="Change a beneficiary, update your details or ask about a premium.">
+    <StepForm client:visible def={FORMS['life-talk-to-an-agent']} />
+  </Section>
+</BaseLayout>
+
+<style>
+  .head {
+    display: grid;
+    gap: var(--s-4);
+    padding-block: var(--s-8) 0;
+  }
+  .routes {
+    display: grid;
+    gap: var(--gap);
+  }
+  @media (min-width: 900px) {
+    .routes {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .route {
+    display: grid;
+    gap: var(--s-3);
+    align-content: start;
+    justify-items: start;
+    padding: var(--s-6);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+  }
+  .route__icon {
+    color: var(--blue-700);
+  }
+  .route__title {
+    font-size: var(--t-lg);
+  }
+</style>

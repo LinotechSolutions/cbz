@@ -26,6 +26,22 @@
     { "id": "institutional", "label": "Institutional" },
     { "id": "private-wealth", "label": "Private wealth" }
   ],
+  "segments": [
+    { "label": "Retail", "line": "Unit trusts for individual savers", "href": "#panel-datvest-unit-trusts" },
+    { "label": "Institutional", "line": "Segregated and fiduciary mandates", "href": "#panel-datvest-institutional" },
+    { "label": "Pension funds", "line": "Pension fund management", "href": "#panel-datvest-institutional" }
+  ],
+  "actions": [
+    { "label": "Learn more", "line": "Product hub and wealth-creation advisory", "href": "#products", "kind": "anchor" },
+    { "label": "Start investing", "line": "Tell us your goal and timeframe", "href": "/datvest/start-investing", "kind": "form" },
+    { "label": "Call me back", "line": "An adviser calls you", "href": "/datvest/call-me-back", "kind": "form" }
+  ],
+  "faq": [
+    { "q": "What is a unit trust?", "a": "A pooled fund. Your money is combined with other investors' and managed by Datvest, and you own units whose value tracks the fund." },
+    { "q": "Can my investment lose value?", "a": "Yes. The value of investments can fall as well as rise, and past performance is not a guide to future returns." },
+    { "q": "How do I start?", "a": "Use Start investing, tell us your goal and timeframe, and an adviser sets out the options and opens your account." }
+  ],
+  "systems": [],
   "regulator": null,
   "productsNote": "The value of investments can fall as well as rise, and past performance is not a guide to future returns. Fund terms and pricing are confirmed on application.",
   "contact": {

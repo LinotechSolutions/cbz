@@ -128,6 +128,36 @@ const consentStep: StepDef = {
   ],
 };
 
+/** A short "call me back" form, one per unit, so submissions route to the right team. */
+export function callbackForm(unit: Unit, formId: string, unitName: string, topics: { value: string; label: string }[]): FormDef {
+  return {
+    unit,
+    formId,
+    title: `Call me back: ${unitName}`,
+    intro: `Leave your number and a ${unitName} consultant will call you, usually within one working day.`,
+    submitLabel: 'Request a call',
+    successTitle: 'We will call you',
+    successBody: `A ${unitName} consultant will call you, usually within one working day.`,
+    steps: [
+      {
+        title: 'What is it about?',
+        fields: [
+          { name: 'topic', label: 'Topic', type: 'select', required: true, options: topics },
+          { name: 'bestTime', label: 'Best time to call', type: 'select', required: false, options: [{ value: 'morning', label: 'Morning' }, { value: 'afternoon', label: 'Afternoon' }, { value: 'any', label: 'Any time' }], hint: 'Optional' },
+          { name: 'notes', label: 'Anything we should know first', type: 'textarea', required: false, hint: 'Optional' },
+        ],
+      },
+      contactStep(),
+      consentStep,
+    ],
+  };
+}
+
+const POLICY_FIELDS: FieldDef[] = [
+  { name: 'policyNumber', label: 'Policy number', type: 'text', required: true, hint: 'On your policy schedule or renewal notice.' },
+  { name: 'policyHolder', label: 'Name of the policyholder', type: 'text', required: true },
+];
+
 export const FORMS: Record<string, FormDef> = {
   'bank-open-account': {
     unit: 'bank',
@@ -502,6 +532,260 @@ export const FORMS: Record<string, FormDef> = {
             ],
           },
           { name: 'message', label: 'Your message', type: 'textarea', required: true },
+        ],
+      },
+      contactStep(),
+      consentStep,
+    ],
+  },
+
+  // Site map actions per unit.
+  'bank-call-me-back': callbackForm('bank', 'bank-call-me-back', 'CBZ Bank', [
+    { value: 'accounts', label: 'Accounts and cards' },
+    { value: 'loans', label: 'Loans and mortgages' },
+    { value: 'digital', label: 'CBZ Touch and internet banking' },
+    { value: 'business', label: 'Business banking' },
+    { value: 'other', label: 'Something else' },
+  ]),
+  'insurance-insure-now': {
+    unit: 'insurance',
+    formId: 'insurance-insure-now',
+    title: 'Insure now',
+    intro: 'Apply for personal cover. You can pay your premium by direct debit or mobile money.',
+    submitLabel: 'Send my application',
+    successTitle: 'Your application is in',
+    successBody: 'CBZ Insurance will confirm your cover and your first premium, usually within one working day.',
+    steps: [
+      {
+        title: 'What are you insuring?',
+        fields: [
+          {
+            name: 'cover',
+            label: 'Type of cover',
+            type: 'select',
+            required: true,
+            options: [
+              { value: 'motor', label: 'Car or vehicle' },
+              { value: 'home', label: 'Home and contents' },
+              { value: 'travel', label: 'Travel' },
+              { value: 'accident', label: 'Personal accident' },
+            ],
+          },
+          { name: 'details', label: 'Describe what you are insuring', type: 'textarea', required: true, hint: 'For a vehicle: make, model, year and registration. For a home: address and type.' },
+          { name: 'value', label: 'Value to insure, in US$', type: 'number', required: true, min: 100, max: 50_000_000 },
+          {
+            name: 'paymentMethod',
+            label: 'How would you like to pay your premium?',
+            type: 'select',
+            required: true,
+            options: [
+              { value: 'debit-order', label: 'Direct debit from my CBZ account' },
+              { value: 'mobile-money', label: 'Mobile money' },
+            ],
+          },
+        ],
+      },
+      contactStep(),
+      consentStep,
+    ],
+  },
+  'insurance-claim': {
+    unit: 'insurance',
+    formId: 'insurance-claim',
+    title: 'Submit a claim',
+    intro: 'Tell us what happened. A claims assessor will contact you about the next steps and any documents needed.',
+    submitLabel: 'Submit my claim',
+    successTitle: 'Your claim is registered',
+    successBody: 'A CBZ Insurance claims assessor will contact you within two working days.',
+    steps: [
+      {
+        title: 'Your policy',
+        fields: [
+          ...POLICY_FIELDS,
+          { name: 'incidentDate', label: 'Date of the incident', type: 'date', required: true },
+          { name: 'description', label: 'What happened?', type: 'textarea', required: true },
+          { name: 'policeReport', label: 'Police report number', type: 'text', required: false, hint: 'If one was made. Optional.' },
+        ],
+      },
+      contactStep(),
+      consentStep,
+    ],
+  },
+  'insurance-policy-changes': {
+    unit: 'insurance',
+    formId: 'insurance-policy-changes',
+    title: 'Policy changes and enquiries',
+    intro: 'Check a policy status, renew, cancel, request a statement or ask about a premium.',
+    submitLabel: 'Send my request',
+    successTitle: 'Your request is in',
+    successBody: 'CBZ Insurance will come back to you, usually within one working day.',
+    steps: [
+      {
+        title: 'Your request',
+        fields: [
+          ...POLICY_FIELDS,
+          {
+            name: 'request',
+            label: 'What do you need?',
+            type: 'select',
+            required: true,
+            options: [
+              { value: 'status', label: 'Policy status' },
+              { value: 'renewal', label: 'Renewal' },
+              { value: 'cancellation', label: 'Cancellation' },
+              { value: 'statement', label: 'Statement' },
+              { value: 'premium', label: 'Premium enquiry' },
+              { value: 'other', label: 'Something else' },
+            ],
+          },
+          { name: 'details', label: 'Details', type: 'textarea', required: false, hint: 'Optional' },
+        ],
+      },
+      contactStep(),
+      consentStep,
+    ],
+  },
+  'insurance-call-me-back': callbackForm('insurance', 'insurance-call-me-back', 'CBZ Insurance', [
+    { value: 'quote', label: 'A quote' },
+    { value: 'claim', label: 'A claim' },
+    { value: 'policy', label: 'An existing policy' },
+    { value: 'business', label: 'Business or farm cover' },
+  ]),
+  'life-take-cover': {
+    unit: 'cbz-life',
+    formId: 'life-take-cover',
+    title: 'Take cover',
+    intro: 'Start a Comfortsure or Sarapavana policy. A consultant completes the onboarding with you.',
+    submitLabel: 'Send my application',
+    successTitle: 'Your application is in',
+    successBody: 'A CBZ Life consultant will contact you to complete your policy.',
+    steps: [
+      {
+        title: 'The plan',
+        fields: [
+          {
+            name: 'plan',
+            label: 'Plan',
+            type: 'select',
+            required: true,
+            options: [
+              { value: 'comfortsure', label: 'Comfortsure funeral cash plan' },
+              { value: 'sarapavana', label: 'Sarapavana education plan' },
+            ],
+          },
+          { name: 'livesCovered', label: 'How many people to cover', type: 'number', required: true, min: 1, max: 50 },
+          { name: 'dateOfBirth', label: 'Your date of birth', type: 'date', required: true },
+        ],
+      },
+      contactStep(),
+      consentStep,
+    ],
+  },
+  'life-claim': {
+    unit: 'cbz-life',
+    formId: 'life-claim',
+    title: 'Submit a claim',
+    intro: 'We are sorry for your loss. Tell us about the policy and a claims consultant will guide you through the rest.',
+    submitLabel: 'Submit my claim',
+    successTitle: 'Your claim is registered',
+    successBody: 'A CBZ Life claims consultant will contact you within one working day.',
+    steps: [
+      {
+        title: 'The policy',
+        fields: [
+          ...POLICY_FIELDS,
+          { name: 'eventDate', label: 'Date of the event', type: 'date', required: true },
+          { name: 'relationship', label: 'Your relationship to the policyholder', type: 'text', required: true },
+        ],
+      },
+      contactStep(),
+      consentStep,
+    ],
+  },
+  'life-talk-to-an-agent': callbackForm('cbz-life', 'life-talk-to-an-agent', 'CBZ Life', [
+    { value: 'funeral', label: 'Funeral cover' },
+    { value: 'education', label: 'Education plan' },
+    { value: 'employer', label: 'Cover for my employees' },
+    { value: 'policy', label: 'An existing policy' },
+  ]),
+  'datvest-call-me-back': callbackForm('datvest', 'datvest-call-me-back', 'Datvest', [
+    { value: 'unit-trusts', label: 'Unit trusts' },
+    { value: 'institutional', label: 'Pension fund or institutional mandate' },
+    { value: 'wealth', label: 'Private wealth' },
+  ]),
+  'properties-call-back': callbackForm('properties', 'properties-call-back', 'CBZ Properties', [
+    { value: 'buy', label: 'Buying a stand or home' },
+    { value: 'rent', label: 'Renting commercial space' },
+    { value: 'valuation', label: 'A valuation' },
+    { value: 'management', label: 'Property management' },
+  ]),
+  'agro-enquire': callbackForm('agro-yield', 'agro-enquire', 'CBZ Agro-Yield', [
+    { value: 'contract', label: 'Contract farming' },
+    { value: 'jv', label: 'A joint venture' },
+    { value: 'trading', label: 'Commodity trading and offtake' },
+    { value: 'supply', label: 'Mechanisation, equipment or water' },
+  ]),
+  'red-sphere-enquire': callbackForm('red-sphere', 'red-sphere-enquire', 'Red Sphere Finance', [
+    { value: 'salary', label: 'A salary-based loan' },
+    { value: 'sme', label: 'SME working capital' },
+    { value: 'partners', label: 'Agency or partnership' },
+    { value: 'invoice', label: 'Invoice discounting' },
+  ]),
+  'capital-call-me-back': callbackForm('capital', 'capital-call-me-back', 'CBZ Capital', [
+    { value: 'debt', label: 'Debt raising or syndication' },
+    { value: 'equity', label: 'Equity raising or listing' },
+    { value: 'ma', label: 'Mergers and acquisitions' },
+    { value: 'ppp', label: 'Infrastructure or PPP' },
+  ]),
+  'risk-audit': {
+    unit: 'risk-advisory',
+    formId: 'risk-audit',
+    title: 'Request an insurance audit',
+    intro: 'A broker reviews every policy your organisation holds for gaps, overlaps and cost.',
+    submitLabel: 'Request an audit',
+    successTitle: 'Your audit request is in',
+    successBody: 'A CBZ Risk Advisory consultant will contact you within two working days.',
+    steps: [
+      {
+        title: 'Your organisation',
+        fields: [
+          { name: 'company', label: 'Organisation', type: 'text', required: true, autocomplete: 'organization' },
+          { name: 'employees', label: 'Number of employees', type: 'number', required: false, min: 1, max: 100_000, hint: 'Optional' },
+          { name: 'policies', label: 'Policies you hold today', type: 'textarea', required: false, hint: 'Insurers and cover types, as far as you know them. Optional.' },
+        ],
+      },
+      contactStep(),
+      consentStep,
+    ],
+  },
+  'risk-quote': {
+    unit: 'risk-advisory',
+    formId: 'risk-quote',
+    title: 'Get a quote through CBZ Risk Advisory',
+    intro: 'Tell us what you need covered and we will place it across licensed underwriters.',
+    submitLabel: 'Request my quote',
+    successTitle: 'Your quote request is in',
+    successBody: 'A CBZ Risk Advisory broker will come back with options, usually within two working days.',
+    steps: [
+      {
+        title: 'What needs cover?',
+        fields: [
+          { name: 'company', label: 'Organisation or your name', type: 'text', required: true },
+          {
+            name: 'need',
+            label: 'Cover needed',
+            type: 'select',
+            required: true,
+            options: [
+              { value: 'property', label: 'Property and assets' },
+              { value: 'fleet', label: 'Fleet or marine cargo' },
+              { value: 'liability', label: 'Liability and directors and officers' },
+              { value: 'benefits', label: 'Employee benefits or healthcare' },
+              { value: 'reinsurance', label: 'Reinsurance' },
+              { value: 'personal', label: 'Personal cover' },
+            ],
+          },
+          { name: 'details', label: 'Tell us more', type: 'textarea', required: false, hint: 'Optional' },
         ],
       },
       contactStep(),

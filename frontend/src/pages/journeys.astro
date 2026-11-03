@@ -1,0 +1,108 @@
+---
+/**
+ * Journeys: the eight guided flows on the site map, each leading straight
+ * into the unit's application, quote or enquiry form.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Icon from '../components/Icon.astro';
+import { JOURNEYS } from '../data/nav';
+import type { IconName } from '../components/icons';
+
+const icon: Record<string, IconName> = {
+  bank: 'bank',
+  properties: 'home',
+  insurance: 'car',
+  datvest: 'chart',
+  'agro-yield': 'leaf',
+  capital: 'chart',
+  'risk-advisory': 'shield',
+};
+---
+
+<BaseLayout title="Journeys" description="Eight guided flows: open an account, buy a home, insure a car, borrow, invest, finance a season, raise capital or review your risks.">
+  <div class="container page">
+    <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Journeys' }]} />
+    <h1>Where would you like to start?</h1>
+    <p class="lede">Eight guided flows. Each one takes a few minutes and ends with the right team calling you back.</p>
+    <ol role="list" class="journeys">
+      {
+        JOURNEYS.map((j, i) => (
+          <li>
+            <a href={j.href} class="journey" data-track="apply_click" data-track-props={JSON.stringify({ unit: j.unit, from: 'journeys' })}>
+              <span class="journey__n" aria-hidden="true">
+                {i + 1}
+              </span>
+              <Icon name={icon[j.unit] ?? 'arrowRight'} size={24} class="journey__icon" />
+              <span class="journey__text">
+                <span class="journey__label">{j.label}</span>
+                <span class="journey__line">{j.line}</span>
+              </span>
+              <Icon name="chevronRight" size={18} class="journey__chev" />
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    display: grid;
+    gap: var(--s-6);
+    padding-block: var(--s-8) var(--band);
+  }
+  .journeys {
+    display: grid;
+    gap: var(--gap);
+    margin-top: var(--s-4);
+  }
+  @media (min-width: 640px) {
+    .journeys {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .journey {
+    display: grid;
+    grid-template-columns: auto auto 1fr auto;
+    align-items: center;
+    gap: var(--s-4);
+    padding: var(--s-5, 20px) var(--s-6);
+    min-height: 88px;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    text-decoration: none;
+    color: var(--ink);
+    transition: border-color var(--dur) var(--ease);
+  }
+  .journey:hover {
+    border-color: var(--blue-700);
+    color: var(--ink);
+  }
+  .journey__n {
+    font-size: var(--t-xs);
+    color: var(--grey);
+    font-variant-numeric: tabular-nums;
+    width: 1.5em;
+  }
+  .journey__icon {
+    color: var(--blue-700);
+  }
+  .journey__text {
+    display: grid;
+    gap: 2px;
+  }
+  .journey__label {
+    font-weight: 700;
+    color: var(--blue);
+    font-size: var(--t-lg);
+  }
+  .journey__line {
+    font-size: var(--t-sm);
+    color: var(--grey);
+  }
+  .journey__chev {
+    color: var(--blue-700);
+  }
+</style>

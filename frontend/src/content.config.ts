@@ -54,8 +54,28 @@ const units = defineCollection({
     leadership: z
       .array(z.object({ name: z.string(), role: z.string(), image: imageRef.nullable() }))
       .nullable(),
-    calculators: z.array(z.enum(['mortgage', 'carFinance', 'carInsurance', 'policyQuote'])).optional(),
+    calculators: z.array(z.enum(['mortgage', 'carFinance', 'carInsurance', 'policyQuote', 'loan'])).optional(),
     categories: z.array(z.object({ id: z.string(), label: z.string() })),
+    /** Who the unit serves, from the site map. Each chip links to the products for that segment. */
+    segments: z.array(z.object({ label: z.string(), line: nullableString, href: z.string() })).default([]),
+    /**
+     * The unit's actions from the site map, in order. `kind` says what the
+     * customer gets: a page or form on this site, an anchor on this page, an
+     * off-site link, or the app stores. A null href hides the action.
+     */
+    actions: z
+      .array(
+        z.object({
+          label: z.string(),
+          line: nullableString,
+          href: nullableString,
+          kind: z.enum(['page', 'form', 'anchor', 'external', 'app']),
+        }),
+      )
+      .default([]),
+    faq: z.array(z.object({ q: z.string(), a: z.string() })).default([]),
+    /** Systems the unit integrates with, for the backend handoff. Never shown to customers. */
+    systems: z.array(z.string()).default([]),
     /** Regulatory line, e.g. an IPEC registration. Hidden until confirmed. */
     regulator: nullableString,
     productsNote: nullableString,

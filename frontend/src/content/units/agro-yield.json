@@ -23,6 +23,23 @@
   "heldEntities": [{ "name": "ATDC Zimbabwe", "stake": 40 }],
   "leadership": null,
   "categories": [{ "id": "divisions", "label": "Divisions" }],
+  "segments": [
+    { "label": "Farmers", "line": "Seasonal contract farming with inputs and offtake", "href": "#panel-agro-yield-divisions" },
+    { "label": "Farms, agribusinesses and cooperatives", "line": "Joint ventures, commodity trading and supply chain", "href": "#panel-agro-yield-divisions" }
+  ],
+  "actions": [
+    { "label": "Choose your service", "line": "Farming, commodity trading, supply chain", "href": "#products", "kind": "anchor" },
+    { "label": "Apply for farming finance", "line": "Contract farming for the season", "href": "/agro-yield/apply", "kind": "form" },
+    { "label": "Register as a farmer", "line": "Farmer onboarding", "href": null, "kind": "external" },
+    { "label": "Enquire now", "line": "Or ask for a call back from Agro-Yield business development", "href": "/agro-yield/enquire", "kind": "form" },
+    { "label": "Explore ATDC", "line": "Our 40% owned associate", "href": null, "kind": "external" }
+  ],
+  "faq": [
+    { "q": "When can I apply for contract farming?", "a": "Applications open for the summer and winter seasons in turn. The banner on this page shows which season is open now." },
+    { "q": "What do the four divisions do?", "a": "Agro Enterprise runs joint ventures with farming businesses, Agro Farming funds seasonal contract farming, Agro Commodity Trading buys and markets produce, and Agro Supply Chain provides mechanisation, equipment and water." },
+    { "q": "What do I need to apply?", "a": "Your farm's location, the hectares you plan to plant, your main crop and what you need: inputs, equipment, water or a buyer." }
+  ],
+  "systems": [],
   "regulator": null,
   "productsNote": "Scheme terms, pricing and qualifying criteria depend on the crop, the season and the agreement in place. Speak to CBZ Agro-Yield for the current terms.",
   "contact": {

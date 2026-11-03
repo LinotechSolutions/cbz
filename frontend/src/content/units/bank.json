@@ -29,6 +29,23 @@
     { "id": "cards", "label": "Cards" },
     { "id": "channels", "label": "Digital and merchant" }
   ],
+  "segments": [
+    { "label": "Individuals", "line": "Current, savings, foreign currency and student accounts", "href": "#panel-bank-accounts" },
+    { "label": "Companies, schools and churches", "line": "Corporate, school and church accounts and merchant POS", "href": "#panel-bank-accounts" },
+    { "label": "Diaspora", "line": "Bank at home from abroad", "href": "/diaspora" }
+  ],
+  "actions": [
+    { "label": "Open an account", "line": "Current, savings and foreign currency accounts", "href": "/bank/open-account", "kind": "form" },
+    { "label": "Apply for a loan", "line": "Personal, school fees, civil servant and business loans", "href": "/bank/apply", "kind": "form" },
+    { "label": "Call me back", "line": "A relationship manager calls you", "href": "/bank/call-me-back", "kind": "form" }
+  ],
+  "faq": [
+    { "q": "What do I need to open an account?", "a": "Two passport-size photos, proof of residence such as your latest utility bill, your latest payslip and a valid ID. SmartCash Lite opens instantly with a copy of your ID alone." },
+    { "q": "What does a company need?", "a": "The memorandum and articles of association, certificate of incorporation, CR6, CR2 where applicable, a tax clearance, and the directors' IDs and proof of residence." },
+    { "q": "How do I bank on my phone?", "a": "CBZ Touch is zero-rated on local networks for transfers, bills, school fees and card controls. On any phone, dial *230# for USSD banking." },
+    { "q": "Can I open an account from outside Zimbabwe?", "a": "Yes. Start on the diaspora banking page with your Zimbabwean ID or passport, proof of your address abroad and proof of income." }
+  ],
+  "systems": [],
   "regulator": "CBZ Bank Limited is a registered commercial bank supervised by the Reserve Bank of Zimbabwe.",
   "productsNote": "Requirements, features and benefits are those set out in the Retail Banking Product Manual. Lending is subject to credit assessment, and interest rates are subject to change; confirm current terms before you apply.",
   "contact": {

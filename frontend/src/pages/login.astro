@@ -1,0 +1,163 @@
+---
+/**
+ * Log in: every CBZ platform a customer signs in to, with the apps beside them.
+ * All destinations come from links.ts; a null link is hidden.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Section from '../components/Section.astro';
+import Icon from '../components/Icon.astro';
+import Logo from '../components/Logo.astro';
+import StoreBadges from '../components/StoreBadges.astro';
+import ExternalLink from '../components/ExternalLink.astro';
+import { LINKS } from '../data/links';
+import { CONTACT } from '../data/facts';
+import { visible } from '../lib/visible';
+
+const portals = [
+  { label: 'Internet banking, personal', line: 'Accounts, payments and statements', href: LINKS.internetBanking.personal, choice: 'personal' },
+  { label: 'Internet banking, corporate', line: 'New platform', href: LINKS.internetBanking.newCorporate, choice: 'corporate-new' },
+  { label: 'Internet banking, personal', line: 'New platform', href: LINKS.internetBanking.newPersonal, choice: 'personal-new' },
+  { label: 'Internet banking, corporate', line: 'Previous platform (OBDX)', href: LINKS.internetBanking.corporate, choice: 'corporate-obdx' },
+  { label: 'Self-service portal', line: 'Manage your profile and services', href: LINKS.internetBanking.selfService, choice: 'self-service' },
+  { label: 'Red Sphere portal', line: 'Apply for and track a loan', href: LINKS.redSphere.portal, choice: 'red-sphere' },
+  { label: 'Property management', line: 'For managed-property clients', href: LINKS.propertiesSite, choice: 'properties' },
+].filter((p) => visible(p.href));
+---
+
+<BaseLayout title="Log in" description="Sign in to CBZ internet banking, the self-service portal, the Red Sphere portal, or get the CBZ Touch app." noindex>
+  <div class="container head">
+    <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Log in' }]} />
+    <h1>Log in</h1>
+    <p class="lede">Choose the platform you use. Each opens in a new tab on the official CBZ domain.</p>
+  </div>
+
+  <Section id="portals" heading="Platforms" hideHeading compact>
+    <ul role="list" class="portals">
+      {
+        portals.map((p) => (
+          <li>
+            <a href={p.href!} class="portal" target="_blank" rel="noopener noreferrer" data-track="login_choice" data-track-props={JSON.stringify({ choice: p.choice, from: 'login' })}>
+              <span class="portal__label">{p.label}</span>
+              <span class="portal__line">{p.line}</span>
+              <Icon name="external" size={18} class="portal__icon" />
+              <span class="sr-only">(opens in a new tab)</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="small muted">
+      Forgotten your password? <ExternalLink href={LINKS.internetBanking.forgotPassword}>Reset it on internet banking</ExternalLink>.
+    </p>
+  </Section>
+
+  <Section id="apps" tone="tint" heading="The apps" lede="Bank and borrow from your phone.">
+    <ul role="list" class="apps">
+      <li class="app">
+        <Logo brand="cbz-touch" on="light" height={40} decorative />
+        <span class="app__name">CBZ Touch</span>
+        <span class="small muted">Zero-rated mobile banking: transfers, bills, school fees and card controls.</span>
+        <StoreBadges app="cbz-touch" appStore={LINKS.touch.appStore} playStore={LINKS.touch.playStore} />
+      </li>
+      <li class="app">
+        <Logo brand="red-sphere" on="light" height={36} decorative />
+        <span class="app__name">Red Sphere</span>
+        <span class="small muted">Apply, upload documents and track your loan.</span>
+        <StoreBadges app="red-sphere" appStore={LINKS.redSphere.appStore} playStore={LINKS.redSphere.playStore} />
+      </li>
+      <li class="app">
+        <Logo brand="ziki-cash" on="light" height={32} decorative />
+        <span class="app__name">ZikiCash</span>
+        <span class="small muted">Send and receive money, pay bills and buy airtime.</span>
+        {visible(LINKS.zikiCash.appStore) || visible(LINKS.zikiCash.playStore) ? (
+          <StoreBadges app="ziki-cash" appStore={LINKS.zikiCash.appStore} playStore={LINKS.zikiCash.playStore} />
+        ) : (
+          <a href="/contact" class="btn btn--secondary">Ask us about ZikiCash</a>
+        )}
+      </li>
+    </ul>
+  </Section>
+
+  <Section id="safety" heading="Stay safe" compact>
+    <p>
+      CBZ never asks for your PIN, password or one-time code. Check the address bar shows <strong>cbz.co.zw</strong> before
+      you sign in. If something looks wrong, call <a href={CONTACT.contactCentre.href}>{CONTACT.contactCentre.display}</a>
+      or read our <a href="/security">security guidance</a>.
+    </p>
+  </Section>
+</BaseLayout>
+
+<style>
+  .head {
+    display: grid;
+    gap: var(--s-4);
+    padding-block: var(--s-8) 0;
+  }
+  .portals {
+    display: grid;
+    gap: var(--s-2);
+    margin-bottom: var(--s-6);
+  }
+  @media (min-width: 640px) {
+    .portals {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--gap);
+    }
+  }
+  .portal {
+    position: relative;
+    display: grid;
+    gap: 2px;
+    padding: var(--s-4) var(--s-12) var(--s-4) var(--s-6);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    text-decoration: none;
+    color: var(--ink);
+    min-height: 72px;
+    transition: background-color var(--dur) var(--ease);
+  }
+  .portal:hover {
+    background: var(--blue-50);
+    color: var(--ink);
+  }
+  .portal__label {
+    font-weight: 700;
+    color: var(--blue);
+  }
+  .portal__line {
+    font-size: var(--t-xs);
+    color: var(--grey);
+  }
+  .portal__icon {
+    position: absolute;
+    right: var(--s-6);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--blue-700);
+  }
+  .apps {
+    display: grid;
+    gap: var(--gap);
+  }
+  @media (min-width: 900px) {
+    .apps {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .app {
+    display: grid;
+    gap: var(--s-3);
+    justify-items: start;
+    align-content: start;
+    padding: var(--s-6);
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+  }
+  .app__name {
+    font-weight: 700;
+    font-size: var(--t-lg);
+    color: var(--blue);
+  }
+</style>

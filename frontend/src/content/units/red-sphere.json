@@ -23,13 +23,33 @@
   "objectives": null,
   "audience": null,
   "leadership": null,
-  "calculators": ["carFinance"],
+  "calculators": ["loan", "carFinance"],
   "categories": [
     { "id": "salary", "label": "Salary-based lending" },
     { "id": "business", "label": "Business lending" },
     { "id": "partners", "label": "Agents and partners" },
     { "id": "agriculture", "label": "Agriculture" }
   ],
+  "segments": [
+    { "label": "Individuals", "line": "Private payroll and pensioner loans", "href": "#panel-red-sphere-salary" },
+    { "label": "SSB borrowers", "line": "Government payroll loans up to US$2,400", "href": "#panel-red-sphere-salary" },
+    { "label": "SMEs", "line": "Working capital, tuck-shop and order finance", "href": "#panel-red-sphere-business" }
+  ],
+  "actions": [
+    { "label": "Loan products", "line": "SME, SSB, private individual and cash", "href": "#products", "kind": "anchor" },
+    { "label": "Loan calculator", "line": "Estimate a monthly repayment", "href": "#calculator", "kind": "anchor" },
+    { "label": "Apply for a loan", "line": "Online application", "href": "https://rs.cbz.co.zw/", "kind": "external" },
+    { "label": "Enquire about financing", "line": "A consultant calls you", "href": "/red-sphere/enquire", "kind": "form" },
+    { "label": "Download the app", "line": "Google Play and App Store", "href": "#app", "kind": "app" },
+    { "label": "Explore invoice discounting", "line": "Zeex", "href": null, "kind": "external" }
+  ],
+  "faq": [
+    { "q": "Who can borrow from Red Sphere?", "a": "Anyone with a salary, a payroll agreement or a trading record: government and private payroll employees, pensioners, small businesses and agents or partners." },
+    { "q": "What do I need to apply?", "a": "For a salary-based loan: your national ID, a payslip and proof of employment or residence. Business loans need your trading records." },
+    { "q": "How much can I borrow on an SSB loan?", "a": "Up to US$2,400, subject to credit assessment." },
+    { "q": "How do I apply?", "a": "Online on the Red Sphere portal or in the Red Sphere app, where you can also upload documents and track your loan." }
+  ],
+  "systems": [],
   "regulator": null,
   "productsNote": "Tenors, interest rates and administration fees are those set out in the Red Sphere Finance product documentation and are subject to credit assessment and approval. Interest rates may change, so confirm the current terms before you apply.",
   "contact": {

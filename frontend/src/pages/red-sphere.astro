@@ -51,7 +51,11 @@ const unit = (await getEntry('units', 'red-sphere'))!.data;
       </div>
     </Section>
 
-    <Section id="car-finance" tone="tint" heading="Car finance" lede="Estimate what a vehicle will cost each month.">
+    <Section id="calculator" tone="tint" heading="Loan calculator" lede="Estimate the monthly repayment on a Red Sphere loan over one to twenty-four months.">
+      <Calculator client:visible variant="loan" config={CALCULATORS.loan} />
+    </Section>
+
+    <Section id="car-finance" heading="Car finance" lede="Estimate what a vehicle will cost each month.">
       <Calculator client:visible variant="carFinance" config={CALCULATORS.carFinance} />
     </Section>
   </Fragment>

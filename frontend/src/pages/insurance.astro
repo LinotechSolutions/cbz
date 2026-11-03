@@ -14,11 +14,9 @@ const products = (await getCollection('products', (p) => p.data.unit === 'insura
 ---
 
 <UnitLayout unit={unit}>
+  <Suggest client:visible unit="insurance" products={products} slot="fit" />
   <Fragment slot="after-products">
-    <Section id="suggest" heading="Not sure what you need?" hideHeading>
-      <Suggest client:visible unit="insurance" products={products} />
-    </Section>
-    <Section id="calculator" tone="tint" heading="Car insurance calculator" lede="An indicative premium for comprehensive cover.">
+    <Section id="calculator" heading="Car insurance calculator" lede="An indicative premium for comprehensive cover.">
       <Calculator client:visible variant="carInsurance" config={CALCULATORS.carInsurance} />
     </Section>
   </Fragment>

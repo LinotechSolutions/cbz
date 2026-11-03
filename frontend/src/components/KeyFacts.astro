@@ -51,12 +51,14 @@ const shown = facts.filter((f) => visible(f.value));
   }
   .fact__value {
     margin: 0;
-    font-size: var(--t-xl);
+    font-size: var(--t-lg);
     font-weight: 700;
     color: var(--blue);
-    line-height: 1.1;
+    line-height: 1.15;
     letter-spacing: -0.01em;
     text-wrap: balance;
+    overflow-wrap: anywhere;
+    hyphens: auto;
   }
   .fact__label {
     font-size: var(--t-xs);

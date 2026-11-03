@@ -30,6 +30,12 @@ export const LINKS = {
   investorRelations: 'https://www.cbz.co.zw/investor-relations',
   zse: null as string | null,
   propertiesSite: null as string | null,
+  /** Zeex invoice discounting platform (Red Sphere). */
+  zeex: null as string | null,
+  /** Agro-Yield farmer onboarding portal. */
+  farmerOnboarding: null as string | null,
+  /** ATDC Zimbabwe, the Agro-Yield associate. */
+  atdc: null as string | null,
   documents: {
     businessConditions: 'https://www.cbz.co.zw/ddownload_category/business-conditions/',
     personalAccountTerms: 'https://www.cbz.co.zw/terms-conditions/terms-and-conditions-personal-account/',

@@ -3,11 +3,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import Section from '../components/Section.astro';
 import Icon from '../components/Icon.astro';
-import Button from '../components/Button.astro';
+import BranchFinder from '../components/BranchFinder.astro';
 import { StepForm } from '../islands/StepForm';
 import { FORMS } from '../lib/forms';
 import { CONTACT, HOURS } from '../data/facts';
-import { LOGIN_ITEMS, OPEN_ACCOUNT_ITEMS } from '../data/nav';
+import { OPEN_ACCOUNT_ITEMS } from '../data/nav';
 import { isExternal } from '../data/links';
 
 const channels = [
@@ -45,39 +45,11 @@ const channels = [
         ))
       }
     </ul>
-    <dl class="hours">
-      {
-        HOURS.branches.map((h) => (
-          <div>
-            <dt>{h.days}</dt>
-            <dd>{h.hours}</dd>
-          </div>
-        ))
-      }
-      <div>
-        <dt>Digital channels</dt>
-        <dd>{HOURS.digital}</dd>
-      </div>
-    </dl>
+    <p class="small muted hours">Digital channels: {HOURS.digital}.</p>
   </Section>
 
   <Section id="branches" tone="tint" heading="Branches and ATMs" lede="Search the map, or open it in your own maps app for directions.">
-    <div class="map">
-      <div class="map__controls">
-        <label class="field">
-          <span class="field__label">Town or suburb</span>
-          <input class="input" type="search" id="map-town" placeholder="e.g. Borrowdale, Bulawayo, Mutare" />
-        </label>
-        <div class="map__btns">
-          <button type="button" class="btn btn--primary" data-map-load>Show branches on the map</button>
-          <a href="https://www.google.com/maps/search/?api=1&query=CBZ+Bank+branch+Zimbabwe" class="btn btn--secondary" target="_blank" rel="noopener noreferrer" data-map-open>
-            Open in Google Maps <Icon name="external" size={16} class="ext" /><span class="sr-only">(opens in a new tab)</span>
-          </a>
-        </div>
-        <p class="small muted">The map loads from Google when you ask for it. Head office: {CONTACT.address.line1}, {CONTACT.address.line2}.</p>
-      </div>
-      <div class="map__frame" data-map-frame hidden></div>
-    </div>
+    <BranchFinder id="contact-branches" />
   </Section>
 
   <Section id="open-account" heading="Open an account" lede="Choose the company you want to start with.">
@@ -95,52 +67,15 @@ const channels = [
         ))
       }
     </ul>
+    <p class="more">
+      <a href="/journeys">All eight journeys</a> <span aria-hidden="true">·</span> <a href="/login">Log in to internet banking</a>
+    </p>
   </Section>
 
-  <Section id="log-in" tone="tint" heading="Log in" lede="Internet banking and the apps.">
-    <ul role="list" class="links">
-      {
-        LOGIN_ITEMS.filter((i) => i.href).map((i) => (
-          <li>
-            <a href={i.href!} class="lk" target={isExternal(i.href!) ? '_blank' : undefined} rel={isExternal(i.href!) ? 'noopener noreferrer' : undefined} data-track="login_choice" data-track-props={JSON.stringify({ choice: i.label, from: 'contact' })}>
-              <span class="lk__label">{i.label}</span>
-              {i.line && <span class="small muted">{i.line}</span>}
-              <Icon name={isExternal(i.href!) ? 'external' : 'chevronRight'} size={18} class="lk__chev" />
-              {isExternal(i.href!) && <span class="sr-only">(opens in a new tab)</span>}
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-    <p class="small muted">Lost your password? <Button href="https://obdx.cbz.co.zw/index.html?module=login" variant="quiet">Reset it on internet banking</Button></p>
-  </Section>
-
-  <Section id="message" heading="Send us a message" lede="Tell us how we can help and the right team will reply.">
+  <Section id="message" tone="tint" heading="Send us a message" lede="Tell us how we can help and the right team will reply.">
     <StepForm client:visible def={FORMS['contact-enquiry']} />
   </Section>
 </BaseLayout>
-
-<script>
-  const town = document.getElementById('map-town') as HTMLInputElement | null;
-  const load = document.querySelector<HTMLButtonElement>('[data-map-load]');
-  const open = document.querySelector<HTMLAnchorElement>('[data-map-open]');
-  const frame = document.querySelector<HTMLElement>('[data-map-frame]');
-  const query = () => `CBZ Bank branch ${town?.value.trim() ?? ''} Zimbabwe`.replace(/\s+/g, ' ');
-  town?.addEventListener('input', () => {
-    if (open) open.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query())}`;
-  });
-  load?.addEventListener('click', () => {
-    if (!frame) return;
-    const iframe = document.createElement('iframe');
-    iframe.src = `https://www.google.com/maps?q=${encodeURIComponent(query())}&output=embed`;
-    iframe.title = 'Map of CBZ Bank branches';
-    iframe.loading = 'lazy';
-    iframe.referrerPolicy = 'no-referrer-when-downgrade';
-    frame.replaceChildren(iframe);
-    frame.hidden = false;
-    load.textContent = 'Update the map';
-  });
-</script>
 
 <style>
   .head {
@@ -197,59 +132,7 @@ const channels = [
     font-variant-numeric: tabular-nums;
   }
   .hours {
-    margin: var(--s-8) 0 0;
-    display: grid;
-    gap: var(--s-2);
-    max-width: 480px;
-    font-size: var(--t-sm);
-  }
-  .hours div {
-    display: flex;
-    justify-content: space-between;
-    gap: var(--s-4);
-    padding-bottom: var(--s-2);
-    border-bottom: 1px solid var(--line);
-  }
-  .hours dt {
-    color: var(--grey);
-  }
-  .hours dd {
-    margin: 0;
-    font-weight: 700;
-    color: var(--blue);
-  }
-  .map {
-    display: grid;
-    gap: var(--s-6);
-  }
-  @media (min-width: 900px) {
-    .map {
-      grid-template-columns: 4fr 8fr;
-      align-items: start;
-    }
-  }
-  .map__controls {
-    display: grid;
-    gap: var(--s-4);
-  }
-  .map__btns {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--s-3);
-  }
-  .map__frame {
-    min-height: 360px;
-    border-radius: var(--r-md);
-    overflow: hidden;
-    background: var(--blue-100);
-  }
-  .map__frame[hidden] {
-    display: none;
-  }
-  .map__frame iframe {
-    width: 100%;
-    height: 420px;
-    border: 0;
+    margin-top: var(--s-6);
   }
   .links {
     display: grid;
@@ -288,5 +171,9 @@ const channels = [
     top: 50%;
     transform: translateY(-50%);
     color: var(--blue-700);
+  }
+  .more {
+    margin-top: var(--s-6);
+    font-weight: 700;
   }
 </style>

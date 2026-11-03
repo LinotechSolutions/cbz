@@ -1,22 +1,26 @@
 ---
+/**
+ * Home, in the site map's order: Hero, What can we help you with?, Nine
+ * businesses, Latest from CBZ, Branches & ATMs. The digital channels sit as
+ * one compact row under the task card.
+ */
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import TaskCard from '../components/TaskCard.astro';
 import Section from '../components/Section.astro';
-import Tile from '../components/Tile.astro';
 import Logo from '../components/Logo.astro';
 import StoreBadges from '../components/StoreBadges.astro';
-import Button from '../components/Button.astro';
-import ResponsiveImage from '../components/ResponsiveImage.astro';
+import BranchFinder from '../components/BranchFinder.astro';
 import Icon from '../components/Icon.astro';
 import { OpenAccountMenu } from '../islands/OpenAccountMenu';
 import { OPEN_ACCOUNT_ITEMS } from '../data/nav';
 import { LINKS } from '../data/links';
 import { GROUP } from '../data/facts';
 import { CLUSTERS } from '../data/group';
-import { visible } from '../lib/visible';
+import { formatDate } from '../lib/format';
 import type { IconName } from '../components/icons';
+import type { DarkSafeLogoKey } from '../data/logos';
 
 const clusterIcon: Record<string, IconName> = { banking: 'bank', investments: 'chart', insurance: 'shield', 'agro-business': 'leaf' };
 const tasks = CLUSTERS.filter((c) => c.isOperating).map((c) => ({
@@ -26,11 +30,13 @@ const tasks = CLUSTERS.filter((c) => c.isOperating).map((c) => ({
   icon: clusterIcon[c.id],
 }));
 
-const now = new Date();
-const offers = (await getCollection('campaigns', (c) => c.data.unit === null))
-  .map((c) => c.data)
-  .filter((c) => new Date(c.starts) <= now && new Date(c.ends) >= now)
-  .sort((a, b) => a.order - b.order)
+const units = (await getCollection('units', (u) => u.data.cluster !== 'philanthropy'))
+  .map((u) => u.data)
+  .sort((a, b) => a.order - b.order);
+
+const latest = (await getCollection('notices'))
+  .filter((n) => n.data.category !== 'security')
+  .sort((a, b) => b.data.date.localeCompare(a.data.date))
   .slice(0, 3);
 ---
 
@@ -43,88 +49,84 @@ const offers = (await getCollection('campaigns', (c) => c.data.unit === null))
     variant="home"
     eyebrow="CBZ Holdings"
     title="Bank, insure, invest and grow, in one place"
-    lede="Ten companies, one group. Open an account, get a quote or start investing today."
+    lede="Nine businesses, one group. Open an account, get a quote or start investing today."
     image={{ src: '/images/cbz-payments.webp', alt: 'A shop owner taking a card payment from a customer at the counter' }}
     secondary={{ label: 'Talk to us', href: '/contact' }}
   >
     <OpenAccountMenu client:idle items={OPEN_ACCOUNT_ITEMS} slot="primary" />
   </Hero>
 
-  <TaskCard heading="What do you need?" items={tasks} />
+  <TaskCard heading="What can we help you with?" items={tasks} />
 
-  <Section id="digital-channels" tone="tint" heading="Bank from your phone" lede="Pay, send and save without visiting a branch.">
-    <div class="digital">
-      <a
-        href={LINKS.zikiCash.site ?? '/contact'}
-        class="dc dc--lead"
-        data-track="apply_click"
-        data-track-props={JSON.stringify({ unit: 'ziki-cash', from: 'home' })}
-      >
-        <Logo brand="ziki-cash" on="light" height={44} decorative />
-        <span class="dc__title">ZikiCash</span>
-        <span class="dc__line">Send and receive money, pay bills and buy airtime from your phone.</span>
-        <span class="dc__more">{LINKS.zikiCash.site ? 'Get started' : 'Ask us about ZikiCash'} <Icon name="chevronRight" size={18} /></span>
-      </a>
-
-      <div class="dc dc--touch">
-        <Logo brand="cbz-touch" on="light" height={44} decorative />
-        <span class="dc__title">CBZ Touch</span>
-        <span class="dc__line">Zero-rated mobile banking: transfers, bills, school fees and card controls.</span>
+  <div class="container digital-row">
+    <ul role="list" class="digital" id="digital-channels" aria-label="Bank from your phone">
+      <li class="digital__item">
+        <Logo brand="ziki-cash" on="light" height={28} decorative />
+        <a href={LINKS.zikiCash.site ?? '/contact'} class="digital__link">
+          ZikiCash {LINKS.zikiCash.site ? '' : '(ask us)'} <Icon name="chevronRight" size={16} />
+        </a>
+      </li>
+      <li class="digital__item">
+        <Logo brand="cbz-touch" on="light" height={28} decorative />
         <StoreBadges app="cbz-touch" appStore={LINKS.touch.appStore} playStore={LINKS.touch.playStore} />
-      </div>
+      </li>
+      <li class="digital__item">
+        <a href="/login" class="digital__link">Internet banking log in <Icon name="chevronRight" size={16} /></a>
+      </li>
+      <li class="digital__item">
+        <Logo brand="ziki-mall" on="light" height={24} decorative />
+        <a href={LINKS.zikiMall} class="digital__link" target="_blank" rel="noopener noreferrer">
+          Ziki Mall <Icon name="external" size={14} class="ext" /><span class="sr-only">(opens in a new tab)</span>
+        </a>
+      </li>
+    </ul>
+  </div>
 
-      <div class="dc dc--small">
-        <span class="dc__title">Internet banking</span>
-        <ul role="list" class="dc__links">
+  <Section id="businesses" tone="tint" heading="Nine businesses" lede="One group behind every stage of life and business.">
+    <ul role="list" class="units">
+      {
+        units.map((u) => (
           <li>
-            <a href={LINKS.internetBanking.personal} target="_blank" rel="noopener noreferrer" data-track="login_choice" data-track-props='{"choice":"personal","from":"home"}'>
-              Personal <Icon name="external" size={12} class="ext" /><span class="sr-only">(opens in a new tab)</span>
+            <a href={`/${u.slug}`} class="unit">
+              <Logo brand={u.logo as DarkSafeLogoKey} on="light" height={32} decorative />
+              <span class="unit__name">{u.name}</span>
+              <span class="unit__line">{u.hero.lede}</span>
+              <span class="unit__more">
+                Visit {u.shortName} <Icon name="chevronRight" size={16} />
+              </span>
             </a>
           </li>
-          <li>
-            <a href={LINKS.internetBanking.newCorporate} target="_blank" rel="noopener noreferrer" data-track="login_choice" data-track-props='{"choice":"corporate","from":"home"}'>
-              Corporate <Icon name="external" size={12} class="ext" /><span class="sr-only">(opens in a new tab)</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-
-      <a href={LINKS.zikiMall} class="dc dc--small" target="_blank" rel="noopener noreferrer">
-        <Logo brand="ziki-mall" on="light" height={32} decorative />
-        <span class="dc__title">Ziki Mall</span>
-        <span class="dc__line">Shop online and pay with CBZ.</span>
-        <span class="sr-only">(opens in a new tab)</span>
-      </a>
-    </div>
+        ))
+      }
+    </ul>
   </Section>
 
   {
-    offers.length > 0 && (
-      <Section id="offers" heading="Offers" compact>
-        <ul role="list" class="offers" style={`--n:${offers.length}`}>
-          {offers.map((c) => (
-            <li class="offer">
-              <ResponsiveImage src={c.image.src} alt={c.image.alt} ratio="4:3" />
-              <div class="offer__body">
-                {visible(c.offer) && <p class="figure">{c.offer}</p>}
-                <h3>{c.title}</h3>
-                <p class="small muted">{c.body}</p>
-                <Button href={c.cta.href} variant="secondary">
-                  {c.cta.label}
-                </Button>
-              </div>
+    latest.length > 0 && (
+      <Section id="latest" heading="Latest from CBZ" lede="Shareholder circulars, customer notices and announcements.">
+        <ul role="list" class="latest rule-list">
+          {latest.map((n) => (
+            <li>
+              <a href={`/notices/${n.id}`} class="latest__item">
+                <time datetime={n.data.date} class="small muted">
+                  {formatDate(n.data.date)}
+                </time>
+                <span class="latest__title">{n.data.title}</span>
+                <span class="latest__summary small muted">{n.data.summary}</span>
+                <Icon name="chevronRight" size={18} class="latest__chev" />
+              </a>
             </li>
           ))}
         </ul>
+        <p class="latest__all">
+          <a href="/notices">All notices</a>
+        </p>
       </Section>
     )
   }
 
-  <Section id="calculators" heading="Work it out" lede="Estimate a repayment before you apply.">
-    <div class="calcs">
-      <Tile title="Mortgage calculator" line="Monthly repayment on a home or stand." href="/calculators#mortgage" icon="home" size="small" />
-      <Tile title="Car finance calculator" line="Monthly repayment on a vehicle." href="/calculators#car-finance" icon="car" size="small" />
-    </div>
+  <Section id="branches" tone="tint" heading="Branches and ATMs" lede="Search the map, or open it in your own maps app for directions.">
+    <BranchFinder id="home-branches" />
   </Section>
 
   <Section id="trust" tone="dark" compact>
@@ -146,9 +148,12 @@ const offers = (await getCollection('campaigns', (c) => c.data.unit === null))
 </BaseLayout>
 
 <style>
+  .digital-row {
+    padding-block: var(--s-6) var(--s-8);
+  }
   .digital {
     display: grid;
-    gap: var(--gap);
+    gap: var(--s-3);
   }
   @media (min-width: 640px) {
     .digital {
@@ -157,56 +162,72 @@ const offers = (await getCollection('campaigns', (c) => c.data.unit === null))
   }
   @media (min-width: 900px) {
     .digital {
-      grid-template-columns: 5fr 4fr 3fr;
-      grid-template-rows: auto auto;
-    }
-    .dc--lead,
-    .dc--touch {
-      grid-row: 1 / span 2;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
-  .dc {
+  .digital__item {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
     gap: var(--s-3);
-    padding: var(--s-6);
+    padding: var(--s-3) var(--s-4);
     border: 1px solid var(--line);
     border-radius: var(--r-md);
-    background: var(--white);
-    color: var(--ink);
+    min-height: 64px;
+  }
+  .digital__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-1);
+    font-weight: 700;
     text-decoration: none;
-    transition:
-      background-color var(--dur) var(--ease),
-      border-color var(--dur) var(--ease);
+    min-height: var(--tap);
   }
-  a.dc:hover {
-    background: var(--blue-50);
-    border-color: var(--blue-100);
+  .digital__link:hover {
+    text-decoration: underline;
+  }
+  .units {
+    display: grid;
+    gap: var(--gap);
+  }
+  @media (min-width: 640px) {
+    .units {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 900px) {
+    .units {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .unit {
+    display: grid;
+    gap: var(--s-3);
+    align-content: start;
+    height: 100%;
+    padding: var(--s-6);
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    text-decoration: none;
+    color: var(--ink);
+    transition: border-color var(--dur) var(--ease);
+  }
+  .unit:hover {
+    border-color: var(--blue-700);
     color: var(--ink);
   }
-  .dc--lead {
-    padding: var(--s-8);
-    gap: var(--s-4);
-    min-height: 300px;
-    justify-content: center;
-  }
-  .dc--small {
-    padding: var(--s-4) var(--s-6);
-  }
-  .dc__title {
+  .unit__name {
     font-weight: 700;
     font-size: var(--t-lg);
     color: var(--blue);
   }
-  .dc--lead .dc__title {
-    font-size: var(--t-2xl);
-  }
-  .dc__line {
-    color: var(--grey);
+  .unit__line {
     font-size: var(--t-sm);
-    max-width: 36ch;
+    color: var(--grey);
   }
-  .dc__more {
+  .unit__more {
     display: inline-flex;
     align-items: center;
     gap: var(--s-1);
@@ -214,51 +235,37 @@ const offers = (await getCollection('campaigns', (c) => c.data.unit === null))
     color: var(--blue-700);
     margin-top: auto;
   }
-  .dc__links {
+  .latest {
+    max-width: 800px;
+  }
+  .latest__item {
+    position: relative;
     display: grid;
     gap: var(--s-1);
-  }
-  .dc__links a {
-    display: inline-flex;
-    align-items: center;
-    min-height: var(--tap);
-    font-weight: 700;
+    padding: var(--s-4) var(--s-10, 40px) var(--s-4) 0;
     text-decoration: none;
+    color: var(--ink);
   }
-  .dc__links a:hover {
-    text-decoration: underline;
+  .latest__item:hover .latest__title {
+    color: var(--blue-700);
   }
-  .offers {
-    display: grid;
-    gap: var(--gap);
+  .latest__title {
+    font-weight: 700;
+    color: var(--blue);
   }
-  @media (min-width: 900px) {
-    .offers {
-      grid-template-columns: repeat(var(--n), minmax(0, 1fr));
-    }
+  .latest__summary {
+    max-width: var(--measure);
   }
-  .offer {
-    border: 1px solid var(--line);
-    border-radius: var(--r-md);
-    overflow: hidden;
+  .latest__chev {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--blue-700);
   }
-  .offer :global(.frame) {
-    border-radius: 0;
-  }
-  .offer__body {
-    padding: var(--s-6);
-    display: grid;
-    gap: var(--s-3);
-    justify-items: start;
-  }
-  .calcs {
-    display: grid;
-    gap: var(--gap);
-  }
-  @media (min-width: 640px) {
-    .calcs {
-      grid-template-columns: 1fr 1fr;
-    }
+  .latest__all {
+    margin-top: var(--s-6);
+    font-weight: 700;
   }
   .trust {
     margin: 0;

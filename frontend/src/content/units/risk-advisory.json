@@ -16,7 +16,7 @@
     { "label": "Control measures and captive management", "value": "Risk assessment" },
     { "label": "Independent assessment and lodgement", "value": "Claims management" }
   ],
-  "primaryCta": { "label": "Request a risk consultation", "href": "/risk-advisory/consultation" },
+  "primaryCta": { "label": "Get a quote", "href": "/risk-advisory/quote" },
   "secondaryCta": { "label": "See our services", "href": "#products" },
   "objectives": null,
   "audience": null,
@@ -28,6 +28,23 @@
     { "id": "benefits", "label": "Employee benefits and pensions" },
     { "id": "reinsurance", "label": "Reinsurance and claims advocacy" }
   ],
+  "segments": [
+    { "label": "SMEs", "line": "Property, fleet and liability broking", "href": "#panel-risk-advisory-broking" },
+    { "label": "Employee solutions", "line": "Pensions, healthcare and group benefits", "href": "#panel-risk-advisory-benefits" },
+    { "label": "Individuals", "line": "Personal financial planning", "href": "#panel-risk-advisory-benefits" },
+    { "label": "Sector-driven", "line": "Enterprise risk audits and continuity planning", "href": "#panel-risk-advisory-erm" }
+  ],
+  "actions": [
+    { "label": "Key products", "line": "Broking, risk audits, benefits and reinsurance", "href": "#products", "kind": "anchor" },
+    { "label": "Request an insurance audit", "line": "A broker reviews every policy you hold", "href": "/risk-advisory/insurance-audit", "kind": "form" },
+    { "label": "Get a quote", "line": "Cover placed across licensed underwriters", "href": "/risk-advisory/quote", "kind": "form" }
+  ],
+  "faq": [
+    { "q": "What is the difference between a broker and an insurer?", "a": "An insurer sells its own policies. As a broker, CBZ Risk Advisory works for you, comparing and negotiating cover across licensed underwriters and standing with you at claim time." },
+    { "q": "What does an insurance audit cover?", "a": "Every policy your organisation holds, checked for gaps, overlaps and cost, with recommendations you can act on." },
+    { "q": "Do you work outside Zimbabwe?", "a": "Yes. Botswana Reinsurance Brokers, wholly owned, extends the broking reach regionally." }
+  ],
+  "systems": [],
   "regulator": null,
   "productsNote": "Broking and advisory services are governed by IPEC regulations. Terms, premium rates and coverage extensions are negotiated across licensed underwriters based on risk profiling.",
   "contact": {

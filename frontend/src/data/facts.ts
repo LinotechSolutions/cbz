@@ -84,6 +84,9 @@ export const MILESTONES = [
   { period: '2025', text: 'A growth strategy to expand within the Sub-Saharan Africa region.' },
 ] as const;
 
+/** Board of directors, for The Group page. Null until Corporate Affairs supplies names, roles and photos. */
+export const BOARD: { name: string; role: string; image: { src: string; alt: string } | null }[] | null = null;
+
 /** Items the business must confirm before launch, printed in HANDOFF.md. */
 export const UNCONFIRMED: { item: string; owner: string; note?: string }[] = [
   { item: 'Branch hours (Mon to Fri 08:00 to 15:00, Sat 08:00 to 13:00)', owner: 'Retail Banking' },
@@ -101,4 +104,8 @@ export const UNCONFIRMED: { item: string; owner: string; note?: string }[] = [
   { item: 'Chatbot provider and endpoint', owner: 'Digital' },
   { item: 'Analytics vendor and tag', owner: 'Digital' },
   { item: 'Notices content (the six ported notices are sample content)', owner: 'Corporate Communications' },
+  { item: 'CBZ Bank calls to action (site map says "to be confirmed"; Open an account, Apply for a loan and Call me back are in place)', owner: 'CBZ Bank' },
+  { item: 'Board of directors: names, roles and photos', owner: 'Corporate Affairs' },
+  { item: 'Off-site links: Zeex, farmer onboarding, ATDC, ZikiCash, property management sign-in', owner: 'Red Sphere, Agro-Yield, Digital, CBZ Properties' },
+  { item: 'Integrations behind the forms: SSP Pure, ICECASH and Flex Cube (Insurance), Life Central (Life)', owner: 'Digital', note: 'Recorded on each unit JSON under "systems"; nothing is wired yet.' },
 ];

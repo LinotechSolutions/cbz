@@ -3,8 +3,8 @@
  * astro.config.mjs (so it must stay plain JavaScript) and mirrored in vercel.json.
  */
 export const REDIRECTS = {
-  '/the-group': '/about',
-  '/login': '/contact#log-in',
+  '/about': '/the-group',
+  '/risk-advisory/consultation': '/risk-advisory/quote',
   '/open-account': '/bank/open-account',
   '/banking-journey': '/bank/apply',
   '/buy-a-home': '/properties/request-a-viewing',
@@ -12,7 +12,7 @@ export const REDIRECTS = {
   '/invest-journey': '/datvest/start-investing',
   '/agro-journey': '/agro-yield/apply',
   '/capital-journey': '/capital/enquiry',
-  '/risk-journey': '/risk-advisory/consultation',
+  '/risk-journey': '/risk-advisory/quote',
   '/personal-banking': '/bank',
   '/personal-banking/accounts': '/bank',
   '/personal-banking/loans': '/bank/apply',

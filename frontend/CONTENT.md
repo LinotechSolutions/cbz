@@ -22,6 +22,10 @@ After editing, run `npm run build`. If a file is malformed or a required field i
 | `leadership` | List of `{ name, role, image }`. `null` hides the section |
 | `heldEntities` | Companies held beneath this unit, shown under About |
 | `categories` | The product tabs, in order. The `id` must match the `category` on the unit's products |
+| `actions` | The unit's buttons from the site map, in order: `label`, `line`, `href` and `kind` (`page`, `form`, `anchor`, `external` or `app`). Set `href` to `null` for an off-site link that is not yet supplied; the button is hidden until it is |
+| `segments` | "Find the right fit" chips: who the unit serves, each linking to a product tab (`#panel-<unit>-<category>`) or a page |
+| `faq` | Questions and answers shown under the products. Keep answers factual; the build also publishes them as FAQ structured data |
+| `systems` | Names of the systems the unit's forms will integrate with (for the backend handoff only; never shown) |
 | `regulator` | A regulatory line, hidden until confirmed |
 | `productsNote` | Small print under the product list |
 | `contact` | Heading and line for the band at the bottom |

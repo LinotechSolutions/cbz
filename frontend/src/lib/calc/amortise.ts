@@ -5,7 +5,9 @@ export interface LoanInput {
   /** Purchase price or amount financed before deposit. */
   price: number;
   deposit: number;
-  termYears: number;
+  /** Term in years; use `months` instead for short tenors. */
+  termYears?: number;
+  months?: number;
   /** Annual nominal interest rate in percent, e.g. 12 for 12%. */
   annualRatePct: number;
 }
@@ -28,7 +30,7 @@ export function monthlyRepayment(principal: number, annualRatePct: number, month
 
 export function amortise(input: LoanInput): LoanResult {
   const principal = Math.max(0, input.price - input.deposit);
-  const months = Math.max(0, Math.round(input.termYears * 12));
+  const months = Math.max(0, Math.round(input.months ?? (input.termYears ?? 0) * 12));
   const monthly = monthlyRepayment(principal, input.annualRatePct, months);
   const totalRepayment = monthly * months;
   return {

@@ -80,8 +80,8 @@ export function Calculator({ variant, config, embedded = false }: Props) {
     const init: Values = {};
     if (config.kind === 'loan') {
       init.price = config.price.default?.toString() ?? '';
-      init.deposit = config.deposit.default?.toString() ?? '';
-      init.termYears = config.termYears.default?.toString() ?? '';
+      init.deposit = config.deposit?.default?.toString() ?? '';
+      init.term = config.term.default?.toString() ?? '';
       init.ratePct = config.ratePct.default?.toString() ?? '';
     } else {
       init.value = config.value.default?.toString() ?? '';
@@ -100,19 +100,20 @@ export function Calculator({ variant, config, embedded = false }: Props) {
   const result = useMemo(() => {
     if (config.kind === 'loan') {
       const price = Number(values.price);
-      const deposit = Number(values.deposit || 0);
-      const termYears = Number(values.termYears);
+      const deposit = config.deposit ? Number(values.deposit || 0) : 0;
+      const term = Number(values.term);
       const ratePct = Number(values.ratePct);
-      if (!values.price || !values.termYears || !values.ratePct) return null;
-      if ([price, deposit, termYears, ratePct].some((n) => Number.isNaN(n))) return null;
+      if (!values.price || !values.term || !values.ratePct) return null;
+      if ([price, deposit, term, ratePct].some((n) => Number.isNaN(n))) return null;
       if (price < config.price.min || price > config.price.max) return null;
-      if (termYears < config.termYears.min || termYears > config.termYears.max) return null;
+      if (term < config.term.min || term > config.term.max) return null;
       if (ratePct < config.ratePct.min || ratePct > config.ratePct.max) return null;
       if (deposit >= price) return { kind: 'loan' as const, depositTooHigh: true, data: null };
+      const months = config.term.unit === 'months' ? term : term * 12;
       return {
         kind: 'loan' as const,
         depositTooHigh: false,
-        data: amortise({ price, deposit: clamp(deposit, 0, price), termYears, annualRatePct: ratePct }),
+        data: amortise({ price, deposit: clamp(deposit, 0, price), months, annualRatePct: ratePct }),
       };
     }
     if (!config.rates) return { kind: 'quote' as const, pending: true, data: null };
@@ -161,26 +162,28 @@ export function Calculator({ variant, config, embedded = false }: Props) {
               step={config.price.step}
               prefix="US$"
             />
-            <NumberField
-              id={`${uid}-deposit`}
-              label={config.deposit.label}
-              value={values.deposit}
-              onChange={set('deposit')}
-              min={config.deposit.min}
-              max={config.deposit.max}
-              step={config.deposit.step}
-              prefix="US$"
-            />
+            {config.deposit && (
+              <NumberField
+                id={`${uid}-deposit`}
+                label={config.deposit.label}
+                value={values.deposit}
+                onChange={set('deposit')}
+                min={config.deposit.min}
+                max={config.deposit.max}
+                step={config.deposit.step}
+                prefix="US$"
+              />
+            )}
             <NumberField
               id={`${uid}-term`}
-              label={config.termYears.label}
-              hint={`Between ${config.termYears.min} and ${config.termYears.max} years`}
-              value={values.termYears}
-              onChange={set('termYears')}
-              min={config.termYears.min}
-              max={config.termYears.max}
-              step={config.termYears.step}
-              suffix="years"
+              label={config.term.label}
+              hint={`Between ${config.term.min} and ${config.term.max} ${config.term.unit}`}
+              value={values.term}
+              onChange={set('term')}
+              min={config.term.min}
+              max={config.term.max}
+              step={config.term.step}
+              suffix={config.term.unit}
             />
             <NumberField
               id={`${uid}-rate`}

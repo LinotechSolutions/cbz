@@ -14,13 +14,11 @@ const products = (await getCollection('products', (p) => p.data.unit === 'datves
 ---
 
 <UnitLayout unit={unit}>
+  <Suggest client:visible unit="datvest" products={products} slot="fit" />
   <Fragment slot="after-products">
-    <Section id="suggest" heading="Not sure where to start?" lede="Answer two questions and we will point you at a fund." hideHeading>
-      <Suggest client:visible unit="datvest" products={products} />
-    </Section>
     {
       deals.length > 0 && (
-        <Section id="track-record" tone="tint">
+        <Section id="track-record">
           <TrackRecord deals={deals} />
         </Section>
       )

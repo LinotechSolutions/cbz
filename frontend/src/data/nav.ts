@@ -53,13 +53,13 @@ export const CLUSTERS: NavGroup[] = [
     ],
   },
   {
-    label: 'About',
-    href: '/about',
+    label: 'The Group',
+    href: '/the-group',
     items: [
-      { label: 'About CBZ Holdings', href: '/about', line: 'Who we are and how we are structured' },
+      { label: 'The Group', href: '/the-group', line: 'Structure, awards, milestones and board' },
+      { label: 'Journeys', href: '/journeys', line: 'Eight guided flows, from account to advice' },
       { label: 'CBZ Foundation', href: '/cbz-foundation', line: 'Our philanthropic arm' },
-      { label: 'Notices', href: '/notices', line: 'Shareholder and customer notices' },
-      { label: 'Calculators', href: '/calculators', line: 'Work out repayments and quotes' },
+      { label: 'Latest from CBZ', href: '/notices', line: 'Shareholder and customer notices' },
       { label: 'Contact us', href: '/contact', line: 'Call, chat or find a branch' },
     ],
   },
@@ -68,9 +68,10 @@ export const CLUSTERS: NavGroup[] = [
 /** Split log-in menu. */
 export const LOGIN_ITEMS: NavLink[] = [
   { label: 'Internet banking, personal', href: LINKS.internetBanking.personal, external: true },
-  { label: 'Internet banking, corporate', href: LINKS.internetBanking.newCorporate, external: true },
-  { label: 'Internet banking, corporate (previous platform)', href: LINKS.internetBanking.corporate, external: true },
-  { label: 'CBZ Touch', href: '/#digital-channels', line: 'Open the app on your phone' },
+  { label: 'Internet banking, corporate', href: LINKS.internetBanking.newCorporate, line: 'New platform', external: true },
+  { label: 'Internet banking, corporate', href: LINKS.internetBanking.corporate, line: 'Previous platform (OBDX)', external: true },
+  { label: 'Self-service portal', href: LINKS.internetBanking.selfService, external: true },
+  { label: 'CBZ Touch', href: '/login#apps', line: 'Open the app on your phone' },
   { label: 'Red Sphere portal', href: LINKS.redSphere.portal, external: true },
 ];
 
@@ -84,35 +85,63 @@ export const OPEN_ACCOUNT_ITEMS: NavLink[] = [
   { label: 'Get a quote from CBZ Life', href: '/cbz-life/quote', line: 'Funeral and education plans' },
 ];
 
+/** The eight guided flows on the site map. */
+export const JOURNEYS: { label: string; line: string; href: string; unit: string }[] = [
+  { label: 'Open an account', line: 'A CBZ Bank account in three steps.', href: '/bank/open-account', unit: 'bank' },
+  { label: 'Buy a home', line: 'Find a property and finance it with a CBZ Bank mortgage.', href: '/properties/request-a-viewing', unit: 'properties' },
+  { label: 'Car insurance quote', line: 'Comprehensive cover for your vehicle.', href: '/insurance/quote', unit: 'insurance' },
+  { label: 'Banking and loans', line: 'Personal, school fees, civil servant and business loans.', href: '/bank/apply', unit: 'bank' },
+  { label: 'Investments', line: 'Start with Datvest unit trusts or a managed portfolio.', href: '/datvest/start-investing', unit: 'datvest' },
+  { label: 'Farming finance', line: 'Contract farming for the season with Agro-Yield.', href: '/agro-yield/apply', unit: 'agro-yield' },
+  { label: 'Capital raising', line: 'Debt, equity and advisory from CBZ Capital.', href: '/capital/enquiry', unit: 'capital' },
+  { label: 'Risk advisory', line: 'A broker’s view of your cover and your risks.', href: '/risk-advisory/quote', unit: 'risk-advisory' },
+];
+
+/** The twelve off-site destinations on the site map. Null links are hidden. */
+export const OFFSITE: NavLink[] = [
+  { label: 'Internet banking (new platform)', href: LINKS.internetBanking.newCorporate, external: true },
+  { label: 'Internet banking (OBDX)', href: LINKS.internetBanking.personal, external: true },
+  { label: 'Self-service portal', href: LINKS.internetBanking.selfService, external: true },
+  { label: 'Red Sphere loan application', href: LINKS.redSphere.portal, external: true },
+  { label: 'CBZ Touch on Google Play', href: LINKS.touch.playStore, external: true },
+  { label: 'CBZ Touch on the App Store', href: LINKS.touch.appStore, external: true },
+  { label: 'Zeex invoice discounting', href: LINKS.zeex, external: true },
+  { label: 'Farmer onboarding', href: LINKS.farmerOnboarding, external: true },
+  { label: 'ATDC Zimbabwe', href: LINKS.atdc, external: true },
+  { label: 'Ziki Mall', href: LINKS.zikiMall, external: true },
+  { label: 'Investor relations', href: LINKS.investorRelations, external: true },
+  { label: 'Official documents', href: LINKS.documents.policiesAndRegulations, external: true },
+];
+
+/** Footer columns mirror the site map's groups. */
 export const FOOTER = {
-  clusters: [
-    { label: 'Banking', href: '/clusters/banking' },
-    { label: 'Investments', href: '/clusters/investments' },
-    { label: 'Insurance', href: '/clusters/insurance' },
-    { label: 'Agro-Business', href: '/clusters/agro-business' },
+  businesses: [
+    { label: 'CBZ Bank', href: '/bank' },
+    { label: 'CBZ Insurance', href: '/insurance' },
+    { label: 'CBZ Life', href: '/cbz-life' },
+    { label: 'Datvest', href: '/datvest' },
+    { label: 'CBZ Properties', href: '/properties' },
+    { label: 'CBZ Agro-Yield', href: '/agro-yield' },
+    { label: 'Red Sphere Finance', href: '/red-sphere' },
+    { label: 'CBZ Capital', href: '/capital' },
+    { label: 'CBZ Risk Advisory', href: '/risk-advisory' },
+  ],
+  journeys: JOURNEYS.map((j) => ({ label: j.label, href: j.href })),
+  group: [
+    { label: 'The Group', href: '/the-group' },
     { label: 'CBZ Foundation', href: '/cbz-foundation' },
-  ],
-  digital: [
-    { label: 'CBZ Touch', href: '/#digital-channels' },
-    { label: 'Internet banking, personal', href: LINKS.internetBanking.personal, external: true },
-    { label: 'Internet banking, corporate', href: LINKS.internetBanking.newCorporate, external: true },
-    { label: 'Self-service portal', href: LINKS.internetBanking.selfService, external: true },
-    { label: 'Ziki Mall', href: LINKS.zikiMall, external: true },
-    { label: 'Proof of payment check', href: LINKS.popVerification, external: true },
-  ],
-  help: [
+    { label: 'Diaspora banking', href: '/diaspora' },
+    { label: 'Log in', href: '/login' },
+    { label: 'Security', href: '/security' },
+    { label: 'Latest from CBZ', href: '/notices' },
     { label: 'Contact us', href: '/contact' },
-    { label: 'Find a branch', href: '/contact#branches' },
-    { label: 'Calculators', href: '/calculators' },
-    { label: 'Security and online safety', href: '/security' },
-    { label: 'Notices', href: '/notices' },
-    { label: 'Investor relations', href: LINKS.investorRelations, external: true },
   ],
-  legal: [
-    { label: 'General business conditions', href: '/business-conditions' },
+  regulatory: [
+    { label: 'Business conditions', href: '/business-conditions' },
     { label: 'Privacy policy', href: '/privacy-policy' },
     { label: 'Tip-offs anonymous', href: '/tip-offs' },
     { label: 'Website terms', href: LINKS.documents.websiteTerms, external: true },
     { label: 'Sitemap', href: '/sitemap' },
   ],
+  offsite: OFFSITE,
 } as const;

@@ -53,6 +53,7 @@ Front matter: `title`, `date`, `category` (`shareholder`, `customer`, `regulator
 - `nav.ts`: the header menus and the footer columns.
 - `calculators.ts`: limits and defaults for the calculators, the rate tables, and the Agro-Yield season windows.
 - `redirects.mjs`: old URLs and where they go now.
+- `sustainability.ts`: the Sustainability page. Set `href` on the Grievance Procedure and Grievance Resolution Form once the PDFs are hosted, set the grievance mailbox in `email`, and add each report to `reports` as `{ title, year, href }`. A `null` link shows "Being published" instead of a download.
 
 ## Images
 

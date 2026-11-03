@@ -539,6 +539,55 @@ export const FORMS: Record<string, FormDef> = {
     ],
   },
 
+  'sustainability-grievance': {
+    unit: 'sustainability',
+    formId: 'sustainability-grievance',
+    title: 'Raise a grievance',
+    intro:
+      'Tell us what happened and how it affected you. Your grievance is acknowledged with a reference number and handled under the Grievance Procedure.',
+    submitLabel: 'Submit my grievance',
+    successTitle: 'Your grievance is registered',
+    successBody:
+      'Keep your reference number. The Sustainability team will acknowledge your grievance and tell you who is handling it and when you will hear back.',
+    steps: [
+      {
+        title: 'What happened?',
+        fields: [
+          {
+            name: 'relates',
+            label: 'What does it relate to?',
+            type: 'select',
+            required: true,
+            options: [
+              { value: 'operations', label: 'A CBZ branch, office or operation' },
+              { value: 'project', label: 'A project or business financed by CBZ' },
+              { value: 'environment', label: 'An environmental impact' },
+              { value: 'community', label: 'A community or social impact' },
+              { value: 'conduct', label: 'Conduct of staff or contractors' },
+              { value: 'other', label: 'Something else' },
+            ],
+          },
+          { name: 'location', label: 'Where did it happen?', type: 'text', required: true, hint: 'Town, site or branch.' },
+          { name: 'date', label: 'When did it happen?', type: 'date', required: false, hint: 'Optional' },
+          { name: 'description', label: 'Describe what happened and how it affected you', type: 'textarea', required: true },
+          { name: 'resolution', label: 'What would resolve it for you?', type: 'textarea', required: false, hint: 'Optional' },
+        ],
+      },
+      {
+        title: 'Your details',
+        intro: 'We need a way to reply. If you would rather stay anonymous, use the Tip-offs channel instead.',
+        fields: [
+          { name: 'firstName', label: 'First name', type: 'text', required: true, autocomplete: 'given-name' },
+          { name: 'surname', label: 'Surname', type: 'text', required: true, autocomplete: 'family-name' },
+          { name: 'phone', label: 'Phone number', type: 'tel', required: true, autocomplete: 'tel' },
+          { name: 'email', label: 'Email address', type: 'email', required: false, autocomplete: 'email', hint: 'Optional' },
+          { name: 'organisation', label: 'Organisation or community you represent', type: 'text', required: false, hint: 'Optional' },
+        ],
+      },
+      consentStep,
+    ],
+  },
+
   // Site map actions per unit.
   'bank-call-me-back': callbackForm('bank', 'bank-call-me-back', 'CBZ Bank', [
     { value: 'accounts', label: 'Accounts and cards' },

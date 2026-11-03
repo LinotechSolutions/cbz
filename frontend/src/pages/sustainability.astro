@@ -1,0 +1,294 @@
+---
+/**
+ * Sustainability: a permanent home for the grievance mechanism documents, the
+ * online grievance form and the sustainability reports library.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Section from '../components/Section.astro';
+import Icon from '../components/Icon.astro';
+import ExternalLink from '../components/ExternalLink.astro';
+import { SUSTAINABILITY } from '../data/sustainability';
+import { CONTACT } from '../data/facts';
+import { visible } from '../lib/visible';
+
+const docs = SUSTAINABILITY.grievance.documents;
+const reports = [...SUSTAINABILITY.reports].sort((a, b) => b.year.localeCompare(a.year));
+const email = SUSTAINABILITY.grievance.email;
+const steps = [
+  { title: 'Raise it', body: 'Use the online form, complete the Grievance Resolution Form, or write to us. You receive a reference number.' },
+  { title: 'We acknowledge it', body: 'The Sustainability team confirms receipt and tells you who is handling your grievance.' },
+  { title: 'We investigate', body: 'The matter is looked into under the Grievance Procedure, with you kept informed.' },
+  { title: 'We resolve it', body: 'You receive the outcome and the steps taken. If you disagree, the procedure says how to escalate.' },
+];
+---
+
+<BaseLayout
+  title="Sustainability"
+  description="CBZ Holdings sustainability: the Grievance Procedure, the Grievance Resolution Form, an online grievance form and our sustainability reports."
+>
+  <div class="container head">
+    <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Sustainability' }]} />
+    <h1>Sustainability</h1>
+    <p class="lede">{SUSTAINABILITY.intro}</p>
+    <nav aria-label="On this page" class="jump">
+      <a href="#grievance">Grievance mechanism</a>
+      <a href="#documents">Documents</a>
+      <a href="#reports">Reports</a>
+    </nav>
+  </div>
+
+  <Section id="grievance" tone="tint" heading="Grievance mechanism" lede={SUSTAINABILITY.grievance.lede}>
+    <ol class="steps" role="list">
+      {
+        steps.map((s, i) => (
+          <li class="step">
+            <span class="step__n" aria-hidden="true">
+              {i + 1}
+            </span>
+            <span class="step__title">{s.title}</span>
+            <span class="step__body">{s.body}</span>
+          </li>
+        ))
+      }
+    </ol>
+    <div class="raise">
+      <a href="/sustainability/grievance" class="btn btn--primary btn--lg" data-track="apply_click" data-track-props='{"unit":"sustainability","from":"grievance"}'>
+        Raise a grievance online
+      </a>
+      {
+        visible(email) ? (
+          <a href={`mailto:${email}`} class="btn btn--secondary btn--lg">
+            Email {email}
+          </a>
+        ) : (
+          <a href={CONTACT.contactCentre.href} class="btn btn--secondary btn--lg">
+            Call {CONTACT.contactCentre.display}
+          </a>
+        )
+      }
+      <p class="small muted raise__note">
+        Prefer to stay anonymous? Use <a href="/tip-offs">Tip-offs anonymous</a>. Fraud on your own account is faster through the Contact Centre.
+      </p>
+    </div>
+  </Section>
+
+  <Section id="documents" heading="Documents" lede="The procedure and the form, as published.">
+    <ul role="list" class="docs">
+      {
+        docs.map((d) => (
+          <li class:list={['doc', 'card-base', !visible(d.href) && 'doc--pending']}>
+            <span class="doc__icon"><Icon name="info" size={22} /></span>
+            <span class="doc__text">
+              <span class="doc__label">{d.label}</span>
+              <span class="doc__note">{d.note}</span>
+            </span>
+            {visible(d.href) ? (
+              <ExternalLink href={d.href!} class="btn btn--secondary">
+                Download
+              </ExternalLink>
+            ) : (
+              <span class="doc__soon">Being published</span>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+
+  <Section id="reports" tone="tint" heading="Sustainability reports" lede="Our reporting on environmental and social performance.">
+    {
+      reports.length > 0 ? (
+        <ul role="list" class="reports rule-list">
+          {reports.map((r) => (
+            <li class="report">
+              <span class="report__year">{r.year}</span>
+              <span class="report__title">{r.title}</span>
+              {visible(r.href) ? (
+                <ExternalLink href={r.href!} class="btn btn--secondary">
+                  Download
+                </ExternalLink>
+              ) : (
+                <span class="doc__soon">Being published</span>
+              )}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="muted">Reports will be published here as they are released. Group results and circulars are under <a href="/notices">Latest from CBZ</a>.</p>
+      )
+    }
+  </Section>
+
+  <Section id="related" heading="Related" compact>
+    <ul role="list" class="related">
+      <li><a href="/cbz-foundation">CBZ Foundation</a> <span class="small muted">Our philanthropic arm</span></li>
+      <li><a href="/tip-offs">Tip-offs anonymous</a> <span class="small muted">Report fraud or misconduct in confidence</span></li>
+      <li><a href="/the-group">The Group</a> <span class="small muted">Structure, awards and milestones</span></li>
+    </ul>
+  </Section>
+</BaseLayout>
+
+<style>
+  .head {
+    display: grid;
+    gap: var(--s-4);
+    padding-block: var(--s-8) var(--s-6);
+  }
+  .jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2) var(--s-6);
+  }
+  .jump a {
+    font-weight: 700;
+    text-decoration: none;
+    min-height: var(--tap);
+    display: inline-flex;
+    align-items: center;
+  }
+  .jump a:hover {
+    text-decoration: underline;
+  }
+  .steps {
+    display: grid;
+    gap: var(--gap);
+  }
+  @media (min-width: 640px) {
+    .steps {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 900px) {
+    .steps {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  .step {
+    display: grid;
+    gap: var(--s-2);
+    align-content: start;
+    padding: var(--s-6);
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+  }
+  .step__n {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: var(--white);
+    font-weight: 700;
+    font-size: var(--t-sm);
+  }
+  .step__title {
+    font-weight: 700;
+    color: var(--blue);
+    font-size: var(--t-md);
+  }
+  .step__body {
+    font-size: var(--t-sm);
+    color: var(--grey);
+  }
+  .raise {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s-3);
+    margin-top: var(--s-8);
+  }
+  .raise__note {
+    flex-basis: 100%;
+    max-width: none;
+  }
+  .docs {
+    display: grid;
+    gap: var(--gap);
+  }
+  .doc {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--s-4);
+    align-items: center;
+    padding: var(--s-6);
+  }
+  @media (min-width: 640px) {
+    .doc {
+      grid-template-columns: auto 1fr auto;
+    }
+  }
+  .doc__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--r-md);
+    background: var(--blue-50);
+    color: var(--blue);
+  }
+  .doc__text {
+    display: grid;
+    gap: 2px;
+  }
+  .doc__label {
+    font-weight: 700;
+    color: var(--blue);
+    font-size: var(--t-lg);
+  }
+  .doc__note {
+    font-size: var(--t-sm);
+    color: var(--grey);
+  }
+  .doc__soon {
+    font-size: var(--t-xs);
+    color: var(--grey);
+    padding: var(--s-2) var(--s-3);
+    border: 1px dashed var(--line);
+    border-radius: var(--r-pill);
+    white-space: nowrap;
+  }
+  .doc--pending .doc__soon {
+    grid-column: 2;
+    justify-self: start;
+  }
+  @media (min-width: 640px) {
+    .doc--pending .doc__soon {
+      grid-column: auto;
+    }
+  }
+  .reports {
+    max-width: 800px;
+  }
+  .report {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: var(--s-4);
+    align-items: center;
+    padding: var(--s-4) 0;
+  }
+  .report__year {
+    font-weight: 700;
+    color: var(--grey);
+    font-variant-numeric: tabular-nums;
+  }
+  .report__title {
+    font-weight: 700;
+    color: var(--blue);
+  }
+  .related {
+    display: grid;
+    gap: var(--s-3);
+  }
+  .related a {
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .related a:hover {
+    text-decoration: underline;
+  }
+</style>

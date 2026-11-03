@@ -6,7 +6,6 @@
  * with a floating badge, a row of dark cards, an about split with the
  * big-number strip, and image cards for the businesses.
  */
-import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Section from '../components/Section.astro';
 import Logo from '../components/Logo.astro';
@@ -16,21 +15,10 @@ import { OpenAccountMenu } from '../islands/OpenAccountMenu';
 import { OPEN_ACCOUNT_ITEMS } from '../data/nav';
 import { AWARDS, CONTACT, GROUP } from '../data/facts';
 import { CLUSTERS, VALUE_PROPOSITION } from '../data/group';
-import { formatDate } from '../lib/format';
 import type { IconName } from '../components/icons';
-import type { DarkSafeLogoKey } from '../data/logos';
 
 const clusterIcon: Record<string, IconName> = { banking: 'bank', investments: 'chart', insurance: 'shield', 'agro-business': 'leaf' };
 const clusters = CLUSTERS.filter((c) => c.isOperating);
-
-const units = (await getCollection('units', (u) => u.data.cluster !== 'philanthropy'))
-  .map((u) => u.data)
-  .sort((a, b) => a.order - b.order);
-
-const latest = (await getCollection('notices'))
-  .filter((n) => n.data.category !== 'security')
-  .sort((a, b) => b.data.date.localeCompare(a.data.date))
-  .slice(0, 3);
 
 const bestBank = AWARDS[0];
 const stats = [
@@ -193,66 +181,9 @@ const stats = [
       }
     </dl>
 
-    <div class="biz-head">
-      <div>
-        <p class="eyebrow eyebrow--light">Our businesses</p>
-        <h2 class="biz-title">Financial services to grow and protect what you have built</h2>
-      </div>
-      <div class="biz-head__aside">
-        <p class="muted">Banking, insurance, investments and agribusiness, each with its own team and a single place to start.</p>
-        <a href="/journeys" class="btn btn--secondary">Start a journey</a>
-      </div>
-    </div>
-    <ul role="list" class="biz">
-      {
-        units.map((u) => (
-          <li>
-            <a href={`/${u.slug}`} class="biz-card">
-              <img src={u.hero.image.src} alt="" width={640} height={480} loading="lazy" decoding="async" class="biz-card__img" />
-              <span class="biz-card__panel">
-                <span class="biz-card__logo"><Logo brand={u.logo as DarkSafeLogoKey} on="dark" height={22} decorative clearSpace={false} /></span>
-                <span class="biz-card__text">
-                  <span class="biz-card__name">{u.shortName}</span>
-                  <span class="biz-card__line">{u.hero.lede}</span>
-                </span>
-                <span class="biz-card__go"><Icon name="arrowRight" size={16} /></span>
-              </span>
-            </a>
-          </li>
-        ))
-      }
-    </ul>
   </Section>
 
-  <!-- 4. Latest from CBZ -->
-  {
-    latest.length > 0 && (
-      <Section id="latest" tone="tint" heading="Latest from CBZ" lede="Shareholder circulars, customer notices and announcements." align="center">
-        <ul role="list" class="latest">
-          {latest.map((n) => (
-            <li>
-              <a href={`/notices/${n.id}`} class="news card-base">
-                <time datetime={n.data.date} class="news__date">
-                  {formatDate(n.data.date)}
-                </time>
-                <span class="news__title">{n.data.title}</span>
-                <span class="news__summary">{n.data.summary}</span>
-                <span class="news__foot">
-                  <span class="news__more">Read the notice</span>
-                  <span class="icon-pill"><Icon name="arrowRight" size={16} /></span>
-                </span>
-              </a>
-            </li>
-          ))}
-        </ul>
-        <p class="latest__all">
-          <a href="/notices" class="btn btn--secondary">All notices</a>
-        </p>
-      </Section>
-    )
-  }
-
-  <!-- 5. Branches and ATMs -->
+  <!-- 4. Branches and ATMs -->
   <Section id="branches" heading="Branches and ATMs" lede="Search the map, or open it in your own maps app for directions.">
     <BranchFinder id="home-branches" />
   </Section>

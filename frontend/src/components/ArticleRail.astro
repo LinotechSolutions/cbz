@@ -1,0 +1,364 @@
+---
+/**
+ * "Learn more": article cards with a photograph behind a white panel, in a
+ * row that snaps as you scroll, with dots and arrows. Used on the home page
+ * and the notices page. Without JavaScript the row still scrolls by hand.
+ */
+import Icon from './Icon.astro';
+import { formatDate } from '../lib/format';
+
+export interface Article {
+  id: string;
+  title: string;
+  summary: string;
+  date: string;
+  category: string;
+  reference?: string | null;
+  href: string;
+}
+
+interface Props {
+  heading: string;
+  /** The part of the heading set in bold, e.g. "Learn". */
+  headingStrong?: string;
+  articles: Article[];
+  seeAll?: { label: string; href: string };
+  /** Category filter buttons above the rail. */
+  filters?: boolean;
+  id?: string;
+}
+const { heading, headingStrong, articles, seeAll, filters = false, id = 'learn' } = Astro.props;
+
+const label: Record<string, string> = {
+  shareholder: 'Shareholder',
+  customer: 'Customer',
+  regulatory: 'Regulatory',
+  operational: 'Operational',
+  security: 'Security',
+};
+const photo: Record<string, string> = {
+  shareholder: '/images/cbz-wealth.webp',
+  customer: '/images/cbz-banking.webp',
+  regulatory: '/images/cbzpicture1.webp',
+  operational: '/images/cbz-banking-branch.webp',
+  security: '/images/cbz-protection.webp',
+};
+const mins = (s: string) => Math.max(1, Math.round(s.split(/\s+/).length / 200));
+const categories = [...new Set(articles.map((a) => a.category))];
+const rest = headingStrong ? heading.slice(headingStrong.length) : heading;
+---
+
+<section class="rail container" id={id} aria-labelledby={`${id}-heading`} data-rail>
+  <div class="rail__head">
+    <h2 id={`${id}-heading`} class="rail__title">
+      {headingStrong ? (
+        <>
+          <strong>{headingStrong}</strong>
+          {rest}
+        </>
+      ) : (
+        heading
+      )}
+    </h2>
+    {
+      filters && categories.length > 1 ? (
+        <nav aria-label="Filter by category" class="cats">
+          <button type="button" class="cat" aria-pressed="true" data-cat="all">
+            All
+          </button>
+          {categories.map((c) => (
+            <button type="button" class="cat" aria-pressed="false" data-cat={c}>
+              {label[c] ?? c}
+            </button>
+          ))}
+        </nav>
+      ) : (
+        seeAll && (
+          <a href={seeAll.href} class="rail__all">
+            {seeAll.label} <Icon name="arrowRight" size={20} />
+          </a>
+        )
+      )
+    }
+  </div>
+
+  <ul role="list" class="row" data-row>
+    {
+      articles.map((a) => (
+        <li class="art" data-cat={a.category}>
+          <a href={a.href} class="art__link">
+            <img src={photo[a.category] ?? photo.customer} alt="" width={800} height={600} loading="lazy" decoding="async" class="art__img" />
+            <span class="art__panel">
+              <span class="art__title">{a.title}</span>
+              <span class="art__summary">{a.summary}</span>
+              <span class="art__meta">
+                <span class="art__by">{label[a.category] ?? a.category} notice</span>
+                <span class="art__date">
+                  Published <time datetime={a.date}>{formatDate(a.date)}</time>
+                  {a.reference && <> · {a.reference}</>}
+                </span>
+              </span>
+              <span class="art__foot">
+                <span class="art__read">
+                  Read <Icon name="arrowRight" size={18} />
+                </span>
+                <span class="art__time small muted">
+                  <Icon name="info" size={14} /> {mins(a.summary)} min
+                </span>
+              </span>
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <div class="rail__nav">
+    <ol class="dots" role="list" data-dots aria-hidden="true">
+      {articles.map(() => <li class="dot" />)}
+    </ol>
+    <div class="arrows">
+      <button type="button" class="arrow" data-prev aria-label="Previous">
+        <Icon name="arrowRight" size={20} class="arrow__flip" />
+      </button>
+      <button type="button" class="arrow" data-next aria-label="Next">
+        <Icon name="arrowRight" size={20} />
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-rail]').forEach((rail) => {
+    const row = rail.querySelector<HTMLElement>('[data-row]');
+    if (!row) return;
+    const cards = () => Array.from(row.querySelectorAll<HTMLElement>('.art:not([hidden])'));
+    const dots = Array.from(rail.querySelectorAll<HTMLElement>('.dot'));
+    const step = () => (cards()[0]?.offsetWidth ?? 320) + 24;
+    rail.querySelector('[data-prev]')?.addEventListener('click', () => row.scrollBy({ left: -step(), behavior: 'smooth' }));
+    rail.querySelector('[data-next]')?.addEventListener('click', () => row.scrollBy({ left: step(), behavior: 'smooth' }));
+    const mark = () => {
+      const i = Math.round(row.scrollLeft / step());
+      dots.forEach((d, k) => d.classList.toggle('dot--on', k === i));
+    };
+    row.addEventListener('scroll', mark, { passive: true });
+    mark();
+    rail.querySelectorAll<HTMLButtonElement>('[data-cat]').forEach((b) => {
+      b.addEventListener('click', () => {
+        rail.querySelectorAll<HTMLButtonElement>('[data-cat]').forEach((x) => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+        row.querySelectorAll<HTMLElement>('.art').forEach((c) => {
+          c.hidden = b.dataset.cat !== 'all' && c.dataset.cat !== b.dataset.cat;
+        });
+        row.scrollTo({ left: 0 });
+        mark();
+      });
+    });
+  });
+</script>
+
+<style>
+  .rail {
+    display: grid;
+    gap: var(--s-6);
+    padding-block: var(--band);
+  }
+  .rail__head {
+    display: grid;
+    gap: var(--s-4);
+  }
+  @media (min-width: 900px) {
+    .rail__head {
+      grid-template-columns: 1fr auto;
+      align-items: end;
+    }
+  }
+  .rail__title {
+    font-size: var(--t-2xl);
+    font-weight: 400;
+    color: var(--ink);
+  }
+  .rail__title strong {
+    font-weight: 700;
+  }
+  .rail__all {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    font-weight: 700;
+    color: var(--red-700);
+    text-decoration: none;
+    min-height: var(--tap);
+  }
+  .rail__all:hover {
+    text-decoration: underline;
+    color: var(--red-700);
+  }
+  .cats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2) var(--s-5, 20px);
+  }
+  .cat {
+    position: relative;
+    min-height: var(--tap);
+    font-weight: 700;
+    font-size: var(--t-sm);
+    color: var(--grey);
+  }
+  .cat[aria-pressed='true'] {
+    color: var(--blue);
+  }
+  .cat[aria-pressed='true']::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 4px;
+    height: 3px;
+    background: var(--blue);
+  }
+  .row {
+    display: flex;
+    gap: var(--s-6);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-bottom: var(--s-2);
+    margin-inline: calc(-1 * var(--gutter));
+    padding-inline: var(--gutter);
+  }
+  .row::-webkit-scrollbar {
+    display: none;
+  }
+  .art {
+    flex: 0 0 min(88vw, 640px);
+    scroll-snap-align: start;
+  }
+  .art[hidden] {
+    display: none;
+  }
+  .art__link {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--ink);
+    background: var(--blue-100);
+  }
+  @media (min-width: 640px) {
+    .art__link {
+      aspect-ratio: 16 / 10;
+    }
+  }
+  .art__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .art__panel {
+    position: absolute;
+    top: 8%;
+    bottom: 8%;
+    left: 4%;
+    width: 66%;
+    display: grid;
+    grid-template-rows: auto auto auto 1fr;
+    gap: var(--s-3);
+    padding: var(--s-6);
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  .art__title {
+    font-weight: 700;
+    font-size: var(--t-lg);
+    color: var(--ink);
+    line-height: 1.25;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .art__summary {
+    font-size: var(--t-sm);
+    color: var(--grey);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .art__meta {
+    display: grid;
+    gap: 2px;
+    font-size: var(--t-xs);
+    color: var(--grey);
+  }
+  .art__by {
+    color: var(--ink);
+  }
+  .art__foot {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: var(--s-3);
+  }
+  .art__read {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    font-weight: 700;
+    color: var(--red-700);
+    font-size: var(--t-md);
+  }
+  .art__time {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-1);
+  }
+  .rail__nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-4);
+  }
+  .dots {
+    display: flex;
+    gap: var(--s-2);
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--line);
+    transition:
+      width var(--dur) var(--ease),
+      background-color var(--dur) var(--ease);
+  }
+  .dot--on {
+    width: 28px;
+    background: var(--red);
+  }
+  .arrows {
+    display: flex;
+    gap: var(--s-2);
+  }
+  .arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--tap);
+    height: var(--tap);
+    border-radius: 50%;
+    color: var(--red-700);
+    border: 1px solid var(--line);
+  }
+  .arrow:hover {
+    background: var(--red-50);
+  }
+  .arrow :global(.arrow__flip) {
+    transform: scaleX(-1);
+  }
+</style>

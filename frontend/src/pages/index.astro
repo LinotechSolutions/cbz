@@ -1,15 +1,13 @@
 ---
 /**
- * Home: Hero, What can we help you with?, Branches & ATMs. Laid out after the
- * Optibiz reference in CBZ colours: a navy top that fades to white, phone
- * mockups with a floating badge, and a row of dark cluster cards. The
- * business cards, the about split and the notices band were removed at the
- * business's request.
+ * Home: Hero, What can we help you with?, Ziki Mall and digital channels,
+ * Learn more. A navy top that fades to white, phone mockups with a badge,
+ * benefit cards with shield badges, a channels row, and the article rail.
  */
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Section from '../components/Section.astro';
 import Logo from '../components/Logo.astro';
-import BranchFinder from '../components/BranchFinder.astro';
+import ArticleRail from '../components/ArticleRail.astro';
 import Icon from '../components/Icon.astro';
 import { OpenAccountMenu } from '../islands/OpenAccountMenu';
 import { OPEN_ACCOUNT_ITEMS } from '../data/nav';
@@ -21,6 +19,18 @@ import type { IconName } from '../components/icons';
 const clusterIcon: Record<string, IconName> = { banking: 'bank', investments: 'chart', insurance: 'shield', 'agro-business': 'leaf' };
 const clusters = CLUSTERS.filter((c) => c.isOperating);
 
+const articles = (await getCollection('notices'))
+  .filter((n) => n.data.category !== 'security')
+  .sort((a, b) => b.data.date.localeCompare(a.data.date))
+  .map((n) => ({
+    id: n.id,
+    title: n.data.title,
+    summary: n.data.summary,
+    date: n.data.date,
+    category: n.data.category,
+    reference: n.data.reference,
+    href: `/notices/${n.id}`,
+  }));
 ---
 
 <BaseLayout
@@ -152,10 +162,12 @@ const clusters = CLUSTERS.filter((c) => c.isOperating);
     </ul>
   </section>
 
-  <!-- 4. Branches and ATMs -->
-  <Section id="branches" heading="Branches and ATMs" lede="Search the map, or open it in your own maps app for directions.">
-    <BranchFinder id="home-branches" />
-  </Section>
+  <!-- 4. Learn more -->
+  {
+    articles.length > 0 && (
+      <ArticleRail id="learn" heading="Learn more" headingStrong="Learn" articles={articles} seeAll={{ label: 'See all', href: '/notices' }} />
+    )
+  }
 </BaseLayout>
 
 <style>

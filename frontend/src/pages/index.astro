@@ -1,10 +1,10 @@
 ---
 /**
- * Home, in the site map's order: Hero, What can we help you with?, Nine
- * businesses, Latest from CBZ, Branches & ATMs. Laid out after the Optibiz
- * reference in CBZ colours: a navy top that fades to white, phone mockups
- * with a floating badge, a row of dark cards, an about split with the
- * big-number strip, and image cards for the businesses.
+ * Home: Hero, What can we help you with?, Branches & ATMs. Laid out after the
+ * Optibiz reference in CBZ colours: a navy top that fades to white, phone
+ * mockups with a floating badge, and a row of dark cluster cards. The
+ * business cards, the about split and the notices band were removed at the
+ * business's request.
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Section from '../components/Section.astro';
@@ -14,19 +14,13 @@ import Icon from '../components/Icon.astro';
 import { OpenAccountMenu } from '../islands/OpenAccountMenu';
 import { OPEN_ACCOUNT_ITEMS } from '../data/nav';
 import { AWARDS, CONTACT, GROUP } from '../data/facts';
-import { CLUSTERS, VALUE_PROPOSITION } from '../data/group';
+import { CLUSTERS } from '../data/group';
 import type { IconName } from '../components/icons';
 
 const clusterIcon: Record<string, IconName> = { banking: 'bank', investments: 'chart', insurance: 'shield', 'agro-business': 'leaf' };
 const clusters = CLUSTERS.filter((c) => c.isOperating);
 
 const bestBank = AWARDS[0];
-const stats = [
-  { value: GROUP.founded, label: 'Founded in Harare, serving Zimbabwe since' },
-  { value: GROUP.listing, label: GROUP.listingLine },
-  { value: 'Ten', label: 'Operating companies in the Group' },
-  { value: 'Four', label: 'Clusters: banking, investments, insurance, agro' },
-];
 ---
 
 <BaseLayout
@@ -139,51 +133,7 @@ const stats = [
     </div>
   </section>
 
-  <!-- 3. Nine businesses: about split, number strip, business cards -->
-  <Section id="businesses" heading="Nine businesses" hideHeading>
-    <div class="about">
-      <div class="about__media">
-        <img src="/images/cbzpicture1.webp" alt="CBZ Holdings head office in Harare" width={960} height={720} loading="lazy" decoding="async" />
-        <div class="about__row">
-          <span class="about__icon"><Icon name="globe" size={22} /></span>
-          <div>
-            <h3 class="about__h3">{VALUE_PROPOSITION[1].title}</h3>
-            <p class="small muted">{VALUE_PROPOSITION[1].body}</p>
-          </div>
-        </div>
-      </div>
-      <div class="about__copy">
-        <p class="eyebrow eyebrow--light">About CBZ Holdings</p>
-        <h2 class="about__title">One group behind every stage of life and business</h2>
-        <div class="about__row">
-          <span class="about__icon"><Icon name="bank" size={22} /></span>
-          <div>
-            <h3 class="about__h3">{VALUE_PROPOSITION[0].title}</h3>
-            <p class="small muted">{VALUE_PROPOSITION[0].body}</p>
-          </div>
-        </div>
-        <a href="/the-group" class="about__banner on-dark">
-          <span class="about__banner-icon"><Icon name="check" size={14} /></span>
-          <span class="about__banner-text">{VALUE_PROPOSITION[2].body}</span>
-          <span class="btn btn--primary">The Group</span>
-        </a>
-      </div>
-    </div>
-
-    <dl class="stats">
-      {
-        stats.map((s) => (
-          <div class="stat">
-            <dd class="stat__value">{s.value}</dd>
-            <dt class="stat__label">{s.label}</dt>
-          </div>
-        ))
-      }
-    </dl>
-
-  </Section>
-
-  <!-- 4. Branches and ATMs -->
+  <!-- 3. Branches and ATMs -->
   <Section id="branches" heading="Branches and ATMs" lede="Search the map, or open it in your own maps app for directions.">
     <BranchFinder id="home-branches" />
   </Section>

@@ -30,8 +30,8 @@ export const LINKS = {
   investorRelations: 'https://www.cbz.co.zw/investor-relations',
   zse: null as string | null,
   propertiesSite: null as string | null,
-  /** Zeex invoice discounting platform (Red Sphere). */
-  zeex: null as string | null,
+  /** Zeex invoice discounting platform. Red Sphere Finance is the financier. */
+  zeex: 'https://zeex.co.zw/' as string | null,
   /** Agro-Yield farmer onboarding portal. */
   farmerOnboarding: null as string | null,
   /** ATDC Zimbabwe, the Agro-Yield associate. */

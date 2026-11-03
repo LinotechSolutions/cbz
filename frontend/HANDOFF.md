@@ -80,7 +80,9 @@ _Generated 2026-11-03 by `npm run handoff`. Do not edit between the markers._
 | CBZ Bank calls to action (site map says "to be confirmed"; Open an account, Apply for a loan and Call me back are in place) | CBZ Bank |  |
 | Board of directors: names, roles and photos | Corporate Affairs |  |
 | Sustainability: Grievance Procedure PDF, Grievance Resolution Form PDF, grievance mailbox, and the reports to publish | Sustainability | src/data/sustainability.ts; links are hidden until set. |
-| Off-site links: Zeex, farmer onboarding, ATDC, ZikiCash, property management sign-in | Red Sphere, Agro-Yield, Digital, CBZ Properties |  |
+| Off-site links: farmer onboarding, ATDC website address, ZikiCash, property management sign-in | Agro-Yield, Digital, CBZ Properties |  |
+| Zeex invoice-discounting wording and customer journey on the Red Sphere page | Red Sphere Finance and Zeex | Both parties to approve. Link to zeex.co.zw is live. |
+| ATDC button placement on the Agro-Yield page (Supply chain, commodity trading or a Group businesses area) | CBZ Agro-Yield | Placed in Choose your service and in its own Explore ATDC section; needs the ATDC website address. |
 | Integrations behind the forms: SSP Pure, ICECASH and Flex Cube (Insurance), Life Central (Life) | Digital | Recorded on each unit JSON under "systems"; nothing is wired yet. |
 
 ### Values still null in data modules
@@ -99,7 +101,6 @@ _Generated 2026-11-03 by `npm run handoff`. Do not edit between the markers._
 - `links.zikiCash.playStore`
 - `links.zse`
 - `links.propertiesSite`
-- `links.zeex`
 - `links.farmerOnboarding`
 - `links.atdc`
 - `calculators.mortgage.price.default`
@@ -142,8 +143,7 @@ _Generated 2026-11-03 by `npm run handoff`. Do not edit between the markers._
 - `properties/neighborhood-retail-convenience-hubs.json`: price, tourUrl
 - `properties/pomona-industrial-logistics-and-warehouse-park.json`: price, tourUrl
 - `properties/pomona-north-private-residential-estate.json`: price, tourUrl
-- `units/agro-yield.json`: branches[1].items[0].href, branches[3].items[0].href
+- `units/agro-yield.json`: branches[0].items[3].href, branches[1].items[0].href, branches[3].items[0].href
 - `units/cbz-foundation.json`: secondaryCta, productsNote
-- `units/red-sphere.json`: branches[4].items[0].href
 
 <!-- handoff:end -->

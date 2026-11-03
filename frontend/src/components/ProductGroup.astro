@@ -46,7 +46,8 @@ function factsFor(p: ProductRow) {
   const facts: { value: string; label: string }[] = [];
   for (const [k, label] of Object.entries(factLabels)) {
     const v = p.details?.[k as keyof NonNullable<ProductRow['details']>];
-    if (visible(v)) facts.push({ value: v!, label });
+    // Only short values read as big figures; longer ones stay in What it costs.
+    if (visible(v) && v!.length <= 16) facts.push({ value: v!, label });
   }
   return facts.slice(0, 4);
 }
@@ -323,10 +324,13 @@ const costLine = (p: ProductRow) =>
   .pcard[hidden] {
     display: none;
   }
+  /* min-width: 0 stops a long button label from widening the body past the card. */
   .pcard__body {
     display: grid;
     gap: var(--s-4);
+    min-width: 0;
     padding: var(--s-6) var(--s-5, 20px);
+    overflow-wrap: anywhere;
   }
   .pcard__title {
     font-size: var(--t-lg);
@@ -352,20 +356,22 @@ const costLine = (p: ProductRow) =>
   .pcard__facts {
     margin: var(--s-2) 0 0;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--s-6) var(--s-4);
+    grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+    gap: var(--s-5, 20px) var(--s-4);
   }
   .fact {
     display: grid;
     gap: var(--s-1);
+    min-width: 0;
   }
   .fact__value {
     margin: 0;
-    font-size: var(--t-xl);
+    font-size: var(--t-lg);
     font-weight: 400;
     color: var(--blue);
-    line-height: 1.1;
-    overflow-wrap: anywhere;
+    line-height: 1.15;
+    overflow-wrap: normal;
+    hyphens: none;
   }
   .fact__label {
     font-size: var(--t-xs);
@@ -378,6 +384,11 @@ const costLine = (p: ProductRow) =>
   }
   .pcard__actions :global(.btn) {
     width: 100%;
+    min-width: 0;
+    height: auto;
+    padding: var(--s-3) var(--s-4);
+    white-space: normal;
+    text-align: center;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     font-size: var(--t-xs);

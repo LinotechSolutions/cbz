@@ -101,8 +101,9 @@ const pathname = Astro.url.pathname;
       clusters={CLUSTERS}
       loginItems={LOGIN_ITEMS}
       openAccountItems={OPEN_ACCOUNT_ITEMS}
-      unitLogo={unitLogo ? { key: unitLogo, name: LOGOS[unitLogo].name, src: LOGOS[unitLogo].full.src, aspect: LOGOS[unitLogo].full.aspect } : null}
-      holdings={{ src: LOGOS.holdings.full.src, aspect: LOGOS.holdings.full.aspect, name: LOGOS.holdings.name }}
+      unitLogo={unitLogo ? { key: unitLogo, name: LOGOS[unitLogo].name, src: (LOGOS[unitLogo].white ?? LOGOS[unitLogo].full).src, aspect: LOGOS[unitLogo].full.aspect } : null}
+      holdings={{ src: LOGOS.holdings.white!.src, aspect: LOGOS.holdings.full.aspect, name: LOGOS.holdings.name }}
+      holdingsLight={{ src: LOGOS.holdings.full.src, aspect: LOGOS.holdings.full.aspect, name: LOGOS.holdings.name }}
       currentPath={pathname}
     />
     <main id="main" tabindex="-1">

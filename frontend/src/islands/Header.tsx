@@ -12,7 +12,10 @@ interface Props {
   clusters: NavGroup[];
   loginItems: NavLink[];
   openAccountItems: NavLink[];
+  /** White lockup for the dark bar. */
   holdings: LogoProp;
+  /** Full-colour lockup for the white mobile sheet. */
+  holdingsLight: LogoProp;
   unitLogo: (LogoProp & { key: string }) | null;
   currentPath: string;
 }
@@ -24,7 +27,7 @@ const isExternal = (href: string) => /^https?:\/\//.test(href);
  * account menu. Before hydration the triggers are plain links, so the header
  * works with JavaScript off. Menus follow the WAI-ARIA disclosure pattern.
  */
-export function Header({ clusters, loginItems, openAccountItems, holdings, unitLogo, currentPath }: Props) {
+export function Header({ clusters, loginItems, openAccountItems, holdings, holdingsLight, unitLogo, currentPath }: Props) {
   const [hydrated, setHydrated] = useState(false);
   const [open, setOpen] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -308,7 +311,7 @@ export function Header({ clusters, loginItems, openAccountItems, holdings, unitL
       {mobileOpen && (
         <div className="sheet" id={`${uid}-sheet`} role="dialog" aria-modal="true" aria-label="Menu" ref={sheetRef}>
           <div className="sheet__bar">
-            <img src={holdings.src} alt={holdings.name} width={Math.round(32 * holdings.aspect)} height={32} />
+            <img src={holdingsLight.src} alt={holdingsLight.name} width={Math.round(32 * holdingsLight.aspect)} height={32} />
             <button type="button" className="sheet__close" onClick={() => setMobileOpen(false)}>
               <Icon name="close" size={24} label="Close menu" />
             </button>
@@ -363,18 +366,19 @@ export function Header({ clusters, loginItems, openAccountItems, holdings, unitL
 }
 
 const css = `
-.hdr{position:sticky;top:0;z-index:50;background:var(--white);border-bottom:1px solid var(--line)}
+.hdr{position:sticky;top:0;z-index:50;background:var(--blue-900);border-bottom:1px solid rgba(255,255,255,.1);color:var(--white)}
 .hdr__inner{display:flex;align-items:center;gap:var(--s-4);height:var(--header-h)}
 .hdr__home{display:inline-flex;align-items:center;height:100%}
 .hdr__home img{display:block}
 .hdr__unit{display:none;align-items:center;gap:var(--s-4)}
-.hdr__unit-rule{width:1px;height:28px;background:var(--line)}
+.hdr__unit-rule{width:1px;height:28px;background:rgba(255,255,255,.25)}
 .hdr__nav{display:none;margin-left:var(--s-4)}
 .hdr__list{display:flex;gap:var(--s-1)}
 .hdr__item{position:relative}
-.hdr__top{display:inline-flex;align-items:center;gap:var(--s-1);height:var(--tap);padding:0 var(--s-3);border-radius:var(--r-sm);font-weight:700;color:var(--blue);text-decoration:none;transition:background-color var(--dur) var(--ease)}
-.hdr__top:hover,.hdr__top[aria-expanded="true"]{background:var(--blue-50);color:var(--blue)}
-.hdr__top[aria-current]{box-shadow:inset 0 -2px 0 var(--blue)}
+.hdr__top{display:inline-flex;align-items:center;gap:var(--s-1);height:var(--tap);padding:0 var(--s-3);border-radius:var(--r-pill);font-weight:700;color:var(--white);text-decoration:none;transition:background-color var(--dur) var(--ease)}
+.hdr__top:hover,.hdr__top[aria-expanded="true"]{background:rgba(255,255,255,.12);color:var(--white)}
+.hdr__top[aria-current]{box-shadow:inset 0 -2px 0 var(--red)}
+.hdr :focus-visible{outline-color:var(--white)}
 .hdr__chev{transition:transform var(--dur) var(--ease)}
 [aria-expanded="true"] .hdr__chev{transform:rotate(180deg)}
 .hdr__menu{position:absolute;top:calc(100% + var(--s-2));left:0;min-width:300px;background:var(--white);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow-float);padding:var(--s-3);z-index:60}
@@ -390,11 +394,11 @@ const css = `
 .hdr__menu-all{display:inline-flex;align-items:center;gap:var(--s-2);margin:var(--s-2) var(--s-4) var(--s-2);font-weight:700;color:var(--blue-700);text-decoration:none;min-height:var(--tap)}
 .hdr__menu-all:hover{text-decoration:underline}
 .hdr__actions{margin-left:auto;display:flex;align-items:center;gap:var(--s-2)}
-.hdr__login{display:none;align-items:center;gap:var(--s-1);height:var(--tap);padding:0 var(--s-3);border-radius:var(--r-sm);font-weight:700;color:var(--blue);text-decoration:none;background:none;border:0}
-.hdr__login:hover,.hdr__login[aria-expanded="true"]{background:var(--blue-50)}
+.hdr__login{display:none;align-items:center;gap:var(--s-1);height:var(--tap);padding:0 var(--s-4);border-radius:var(--r-pill);font-weight:700;color:var(--white);text-decoration:none;background:none;border:1px solid rgba(255,255,255,.3)}
+.hdr__login:hover,.hdr__login[aria-expanded="true"]{background:rgba(255,255,255,.12)}
 .hdr__item--open{display:none}
 .hdr__open{gap:var(--s-1)}
-.hdr__burger{display:inline-flex;align-items:center;justify-content:center;width:var(--tap);height:var(--tap);color:var(--blue);border-radius:var(--r-sm)}
+.hdr__burger{display:inline-flex;align-items:center;justify-content:center;width:var(--tap);height:var(--tap);color:var(--white);border-radius:var(--r-sm)}
 @media (min-width:900px){
   .hdr__unit{display:inline-flex}
   .hdr__nav{display:block}

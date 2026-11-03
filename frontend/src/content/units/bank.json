@@ -10,18 +10,51 @@
     "lede": "Accounts, cards, savings and loans for individuals, companies, schools and churches, with CBZ Touch and internet banking.",
     "image": { "src": "/images/cbz-banking.webp", "alt": "A customer at a CBZ Bank counter" }
   },
-  "about": "CBZ Bank is the Group's commercial bank. It runs everyday transactional and savings accounts, foreign currency accounts, cards, and personal and school fee lending, alongside internet banking, CBZ Touch and merchant point of sale.",
-  "keyFacts": [
-    { "label": "Products in the retail catalogue", "value": "39" },
-    { "label": "Foreign currencies held", "value": "Five" },
-    { "label": "CBZ Touch mobile banking", "value": "Zero rated" }
-  ],
   "primaryCta": { "label": "Open an account", "href": "/bank/open-account" },
   "secondaryCta": { "label": "Apply for a loan", "href": "/bank/apply" },
-  "objectives": null,
-  "audience": null,
-  "leadership": null,
-  "calculators": ["mortgage", "carFinance"],
+  "segments": [
+    { "label": "Individuals", "line": "Current, savings, foreign currency and student accounts", "href": "#panel-bank-accounts" },
+    { "label": "Companies, schools and churches", "line": "Corporate, school and church accounts and merchant POS", "href": "#panel-bank-accounts" },
+    { "label": "Diaspora", "line": "Bank at home from abroad", "href": "/diaspora" }
+  ],
+  "branches": [
+    {
+      "id": "open-an-account",
+      "title": "Open an account",
+      "line": "Current, savings, foreign currency, SmartCash and student accounts.",
+      "items": [
+        { "label": "Accounts and savings", "kind": "products", "categories": ["accounts", "savings"] },
+        { "label": "Account opening form", "line": "Three steps; a relationship manager finishes the opening with you", "kind": "form", "href": "/bank/open-account" }
+      ]
+    },
+    {
+      "id": "apply-for-a-loan",
+      "title": "Apply for a loan",
+      "line": "Personal, school fees, civil servant and business loans, mortgages and car finance.",
+      "items": [
+        { "label": "Loans", "kind": "products", "categories": ["loans"] },
+        { "label": "Mortgage calculator", "line": "Estimate a monthly repayment over two to ten years", "kind": "calculator", "calculator": "mortgage" },
+        { "label": "Car finance calculator", "line": "Estimate a monthly repayment over one to five years", "kind": "calculator", "calculator": "carFinance" },
+        { "label": "Loan application form", "line": "What you are financing and your income", "kind": "form", "href": "/bank/apply" }
+      ]
+    },
+    {
+      "id": "cards-and-digital",
+      "title": "Cards and digital banking",
+      "line": "Visa cards, CBZ Touch, internet banking and merchant point of sale.",
+      "items": [
+        { "label": "Cards, digital and merchant", "kind": "products", "categories": ["cards", "channels"] },
+        { "label": "CBZ Touch", "kind": "app", "app": "cbz-touch" },
+        { "label": "Log in to internet banking", "line": "Personal and corporate platforms", "kind": "page", "href": "/login" }
+      ]
+    },
+    {
+      "id": "call-me-back",
+      "title": "Call me back",
+      "line": "A relationship manager calls you.",
+      "items": [{ "label": "Call-back form", "line": "Your number and what it is about", "kind": "form", "href": "/bank/call-me-back" }]
+    }
+  ],
   "categories": [
     { "id": "accounts", "label": "Accounts" },
     { "id": "savings", "label": "Savings and investments" },
@@ -29,29 +62,8 @@
     { "id": "cards", "label": "Cards" },
     { "id": "channels", "label": "Digital and merchant" }
   ],
-  "segments": [
-    { "label": "Individuals", "line": "Current, savings, foreign currency and student accounts", "href": "#panel-bank-accounts" },
-    { "label": "Companies, schools and churches", "line": "Corporate, school and church accounts and merchant POS", "href": "#panel-bank-accounts" },
-    { "label": "Diaspora", "line": "Bank at home from abroad", "href": "/diaspora" }
-  ],
-  "actions": [
-    { "label": "Open an account", "line": "Current, savings and foreign currency accounts", "href": "/bank/open-account", "kind": "form" },
-    { "label": "Apply for a loan", "line": "Personal, school fees, civil servant and business loans", "href": "/bank/apply", "kind": "form" },
-    { "label": "Call me back", "line": "A relationship manager calls you", "href": "/bank/call-me-back", "kind": "form" }
-  ],
-  "faq": [
-    { "q": "What do I need to open an account?", "a": "Two passport-size photos, proof of residence such as your latest utility bill, your latest payslip and a valid ID. SmartCash Lite opens instantly with a copy of your ID alone." },
-    { "q": "What does a company need?", "a": "The memorandum and articles of association, certificate of incorporation, CR6, CR2 where applicable, a tax clearance, and the directors' IDs and proof of residence." },
-    { "q": "How do I bank on my phone?", "a": "CBZ Touch is zero-rated on local networks for transfers, bills, school fees and card controls. On any phone, dial *230# for USSD banking." },
-    { "q": "Can I open an account from outside Zimbabwe?", "a": "Yes. Start on the diaspora banking page with your Zimbabwean ID or passport, proof of your address abroad and proof of income." }
-  ],
-  "systems": [],
-  "regulator": "CBZ Bank Limited is a registered commercial bank supervised by the Reserve Bank of Zimbabwe.",
   "productsNote": "Requirements, features and benefits are those set out in the Retail Banking Product Manual. Lending is subject to credit assessment, and interest rates are subject to change; confirm current terms before you apply.",
-  "contact": {
-    "heading": "Open an account with CBZ Bank",
-    "body": "Apply online, or ask a relationship manager to call you back about accounts, cards and lending."
-  },
+  "systems": [],
   "seo": {
     "title": "CBZ Bank: accounts, cards, loans and mortgages",
     "description": "Open a CBZ Bank account, apply for a loan or mortgage, and bank on CBZ Touch. Accounts for individuals, companies, schools and churches."

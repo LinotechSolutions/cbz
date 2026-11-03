@@ -10,44 +10,37 @@
     "lede": "Unit trusts for savers, institutional mandates for pension funds and companies, and private wealth management.",
     "image": { "src": "/images/cbz-wealth.webp", "alt": "An adviser reviewing a portfolio with a client" }
   },
-  "about": "Datvest is the investment management arm of CBZ Holdings, serving individuals, corporates, pension funds, institutions and high-net-worth clients. It runs unit trusts, wealth and portfolio management, pension fund management, treasury bills and bonds, equity and money-market investments, and alternative investments, focused on capital preservation, growth and risk-adjusted returns.",
-  "keyFacts": [
-    { "label": "For individual savers", "value": "Unit trusts" },
-    { "label": "Segregated and fiduciary mandates", "value": "Institutional" },
-    { "label": "Advisory and family office", "value": "Private wealth" }
-  ],
-  "primaryCta": { "label": "Start investing", "href": "/datvest/start-investing" },
-  "secondaryCta": { "label": "Speak to an adviser", "href": "/contact" },
-  "objectives": null,
-  "audience": null,
-  "leadership": null,
-  "categories": [
-    { "id": "unit-trusts", "label": "Unit trusts" },
-    { "id": "institutional", "label": "Institutional" },
-    { "id": "private-wealth", "label": "Private wealth" }
-  ],
+  "primaryCta": { "label": "Call me back", "href": "/datvest/call-me-back" },
+  "secondaryCta": { "label": "Start investing", "href": "/datvest/start-investing" },
   "segments": [
     { "label": "Retail", "line": "Unit trusts for individual savers", "href": "#panel-datvest-unit-trusts" },
     { "label": "Institutional", "line": "Segregated and fiduciary mandates", "href": "#panel-datvest-institutional" },
     { "label": "Pension funds", "line": "Pension fund management", "href": "#panel-datvest-institutional" }
   ],
-  "actions": [
-    { "label": "Learn more", "line": "Product hub and wealth-creation advisory", "href": "#products", "kind": "anchor" },
-    { "label": "Start investing", "line": "Tell us your goal and timeframe", "href": "/datvest/start-investing", "kind": "form" },
-    { "label": "Call me back", "line": "An adviser calls you", "href": "/datvest/call-me-back", "kind": "form" }
+  "branches": [
+    {
+      "id": "learn-more",
+      "title": "Learn more",
+      "line": "What Datvest manages, and how an adviser helps you build wealth.",
+      "items": [
+        { "label": "Product information hub", "kind": "products", "categories": ["unit-trusts", "institutional", "private-wealth"] },
+        { "label": "Wealth-creation advisory", "line": "An adviser sets out the options against your goal and timeframe, from a first unit trust to a managed portfolio. Start with a call back.", "kind": "note" }
+      ]
+    },
+    {
+      "id": "call-me-back",
+      "title": "Call me back",
+      "line": "A Datvest adviser calls you.",
+      "items": [{ "label": "Call-back form", "line": "Your number and what you want to discuss", "kind": "form", "href": "/datvest/call-me-back" }]
+    }
   ],
-  "faq": [
-    { "q": "What is a unit trust?", "a": "A pooled fund. Your money is combined with other investors' and managed by Datvest, and you own units whose value tracks the fund." },
-    { "q": "Can my investment lose value?", "a": "Yes. The value of investments can fall as well as rise, and past performance is not a guide to future returns." },
-    { "q": "How do I start?", "a": "Use Start investing, tell us your goal and timeframe, and an adviser sets out the options and opens your account." }
+  "categories": [
+    { "id": "unit-trusts", "label": "Unit trusts" },
+    { "id": "institutional", "label": "Institutional" },
+    { "id": "private-wealth", "label": "Private wealth" }
   ],
-  "systems": [],
-  "regulator": null,
   "productsNote": "The value of investments can fall as well as rise, and past performance is not a guide to future returns. Fund terms and pricing are confirmed on application.",
-  "contact": {
-    "heading": "Talk to Datvest",
-    "body": "Tell us your goal and timeframe, and an adviser will set out the options."
-  },
+  "systems": [],
   "seo": {
     "title": "Datvest: unit trusts, pensions and wealth management",
     "description": "Invest with Datvest, the asset manager of CBZ Holdings: unit trusts, institutional and pension fund mandates, and private wealth management."

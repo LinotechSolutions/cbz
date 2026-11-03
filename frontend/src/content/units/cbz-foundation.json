@@ -18,12 +18,11 @@
   ],
   "primaryCta": { "label": "Contact the Foundation", "href": "/contact" },
   "secondaryCta": null,
-  "objectives": null,
-  "audience": null,
-  "leadership": null,
+  "segments": [],
+  "branches": [],
   "categories": [],
-  "regulator": null,
   "productsNote": null,
+  "systems": [],
   "contact": {
     "heading": "Work with the CBZ Foundation",
     "body": "Tell us about your organisation and the communities it serves."

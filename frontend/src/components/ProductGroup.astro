@@ -27,12 +27,17 @@ interface Props {
   products: ProductRow[];
   primaryCta: { label: string; href: string };
   note?: string | null;
+  /** Namespaces element ids when the same category renders more than once on a page. */
+  idPrefix?: string;
+  /** Hide the repeated call to action under each group (when the branch has its own). */
+  hideCta?: boolean;
 }
-const { unitSlug, categories, products, primaryCta, note } = Astro.props;
+const { unitSlug, categories, products, primaryCta, note, idPrefix = unitSlug, hideCta = false } = Astro.props;
 
 const groups = categories
   .map((c) => ({ ...c, items: products.filter((p) => p.category === c.id) }))
   .filter((g) => g.items.length > 0);
+const single = groups.length <= 1;
 
 const detailLabels: Record<string, string> = {
   tenor: 'Term',
@@ -42,29 +47,31 @@ const detailLabels: Record<string, string> = {
 };
 ---
 
-<div class="pg" data-product-group data-unit={unitSlug}>
-  <div class="pg__tabs" role="tablist" aria-label="Product categories" hidden>
-    {
-      groups.map((g, i) => (
-        <button
-          type="button"
-          role="tab"
-          id={`tab-${unitSlug}-${g.id}`}
-          aria-controls={`panel-${unitSlug}-${g.id}`}
-          aria-selected={i === 0 ? 'true' : 'false'}
-          tabindex={i === 0 ? 0 : -1}
-          class="pg__tab"
-        >
-          {g.label}
-          <span class="pg__count">{g.items.length}</span>
-        </button>
-      ))
-    }
-  </div>
+<div class:list={['pg', single && 'pg--single']} data-product-group={single ? undefined : ''} data-unit={unitSlug}>
+  {
+    !single && (
+      <div class="pg__tabs" role="tablist" aria-label="Product categories" hidden>
+        {groups.map((g, i) => (
+          <button
+            type="button"
+            role="tab"
+            id={`tab-${idPrefix}-${g.id}`}
+            aria-controls={`panel-${idPrefix}-${g.id}`}
+            aria-selected={i === 0 ? 'true' : 'false'}
+            tabindex={i === 0 ? 0 : -1}
+            class="pg__tab"
+          >
+            {g.label}
+            <span class="pg__count">{g.items.length}</span>
+          </button>
+        ))}
+      </div>
+    )
+  }
 
   {
     groups.map((g, i) => (
-      <details class="pg__group" id={`panel-${unitSlug}-${g.id}`} open={i === 0} data-group={g.id}>
+      <details class="pg__group" id={`panel-${idPrefix}-${g.id}`} open={i === 0 || single} data-group={g.id}>
         <summary class="pg__summary">
           <span class="pg__summary-text">
             {g.label} <span class="pg__count">{g.items.length}</span>
@@ -138,11 +145,13 @@ const detailLabels: Record<string, string> = {
             </li>
           ))}
         </ul>
-        <div class="pg__cta">
-          <Button href={primaryCta.href} variant="primary" track="apply_click" trackProps={{ unit: unitSlug, from: g.id }}>
-            {primaryCta.label}
-          </Button>
-        </div>
+        {!hideCta && (
+          <div class="pg__cta">
+            <Button href={primaryCta.href} variant="primary" track="apply_click" trackProps={{ unit: unitSlug, from: g.id }}>
+              {primaryCta.label}
+            </Button>
+          </div>
+        )}
       </details>
     ))
   }
@@ -326,6 +335,26 @@ const detailLabels: Record<string, string> = {
   }
   .pg__rows {
     border-top: 1px solid var(--line);
+  }
+  /* A single category needs no accordion header or tabs. */
+  .pg--single .pg__summary {
+    display: none;
+  }
+  .pg--single .pg__rows {
+    border-top: 0;
+  }
+  @media (min-width: 900px) {
+    .pg--single .pg__rows {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: var(--s-8);
+    }
+    .pg--single .pg__rows > li {
+      border-top: 1px solid var(--line);
+    }
+    .pg--single .row__summary {
+      padding-inline: var(--s-2);
+    }
   }
   .pg--tabs .pg__rows {
     border-top: 0;

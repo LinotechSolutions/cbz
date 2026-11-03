@@ -24,9 +24,17 @@ const pages = [
   ['risk-advisory/quote', 'risk-quote', 'risk-advisory', 'CBZ Risk Advisory', '/risk-advisory', 'Get a quote'],
 ];
 
+/** Fields a page may pre-fill from its URL query, e.g. /insurance/policy-changes?request=status */
+const queryFields = {
+  'insurance-policy-changes': ['request'],
+  'agro-enquire': ['topic'],
+  'red-sphere-enquire': ['topic'],
+};
+
 for (const [route, formKey, logo, unitName, unitHref, crumb] of pages) {
   const depth = route.split('/').length;
   const up = '../'.repeat(depth);
+  const q = queryFields[formKey] ? `\n  queryFields={${JSON.stringify(queryFields[formKey])}}` : '';
   const src = `---
 import FormPage from '${up}layouts/FormPage.astro';
 ---
@@ -34,7 +42,7 @@ import FormPage from '${up}layouts/FormPage.astro';
 <FormPage
   formKey="${formKey}"
   unitLogo="${logo}"
-  crumbs={[{ label: 'Home', href: '/' }, { label: '${unitName}', href: '${unitHref}' }, { label: '${crumb}' }]}
+  crumbs={[{ label: 'Home', href: '/' }, { label: '${unitName}', href: '${unitHref}' }, { label: '${crumb}' }]}${q}
 />
 `;
   const file = join('src', 'pages', `${route}.astro`);

@@ -15,21 +15,16 @@ After editing, run `npm run build`. If a file is malformed or a required field i
 |---|---|
 | `hero.title`, `hero.lede` | The headline (max 60 characters) and the line under it (max 160) |
 | `hero.image` | Path and alt text for the hero photo |
-| `about` | One paragraph, up to about 60 words |
-| `keyFacts` | Up to six `{ label, value }` pairs. Set `value` to `null` to hide one |
-| `primaryCta` | The one main action, repeated through the page and in the mobile bar |
-| `objectives`, `audience` | Lists from Marketing. `null` hides the whole section |
-| `leadership` | List of `{ name, role, image }`. `null` hides the section |
-| `heldEntities` | Companies held beneath this unit, shown under About |
-| `categories` | The product tabs, in order. The `id` must match the `category` on the unit's products |
-| `actions` | The unit's buttons from the site map, in order: `label`, `line`, `href` and `kind` (`page`, `form`, `anchor`, `external` or `app`). Set `href` to `null` for an off-site link that is not yet supplied; the button is hidden until it is |
-| `segments` | "Find the right fit" chips: who the unit serves, each linking to a product tab (`#panel-<unit>-<category>`) or a page |
-| `faq` | Questions and answers shown under the products. Keep answers factual; the build also publishes them as FAQ structured data |
+| `primaryCta`, `secondaryCta` | The hero buttons. The primary one also sits in the mobile bar |
+| `segments` | The audience chips under the hero, from the site map. Each links to a branch (`#branch-id`) or a product tab |
+| `branches` | **The page.** One entry per branch of the site map, in order: `id`, `title`, `line` and `items`. Each item has a `kind`: `form` or `page` (a link card to a page here), `external` (an off-site card, hidden while `href` is `null`), `app` (store badges for `cbz-touch`, `red-sphere` or `ziki-cash`), `products` (the product list for `categories` and/or `productIds`), `calculator` (`mortgage`, `carFinance`, `carInsurance`, `policyQuote` or `loan`), `listings` (the property grid) or `note` (a dashed information card) |
+| `categories` | The product groups the `products` items can draw on. The `id` must match the `category` on the unit's products |
+| `productsNote` | Small print under a product list |
 | `systems` | Names of the systems the unit's forms will integrate with (for the backend handoff only; never shown) |
-| `regulator` | A regulatory line, hidden until confirmed |
-| `productsNote` | Small print under the product list |
-| `contact` | Heading and line for the band at the bottom |
+| `heldEntities` | Companies held beneath this unit, used by the cluster and Group pages |
 | `seo` | Page title (max 70) and description (max 160) |
+
+To add a section to a business page, add a branch. To remove one, delete it. The page shows nothing that is not in `branches`.
 
 ## Products: `src/content/products/<unit>/<id>.json`
 

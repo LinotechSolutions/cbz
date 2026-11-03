@@ -91,14 +91,29 @@ test('old routes redirect', async ({ page }) => {
   await expect(page).toHaveURL(/\/the-group$/);
 });
 
-test('every business page follows the site map sections', async ({ page }) => {
-  for (const slug of ['bank', 'insurance', 'cbz-life', 'datvest', 'properties', 'agro-yield', 'red-sphere', 'capital', 'risk-advisory']) {
+test('every business page is built from its site map branches', async ({ page }) => {
+  const expected: Record<string, string[]> = {
+    'cbz-life': ['get-a-quote', 'take-cover', 'submit-claim', 'pay-online', 'talk-to-an-agent'],
+    insurance: ['request-quote', 'insure-now', 'submit-claim', 'policy-changes', 'call-me-back'],
+    'risk-advisory': ['key-products', 'request-insurance-audit', 'get-a-quote'],
+    properties: ['property-listing', 'virtual-tours', 'schedule-viewing', 'request-call-back'],
+    datvest: ['learn-more', 'call-me-back'],
+    capital: ['learn-more', 'call-me-back'],
+    'agro-yield': ['choose-your-service', 'enquire-now'],
+    'red-sphere': ['explore-loan-products', 'loan-calculator', 'apply-or-enquire', 'download-the-app'],
+    bank: ['open-an-account', 'apply-for-a-loan', 'cards-and-digital', 'call-me-back'],
+  };
+  for (const [slug, ids] of Object.entries(expected)) {
     await page.goto(`/${slug}`);
-    await expect(page.locator('#products')).toHaveCount(1);
-    await expect(page.locator('#faq')).toHaveCount(1);
-    await expect(page.locator('#fit')).toHaveCount(1);
-    await expect(page.locator('#contact')).toHaveCount(1);
-    await expect(page.getByRole('navigation', { name: /What you can do with/ })).toBeVisible();
+    const found = await page.locator('main section[id]').evaluateAll((els) => els.map((e) => e.id));
+    let last = -1;
+    for (const id of ids) {
+      const i = found.indexOf(id);
+      expect(i, `${slug}: ${id} present and in order`).toBeGreaterThan(last);
+      last = i;
+    }
+    // Nothing from the old shared template remains.
+    await expect(page.locator('#faq, #fit, #leadership')).toHaveCount(0);
   }
 });
 

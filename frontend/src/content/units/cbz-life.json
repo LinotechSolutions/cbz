@@ -10,48 +10,55 @@
     "lede": "Funeral and education plans for individuals, and group life, retirement savings, annuities and credit life for employers.",
     "image": { "src": "/images/insurance-family.webp", "alt": "A family together at home" }
   },
-  "about": "CBZ Life provides long-term assurance for individuals and employers. Individual plans cover funeral costs and build savings towards a child's education, with life cover attached. Employee benefits cover group life, retirement savings, annuities in retirement, and credit life that settles an outstanding loan balance.",
-  "keyFacts": [
-    { "label": "Individual and employee benefit products", "value": "Six" },
-    { "label": "Comfortsure funeral benefit payment", "value": "Immediate" },
-    { "label": "Education covered by Sarapavana", "value": "Primary and secondary" }
+  "primaryCta": { "label": "Get a quote", "href": "/cbz-life/quote" },
+  "secondaryCta": { "label": "Talk to an agent", "href": "/cbz-life/talk-to-an-agent" },
+  "segments": [
+    { "label": "Individuals", "line": "Comfortsure funeral and Sarapavana education plans", "href": "#get-a-quote" },
+    { "label": "Business", "line": "Group life, retirement savings, annuities and credit life", "href": "#get-a-quote" },
+    { "label": "SMEs and informal sector", "line": "Group cover sized for small teams and associations", "href": "#get-a-quote" }
   ],
-  "primaryCta": { "label": "Request a quotation", "href": "/cbz-life/quote" },
-  "secondaryCta": { "label": "Speak to a consultant", "href": "/contact" },
-  "objectives": null,
-  "audience": null,
-  "heldEntities": [{ "name": "CBZ Shield", "stake": 100 }],
-  "leadership": null,
-  "calculators": ["policyQuote"],
+  "branches": [
+    {
+      "id": "get-a-quote",
+      "title": "Get a quote",
+      "line": "Request a quote for any plan.",
+      "items": [
+        { "label": "Plans you can quote", "kind": "products", "categories": ["individual", "employee"] },
+        { "label": "Quote request form", "line": "Tell us which plan and who it is for", "kind": "form", "href": "/cbz-life/quote" }
+      ]
+    },
+    {
+      "id": "take-cover",
+      "title": "Take cover",
+      "line": "Start a policy. A consultant completes the onboarding with you.",
+      "items": [{ "label": "Policy onboarding", "line": "Comfortsure or Sarapavana, in a few steps", "kind": "form", "href": "/cbz-life/take-cover" }]
+    },
+    {
+      "id": "submit-claim",
+      "title": "Submit a claim",
+      "line": "Register a claim on a policy and a claims consultant guides you through the rest.",
+      "items": [{ "label": "Claim submission", "line": "Policy number, date of the event and your details", "kind": "form", "href": "/cbz-life/claim" }]
+    },
+    {
+      "id": "pay-online",
+      "title": "Pay online",
+      "line": "Pay a premium and manage your policy.",
+      "items": [{ "label": "Policy administration", "line": "CBZ Touch, internet banking or USSD, and changes to your policy", "kind": "page", "href": "/cbz-life/pay" }]
+    },
+    {
+      "id": "talk-to-an-agent",
+      "title": "Talk to an agent",
+      "line": "A CBZ Life consultant calls you back.",
+      "items": [{ "label": "Agent enquiry", "line": "Leave your number and what it is about", "kind": "form", "href": "/cbz-life/talk-to-an-agent" }]
+    }
+  ],
   "categories": [
     { "id": "individual", "label": "Individual life" },
     { "id": "employee", "label": "Employee benefits" }
   ],
-  "segments": [
-    { "label": "Individuals", "line": "Comfortsure funeral and Sarapavana education plans", "href": "#panel-cbz-life-individual" },
-    { "label": "Business", "line": "Group life, retirement savings, annuities and credit life", "href": "#panel-cbz-life-employee" },
-    { "label": "SMEs and the informal sector", "line": "Group cover sized for small teams and associations", "href": "#panel-cbz-life-employee" }
-  ],
-  "actions": [
-    { "label": "Get a quote", "line": "For an individual plan or group cover", "href": "/cbz-life/quote", "kind": "form" },
-    { "label": "Take cover", "line": "Policy onboarding", "href": "/cbz-life/take-cover", "kind": "form" },
-    { "label": "Submit a claim", "line": "Register a claim on a policy", "href": "/cbz-life/claim", "kind": "form" },
-    { "label": "Pay online", "line": "Policy administration and premium payments", "href": "/cbz-life/pay", "kind": "page" },
-    { "label": "Talk to an agent", "line": "A consultant calls you", "href": "/cbz-life/talk-to-an-agent", "kind": "form" }
-  ],
-  "faq": [
-    { "q": "What does Comfortsure pay?", "a": "A pre-defined funeral benefit, paid immediately to the nominated beneficiary on the death of the life insured." },
-    { "q": "What does Sarapavana cover?", "a": "Savings towards a child's primary and secondary education, with life cover attached so the plan continues if the parent dies." },
-    { "q": "How do I pay my premium?", "a": "Through CBZ Touch, internet banking or USSD using your policy number as the reference. The Pay online page explains each route." },
-    { "q": "How do I claim?", "a": "Use Submit a claim with the policy number and the date of the event. A claims consultant guides you through the documents." }
-  ],
-  "systems": ["Life Central"],
-  "regulator": null,
   "productsNote": "Benefits, premiums and terms depend on the cover selected and on underwriting. Speak to a CBZ Life consultant for a quotation and the full policy terms.",
-  "contact": {
-    "heading": "Talk to CBZ Life",
-    "body": "Request a quotation for an individual plan, or speak to us about cover for your employees."
-  },
+  "systems": ["Life Central"],
+  "heldEntities": [{ "name": "CBZ Shield", "stake": 100 }],
   "seo": {
     "title": "CBZ Life: funeral, education and group life cover",
     "description": "Comfortsure funeral cash plan, Sarapavana education plan, group life, retirement savings, annuities and credit life from CBZ Life."

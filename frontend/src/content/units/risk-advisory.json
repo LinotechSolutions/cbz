@@ -10,47 +10,43 @@
     "lede": "Short-term insurance broking, enterprise risk audits, employee benefits consulting and reinsurance placement across Southern Africa.",
     "image": { "src": "/images/insurance-health.webp", "alt": "A risk consultant reviewing documents with a client" }
   },
-  "about": "CBZ Risk Advisory Services supports the Group and its clients with enterprise-wide risk management and tailored advisory: short-term insurance broking, risk assessment with control measures and captive management, independent claims assessment, employee benefits and pensions consulting, healthcare consulting and individual financial planning. Botswana Reinsurance Brokers, wholly owned, extends the broking reach regionally.",
-  "keyFacts": [
-    { "label": "Wholly owned reinsurance broker", "value": "Botswana Re Brokers" },
-    { "label": "Control measures and captive management", "value": "Risk assessment" },
-    { "label": "Independent assessment and lodgement", "value": "Claims management" }
-  ],
   "primaryCta": { "label": "Get a quote", "href": "/risk-advisory/quote" },
-  "secondaryCta": { "label": "See our services", "href": "#products" },
-  "objectives": null,
-  "audience": null,
-  "heldEntities": [{ "name": "Botswana Reinsurance Brokers", "stake": 100 }],
-  "leadership": null,
+  "secondaryCta": { "label": "Request an insurance audit", "href": "/risk-advisory/insurance-audit" },
+  "segments": [
+    { "label": "SMEs", "line": "Property, fleet and liability broking", "href": "#panel-risk-advisory-broking" },
+    { "label": "Employee solutions", "line": "Pensions, healthcare and group benefits", "href": "#panel-risk-advisory-benefits" },
+    { "label": "Individuals", "line": "Personal cover and financial planning", "href": "#panel-risk-advisory-benefits" },
+    { "label": "Sector-driven", "line": "Tourism, agriculture, mining and manufacturing", "href": "#panel-risk-advisory-erm" }
+  ],
+  "branches": [
+    {
+      "id": "key-products",
+      "title": "Key products",
+      "line": "Broking, enterprise risk audits, employee benefits and reinsurance.",
+      "items": [{ "label": "Product descriptions", "kind": "products", "categories": ["broking", "erm", "benefits", "reinsurance"] }]
+    },
+    {
+      "id": "request-insurance-audit",
+      "title": "Request an insurance audit",
+      "line": "A broker reviews every policy your organisation holds for gaps, overlaps and cost.",
+      "items": [{ "label": "Audit request form", "line": "Your organisation and the policies you hold today", "kind": "form", "href": "/risk-advisory/insurance-audit" }]
+    },
+    {
+      "id": "get-a-quote",
+      "title": "Get a quote",
+      "line": "Cover placed across licensed underwriters on your behalf.",
+      "items": [{ "label": "Quotation request form", "line": "What needs cover, and for whom", "kind": "form", "href": "/risk-advisory/quote" }]
+    }
+  ],
   "categories": [
     { "id": "broking", "label": "Short-term insurance broking" },
     { "id": "erm", "label": "Enterprise risk management and audits" },
     { "id": "benefits", "label": "Employee benefits and pensions" },
     { "id": "reinsurance", "label": "Reinsurance and claims advocacy" }
   ],
-  "segments": [
-    { "label": "SMEs", "line": "Property, fleet and liability broking", "href": "#panel-risk-advisory-broking" },
-    { "label": "Employee solutions", "line": "Pensions, healthcare and group benefits", "href": "#panel-risk-advisory-benefits" },
-    { "label": "Individuals", "line": "Personal financial planning", "href": "#panel-risk-advisory-benefits" },
-    { "label": "Sector-driven", "line": "Enterprise risk audits and continuity planning", "href": "#panel-risk-advisory-erm" }
-  ],
-  "actions": [
-    { "label": "Key products", "line": "Broking, risk audits, benefits and reinsurance", "href": "#products", "kind": "anchor" },
-    { "label": "Request an insurance audit", "line": "A broker reviews every policy you hold", "href": "/risk-advisory/insurance-audit", "kind": "form" },
-    { "label": "Get a quote", "line": "Cover placed across licensed underwriters", "href": "/risk-advisory/quote", "kind": "form" }
-  ],
-  "faq": [
-    { "q": "What is the difference between a broker and an insurer?", "a": "An insurer sells its own policies. As a broker, CBZ Risk Advisory works for you, comparing and negotiating cover across licensed underwriters and standing with you at claim time." },
-    { "q": "What does an insurance audit cover?", "a": "Every policy your organisation holds, checked for gaps, overlaps and cost, with recommendations you can act on." },
-    { "q": "Do you work outside Zimbabwe?", "a": "Yes. Botswana Reinsurance Brokers, wholly owned, extends the broking reach regionally." }
-  ],
-  "systems": [],
-  "regulator": null,
   "productsNote": "Broking and advisory services are governed by IPEC regulations. Terms, premium rates and coverage extensions are negotiated across licensed underwriters based on risk profiling.",
-  "contact": {
-    "heading": "Consult CBZ Risk Advisory Services",
-    "body": "Schedule an enterprise risk audit, review your corporate insurance portfolio, or discuss pension and healthcare benefit structuring."
-  },
+  "systems": [],
+  "heldEntities": [{ "name": "Botswana Reinsurance Brokers", "stake": 100 }],
   "seo": {
     "title": "CBZ Risk Advisory: broking, risk audits and employee benefits",
     "description": "Independent insurance broking, enterprise risk audits, employee benefits and pensions consulting and reinsurance placement from CBZ Risk Advisory Services."

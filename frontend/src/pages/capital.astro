@@ -1,21 +1,8 @@
 ---
-import { getCollection, getEntry } from 'astro:content';
+import { getEntry } from 'astro:content';
 import UnitLayout from '../layouts/UnitLayout.astro';
-import Section from '../components/Section.astro';
-import TrackRecord from '../components/TrackRecord.astro';
 
 const unit = (await getEntry('units', 'capital'))!.data;
-const deals = (await getCollection('deals', (d) => d.data.unit === 'capital')).map((d) => d.data);
 ---
 
-<UnitLayout unit={unit}>
-  <Fragment slot="after-products">
-    {
-      deals.length > 0 && (
-        <Section id="track-record">
-          <TrackRecord deals={deals} />
-        </Section>
-      )
-    }
-  </Fragment>
-</UnitLayout>
+<UnitLayout unit={unit} />

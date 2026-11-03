@@ -9,6 +9,8 @@ interface Props {
   config: CalculatorConfig;
   /** Compact layout when embedded beside copy on a unit page. */
   embedded?: boolean;
+  /** Loan calculators: products to choose from; a product with a known rate pre-fills the rate field. */
+  products?: { id: string; label: string; ratePct: number | null; maxMonths: number | null }[];
 }
 
 type Values = Record<string, string>;
@@ -73,9 +75,11 @@ function NumberField({
   );
 }
 
-export function Calculator({ variant, config, embedded = false }: Props) {
+export function Calculator({ variant, config, embedded = false, products }: Props) {
   const uid = useId();
   const tracked = useRef(false);
+  const [productId, setProductId] = useState('');
+  const product = products?.find((p) => p.id === productId);
   const [values, setValues] = useState<Values>(() => {
     const init: Values = {};
     if (config.kind === 'loan') {
@@ -152,6 +156,37 @@ export function Calculator({ variant, config, embedded = false }: Props) {
 
         {config.kind === 'loan' ? (
           <div className="calc__fields">
+            {products && products.length > 0 && (
+              <div className="field">
+                <label className="field__label" htmlFor={`${uid}-product`}>
+                  Select product
+                </label>
+                <select
+                  id={`${uid}-product`}
+                  className="input"
+                  value={productId}
+                  onChange={(e) => {
+                    const id = e.target.value;
+                    setProductId(id);
+                    const p = products.find((x) => x.id === id);
+                    if (p?.ratePct !== null && p?.ratePct !== undefined) set('ratePct')(String(p.ratePct));
+                  }}
+                >
+                  <option value="">Choose a product…</option>
+                  {products.map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.label}
+                    </option>
+                  ))}
+                </select>
+                {product && (
+                  <span className="field__hint">
+                    {product.ratePct !== null ? `Rate from the product documentation: ${product.ratePct}% per year.` : 'Rate confirmed on application; enter the rate quoted to you.'}
+                    {product.maxMonths !== null ? ` Tenor up to ${product.maxMonths} months.` : ''}
+                  </span>
+                )}
+              </div>
+            )}
             <NumberField
               id={`${uid}-price`}
               label={config.price.label}

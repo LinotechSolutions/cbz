@@ -18,8 +18,10 @@ interface Props {
   initial?: Record<string, string>;
   /** Extra "what happens next" lines. */
   aside?: string[];
+  /** Field names that may be pre-filled from the URL query. */
+  queryFields?: string[];
 }
-const { formKey, unitLogo, crumbs, initial, aside = [] } = Astro.props;
+const { formKey, unitLogo, crumbs, initial, aside = [], queryFields = [] } = Astro.props;
 const def = FORMS[formKey];
 ---
 
@@ -30,7 +32,7 @@ const def = FORMS[formKey];
         <Breadcrumbs items={crumbs} />
         <h1 class="fp__title">{def.title}</h1>
         <p class="lede">{def.intro}</p>
-        <StepForm client:visible def={def} initial={initial} />
+        <StepForm client:visible def={def} initial={initial} queryFields={queryFields} />
       </div>
       <aside class="fp__aside">
         <h2 class="fp__aside-h">What happens next</h2>

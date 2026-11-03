@@ -1,27 +1,8 @@
 ---
-import { getCollection, getEntry } from 'astro:content';
+import { getEntry } from 'astro:content';
 import UnitLayout from '../layouts/UnitLayout.astro';
-import Section from '../components/Section.astro';
-import TrackRecord from '../components/TrackRecord.astro';
-import { Suggest } from '../islands/Suggest';
 
 const unit = (await getEntry('units', 'datvest'))!.data;
-const deals = (await getCollection('deals', (d) => d.data.unit === 'datvest')).map((d) => d.data);
-const products = (await getCollection('products', (p) => p.data.unit === 'datvest')).map((p) => ({
-  id: p.data.productId,
-  name: p.data.name,
-}));
 ---
 
-<UnitLayout unit={unit}>
-  <Suggest client:visible unit="datvest" products={products} slot="fit" />
-  <Fragment slot="after-products">
-    {
-      deals.length > 0 && (
-        <Section id="track-record">
-          <TrackRecord deals={deals} />
-        </Section>
-      )
-    }
-  </Fragment>
-</UnitLayout>
+<UnitLayout unit={unit} />

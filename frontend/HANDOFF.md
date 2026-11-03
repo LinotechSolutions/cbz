@@ -138,15 +138,8 @@ _Generated 2026-11-03 by `npm run handoff`. Do not edit between the markers._
 - `properties/neighborhood-retail-convenience-hubs.json`: price, tourUrl
 - `properties/pomona-industrial-logistics-and-warehouse-park.json`: price, tourUrl
 - `properties/pomona-north-private-residential-estate.json`: price, tourUrl
-- `units/agro-yield.json`: objectives, audience, leadership, actions[2].href, actions[4].href, regulator
-- `units/bank.json`: objectives, audience, leadership
-- `units/capital.json`: objectives, audience, leadership, regulator
-- `units/cbz-foundation.json`: secondaryCta, objectives, audience, leadership, regulator, productsNote
-- `units/cbz-life.json`: objectives, audience, leadership, regulator
-- `units/datvest.json`: objectives, audience, leadership, regulator
-- `units/insurance.json`: objectives, audience, leadership, regulator
-- `units/properties.json`: objectives, audience, leadership, regulator
-- `units/red-sphere.json`: objectives, audience, leadership, actions[5].href, regulator
-- `units/risk-advisory.json`: objectives, audience, leadership, regulator
+- `units/agro-yield.json`: branches[1].items[0].href, branches[3].items[0].href
+- `units/cbz-foundation.json`: secondaryCta, productsNote
+- `units/red-sphere.json`: branches[4].items[0].href
 
 <!-- handoff:end -->

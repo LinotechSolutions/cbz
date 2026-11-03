@@ -1,0 +1,288 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import TaskCard from '../components/TaskCard.astro';
+import Section from '../components/Section.astro';
+import Tile from '../components/Tile.astro';
+import Logo from '../components/Logo.astro';
+import StoreBadges from '../components/StoreBadges.astro';
+import Button from '../components/Button.astro';
+import ResponsiveImage from '../components/ResponsiveImage.astro';
+import Icon from '../components/Icon.astro';
+import { OpenAccountMenu } from '../islands/OpenAccountMenu';
+import { OPEN_ACCOUNT_ITEMS } from '../data/nav';
+import { LINKS } from '../data/links';
+import { GROUP } from '../data/facts';
+import { CLUSTERS } from '../data/group';
+import { visible } from '../lib/visible';
+import type { IconName } from '../components/icons';
+
+const clusterIcon: Record<string, IconName> = { banking: 'bank', investments: 'chart', insurance: 'shield', 'agro-business': 'leaf' };
+const tasks = CLUSTERS.filter((c) => c.isOperating).map((c) => ({
+  label: c.taskLabel,
+  line: c.line,
+  href: c.route,
+  icon: clusterIcon[c.id],
+}));
+
+const now = new Date();
+const offers = (await getCollection('campaigns', (c) => c.data.unit === null))
+  .map((c) => c.data)
+  .filter((c) => new Date(c.starts) <= now && new Date(c.ends) >= now)
+  .sort((a, b) => a.order - b.order)
+  .slice(0, 3);
+---
+
+<BaseLayout
+  title={GROUP.name}
+  description="CBZ Holdings: banking, insurance, investments and agribusiness in one place. Open an account, apply for a loan, get a quote or start investing."
+  preloadImage="/images/cbz-payments.webp"
+>
+  <Hero
+    variant="home"
+    eyebrow="CBZ Holdings"
+    title="Bank, insure, invest and grow, in one place"
+    lede="Ten companies, one group. Open an account, get a quote or start investing today."
+    image={{ src: '/images/cbz-payments.webp', alt: 'A shop owner taking a card payment from a customer at the counter' }}
+    secondary={{ label: 'Talk to us', href: '/contact' }}
+  >
+    <OpenAccountMenu client:idle items={OPEN_ACCOUNT_ITEMS} slot="primary" />
+  </Hero>
+
+  <TaskCard heading="What do you need?" items={tasks} />
+
+  <Section id="digital-channels" tone="tint" heading="Bank from your phone" lede="Pay, send and save without visiting a branch.">
+    <div class="digital">
+      <a
+        href={LINKS.zikiCash.site ?? '/contact'}
+        class="dc dc--lead"
+        data-track="apply_click"
+        data-track-props={JSON.stringify({ unit: 'ziki-cash', from: 'home' })}
+      >
+        <Logo brand="ziki-cash" on="light" height={44} decorative />
+        <span class="dc__title">ZikiCash</span>
+        <span class="dc__line">Send and receive money, pay bills and buy airtime from your phone.</span>
+        <span class="dc__more">{LINKS.zikiCash.site ? 'Get started' : 'Ask us about ZikiCash'} <Icon name="chevronRight" size={18} /></span>
+      </a>
+
+      <div class="dc dc--touch">
+        <Logo brand="cbz-touch" on="light" height={44} decorative />
+        <span class="dc__title">CBZ Touch</span>
+        <span class="dc__line">Zero-rated mobile banking: transfers, bills, school fees and card controls.</span>
+        <StoreBadges app="cbz-touch" appStore={LINKS.touch.appStore} playStore={LINKS.touch.playStore} />
+      </div>
+
+      <div class="dc dc--small">
+        <span class="dc__title">Internet banking</span>
+        <ul role="list" class="dc__links">
+          <li>
+            <a href={LINKS.internetBanking.personal} target="_blank" rel="noopener noreferrer" data-track="login_choice" data-track-props='{"choice":"personal","from":"home"}'>
+              Personal <Icon name="external" size={12} class="ext" /><span class="sr-only">(opens in a new tab)</span>
+            </a>
+          </li>
+          <li>
+            <a href={LINKS.internetBanking.newCorporate} target="_blank" rel="noopener noreferrer" data-track="login_choice" data-track-props='{"choice":"corporate","from":"home"}'>
+              Corporate <Icon name="external" size={12} class="ext" /><span class="sr-only">(opens in a new tab)</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <a href={LINKS.zikiMall} class="dc dc--small" target="_blank" rel="noopener noreferrer">
+        <Logo brand="ziki-mall" on="light" height={32} decorative />
+        <span class="dc__title">Ziki Mall</span>
+        <span class="dc__line">Shop online and pay with CBZ.</span>
+        <span class="sr-only">(opens in a new tab)</span>
+      </a>
+    </div>
+  </Section>
+
+  {
+    offers.length > 0 && (
+      <Section id="offers" heading="Offers" compact>
+        <ul role="list" class="offers" style={`--n:${offers.length}`}>
+          {offers.map((c) => (
+            <li class="offer">
+              <ResponsiveImage src={c.image.src} alt={c.image.alt} ratio="4:3" />
+              <div class="offer__body">
+                {visible(c.offer) && <p class="figure">{c.offer}</p>}
+                <h3>{c.title}</h3>
+                <p class="small muted">{c.body}</p>
+                <Button href={c.cta.href} variant="secondary">
+                  {c.cta.label}
+                </Button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </Section>
+    )
+  }
+
+  <Section id="calculators" heading="Work it out" lede="Estimate a repayment before you apply.">
+    <div class="calcs">
+      <Tile title="Mortgage calculator" line="Monthly repayment on a home or stand." href="/calculators#mortgage" icon="home" size="small" />
+      <Tile title="Car finance calculator" line="Monthly repayment on a vehicle." href="/calculators#car-finance" icon="car" size="small" />
+    </div>
+  </Section>
+
+  <Section id="trust" tone="dark" compact>
+    <dl class="trust">
+      <div>
+        <dd class="trust__v">{GROUP.founded}</dd>
+        <dt>Founded</dt>
+      </div>
+      <div>
+        <dd class="trust__v">{GROUP.listing}</dd>
+        <dt>{GROUP.listingLine}</dt>
+      </div>
+      <div>
+        <dd class="trust__v">{GROUP.companies}</dd>
+        <dt>In {GROUP.clusters.toLowerCase()}</dt>
+      </div>
+    </dl>
+  </Section>
+</BaseLayout>
+
+<style>
+  .digital {
+    display: grid;
+    gap: var(--gap);
+  }
+  @media (min-width: 640px) {
+    .digital {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 900px) {
+    .digital {
+      grid-template-columns: 5fr 4fr 3fr;
+      grid-template-rows: auto auto;
+    }
+    .dc--lead,
+    .dc--touch {
+      grid-row: 1 / span 2;
+    }
+  }
+  .dc {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-3);
+    padding: var(--s-6);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: var(--white);
+    color: var(--ink);
+    text-decoration: none;
+    transition:
+      background-color var(--dur) var(--ease),
+      border-color var(--dur) var(--ease);
+  }
+  a.dc:hover {
+    background: var(--blue-50);
+    border-color: var(--blue-100);
+    color: var(--ink);
+  }
+  .dc--lead {
+    padding: var(--s-8);
+    gap: var(--s-4);
+    min-height: 300px;
+    justify-content: center;
+  }
+  .dc--small {
+    padding: var(--s-4) var(--s-6);
+  }
+  .dc__title {
+    font-weight: 700;
+    font-size: var(--t-lg);
+    color: var(--blue);
+  }
+  .dc--lead .dc__title {
+    font-size: var(--t-2xl);
+  }
+  .dc__line {
+    color: var(--grey);
+    font-size: var(--t-sm);
+    max-width: 36ch;
+  }
+  .dc__more {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-1);
+    font-weight: 700;
+    color: var(--blue-700);
+    margin-top: auto;
+  }
+  .dc__links {
+    display: grid;
+    gap: var(--s-1);
+  }
+  .dc__links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap);
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .dc__links a:hover {
+    text-decoration: underline;
+  }
+  .offers {
+    display: grid;
+    gap: var(--gap);
+  }
+  @media (min-width: 900px) {
+    .offers {
+      grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+    }
+  }
+  .offer {
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    overflow: hidden;
+  }
+  .offer :global(.frame) {
+    border-radius: 0;
+  }
+  .offer__body {
+    padding: var(--s-6);
+    display: grid;
+    gap: var(--s-3);
+    justify-items: start;
+  }
+  .calcs {
+    display: grid;
+    gap: var(--gap);
+  }
+  @media (min-width: 640px) {
+    .calcs {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .trust {
+    margin: 0;
+    display: grid;
+    gap: var(--s-6);
+  }
+  @media (min-width: 640px) {
+    .trust {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .trust div {
+    display: grid;
+    gap: var(--s-1);
+  }
+  .trust__v {
+    margin: 0;
+    font-size: var(--t-xl);
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.1;
+  }
+  .trust dt {
+    font-size: var(--t-xs);
+    color: rgba(255, 255, 255, 0.72);
+  }
+</style>

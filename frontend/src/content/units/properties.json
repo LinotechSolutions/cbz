@@ -1,0 +1,40 @@
+{
+  "slug": "properties",
+  "name": "CBZ Properties",
+  "shortName": "CBZ Properties",
+  "cluster": "investments",
+  "logo": "properties",
+  "order": 3,
+  "hero": {
+    "title": "Find the space, and the finance behind it",
+    "lede": "Residential stands and homes, commercial and retail space, and property advisory, with CBZ Bank mortgages alongside.",
+    "image": { "src": "/images/loan-home.webp", "alt": "A newly built home in a Harare suburb" }
+  },
+  "about": "CBZ Properties manages and develops the Group's real estate interests for individuals, SMEs, corporates and institutions: development and project management, residential and commercial sales, leasing and property management, valuations and advisory, estate agency and facilities management. A purchase can be financed by a CBZ Bank mortgage and insured by CBZ Insurance.",
+  "keyFacts": [
+    { "label": "Stands, homes and clusters", "value": "Residential" },
+    { "label": "Office, retail and industrial", "value": "Commercial" },
+    { "label": "Valuations and project management", "value": "Advisory" }
+  ],
+  "primaryCta": { "label": "Request a viewing", "href": "/properties/request-a-viewing" },
+  "secondaryCta": { "label": "Explore mortgages", "href": "/bank#mortgages" },
+  "objectives": null,
+  "audience": null,
+  "leadership": null,
+  "calculators": ["mortgage"],
+  "categories": [
+    { "id": "residential", "label": "Residential" },
+    { "id": "commercial", "label": "Commercial" },
+    { "id": "advisory", "label": "Advisory" }
+  ],
+  "regulator": null,
+  "productsNote": "Prices, availability and specifications are confirmed on application.",
+  "contact": {
+    "heading": "Talk to CBZ Properties",
+    "body": "Register your interest in a development, request a viewing, or ask about valuations and project management."
+  },
+  "seo": {
+    "title": "CBZ Properties: homes, stands and commercial space",
+    "description": "Residential stands and homes, commercial space and property advisory from CBZ Properties, with CBZ Bank mortgages alongside."
+  }
+}

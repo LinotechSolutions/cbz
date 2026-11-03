@@ -1,0 +1,38 @@
+{
+  "unit": "bank",
+  "category": "savings",
+  "productId": "savings_individual",
+  "name": "Savings Account (Individual)",
+  "summary": "ATM card based account that lets you deposit funds, earn interest on savings and access credit facilities.",
+  "benefits": [
+    "Visa debit card",
+    "Access to a Visa prepaid card",
+    "Access to a loan",
+    "Deposit funds and earn interest on savings",
+    "Access to credit facilities"
+  ],
+  "eligibility": [
+    "2 passport size photos",
+    "Proof of residence (latest utility bill)",
+    "Latest payslip",
+    "Valid ID"
+  ],
+  "audience": "Individuals (formally employed)",
+  "pricing": "Earns interest on savings",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Open an account",
+    "href": "/bank/open-account"
+  },
+  "image": {
+    "src": "/images/accounts/savings.webp",
+    "alt": ""
+  },
+  "order": 0,
+  "verified": true
+}

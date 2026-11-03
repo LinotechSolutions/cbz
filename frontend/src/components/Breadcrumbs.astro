@@ -1,0 +1,58 @@
+---
+import Icon from './Icon.astro';
+
+interface Crumb {
+  label: string;
+  href?: string;
+}
+interface Props {
+  items: Crumb[];
+  tone?: 'light' | 'dark';
+}
+const { items, tone = 'light' } = Astro.props;
+---
+
+<nav aria-label="Breadcrumb" class:list={['bc', `bc--${tone}`]}>
+  <ol role="list" class="bc__list">
+    {
+      items.map((c, i) => (
+        <li class="bc__item">
+          {i > 0 && <Icon name="chevronRight" size={14} class="bc__sep" />}
+          {c.href ? (
+            <a href={c.href}>{c.label}</a>
+          ) : (
+            <span aria-current="page">{c.label}</span>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+
+<style>
+  .bc {
+    font-size: var(--t-xs);
+  }
+  .bc__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-1);
+  }
+  .bc__item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-1);
+    color: var(--grey);
+  }
+  .bc a {
+    color: var(--blue-700);
+    text-decoration: none;
+  }
+  .bc a:hover {
+    text-decoration: underline;
+  }
+  .bc--dark .bc__item,
+  .bc--dark a {
+    color: rgba(255, 255, 255, 0.8);
+  }
+</style>

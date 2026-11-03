@@ -1,0 +1,24 @@
+{
+  "unit": "datvest",
+  "category": "unit-trusts",
+  "productId": "datvest-diaspora-wealth-fund",
+  "name": "Datvest Diaspora Wealth Fund",
+  "summary": "Tailored for non-resident Zimbabweans seeking professionally managed investment portfolios in national bonds, equities, and real estate assets.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Start investing",
+    "href": "/datvest/start-investing"
+  },
+  "image": null,
+  "order": 5,
+  "verified": false
+}

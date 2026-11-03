@@ -1,0 +1,143 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Icon from '../../components/Icon.astro';
+import { formatDate } from '../../lib/format';
+
+const notices = (await getCollection('notices'))
+  .filter((n) => n.data.category !== 'security')
+  .sort((a, b) => b.data.date.localeCompare(a.data.date));
+
+const label: Record<string, string> = {
+  shareholder: 'Shareholder',
+  customer: 'Customer',
+  regulatory: 'Regulatory',
+  operational: 'Operational',
+  security: 'Security',
+};
+const categories = [...new Set(notices.map((n) => n.data.category))];
+---
+
+<BaseLayout title="Notices" description="Shareholder circulars, customer notices and regulatory announcements from CBZ Holdings.">
+  <div class="container page">
+    <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Notices' }]} />
+    <h1>Notices</h1>
+    <p class="lede">Shareholder circulars, customer notices and regulatory announcements.</p>
+
+    {
+      categories.length > 1 && (
+        <nav aria-label="Filter by category" class="cats">
+          {categories.map((c) => (
+            <a href={`#${c}`} class="cats__link">
+              {label[c]}
+            </a>
+          ))}
+        </nav>
+      )
+    }
+
+    {
+      categories.map((c) => (
+        <section id={c} class="group" aria-labelledby={`${c}-h`}>
+          <h2 id={`${c}-h`} class="group__h">
+            {label[c]} notices
+          </h2>
+          <ul role="list" class="rule-list">
+            {notices
+              .filter((n) => n.data.category === c)
+              .map((n) => (
+                <li>
+                  <a href={`/notices/${n.id}`} class="notice">
+                    <span class="notice__meta small muted">
+                      <time datetime={n.data.date}>{formatDate(n.data.date)}</time>
+                      {n.data.reference && <span>{n.data.reference}</span>}
+                      {n.data.urgent && <span class="notice__urgent">Important</span>}
+                    </span>
+                    <span class="notice__title">{n.data.title}</span>
+                    <span class="notice__summary small">{n.data.summary}</span>
+                    <Icon name="chevronRight" size={18} class="notice__chev" />
+                  </a>
+                </li>
+              ))}
+          </ul>
+        </section>
+      ))
+    }
+    {notices.length === 0 && <p class="muted">No notices at the moment.</p>}
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    display: grid;
+    gap: var(--s-6);
+    padding-block: var(--s-8) var(--band);
+  }
+  .cats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+  }
+  .cats__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    padding: 0 var(--s-4);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: var(--t-xs);
+  }
+  .cats__link:hover {
+    background: var(--blue-50);
+  }
+  .group {
+    display: grid;
+    gap: var(--s-3);
+    margin-top: var(--s-4);
+  }
+  .group__h {
+    font-size: var(--t-md);
+    color: var(--grey);
+    font-weight: 400;
+  }
+  .notice {
+    position: relative;
+    display: grid;
+    gap: var(--s-1);
+    padding: var(--s-4) var(--s-10, 40px) var(--s-4) 0;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .notice:hover .notice__title {
+    color: var(--blue-700);
+  }
+  .notice__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+  }
+  .notice__urgent {
+    color: var(--red-hover);
+    font-weight: 700;
+  }
+  .notice__title {
+    font-weight: 700;
+    color: var(--blue);
+    font-size: var(--t-md);
+    max-width: var(--measure);
+  }
+  .notice__summary {
+    max-width: var(--measure);
+    color: var(--grey);
+  }
+  .notice__chev {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--blue-700);
+  }
+</style>

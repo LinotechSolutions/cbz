@@ -1,0 +1,25 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import UnitLayout from '../layouts/UnitLayout.astro';
+import Section from '../components/Section.astro';
+import { Calculator } from '../islands/Calculator';
+import { Suggest } from '../islands/Suggest';
+import { CALCULATORS } from '../data/calculators';
+
+const unit = (await getEntry('units', 'insurance'))!.data;
+const products = (await getCollection('products', (p) => p.data.unit === 'insurance')).map((p) => ({
+  id: p.data.productId,
+  name: p.data.name,
+}));
+---
+
+<UnitLayout unit={unit}>
+  <Fragment slot="after-products">
+    <Section id="suggest" heading="Not sure what you need?" hideHeading>
+      <Suggest client:visible unit="insurance" products={products} />
+    </Section>
+    <Section id="calculator" tone="tint" heading="Car insurance calculator" lede="An indicative premium for comprehensive cover.">
+      <Calculator client:visible variant="carInsurance" config={CALCULATORS.carInsurance} />
+    </Section>
+  </Fragment>
+</UnitLayout>

@@ -1,0 +1,29 @@
+{
+  "unit": "agro-yield",
+  "category": "divisions",
+  "productId": "agro_enterprise",
+  "name": "Agro Enterprise",
+  "summary": "Joint venture schemes with farming enterprises.",
+  "benefits": [
+    "Joint venture schemes"
+  ],
+  "eligibility": null,
+  "audience": null,
+  "pricing": "Joint venture schemes",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Apply for farming finance",
+    "href": "/agro-yield/apply"
+  },
+  "image": {
+    "src": "/images/cbz-agriculture.webp",
+    "alt": ""
+  },
+  "order": 0,
+  "verified": true
+}

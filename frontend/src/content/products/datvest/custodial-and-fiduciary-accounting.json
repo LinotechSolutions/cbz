@@ -1,0 +1,24 @@
+{
+  "unit": "datvest",
+  "category": "institutional",
+  "productId": "custodial-and-fiduciary-accounting",
+  "name": "Custodial & Fiduciary Accounting",
+  "summary": "Institutional asset safeguarding, dividend collection, corporate action processing, and IFRS-compliant valuation reporting.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Start investing",
+    "href": "/datvest/start-investing"
+  },
+  "image": null,
+  "order": 4,
+  "verified": false
+}

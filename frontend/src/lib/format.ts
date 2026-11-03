@@ -1,35 +1,40 @@
-/**
- * Site-wide formats: dates "28 Mar 2026", times 24-hour "08:00–15:00",
- * money "USD 165,000". Render figures with the `tabular-nums` class.
- */
+export const LOCALE = 'en-ZW';
 
-const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
-/** Parses "YYYY-MM-DD" (or a Date) without timezone drift. */
-export function toDate(input: string | Date): Date {
-  if (input instanceof Date) return input;
-  const [y, m, d] = input.split('-').map(Number);
-  return new Date(y, (m || 1) - 1, d || 1);
-}
-
-/** "28 Mar 2026" */
-export function formatDate(input: string | Date): string {
-  const d = toDate(input);
-  return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
-}
-
-/** "Fri 9 Oct 2026, 17:00" */
-export function formatDateTime(input: Date): string {
-  const hh = String(input.getHours()).padStart(2, '0');
-  const mm = String(input.getMinutes()).padStart(2, '0');
-  return `${DAYS[input.getDay()]} ${formatDate(input)}, ${hh}:${mm}`;
-}
-
-/** "USD 165,000" — always comma thousands separators. */
-export function formatMoney(amount: number, currency = 'USD', fractionDigits = 0): string {
-  return `${currency} ${amount.toLocaleString('en-US', {
+export function formatMoney(value: number, currency = 'USD', fractionDigits = 0): string {
+  if (!Number.isFinite(value)) return '—';
+  return new Intl.NumberFormat(LOCALE, {
+    style: 'currency',
+    currency,
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,
-  })}`;
+  }).format(value);
+}
+
+export function formatNumber(value: number, fractionDigits = 0): string {
+  if (!Number.isFinite(value)) return '—';
+  return new Intl.NumberFormat(LOCALE, {
+    minimumFractionDigits: fractionDigits,
+    maximumFractionDigits: fractionDigits,
+  }).format(value);
+}
+
+export function formatPercent(value: number, fractionDigits = 1): string {
+  if (!Number.isFinite(value)) return '—';
+  return `${formatNumber(value, fractionDigits)}%`;
+}
+
+export function formatDate(iso: string): string {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return iso;
+  return new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }).format(d);
+}
+
+/** Zimbabwean phone numbers: accepts 077..., 0242..., +263 77..., 263 77... */
+export function normalisePhone(raw: string): string | null {
+  const digits = raw.replace(/[^\d+]/g, '');
+  if (/^\+263\d{8,9}$/.test(digits)) return digits;
+  if (/^263\d{8,9}$/.test(digits)) return `+${digits}`;
+  if (/^0\d{8,9}$/.test(digits)) return `+263${digits.slice(1)}`;
+  if (/^\+\d{8,14}$/.test(digits)) return digits; // other countries, for diaspora
+  return null;
 }

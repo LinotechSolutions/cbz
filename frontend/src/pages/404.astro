@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import { CONTACT } from '../data/facts';
+---
+
+<BaseLayout title="Page not found" description="The page you asked for is not here." noindex>
+  <div class="container nf">
+    <p class="small muted">Error 404</p>
+    <h1>We can't find that page</h1>
+    <p class="lede">The link may be old, or the address may have a typo. Try one of these instead.</p>
+    <div class="nf__actions">
+      <Button href="/" variant="primary">Go to the home page</Button>
+      <Button href="/sitemap" variant="secondary">See every page</Button>
+    </div>
+    <p class="small muted">
+      Still stuck? Call <a href={CONTACT.contactCentre.href}>{CONTACT.contactCentre.display}</a>.
+    </p>
+  </div>
+</BaseLayout>
+
+<style>
+  .nf {
+    display: grid;
+    gap: var(--s-4);
+    padding-block: var(--band);
+    max-width: 640px;
+    min-height: 50vh;
+    align-content: center;
+  }
+  .nf__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    margin-block: var(--s-4);
+  }
+</style>

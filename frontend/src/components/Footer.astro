@@ -1,0 +1,229 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { SOCIAL_ICON } from './icons';
+import { CONTACT, GROUP, HOURS, SOCIAL } from '../data/facts';
+import { FOOTER } from '../data/nav';
+import { visible } from '../lib/visible';
+import { isExternal } from '../data/links';
+
+const columns: { heading: string; links: readonly { label: string; href: string | null; external?: boolean }[] }[] = [
+  { heading: 'Clusters', links: FOOTER.clusters },
+  { heading: 'Digital channels', links: FOOTER.digital },
+  { heading: 'Help', links: FOOTER.help },
+  { heading: 'Legal', links: FOOTER.legal },
+];
+const year = new Date().getFullYear();
+---
+
+<footer class="footer on-dark">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <Logo brand="holdings" on="dark" height={36} />
+        <p class="footer__line">{GROUP.listingLine}. {GROUP.companies.toLowerCase()} in {GROUP.clusters.toLowerCase()}.</p>
+        <address class="footer__address">
+          {CONTACT.address.line1}, {CONTACT.address.line2}
+        </address>
+      </div>
+
+      <div class="footer__contact">
+        <a href={CONTACT.contactCentre.href} class="footer__channel">
+          <Icon name="phone" size={18} />
+          <span>
+            <span class="footer__channel-label">Contact centre</span>
+            <span class="footer__channel-value">{CONTACT.contactCentre.display}</span>
+          </span>
+        </a>
+        <a href={CONTACT.whatsapp.href} class="footer__channel" target="_blank" rel="noopener noreferrer">
+          <Icon name="whatsapp" size={18} class="footer__wa" />
+          <span>
+            <span class="footer__channel-label">WhatsApp</span>
+            <span class="footer__channel-value">{CONTACT.whatsapp.display}</span>
+          </span>
+          <span class="sr-only">(opens in a new tab)</span>
+        </a>
+        <a href={`mailto:${CONTACT.email}`} class="footer__channel">
+          <Icon name="mail" size={18} />
+          <span>
+            <span class="footer__channel-label">Email</span>
+            <span class="footer__channel-value">{CONTACT.email}</span>
+          </span>
+        </a>
+        <p class="footer__hours small">
+          Toll-free {CONTACT.tollFree.map((t) => t.display).join(' or ')} on all networks. Digital channels {HOURS.digital}.
+        </p>
+      </div>
+    </div>
+
+    <div class="footer__cols">
+      {
+        columns.map((col) => (
+          <nav aria-label={col.heading} class="footer__col">
+            <h2 class="footer__heading">{col.heading}</h2>
+            <ul role="list" class="footer__links">
+              {col.links
+                .filter((l) => visible(l.href))
+                .map((l) => (
+                  <li>
+                    <a
+                      href={l.href!}
+                      target={isExternal(l.href!) ? '_blank' : undefined}
+                      rel={isExternal(l.href!) ? 'noopener noreferrer' : undefined}
+                    >
+                      {l.label}
+                      {isExternal(l.href!) && (
+                        <>
+                          <Icon name="external" size={12} class="ext" />
+                          <span class="sr-only">(opens in a new tab)</span>
+                        </>
+                      )}
+                    </a>
+                  </li>
+                ))}
+            </ul>
+          </nav>
+        ))
+      }
+    </div>
+
+    <div class="footer__bottom">
+      <ul role="list" class="footer__social" aria-label="CBZ Holdings on social media">
+        {
+          SOCIAL.map((s) => (
+            <li>
+              <a href={s.href} target="_blank" rel="noopener noreferrer" class="footer__social-link" title={`${s.name}: ${s.handle}`}>
+                <Icon name={SOCIAL_ICON[s.name]} size={18} label={`${s.name} (opens in a new tab)`} />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="small footer__legal">
+        © {year} {GROUP.legalName}. {GROUP.regulatorLine}.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--blue-900);
+    color: rgba(255, 255, 255, 0.82);
+    padding-block: var(--s-16) var(--s-8);
+    font-size: var(--t-sm);
+  }
+  .footer a {
+    color: var(--white);
+    text-decoration: none;
+  }
+  .footer a:hover {
+    text-decoration: underline;
+    color: var(--white);
+  }
+  .footer__top {
+    display: grid;
+    gap: var(--s-8);
+    padding-bottom: var(--s-8);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  }
+  @media (min-width: 900px) {
+    .footer__top {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .footer__brand {
+    display: grid;
+    gap: var(--s-3);
+    align-content: start;
+    justify-items: start;
+  }
+  .footer__line {
+    max-width: 36ch;
+  }
+  .footer__address {
+    font-style: normal;
+  }
+  .footer__contact {
+    display: grid;
+    gap: var(--s-3);
+    align-content: start;
+  }
+  .footer__channel {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-3);
+    min-height: var(--tap);
+  }
+  .footer__channel > span {
+    display: grid;
+  }
+  .footer__channel-label {
+    font-size: var(--t-xs);
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .footer__channel-value {
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .footer__wa {
+    color: var(--whatsapp);
+  }
+  .footer__hours {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .footer__cols {
+    display: grid;
+    gap: var(--s-8) var(--s-6);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding-block: var(--s-8);
+  }
+  @media (min-width: 900px) {
+    .footer__cols {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  .footer__heading {
+    font-size: var(--t-sm);
+    color: var(--white);
+    margin-bottom: var(--s-3);
+  }
+  .footer__links {
+    display: grid;
+    gap: var(--s-2);
+  }
+  .footer__links a {
+    display: inline-block;
+    padding-block: var(--s-1);
+  }
+  .footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-4);
+    padding-top: var(--s-6);
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+  }
+  .footer__social {
+    display: flex;
+    gap: var(--s-2);
+  }
+  .footer__social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--tap);
+    height: var(--tap);
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: background-color var(--dur) var(--ease);
+  }
+  .footer__social-link:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+  .footer__legal {
+    color: rgba(255, 255, 255, 0.7);
+    max-width: none;
+  }
+</style>

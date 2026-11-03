@@ -1,0 +1,98 @@
+---
+/**
+ * A page that holds one multi-step form: application, quote, viewing or
+ * enquiry. Narrow, calm, with the unit's logo in the header.
+ */
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { StepForm } from '../islands/StepForm';
+import { FORMS } from '../lib/forms';
+import type { DarkSafeLogoKey } from '../data/logos';
+import { CONTACT } from '../data/facts';
+
+interface Props {
+  formKey: keyof typeof FORMS;
+  unitLogo?: DarkSafeLogoKey;
+  crumbs: { label: string; href?: string }[];
+  /** Pre-fill values, e.g. from a query string handled by the page. */
+  initial?: Record<string, string>;
+  /** Extra "what happens next" lines. */
+  aside?: string[];
+}
+const { formKey, unitLogo, crumbs, initial, aside = [] } = Astro.props;
+const def = FORMS[formKey];
+---
+
+<BaseLayout title={def.title} description={def.intro} unitLogo={unitLogo} noindex bodyClass="is-form">
+  <div class="fp">
+    <div class="container fp__inner">
+      <div class="fp__main">
+        <Breadcrumbs items={crumbs} />
+        <h1 class="fp__title">{def.title}</h1>
+        <p class="lede">{def.intro}</p>
+        <StepForm client:visible def={def} initial={initial} />
+      </div>
+      <aside class="fp__aside">
+        <h2 class="fp__aside-h">What happens next</h2>
+        <ol class="fp__steps">
+          <li>We check what you have sent.</li>
+          <li>The right team calls or messages you.</li>
+          <li>You finish the paperwork with them.</li>
+          {aside.map((a) => <li>{a}</li>)}
+        </ol>
+        <p class="small muted">
+          Prefer to talk? Call <a href={CONTACT.contactCentre.href}>{CONTACT.contactCentre.display}</a> or
+          <a href={CONTACT.whatsapp.href} target="_blank" rel="noopener noreferrer">WhatsApp us</a>.
+        </p>
+      </aside>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .fp {
+    padding-block: var(--s-8) var(--band);
+  }
+  .fp__inner {
+    display: grid;
+    gap: var(--s-12);
+  }
+  @media (min-width: 900px) {
+    .fp__inner {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+      gap: var(--s-16);
+    }
+  }
+  .fp__main {
+    display: grid;
+    gap: var(--s-4);
+  }
+  .fp__title {
+    margin-top: var(--s-4);
+  }
+  .fp__main > .lede {
+    margin-bottom: var(--s-6);
+  }
+  .fp__aside {
+    display: grid;
+    gap: var(--s-4);
+    align-content: start;
+    padding: var(--s-6);
+    border-radius: var(--r-lg);
+    background: var(--blue-50);
+  }
+  @media (min-width: 900px) {
+    .fp__aside {
+      margin-top: calc(var(--s-16) + var(--s-6));
+    }
+  }
+  .fp__aside-h {
+    font-size: var(--t-md);
+  }
+  .fp__steps {
+    padding-left: 1.2em;
+    display: grid;
+    gap: var(--s-2);
+    font-size: var(--t-sm);
+  }
+</style>

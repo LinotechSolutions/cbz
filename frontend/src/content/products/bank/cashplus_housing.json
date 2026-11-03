@@ -1,0 +1,37 @@
+{
+  "unit": "bank",
+  "category": "savings",
+  "productId": "cashplus_housing",
+  "name": "CashPlus Housing",
+  "summary": "Save towards a home and qualify for a mortgage, with tenures currently ranging from 2 to 10 years.",
+  "benefits": [
+    "Minimum balance, for individuals only",
+    "No withdrawals allowed before 12 months",
+    "Tiered interest rates, calculated on the minimum monthly balance and paid monthly",
+    "Regular deposits required",
+    "Competitive interest rate",
+    "Free banking",
+    "Access to a mortgage period matched to the client's requirements, currently 2 to 10 years"
+  ],
+  "eligibility": [
+    "New and existing account holders"
+  ],
+  "audience": "Individuals",
+  "pricing": "Mortgage tenure 2 to 10 years",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Open an account",
+    "href": "/bank/open-account"
+  },
+  "image": {
+    "src": "/images/loan-home.webp",
+    "alt": ""
+  },
+  "order": 10,
+  "verified": true
+}

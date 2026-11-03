@@ -1,0 +1,24 @@
+{
+  "unit": "datvest",
+  "category": "institutional",
+  "productId": "sovereign-and-commercial-debt-syndication",
+  "name": "Sovereign & Commercial Debt Syndication",
+  "summary": "Advisory, origination, and underwriting of commercial paper, green bonds, and syndicated corporate debt instruments with CBZ Capital.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Start investing",
+    "href": "/datvest/start-investing"
+  },
+  "image": null,
+  "order": 5,
+  "verified": false
+}

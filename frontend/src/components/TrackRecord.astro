@@ -1,0 +1,84 @@
+---
+/**
+ * "What we've done": deals grouped by year. Renders nothing when empty.
+ */
+import { visible } from '../lib/visible';
+
+interface Deal {
+  client: string;
+  sector: string;
+  type: string;
+  size: string | null;
+  year: number;
+}
+interface Props {
+  deals: Deal[];
+  heading?: string;
+}
+const { deals, heading = "What we've done" } = Astro.props;
+const years = [...new Set(deals.map((d) => d.year))].sort((a, b) => b - a);
+---
+
+{
+  deals.length > 0 && (
+    <section class="tr" aria-labelledby="track-record-heading">
+      <h2 id="track-record-heading">{heading}</h2>
+      {years.map((y) => (
+        <div class="tr__year">
+          <h3 class="tr__y">{y}</h3>
+          <ul role="list" class="tr__list rule-list">
+            {deals
+              .filter((d) => d.year === y)
+              .map((d) => (
+                <li class="tr__row">
+                  <span class="tr__client">{d.client}</span>
+                  <span class="tr__meta">
+                    {d.sector}, {d.type}
+                  </span>
+                  {visible(d.size) && <span class="tr__size">{d.size}</span>}
+                </li>
+              ))}
+          </ul>
+        </div>
+      ))}
+    </section>
+  )
+}
+
+<style>
+  .tr {
+    display: grid;
+    gap: var(--s-8);
+  }
+  .tr__year {
+    display: grid;
+    gap: var(--s-3);
+  }
+  .tr__y {
+    color: var(--grey);
+    font-size: var(--t-sm);
+  }
+  .tr__row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--s-1) var(--s-4);
+    padding: var(--s-3) 0;
+  }
+  .tr__client {
+    font-weight: 700;
+    color: var(--blue);
+  }
+  .tr__meta {
+    grid-column: 1;
+    color: var(--grey);
+    font-size: var(--t-sm);
+  }
+  .tr__size {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
+    font-weight: 700;
+    color: var(--blue);
+    font-variant-numeric: tabular-nums;
+  }
+</style>

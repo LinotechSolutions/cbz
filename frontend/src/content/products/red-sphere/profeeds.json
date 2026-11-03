@@ -1,0 +1,33 @@
+{
+  "unit": "red-sphere",
+  "category": "agriculture",
+  "productId": "profeeds",
+  "name": "Profeeds SSB and Farmers Product",
+  "summary": "Stock feed finance supporting different farming needs, for farmers and civil service employees.",
+  "benefits": [
+    "Tenor: 12 months for farmers, 24 months for civil service employees",
+    "Interest: 5% for farmers and 6% for civil service employees",
+    "Improved livestock growth",
+    "Timely access to feed"
+  ],
+  "eligibility": [
+    "National ID",
+    "Proof of residence",
+    "Sales records and collateral for high value farmers"
+  ],
+  "audience": "Farmers and civil service employees",
+  "pricing": "5% farmers · 6% civil service",
+  "details": {
+    "tenor": "12 months for farmers, 24 months for civil service employees",
+    "interestRate": "5% for farmers, 6% for civil service employees",
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Apply online",
+    "href": "https://rs.cbz.co.zw/"
+  },
+  "image": null,
+  "order": 0,
+  "verified": true
+}

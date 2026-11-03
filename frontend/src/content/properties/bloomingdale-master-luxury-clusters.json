@@ -1,0 +1,27 @@
+{
+  "id": "bloomingdale-master-luxury-clusters",
+  "title": "Bloomingdale Master Luxury Clusters",
+  "type": "residential",
+  "location": "Harare",
+  "status": "for-sale",
+  "price": null,
+  "summary": "Exclusive gated community of modern 3-bed and 4-bed duplex cluster homes with integrated solar systems, paved driveways, and 24/7 security.",
+  "details": [],
+  "images": [
+    {
+      "src": "/images/loan-home.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking-branch.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 0,
+  "verified": false
+}

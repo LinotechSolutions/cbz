@@ -1,0 +1,24 @@
+{
+  "unit": "insurance",
+  "category": "personal",
+  "productId": "milady",
+  "name": "Milady Home & Vehicle Package",
+  "summary": "Exclusive bespoke insurance tailored for female-headed households with dedicated roadside care.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Get a quote",
+    "href": "/insurance/quote"
+  },
+  "image": null,
+  "order": 2,
+  "verified": false
+}

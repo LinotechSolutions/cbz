@@ -1,0 +1,117 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { CLUSTERS, companiesIn, type ClusterId } from '../data/group';
+
+const units = (await getCollection('units')).map((u) => u.data).sort((a, b) => a.order - b.order);
+const properties = (await getCollection('properties')).map((p) => p.data).sort((a, b) => a.order - b.order);
+const notices = (await getCollection('notices')).sort((a, b) => b.data.date.localeCompare(a.data.date));
+
+const groups: { heading: string; links: { label: string; href: string }[] }[] = [
+  {
+    heading: 'Clusters',
+    links: CLUSTERS.filter((c) => c.isOperating).map((c) => ({ label: c.name, href: c.route })),
+  },
+  {
+    heading: 'Companies',
+    links: units.map((u) => ({ label: u.name, href: `/${u.slug}` })),
+  },
+  {
+    heading: 'Apply, quote and enquire',
+    links: [
+      { label: 'Open a CBZ Bank account', href: '/bank/open-account' },
+      { label: 'Apply for a loan or mortgage', href: '/bank/apply' },
+      { label: 'Get a CBZ Insurance quote', href: '/insurance/quote' },
+      { label: 'Request a CBZ Life quotation', href: '/cbz-life/quote' },
+      { label: 'Start investing with Datvest', href: '/datvest/start-investing' },
+      { label: 'Request a property viewing', href: '/properties/request-a-viewing' },
+      { label: 'Start a CBZ Capital enquiry', href: '/capital/enquiry' },
+      { label: 'Request a risk consultation', href: '/risk-advisory/consultation' },
+      { label: 'Apply for farming finance', href: '/agro-yield/apply' },
+    ],
+  },
+  {
+    heading: 'Help and information',
+    links: [
+      { label: 'Diaspora banking', href: '/diaspora' },
+      { label: 'Calculators', href: '/calculators' },
+      { label: 'Contact us', href: '/contact' },
+      { label: 'About CBZ Holdings', href: '/about' },
+      { label: 'Notices', href: '/notices' },
+      { label: 'Security and online safety', href: '/security' },
+      { label: 'General business conditions', href: '/business-conditions' },
+      { label: 'Privacy policy', href: '/privacy-policy' },
+      { label: 'Tip-offs anonymous', href: '/tip-offs' },
+    ],
+  },
+  { heading: 'Properties', links: properties.map((p) => ({ label: p.title, href: `/properties/${p.id}` })) },
+  { heading: 'Notices', links: notices.map((n) => ({ label: n.data.title, href: `/notices/${n.id}` })) },
+];
+---
+
+<BaseLayout title="Sitemap" description="Every page on the CBZ Holdings website.">
+  <div class="container page">
+    <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Sitemap' }]} />
+    <h1>Sitemap</h1>
+    <div class="groups">
+      {
+        groups
+          .filter((g) => g.links.length > 0)
+          .map((g) => (
+            <nav aria-label={g.heading} class="group">
+              <h2 class="group__h">{g.heading}</h2>
+              <ul role="list" class="group__list">
+                {g.links.map((l) => (
+                  <li>
+                    <a href={l.href}>{l.label}</a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))
+      }
+    </div>
+    <p class="small muted">
+      Companies in the Banking cluster without a page yet: {companiesIn('banking' as ClusterId).filter((c) => !c.route).map((c) => c.name).join(', ')}.
+    </p>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    display: grid;
+    gap: var(--s-6);
+    padding-block: var(--s-8) var(--band);
+  }
+  .groups {
+    display: grid;
+    gap: var(--s-8) var(--gap);
+  }
+  @media (min-width: 640px) {
+    .groups {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 900px) {
+    .groups {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .group__h {
+    font-size: var(--t-md);
+    margin-bottom: var(--s-3);
+  }
+  .group__list {
+    display: grid;
+    gap: var(--s-2);
+  }
+  .group__list a {
+    display: inline-block;
+    padding-block: var(--s-1);
+    text-decoration: none;
+  }
+  .group__list a:hover {
+    text-decoration: underline;
+  }
+</style>

@@ -1,0 +1,36 @@
+{
+  "unit": "bank",
+  "category": "savings",
+  "productId": "cashplus_individual",
+  "name": "CashPlus Individual",
+  "summary": "Longer-term savings with tiered interest rates and free cash withdrawals every 90 days.",
+  "benefits": [
+    "Minimum balance, for individuals only",
+    "No withdrawals allowed before 12 months",
+    "Tiered interest rates, calculated on the minimum monthly balance and paid monthly",
+    "Regular deposits required",
+    "Free cash withdrawals at the expiry of every 90 days",
+    "No account maintenance fees"
+  ],
+  "eligibility": [
+    "New and existing account holders"
+  ],
+  "audience": "Individuals",
+  "pricing": "No withdrawals before 12 months",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Open an account",
+    "href": "/bank/open-account"
+  },
+  "image": {
+    "src": "/images/accounts/savings.webp",
+    "alt": ""
+  },
+  "order": 9,
+  "verified": true
+}

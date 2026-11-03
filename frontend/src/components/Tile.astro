@@ -1,0 +1,110 @@
+---
+/**
+ * A navigation tile: hairline border, blue-50 fill on hover, no shadow. The
+ * whole tile is the link. `size="lead"` makes the ZikiCash tile the largest.
+ */
+import Icon from './Icon.astro';
+import type { IconName } from './icons';
+import { isExternal } from '../data/links';
+
+interface Props {
+  title: string;
+  line?: string;
+  href: string;
+  icon?: IconName;
+  size?: 'default' | 'lead' | 'small';
+  track?: string;
+  trackProps?: Record<string, string | number | boolean>;
+  class?: string;
+}
+const { title, line, href, icon, size = 'default', track, trackProps, class: className = '' } = Astro.props;
+const external = isExternal(href);
+---
+
+<a
+  href={href}
+  class:list={['tile', `tile--${size}`, className]}
+  target={external ? '_blank' : undefined}
+  rel={external ? 'noopener noreferrer' : undefined}
+  data-track={track}
+  data-track-props={trackProps ? JSON.stringify(trackProps) : undefined}
+>
+  <slot name="media" />
+  <span class="tile__body">
+    {icon && <Icon name={icon} size={size === 'lead' ? 32 : 24} class="tile__icon" />}
+    <span class="tile__title">
+      {title}
+      {external && <span class="sr-only">(opens in a new tab)</span>}
+    </span>
+    {line && <span class="tile__line">{line}</span>}
+    <slot />
+  </span>
+  <Icon name={external ? 'external' : 'chevronRight'} size={18} class="tile__chev" />
+</a>
+
+<style>
+  .tile {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-4);
+    padding: var(--s-6);
+    min-height: 140px;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: var(--white);
+    color: var(--ink);
+    text-decoration: none;
+    transition:
+      background-color var(--dur) var(--ease),
+      border-color var(--dur) var(--ease);
+  }
+  .tile:hover {
+    background: var(--blue-50);
+    border-color: var(--blue-100);
+    color: var(--ink);
+  }
+  .tile--lead {
+    min-height: 240px;
+    padding: var(--s-8);
+  }
+  .tile--small {
+    min-height: 96px;
+    padding: var(--s-4) var(--s-6);
+  }
+  .tile__body {
+    display: grid;
+    gap: var(--s-2);
+    align-content: start;
+    flex: 1;
+  }
+  .tile__icon {
+    color: var(--blue-700);
+    margin-bottom: var(--s-2);
+  }
+  .tile__title {
+    font-weight: 700;
+    font-size: var(--t-lg);
+    color: var(--blue);
+    line-height: 1.25;
+    padding-right: var(--s-8);
+  }
+  .tile--lead .tile__title {
+    font-size: var(--t-xl);
+  }
+  .tile__line {
+    color: var(--grey);
+    font-size: var(--t-sm);
+    max-width: 40ch;
+  }
+  .tile__chev {
+    position: absolute;
+    top: var(--s-6);
+    right: var(--s-6);
+    color: var(--blue-700);
+  }
+  .tile--small .tile__chev {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+</style>

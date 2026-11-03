@@ -1,0 +1,24 @@
+{
+  "unit": "insurance",
+  "category": "personal",
+  "productId": "home",
+  "name": "Home & Contents Cover",
+  "summary": "Protects building structures and interior household assets from fire, storm, burst pipes, and burglary.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Get a quote",
+    "href": "/insurance/quote"
+  },
+  "image": null,
+  "order": 1,
+  "verified": false
+}

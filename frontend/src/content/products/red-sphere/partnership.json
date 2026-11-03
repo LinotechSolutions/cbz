@@ -1,0 +1,36 @@
+{
+  "unit": "red-sphere",
+  "category": "partners",
+  "productId": "partnership",
+  "name": "Partnership",
+  "summary": "An MOU with Red Sphere that lets your retail outlets sell to civil servants and salaried staff of approved companies on credit.",
+  "benefits": [
+    "Enter into an MOU agreement with Red Sphere Finance",
+    "Facilitate access to credit for civil servants or salaried individuals from approved companies, who purchase goods on credit from your retail outlets throughout Zimbabwe",
+    "Commission payable of 8%",
+    "Boost sales",
+    "Access to prefund facilities"
+  ],
+  "eligibility": [
+    "Company KYC",
+    "Directors' KYC",
+    "Business profile",
+    "Company logo",
+    "CBZ account holder"
+  ],
+  "audience": "Registered companies",
+  "pricing": "8% commission",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Apply online",
+    "href": "https://rs.cbz.co.zw/"
+  },
+  "image": null,
+  "order": 3,
+  "verified": true
+}

@@ -1,0 +1,25 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import UnitLayout from '../layouts/UnitLayout.astro';
+import Section from '../components/Section.astro';
+import { Calculator } from '../islands/Calculator';
+import { Suggest } from '../islands/Suggest';
+import { CALCULATORS } from '../data/calculators';
+
+const unit = (await getEntry('units', 'cbz-life'))!.data;
+const products = (await getCollection('products', (p) => p.data.unit === 'cbz-life')).map((p) => ({
+  id: p.data.productId,
+  name: p.data.name,
+}));
+---
+
+<UnitLayout unit={unit}>
+  <Fragment slot="after-products">
+    <Section id="suggest" heading="Which plan fits?" hideHeading>
+      <Suggest client:visible unit="cbz-life" products={products} />
+    </Section>
+    <Section id="calculator" tone="tint" heading="Policy quote calculator" lede="An indicative monthly premium for a funeral or education plan.">
+      <Calculator client:visible variant="policyQuote" config={CALCULATORS.policyQuote} />
+    </Section>
+  </Fragment>
+</UnitLayout>

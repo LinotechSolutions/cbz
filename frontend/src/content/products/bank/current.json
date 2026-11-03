@@ -1,0 +1,40 @@
+{
+  "unit": "bank",
+  "category": "accounts",
+  "productId": "current",
+  "name": "Current Account",
+  "summary": "Everyday transactional account with a Visa debit card, access to loans in line with your income, and an overdraft facility.",
+  "benefits": [
+    "Visa debit card",
+    "Access to loans according to income",
+    "Access to an overdraft facility",
+    "Access to a Visa prepaid card",
+    "Convenient, safe payments through CBZ Touch and Internet Banking",
+    "ATM access as an alternative way to get cash"
+  ],
+  "eligibility": [
+    "2 passport size photos",
+    "Proof of residence (latest utility bill)",
+    "Latest payslip",
+    "Valid ID",
+    "Can also be opened for directors of a company that banks with CBZ"
+  ],
+  "audience": "Individuals (formally employed) and companies",
+  "pricing": "Visa debit card included",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Open an account",
+    "href": "/bank/open-account"
+  },
+  "image": {
+    "src": "/images/accounts/current.webp",
+    "alt": ""
+  },
+  "order": 0,
+  "verified": true
+}

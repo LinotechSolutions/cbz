@@ -1,0 +1,24 @@
+{
+  "unit": "datvest",
+  "category": "unit-trusts",
+  "productId": "datvest-high-yield-fixed-income-fund",
+  "name": "Datvest High-Yield Fixed Income Fund",
+  "summary": "Structured commercial paper, infrastructure debt, and sovereign treasury bills designed for investors seeking predictable quarterly cash yields.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Start investing",
+    "href": "/datvest/start-investing"
+  },
+  "image": null,
+  "order": 3,
+  "verified": false
+}

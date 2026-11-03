@@ -1,0 +1,24 @@
+{
+  "unit": "datvest",
+  "category": "institutional",
+  "productId": "defined-benefit-and-contribution-pensions",
+  "name": "Defined Benefit & Contribution Pensions",
+  "summary": "Over 50 years of fiduciary excellence managing occupational retirement schemes, corporate provident funds, and statutory life funds.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Start investing",
+    "href": "/datvest/start-investing"
+  },
+  "image": null,
+  "order": 0,
+  "verified": false
+}

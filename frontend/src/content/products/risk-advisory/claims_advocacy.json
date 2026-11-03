@@ -1,0 +1,33 @@
+{
+  "unit": "risk-advisory",
+  "category": "reinsurance",
+  "productId": "claims_advocacy",
+  "name": "Claims Advocacy & Dispute Resolution",
+  "summary": "Tenacious, client-centric advocacy representing corporate policyholders to ensure prompt and equitable insurance claim payouts.",
+  "benefits": [
+    "Independent loss adjuster assessment scrutiny and quantum challenge",
+    "Expert interpretation of complex policy wordings and warranty compliance",
+    "Fast-tracking interim emergency relief payments during extended claim reviews",
+    "Significantly increases claim recovery quantum and eliminates unjustified rejections",
+    "Removes administrative burden so corporate executives can focus on recovery"
+  ],
+  "eligibility": [
+    "Claim notification and incident report",
+    "Proof of loss and repair/replacement quotations"
+  ],
+  "audience": "All corporate clients experiencing significant insured losses",
+  "pricing": "Claims Representation",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Request a risk consultation",
+    "href": "/risk-advisory/consultation"
+  },
+  "image": null,
+  "order": 1,
+  "verified": true
+}

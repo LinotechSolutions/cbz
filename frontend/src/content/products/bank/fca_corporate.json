@@ -1,0 +1,36 @@
+{
+  "unit": "bank",
+  "category": "accounts",
+  "productId": "fca_corporate",
+  "name": "Foreign Currency Account (Corporate)",
+  "summary": "Foreign currency account for registered companies in GBP, USD, ZAR, BWP or EUR.",
+  "benefits": [
+    "Foreign currency account in GBP, USD, ZAR, BWP or EUR",
+    "Deposit in a range of foreign currencies",
+    "Receive and initiate transfers, make payments, or withdraw cash"
+  ],
+  "eligibility": [
+    "Copy of memorandum and articles of association",
+    "Certificate of incorporation",
+    "Directors' valid ID",
+    "Directors' proof of residence (latest utility bill)"
+  ],
+  "audience": "Corporates",
+  "pricing": "GBP, USD, ZAR, BWP, EUR",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Open an account",
+    "href": "/bank/open-account"
+  },
+  "image": {
+    "src": "/images/accounts/partnership.webp",
+    "alt": ""
+  },
+  "order": 4,
+  "verified": true
+}

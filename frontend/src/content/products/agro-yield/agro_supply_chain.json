@@ -1,0 +1,32 @@
+{
+  "unit": "agro-yield",
+  "category": "divisions",
+  "productId": "agro_supply_chain",
+  "name": "Agro Supply Chain",
+  "summary": "Farm mechanisation, equipment leasing and sales, borehole drilling and combine harvesters.",
+  "benefits": [
+    "Farm mechanisation",
+    "Equipment leasing and sales",
+    "Borehole drilling",
+    "Combine harvesters"
+  ],
+  "eligibility": null,
+  "audience": null,
+  "pricing": "Mechanisation and equipment",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Apply for farming finance",
+    "href": "/agro-yield/apply"
+  },
+  "image": {
+    "src": "/images/cbz-protection.webp",
+    "alt": ""
+  },
+  "order": 3,
+  "verified": true
+}

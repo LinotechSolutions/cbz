@@ -1,0 +1,56 @@
+---
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Notice from '../components/Notice.astro';
+import ExternalLink from '../components/ExternalLink.astro';
+import { CONTACT } from '../data/facts';
+import { LINKS } from '../data/links';
+
+const entry = await getEntry('notices', 'security-and-online-safety');
+const Content = entry ? (await render(entry)).Content : null;
+---
+
+<BaseLayout
+  title="Security and online safety"
+  description="How to spot fake CBZ messages and websites, and what to do if you think you have been targeted."
+>
+  <article class="container page">
+    <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Security and online safety' }]} />
+    <h1>Security and online safety</h1>
+    <Notice kind="warning" title="CBZ never asks for your PIN, password or one-time code">
+      Not by phone, SMS, WhatsApp or email. If anyone does, it is not us.
+    </Notice>
+    <div class="prose">{Content && <Content />}</div>
+    <p>
+      If you think you have been targeted, call the Contact Centre on
+      <a href={CONTACT.contactCentre.href}>{CONTACT.contactCentre.display}</a> at once.
+    </p>
+    <p class="small">
+      <ExternalLink href={LINKS.documents.phishingNotice}>Official notice: beware of web phishing</ExternalLink>
+    </p>
+  </article>
+</BaseLayout>
+
+<style>
+  .page {
+    display: grid;
+    gap: var(--s-6);
+    padding-block: var(--s-8) var(--band);
+    max-width: 800px;
+  }
+  .prose {
+    display: grid;
+    gap: var(--s-4);
+  }
+  .prose :global(h2) {
+    margin-top: var(--s-4);
+  }
+  .prose :global(ul),
+  .prose :global(ol) {
+    padding-left: 1.2em;
+    display: grid;
+    gap: var(--s-2);
+    max-width: var(--measure);
+  }
+</style>

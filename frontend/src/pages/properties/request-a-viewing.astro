@@ -1,0 +1,77 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { StepForm } from '../../islands/StepForm';
+import { FORMS } from '../../lib/forms';
+import { CONTACT } from '../../data/facts';
+
+const def = FORMS['properties-viewing'];
+---
+
+<BaseLayout title={def.title} description={def.intro} unitLogo="properties" noindex bodyClass="is-form">
+  <div class="container fp">
+    <div class="fp__main">
+      <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'CBZ Properties', href: '/properties' }, { label: 'Request a viewing' }]} />
+      <h1>{def.title}</h1>
+      <p class="lede">{def.intro}</p>
+      <StepForm client:visible def={def} queryFields={['property']} />
+    </div>
+    <aside class="fp__aside">
+      <h2 class="fp__aside-h">What happens next</h2>
+      <ol class="fp__steps">
+        <li>CBZ Properties confirms the property is still available.</li>
+        <li>An agent calls you to agree a time.</li>
+        <li>If you want finance, CBZ Bank joins the conversation.</li>
+      </ol>
+      <p class="small muted">
+        Prefer to talk? Call <a href={CONTACT.contactCentre.href}>{CONTACT.contactCentre.display}</a>.
+      </p>
+    </aside>
+  </div>
+</BaseLayout>
+
+<style>
+  .fp {
+    display: grid;
+    gap: var(--s-12);
+    padding-block: var(--s-8) var(--band);
+  }
+  @media (min-width: 900px) {
+    .fp {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+      gap: var(--s-16);
+    }
+  }
+  .fp__main {
+    display: grid;
+    gap: var(--s-4);
+  }
+  .fp__main h1 {
+    margin-top: var(--s-4);
+  }
+  .fp__main > .lede {
+    margin-bottom: var(--s-6);
+  }
+  .fp__aside {
+    display: grid;
+    gap: var(--s-4);
+    align-content: start;
+    padding: var(--s-6);
+    border-radius: var(--r-lg);
+    background: var(--blue-50);
+  }
+  @media (min-width: 900px) {
+    .fp__aside {
+      margin-top: calc(var(--s-16) + var(--s-6));
+    }
+  }
+  .fp__aside-h {
+    font-size: var(--t-md);
+  }
+  .fp__steps {
+    padding-left: 1.2em;
+    display: grid;
+    gap: var(--s-2);
+    font-size: var(--t-sm);
+  }
+</style>

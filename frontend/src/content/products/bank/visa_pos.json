@@ -1,0 +1,30 @@
+{
+  "unit": "bank",
+  "category": "channels",
+  "productId": "visa_pos",
+  "name": "Visa Point of Sale (POS)",
+  "summary": "Visa affiliated POS terminals for merchants in retail and services, accepting Visa Gold Card payments.",
+  "benefits": [
+    "Visa affiliated point of sale terminal that accepts payments via Visa Gold Card",
+    "A safe, fast way for customers to use their Visa card",
+    "Suited to corporates in retail or services, such as hotels, restaurants, supermarkets, hospitals and car hire"
+  ],
+  "eligibility": [
+    "Existing corporate account holders"
+  ],
+  "audience": "Merchants",
+  "pricing": "For existing corporate account holders",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Open an account",
+    "href": "/bank/open-account"
+  },
+  "image": null,
+  "order": 3,
+  "verified": true
+}

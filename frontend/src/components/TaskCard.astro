@@ -1,0 +1,150 @@
+---
+/**
+ * The white card that overlaps the bottom edge of a hero. On the home page it
+ * asks "What do you need?"; on unit pages it is the product category jump list.
+ */
+import Icon from './Icon.astro';
+import type { IconName } from './icons';
+
+interface Item {
+  label: string;
+  href: string;
+  line?: string;
+  icon?: IconName;
+}
+interface Props {
+  heading: string;
+  items: Item[];
+  /** 'tasks' = large tiles with lines; 'jump' = compact row of anchors. */
+  kind?: 'tasks' | 'jump';
+  hideHeading?: boolean;
+}
+const { heading, items, kind = 'tasks', hideHeading = false } = Astro.props;
+---
+
+<div class="wrap">
+  <div class="container">
+    <nav class:list={['card', `card--${kind}`]} aria-label={heading}>
+      <h2 class:list={['card__heading', hideHeading && 'sr-only']}>{heading}</h2>
+      <ul role="list" class="card__list" style={`--n:${items.length}`}>
+        {
+          items.map((it) => (
+            <li>
+              <a href={it.href} class="card__item">
+                {it.icon && <Icon name={it.icon} size={kind === 'tasks' ? 28 : 20} class="card__icon" />}
+                <span class="card__text">
+                  <span class="card__label">{it.label}</span>
+                  {it.line && <span class="card__line">{it.line}</span>}
+                </span>
+                <Icon name="chevronRight" size={18} class="card__chev" />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<style>
+  .wrap {
+    position: relative;
+    z-index: 2;
+    margin-top: calc(-1 * var(--overlap, 56px));
+  }
+  .card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    padding: var(--s-6);
+  }
+  @media (min-width: 900px) {
+    .card {
+      padding: var(--s-8);
+    }
+  }
+  .card__heading {
+    font-size: var(--t-xl);
+    margin-bottom: var(--s-6);
+  }
+  .card--jump .card__heading {
+    font-size: var(--t-md);
+    margin-bottom: var(--s-4);
+    color: var(--grey);
+    font-weight: 400;
+  }
+  .card__list {
+    display: grid;
+    gap: var(--s-2);
+  }
+  .card__item {
+    display: flex;
+    align-items: center;
+    gap: var(--s-4);
+    min-height: var(--tap);
+    padding: var(--s-3) var(--s-2);
+    border-radius: var(--r-sm);
+    color: var(--blue);
+    text-decoration: none;
+    font-weight: 700;
+    transition: background-color var(--dur) var(--ease);
+  }
+  .card__item:hover {
+    background: var(--blue-50);
+    color: var(--blue);
+  }
+  .card__icon {
+    color: var(--blue-700);
+    flex-shrink: 0;
+  }
+  .card__text {
+    display: grid;
+    gap: 2px;
+    flex: 1;
+  }
+  .card__label {
+    font-size: var(--t-md);
+  }
+  .card--tasks .card__label {
+    font-size: var(--t-lg);
+  }
+  .card__line {
+    font-weight: 400;
+    color: var(--grey);
+    font-size: var(--t-sm);
+  }
+  .card__chev {
+    color: var(--blue-700);
+    flex-shrink: 0;
+  }
+  @media (min-width: 900px) {
+    .card--tasks .card__list {
+      grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+      gap: 0;
+    }
+    .card--tasks .card__list > li + li {
+      border-left: 1px solid var(--line);
+    }
+    .card--tasks .card__item {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: var(--s-4) var(--s-6);
+      height: 100%;
+    }
+    .card--tasks .card__item .card__chev {
+      margin-top: auto;
+      margin-left: auto;
+    }
+    .card--jump .card__list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--s-2) var(--s-6);
+    }
+    .card--jump .card__item {
+      padding-inline: var(--s-3);
+    }
+    .card--jump .card__chev {
+      display: none;
+    }
+  }
+</style>

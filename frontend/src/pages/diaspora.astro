@@ -1,0 +1,145 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Section from '../components/Section.astro';
+import Tile from '../components/Tile.astro';
+import Button from '../components/Button.astro';
+import Icon from '../components/Icon.astro';
+import StickyCta from '../components/StickyCta.astro';
+import { CONTACT } from '../data/facts';
+
+const documents = [
+  { title: 'A valid Zimbabwean identity document', body: 'A copy of your Zimbabwean passport or national ID.' },
+  {
+    title: 'Proof of where you live abroad',
+    body: 'A recent utility bill, council tax statement, tenancy agreement or bank statement showing your address.',
+  },
+  {
+    title: 'Proof of income',
+    body: 'Your latest payslip, a letter of employment, or three months of bank statements showing salary deposits.',
+  },
+];
+---
+
+<BaseLayout
+  title="Diaspora banking"
+  description="Bank with CBZ from abroad: foreign currency accounts, property back home with a CBZ Bank mortgage, Datvest funds and CBZ Life cover for your family."
+  unitLogo="bank"
+>
+  <Hero
+    title="Bank at home, from anywhere"
+    lede="Foreign currency accounts, property, investments and cover for your family in Zimbabwe, opened from wherever you live."
+    image={{ src: '/images/accounts/diaspora.webp', alt: 'A woman using her phone to bank from abroad' }}
+    logo="bank"
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'Banking', href: '/clusters/banking' }, { label: 'Diaspora' }]}
+    primary={{ label: 'Open a diaspora account', href: '/bank/open-account', track: 'apply_click', trackProps: { unit: 'bank', from: 'diaspora' } }}
+    secondary={{ label: 'WhatsApp us', href: CONTACT.whatsapp.href }}
+    overlap={false}
+  />
+
+  <Section id="banking" heading="Banking" lede="A foreign currency account you can run from your phone.">
+    <div class="tiles">
+      <Tile
+        title="Foreign currency account"
+        line="Held in five major currencies, with CBZ Touch and internet banking access."
+        href="/bank#product-bank-fca_individual"
+        icon="bank"
+      />
+      <Tile title="CBZ Touch" line="Transfers, bills and school fees for family at home, zero rated in Zimbabwe." href="/#digital-channels" icon="phoneMobile" />
+    </div>
+  </Section>
+
+  <Section id="property" tone="tint" heading="Property back home" lede="Titled stands and turnkey homes from CBZ Properties, financed by CBZ Bank.">
+    <div class="tiles">
+      <Tile title="Browse developments" line="Serviced stands with title deeds, and cluster homes." href="/properties" icon="home" />
+      <Tile title="Mortgage calculator" line="Estimate the monthly repayment on a CBZ Bank mortgage." href="/calculators#mortgage" icon="calculator" />
+      <Tile
+        title="Diaspora property insurance"
+        line="Cover for the property you own in Zimbabwe, with claims settled in US dollars."
+        href="/insurance#product-insurance-diaspora"
+        icon="shield"
+      />
+    </div>
+  </Section>
+
+  <Section id="invest" heading="Investing" lede="Put foreign currency to work through Datvest.">
+    <div class="tiles">
+      <Tile title="Datvest diaspora fund" line="A unit trust for savers living abroad." href="/datvest#product-datvest-datvest-diaspora-wealth-fund" icon="chart" />
+      <Tile title="Start investing" line="Tell Datvest your goal and an adviser sets out the options." href="/datvest/start-investing" icon="arrowRight" />
+    </div>
+  </Section>
+
+  <Section id="life" tone="tint" heading="CBZ Life for your family" lede="Cover the people who depend on you, wherever you are.">
+    <div class="tiles">
+      <Tile
+        title="Comfortsure funeral cash plan"
+        line="A funeral benefit paid immediately to your nominated beneficiary in Zimbabwe."
+        href="/cbz-life#product-cbz-life-comfortsure"
+        icon="shield"
+      />
+      <Tile
+        title="Sarapavana education plan"
+        line="Savings towards a child’s primary and secondary education, with life cover attached."
+        href="/cbz-life#product-cbz-life-sarapavana"
+        icon="chart"
+      />
+    </div>
+  </Section>
+
+  <Section id="documents" heading="What you will need" lede="Three documents open a diaspora account.">
+    <ol class="docs">
+      {
+        documents.map((d) => (
+          <li class="docs__item">
+            <strong>{d.title}</strong>
+            <span class="small muted">{d.body}</span>
+          </li>
+        ))
+      }
+    </ol>
+    <div class="docs__cta">
+      <Button href="/bank/open-account" variant="primary" size="lg" track="apply_click" trackProps={{ unit: 'bank', from: 'diaspora-docs' }}>
+        Open a diaspora account
+      </Button>
+      <a href={CONTACT.whatsapp.href} class="btn btn--secondary btn--lg" target="_blank" rel="noopener noreferrer">
+        <Icon name="whatsapp" size={18} /> WhatsApp {CONTACT.whatsapp.display}
+        <span class="sr-only">(opens in a new tab)</span>
+      </a>
+    </div>
+  </Section>
+
+  <StickyCta label="Open a diaspora account" href="/bank/open-account" unit="bank" />
+</BaseLayout>
+
+<style>
+  .tiles {
+    display: grid;
+    gap: var(--gap);
+  }
+  @media (min-width: 640px) {
+    .tiles {
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+  }
+  .docs {
+    display: grid;
+    gap: var(--s-4);
+    padding-left: 1.4em;
+    max-width: var(--measure);
+  }
+  .docs__item {
+    display: grid;
+    gap: var(--s-1);
+    padding-left: var(--s-2);
+  }
+  .docs__item::marker {
+    color: var(--blue-700);
+    font-weight: 700;
+  }
+  .docs__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    margin-top: var(--s-8);
+  }
+</style>

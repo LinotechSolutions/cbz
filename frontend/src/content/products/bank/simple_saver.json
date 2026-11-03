@@ -1,0 +1,37 @@
+{
+  "unit": "bank",
+  "category": "savings",
+  "productId": "simple_saver",
+  "name": "Simple Saver",
+  "summary": "Straightforward savings account opened with your ID and US$2, with a debit card and mobile banking.",
+  "benefits": [
+    "CBZ debit card",
+    "Access to the CBZ Touch app",
+    "No minimum balance",
+    "No monthly service fees",
+    "Initial deposit of US$5",
+    "At most 4 debits every month",
+    "Debit card and mobile banking services"
+  ],
+  "eligibility": [
+    "ID and US$2 to open the account"
+  ],
+  "audience": "Individuals",
+  "pricing": "US$2 to open · US$5 initial deposit",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Open an account",
+    "href": "/bank/open-account"
+  },
+  "image": {
+    "src": "/images/accounts/individual.webp",
+    "alt": ""
+  },
+  "order": 3,
+  "verified": true
+}

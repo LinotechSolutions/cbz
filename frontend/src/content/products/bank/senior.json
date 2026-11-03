@@ -1,0 +1,41 @@
+{
+  "unit": "bank",
+  "category": "savings",
+  "productId": "senior",
+  "name": "Senior Citizens Savings Account",
+  "summary": "For customers aged 60 and above: no service charges, a free ATM card and priority service in branch.",
+  "benefits": [
+    "Special service for customers aged 60 and above",
+    "No service charges",
+    "No queuing: senior citizens go to the priority teller",
+    "Free ATM card",
+    "Access to loans",
+    "An account that does not incur service charges",
+    "Preferential treatment at service outlets",
+    "Funds accessible by ATM card"
+  ],
+  "eligibility": [
+    "2 passport size photos",
+    "Proof of residence (latest utility bill)",
+    "Latest payslip or proof of income",
+    "Valid ID"
+  ],
+  "audience": "Retired customers over 60 years of age",
+  "pricing": "No service charges",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Open an account",
+    "href": "/bank/open-account"
+  },
+  "image": {
+    "src": "/images/accounts/senior.webp",
+    "alt": ""
+  },
+  "order": 2,
+  "verified": true
+}

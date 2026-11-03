@@ -1,0 +1,27 @@
+{
+  "id": "middle-income-suburban-housing-developments",
+  "title": "Middle-Income Suburban Housing Developments",
+  "type": "residential",
+  "location": "Harare",
+  "status": "for-sale",
+  "price": null,
+  "summary": "Affordable, modern 2 and 3-bedroom family apartments and standalone houses eligible for 15-year CBZ Bank mortgages.",
+  "details": [],
+  "images": [
+    {
+      "src": "/images/loan-home.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking-branch.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 5,
+  "verified": false
+}

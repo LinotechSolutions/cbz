@@ -1,0 +1,27 @@
+{
+  "id": "flexible-business-incubators-and-shared-workspaces",
+  "title": "Flexible Business Incubators & Shared Workspaces",
+  "type": "commercial",
+  "location": "Harare",
+  "status": "to-let",
+  "price": null,
+  "summary": "Fully serviced, plug-and-play modern corporate workspaces and boardroom facilities for emerging enterprises and regional consultants.",
+  "details": [],
+  "images": [
+    {
+      "src": "/images/loan-home.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking-branch.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 5,
+  "verified": false
+}

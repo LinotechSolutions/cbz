@@ -1,0 +1,207 @@
+---
+/**
+ * Group information and regulatory pages: a title, metadata, sections of
+ * plain text, official links and contact channels. Legal wording is never
+ * paraphrased here; each page links to the official document instead.
+ */
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import ExternalLink from '../components/ExternalLink.astro';
+import { visible } from '../lib/visible';
+
+export interface InfoSection {
+  heading: string;
+  /** Paragraphs. A string beginning "- " renders as a bullet. */
+  body: string[];
+}
+interface Props {
+  title: string;
+  description: string;
+  intro: string;
+  meta?: { label: string; value: string | null }[];
+  sections: InfoSection[];
+  links?: { label: string; href: string; note?: string }[];
+  channels?: { label: string; value: string | null; href?: string | null }[];
+}
+const { title, description, intro, meta = [], sections, links = [], channels = [] } = Astro.props;
+
+function blocks(body: string[]) {
+  const out: ({ kind: 'p'; text: string } | { kind: 'ul'; items: string[] })[] = [];
+  for (const line of body) {
+    if (line.startsWith('- ')) {
+      const last = out[out.length - 1];
+      if (last && last.kind === 'ul') last.items.push(line.slice(2));
+      else out.push({ kind: 'ul', items: [line.slice(2)] });
+    } else out.push({ kind: 'p', text: line });
+  }
+  return out;
+}
+const shownChannels = channels.filter((c) => visible(c.value));
+const shownMeta = meta.filter((m) => visible(m.value));
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="info">
+    <div class="container info__inner">
+      <div class="info__main">
+        <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: title }]} />
+        <h1 class="info__title">{title}</h1>
+        <p class="lede">{intro}</p>
+        {
+          shownMeta.length > 0 && (
+            <dl class="info__meta">
+              {shownMeta.map((m) => (
+                <div>
+                  <dt>{m.label}</dt>
+                  <dd>{m.value}</dd>
+                </div>
+              ))}
+            </dl>
+          )
+        }
+        {
+          sections.map((s) => (
+            <section class="info__section">
+              <h2>{s.heading}</h2>
+              {blocks(s.body).map((b) =>
+                b.kind === 'p' ? (
+                  <p>{b.text}</p>
+                ) : (
+                  <ul class="info__list">
+                    {b.items.map((i) => (
+                      <li>{i}</li>
+                    ))}
+                  </ul>
+                ),
+              )}
+            </section>
+          ))
+        }
+      </div>
+      <aside class="info__aside">
+        {
+          links.length > 0 && (
+            <section class="info__box">
+              <h2 class="info__box-h">Official documents</h2>
+              <ul role="list" class="info__links">
+                {links.map((l) => (
+                  <li>
+                    <ExternalLink href={l.href}>{l.label}</ExternalLink>
+                    {l.note && <span class="small muted">{l.note}</span>}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )
+        }
+        {
+          shownChannels.length > 0 && (
+            <section class="info__box">
+              <h2 class="info__box-h">Contact</h2>
+              <dl class="info__channels">
+                {shownChannels.map((c) => (
+                  <div>
+                    <dt>{c.label}</dt>
+                    <dd>{c.href ? <a href={c.href}>{c.value}</a> : c.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </section>
+          )
+        }
+      </aside>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .info {
+    padding-block: var(--s-8) var(--band);
+  }
+  .info__inner {
+    display: grid;
+    gap: var(--s-12);
+  }
+  @media (min-width: 900px) {
+    .info__inner {
+      grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
+      gap: var(--s-16);
+      align-items: start;
+    }
+  }
+  .info__main {
+    display: grid;
+    gap: var(--s-6);
+  }
+  .info__title {
+    margin-top: var(--s-4);
+  }
+  .info__meta {
+    margin: 0;
+    display: grid;
+    gap: var(--s-2);
+    padding: var(--s-4) 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    font-size: var(--t-sm);
+  }
+  .info__meta div {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: var(--s-3);
+  }
+  .info__meta dt {
+    color: var(--grey);
+  }
+  .info__meta dd {
+    margin: 0;
+    font-weight: 700;
+    color: var(--blue);
+  }
+  .info__section {
+    display: grid;
+    gap: var(--s-3);
+  }
+  .info__list {
+    padding-left: 1.2em;
+    display: grid;
+    gap: var(--s-2);
+    max-width: var(--measure);
+  }
+  .info__aside {
+    display: grid;
+    gap: var(--s-6);
+  }
+  .info__box {
+    padding: var(--s-6);
+    border-radius: var(--r-lg);
+    background: var(--blue-50);
+    display: grid;
+    gap: var(--s-3);
+  }
+  .info__box-h {
+    font-size: var(--t-md);
+  }
+  .info__links {
+    display: grid;
+    gap: var(--s-3);
+  }
+  .info__links li {
+    display: grid;
+    gap: 2px;
+  }
+  .info__channels {
+    margin: 0;
+    display: grid;
+    gap: var(--s-3);
+    font-size: var(--t-sm);
+  }
+  .info__channels dt {
+    color: var(--grey);
+  }
+  .info__channels dd {
+    margin: 0;
+    font-weight: 700;
+    color: var(--blue);
+  }
+</style>

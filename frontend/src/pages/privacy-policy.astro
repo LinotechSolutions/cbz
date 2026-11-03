@@ -1,0 +1,52 @@
+---
+import InfoPage from '../layouts/InfoPage.astro';
+import { LINKS } from '../data/links';
+import { CONTACT } from '../data/facts';
+---
+
+<InfoPage
+  title="Privacy policy"
+  description="How CBZ Holdings Limited and its subsidiaries handle personal information, with a link to the full policy."
+  intro="How CBZ Holdings Limited and its subsidiaries handle personal information. This page summarises the policy; the policy itself is the published document, linked on this page."
+  meta={[{ label: 'Applies to', value: 'CBZ Holdings Limited and its subsidiaries' }]}
+  sections={[
+    {
+      heading: 'The five principles',
+      body: [
+        'CBZ’s privacy policy is built on five principles:',
+        '- Transparency: being open about what personal information is collected and why.',
+        '- Accountability: taking responsibility for the personal information CBZ holds.',
+        '- Choice: giving you a say in how your information is used.',
+        '- Information review and correction: letting you see and correct what CBZ holds about you.',
+        '- Information protection: safeguarding your information with physical, administrative and technical measures.',
+      ],
+    },
+    {
+      heading: 'Your choices',
+      body: [
+        'If you believe your personal information is being used improperly, you can ask CBZ to pause its use for a period while the matter is looked into. You can also ask to see the information held about you and to have it corrected.',
+      ],
+    },
+    {
+      heading: 'Information gathered through this website',
+      body: [
+        'Information you provide through this website is not disclosed to third parties without your consent, except where the law requires it.',
+        'This site sets essential cookies to work. Analytics cookies are set only if you allow them, and you can change your choice by clearing your browser data.',
+      ],
+    },
+    {
+      heading: 'Related notices',
+      body: [
+        'A separate Privacy Notice covers CBZ’s websites, mobile apps and services, and a separate policy covers data shared through CBZ’s Facebook page, where CBZ and Facebook act as joint controllers.',
+      ],
+    },
+  ]}
+  links={[
+    { label: 'Privacy Policy (full text)', href: LINKS.documents.privacyPolicy },
+    { label: 'Privacy Notice, websites and apps', href: LINKS.documents.privacyNotice },
+  ]}
+  channels={[
+    { label: 'Data Protection Officer', value: CONTACT.dpoEmail, href: CONTACT.dpoEmail ? `mailto:${CONTACT.dpoEmail}` : null },
+    { label: 'Write to us', value: `${CONTACT.address.line1}, ${CONTACT.address.line2}` },
+  ]}
+/>

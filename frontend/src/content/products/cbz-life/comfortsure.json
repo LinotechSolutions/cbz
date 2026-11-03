@@ -1,0 +1,27 @@
+{
+  "unit": "cbz-life",
+  "category": "individual",
+  "productId": "comfortsure",
+  "name": "Comfortsure Funeral Cashplan",
+  "summary": "A pre-defined funeral benefit paid immediately to the nominated beneficiary on the death of the life insured.",
+  "benefits": [
+    "Provides a pre-defined funeral benefit payable immediately to the nominated beneficiary upon the death of the life insured",
+    "Covers a member in whom the policyholder has an insurable interest"
+  ],
+  "eligibility": null,
+  "audience": "Individuals and the family members they insure",
+  "pricing": "Individual life",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Request a quotation",
+    "href": "/cbz-life/quote"
+  },
+  "image": null,
+  "order": 0,
+  "verified": true
+}

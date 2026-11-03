@@ -1,0 +1,63 @@
+---
+/**
+ * Agro-Yield contract farming banner. Which season shows comes from the date.
+ */
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+import { AGRO_SEASONS } from '../data/calculators';
+import { currentSeason } from '../lib/season';
+
+interface Props {
+  class?: string;
+}
+const { class: className = '' } = Astro.props;
+const season = currentSeason(AGRO_SEASONS);
+---
+
+{
+  season && (
+    <aside class:list={['sb', className]} aria-label="Contract farming season">
+      <Icon name="leaf" size={28} class="sb__icon" />
+      <div class="sb__text">
+        <strong class="sb__title">{season.title}</strong>
+        <p class="sb__body">{season.body}</p>
+      </div>
+      <Button href={season.cta.href} variant="primary" track="apply_click" trackProps={{ unit: 'agro-yield', season: season.season }}>
+        {season.cta.label}
+      </Button>
+    </aside>
+  )
+}
+
+<style>
+  .sb {
+    display: grid;
+    gap: var(--s-4);
+    padding: var(--s-6);
+    border-radius: var(--r-md);
+    border: 1px solid var(--blue-100);
+    background: var(--blue-50);
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .sb {
+      grid-template-columns: auto 1fr auto;
+      gap: var(--s-6);
+    }
+  }
+  .sb__icon {
+    color: var(--success);
+  }
+  .sb__text {
+    display: grid;
+    gap: var(--s-1);
+  }
+  .sb__title {
+    color: var(--blue);
+    font-size: var(--t-lg);
+  }
+  .sb__body {
+    color: var(--grey);
+    font-size: var(--t-sm);
+  }
+</style>

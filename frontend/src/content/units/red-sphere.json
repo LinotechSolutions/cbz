@@ -1,0 +1,43 @@
+{
+  "slug": "red-sphere",
+  "name": "Red Sphere Finance",
+  "shortName": "Red Sphere",
+  "cluster": "banking",
+  "logo": "red-sphere",
+  "order": 2,
+  "hero": {
+    "title": "Credit that fits how you earn",
+    "lede": "Salary-based loans for government and private payrolls, working capital for small enterprises, and lending through agents and partners.",
+    "image": { "src": "/images/accounts/individual.webp", "alt": "A young man outside a café holding his phone and bank card" }
+  },
+  "about": "Red Sphere Finance is the CBZ Group's microfinance business. It lends against a salary, a payroll agreement or a trading record, so customers who fall outside traditional bank lending can still access credit, and partners and agents can extend it through their own networks.",
+  "keyFacts": [
+    { "label": "Lending and partnership products", "value": "13" },
+    { "label": "Interest on business and partner facilities", "value": "From 5%" },
+    { "label": "Tenors, by product", "value": "1 to 24 months" },
+    { "label": "SSB loan limit", "value": "US$2,400" },
+    { "label": "Partner commission", "value": "8%" }
+  ],
+  "primaryCta": { "label": "Apply online", "href": "https://rs.cbz.co.zw/" },
+  "secondaryCta": { "label": "Get the app", "href": "#app" },
+  "objectives": null,
+  "audience": null,
+  "leadership": null,
+  "calculators": ["carFinance"],
+  "categories": [
+    { "id": "salary", "label": "Salary-based lending" },
+    { "id": "business", "label": "Business lending" },
+    { "id": "partners", "label": "Agents and partners" },
+    { "id": "agriculture", "label": "Agriculture" }
+  ],
+  "regulator": null,
+  "productsNote": "Tenors, interest rates and administration fees are those set out in the Red Sphere Finance product documentation and are subject to credit assessment and approval. Interest rates may change, so confirm the current terms before you apply.",
+  "contact": {
+    "heading": "Talk to Red Sphere Finance",
+    "body": "Apply online, through the mobile app, or speak to the team about agency and partnership opportunities."
+  },
+  "seo": {
+    "title": "Red Sphere Finance: salary and business loans",
+    "description": "Apply online for a Red Sphere Finance loan: SSB and payroll loans, pensioner loans, SME working capital, and agent and partner lending."
+  }
+}

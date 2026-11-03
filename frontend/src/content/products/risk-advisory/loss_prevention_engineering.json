@@ -1,0 +1,33 @@
+{
+  "unit": "risk-advisory",
+  "category": "erm",
+  "productId": "loss_prevention_engineering",
+  "name": "Loss Prevention & Engineering Surveys",
+  "summary": "On-site technical engineering inspections identifying fire hazards, structural integrity gaps, and industrial safety risks.",
+  "benefits": [
+    "Infrared thermography audits of electrical switchboards to prevent fire outbreaks",
+    "Fire hydrant, sprinkler, and suppression system flow rate testing",
+    "Environmental hazard containment and hazardous material storage reviews",
+    "Substantially lowers insurance premiums by demonstrating proactive risk reduction",
+    "Prevents catastrophic production downtime and human casualty risks"
+  ],
+  "eligibility": [
+    "Site access for technical risk engineers",
+    "Building layout diagrams and electrical reticulation plans"
+  ],
+  "audience": "Industrial plants, manufacturing facilities, warehouses, and farms",
+  "pricing": "Technical Survey",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Request a risk consultation",
+    "href": "/risk-advisory/consultation"
+  },
+  "image": null,
+  "order": 1,
+  "verified": true
+}

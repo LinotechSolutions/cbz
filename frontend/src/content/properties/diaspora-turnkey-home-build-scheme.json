@@ -1,0 +1,27 @@
+{
+  "id": "diaspora-turnkey-home-build-scheme",
+  "title": "Diaspora Turnkey Home Build Scheme",
+  "type": "residential",
+  "location": "Harare",
+  "status": "for-sale",
+  "price": null,
+  "summary": "Complete end-to-end design, construction, and certification service for non-resident Zimbabweans with verified stage-gate video inspections.",
+  "details": [],
+  "images": [
+    {
+      "src": "/images/loan-home.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking-branch.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 3,
+  "verified": false
+}

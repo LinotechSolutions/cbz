@@ -1,0 +1,39 @@
+{
+  "unit": "bank",
+  "category": "accounts",
+  "productId": "current_joint",
+  "name": "Current Account (Joint)",
+  "summary": "A single account for legally married couples, where signatories can sign jointly or individually.",
+  "benefits": [
+    "Visa debit cards",
+    "Access to loans",
+    "Signatories can sign jointly or individually",
+    "Access to a Visa prepaid card",
+    "One account that lets a married couple deposit and access funds through online banking and ATM cards"
+  ],
+  "eligibility": [
+    "2 passport size photos",
+    "Proof of residence (latest utility bill)",
+    "Latest payslip of at least one of the signatories",
+    "Valid IDs of both signatories",
+    "Opened only for legally married couples"
+  ],
+  "audience": "Individuals (formally employed)",
+  "pricing": "For legally married couples",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Open an account",
+    "href": "/bank/open-account"
+  },
+  "image": {
+    "src": "/images/accounts/partnership.webp",
+    "alt": ""
+  },
+  "order": 1,
+  "verified": true
+}

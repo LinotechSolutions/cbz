@@ -1,0 +1,24 @@
+{
+  "unit": "datvest",
+  "category": "institutional",
+  "productId": "municipal-and-parastatal-portfolio-admin",
+  "name": "Municipal & Parastatal Portfolio Admin",
+  "summary": "Prudent institutional governance, risk-adjusted returns, and liability matching for statutory bodies and public sector retirement funds.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Start investing",
+    "href": "/datvest/start-investing"
+  },
+  "image": null,
+  "order": 2,
+  "verified": false
+}

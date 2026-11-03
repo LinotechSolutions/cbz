@@ -1,0 +1,33 @@
+{
+  "unit": "risk-advisory",
+  "category": "broking",
+  "productId": "fleet_marine_broking",
+  "name": "Commercial Fleet & Marine Cargo",
+  "summary": "Structuring comprehensive fleet coverage, goods in transit (GIT), and international ocean and air freight marine policies.",
+  "benefits": [
+    "Aggregate fleet deductibles and profit-sharing rebate clauses",
+    "Warehouse-to-warehouse international cargo cover (Institute Cargo Clauses A/B)",
+    "Telematics integration advice to lower fleet loss ratios and premiums",
+    "Immediate cross-border cover notes for regional transit across SADC corridors",
+    "Reduced downtime through fast-tracked mobile damage assessment"
+  ],
+  "eligibility": [
+    "Vehicle fleet schedule including registration, make, year, and sum insured",
+    "Route descriptions and typical cargo profile"
+  ],
+  "audience": "Logistics operators, fleet owners, distributors, and importers/exporters",
+  "pricing": "Brokerage Placement",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Request a risk consultation",
+    "href": "/risk-advisory/consultation"
+  },
+  "image": null,
+  "order": 1,
+  "verified": true
+}

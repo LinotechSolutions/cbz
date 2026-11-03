@@ -1,0 +1,30 @@
+{
+  "unit": "bank",
+  "category": "channels",
+  "productId": "local_pos",
+  "name": "Local Point of Sale (POS)",
+  "summary": "POS terminals accepting ATM card and ZimSwitch payments for retail and service merchants.",
+  "benefits": [
+    "Point of sale terminals that allow payments via ATM card and ZimSwitch",
+    "A safe, fast way for customers to use their ATM card",
+    "Suited to corporates in retail or services, such as hotels, restaurants, supermarkets, hospitals and car hire"
+  ],
+  "eligibility": [
+    "Existing corporate account holders"
+  ],
+  "audience": "Merchants",
+  "pricing": "For existing corporate account holders",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Open an account",
+    "href": "/bank/open-account"
+  },
+  "image": null,
+  "order": 4,
+  "verified": true
+}

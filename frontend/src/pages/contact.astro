@@ -1,0 +1,292 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Section from '../components/Section.astro';
+import Icon from '../components/Icon.astro';
+import Button from '../components/Button.astro';
+import { StepForm } from '../islands/StepForm';
+import { FORMS } from '../lib/forms';
+import { CONTACT, HOURS } from '../data/facts';
+import { LOGIN_ITEMS, OPEN_ACCOUNT_ITEMS } from '../data/nav';
+import { isExternal } from '../data/links';
+
+const channels = [
+  { icon: 'phone', label: 'Contact centre', value: CONTACT.contactCentre.display, href: CONTACT.contactCentre.href, line: '24 hours, 7 days' },
+  { icon: 'phone', label: 'Second line', value: CONTACT.contactCentreSecond.display, href: CONTACT.contactCentreSecond.href, line: 'Direct inquiries and card blocking' },
+  { icon: 'phoneMobile', label: 'Toll-free', value: CONTACT.tollFree.map((t) => t.display).join(' or '), href: CONTACT.tollFree[0].href, line: 'Free from all networks' },
+  { icon: 'whatsapp', label: 'WhatsApp', value: CONTACT.whatsapp.display, href: CONTACT.whatsapp.chatHref, line: 'Balances, statements, airtime and an agent' },
+  { icon: 'phoneMobile', label: 'USSD', value: CONTACT.ussd.display, href: CONTACT.ussd.href, line: 'Banking on any phone, no data needed' },
+  { icon: 'mail', label: 'Email', value: CONTACT.email, href: `mailto:${CONTACT.email}`, line: 'Formal enquiries and documents' },
+] as const;
+---
+
+<BaseLayout title="Contact us" description="Call, WhatsApp or email CBZ, find a branch or ATM, open an account or log in to internet banking.">
+  <div class="container head">
+    <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Contact us' }]} />
+    <h1>Contact us</h1>
+    <p class="lede">Call, chat or write to us, or find the nearest branch.</p>
+  </div>
+
+  <Section id="channels" heading="Ways to reach us" hideHeading compact>
+    <ul role="list" class="channels">
+      {
+        channels.map((c) => (
+          <li>
+            <a href={c.href} class="ch" target={isExternal(c.href) ? '_blank' : undefined} rel={isExternal(c.href) ? 'noopener noreferrer' : undefined}>
+              <Icon name={c.icon} size={22} class={c.icon === 'whatsapp' ? 'ch__wa' : 'ch__icon'} />
+              <span class="ch__text">
+                <span class="ch__label small muted">{c.label}</span>
+                <span class="ch__value">{c.value}</span>
+                <span class="ch__line small muted">{c.line}</span>
+              </span>
+              {isExternal(c.href) && <span class="sr-only">(opens in a new tab)</span>}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <dl class="hours">
+      {
+        HOURS.branches.map((h) => (
+          <div>
+            <dt>{h.days}</dt>
+            <dd>{h.hours}</dd>
+          </div>
+        ))
+      }
+      <div>
+        <dt>Digital channels</dt>
+        <dd>{HOURS.digital}</dd>
+      </div>
+    </dl>
+  </Section>
+
+  <Section id="branches" tone="tint" heading="Branches and ATMs" lede="Search the map, or open it in your own maps app for directions.">
+    <div class="map">
+      <div class="map__controls">
+        <label class="field">
+          <span class="field__label">Town or suburb</span>
+          <input class="input" type="search" id="map-town" placeholder="e.g. Borrowdale, Bulawayo, Mutare" />
+        </label>
+        <div class="map__btns">
+          <button type="button" class="btn btn--primary" data-map-load>Show branches on the map</button>
+          <a href="https://www.google.com/maps/search/?api=1&query=CBZ+Bank+branch+Zimbabwe" class="btn btn--secondary" target="_blank" rel="noopener noreferrer" data-map-open>
+            Open in Google Maps <Icon name="external" size={16} class="ext" /><span class="sr-only">(opens in a new tab)</span>
+          </a>
+        </div>
+        <p class="small muted">The map loads from Google when you ask for it. Head office: {CONTACT.address.line1}, {CONTACT.address.line2}.</p>
+      </div>
+      <div class="map__frame" data-map-frame hidden></div>
+    </div>
+  </Section>
+
+  <Section id="open-account" heading="Open an account" lede="Choose the company you want to start with.">
+    <ul role="list" class="links">
+      {
+        OPEN_ACCOUNT_ITEMS.filter((i) => i.href).map((i) => (
+          <li>
+            <a href={i.href!} class="lk" target={isExternal(i.href!) ? '_blank' : undefined} rel={isExternal(i.href!) ? 'noopener noreferrer' : undefined} data-track="open_account_choice" data-track-props={JSON.stringify({ choice: i.label, from: 'contact' })}>
+              <span class="lk__label">{i.label}</span>
+              {i.line && <span class="small muted">{i.line}</span>}
+              <Icon name={isExternal(i.href!) ? 'external' : 'chevronRight'} size={18} class="lk__chev" />
+              {isExternal(i.href!) && <span class="sr-only">(opens in a new tab)</span>}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+
+  <Section id="log-in" tone="tint" heading="Log in" lede="Internet banking and the apps.">
+    <ul role="list" class="links">
+      {
+        LOGIN_ITEMS.filter((i) => i.href).map((i) => (
+          <li>
+            <a href={i.href!} class="lk" target={isExternal(i.href!) ? '_blank' : undefined} rel={isExternal(i.href!) ? 'noopener noreferrer' : undefined} data-track="login_choice" data-track-props={JSON.stringify({ choice: i.label, from: 'contact' })}>
+              <span class="lk__label">{i.label}</span>
+              {i.line && <span class="small muted">{i.line}</span>}
+              <Icon name={isExternal(i.href!) ? 'external' : 'chevronRight'} size={18} class="lk__chev" />
+              {isExternal(i.href!) && <span class="sr-only">(opens in a new tab)</span>}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="small muted">Lost your password? <Button href="https://obdx.cbz.co.zw/index.html?module=login" variant="quiet">Reset it on internet banking</Button></p>
+  </Section>
+
+  <Section id="message" heading="Send us a message" lede="Tell us how we can help and the right team will reply.">
+    <StepForm client:visible def={FORMS['contact-enquiry']} />
+  </Section>
+</BaseLayout>
+
+<script>
+  const town = document.getElementById('map-town') as HTMLInputElement | null;
+  const load = document.querySelector<HTMLButtonElement>('[data-map-load]');
+  const open = document.querySelector<HTMLAnchorElement>('[data-map-open]');
+  const frame = document.querySelector<HTMLElement>('[data-map-frame]');
+  const query = () => `CBZ Bank branch ${town?.value.trim() ?? ''} Zimbabwe`.replace(/\s+/g, ' ');
+  town?.addEventListener('input', () => {
+    if (open) open.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query())}`;
+  });
+  load?.addEventListener('click', () => {
+    if (!frame) return;
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://www.google.com/maps?q=${encodeURIComponent(query())}&output=embed`;
+    iframe.title = 'Map of CBZ Bank branches';
+    iframe.loading = 'lazy';
+    iframe.referrerPolicy = 'no-referrer-when-downgrade';
+    frame.replaceChildren(iframe);
+    frame.hidden = false;
+    load.textContent = 'Update the map';
+  });
+</script>
+
+<style>
+  .head {
+    display: grid;
+    gap: var(--s-4);
+    padding-block: var(--s-8) var(--s-4);
+  }
+  .channels {
+    display: grid;
+    gap: var(--gap);
+  }
+  @media (min-width: 640px) {
+    .channels {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 900px) {
+    .channels {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .ch {
+    display: flex;
+    gap: var(--s-4);
+    align-items: flex-start;
+    padding: var(--s-4) var(--s-6);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    text-decoration: none;
+    color: var(--ink);
+    min-height: 88px;
+    transition: background-color var(--dur) var(--ease);
+  }
+  .ch:hover {
+    background: var(--blue-50);
+    color: var(--ink);
+  }
+  .ch__icon {
+    color: var(--blue-700);
+    margin-top: var(--s-1);
+  }
+  .ch__wa {
+    color: var(--whatsapp);
+    margin-top: var(--s-1);
+  }
+  .ch__text {
+    display: grid;
+    gap: 2px;
+  }
+  .ch__value {
+    font-weight: 700;
+    color: var(--blue);
+    font-size: var(--t-md);
+    font-variant-numeric: tabular-nums;
+  }
+  .hours {
+    margin: var(--s-8) 0 0;
+    display: grid;
+    gap: var(--s-2);
+    max-width: 480px;
+    font-size: var(--t-sm);
+  }
+  .hours div {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--s-4);
+    padding-bottom: var(--s-2);
+    border-bottom: 1px solid var(--line);
+  }
+  .hours dt {
+    color: var(--grey);
+  }
+  .hours dd {
+    margin: 0;
+    font-weight: 700;
+    color: var(--blue);
+  }
+  .map {
+    display: grid;
+    gap: var(--s-6);
+  }
+  @media (min-width: 900px) {
+    .map {
+      grid-template-columns: 4fr 8fr;
+      align-items: start;
+    }
+  }
+  .map__controls {
+    display: grid;
+    gap: var(--s-4);
+  }
+  .map__btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+  }
+  .map__frame {
+    min-height: 360px;
+    border-radius: var(--r-md);
+    overflow: hidden;
+    background: var(--blue-100);
+  }
+  .map__frame[hidden] {
+    display: none;
+  }
+  .map__frame iframe {
+    width: 100%;
+    height: 420px;
+    border: 0;
+  }
+  .links {
+    display: grid;
+    gap: var(--s-2);
+  }
+  @media (min-width: 640px) {
+    .links {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--gap);
+    }
+  }
+  .lk {
+    position: relative;
+    display: grid;
+    gap: 2px;
+    padding: var(--s-4) var(--s-12) var(--s-4) var(--s-6);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: var(--white);
+    text-decoration: none;
+    color: var(--ink);
+    min-height: var(--tap);
+    transition: background-color var(--dur) var(--ease);
+  }
+  .lk:hover {
+    background: var(--blue-50);
+    color: var(--ink);
+  }
+  .lk__label {
+    font-weight: 700;
+    color: var(--blue);
+  }
+  .lk__chev {
+    position: absolute;
+    right: var(--s-6);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--blue-700);
+  }
+</style>

@@ -1,0 +1,27 @@
+{
+  "id": "cbz-centre-and-suburban-office-parks",
+  "title": "CBZ Centre & Suburban Office Parks",
+  "type": "commercial",
+  "location": "Harare",
+  "status": "to-let",
+  "price": null,
+  "summary": "Prime commercial office space, corporate headquarters facilities, and executive suites with full back-up solar and diesel power.",
+  "details": [],
+  "images": [
+    {
+      "src": "/images/loan-home.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking-branch.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 1,
+  "verified": false
+}

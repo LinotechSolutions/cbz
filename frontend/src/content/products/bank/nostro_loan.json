@@ -1,0 +1,34 @@
+{
+  "unit": "bank",
+  "category": "loans",
+  "productId": "nostro_loan",
+  "name": "Nostro Individual Loan",
+  "summary": "USD personal loan for nostro account holders, up to twice net salary to a maximum of US$5,000.",
+  "benefits": [
+    "For nostro account holders with 2 months of USD salary processing",
+    "Net salary x 2, up to a maximum loan of US$5,000.00",
+    "3 to 12 months",
+    "USD personal loan to ease financial obligations"
+  ],
+  "eligibility": [
+    "New and existing corporates"
+  ],
+  "audience": "Employees in the private sector and NGOs / IOs",
+  "pricing": "Up to US$5,000",
+  "details": {
+    "tenor": "3 to 12 months",
+    "interestRate": null,
+    "adminFee": null,
+    "limit": "US$5,000.00"
+  },
+  "apply": {
+    "label": "Apply for a loan",
+    "href": "/bank/apply"
+  },
+  "image": {
+    "src": "/images/accounts/diaspora.webp",
+    "alt": ""
+  },
+  "order": 2,
+  "verified": true
+}

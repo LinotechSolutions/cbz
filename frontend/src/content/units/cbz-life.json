@@ -1,0 +1,40 @@
+{
+  "slug": "cbz-life",
+  "name": "CBZ Life",
+  "shortName": "CBZ Life",
+  "cluster": "insurance",
+  "logo": "life",
+  "order": 6,
+  "hero": {
+    "title": "Cover for your family, and for the people you employ",
+    "lede": "Funeral and education plans for individuals, and group life, retirement savings, annuities and credit life for employers.",
+    "image": { "src": "/images/insurance-family.webp", "alt": "A family together at home" }
+  },
+  "about": "CBZ Life provides long-term assurance for individuals and employers. Individual plans cover funeral costs and build savings towards a child's education, with life cover attached. Employee benefits cover group life, retirement savings, annuities in retirement, and credit life that settles an outstanding loan balance.",
+  "keyFacts": [
+    { "label": "Individual and employee benefit products", "value": "Six" },
+    { "label": "Comfortsure funeral benefit payment", "value": "Immediate" },
+    { "label": "Education covered by Sarapavana", "value": "Primary and secondary" }
+  ],
+  "primaryCta": { "label": "Request a quotation", "href": "/cbz-life/quote" },
+  "secondaryCta": { "label": "Speak to a consultant", "href": "/contact" },
+  "objectives": null,
+  "audience": null,
+  "heldEntities": [{ "name": "CBZ Shield", "stake": 100 }],
+  "leadership": null,
+  "calculators": ["policyQuote"],
+  "categories": [
+    { "id": "individual", "label": "Individual life" },
+    { "id": "employee", "label": "Employee benefits" }
+  ],
+  "regulator": null,
+  "productsNote": "Benefits, premiums and terms depend on the cover selected and on underwriting. Speak to a CBZ Life consultant for a quotation and the full policy terms.",
+  "contact": {
+    "heading": "Talk to CBZ Life",
+    "body": "Request a quotation for an individual plan, or speak to us about cover for your employees."
+  },
+  "seo": {
+    "title": "CBZ Life: funeral, education and group life cover",
+    "description": "Comfortsure funeral cash plan, Sarapavana education plan, group life, retirement savings, annuities and credit life from CBZ Life."
+  }
+}

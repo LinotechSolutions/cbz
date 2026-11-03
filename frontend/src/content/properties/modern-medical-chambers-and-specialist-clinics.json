@@ -1,0 +1,27 @@
+{
+  "id": "modern-medical-chambers-and-specialist-clinics",
+  "title": "Modern Medical Chambers & Specialist Clinics",
+  "type": "commercial",
+  "location": "Harare",
+  "status": "to-let",
+  "price": null,
+  "summary": "Purpose-built medical consulting suites, diagnostic laboratories, and surgical day clinics with medical-grade backup infrastructure.",
+  "details": [],
+  "images": [
+    {
+      "src": "/images/loan-home.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking-branch.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 3,
+  "verified": false
+}

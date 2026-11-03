@@ -1,0 +1,34 @@
+{
+  "unit": "capital",
+  "category": "debt",
+  "productId": "structured_finance",
+  "name": "Project & Asset-Backed Finance",
+  "summary": "Tailored non-recourse and limited-recourse project finance structures for capital expenditure and equipment acquisition.",
+  "benefits": [
+    "Off-balance sheet and Special Purpose Vehicle (SPV) ring-fencing",
+    "Cash-sweep and escrow accounts anchored by CBZ Bank treasury",
+    "Commodity and off-take linked repayment mechanisms",
+    "Isolates project risk from the corporate sponsor’s core balance sheet",
+    "Custom grace periods aligning debt service with operational cash generation"
+  ],
+  "eligibility": [
+    "Bankable off-take agreements",
+    "Technical engineering and environmental impact assessments",
+    "Detailed cash-flow financial models"
+  ],
+  "audience": "Mining houses, agro-industrial complexes, and infrastructure developers",
+  "pricing": "Structured Solutions",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Start a capital enquiry",
+    "href": "/capital/enquiry"
+  },
+  "image": null,
+  "order": 2,
+  "verified": true
+}

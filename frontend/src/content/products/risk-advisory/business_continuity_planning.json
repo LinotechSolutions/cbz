@@ -1,0 +1,33 @@
+{
+  "unit": "risk-advisory",
+  "category": "erm",
+  "productId": "business_continuity_planning",
+  "name": "Business Continuity & Disaster Recovery",
+  "summary": "Formulating and stress-testing operational continuity plans for power grid failures, floods, cyber hacks, and civil unrest.",
+  "benefits": [
+    "Business Impact Analysis (BIA) defining Recovery Time Objectives (RTO)",
+    "Alternative site disaster recovery protocols and supply chain redundancy matrices",
+    "Crisis simulation exercises and staff emergency readiness drills",
+    "Guarantees rapid restoration of mission-critical business functions",
+    "Protects customer confidence and contracts during unforeseen macro disruptions"
+  ],
+  "eligibility": [
+    "Process dependency data and IT infrastructure topology",
+    "Key supplier dependency list"
+  ],
+  "audience": "Financial institutions, utilities, mission-critical processors, and retailers",
+  "pricing": "Strategic Advisory",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Request a risk consultation",
+    "href": "/risk-advisory/consultation"
+  },
+  "image": null,
+  "order": 2,
+  "verified": true
+}

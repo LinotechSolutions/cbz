@@ -1,0 +1,33 @@
+{
+  "unit": "bank",
+  "category": "accounts",
+  "productId": "private_banking",
+  "name": "Private Banking",
+  "summary": "A dedicated service outlet for high net worth clients, offering tailor-made wealth creation and management solutions.",
+  "benefits": [
+    "Tailor-made wealth creation solutions",
+    "A dedicated outlet where high net worth clients open accounts and access services geared towards wealth creation and management"
+  ],
+  "eligibility": [
+    "Directors of listed companies, professionals earning a salary of $5,000 and above, or business owners",
+    "Minimum balance of $1,500 or an investment of $5,000"
+  ],
+  "audience": "High net worth individuals",
+  "pricing": "Minimum balance $1,500 or investment $5,000",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Open an account",
+    "href": "/bank/open-account"
+  },
+  "image": {
+    "src": "/images/cbz-wealth.webp",
+    "alt": ""
+  },
+  "order": 9,
+  "verified": true
+}

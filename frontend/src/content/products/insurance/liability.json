@@ -1,0 +1,24 @@
+{
+  "unit": "insurance",
+  "category": "business",
+  "productId": "liability",
+  "name": "Professional & Public Liability",
+  "summary": "Protects your company against legal liability arising from bodily injury, third-party loss, or advice.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Get a quote",
+    "href": "/insurance/quote"
+  },
+  "image": null,
+  "order": 2,
+  "verified": false
+}

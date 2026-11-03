@@ -1,0 +1,72 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ExternalLink from '../../components/ExternalLink.astro';
+import { formatDate } from '../../lib/format';
+import { visible } from '../../lib/visible';
+
+export async function getStaticPaths() {
+  const notices = await getCollection('notices');
+  return notices.map((n) => ({ params: { slug: n.id }, props: { notice: n } }));
+}
+
+const { notice } = Astro.props;
+const { Content } = await render(notice);
+const label: Record<string, string> = {
+  shareholder: 'Shareholder notice',
+  customer: 'Customer notice',
+  regulatory: 'Regulatory notice',
+  operational: 'Operational notice',
+  security: 'Security',
+};
+---
+
+<BaseLayout title={notice.data.title} description={notice.data.summary}>
+  <article class="container page">
+    <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Notices', href: '/notices' }, { label: label[notice.data.category] }]} />
+    <p class="small muted meta">
+      <time datetime={notice.data.date}>{formatDate(notice.data.date)}</time>
+      {visible(notice.data.reference) && <span>{notice.data.reference}</span>}
+    </p>
+    <h1>{notice.data.title}</h1>
+    <div class="prose">
+      <Content />
+    </div>
+    {
+      visible(notice.data.document) && (
+        <p>
+          <ExternalLink href={notice.data.document!}>Download the full notice</ExternalLink>
+        </p>
+      )
+    }
+  </article>
+</BaseLayout>
+
+<style>
+  .page {
+    display: grid;
+    gap: var(--s-4);
+    padding-block: var(--s-8) var(--band);
+    max-width: 800px;
+  }
+  .meta {
+    display: flex;
+    gap: var(--s-3);
+  }
+  .prose {
+    display: grid;
+    gap: var(--s-4);
+    margin-top: var(--s-4);
+  }
+  .prose :global(h2) {
+    margin-top: var(--s-4);
+  }
+  .prose :global(ul),
+  .prose :global(ol) {
+    padding-left: 1.2em;
+    display: grid;
+    gap: var(--s-2);
+    max-width: var(--measure);
+  }
+</style>

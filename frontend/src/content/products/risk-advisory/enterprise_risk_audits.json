@@ -1,0 +1,33 @@
+{
+  "unit": "risk-advisory",
+  "category": "erm",
+  "productId": "enterprise_risk_audits",
+  "name": "Enterprise Risk Audits & Profiling",
+  "summary": "Comprehensive, cross-functional risk audits evaluating strategic, operational, financial, and compliance exposures.",
+  "benefits": [
+    "Diagnostic risk register creation complying with ISO 31000 and COSO standards",
+    "Quantitative impact scoring and vulnerability heat mapping",
+    "Detailed mitigation roadmaps with assignable managerial ownership",
+    "Uncovers hidden, uninsured, or underinsured balance sheet liabilities",
+    "Empowers boards to demonstrate robust corporate governance to regulators"
+  ],
+  "eligibility": [
+    "Organisational chart and core process flow diagrams",
+    "Existing risk registers and internal audit reports"
+  ],
+  "audience": "C-suite executives, audit committees, and corporate boards",
+  "pricing": "Consultancy Mandate",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Request a risk consultation",
+    "href": "/risk-advisory/consultation"
+  },
+  "image": null,
+  "order": 0,
+  "verified": true
+}

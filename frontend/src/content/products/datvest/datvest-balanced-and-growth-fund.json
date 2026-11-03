@@ -1,0 +1,24 @@
+{
+  "unit": "datvest",
+  "category": "unit-trusts",
+  "productId": "datvest-balanced-and-growth-fund",
+  "name": "Datvest Balanced & Growth Fund",
+  "summary": "Optimized multi-asset fund balancing high-conviction blue-chip equities with high-yielding fixed income for long-term capital growth.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Start investing",
+    "href": "/datvest/start-investing"
+  },
+  "image": null,
+  "order": 1,
+  "verified": false
+}

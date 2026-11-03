@@ -1,0 +1,164 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Section from '../components/Section.astro';
+import KeyFacts from '../components/KeyFacts.astro';
+import ExternalLink from '../components/ExternalLink.astro';
+import Button from '../components/Button.astro';
+import Icon from '../components/Icon.astro';
+import { LINKS } from '../data/links';
+import { CONTACT } from '../data/facts';
+import { visible } from '../lib/visible';
+
+const unit = (await getEntry('units', 'cbz-foundation'))!.data;
+
+const focus = [
+  { title: 'Public health', body: 'Equipment, supplies and support for hospitals and health programmes.' },
+  { title: 'Education', body: 'Opportunities for learners from under-served communities, from school fees to learning facilities.' },
+  { title: 'Vulnerable communities', body: 'Support for children’s homes, people with disabilities and communities in hardship.' },
+];
+
+/** Published examples of support given by the Group and the Foundation. */
+const work = [
+  'School fees, uniforms and textbooks for 27 girls through Tariro Trust, so they could complete secondary school.',
+  'Personal protective equipment worth US$50,000 to major hospitals, and support to Mpilo and Harare Central Hospitals.',
+  'Wheelchairs, hospital beds and pressure mattresses for Ruwa Rehabilitation Hospital.',
+  'Equipment for visually impaired students at the University of Zimbabwe.',
+  'Support for Danai Children’s Home, Matthew Rusike Children’s Home and Danhiko.',
+];
+---
+
+<BaseLayout title={unit.seo.title} description={unit.seo.description}>
+  <Hero
+    title={unit.hero.title}
+    lede={unit.hero.lede}
+    image={unit.hero.image}
+    logo="holdings"
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'About', href: '/about' }, { label: 'CBZ Foundation' }]}
+    primary={{ label: unit.primaryCta.label, href: unit.primaryCta.href }}
+    overlap={false}
+  />
+
+  <Section id="about" heading="About the Foundation" hideHeading>
+    <div class="about">
+      <div class="stack">
+        <h2>About the Foundation</h2>
+        <p>{unit.about}</p>
+      </div>
+      <KeyFacts facts={unit.keyFacts} />
+    </div>
+  </Section>
+
+  <Section id="focus" tone="tint" heading="Three focus areas">
+    <ul role="list" class="focus">
+      {
+        focus.map((f) => (
+          <li class="focus__item">
+            <h3>{f.title}</h3>
+            <p class="small">{f.body}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+
+  <Section id="work" heading="The work so far" lede="Examples of support given by the Group and the Foundation.">
+    <ul class="work">
+      {work.map((w) => <li>{w}</li>)}
+    </ul>
+    <p class="links">
+      <ExternalLink href={LINKS.documents.philanthropy}>Philanthropic initiatives</ExternalLink>
+      <ExternalLink href={LINKS.documents.communityNews}>Community involvement news</ExternalLink>
+    </p>
+  </Section>
+
+  <Section id="contact" tone="dark">
+    <div class="contact on-dark">
+      <div class="stack">
+        <h2>{unit.contact.heading}</h2>
+        <p class="contact__body">{unit.contact.body}</p>
+        {
+          visible(CONTACT.foundationEmail) && (
+            <p class="contact__body">
+              <a href={`mailto:${CONTACT.foundationEmail}`}>{CONTACT.foundationEmail}</a>
+            </p>
+          )
+        }
+      </div>
+      <div class="contact__actions">
+        <Button href="/contact" variant="primary" size="lg">
+          Contact the Foundation
+        </Button>
+        <a href={CONTACT.contactCentre.href} class="btn btn--secondary btn--lg">
+          <Icon name="phone" size={18} /> {CONTACT.contactCentre.display}
+        </a>
+      </div>
+    </div>
+  </Section>
+</BaseLayout>
+
+<style>
+  .about {
+    display: grid;
+    gap: var(--s-8);
+  }
+  @media (min-width: 900px) {
+    .about {
+      grid-template-columns: 7fr 5fr;
+      gap: var(--s-12);
+      align-items: start;
+    }
+  }
+  .focus {
+    display: grid;
+    gap: var(--gap);
+  }
+  @media (min-width: 640px) {
+    .focus {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .focus__item {
+    display: grid;
+    gap: var(--s-2);
+    align-content: start;
+    padding: var(--s-6);
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+  }
+  .work {
+    padding-left: 1.2em;
+    display: grid;
+    gap: var(--s-3);
+    max-width: var(--measure);
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-6);
+    margin-top: var(--s-8);
+  }
+  .contact {
+    display: grid;
+    gap: var(--s-8);
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .contact {
+      grid-template-columns: 1fr auto;
+    }
+  }
+  .contact__body {
+    color: rgba(255, 255, 255, 0.82);
+  }
+  .contact__body a {
+    color: var(--white);
+  }
+  .contact__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+  }
+</style>

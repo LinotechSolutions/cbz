@@ -1,0 +1,59 @@
+name: Frontend CI
+
+on:
+  pull_request:
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/ci.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'frontend/**'
+
+defaults:
+  run:
+    working-directory: frontend
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+      # The repo root is an npm workspace, so the lockfile and node_modules live there.
+      - run: npm ci
+        working-directory: .
+      - name: Port content
+        run: npm run port
+      - name: Typecheck
+        run: npm run check
+      - name: Lint
+        run: npm run lint
+      - name: Unit tests
+        run: npm test
+      - name: Build
+        run: npx astro build
+      - name: Handoff report
+        run: npm run handoff
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+      - name: End-to-end and accessibility
+        run: npm run e2e
+        env:
+          CI: true
+      - name: Lighthouse CI
+        run: npm run lhci
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reports
+          path: |
+            frontend/playwright-report
+            frontend/.lighthouseci
+            frontend/HANDOFF.md
+          if-no-files-found: ignore

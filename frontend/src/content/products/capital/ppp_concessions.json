@@ -1,0 +1,33 @@
+{
+  "unit": "capital",
+  "category": "infrastructure",
+  "productId": "ppp_concessions",
+  "name": "Public-Private Partnerships (PPPs)",
+  "summary": "Advising government, municipalities, and concessionaires on BOT, BOOT, and concession contracts.",
+  "benefits": [
+    "Concession contract structuring, risk-allocation matrices, and tariff setting",
+    "Public-Private Partnership legislative compliance under ZIDA frameworks",
+    "Sovereign guarantee advisory and blended finance arrangements",
+    "Unlocks private sector efficiency and capital for national infrastructure",
+    "Balanced risk sharing between public authorities and private consortiums"
+  ],
+  "eligibility": [
+    "ZIDA approval or project registration",
+    "Technical feasibility studies and environmental clearance certificates"
+  ],
+  "audience": "State-owned enterprises, ministries, local authorities, and private developers",
+  "pricing": "Infrastructure Advisory",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Start a capital enquiry",
+    "href": "/capital/enquiry"
+  },
+  "image": null,
+  "order": 0,
+  "verified": true
+}

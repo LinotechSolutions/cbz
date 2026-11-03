@@ -1,0 +1,42 @@
+{
+  "unit": "bank",
+  "category": "accounts",
+  "productId": "current_corporate",
+  "name": "Current Account (Corporate)",
+  "summary": "Transactional account for registered companies, with access to credit facilities, credit cards and overdrafts.",
+  "benefits": [
+    "Access to loans",
+    "Access to credit cards",
+    "Access to an overdraft facility",
+    "Debit card for sole signatories",
+    "Convenient, safe payments through online banking and in branch",
+    "Corporate current account holders have access to credit facilities"
+  ],
+  "eligibility": [
+    "Copy of memorandum and articles of association",
+    "Certificate of incorporation",
+    "Directors' valid ID",
+    "Directors' proof of residence (latest utility bill)",
+    "CR6",
+    "CR2 (where applicable)",
+    "Tax clearance"
+  ],
+  "audience": "Registered corporates",
+  "pricing": "For registered corporates",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Open an account",
+    "href": "/bank/open-account"
+  },
+  "image": {
+    "src": "/images/cbz-banking.webp",
+    "alt": ""
+  },
+  "order": 2,
+  "verified": true
+}

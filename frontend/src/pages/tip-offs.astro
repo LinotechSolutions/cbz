@@ -1,0 +1,49 @@
+---
+import InfoPage from '../layouts/InfoPage.astro';
+import { LINKS } from '../data/links';
+import { CONTACT } from '../data/facts';
+---
+
+<InfoPage
+  title="Tip-offs anonymous"
+  description="Report fraud, corruption or misconduct at CBZ in confidence, without giving your name."
+  intro="CBZ has a zero-tolerance policy towards fraud, financial misconduct and unethical behaviour, by staff and by anyone who deals with the Group. If you see it, you can report it in confidence, and you do not have to give your name."
+  sections={[
+    {
+      heading: 'What you can report',
+      body: [
+        '- Fraud, theft or misuse of CBZ or customer funds',
+        '- Bribery, corruption or conflicts of interest',
+        '- Misconduct by staff, agents, suppliers or contractors',
+        '- Breaches of law, regulation or CBZ policy',
+        '- Victimisation of anyone who has spoken up',
+      ],
+    },
+    {
+      heading: 'How it works',
+      body: [
+        'Reports go to an independent service, not to the people they concern. The substance is passed to CBZ for investigation without revealing who reported it. You can follow up with your reference number to add information or hear the outcome.',
+      ],
+    },
+    {
+      heading: 'Your protection',
+      body: ['Reports are confidential and can be fully anonymous. CBZ does not tolerate retaliation against anyone who reports in good faith.'],
+    },
+    {
+      heading: 'If you have been targeted by fraud',
+      body: [
+        'A phishing message or a fraudulent transaction on your own account is faster to deal with directly: call the Contact Centre at once, and see the security guidance on this site on how to spot fake CBZ messages.',
+      ],
+    },
+  ]}
+  links={[
+    { label: 'Policies and regulations', href: LINKS.documents.policiesAndRegulations, note: 'The Group’s published policies, including zero tolerance to prohibited practices.' },
+    { label: 'Notice: beware of web phishing', href: LINKS.documents.phishingNotice },
+  ]}
+  channels={[
+    { label: 'Anonymous hotline', value: CONTACT.tipOffs.hotline, href: CONTACT.tipOffs.hotline ? `tel:${CONTACT.tipOffs.hotline}` : null },
+    { label: 'Email', value: CONTACT.tipOffs.email, href: CONTACT.tipOffs.email ? `mailto:${CONTACT.tipOffs.email}` : null },
+    { label: 'Online', value: CONTACT.tipOffs.web, href: CONTACT.tipOffs.web },
+    { label: 'Contact Centre, for fraud on your own account', value: CONTACT.contactCentre.display, href: CONTACT.contactCentre.href },
+  ]}
+/>

@@ -1,0 +1,33 @@
+{
+  "unit": "red-sphere",
+  "category": "salary",
+  "productId": "lockable_device",
+  "name": "Partner Lockable Device — Chipset & Avantvest",
+  "summary": "Access to productive assets for salaried individuals without direct salary deductions, with built-in asset security.",
+  "benefits": [
+    "Tenor: 6 months",
+    "Interest rate: 5%",
+    "Built-in asset security",
+    "Access to essential equipment for non-SSB clients"
+  ],
+  "eligibility": [
+    "KYC including ID",
+    "Proof of residence and employment",
+    "Payslip"
+  ],
+  "audience": "Salaried individuals without direct deductions",
+  "pricing": "5% interest",
+  "details": {
+    "tenor": "6 months",
+    "interestRate": "5%",
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Apply online",
+    "href": "https://rs.cbz.co.zw/"
+  },
+  "image": null,
+  "order": 3,
+  "verified": true
+}

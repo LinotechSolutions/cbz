@@ -1,0 +1,35 @@
+{
+  "slug": "cbz-foundation",
+  "name": "CBZ Foundation",
+  "shortName": "CBZ Foundation",
+  "cluster": "philanthropy",
+  "logo": "holdings",
+  "order": 10,
+  "hero": {
+    "title": "Giving with purpose",
+    "lede": "The Group's philanthropic arm funds organisations working in public health, education and the support of vulnerable communities.",
+    "image": { "src": "/images/cbzpicture1.webp", "alt": "Students at a school supported by the CBZ Foundation" }
+  },
+  "about": "The CBZ Foundation was established in March 2023 to bring the Group's charitable work under one roof. It is funded by an endowment of up to one percent of sustainable Group profit and makes grants to non-profit organisations in its three focus areas, with an initial grant pool of close to US$1 million.",
+  "keyFacts": [
+    { "label": "Established", "value": "March 2023" },
+    { "label": "Endowment", "value": "Up to 1% of sustainable profit" },
+    { "label": "Focus areas", "value": "Three" }
+  ],
+  "primaryCta": { "label": "Contact the Foundation", "href": "/contact" },
+  "secondaryCta": null,
+  "objectives": null,
+  "audience": null,
+  "leadership": null,
+  "categories": [],
+  "regulator": null,
+  "productsNote": null,
+  "contact": {
+    "heading": "Work with the CBZ Foundation",
+    "body": "Tell us about your organisation and the communities it serves."
+  },
+  "seo": {
+    "title": "CBZ Foundation: health, education and community support",
+    "description": "The CBZ Foundation, established in 2023, funds public health, education and support for vulnerable communities across Zimbabwe."
+  }
+}

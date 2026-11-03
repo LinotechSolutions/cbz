@@ -1,0 +1,27 @@
+{
+  "id": "pomona-industrial-logistics-and-warehouse-park",
+  "title": "Pomona Industrial Logistics & Warehouse Park",
+  "type": "commercial",
+  "location": "Harare",
+  "status": "to-let",
+  "price": null,
+  "summary": "Modern high-bay warehousing, heavy freight turning circles, and containerized logistics hubs located along the strategic Harare North corridor.",
+  "details": [],
+  "images": [
+    {
+      "src": "/images/loan-home.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking-branch.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 0,
+  "verified": false
+}

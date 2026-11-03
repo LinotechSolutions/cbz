@@ -1,0 +1,29 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import UnitLayout from '../layouts/UnitLayout.astro';
+import Section from '../components/Section.astro';
+import TrackRecord from '../components/TrackRecord.astro';
+import { Suggest } from '../islands/Suggest';
+
+const unit = (await getEntry('units', 'datvest'))!.data;
+const deals = (await getCollection('deals', (d) => d.data.unit === 'datvest')).map((d) => d.data);
+const products = (await getCollection('products', (p) => p.data.unit === 'datvest')).map((p) => ({
+  id: p.data.productId,
+  name: p.data.name,
+}));
+---
+
+<UnitLayout unit={unit}>
+  <Fragment slot="after-products">
+    <Section id="suggest" heading="Not sure where to start?" lede="Answer two questions and we will point you at a fund." hideHeading>
+      <Suggest client:visible unit="datvest" products={products} />
+    </Section>
+    {
+      deals.length > 0 && (
+        <Section id="track-record" tone="tint">
+          <TrackRecord deals={deals} />
+        </Section>
+      )
+    }
+  </Fragment>
+</UnitLayout>

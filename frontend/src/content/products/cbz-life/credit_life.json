@@ -1,0 +1,27 @@
+{
+  "unit": "cbz-life",
+  "category": "employee",
+  "productId": "credit_life",
+  "name": "Credit Life Insurance",
+  "summary": "Covers the outstanding balance of a loan in the event of death, so the debt does not pass to the family.",
+  "benefits": [
+    "Provides cover for outstanding loan balances in the event of death",
+    "May include retrenchment and disability benefits"
+  ],
+  "eligibility": null,
+  "audience": "Borrowers and lending partners",
+  "pricing": "Employee benefits",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Request a quotation",
+    "href": "/cbz-life/quote"
+  },
+  "image": null,
+  "order": 3,
+  "verified": true
+}

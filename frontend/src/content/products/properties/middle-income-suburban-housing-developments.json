@@ -1,0 +1,24 @@
+{
+  "unit": "properties",
+  "category": "residential",
+  "productId": "middle-income-suburban-housing-developments",
+  "name": "Middle-Income Suburban Housing Developments",
+  "summary": "Affordable, modern 2 and 3-bedroom family apartments and standalone houses eligible for 15-year CBZ Bank mortgages.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Request a viewing",
+    "href": "/properties/request-a-viewing"
+  },
+  "image": null,
+  "order": 5,
+  "verified": false
+}

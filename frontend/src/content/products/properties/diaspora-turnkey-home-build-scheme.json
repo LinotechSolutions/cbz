@@ -1,0 +1,24 @@
+{
+  "unit": "properties",
+  "category": "residential",
+  "productId": "diaspora-turnkey-home-build-scheme",
+  "name": "Diaspora Turnkey Home Build Scheme",
+  "summary": "Complete end-to-end design, construction, and certification service for non-resident Zimbabweans with verified stage-gate video inspections.",
+  "benefits": [],
+  "eligibility": null,
+  "audience": null,
+  "pricing": null,
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Request a viewing",
+    "href": "/properties/request-a-viewing"
+  },
+  "image": null,
+  "order": 3,
+  "verified": false
+}

@@ -1,179 +1,37 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": "vite",
-  "buildCommand": "npm run build",
+  "framework": "astro",
+  "installCommand": "npm --prefix frontend ci",
+  "buildCommand": "npm --prefix frontend run build",
   "outputDirectory": "frontend/dist",
-  "rewrites": [
-    {
-      "source": "/bank",
-      "destination": "/bank/index.html"
-    },
-    {
-      "source": "/insurance",
-      "destination": "/insurance/index.html"
-    },
-    {
-      "source": "/datvest",
-      "destination": "/datvest/index.html"
-    },
-    {
-      "source": "/agro-yield",
-      "destination": "/agro-yield/index.html"
-    },
-    {
-      "source": "/properties",
-      "destination": "/properties/index.html"
-    },
-    {
-      "source": "/the-group",
-      "destination": "/the-group/index.html"
-    },
-    {
-      "source": "/buy-a-home",
-      "destination": "/buy-a-home/index.html"
-    },
-    {
-      "source": "/car-insurance-quote",
-      "destination": "/car-insurance-quote/index.html"
-    },
-    {
-      "source": "/invest-journey",
-      "destination": "/invest-journey/index.html"
-    },
-    {
-      "source": "/banking-journey",
-      "destination": "/banking-journey/index.html"
-    },
-    {
-      "source": "/agro-journey",
-      "destination": "/agro-journey/index.html"
-    },
-    {
-      "source": "/login",
-      "destination": "/login/index.html"
-    },
-    {
-      "source": "/open-account",
-      "destination": "/open-account/index.html"
-    },
-    {
-      "source": "/red-sphere",
-      "destination": "/red-sphere/index.html"
-    },
-    {
-      "source": "/cbz-life",
-      "destination": "/cbz-life/index.html"
-    },
-    {
-      "source": "/diaspora",
-      "destination": "/diaspora/index.html"
-    },
-    {
-      "source": "/security",
-      "destination": "/security/index.html"
-    },
-    {
-      "source": "/capital",
-      "destination": "/capital/index.html"
-    },
-    {
-      "source": "/risk-advisory",
-      "destination": "/risk-advisory/index.html"
-    },
-    {
-      "source": "/capital-journey",
-      "destination": "/capital-journey/index.html"
-    },
-    {
-      "source": "/risk-journey",
-      "destination": "/risk-journey/index.html"
-    },
-    {
-      "source": "/business-conditions",
-      "destination": "/business-conditions/index.html"
-    },
-    {
-      "source": "/privacy-policy",
-      "destination": "/privacy-policy/index.html"
-    },
-    {
-      "source": "/tip-offs",
-      "destination": "/tip-offs/index.html"
-    },
-    {
-      "source": "/cbz-foundation",
-      "destination": "/cbz-foundation/index.html"
-    }
-  ],
-  "redirects": [
-    { "source": "/personal-banking", "destination": "/bank", "permanent": true },
-    { "source": "/personal-banking/accounts", "destination": "/bank", "permanent": true },
-    { "source": "/personal-banking/accounts/current-account", "destination": "/bank", "permanent": true },
-    { "source": "/personal-banking/accounts/savings-account", "destination": "/bank", "permanent": true },
-    { "source": "/personal-banking/accounts/fca-account", "destination": "/bank", "permanent": true },
-    { "source": "/personal-banking/loans", "destination": "/banking-journey", "permanent": true },
-    { "source": "/short-term-insurance", "destination": "/insurance", "permanent": true },
-    { "source": "/insurance/motor", "destination": "/car-insurance-quote", "permanent": true },
-    { "source": "/asset-management", "destination": "/datvest", "permanent": true },
-    { "source": "/cbz-asset-management", "destination": "/datvest", "permanent": true },
-    { "source": "/properties-development", "destination": "/properties", "permanent": true },
-    { "source": "/red-sphere-finance", "destination": "/red-sphere", "permanent": true },
-    { "source": "/life-assurance", "destination": "/cbz-life", "permanent": true },
-    { "source": "/diaspora-banking", "destination": "/diaspora", "permanent": true }
-  ],
+  "cleanUrls": true,
+  "trailingSlash": false,
   "headers": [
     {
-      "source": "/assets/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
+      "source": "/_astro/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+    },
+    {
+      "source": "/fonts/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
     },
     {
       "source": "/(.*)",
       "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
-        },
-        {
-          "key": "Referrer-Policy",
-          "value": "strict-origin-when-cross-origin"
-        },
-        {
-          "key": "Permissions-Policy",
-          "value": "camera=(), microphone=(), geolocation=(), payment=()"
-        },
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), payment=()" },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https://images.unsplash.com https://*.railway.app https://*.up.railway.app https://cbz.co.zw; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://*.railway.app https://*.up.railway.app https://*.cbz.co.zw https://api.cbz.co.zw; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; frame-src https://www.google.com;"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.cbz.co.zw; font-src 'self'; connect-src 'self' https://*.cbz.co.zw; frame-src https://www.google.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self';"
         }
       ]
     },
     {
       "source": "/(.*)",
-      "has": [
-        {
-          "type": "host",
-          "value": "(?<host>.*\\.vercel\\.app)"
-        }
-      ],
-      "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex, nofollow"
-        }
-      ]
+      "has": [{ "type": "host", "value": "(?<host>.*\\.vercel\\.app)" }],
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
     }
   ]
 }

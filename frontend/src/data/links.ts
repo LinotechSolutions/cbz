@@ -1,0 +1,49 @@
+/**
+ * Every destination outside this site. `null` means not yet supplied, and the
+ * link is hidden rather than guessed.
+ */
+export const LINKS = {
+  internetBanking: {
+    personal: 'https://obdx.cbz.co.zw/index.html?module=login',
+    corporate: 'https://obdx.cbz.co.zw/',
+    selfService: 'https://selfservice.cbz.co.zw/',
+    newCorporate: 'https://cbzonline.cbz.co.zw/mfmbs/cbz-corp/',
+    newPersonal: null as string | null,
+    forgotPassword: 'https://obdx.cbz.co.zw/index.html?module=login',
+  },
+  touch: {
+    appStore: 'https://apps.apple.com/app/cbz-touch/id1200543503',
+    playStore: 'https://play.google.com/store/apps/details?id=zw.co.cbz.touch',
+  },
+  redSphere: {
+    portal: 'https://rs.cbz.co.zw/',
+    playStore: 'https://play.google.com/store/apps/details?id=zw.co.cbz.redsphere&hl=en',
+    appStore: null as string | null,
+  },
+  zikiCash: {
+    site: null as string | null,
+    appStore: null as string | null,
+    playStore: null as string | null,
+  },
+  zikiMall: 'https://zikimall.com/',
+  popVerification: 'https://www.cbz.co.zw/pop-verification',
+  investorRelations: 'https://www.cbz.co.zw/investor-relations',
+  zse: null as string | null,
+  propertiesSite: null as string | null,
+  documents: {
+    businessConditions: 'https://www.cbz.co.zw/ddownload_category/business-conditions/',
+    personalAccountTerms: 'https://www.cbz.co.zw/terms-conditions/terms-and-conditions-personal-account/',
+    websiteTerms: 'https://www.cbz.co.zw/terms-conditions/',
+    privacyPolicy: 'https://www.cbz.co.zw/privacy-policy/',
+    privacyNotice: 'https://www.cbz.co.zw/privacy-notice/',
+    policiesAndRegulations:
+      'https://www.cbz.co.zw/about-cbz-holdings/policies-regulations/policies-and-regulations/',
+    phishingNotice: 'https://www.cbz.co.zw/notice-to-all-our-customers-beware-of-web-phishing/',
+    philanthropy: 'https://www.cbz.co.zw/philanthropic-initiatives/',
+    communityNews: 'https://www.cbz.co.zw/news/community-involvement/',
+  },
+} as const;
+
+export function isExternal(href: string): boolean {
+  return /^https?:\/\//.test(href);
+}

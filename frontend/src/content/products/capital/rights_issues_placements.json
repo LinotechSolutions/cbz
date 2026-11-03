@@ -1,0 +1,33 @@
+{
+  "unit": "capital",
+  "category": "equity",
+  "productId": "rights_issues_placements",
+  "name": "Rights Issues & Private Placements",
+  "summary": "Structuring secondary capital raises for listed issuers and bespoke private equity injections for private firms.",
+  "benefits": [
+    "Rights offer pricing, underwriting agreements, and circular distribution",
+    "Private placement memoranda targeting local pension funds and regional DFIs",
+    "Structuring preferred shares, convertible notes, and mezzanine capital",
+    "Secures growth capital without diluting controlling ownership unduly",
+    "Accelerates strategic acquisitions or major capital expenditure programmes"
+  ],
+  "eligibility": [
+    "Shareholder mandate for additional share issuance",
+    "Regulatory circular approvals from stock exchange regulators"
+  ],
+  "audience": "Listed corporations, growing mid-caps, and developmental projects",
+  "pricing": "Equity Placement",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Start a capital enquiry",
+    "href": "/capital/enquiry"
+  },
+  "image": null,
+  "order": 1,
+  "verified": true
+}

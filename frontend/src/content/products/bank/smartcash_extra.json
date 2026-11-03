@@ -1,0 +1,38 @@
+{
+  "unit": "bank",
+  "category": "accounts",
+  "productId": "smartcash_extra",
+  "name": "SmartCash Extra",
+  "summary": "SmartCash account with no daily limit, no transaction limit and no maximum balance, on full KYC.",
+  "benefits": [
+    "CBZ debit card",
+    "Access to CBZ Touch",
+    "No minimum balance",
+    "Initial deposit of US$5",
+    "No daily limit",
+    "No transaction limit",
+    "No maximum balance"
+  ],
+  "eligibility": [
+    "Copy of ID and an opening deposit",
+    "Valid ID, passport size photo, proof of residence and proof of source of income"
+  ],
+  "audience": "Individuals",
+  "pricing": "Initial deposit US$5",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Open an account",
+    "href": "/bank/open-account"
+  },
+  "image": {
+    "src": "/images/accounts/savings.webp",
+    "alt": ""
+  },
+  "order": 8,
+  "verified": true
+}

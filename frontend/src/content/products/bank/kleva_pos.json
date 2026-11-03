@@ -1,0 +1,30 @@
+{
+  "unit": "bank",
+  "category": "channels",
+  "productId": "kleva_pos",
+  "name": "Kleva POS",
+  "summary": "Portable POS machine for SMEs, sole traders and street vendors, free to any qualifying trader.",
+  "benefits": [
+    "Sale, sale with cashback, balance enquiry and transaction reports",
+    "Portable POS machine for SMEs, sole traders and street vendors",
+    "Any sole trader or SME in Zimbabwe qualifies for the machine free"
+  ],
+  "eligibility": [
+    "Existing customers"
+  ],
+  "audience": "SMEs, sole traders and street vendors",
+  "pricing": "Free to qualifying traders",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Open an account",
+    "href": "/bank/open-account"
+  },
+  "image": null,
+  "order": 5,
+  "verified": true
+}

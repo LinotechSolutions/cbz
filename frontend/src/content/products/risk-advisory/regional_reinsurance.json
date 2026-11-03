@@ -1,0 +1,33 @@
+{
+  "unit": "risk-advisory",
+  "category": "reinsurance",
+  "productId": "regional_reinsurance",
+  "name": "Regional Treaty & Facultative Reinsurance",
+  "summary": "Placing large-scale, complex risks across reputable regional and international reinsurance markets via our SADC desk.",
+  "benefits": [
+    "Facultative placement for high-value risks exceeding domestic underwriting capacity",
+    "Proportional and non-proportional treaty structures with A-rated regional reinsurers",
+    "Specialised underwriting for mining, aviation, infrastructure, and energy generation",
+    "Provides security backed by internationally recognized balance sheets",
+    "Enables execution of mega-projects with guaranteed insurance capacity"
+  ],
+  "eligibility": [
+    "Comprehensive technical underwriting slip and slip conditions",
+    "Engineering survey report and maximum probable loss (MPL) calculations"
+  ],
+  "audience": "Direct insurance underwriters, mining houses, and mega-infrastructure projects",
+  "pricing": "Treaty / Facultative",
+  "details": {
+    "tenor": null,
+    "interestRate": null,
+    "adminFee": null,
+    "limit": null
+  },
+  "apply": {
+    "label": "Request a risk consultation",
+    "href": "/risk-advisory/consultation"
+  },
+  "image": null,
+  "order": 0,
+  "verified": true
+}

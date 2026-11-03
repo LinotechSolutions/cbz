@@ -16,3 +16,6 @@ __pycache__/
 .tmp/
 .strapi/
 
+
+.astro/
+

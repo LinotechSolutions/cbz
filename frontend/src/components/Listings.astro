@@ -5,9 +5,12 @@
  */
 import { getCollection } from 'astro:content';
 import ResponsiveImage from './ResponsiveImage.astro';
+import Icon from './Icon.astro';
 import { PropertyFilters } from '../islands/PropertyFilters';
+import { LINKS } from '../data/links';
 import { visible } from '../lib/visible';
 
+/* Every card goes to the CBZ Properties listings on Propertybook, where viewings are booked. */
 const listings = (await getCollection('properties')).map((p) => p.data).sort((a, b) => a.order - b.order);
 const locations = [...new Set(listings.map((l) => l.location))].sort();
 const statusLabel = { 'for-sale': 'For sale', 'to-let': 'To let', sold: 'Sold' } as const;
@@ -20,7 +23,7 @@ const typeLabel = { residential: 'Residential', commercial: 'Commercial', land: 
     {
       listings.map((l) => (
         <li class="lst" data-property data-type={l.type} data-location={l.location} data-status={l.status}>
-          <a href={`/properties/${l.id}`} class="lst__link card-base">
+          <a href={LINKS.propertyListings} class="lst__link card-base" target="_blank" rel="noopener noreferrer">
             <ResponsiveImage src={l.images[0].src} alt={l.images[0].alt || l.title} ratio="3:2" />
             <span class="lst__body">
               <span class="lst__meta small">
@@ -28,6 +31,10 @@ const typeLabel = { residential: 'Residential', commercial: 'Commercial', land: 
               </span>
               <span class="lst__title">{l.title}</span>
               <span class="lst__price">{visible(l.price) ? l.price : 'Price on application'}</span>
+              <span class="lst__go small">
+                View on Propertybook <Icon name="external" size={12} />
+                <span class="sr-only">(opens in a new tab)</span>
+              </span>
             </span>
           </a>
         </li>
@@ -35,6 +42,10 @@ const typeLabel = { residential: 'Residential', commercial: 'Commercial', land: 
     }
   </ul>
   {listings.length === 0 && <p class="muted">No listings yet. Ask us about current developments.</p>}
+  <a href={LINKS.propertyListings} class="lst__all" target="_blank" rel="noopener noreferrer">
+    Browse all CBZ Properties listings on Propertybook <Icon name="external" size={14} />
+    <span class="sr-only">(opens in a new tab)</span>
+  </a>
 </div>
 
 <style>
@@ -90,5 +101,27 @@ const typeLabel = { residential: 'Residential', commercial: 'Commercial', land: 
     font-weight: 700;
     color: var(--blue-700);
     font-size: var(--t-sm);
+  }
+  .lst__go {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-1);
+    margin-top: var(--s-2);
+    font-weight: 700;
+    color: var(--red-700);
+  }
+  .lst__all {
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    font-weight: 700;
+    color: var(--red-700);
+    text-decoration: none;
+    min-height: var(--tap);
+  }
+  .lst__all:hover {
+    text-decoration: underline;
+    color: var(--red-700);
   }
 </style>

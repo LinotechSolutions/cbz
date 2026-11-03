@@ -11,6 +11,7 @@ import { PropertyGallery } from '../../islands/PropertyGallery';
 import { Calculator } from '../../islands/Calculator';
 import { CALCULATORS } from '../../data/calculators';
 import { CONTACT } from '../../data/facts';
+import { LINKS } from '../../data/links';
 import { visible } from '../../lib/visible';
 
 export async function getStaticPaths() {
@@ -85,9 +86,10 @@ const jsonLd = [
         </div>
         <aside class="pd__aside">
           <p class="pd__price">{visible(property.price) ? property.price : 'Price on application'}</p>
-          <Button href={viewingHref} variant="primary" size="lg" block track="apply_click" trackProps={{ unit: 'properties', property: property.id }}>
-            Request a viewing
+          <Button href={LINKS.propertyListings} variant="primary" size="lg" block track="apply_click" trackProps={{ unit: 'properties', property: property.id }}>
+            View on Propertybook
           </Button>
+          <a href={viewingHref} class="btn btn--secondary btn--block">Request a viewing</a>
           <a href={CONTACT.contactCentre.href} class="btn btn--secondary btn--block">
             Call {CONTACT.contactCentre.display}
           </a>

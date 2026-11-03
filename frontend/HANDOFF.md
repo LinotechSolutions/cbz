@@ -30,7 +30,7 @@ Every solid box on the site map is a page or a form; every grey box is an off-si
 ## Decisions and assets still outstanding
 
 - Official App Store and Google Play badge artwork (`src/components/StoreBadges.astro` uses neutral buttons).
-- ZikiCash website and app links (`LINKS.zikiCash`), new personal internet banking URL, ZSE link, CBZ Properties site.
+- New personal internet banking URL, ZSE link, CBZ Properties managed-client sign-in. (App Store and Google Play links for CBZ Touch, Red Sphere and ZikiCash are in; property cards go to the CBZ Properties listings on Propertybook.)
 - Final photography. Every image slot has a fixed ratio, so swapping needs no layout change. Put final images in `src/assets/` and pass the import to `<ResponsiveImage>` to get AVIF and WebP.
 - Unit mailboxes for form routing, from the marketing managers.
 - IPEC, SECZIM and broker registration lines (`regulator` in each unit JSON).
@@ -67,7 +67,7 @@ _Generated 2026-11-03 by `npm run handoff`. Do not edit between the markers._
 | Mortgage term limits (2 to 10 years used in the calculator) | CBZ Bank |  |
 | Car finance term limits (1 to 5 years used in the calculator) | CBZ Bank |  |
 | Unit mailboxes for form routing | Marketing managers |  |
-| Final photography for heroes and tiles. Business-page heroes use three circle-template photos shared across nine units; one per unit in the same template is ideal | Marketing |  |
+| Final photography for heroes and tiles | Marketing |  |
 | Campaign artwork and copy | Marketing |  |
 | Leadership profiles per unit | Each unit |  |
 | Objectives and customer segmentation per unit | Marketing |  |
@@ -80,7 +80,7 @@ _Generated 2026-11-03 by `npm run handoff`. Do not edit between the markers._
 | CBZ Bank calls to action (site map says "to be confirmed"; Open an account, Apply for a loan and Call me back are in place) | CBZ Bank |  |
 | Board of directors: names, roles and photos | Corporate Affairs |  |
 | Sustainability: Grievance Procedure PDF, Grievance Resolution Form PDF, grievance mailbox, and the reports to publish | Sustainability | src/data/sustainability.ts; links are hidden until set. |
-| Off-site links: farmer onboarding, ATDC website address, ZikiCash, property management sign-in | Agro-Yield, Digital, CBZ Properties |  |
+| Off-site links: farmer onboarding, ATDC website address, property management sign-in | Agro-Yield, Digital, CBZ Properties |  |
 | Zeex invoice-discounting wording and customer journey on the Red Sphere page | Red Sphere Finance and Zeex | Both parties to approve. Link to zeex.co.zw is live. |
 | ATDC button placement on the Agro-Yield page (Supply chain, commodity trading or a Group businesses area) | CBZ Agro-Yield | Placed in Choose your service and in its own Explore ATDC section; needs the ATDC website address. |
 | Integrations behind the forms: SSP Pure, ICECASH and Flex Cube (Insurance), Life Central (Life) | Digital | Recorded on each unit JSON under "systems"; nothing is wired yet. |
@@ -95,10 +95,6 @@ _Generated 2026-11-03 by `npm run handoff`. Do not edit between the markers._
 - `facts.CONTACT.tipOffs.web`
 - `facts.CONTACT.foundationEmail`
 - `links.internetBanking.newPersonal`
-- `links.redSphere.appStore`
-- `links.zikiCash.site`
-- `links.zikiCash.appStore`
-- `links.zikiCash.playStore`
 - `links.zse`
 - `links.propertiesSite`
 - `links.farmerOnboarding`

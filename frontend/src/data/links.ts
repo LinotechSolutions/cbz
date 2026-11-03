@@ -12,24 +12,27 @@ export const LINKS = {
     forgotPassword: 'https://obdx.cbz.co.zw/index.html?module=login',
   },
   touch: {
-    appStore: 'https://apps.apple.com/app/cbz-touch/id1200543503',
+    appStore: 'https://apps.apple.com/zw/app/cbz-touch/id1099147682',
     playStore: 'https://play.google.com/store/apps/details?id=zw.co.cbz.touch',
   },
   redSphere: {
     portal: 'https://rs.cbz.co.zw/',
     playStore: 'https://play.google.com/store/apps/details?id=zw.co.cbz.redsphere&hl=en',
-    appStore: null as string | null,
+    appStore: 'https://apps.apple.com/zw/app/redsphere/id6775831304' as string | null,
   },
   zikiCash: {
-    site: null as string | null,
-    appStore: null as string | null,
-    playStore: null as string | null,
+    site: 'https://zikicash.com/' as string | null,
+    appStore: 'https://apps.apple.com/app/zikicash/id6444567196' as string | null,
+    playStore: 'https://play.google.com/store/apps/details?id=com.kuva.zikicash' as string | null,
   },
   zikiMall: 'https://zikimall.com/',
   popVerification: 'https://www.cbz.co.zw/pop-verification',
   investorRelations: 'https://www.cbz.co.zw/investor-relations',
   zse: null as string | null,
+  /** Managed-property client sign-in. Not the listings site. */
   propertiesSite: null as string | null,
+  /** CBZ Properties listings on Propertybook; every property card goes here. */
+  propertyListings: 'https://www.propertybook.co.zw/listed-agencies/cbz-properties/for-sale',
   /** Zeex invoice discounting platform. Red Sphere Finance is the financier. */
   zeex: 'https://zeex.co.zw/' as string | null,
   /** Agro-Yield farmer onboarding portal. */

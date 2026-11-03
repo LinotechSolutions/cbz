@@ -14,7 +14,7 @@ After editing, run `npm run build`. If a file is malformed or a required field i
 | Field | What it does |
 |---|---|
 | `hero.title`, `hero.lede` | The headline (max 60 characters) and the line under it (max 160) |
-| `hero.image` | Path and alt text for the hero photo |
+| `hero.image` | Path and alt text for the hero photo. Business-page photos come pre-composed in the circle template: white on the left, the subject in a circle on the right with a red arc, 1774 × 887. Three are in use (`hero-digital`, `hero-advice`, `hero-home`); drop new ones in `public/images/` via `scripts/encode-heroes.mjs` |
 | `primaryCta`, `secondaryCta` | The hero buttons. The primary one also sits in the mobile bar |
 | `segments` | The audience chips under the hero, from the site map. Each links to a branch (`#branch-id`) or a product tab |
 | `branches` | **The page.** One entry per branch of the site map, in order: `id`, `title`, `line` and `items`. Each item has a `kind`: `form` or `page` (a link card to a page here), `external` (an off-site card, hidden while `href` is `null`), `app` (store badges for `cbz-touch`, `red-sphere` or `ziki-cash`), `products` (the product list for `categories` and/or `productIds`), `calculator` (`mortgage`, `carFinance`, `carInsurance`, `policyQuote` or `loan`), `listings` (the property grid) or `note` (a dashed information card) |

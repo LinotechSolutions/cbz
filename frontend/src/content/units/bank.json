@@ -8,7 +8,7 @@
   "hero": {
     "title": "Banking for every stage of life",
     "lede": "Accounts, cards, savings and loans for individuals, companies, schools and churches, with CBZ Touch and internet banking.",
-    "image": { "src": "/images/cbz-banking.webp", "alt": "A customer at a CBZ Bank counter" }
+    "image": { "src": "/images/hero-digital.webp", "alt": "A customer smiling at her phone while banking on the go" }
   },
   "primaryCta": { "label": "Open an account", "href": "/bank/open-account" },
   "secondaryCta": { "label": "Apply for a loan", "href": "/bank/apply" },

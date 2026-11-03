@@ -8,7 +8,7 @@
   "hero": {
     "title": "Independent broking and clear-eyed risk management",
     "lede": "Short-term insurance broking, enterprise risk audits, employee benefits consulting and reinsurance placement across Southern Africa.",
-    "image": { "src": "/images/insurance-health.webp", "alt": "A risk consultant reviewing documents with a client" }
+    "image": { "src": "/images/hero-advice.webp", "alt": "A risk consultant studying an assessment report" }
   },
   "primaryCta": { "label": "Get a quote", "href": "/risk-advisory/quote" },
   "secondaryCta": { "label": "Request an insurance audit", "href": "/risk-advisory/insurance-audit" },

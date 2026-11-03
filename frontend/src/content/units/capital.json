@@ -8,7 +8,7 @@
   "hero": {
     "title": "Capital raised. Transactions structured.",
     "lede": "Debt and equity raising, loan syndications, M&A advisory, listings and infrastructure finance from the Group's investment bank.",
-    "image": { "src": "/images/accounts/partnership.webp", "alt": "Two executives shaking hands across a boardroom table" }
+    "image": { "src": "/images/hero-advice.webp", "alt": "An executive reviewing a transaction analysis" }
   },
   "primaryCta": { "label": "Call me back", "href": "/capital/call-me-back" },
   "secondaryCta": { "label": "Start a capital enquiry", "href": "/capital/enquiry" },

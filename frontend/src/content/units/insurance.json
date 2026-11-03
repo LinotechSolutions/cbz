@@ -8,7 +8,7 @@
   "hero": {
     "title": "Cover for what you have worked for",
     "lede": "Motor, home, travel and personal cover, business and commercial policies, and protection for crops, livestock and machinery.",
-    "image": { "src": "/images/insurance-car.webp", "alt": "A car parked outside a family home" }
+    "image": { "src": "/images/hero-advice.webp", "alt": "A client reviewing a risk assessment report at his desk" }
   },
   "primaryCta": { "label": "Request a quote", "href": "/insurance/quote" },
   "secondaryCta": { "label": "Insure now", "href": "/insurance/insure-now" },

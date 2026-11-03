@@ -8,7 +8,7 @@
   "hero": {
     "title": "Credit that fits how you earn",
     "lede": "Salary-based loans for government and private payrolls, working capital for small enterprises, and lending through agents and partners.",
-    "image": { "src": "/images/accounts/individual.webp", "alt": "A young man outside a café holding his phone and bank card" }
+    "image": { "src": "/images/hero-digital.webp", "alt": "A customer applying for a loan on her phone" }
   },
   "primaryCta": { "label": "Apply online", "href": "https://rs.cbz.co.zw/" },
   "secondaryCta": { "label": "Loan calculator", "href": "#loan-calculator" },

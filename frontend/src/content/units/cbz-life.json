@@ -8,7 +8,7 @@
   "hero": {
     "title": "Cover for your family, and for the people you employ",
     "lede": "Funeral and education plans for individuals, and group life, retirement savings, annuities and credit life for employers.",
-    "image": { "src": "/images/insurance-family.webp", "alt": "A family together at home" }
+    "image": { "src": "/images/hero-digital.webp", "alt": "A customer getting a cover quote on her phone" }
   },
   "primaryCta": { "label": "Get a quote", "href": "/cbz-life/quote" },
   "secondaryCta": { "label": "Talk to an agent", "href": "/cbz-life/talk-to-an-agent" },

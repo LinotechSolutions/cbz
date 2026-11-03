@@ -20,6 +20,7 @@
     "label": "Apply for farming finance",
     "href": "/agro-yield/apply"
   },
+  "actions": null,
   "image": {
     "src": "/images/cbz-agriculture.webp",
     "alt": ""

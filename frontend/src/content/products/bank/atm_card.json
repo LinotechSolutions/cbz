@@ -23,6 +23,7 @@
     "label": "Open an account",
     "href": "/bank/open-account"
   },
+  "actions": null,
   "image": null,
   "order": 2,
   "verified": true

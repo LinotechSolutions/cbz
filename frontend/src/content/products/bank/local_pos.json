@@ -24,6 +24,12 @@
     "label": "Open an account",
     "href": "/bank/open-account"
   },
+  "actions": [
+    {
+      "label": "Speak to an agent",
+      "href": "/bank/call-me-back"
+    }
+  ],
   "image": null,
   "order": 4,
   "verified": true

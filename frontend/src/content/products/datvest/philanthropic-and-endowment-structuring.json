@@ -18,6 +18,7 @@
     "label": "Start investing",
     "href": "/datvest/start-investing"
   },
+  "actions": null,
   "image": null,
   "order": 5,
   "verified": false

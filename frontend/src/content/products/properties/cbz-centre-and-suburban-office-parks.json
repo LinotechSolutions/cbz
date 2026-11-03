@@ -18,6 +18,7 @@
     "label": "Request a viewing",
     "href": "/properties/request-a-viewing"
   },
+  "actions": null,
   "image": null,
   "order": 1,
   "verified": false

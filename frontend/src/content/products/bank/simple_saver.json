@@ -28,6 +28,7 @@
     "label": "Open an account",
     "href": "/bank/open-account"
   },
+  "actions": null,
   "image": {
     "src": "/images/accounts/individual.webp",
     "alt": ""

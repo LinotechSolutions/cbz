@@ -27,6 +27,7 @@
     "label": "Apply online",
     "href": "https://rs.cbz.co.zw/"
   },
+  "actions": null,
   "image": null,
   "order": 0,
   "verified": true

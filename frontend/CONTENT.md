@@ -28,6 +28,8 @@ To add a section to a business page, add a branch. To remove one, delete it. The
 
 ## Products: `src/content/products/<unit>/<id>.json`
 
+Each product carries an `apply` button, and optionally `actions`: a list of buttons that replace it (first primary, the rest secondary), set per product in `scripts/port-content.ts`. CBZ Touch goes to the App Store and Google Play, Internet Banking and E-statements to the Log in page, and the three POS products to Speak to an agent. Tell me more opens the product details in a popup.
+
 These files are **generated** from the old site's data by `npm run port`, which runs before every build. Edit the source in `src/content/_import/data/` if you want a change to stick, or delete the import and the port step once the business owns the JSON. Each product has a `summary` (max 320 characters), `benefits`, `eligibility`, `audience`, `pricing` and `details`. Insurance, Datvest and Properties are marked `"verified": false` and carry no figures.
 
 ## Properties: `src/content/properties/<id>.json`

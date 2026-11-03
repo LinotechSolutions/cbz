@@ -112,6 +112,8 @@ const products = defineCollection({
       })
       .optional(),
     apply: cta,
+    /** When set, these buttons replace `apply` on the card: the first is primary, the rest secondary. */
+    actions: z.array(cta).nullable().default(null),
     image: imageRef.nullable(),
     order: z.number().int(),
     /** Draft products carry names only; figures were removed pending sign-off. */

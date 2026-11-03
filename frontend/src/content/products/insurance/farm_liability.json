@@ -18,6 +18,7 @@
     "label": "Get a quote",
     "href": "/insurance/quote"
   },
+  "actions": null,
   "image": null,
   "order": 5,
   "verified": false

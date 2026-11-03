@@ -27,6 +27,7 @@
     "label": "Request a risk consultation",
     "href": "/risk-advisory/consultation"
   },
+  "actions": null,
   "image": null,
   "order": 0,
   "verified": true

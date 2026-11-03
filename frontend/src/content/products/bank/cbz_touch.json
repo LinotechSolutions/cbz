@@ -32,6 +32,16 @@
     "label": "Open an account",
     "href": "/bank/open-account"
   },
+  "actions": [
+    {
+      "label": "App Store",
+      "href": "https://apps.apple.com/zw/app/cbz-touch/id1099147682"
+    },
+    {
+      "label": "Google Play",
+      "href": "https://play.google.com/store/apps/details?id=zw.co.cbz.touch"
+    }
+  ],
   "image": null,
   "order": 0,
   "verified": true

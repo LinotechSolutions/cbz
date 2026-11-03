@@ -72,6 +72,7 @@ _Generated 2026-11-03 by `npm run handoff`. Do not edit between the markers._
 | Leadership profiles per unit | Each unit |  |
 | Objectives and customer segmentation per unit | Marketing |  |
 | Property listings, prices and photography | CBZ Properties |  |
+| FAQ answers on the Bank, Insurance, Properties, Datvest and Capital pages | Each business unit | Drafted from the product data and form copy; each unit to confirm or replace the five questions. |
 | Datvest and CBZ Capital track record (deals) | Datvest, CBZ Capital |  |
 | Car insurance and life policy rate tables | CBZ Insurance, CBZ Life |  |
 | Chatbot provider and endpoint | Digital |  |
@@ -117,15 +118,15 @@ _Generated 2026-11-03 by `npm run handoff`. Do not edit between the markers._
 
 ### Values still null in content
 
-- products/agro-yield: 24 null fields across its product files (pricing, details, images)
-- products/bank: 158 null fields across its product files (pricing, details, images)
-- products/capital: 50 null fields across its product files (pricing, details, images)
-- products/cbz-life: 36 null fields across its product files (pricing, details, images)
-- products/datvest: 144 null fields across its product files (pricing, details, images)
-- products/insurance: 144 null fields across its product files (pricing, details, images)
-- products/properties: 144 null fields across its product files (pricing, details, images)
-- products/red-sphere: 35 null fields across its product files (pricing, details, images)
-- products/risk-advisory: 50 null fields across its product files (pricing, details, images)
+- products/agro-yield: 28 null fields across its product files (pricing, details, images)
+- products/bank: 191 null fields across its product files (pricing, details, images)
+- products/capital: 60 null fields across its product files (pricing, details, images)
+- products/cbz-life: 42 null fields across its product files (pricing, details, images)
+- products/datvest: 162 null fields across its product files (pricing, details, images)
+- products/insurance: 162 null fields across its product files (pricing, details, images)
+- products/properties: 162 null fields across its product files (pricing, details, images)
+- products/red-sphere: 48 null fields across its product files (pricing, details, images)
+- products/risk-advisory: 60 null fields across its product files (pricing, details, images)
 - `properties/bloomingdale-master-luxury-clusters.json`: price, tourUrl
 - `properties/cbz-centre-and-suburban-office-parks.json`: price, tourUrl
 - `properties/commercial-land-subdivisions-and-light-industrial.json`: price, tourUrl

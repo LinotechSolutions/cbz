@@ -8,14 +8,35 @@
   "hero": {
     "title": "Banking for every stage of life",
     "lede": "Accounts, cards, savings and loans for individuals, companies, schools and churches, with CBZ Touch and internet banking.",
-    "image": { "src": "/images/hero-digital.webp", "alt": "A customer smiling at her phone while banking on the go" }
+    "image": {
+      "src": "/images/hero-digital.webp",
+      "alt": "A customer smiling at her phone while banking on the go"
+    }
   },
-  "primaryCta": { "label": "Open an account", "href": "/bank/open-account" },
-  "secondaryCta": { "label": "Apply for a loan", "href": "/bank/apply" },
+  "primaryCta": {
+    "label": "Open an account",
+    "href": "/bank/open-account"
+  },
+  "secondaryCta": {
+    "label": "Apply for a loan",
+    "href": "/bank/apply"
+  },
   "segments": [
-    { "label": "Individuals", "line": "Current, savings, foreign currency and student accounts", "href": "#panel-bank-accounts" },
-    { "label": "Companies, schools and churches", "line": "Corporate, school and church accounts and merchant POS", "href": "#panel-bank-accounts" },
-    { "label": "Diaspora", "line": "Bank at home from abroad", "href": "/diaspora" }
+    {
+      "label": "Individuals",
+      "line": "Current, savings, foreign currency and student accounts",
+      "href": "#panel-bank-accounts"
+    },
+    {
+      "label": "Companies, schools and churches",
+      "line": "Corporate, school and church accounts and merchant POS",
+      "href": "#panel-bank-accounts"
+    },
+    {
+      "label": "Diaspora",
+      "line": "Bank at home from abroad",
+      "href": "/diaspora"
+    }
   ],
   "branches": [
     {
@@ -23,8 +44,20 @@
       "title": "Open an account",
       "line": "Current, savings, foreign currency, SmartCash and student accounts.",
       "items": [
-        { "label": "Accounts and savings", "kind": "products", "categories": ["accounts", "savings"] },
-        { "label": "Account opening form", "line": "Three steps; a relationship manager finishes the opening with you", "kind": "form", "href": "/bank/open-account" }
+        {
+          "label": "Accounts and savings",
+          "kind": "products",
+          "categories": [
+            "accounts",
+            "savings"
+          ]
+        },
+        {
+          "label": "Account opening form",
+          "line": "Three steps; a relationship manager finishes the opening with you",
+          "kind": "form",
+          "href": "/bank/open-account"
+        }
       ]
     },
     {
@@ -32,10 +65,31 @@
       "title": "Apply for a loan",
       "line": "Personal, school fees, civil servant and business loans, mortgages and car finance.",
       "items": [
-        { "label": "Loans", "kind": "products", "categories": ["loans"] },
-        { "label": "Mortgage calculator", "line": "Estimate a monthly repayment over two to ten years", "kind": "calculator", "calculator": "mortgage" },
-        { "label": "Car finance calculator", "line": "Estimate a monthly repayment over one to five years", "kind": "calculator", "calculator": "carFinance" },
-        { "label": "Loan application form", "line": "What you are financing and your income", "kind": "form", "href": "/bank/apply" }
+        {
+          "label": "Loans",
+          "kind": "products",
+          "categories": [
+            "loans"
+          ]
+        },
+        {
+          "label": "Mortgage calculator",
+          "line": "Estimate a monthly repayment over two to ten years",
+          "kind": "calculator",
+          "calculator": "mortgage"
+        },
+        {
+          "label": "Car finance calculator",
+          "line": "Estimate a monthly repayment over one to five years",
+          "kind": "calculator",
+          "calculator": "carFinance"
+        },
+        {
+          "label": "Loan application form",
+          "line": "What you are financing and your income",
+          "kind": "form",
+          "href": "/bank/apply"
+        }
       ]
     },
     {
@@ -43,24 +97,83 @@
       "title": "Cards and digital banking",
       "line": "Visa cards, CBZ Touch, internet banking and merchant point of sale.",
       "items": [
-        { "label": "Cards, digital and merchant", "kind": "products", "categories": ["cards", "channels"] },
-        { "label": "CBZ Touch", "kind": "app", "app": "cbz-touch" },
-        { "label": "Log in to internet banking", "line": "Personal and corporate platforms", "kind": "page", "href": "/login" }
+        {
+          "label": "Cards, digital and merchant",
+          "kind": "products",
+          "categories": [
+            "cards",
+            "channels"
+          ]
+        },
+        {
+          "label": "CBZ Touch",
+          "kind": "app",
+          "app": "cbz-touch"
+        },
+        {
+          "label": "Log in to internet banking",
+          "line": "Personal and corporate platforms",
+          "kind": "page",
+          "href": "/login"
+        }
       ]
     },
     {
-      "id": "call-me-back",
-      "title": "Call me back",
-      "line": "A relationship manager calls you.",
-      "items": [{ "label": "Call-back form", "line": "Your number and what it is about", "kind": "form", "href": "/bank/call-me-back" }]
+      "id": "faq",
+      "title": "Let's answer the questions in your mind",
+      "line": "You can find the answers to frequently asked questions below.",
+      "items": [
+        {
+          "label": "Contact us",
+          "kind": "faq",
+          "href": "/bank/call-me-back",
+          "faqs": [
+            {
+              "question": "What do I need to open an account?",
+              "answer": "A valid national ID or passport and proof of residence. Companies, schools and churches also bring their registration documents and a signatory resolution. Start with the account opening form and a relationship manager confirms the exact list for the account you choose."
+            },
+            {
+              "question": "Can I open an account from outside Zimbabwe?",
+              "answer": "Yes. The diaspora banking page explains how to open and run a CBZ Bank account from abroad, and the same account opening form works wherever you live."
+            },
+            {
+              "question": "How do I get CBZ Touch?",
+              "answer": "Download CBZ Touch from the App Store or Google Play and register with your CBZ Bank account or wallet. It is zero-rated, so it uses no data on local networks."
+            },
+            {
+              "question": "How long does a loan application take?",
+              "answer": "Send the loan application form with what you are financing and your income. A lending officer contacts you within two working days with what you qualify for and the documents needed."
+            },
+            {
+              "question": "Who do I speak to about business banking?",
+              "answer": "Use the account opening form for a corporate, school or church account, or ask for a call back and choose Business banking. A relationship manager calls you."
+            }
+          ]
+        }
+      ]
     }
   ],
   "categories": [
-    { "id": "accounts", "label": "Accounts" },
-    { "id": "savings", "label": "Savings and investments" },
-    { "id": "loans", "label": "Loans" },
-    { "id": "cards", "label": "Cards" },
-    { "id": "channels", "label": "Digital and merchant" }
+    {
+      "id": "accounts",
+      "label": "Accounts"
+    },
+    {
+      "id": "savings",
+      "label": "Savings and investments"
+    },
+    {
+      "id": "loans",
+      "label": "Loans"
+    },
+    {
+      "id": "cards",
+      "label": "Cards"
+    },
+    {
+      "id": "channels",
+      "label": "Digital and merchant"
+    }
   ],
   "productsNote": "Requirements, features and benefits are those set out in the Retail Banking Product Manual. Lending is subject to credit assessment, and interest rates are subject to change; confirm current terms before you apply.",
   "systems": [],

@@ -14,6 +14,7 @@ import Hero from '../components/Hero.astro';
 import TaskCard from '../components/TaskCard.astro';
 import Section from '../components/Section.astro';
 import ProductGroup from '../components/ProductGroup.astro';
+import Faq from '../components/Faq.astro';
 import Listings from '../components/Listings.astro';
 import StoreBadges from '../components/StoreBadges.astro';
 import StickyCta from '../components/StickyCta.astro';
@@ -89,6 +90,15 @@ const months = (s: string | null | undefined) => {
 const loanProducts = products
   .filter((p) => p.category === 'salary' || p.category === 'business' || p.category === 'partners')
   .map((p) => ({ id: p.productId, label: p.name, ratePct: pct(p.details?.interestRate), maxMonths: months(p.details?.tenor) }));
+
+/* The photograph on each unit's "still unanswered?" card. */
+const FAQ_PHOTO: Record<string, { src: string; alt: string }> = {
+  bank: { src: '/images/cbz-banking.webp', alt: '' },
+  insurance: { src: '/images/insurance-health.webp', alt: '' },
+  properties: { src: '/images/loan-home.webp', alt: '' },
+  datvest: { src: '/images/cbz-wealth.webp', alt: '' },
+  capital: { src: '/images/accounts/partnership.webp', alt: '' },
+};
 
 const appLinks = {
   'cbz-touch': { appStore: LINKS.touch.appStore, playStore: LINKS.touch.playStore },
@@ -224,6 +234,20 @@ const jsonLd = [
                     return (
                       <div class="content">
                         <Listings />
+                      </div>
+                    );
+                  }
+                  if (it.kind === 'faq' && it.faqs && it.faqs.length > 0) {
+                    return (
+                      <div class="content">
+                        <Faq
+                          id={unit.slug}
+                          faqs={it.faqs}
+                          contactHref={it.href ?? '/contact'}
+                          contactLabel={it.label}
+                          team={unit.name}
+                          image={FAQ_PHOTO[unit.slug] ?? { src: '/images/cbz-banking-branch.webp', alt: '' }}
+                        />
                       </div>
                     );
                   }

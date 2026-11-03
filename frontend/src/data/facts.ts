@@ -99,6 +99,7 @@ export const UNCONFIRMED: { item: string; owner: string; note?: string }[] = [
   { item: 'Leadership profiles per unit', owner: 'Each unit' },
   { item: 'Objectives and customer segmentation per unit', owner: 'Marketing' },
   { item: 'Property listings, prices and photography', owner: 'CBZ Properties' },
+  { item: 'FAQ answers on the Bank, Insurance, Properties, Datvest and Capital pages', owner: 'Each business unit', note: 'Drafted from the product data and form copy; each unit to confirm or replace the five questions.' },
   { item: 'Datvest and CBZ Capital track record (deals)', owner: 'Datvest, CBZ Capital' },
   { item: 'Car insurance and life policy rate tables', owner: 'CBZ Insurance, CBZ Life' },
   { item: 'Chatbot provider and endpoint', owner: 'Digital' },

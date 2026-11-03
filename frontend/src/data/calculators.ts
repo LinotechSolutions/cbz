@@ -86,7 +86,7 @@ export const CALCULATORS: Record<CalculatorKey, CalculatorConfig> = {
     },
     disclaimer:
       'Indicative only. Administration fees are not included. Your repayment depends on the product, the tenor and credit assessment.',
-    cta: { label: 'Apply online', href: 'https://rs.cbz.co.zw/' },
+    cta: { label: 'Apply online', href: 'https://play.google.com/store/apps/details?id=zw.co.cbz.redsphere&hl=en' },
   },
   carInsurance: {
     kind: 'quote',

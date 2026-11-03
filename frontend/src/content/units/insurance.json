@@ -8,13 +8,30 @@
   "hero": {
     "title": "Cover for what you have worked for",
     "lede": "Motor, home, travel and personal cover, business and commercial policies, and protection for crops, livestock and machinery.",
-    "image": { "src": "/images/hero-advice.webp", "alt": "A client reviewing a risk assessment report at his desk" }
+    "image": {
+      "src": "/images/hero-advice.webp",
+      "alt": "A client reviewing a risk assessment report at his desk"
+    }
   },
-  "primaryCta": { "label": "Request a quote", "href": "/insurance/quote" },
-  "secondaryCta": { "label": "Insure now", "href": "/insurance/insure-now" },
+  "primaryCta": {
+    "label": "Request a quote",
+    "href": "/insurance/quote"
+  },
+  "secondaryCta": {
+    "label": "Insure now",
+    "href": "/insurance/insure-now"
+  },
   "segments": [
-    { "label": "Individual", "line": "Motor, home and contents, travel and personal accident", "href": "#panel-insurance-personal" },
-    { "label": "Corporates", "line": "Property, liability, engineering, marine and farms", "href": "#panel-insurance-business" }
+    {
+      "label": "Individual",
+      "line": "Motor, home and contents, travel and personal accident",
+      "href": "#panel-insurance-personal"
+    },
+    {
+      "label": "Corporates",
+      "line": "Property, liability, engineering, marine and farms",
+      "href": "#panel-insurance-business"
+    }
   ],
   "branches": [
     {
@@ -22,8 +39,21 @@
       "title": "Request a quote",
       "line": "Tell us what you want covered and we send a quotation, usually within one working day.",
       "items": [
-        { "label": "Cover you can quote", "kind": "products", "categories": ["personal", "business", "agro"] },
-        { "label": "Quote generation", "line": "What you want covered and roughly what it is worth", "kind": "form", "href": "/insurance/quote" }
+        {
+          "label": "Cover you can quote",
+          "kind": "products",
+          "categories": [
+            "personal",
+            "business",
+            "agro"
+          ]
+        },
+        {
+          "label": "Quote generation",
+          "line": "What you want covered and roughly what it is worth",
+          "kind": "form",
+          "href": "/insurance/quote"
+        }
       ]
     },
     {
@@ -31,41 +61,118 @@
       "title": "Insure now",
       "line": "Apply for personal cover and choose how to pay.",
       "items": [
-        { "label": "Personal lines policy application", "line": "Motor, home and contents, travel or personal accident", "kind": "form", "href": "/insurance/insure-now" },
-        { "label": "Premium payment", "line": "Direct debit from your CBZ account, or mobile money", "kind": "note" }
+        {
+          "label": "Personal lines policy application",
+          "line": "Motor, home and contents, travel or personal accident",
+          "kind": "form",
+          "href": "/insurance/insure-now"
+        },
+        {
+          "label": "Premium payment",
+          "line": "Direct debit from your CBZ account, or mobile money",
+          "kind": "note"
+        }
       ]
     },
     {
       "id": "submit-claim",
       "title": "Submit a claim",
       "line": "Tell us what happened and a claims assessor contacts you about the next steps.",
-      "items": [{ "label": "Claim submission", "line": "Policy number, what happened and when", "kind": "form", "href": "/insurance/claim" }]
+      "items": [
+        {
+          "label": "Claim submission",
+          "line": "Policy number, what happened and when",
+          "kind": "form",
+          "href": "/insurance/claim"
+        }
+      ]
     },
     {
       "id": "policy-changes",
       "title": "Policy changes",
       "line": "Administration of an existing policy.",
       "items": [
-        { "label": "Policy status", "line": "Check whether a policy is active", "kind": "form", "href": "/insurance/policy-changes?request=status" },
-        { "label": "Cancellation", "line": "Cancel a policy", "kind": "form", "href": "/insurance/policy-changes?request=cancellation" },
-        { "label": "Enquiries", "line": "Renewal date, statement, premium status", "kind": "form", "href": "/insurance/policy-changes?request=premium" }
+        {
+          "label": "Policy status",
+          "line": "Check whether a policy is active",
+          "kind": "form",
+          "href": "/insurance/policy-changes?request=status"
+        },
+        {
+          "label": "Cancellation",
+          "line": "Cancel a policy",
+          "kind": "form",
+          "href": "/insurance/policy-changes?request=cancellation"
+        },
+        {
+          "label": "Enquiries",
+          "line": "Renewal date, statement, premium status",
+          "kind": "form",
+          "href": "/insurance/policy-changes?request=premium"
+        }
       ]
     },
     {
-      "id": "call-me-back",
-      "title": "Call me back",
-      "line": "A CBZ Insurance consultant calls you.",
-      "items": [{ "label": "Call-back form", "line": "Your number and what it is about", "kind": "form", "href": "/insurance/call-me-back" }]
+      "id": "faq",
+      "title": "Let's answer the questions in your mind",
+      "line": "You can find the answers to frequently asked questions below.",
+      "items": [
+        {
+          "label": "Contact us",
+          "kind": "faq",
+          "href": "/insurance/call-me-back",
+          "faqs": [
+            {
+              "question": "What can CBZ Insurance cover?",
+              "answer": "Motor, home and contents, travel and personal accident cover for individuals; business and commercial policies; and cover for crops, livestock and farm machinery."
+            },
+            {
+              "question": "How do I get a quote?",
+              "answer": "Tell us what you want covered on the quote form. A consultant sends your quotation, usually within one working day."
+            },
+            {
+              "question": "How do I pay my premium?",
+              "answer": "By direct debit from your CBZ account or by mobile money. You choose when you apply through Insure now."
+            },
+            {
+              "question": "How do I submit a claim?",
+              "answer": "Use the claim form to tell us what happened, when, and any police report number. A claims assessor contacts you within two working days about the next steps and documents."
+            },
+            {
+              "question": "How do I renew, change or cancel a policy?",
+              "answer": "The policy changes form handles policy status, renewals, cancellations, statements and premium enquiries. We come back to you, usually within one working day."
+            }
+          ]
+        }
+      ]
     }
   ],
   "categories": [
-    { "id": "personal", "label": "Personal" },
-    { "id": "business", "label": "Business" },
-    { "id": "agro", "label": "Agriculture" }
+    {
+      "id": "personal",
+      "label": "Personal"
+    },
+    {
+      "id": "business",
+      "label": "Business"
+    },
+    {
+      "id": "agro",
+      "label": "Agriculture"
+    }
   ],
   "productsNote": "Terms, pricing and availability are subject to assessment. Speak to us for current terms before you rely on anything here.",
-  "systems": ["SSP Pure (underwriting)", "ICECASH", "Flex Cube"],
-  "heldEntities": [{ "name": "CBZ Secure", "stake": 100 }],
+  "systems": [
+    "SSP Pure (underwriting)",
+    "ICECASH",
+    "Flex Cube"
+  ],
+  "heldEntities": [
+    {
+      "name": "CBZ Secure",
+      "stake": 100
+    }
+  ],
   "seo": {
     "title": "CBZ Insurance: motor, home, business and farm cover",
     "description": "Short-term insurance from CBZ Insurance: motor, home and contents, travel, personal accident, business cover and agricultural protection."

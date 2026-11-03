@@ -10,42 +10,47 @@
     "lede": "Joint ventures, seasonal contract farming, commodity trading and a supply chain division covering mechanisation, equipment and water.",
     "image": { "src": "/images/cbz-agriculture.webp", "alt": "A farmer in a maize field at harvest" }
   },
-  "about": "CBZ Agro-Yield is the CBZ Group's agribusiness. It works with farming enterprises through joint ventures, funds seasonal contract farming, opens market and offtake routes for commodities, and supplies the mechanisation, equipment and water infrastructure that production depends on.",
-  "keyFacts": [
-    { "label": "Operating divisions", "value": "Four" },
-    { "label": "Contract farming cycles", "value": "Seasonal" },
-    { "label": "Market routes for commodities", "value": "Offtake" }
+  "primaryCta": { "label": "Enquire now", "href": "/agro-yield/enquire" },
+  "secondaryCta": { "label": "Apply for farming finance", "href": "/agro-yield/apply" },
+  "segments": [],
+  "branches": [
+    {
+      "id": "choose-your-service",
+      "title": "Choose your service",
+      "line": "Farming, commodity trading or supply chain. Each links straight to an enquiry for that service.",
+      "items": [
+        { "label": "Farming", "line": "Contract farming, working capital", "kind": "products", "productIds": ["agro_farming", "agro_enterprise"] },
+        { "label": "Commodity trading", "line": "Buy and sell commodities", "kind": "products", "productIds": ["agro_commodity_trading"] },
+        { "label": "Supply chain", "line": "Mechanisation, tractors, boreholes, haulage", "kind": "products", "productIds": ["agro_supply_chain"] }
+      ]
+    },
+    {
+      "id": "register-as-a-farmer",
+      "title": "Register as a farmer",
+      "line": "Onboard on the Agro-Yield farmer platform.",
+      "items": [{ "label": "Farmer onboarding platform", "line": "Opens in a new tab", "kind": "external", "href": null }]
+    },
+    {
+      "id": "enquire-now",
+      "title": "Enquire now",
+      "line": "Or request a call back. Your enquiry goes to Agro-Yield business development.",
+      "items": [
+        { "label": "Lead form", "line": "Includes the service you selected", "kind": "form", "href": "/agro-yield/enquire" },
+        { "label": "Customer confirmation", "line": "You get a reference number straight away", "kind": "note" },
+        { "label": "Agro-Yield business development", "line": "The team calls or messages you, usually within one working day", "kind": "note" }
+      ]
+    },
+    {
+      "id": "explore-atdc",
+      "title": "Explore ATDC",
+      "line": "ATDC Zimbabwe, 40% owned by CBZ Agro-Yield.",
+      "items": [{ "label": "ATDC website", "line": "Opens in a new tab", "kind": "external", "href": null }]
+    }
   ],
-  "primaryCta": { "label": "Apply for farming finance", "href": "/agro-yield/apply" },
-  "secondaryCta": { "label": "Speak to the team", "href": "/contact" },
-  "objectives": null,
-  "audience": null,
-  "heldEntities": [{ "name": "ATDC Zimbabwe", "stake": 40 }],
-  "leadership": null,
   "categories": [{ "id": "divisions", "label": "Divisions" }],
-  "segments": [
-    { "label": "Farmers", "line": "Seasonal contract farming with inputs and offtake", "href": "#panel-agro-yield-divisions" },
-    { "label": "Farms, agribusinesses and cooperatives", "line": "Joint ventures, commodity trading and supply chain", "href": "#panel-agro-yield-divisions" }
-  ],
-  "actions": [
-    { "label": "Choose your service", "line": "Farming, commodity trading, supply chain", "href": "#products", "kind": "anchor" },
-    { "label": "Apply for farming finance", "line": "Contract farming for the season", "href": "/agro-yield/apply", "kind": "form" },
-    { "label": "Register as a farmer", "line": "Farmer onboarding", "href": null, "kind": "external" },
-    { "label": "Enquire now", "line": "Or ask for a call back from Agro-Yield business development", "href": "/agro-yield/enquire", "kind": "form" },
-    { "label": "Explore ATDC", "line": "Our 40% owned associate", "href": null, "kind": "external" }
-  ],
-  "faq": [
-    { "q": "When can I apply for contract farming?", "a": "Applications open for the summer and winter seasons in turn. The banner on this page shows which season is open now." },
-    { "q": "What do the four divisions do?", "a": "Agro Enterprise runs joint ventures with farming businesses, Agro Farming funds seasonal contract farming, Agro Commodity Trading buys and markets produce, and Agro Supply Chain provides mechanisation, equipment and water." },
-    { "q": "What do I need to apply?", "a": "Your farm's location, the hectares you plan to plant, your main crop and what you need: inputs, equipment, water or a buyer." }
-  ],
-  "systems": [],
-  "regulator": null,
   "productsNote": "Scheme terms, pricing and qualifying criteria depend on the crop, the season and the agreement in place. Speak to CBZ Agro-Yield for the current terms.",
-  "contact": {
-    "heading": "Talk to CBZ Agro-Yield",
-    "body": "Apply for seasonal finance, discuss a joint venture, or enquire about mechanisation, equipment and borehole drilling."
-  },
+  "systems": [],
+  "heldEntities": [{ "name": "ATDC Zimbabwe", "stake": 40 }],
   "seo": {
     "title": "CBZ Agro-Yield: contract farming, inputs and offtake",
     "description": "Seasonal contract farming finance, joint ventures, commodity trading and farm supply chain from CBZ Agro-Yield."

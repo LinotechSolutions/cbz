@@ -1,46 +1,39 @@
 ---
 /**
- * Every business unit page, in the site map's order:
- *   Opening (hero, the unit's actions, about and key facts)
- *   Products & FAQ
- *   Find the right fit
- *   Leadership
- *   Contact
- * Campaigns, leadership, objectives and audience render only when present.
- * Slots: before-products, after-products, fit (for a suggestion island).
+ * A business unit page, built from its site-map branch:
+ *   hero → audience chips → one section per branch, in the map's order.
+ * Each branch's children render by kind: forms and pages as link cards,
+ * off-site links as cards hidden while their URL is null, app stores as
+ * badges, product lists, calculators and listings inline, notes as dashed
+ * cards. Nothing else is added to the page.
  */
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 import BaseLayout from './BaseLayout.astro';
 import Hero from '../components/Hero.astro';
+import TaskCard from '../components/TaskCard.astro';
 import Section from '../components/Section.astro';
-import KeyFacts from '../components/KeyFacts.astro';
 import ProductGroup from '../components/ProductGroup.astro';
-import Button from '../components/Button.astro';
-import Icon from '../components/Icon.astro';
-import ResponsiveImage from '../components/ResponsiveImage.astro';
+import Listings from '../components/Listings.astro';
+import StoreBadges from '../components/StoreBadges.astro';
 import StickyCta from '../components/StickyCta.astro';
-import { visible } from '../lib/visible';
-import { isExternal } from '../data/links';
+import Icon from '../components/Icon.astro';
+import { Calculator } from '../islands/Calculator';
+import { CALCULATORS } from '../data/calculators';
+import { LINKS, isExternal } from '../data/links';
 import { CONTACT } from '../data/facts';
+import { visible } from '../lib/visible';
 import type { DarkSafeLogoKey } from '../data/logos';
 
 interface Props {
   unit: CollectionEntry<'units'>['data'];
-  heroImage?: { src: string; alt: string };
 }
-const { unit, heroImage } = Astro.props;
+const { unit } = Astro.props;
+type Item = (typeof unit.branches)[number]['items'][number];
 
 const products = (await getCollection('products', (p) => p.data.unit === unit.slug))
   .map((p) => p.data)
   .sort((a, b) => a.order - b.order);
-
-const now = new Date();
-const campaigns = (await getCollection('campaigns', (c) => c.data.unit === unit.slug))
-  .map((c) => c.data)
-  .filter((c) => new Date(c.starts) <= now && new Date(c.ends) >= now)
-  .sort((a, b) => a.order - b.order)
-  .slice(0, 3);
 
 const clusterLabel: Record<string, { label: string; href: string }> = {
   banking: { label: 'Banking', href: '/clusters/banking' },
@@ -50,12 +43,60 @@ const clusterLabel: Record<string, { label: string; href: string }> = {
   philanthropy: { label: 'The Group', href: '/the-group' },
 };
 const cluster = clusterLabel[unit.cluster];
-
-const actions = unit.actions.filter((a) => visible(a.href));
-const hiddenActions = unit.actions.filter((a) => !visible(a.href));
-const leadership = visible(unit.leadership) ? unit.leadership! : [];
-const firstFact = unit.keyFacts.find((f) => visible(f.value));
 const site = Astro.site ?? new URL('https://www.cbz.co.zw');
+
+/** Products for one branch item, by category and/or product id. */
+function productsFor(item: Item) {
+  return products.filter((p) => {
+    const byCat = item.categories ? item.categories.includes(p.category) : false;
+    const byId = item.productIds ? item.productIds.includes(p.productId) : false;
+    return byCat || byId;
+  });
+}
+function categoriesFor(item: Item) {
+  const present = new Set(productsFor(item).map((p) => p.category));
+  return unit.categories.filter((c) => present.has(c.id));
+}
+const isCard = (i: Item) => ['form', 'page', 'external', 'note'].includes(i.kind);
+const isShown = (i: Item) => (i.kind === 'external' || i.kind === 'form' || i.kind === 'page' ? visible(i.href) : true);
+
+/** Group consecutive card items so they share a grid; content items stand alone. */
+function runs(items: Item[]) {
+  const out: { kind: 'cards' | 'content'; items: Item[] }[] = [];
+  for (const it of items.filter(isShown)) {
+    const last = out[out.length - 1];
+    if (isCard(it)) {
+      if (last && last.kind === 'cards') last.items.push(it);
+      else out.push({ kind: 'cards', items: [it] });
+    } else out.push({ kind: 'content', items: [it] });
+  }
+  return out;
+}
+
+const productItemCount = unit.branches.flatMap((b) => b.items).filter((i) => i.kind === 'products').length;
+const branches = unit.branches.map((b) => ({ ...b, runs: runs(b.items) })).filter((b) => b.runs.length > 0);
+const hiddenBranches = unit.branches.filter((b) => !branches.some((x) => x.id === b.id)).map((b) => b.title);
+
+/** Red Sphere loan calculator: products with the rate and tenor the documentation states. */
+const pct = (s: string | null | undefined) => {
+  const m = s?.match(/(\d+(?:\.\d+)?)\s*%/);
+  return m ? Number(m[1]) : null;
+};
+const months = (s: string | null | undefined) => {
+  const m = s?.match(/(\d+)\s*months?/i);
+  return m ? Number(m[1]) : null;
+};
+const loanProducts = products
+  .filter((p) => p.category === 'salary' || p.category === 'business' || p.category === 'partners')
+  .map((p) => ({ id: p.productId, label: p.name, ratePct: pct(p.details?.interestRate), maxMonths: months(p.details?.tenor) }));
+
+const appLinks = {
+  'cbz-touch': { appStore: LINKS.touch.appStore, playStore: LINKS.touch.playStore },
+  'red-sphere': { appStore: LINKS.redSphere.appStore, playStore: LINKS.redSphere.playStore },
+  'ziki-cash': { appStore: LINKS.zikiCash.appStore, playStore: LINKS.zikiCash.playStore },
+} as const;
+
+const segments = unit.segments.map((s) => ({ label: s.label, href: s.href, line: s.line ?? undefined }));
 
 const jsonLd = [
   {
@@ -76,19 +117,6 @@ const jsonLd = [
       { '@type': 'ListItem', position: 3, name: unit.name },
     ],
   },
-  ...(unit.faq.length
-    ? [
-        {
-          '@context': 'https://schema.org',
-          '@type': 'FAQPage',
-          mainEntity: unit.faq.map((f) => ({
-            '@type': 'Question',
-            name: f.q,
-            acceptedAnswer: { '@type': 'Answer', text: f.a },
-          })),
-        },
-      ]
-    : []),
 ];
 ---
 
@@ -97,454 +125,224 @@ const jsonLd = [
   description={unit.seo.description}
   jsonLd={jsonLd}
   unitLogo={unit.logo as DarkSafeLogoKey}
-  preloadImage={(heroImage ?? unit.hero.image).src}
+  preloadImage={unit.hero.image.src}
 >
-  <!-- 1. Opening -->
   <Hero
     title={unit.hero.title}
     lede={unit.hero.lede}
-    image={heroImage ?? unit.hero.image}
+    image={unit.hero.image}
     logo={unit.logo as DarkSafeLogoKey}
     crumbs={[{ label: 'Home', href: '/' }, { label: cluster.label, href: cluster.href }, { label: unit.shortName }]}
     primary={{ ...unit.primaryCta, track: 'apply_click', trackProps: { unit: unit.slug, from: 'hero' } }}
     secondary={unit.secondaryCta ?? undefined}
-    chip={firstFact ? { title: firstFact.value!, line: firstFact.label } : undefined}
-    overlap={actions.length > 0}
+    overlap={segments.length > 0}
   />
 
-  {
-    actions.length > 0 && (
-      <div class="actions-wrap">
-        <div class="container">
-          <nav class="actions" aria-label={`What you can do with ${unit.shortName}`}>
-            <ul role="list" class="actions__list" style={`--n:${Math.min(actions.length, 5)}`}>
-              {actions.map((a) => {
-                const ext = a.kind === 'external' || isExternal(a.href!);
-                return (
-                  <li>
-                    <a
-                      href={a.href!}
-                      class="action"
-                      target={ext ? '_blank' : undefined}
-                      rel={ext ? 'noopener noreferrer' : undefined}
-                      data-track="apply_click"
-                      data-track-props={JSON.stringify({ unit: unit.slug, action: a.label })}
-                    >
-                      <span class="action__label">
-                        {a.label}
-                        {ext && <span class="sr-only"> (opens in a new tab)</span>}
-                      </span>
-                      {visible(a.line) && <span class="action__line">{a.line}</span>}
-                      <span class="icon-pill action__icon">
-                        <Icon name={ext ? 'external' : a.kind === 'anchor' ? 'chevronDown' : 'arrowRight'} size={16} />
-                      </span>
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
-        </div>
-      </div>
-    )
-  }
+  {segments.length > 0 && <TaskCard heading="Who we serve" items={segments} kind="jump" />}
 
-  <Section id="about" heading={`About ${unit.shortName}`} hideHeading>
-    <div class="about">
-      <div class="about__copy stack">
-        <h2 class="about__h">About {unit.shortName}</h2>
-        <p>{unit.about}</p>
-        {
-          visible(unit.heldEntities) && (
-            <p class="small muted">
-              Also holds {unit.heldEntities!.map((h) => `${h.name} (${h.stake}%)`).join(' and ')}.
-            </p>
-          )
-        }
-        {visible(unit.regulator) && <p class="small muted">{unit.regulator}</p>}
-      </div>
-      <div class="about__facts">
-        <KeyFacts facts={unit.keyFacts} />
-      </div>
-    </div>
+  <div class="branches" data-unit={unit.slug}>
     {
-      (visible(unit.objectives) || visible(unit.audience)) && (
-        <div class="about__extra">
-          {visible(unit.objectives) && (
-            <div class="stack">
-              <h3>Our objectives</h3>
-              <ul class="about__list">
-                {unit.objectives!.map((o) => (
-                  <li>{o}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-          {visible(unit.audience) && (
-            <div class="stack">
-              <h3>Who we serve</h3>
-              <ul class="about__list">
-                {unit.audience!.map((a) => (
-                  <li>{a}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-      )
-    }
-  </Section>
-
-  <slot name="before-products" />
-
-  <!-- 2. Products & FAQ -->
-  {
-    products.length > 0 && (
-      <Section id="products" tone="tint" heading="Products and services">
-        <ProductGroup
-          unitSlug={unit.slug}
-          categories={unit.categories}
-          products={products}
-          primaryCta={unit.primaryCta}
-          note={unit.productsNote}
-        />
-      </Section>
-    )
-  }
-
-  {
-    unit.faq.length > 0 && (
-      <Section id="faq" heading="Questions people ask" compact>
-        <div class="faq rule-list">
-          {unit.faq.map((f) => (
-            <details class="faq__item">
-              <summary class="faq__q">
-                {f.q}
-                <Icon name="chevronDown" size={20} class="faq__chev" />
-              </summary>
-              <p class="faq__a">{f.a}</p>
-            </details>
-          ))}
-        </div>
-      </Section>
-    )
-  }
-
-  <slot name="after-products" />
-
-  <!-- 3. Find the right fit -->
-  {
-    (unit.segments.length > 0 || Astro.slots.has('fit')) && (
-      <Section id="fit" tone="tint" heading="Find the right fit" lede="Start from who you are, or answer two questions.">
-        {unit.segments.length > 0 && (
-          <ul role="list" class="segments" style={`--n:${Math.min(unit.segments.length, 4)}`}>
-            {unit.segments.map((s) => (
-              <li>
-                <a href={s.href} class="segment card-base">
-                  <span class="segment__label">{s.label}</span>
-                  {visible(s.line) && <span class="segment__line">{s.line}</span>}
-                  <span class="icon-pill segment__icon">
-                    <Icon name="arrowRight" size={16} />
-                  </span>
+      branches.map((b, bi) => (
+        <Section id={b.id} tone={bi % 2 === 0 ? 'white' : 'tint'} heading={b.title} lede={b.line ?? undefined} class="branch" data-branch={b.id}>
+          <div class="branch__body">
+            {b.items.filter((x) => x.kind === 'products').length > 1 && !b.items.some((x) => x.kind === 'form') && (
+              <p class="branch__cta">
+                <a href={unit.primaryCta.href} class="btn btn--primary" data-track="apply_click" data-track-props={JSON.stringify({ unit: unit.slug, branch: b.id })}>
+                  {unit.primaryCta.label}
                 </a>
-              </li>
-            ))}
-          </ul>
-        )}
-        <div class="fit-slot">
-          <slot name="fit" />
-        </div>
-      </Section>
-    )
-  }
-
-  {
-    campaigns.length > 0 && (
-      <Section id="offers" heading="Offers" compact>
-        <ul role="list" class="offers" style={`--n:${campaigns.length}`}>
-          {campaigns.map((c) => (
-            <li class="offer">
-              <ResponsiveImage src={c.image.src} alt={c.image.alt} ratio="4:3" />
-              <div class="offer__body stack">
-                {visible(c.offer) && <p class="figure">{c.offer}</p>}
-                <h3>{c.title}</h3>
-                <p class="small muted">{c.body}</p>
-                <Button href={c.cta.href} variant="secondary">
-                  {c.cta.label}
-                </Button>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </Section>
-    )
-  }
-
-  <!-- 4. Leadership -->
-  {
-    leadership.length > 0 && (
-      <Section id="leadership" tone="surface" heading="Leadership" compact>
-        <ul role="list" class="people">
-          {leadership.map((p) => (
-            <li class="person">
-              {p.image ? (
-                <ResponsiveImage src={p.image.src} alt={p.image.alt} ratio="1:1" class="person__img" />
+              </p>
+            )}
+            {b.runs.map((run, ri) =>
+              run.kind === 'cards' ? (
+                <ul role="list" class="cards" style={`--n:${Math.min(run.items.length, 3)}`}>
+                  {run.items.map((it) => {
+                    if (it.kind === 'note') {
+                      return (
+                        <li class="note">
+                          <span class="note__label">{it.label}</span>
+                          {visible(it.line) && <span class="note__line">{it.line}</span>}
+                        </li>
+                      );
+                    }
+                    const ext = it.kind === 'external' || isExternal(it.href!);
+                    return (
+                      <li>
+                        <a
+                          href={it.href!}
+                          class="card-link card-base"
+                          target={ext ? '_blank' : undefined}
+                          rel={ext ? 'noopener noreferrer' : undefined}
+                          data-track="apply_click"
+                          data-track-props={JSON.stringify({ unit: unit.slug, branch: b.id, item: it.label })}
+                        >
+                          <span class="card-link__label">
+                            {it.label}
+                            {ext && <span class="sr-only"> (opens in a new tab)</span>}
+                          </span>
+                          {visible(it.line) && <span class="card-link__line">{it.line}</span>}
+                          <span class="icon-pill card-link__icon">
+                            <Icon name={ext ? 'external' : 'arrowRight'} size={16} />
+                          </span>
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ul>
               ) : (
-                <div class="person__placeholder" aria-hidden="true" />
-              )}
-              <span class="person__name">{p.name}</span>
-              <span class="person__role small muted">{p.role}</span>
-            </li>
-          ))}
-        </ul>
-      </Section>
-    )
-  }
-
-  <!-- 5. Contact -->
-  <Section id="contact" tone="dark">
-    <div class="contact on-dark">
-      <div class="stack">
-        <h2>{unit.contact.heading}</h2>
-        <p class="contact__body">{unit.contact.body}</p>
-      </div>
-      <div class="contact__actions">
-        <Button href={unit.primaryCta.href} variant="primary" size="lg" track="apply_click" trackProps={{ unit: unit.slug, from: 'contact' }}>
-          {unit.primaryCta.label}
-        </Button>
-        <a href={CONTACT.contactCentre.href} class="btn btn--secondary btn--lg">
-          Call {CONTACT.contactCentre.display}
-        </a>
-      </div>
-    </div>
-  </Section>
-
-  {hiddenActions.length > 0 && <span hidden data-actions-awaiting-link={hiddenActions.map((a) => a.label).join(', ')} />}
+                run.items.map((it, ii) => {
+                  const key = `${b.id}-${ri}-${ii}`;
+                  if (it.kind === 'products') {
+                    const list = productsFor(it);
+                    const cats = categoriesFor(it);
+                    const showHead = b.items.filter((x) => x.kind === 'products').length > 1;
+                    return (
+                      <div class="content" id={`${b.id}-${it.label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}>
+                        {showHead && (
+                          <div class="content__head">
+                            <h3>{it.label}</h3>
+                            {visible(it.line) && <p class="muted small">{it.line}</p>}
+                          </div>
+                        )}
+                        <ProductGroup
+                          unitSlug={unit.slug}
+                          idPrefix={productItemCount > 1 ? `${unit.slug}-${b.id}-${ii}` : unit.slug}
+                          categories={cats}
+                          products={list}
+                          primaryCta={unit.primaryCta}
+                          hideCta={b.items.some((x) => x.kind === 'form') || showHead}
+                          note={unit.productsNote}
+                        />
+                      </div>
+                    );
+                  }
+                  if (it.kind === 'calculator' && it.calculator) {
+                    return (
+                      <div class="content" id={`calc-${key}`}>
+                        <Calculator
+                          client:visible
+                          variant={it.calculator}
+                          config={CALCULATORS[it.calculator]}
+                          products={it.calculator === 'loan' ? loanProducts : undefined}
+                        />
+                      </div>
+                    );
+                  }
+                  if (it.kind === 'listings') {
+                    return (
+                      <div class="content">
+                        <Listings />
+                      </div>
+                    );
+                  }
+                  if (it.kind === 'app' && it.app) {
+                    return (
+                      <div class="content app">
+                        <span class="app__label">{it.label}</span>
+                        <StoreBadges app={it.app} appStore={appLinks[it.app].appStore} playStore={appLinks[it.app].playStore} />
+                        {!visible(appLinks[it.app].appStore) && !visible(appLinks[it.app].playStore) && (
+                          <p class="small muted">Store links coming soon.</p>
+                        )}
+                      </div>
+                    );
+                  }
+                  return null;
+                })
+              ),
+            )}
+          </div>
+        </Section>
+      ))
+    }
+    {hiddenBranches.length > 0 && <span hidden data-branches-awaiting-link={hiddenBranches.join(', ')} />}
+  </div>
 
   <StickyCta label={unit.primaryCta.label} href={unit.primaryCta.href} unit={unit.slug} />
 </BaseLayout>
 
 <style>
-  .actions-wrap {
-    position: relative;
-    z-index: 2;
-    margin-top: calc(-1 * var(--overlap, 56px));
-  }
-  .actions {
-    background: var(--white);
-    border: 1px solid var(--line);
-    border-radius: var(--r-lg);
-    padding: var(--s-4);
-    box-shadow: var(--shadow-card);
-  }
-  .actions__list {
-    display: grid;
-    gap: var(--s-2);
-  }
-  @media (min-width: 900px) {
-    .actions__list {
-      grid-template-columns: repeat(var(--n), minmax(0, 1fr));
-      gap: var(--s-3);
-    }
-  }
-  .action {
-    position: relative;
-    display: grid;
-    gap: 2px;
-    align-content: start;
-    padding: var(--s-4) var(--s-12) var(--s-4) var(--s-4);
-    min-height: 88px;
-    border: 1px solid var(--line);
-    border-radius: var(--r-md);
-    text-decoration: none;
-    color: var(--ink);
-    height: 100%;
-    transition:
-      border-color var(--dur) var(--ease),
-      box-shadow var(--dur) var(--ease);
-  }
-  .action:hover {
-    border-color: var(--blue-100);
-    box-shadow: var(--shadow-card);
-    color: var(--ink);
-  }
-  .action__label {
-    font-weight: 700;
-    color: var(--blue);
-  }
-  .action__line {
-    font-size: var(--t-xs);
-    color: var(--grey);
-  }
-  .action__icon {
-    position: absolute;
-    right: var(--s-3);
-    top: var(--s-3);
-  }
-  .about {
+  .branch__body {
     display: grid;
     gap: var(--s-8);
   }
-  @media (min-width: 900px) {
-    .about {
-      grid-template-columns: 7fr 5fr;
-      gap: var(--s-12);
-      align-items: start;
-    }
+  .branch__cta {
+    order: 99;
   }
-  .about__h {
-    font-size: var(--t-xl);
-  }
-  .about__extra {
+  .content {
     display: grid;
-    gap: var(--s-8);
-    margin-top: var(--s-12);
-    padding-top: var(--s-8);
-    border-top: 1px solid var(--line);
-  }
-  @media (min-width: 640px) {
-    .about__extra {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-  .about__list {
-    padding-left: 1.1em;
-    display: grid;
-    gap: var(--s-2);
-  }
-  .faq {
-    max-width: 800px;
-  }
-  .faq__item {
-    padding: var(--s-2) 0;
-  }
-  .faq__q {
-    list-style: none;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     gap: var(--s-4);
-    min-height: var(--tap);
-    padding: var(--s-2) 0;
-    cursor: pointer;
-    font-weight: 700;
-    color: var(--blue);
   }
-  .faq__q::-webkit-details-marker {
-    display: none;
+  .content__head {
+    display: grid;
+    gap: var(--s-1);
   }
-  .faq__chev {
-    flex-shrink: 0;
-    color: var(--blue-700);
-    transition: transform var(--dur) var(--ease);
-  }
-  .faq__item[open] .faq__chev {
-    transform: rotate(180deg);
-  }
-  .faq__a {
-    padding: 0 0 var(--s-4);
-    max-width: var(--measure);
-  }
-  .segments {
+  .cards {
     display: grid;
     gap: var(--gap);
   }
   @media (min-width: 640px) {
-    .segments {
+    .cards {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
   @media (min-width: 900px) {
-    .segments {
+    .cards {
       grid-template-columns: repeat(var(--n), minmax(0, 1fr));
     }
   }
-  .segment {
+  .card-link {
     position: relative;
     display: grid;
     gap: var(--s-1);
     align-content: start;
-    padding: var(--s-6) var(--s-12) var(--s-6) var(--s-6);
-    min-height: 128px;
+    min-height: 120px;
     height: 100%;
+    padding: var(--s-6) var(--s-12) var(--s-6) var(--s-6);
     text-decoration: none;
     color: var(--ink);
   }
-  .segment:hover {
+  .card-link:hover {
     color: var(--ink);
   }
-  .segment__label {
+  .card-link__label {
     font-weight: 700;
     font-size: var(--t-lg);
     color: var(--blue);
+    line-height: 1.25;
   }
-  .segment__line {
+  .card-link__line {
     font-size: var(--t-sm);
     color: var(--grey);
   }
-  .segment__icon {
+  .card-link__icon {
     position: absolute;
     right: var(--s-6);
     top: var(--s-6);
-    color: var(--blue-700);
   }
-  .fit-slot:not(:empty) {
-    margin-top: var(--s-8);
-  }
-  .offers {
+  .note {
     display: grid;
-    gap: var(--gap);
-  }
-  @media (min-width: 900px) {
-    .offers {
-      grid-template-columns: repeat(var(--n), minmax(0, 1fr));
-    }
-  }
-  .offer {
-    border: 1px solid var(--line);
-    border-radius: var(--r-md);
-    overflow: hidden;
-  }
-  .offer :global(.frame) {
-    border-radius: 0;
-  }
-  .offer__body {
+    gap: var(--s-1);
+    align-content: start;
+    min-height: 120px;
     padding: var(--s-6);
-  }
-  .people {
-    display: grid;
-    gap: var(--gap);
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  }
-  .person {
-    display: grid;
-    gap: var(--s-2);
-  }
-  .person__placeholder {
-    aspect-ratio: 1;
-    background: var(--blue-100);
+    border: 1px dashed var(--blue-100);
     border-radius: var(--r-md);
+    background: var(--blue-50);
   }
-  .person__name {
+  .note__label {
     font-weight: 700;
     color: var(--blue);
+    font-size: var(--t-md);
   }
-  .contact {
-    display: grid;
-    gap: var(--s-8);
-    align-items: center;
+  .note__line {
+    font-size: var(--t-sm);
+    color: var(--grey);
   }
-  @media (min-width: 900px) {
-    .contact {
-      grid-template-columns: 1fr auto;
-    }
-  }
-  .contact__body {
-    color: rgba(255, 255, 255, 0.82);
-  }
-  .contact__actions {
-    display: flex;
-    flex-wrap: wrap;
+  .app {
+    justify-items: start;
     gap: var(--s-3);
+  }
+  .app__label {
+    font-weight: 700;
+    color: var(--blue);
   }
 </style>

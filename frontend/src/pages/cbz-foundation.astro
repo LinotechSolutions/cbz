@@ -12,6 +12,9 @@ import { CONTACT } from '../data/facts';
 import { visible } from '../lib/visible';
 
 const unit = (await getEntry('units', 'cbz-foundation'))!.data;
+const about = unit.about ?? '';
+const keyFacts = unit.keyFacts ?? [];
+const contact = unit.contact ?? { heading: 'Work with the CBZ Foundation', body: 'Tell us about your organisation.' };
 
 const focus = [
   { title: 'Public health', body: 'Equipment, supplies and support for hospitals and health programmes.' },
@@ -44,9 +47,9 @@ const work = [
     <div class="about">
       <div class="stack">
         <h2>About the Foundation</h2>
-        <p>{unit.about}</p>
+        <p>{about}</p>
       </div>
-      <KeyFacts facts={unit.keyFacts} />
+      <KeyFacts facts={keyFacts} />
     </div>
   </Section>
 
@@ -76,8 +79,8 @@ const work = [
   <Section id="contact" tone="dark">
     <div class="contact on-dark">
       <div class="stack">
-        <h2>{unit.contact.heading}</h2>
-        <p class="contact__body">{unit.contact.body}</p>
+        <h2>{contact.heading}</h2>
+        <p class="contact__body">{contact.body}</p>
         {
           visible(CONTACT.foundationEmail) && (
             <p class="contact__body">

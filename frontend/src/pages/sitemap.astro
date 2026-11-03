@@ -43,14 +43,14 @@ const groups: Group[] = [
   },
   {
     heading: 'Business pages',
-    note: 'Every business page has: Opening, Products and FAQ, Find the right fit, Leadership, Contact.',
+    note: 'Each business page follows its own branch of the site map.',
     links: [],
     nested: units.map((u) => ({
       label: u.name,
       href: `/${u.slug}`,
-      links: u.actions
-        .filter((a) => visible(a.href))
-        .map((a) => ({ label: a.label, href: a.href!.startsWith('#') ? `/${u.slug}${a.href}` : a.href!, line: a.line })),
+      links: u.branches
+        .filter((b) => b.items.some((i) => !['form', 'page', 'external'].includes(i.kind) || visible(i.href)))
+        .map((b) => ({ label: b.title, href: `/${u.slug}#${b.id}`, line: b.line })),
     })),
   },
   {

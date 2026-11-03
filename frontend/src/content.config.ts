@@ -34,6 +34,34 @@ const imageRef = z.object({
 
 const cta = z.object({ label: z.string().min(1), href: z.string().min(1) });
 
+/**
+ * One child of a site-map branch. `kind` decides how it renders:
+ *  - form | page: a link card to a page on this site
+ *  - external: an off-site link card, hidden while `href` is null
+ *  - app: the App Store and Google Play badges for `app`
+ *  - products: the product list for `categories` and/or `productIds`, inline
+ *  - calculator: the named calculator, inline
+ *  - listings: the property listings grid with filters, inline
+ *  - note: a dashed information card with no link
+ */
+const branchItem = z.object({
+  label: z.string().min(1),
+  line: nullableString.default(null),
+  kind: z.enum(['form', 'page', 'external', 'app', 'products', 'calculator', 'listings', 'note']),
+  href: nullableString.default(null),
+  app: z.enum(['cbz-touch', 'red-sphere', 'ziki-cash']).optional(),
+  categories: z.array(z.string()).optional(),
+  productIds: z.array(z.string()).optional(),
+  calculator: z.enum(['mortgage', 'carFinance', 'carInsurance', 'policyQuote', 'loan']).optional(),
+});
+
+const branch = z.object({
+  id: z.string().min(1),
+  title: z.string().min(1),
+  line: nullableString.default(null),
+  items: z.array(branchItem).min(1),
+});
+
 const units = defineCollection({
   loader: glob({ pattern: '*.json', base: './src/content/units' }),
   schema: z.object({
@@ -44,42 +72,21 @@ const units = defineCollection({
     logo: logoKeySchema,
     order: z.number().int(),
     hero: z.object({ title: z.string().max(60), lede: z.string().max(160), image: imageRef }),
-    about: z.string().max(520),
-    keyFacts: z.array(z.object({ label: z.string(), value: nullableString })).max(6),
     primaryCta: cta,
     secondaryCta: cta.nullable(),
-    objectives: z.array(z.string()).nullable(),
-    audience: z.array(z.string()).nullable(),
-    heldEntities: z.array(z.object({ name: z.string(), stake: z.number().min(0).max(100) })).optional(),
-    leadership: z
-      .array(z.object({ name: z.string(), role: z.string(), image: imageRef.nullable() }))
-      .nullable(),
-    calculators: z.array(z.enum(['mortgage', 'carFinance', 'carInsurance', 'policyQuote', 'loan'])).optional(),
+    /** Audience chips under the hero, from the site map. Each links to a branch or product tab. */
+    segments: z.array(z.object({ label: z.string(), line: nullableString.default(null), href: z.string() })).default([]),
+    /** The page, in order: one section per branch of the site map. */
+    branches: z.array(branch).default([]),
     categories: z.array(z.object({ id: z.string(), label: z.string() })),
-    /** Who the unit serves, from the site map. Each chip links to the products for that segment. */
-    segments: z.array(z.object({ label: z.string(), line: nullableString, href: z.string() })).default([]),
-    /**
-     * The unit's actions from the site map, in order. `kind` says what the
-     * customer gets: a page or form on this site, an anchor on this page, an
-     * off-site link, or the app stores. A null href hides the action.
-     */
-    actions: z
-      .array(
-        z.object({
-          label: z.string(),
-          line: nullableString,
-          href: nullableString,
-          kind: z.enum(['page', 'form', 'anchor', 'external', 'app']),
-        }),
-      )
-      .default([]),
-    faq: z.array(z.object({ q: z.string(), a: z.string() })).default([]),
+    productsNote: nullableString.default(null),
     /** Systems the unit integrates with, for the backend handoff. Never shown to customers. */
     systems: z.array(z.string()).default([]),
-    /** Regulatory line, e.g. an IPEC registration. Hidden until confirmed. */
-    regulator: nullableString,
-    productsNote: nullableString,
-    contact: z.object({ heading: z.string(), body: z.string() }),
+    heldEntities: z.array(z.object({ name: z.string(), stake: z.number().min(0).max(100) })).optional(),
+    /** Used by pages with their own layout (the Foundation). */
+    about: z.string().max(520).optional(),
+    keyFacts: z.array(z.object({ label: z.string(), value: nullableString })).max(6).optional(),
+    contact: z.object({ heading: z.string(), body: z.string() }).optional(),
     seo: z.object({ title: z.string().max(70), description: z.string().max(160) }),
   }),
 });

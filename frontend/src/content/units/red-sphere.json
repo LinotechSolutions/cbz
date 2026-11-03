@@ -10,52 +10,58 @@
     "lede": "Salary-based loans for government and private payrolls, working capital for small enterprises, and lending through agents and partners.",
     "image": { "src": "/images/accounts/individual.webp", "alt": "A young man outside a café holding his phone and bank card" }
   },
-  "about": "Red Sphere Finance is the CBZ Group's microfinance business. It lends against a salary, a payroll agreement or a trading record, so customers who fall outside traditional bank lending can still access credit, and partners and agents can extend it through their own networks.",
-  "keyFacts": [
-    { "label": "Lending and partnership products", "value": "13" },
-    { "label": "Interest on business and partner facilities", "value": "From 5%" },
-    { "label": "Tenors, by product", "value": "1 to 24 months" },
-    { "label": "SSB loan limit", "value": "US$2,400" },
-    { "label": "Partner commission", "value": "8%" }
-  ],
   "primaryCta": { "label": "Apply online", "href": "https://rs.cbz.co.zw/" },
-  "secondaryCta": { "label": "Get the app", "href": "#app" },
-  "objectives": null,
-  "audience": null,
-  "leadership": null,
-  "calculators": ["loan", "carFinance"],
+  "secondaryCta": { "label": "Loan calculator", "href": "#loan-calculator" },
+  "segments": [],
+  "branches": [
+    {
+      "id": "explore-loan-products",
+      "title": "Explore loan products",
+      "line": "SME, SSB, private individual and cash loans.",
+      "items": [
+        { "label": "SME loans", "line": "Working capital, tuck-shop, order finance and invoice discounting", "kind": "products", "categories": ["business"] },
+        { "label": "SSB loans", "line": "Government payroll loans", "kind": "products", "productIds": ["ssb_loan"] },
+        { "label": "Private individual loans", "line": "Private payroll and pensioner loans", "kind": "products", "productIds": ["private_payroll", "pensioners", "lockable_device"] },
+        { "label": "Cash loans", "line": "Agents, partners and farmers", "kind": "products", "categories": ["partners", "agriculture"] }
+      ]
+    },
+    {
+      "id": "loan-calculator",
+      "title": "Loan calculator",
+      "line": "Select a product, enter the amount and term, and see an indicative monthly repayment.",
+      "items": [{ "label": "Indicative result", "line": "With disclaimer", "kind": "calculator", "calculator": "loan" }]
+    },
+    {
+      "id": "apply-or-enquire",
+      "title": "Apply or enquire",
+      "line": "Apply online, or send an enquiry to Red Sphere business development.",
+      "items": [
+        { "label": "Online loan application", "line": "On the Red Sphere portal", "kind": "external", "href": "https://rs.cbz.co.zw/" },
+        { "label": "Enquiry form", "line": "Includes the product and customer type", "kind": "form", "href": "/red-sphere/enquire" },
+        { "label": "Red Sphere business development", "line": "The team comes back to you, usually within one working day", "kind": "note" }
+      ]
+    },
+    {
+      "id": "download-the-app",
+      "title": "Download the app",
+      "line": "Apply, upload documents and track your loan.",
+      "items": [{ "label": "Red Sphere app", "kind": "app", "app": "red-sphere" }]
+    },
+    {
+      "id": "explore-invoice-discounting",
+      "title": "Explore invoice discounting",
+      "line": "Turn outstanding invoices into working capital on Zeex. Red Sphere is the financier.",
+      "items": [{ "label": "Zeex website", "line": "Opens in a new tab", "kind": "external", "href": null }]
+    }
+  ],
   "categories": [
     { "id": "salary", "label": "Salary-based lending" },
     { "id": "business", "label": "Business lending" },
     { "id": "partners", "label": "Agents and partners" },
     { "id": "agriculture", "label": "Agriculture" }
   ],
-  "segments": [
-    { "label": "Individuals", "line": "Private payroll and pensioner loans", "href": "#panel-red-sphere-salary" },
-    { "label": "SSB borrowers", "line": "Government payroll loans up to US$2,400", "href": "#panel-red-sphere-salary" },
-    { "label": "SMEs", "line": "Working capital, tuck-shop and order finance", "href": "#panel-red-sphere-business" }
-  ],
-  "actions": [
-    { "label": "Loan products", "line": "SME, SSB, private individual and cash", "href": "#products", "kind": "anchor" },
-    { "label": "Loan calculator", "line": "Estimate a monthly repayment", "href": "#calculator", "kind": "anchor" },
-    { "label": "Apply for a loan", "line": "Online application", "href": "https://rs.cbz.co.zw/", "kind": "external" },
-    { "label": "Enquire about financing", "line": "A consultant calls you", "href": "/red-sphere/enquire", "kind": "form" },
-    { "label": "Download the app", "line": "Google Play and App Store", "href": "#app", "kind": "app" },
-    { "label": "Explore invoice discounting", "line": "Zeex", "href": null, "kind": "external" }
-  ],
-  "faq": [
-    { "q": "Who can borrow from Red Sphere?", "a": "Anyone with a salary, a payroll agreement or a trading record: government and private payroll employees, pensioners, small businesses and agents or partners." },
-    { "q": "What do I need to apply?", "a": "For a salary-based loan: your national ID, a payslip and proof of employment or residence. Business loans need your trading records." },
-    { "q": "How much can I borrow on an SSB loan?", "a": "Up to US$2,400, subject to credit assessment." },
-    { "q": "How do I apply?", "a": "Online on the Red Sphere portal or in the Red Sphere app, where you can also upload documents and track your loan." }
-  ],
-  "systems": [],
-  "regulator": null,
   "productsNote": "Tenors, interest rates and administration fees are those set out in the Red Sphere Finance product documentation and are subject to credit assessment and approval. Interest rates may change, so confirm the current terms before you apply.",
-  "contact": {
-    "heading": "Talk to Red Sphere Finance",
-    "body": "Apply online, through the mobile app, or speak to the team about agency and partnership opportunities."
-  },
+  "systems": [],
   "seo": {
     "title": "Red Sphere Finance: salary and business loans",
     "description": "Apply online for a Red Sphere Finance loan: SSB and payroll loans, pensioner loans, SME working capital, and agent and partner lending."

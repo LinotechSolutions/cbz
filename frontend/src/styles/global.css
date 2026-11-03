@@ -164,7 +164,7 @@ summary {
   gap: var(--s-2);
   min-height: var(--tap);
   padding: 0 var(--s-6);
-  border-radius: var(--r-sm);
+  border-radius: var(--r-pill);
   font-weight: 700;
   font-size: var(--t-sm);
   line-height: 1.2;
@@ -203,12 +203,57 @@ summary {
 .btn--quiet:hover {
   color: var(--blue);
 }
+/* On photography and navy, the secondary button is frosted glass. */
 .on-dark .btn--secondary {
   color: var(--white);
-  border-color: rgba(255, 255, 255, 0.7);
+  border-color: var(--glass-line);
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 .on-dark .btn--secondary:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.24);
+  color: var(--white);
+}
+.btn--dark {
+  background: var(--blue-900);
+  color: var(--white);
+}
+.btn--dark:hover {
+  background: var(--blue);
+  color: var(--white);
+}
+
+/* Cards: one radius, one border, a whisper of shadow on hover. */
+.card-base {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  transition:
+    box-shadow var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    transform var(--dur) var(--ease);
+}
+a.card-base:hover {
+  border-color: var(--blue-100);
+  box-shadow: var(--shadow-card);
+}
+
+/* Round icon button, used for the arrow on cards. */
+.icon-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--blue-50);
+  color: var(--blue);
+  flex-shrink: 0;
+  transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+a:hover .icon-pill {
+  background: var(--blue);
   color: var(--white);
 }
 .on-dark .btn--quiet {

@@ -14,6 +14,8 @@ interface Props {
   class?: string;
   /** Tighter vertical padding for secondary bands. */
   compact?: boolean;
+  /** Centre the heading and lede, for marketing bands. */
+  align?: 'left' | 'center';
 }
 
 const {
@@ -25,6 +27,7 @@ const {
   width = 'default',
   class: className = '',
   compact = false,
+  align = 'left',
 } = Astro.props;
 const headingId = id ? `${id}-heading` : undefined;
 ---
@@ -37,7 +40,7 @@ const headingId = id ? `${id}-heading` : undefined;
   <div class:list={['container', width === 'narrow' && 'container--narrow']}>
     {
       heading && (
-        <header class:list={['head', hideHeading && 'sr-only']}>
+        <header class:list={['head', align === 'center' && 'head--center', hideHeading && 'sr-only']}>
           <h2 id={headingId}>{heading}</h2>
           {lede && <p class="lede">{lede}</p>}
         </header>
@@ -61,6 +64,16 @@ const headingId = id ? `${id}-heading` : undefined;
     margin-bottom: var(--s-8);
     display: grid;
     gap: var(--s-3);
+  }
+  .head h2 {
+    font-size: var(--t-2xl);
+  }
+  .head--center {
+    justify-items: center;
+    text-align: center;
+  }
+  .head--center .lede {
+    max-width: 48ch;
   }
   .band--dark .lede {
     color: rgba(255, 255, 255, 0.78);

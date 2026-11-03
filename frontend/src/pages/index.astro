@@ -1,8 +1,8 @@
 ---
 /**
  * Home, in the site map's order: Hero, What can we help you with?, Nine
- * businesses, Latest from CBZ, Branches & ATMs. The digital channels sit as
- * one compact row under the task card.
+ * businesses, Latest from CBZ, Branches & ATMs. The digital channels sit in
+ * a blue feature panel between the task card and the businesses.
  */
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -52,47 +52,80 @@ const latest = (await getCollection('notices'))
     lede="Nine businesses, one group. Open an account, get a quote or start investing today."
     image={{ src: '/images/cbz-payments.webp', alt: 'A shop owner taking a card payment from a customer at the counter' }}
     secondary={{ label: 'Talk to us', href: '/contact' }}
+    chip={{ icon: 'phoneMobile', title: 'CBZ Touch', line: 'Zero-rated mobile banking' }}
   >
     <OpenAccountMenu client:idle items={OPEN_ACCOUNT_ITEMS} slot="primary" />
   </Hero>
 
   <TaskCard heading="What can we help you with?" items={tasks} />
 
-  <div class="container digital-row">
-    <ul role="list" class="digital" id="digital-channels" aria-label="Bank from your phone">
-      <li class="digital__item">
-        <Logo brand="ziki-cash" on="light" height={28} decorative />
-        <a href={LINKS.zikiCash.site ?? '/contact'} class="digital__link">
-          ZikiCash {LINKS.zikiCash.site ? '' : '(ask us)'} <Icon name="chevronRight" size={16} />
-        </a>
-      </li>
-      <li class="digital__item">
-        <Logo brand="cbz-touch" on="light" height={28} decorative />
-        <StoreBadges app="cbz-touch" appStore={LINKS.touch.appStore} playStore={LINKS.touch.playStore} />
-      </li>
-      <li class="digital__item">
-        <a href="/login" class="digital__link">Internet banking log in <Icon name="chevronRight" size={16} /></a>
-      </li>
-      <li class="digital__item">
-        <Logo brand="ziki-mall" on="light" height={24} decorative />
-        <a href={LINKS.zikiMall} class="digital__link" target="_blank" rel="noopener noreferrer">
-          Ziki Mall <Icon name="external" size={14} class="ext" /><span class="sr-only">(opens in a new tab)</span>
-        </a>
-      </li>
-    </ul>
-  </div>
+  <section class="container digital-band" aria-labelledby="digital-heading" id="digital-channels">
+    <div class="panel on-dark">
+      <div class="panel__copy">
+        <h2 id="digital-heading" class="panel__title">Bank from your phone</h2>
+        <p class="panel__lede">Pay, send and save without visiting a branch. Every channel runs on the official CBZ domains.</p>
+        <StoreBadges app="cbz-touch" appStore={LINKS.touch.appStore} playStore={LINKS.touch.playStore} tone="dark" />
+      </div>
+      <ul role="list" class="chips">
+        <li>
+          <a href={LINKS.zikiCash.site ?? '/contact'} class="chip">
+            <Logo brand="ziki-cash" on="light" height={26} decorative />
+            <span class="chip__text">
+              <span class="chip__title">ZikiCash</span>
+              <span class="chip__line">{LINKS.zikiCash.site ? 'Send, pay and save' : 'Ask us how to start'}</span>
+            </span>
+            <Icon name="arrowRight" size={16} class="chip__icon" />
+          </a>
+        </li>
+        <li>
+          <a href="/login#apps" class="chip">
+            <Logo brand="cbz-touch" on="light" height={30} decorative />
+            <span class="chip__text">
+              <span class="chip__title">CBZ Touch</span>
+              <span class="chip__line">Transfers, bills, school fees</span>
+            </span>
+            <Icon name="arrowRight" size={16} class="chip__icon" />
+          </a>
+        </li>
+        <li>
+          <a href="/login" class="chip">
+            <span class="chip__glyph"><Icon name="globe" size={22} /></span>
+            <span class="chip__text">
+              <span class="chip__title">Internet banking</span>
+              <span class="chip__line">Personal and corporate</span>
+            </span>
+            <Icon name="arrowRight" size={16} class="chip__icon" />
+          </a>
+        </li>
+        <li>
+          <a href={LINKS.zikiMall} class="chip" target="_blank" rel="noopener noreferrer">
+            <Logo brand="ziki-mall" on="light" height={22} decorative />
+            <span class="chip__text">
+              <span class="chip__title">Ziki Mall</span>
+              <span class="chip__line">Shop online, pay with CBZ</span>
+            </span>
+            <Icon name="external" size={16} class="chip__icon" />
+            <span class="sr-only">(opens in a new tab)</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
 
-  <Section id="businesses" tone="tint" heading="Nine businesses" lede="One group behind every stage of life and business.">
+  <Section id="businesses" heading="Nine businesses" lede="One group behind every stage of life and business." align="center">
     <ul role="list" class="units">
       {
         units.map((u) => (
           <li>
-            <a href={`/${u.slug}`} class="unit">
-              <Logo brand={u.logo as DarkSafeLogoKey} on="light" height={32} decorative />
+            <a href={`/${u.slug}`} class="unit card-base">
+              <span class="unit__logo">
+                <Logo brand={u.logo as DarkSafeLogoKey} on="light" height={30} decorative />
+              </span>
               <span class="unit__name">{u.name}</span>
               <span class="unit__line">{u.hero.lede}</span>
-              <span class="unit__more">
-                Visit {u.shortName} <Icon name="chevronRight" size={16} />
+              <span class="unit__foot">
+                <span class="unit__more">Visit {u.shortName}</span>
+                <span class="icon-pill"><Icon name="arrowRight" size={16} /></span>
               </span>
             </a>
           </li>
@@ -103,29 +136,32 @@ const latest = (await getCollection('notices'))
 
   {
     latest.length > 0 && (
-      <Section id="latest" heading="Latest from CBZ" lede="Shareholder circulars, customer notices and announcements.">
-        <ul role="list" class="latest rule-list">
+      <Section id="latest" tone="tint" heading="Latest from CBZ" lede="Shareholder circulars, customer notices and announcements." align="center">
+        <ul role="list" class="latest">
           {latest.map((n) => (
             <li>
-              <a href={`/notices/${n.id}`} class="latest__item">
-                <time datetime={n.data.date} class="small muted">
+              <a href={`/notices/${n.id}`} class="news card-base">
+                <time datetime={n.data.date} class="news__date">
                   {formatDate(n.data.date)}
                 </time>
-                <span class="latest__title">{n.data.title}</span>
-                <span class="latest__summary small muted">{n.data.summary}</span>
-                <Icon name="chevronRight" size={18} class="latest__chev" />
+                <span class="news__title">{n.data.title}</span>
+                <span class="news__summary">{n.data.summary}</span>
+                <span class="news__foot">
+                  <span class="news__more">Read the notice</span>
+                  <span class="icon-pill"><Icon name="arrowRight" size={16} /></span>
+                </span>
               </a>
             </li>
           ))}
         </ul>
         <p class="latest__all">
-          <a href="/notices">All notices</a>
+          <a href="/notices" class="btn btn--secondary">All notices</a>
         </p>
       </Section>
     )
   }
 
-  <Section id="branches" tone="tint" heading="Branches and ATMs" lede="Search the map, or open it in your own maps app for directions.">
+  <Section id="branches" heading="Branches and ATMs" lede="Search the map, or open it in your own maps app for directions.">
     <BranchFinder id="home-branches" />
   </Section>
 
@@ -148,44 +184,96 @@ const latest = (await getCollection('notices'))
 </BaseLayout>
 
 <style>
-  .digital-row {
-    padding-block: var(--s-6) var(--s-8);
+  .digital-band {
+    padding-block: var(--s-8) 0;
   }
-  .digital {
+  .panel {
+    display: grid;
+    gap: var(--s-8);
+    padding: var(--s-8) var(--s-6);
+    border-radius: var(--r-lg);
+    background:
+      radial-gradient(120% 140% at 100% 0%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 55%),
+      var(--blue);
+    color: var(--white);
+  }
+  @media (min-width: 900px) {
+    .panel {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      align-items: center;
+      padding: var(--s-12);
+    }
+  }
+  .panel__copy {
+    display: grid;
+    gap: var(--s-4);
+    justify-items: start;
+  }
+  .panel__title {
+    color: var(--white);
+    font-size: var(--t-2xl);
+  }
+  .panel__lede {
+    color: rgba(255, 255, 255, 0.82);
+    max-width: 36ch;
+  }
+  .chips {
     display: grid;
     gap: var(--s-3);
   }
   @media (min-width: 640px) {
-    .digital {
+    .chips {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
-  @media (min-width: 900px) {
-    .digital {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-  }
-  .digital__item {
-    display: flex;
-    flex-wrap: wrap;
+  .chip {
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
     align-items: center;
-    justify-content: space-between;
     gap: var(--s-3);
+    min-height: 80px;
     padding: var(--s-3) var(--s-4);
-    border: 1px solid var(--line);
     border-radius: var(--r-md);
-    min-height: 64px;
+    background: var(--white);
+    color: var(--ink);
+    text-decoration: none;
+    transition:
+      transform var(--dur) var(--ease),
+      box-shadow var(--dur) var(--ease);
   }
-  .digital__link {
+  .chip:hover {
+    color: var(--ink);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-float);
+  }
+  .chip > :global(.logo) {
+    justify-self: center;
+  }
+  .chip__glyph {
     display: inline-flex;
     align-items: center;
-    gap: var(--s-1);
-    font-weight: 700;
-    text-decoration: none;
-    min-height: var(--tap);
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--r-md);
+    background: var(--blue-50);
+    color: var(--blue);
+    justify-self: center;
   }
-  .digital__link:hover {
-    text-decoration: underline;
+  .chip__text {
+    display: grid;
+    gap: 1px;
+  }
+  .chip__title {
+    font-weight: 700;
+    color: var(--blue);
+  }
+  .chip__line {
+    font-size: var(--t-xs);
+    color: var(--grey);
+  }
+  .chip__icon {
+    color: var(--blue-700);
   }
   .units {
     display: grid;
@@ -203,20 +291,20 @@ const latest = (await getCollection('notices'))
   }
   .unit {
     display: grid;
+    grid-template-rows: auto auto 1fr auto;
     gap: var(--s-3);
-    align-content: start;
     height: 100%;
     padding: var(--s-6);
-    background: var(--white);
-    border: 1px solid var(--line);
-    border-radius: var(--r-md);
     text-decoration: none;
     color: var(--ink);
-    transition: border-color var(--dur) var(--ease);
   }
   .unit:hover {
-    border-color: var(--blue-700);
     color: var(--ink);
+  }
+  .unit__logo {
+    display: flex;
+    align-items: center;
+    height: 44px;
   }
   .unit__name {
     font-weight: 700;
@@ -227,45 +315,62 @@ const latest = (await getCollection('notices'))
     font-size: var(--t-sm);
     color: var(--grey);
   }
-  .unit__more {
-    display: inline-flex;
+  .unit__foot,
+  .news__foot {
+    display: flex;
     align-items: center;
-    gap: var(--s-1);
+    justify-content: space-between;
+    gap: var(--s-3);
+    padding-top: var(--s-3);
+    border-top: 1px solid var(--line);
+  }
+  .unit__more,
+  .news__more {
     font-weight: 700;
     color: var(--blue-700);
-    margin-top: auto;
   }
   .latest {
-    max-width: 800px;
-  }
-  .latest__item {
-    position: relative;
     display: grid;
-    gap: var(--s-1);
-    padding: var(--s-4) var(--s-10, 40px) var(--s-4) 0;
+    gap: var(--gap);
+  }
+  @media (min-width: 900px) {
+    .latest {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .news {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    gap: var(--s-3);
+    height: 100%;
+    padding: var(--s-6);
     text-decoration: none;
     color: var(--ink);
   }
-  .latest__item:hover .latest__title {
-    color: var(--blue-700);
+  .news:hover {
+    color: var(--ink);
   }
-  .latest__title {
+  .news__date {
+    font-size: var(--t-xs);
+    color: var(--grey);
+  }
+  .news__title {
     font-weight: 700;
     color: var(--blue);
+    line-height: 1.3;
   }
-  .latest__summary {
-    max-width: var(--measure);
-  }
-  .latest__chev {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--blue-700);
+  .news__summary {
+    font-size: var(--t-sm);
+    color: var(--grey);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
   .latest__all {
-    margin-top: var(--s-6);
-    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    margin-top: var(--s-8);
   }
   .trust {
     margin: 0;

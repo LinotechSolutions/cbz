@@ -8,7 +8,7 @@
   "hero": {
     "title": "Find the space, and the finance behind it",
     "lede": "Residential stands and homes, commercial and retail space, and property advisory, with CBZ Bank mortgages alongside.",
-    "image": { "src": "/images/loan-home.webp", "alt": "A newly built home in a Harare suburb" }
+    "image": { "src": "/images/hero-home.webp", "alt": "A customer celebrating with the keys to her new home" }
   },
   "primaryCta": { "label": "Schedule a viewing", "href": "/properties/request-a-viewing" },
   "secondaryCta": { "label": "See the listings", "href": "#property-listing" },

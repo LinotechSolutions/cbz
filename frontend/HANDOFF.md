@@ -67,7 +67,7 @@ _Generated 2026-11-03 by `npm run handoff`. Do not edit between the markers._
 | Mortgage term limits (2 to 10 years used in the calculator) | CBZ Bank |  |
 | Car finance term limits (1 to 5 years used in the calculator) | CBZ Bank |  |
 | Unit mailboxes for form routing | Marketing managers |  |
-| Final photography for heroes and tiles | Marketing |  |
+| Final photography for heroes and tiles. Business-page heroes use three circle-template photos shared across nine units; one per unit in the same template is ideal | Marketing |  |
 | Campaign artwork and copy | Marketing |  |
 | Leadership profiles per unit | Each unit |  |
 | Objectives and customer segmentation per unit | Marketing |  |

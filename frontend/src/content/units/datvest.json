@@ -8,7 +8,7 @@
   "hero": {
     "title": "Put your money to work",
     "lede": "Unit trusts for savers, institutional mandates for pension funds and companies, and private wealth management.",
-    "image": { "src": "/images/cbz-wealth.webp", "alt": "An adviser reviewing a portfolio with a client" }
+    "image": { "src": "/images/hero-digital.webp", "alt": "A customer checking her investments on her phone" }
   },
   "primaryCta": { "label": "Call me back", "href": "/datvest/call-me-back" },
   "secondaryCta": { "label": "Start investing", "href": "/datvest/start-investing" },

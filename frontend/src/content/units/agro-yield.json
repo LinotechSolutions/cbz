@@ -21,7 +21,8 @@
       "items": [
         { "label": "Farming", "line": "Contract farming, working capital", "kind": "products", "productIds": ["agro_farming", "agro_enterprise"] },
         { "label": "Commodity trading", "line": "Buy and sell commodities", "kind": "products", "productIds": ["agro_commodity_trading"] },
-        { "label": "Supply chain", "line": "Mechanisation, tractors, boreholes, haulage", "kind": "products", "productIds": ["agro_supply_chain"] }
+        { "label": "Supply chain", "line": "Mechanisation, tractors, boreholes, haulage", "kind": "products", "productIds": ["agro_supply_chain"] },
+        { "label": "Visit ATDC", "line": "Trade and distribution services through the Africa Trade and Distribution Centre. Opens in a new tab.", "kind": "external", "href": null }
       ]
     },
     {
@@ -43,8 +44,11 @@
     {
       "id": "explore-atdc",
       "title": "Explore ATDC",
-      "line": "ATDC Zimbabwe, 40% owned by CBZ Agro-Yield.",
-      "items": [{ "label": "ATDC website", "line": "Opens in a new tab", "kind": "external", "href": null }]
+      "line": "Discover the services and opportunities available through the Africa Trade and Distribution Centre (ATDC).",
+      "items": [
+        { "label": "Visit ATDC", "line": "Opens the ATDC website in a new tab", "kind": "external", "href": null },
+        { "label": "A Group business", "line": "ATDC Zimbabwe is a joint venture in which CBZ Agro-Yield holds 40%, giving farmers and agribusinesses a route to regional markets.", "kind": "note" }
+      ]
     }
   ],
   "categories": [{ "id": "divisions", "label": "Divisions" }],

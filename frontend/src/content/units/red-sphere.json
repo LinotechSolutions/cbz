@@ -37,6 +37,7 @@
       "line": "Apply online, or send an enquiry to Red Sphere business development.",
       "items": [
         { "label": "Online loan application", "line": "On the Red Sphere portal", "kind": "external", "href": "https://rs.cbz.co.zw/" },
+        { "label": "Explore Invoice Discounting", "line": "Through Zeex, with Red Sphere Finance as the financier", "kind": "external", "href": "https://zeex.co.zw/" },
         { "label": "Enquiry form", "line": "Includes the product and customer type", "kind": "form", "href": "/red-sphere/enquire" },
         { "label": "Red Sphere business development", "line": "The team comes back to you, usually within one working day", "kind": "note" }
       ]
@@ -50,8 +51,11 @@
     {
       "id": "explore-invoice-discounting",
       "title": "Explore invoice discounting",
-      "line": "Turn outstanding invoices into working capital on Zeex. Red Sphere is the financier.",
-      "items": [{ "label": "Zeex website", "line": "Opens in a new tab", "kind": "external", "href": null }]
+      "line": "Red Sphere Finance partners with Zeex to provide financing for eligible invoice-discounting transactions. Red Sphere Finance is the financier.",
+      "items": [
+        { "label": "Explore Invoice Discounting", "line": "Access invoice discounting through Zeex. Opens zeex.co.zw in a new tab.", "kind": "external", "href": "https://zeex.co.zw/" },
+        { "label": "How it works", "line": "List an eligible invoice on Zeex; Red Sphere Finance finances it and you receive working capital before your customer pays.", "kind": "note" }
+      ]
     }
   ],
   "categories": [

@@ -1,4 +1,9 @@
 ---
+/**
+ * Latest from CBZ: notices as article cards, a photograph behind a white
+ * panel, laid out as a horizontal row that snaps as you scroll, with arrows
+ * and dots. Without JavaScript the row still scrolls by hand.
+ */
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
@@ -14,130 +19,299 @@ const label: Record<string, string> = {
   customer: 'Customer',
   regulatory: 'Regulatory',
   operational: 'Operational',
-  security: 'Security',
 };
+const photo: Record<string, string> = {
+  shareholder: '/images/cbz-wealth.webp',
+  customer: '/images/cbz-banking.webp',
+  regulatory: '/images/cbzpicture1.webp',
+  operational: '/images/cbz-banking-branch.webp',
+};
+const words = (s: string) => Math.max(1, Math.round(s.split(/\s+/).length / 200));
 const categories = [...new Set(notices.map((n) => n.data.category))];
 ---
 
-<BaseLayout title="Notices" description="Shareholder circulars, customer notices and regulatory announcements from CBZ Holdings.">
+<BaseLayout title="Latest from CBZ" description="Shareholder circulars, customer notices and regulatory announcements from CBZ Holdings.">
   <div class="container page">
-    <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Notices' }]} />
-    <h1>Notices</h1>
-    <p class="lede">Shareholder circulars, customer notices and regulatory announcements.</p>
-
-    {
-      categories.length > 1 && (
-        <nav aria-label="Filter by category" class="cats">
-          {categories.map((c) => (
-            <a href={`#${c}`} class="cats__link">
+    <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Latest from CBZ' }]} />
+    <div class="head">
+      <h1 class="head__title"><strong>Latest</strong> from CBZ</h1>
+      <nav aria-label="Filter by category" class="cats">
+        <button type="button" class="cat" aria-pressed="true" data-cat="all">All</button>
+        {
+          categories.map((c) => (
+            <button type="button" class="cat" aria-pressed="false" data-cat={c}>
               {label[c]}
-            </a>
-          ))}
-        </nav>
-      )
-    }
+            </button>
+          ))
+        }
+      </nav>
+    </div>
 
-    {
-      categories.map((c) => (
-        <section id={c} class="group" aria-labelledby={`${c}-h`}>
-          <h2 id={`${c}-h`} class="group__h">
-            {label[c]} notices
-          </h2>
-          <ul role="list" class="rule-list">
-            {notices
-              .filter((n) => n.data.category === c)
-              .map((n) => (
-                <li>
-                  <a href={`/notices/${n.id}`} class="notice">
-                    <span class="notice__meta small muted">
-                      <time datetime={n.data.date}>{formatDate(n.data.date)}</time>
-                      {n.data.reference && <span>{n.data.reference}</span>}
-                      {n.data.urgent && <span class="notice__urgent">Important</span>}
+    <div class="rail" data-rail>
+      <ul role="list" class="row" data-row>
+        {
+          notices.map((n) => (
+            <li class="art" data-cat={n.data.category}>
+              <a href={`/notices/${n.id}`} class="art__link">
+                <img src={photo[n.data.category] ?? photo.customer} alt="" width={800} height={600} loading="lazy" decoding="async" class="art__img" />
+                <span class="art__panel">
+                  <span class="art__title">{n.data.title}</span>
+                  <span class="art__summary">{n.data.summary}</span>
+                  <span class="art__meta">
+                    <span class="art__by">{label[n.data.category]} notice</span>
+                    <span class="art__date">
+                      Published <time datetime={n.data.date}>{formatDate(n.data.date)}</time>
+                      {n.data.reference && <> · {n.data.reference}</>}
                     </span>
-                    <span class="notice__title">{n.data.title}</span>
-                    <span class="notice__summary small">{n.data.summary}</span>
-                    <Icon name="chevronRight" size={18} class="notice__chev" />
-                  </a>
-                </li>
-              ))}
-          </ul>
-        </section>
-      ))
-    }
+                  </span>
+                  <span class="art__foot">
+                    <span class="art__read">
+                      Read <Icon name="arrowRight" size={18} />
+                    </span>
+                    <span class="art__time small muted">
+                      <Icon name="info" size={14} /> {words(n.data.summary)} min
+                    </span>
+                  </span>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="rail__nav">
+        <ol class="dots" role="list" data-dots aria-hidden="true">
+          {notices.map(() => <li class="dot" />)}
+        </ol>
+        <div class="arrows">
+          <button type="button" class="arrow" data-prev aria-label="Previous notices"><Icon name="arrowRight" size={20} class="arrow__flip" /></button>
+          <button type="button" class="arrow" data-next aria-label="Next notices"><Icon name="arrowRight" size={20} /></button>
+        </div>
+      </div>
+    </div>
     {notices.length === 0 && <p class="muted">No notices at the moment.</p>}
   </div>
 </BaseLayout>
 
+<script>
+  const rail = document.querySelector<HTMLElement>('[data-rail]');
+  const row = rail?.querySelector<HTMLElement>('[data-row]');
+  if (rail && row) {
+    const cards = () => Array.from(row.querySelectorAll<HTMLElement>('.art:not([hidden])'));
+    const dots = Array.from(rail.querySelectorAll<HTMLElement>('.dot'));
+    const step = () => (cards()[0]?.offsetWidth ?? 320) + 24;
+    rail.querySelector('[data-prev]')?.addEventListener('click', () => row.scrollBy({ left: -step(), behavior: 'smooth' }));
+    rail.querySelector('[data-next]')?.addEventListener('click', () => row.scrollBy({ left: step(), behavior: 'smooth' }));
+    const mark = () => {
+      const i = Math.round(row.scrollLeft / step());
+      dots.forEach((d, k) => d.classList.toggle('dot--on', k === i));
+    };
+    row.addEventListener('scroll', mark, { passive: true });
+    mark();
+    document.querySelectorAll<HTMLButtonElement>('[data-cat]').forEach((b) => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll<HTMLButtonElement>('[data-cat]').forEach((x) => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+        row.querySelectorAll<HTMLElement>('.art').forEach((c) => {
+          c.hidden = b.dataset.cat !== 'all' && c.dataset.cat !== b.dataset.cat;
+        });
+        row.scrollTo({ left: 0 });
+        mark();
+      });
+    });
+  }
+</script>
+
 <style>
   .page {
     display: grid;
-    gap: var(--s-6);
+    gap: var(--s-8);
     padding-block: var(--s-8) var(--band);
+  }
+  .head {
+    display: grid;
+    gap: var(--s-4);
+  }
+  @media (min-width: 900px) {
+    .head {
+      grid-template-columns: 1fr auto;
+      align-items: end;
+    }
+  }
+  .head__title {
+    font-size: var(--t-2xl);
+    font-weight: 400;
+    color: var(--ink);
+  }
+  .head__title strong {
+    font-weight: 700;
   }
   .cats {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--s-2);
+    gap: var(--s-2) var(--s-5, 20px);
   }
-  .cats__link {
-    display: inline-flex;
-    align-items: center;
-    min-height: 36px;
-    padding: 0 var(--s-4);
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: var(--t-xs);
-  }
-  .cats__link:hover {
-    background: var(--blue-50);
-  }
-  .group {
-    display: grid;
-    gap: var(--s-3);
-    margin-top: var(--s-4);
-  }
-  .group__h {
-    font-size: var(--t-md);
-    color: var(--grey);
-    font-weight: 400;
-  }
-  .notice {
+  .cat {
     position: relative;
+    min-height: var(--tap);
+    font-weight: 700;
+    font-size: var(--t-sm);
+    color: var(--grey);
+  }
+  .cat[aria-pressed='true'] {
+    color: var(--blue);
+  }
+  .cat[aria-pressed='true']::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 4px;
+    height: 3px;
+    background: var(--blue);
+  }
+  .rail {
     display: grid;
-    gap: var(--s-1);
-    padding: var(--s-4) var(--s-10, 40px) var(--s-4) 0;
+    gap: var(--s-6);
+  }
+  .row {
+    display: flex;
+    gap: var(--s-6);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-bottom: var(--s-2);
+    margin-inline: calc(-1 * var(--gutter));
+    padding-inline: var(--gutter);
+  }
+  .row::-webkit-scrollbar {
+    display: none;
+  }
+  .art {
+    flex: 0 0 min(88vw, 640px);
+    scroll-snap-align: start;
+  }
+  .art[hidden] {
+    display: none;
+  }
+  .art__link {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
     text-decoration: none;
     color: var(--ink);
+    background: var(--blue-100);
   }
-  .notice:hover .notice__title {
-    color: var(--blue-700);
+  @media (min-width: 640px) {
+    .art__link {
+      aspect-ratio: 16 / 10;
+    }
   }
-  .notice__meta {
-    display: flex;
-    flex-wrap: wrap;
+  .art__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .art__panel {
+    position: absolute;
+    top: 8%;
+    bottom: 8%;
+    left: 4%;
+    width: 66%;
+    display: grid;
+    grid-template-rows: auto auto auto 1fr;
     gap: var(--s-3);
+    padding: var(--s-6);
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
   }
-  .notice__urgent {
-    color: var(--red-hover);
+  .art__title {
     font-weight: 700;
+    font-size: var(--t-lg);
+    color: var(--ink);
+    line-height: 1.25;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
-  .notice__title {
-    font-weight: 700;
-    color: var(--blue);
-    font-size: var(--t-md);
-    max-width: var(--measure);
+  .art__summary {
+    font-size: var(--t-sm);
+    color: var(--grey);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
-  .notice__summary {
-    max-width: var(--measure);
+  .art__meta {
+    display: grid;
+    gap: 2px;
+    font-size: var(--t-xs);
     color: var(--grey);
   }
-  .notice__chev {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--blue-700);
+  .art__by {
+    color: var(--ink);
+  }
+  .art__foot {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: var(--s-3);
+  }
+  .art__read {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    font-weight: 700;
+    color: var(--red-700);
+    font-size: var(--t-md);
+  }
+  .art__time {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-1);
+  }
+  .rail__nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-4);
+  }
+  .dots {
+    display: flex;
+    gap: var(--s-2);
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--line);
+    transition: width var(--dur) var(--ease), background-color var(--dur) var(--ease);
+  }
+  .dot--on {
+    width: 28px;
+    background: var(--red);
+  }
+  .arrows {
+    display: flex;
+    gap: var(--s-2);
+  }
+  .arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--tap);
+    height: var(--tap);
+    border-radius: 50%;
+    color: var(--red-700);
+    border: 1px solid var(--line);
+  }
+  .arrow:hover {
+    background: var(--red-50);
+  }
+  .arrow :global(.arrow__flip) {
+    transform: scaleX(-1);
   }
 </style>

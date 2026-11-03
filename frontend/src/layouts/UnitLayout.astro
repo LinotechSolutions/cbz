@@ -128,6 +128,7 @@ const jsonLd = [
   preloadImage={unit.hero.image.src}
 >
   <Hero
+    variant="split"
     title={unit.hero.title}
     lede={unit.hero.lede}
     image={unit.hero.image}
@@ -145,13 +146,6 @@ const jsonLd = [
       branches.map((b, bi) => (
         <Section id={b.id} tone={bi % 2 === 0 ? 'white' : 'tint'} heading={b.title} lede={b.line ?? undefined} class="branch" data-branch={b.id}>
           <div class="branch__body">
-            {b.items.filter((x) => x.kind === 'products').length > 1 && !b.items.some((x) => x.kind === 'form') && (
-              <p class="branch__cta">
-                <a href={unit.primaryCta.href} class="btn btn--primary" data-track="apply_click" data-track-props={JSON.stringify({ unit: unit.slug, branch: b.id })}>
-                  {unit.primaryCta.label}
-                </a>
-              </p>
-            )}
             {b.runs.map((run, ri) =>
               run.kind === 'cards' ? (
                 <ul role="list" class="cards" style={`--n:${Math.min(run.items.length, 3)}`}>
@@ -209,7 +203,6 @@ const jsonLd = [
                           categories={cats}
                           products={list}
                           primaryCta={unit.primaryCta}
-                          hideCta={b.items.some((x) => x.kind === 'form') || showHead}
                           note={unit.productsNote}
                         />
                       </div>

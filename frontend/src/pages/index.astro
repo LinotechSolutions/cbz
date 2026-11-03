@@ -119,12 +119,14 @@ const bestBank = AWARDS[0];
       </a>
       <ul role="list" class="help__cards">
         {
-          clusters.map((c) => (
+          clusters.map((c, i) => (
             <li>
-              <a href={c.route} class="dark-card">
-                <span class="dark-card__icon"><Icon name={clusterIcon[c.id]} size={22} /></span>
-                <span class="dark-card__title">{c.taskLabel}</span>
-                <span class="dark-card__line">{c.line}</span>
+              <a href={c.route} class:list={['benefit', i % 2 === 1 && 'benefit--blue']}>
+                <span class="benefit__shield" aria-hidden="true">
+                  <Icon name={clusterIcon[c.id]} size={26} />
+                </span>
+                <span class="benefit__title">{c.taskLabel}</span>
+                <span class="benefit__line">{c.line}</span>
               </a>
             </li>
           ))
@@ -527,13 +529,11 @@ const bestBank = AWARDS[0];
     font-size: var(--t-sm);
     color: rgba(255, 255, 255, 0.85);
   }
+  /* Benefit cards: alternating white and blue, with a shield badge rising above each card */
   .help__cards {
     display: grid;
-    gap: var(--s-3);
-    padding: var(--s-4);
-    border-radius: var(--r-lg);
-    background: var(--blue-900);
-    box-shadow: var(--shadow-float);
+    gap: var(--gap);
+    padding-top: var(--s-10, 40px);
   }
   @media (min-width: 640px) {
     .help__cards {
@@ -543,43 +543,69 @@ const bestBank = AWARDS[0];
   @media (min-width: 900px) {
     .help__cards {
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      padding: var(--s-6);
     }
   }
-  .dark-card {
+  .benefit {
+    position: relative;
     display: grid;
     gap: var(--s-3);
     align-content: start;
+    justify-items: center;
+    text-align: center;
     height: 100%;
-    padding: var(--s-5, 20px);
+    padding: var(--s-12) var(--s-5, 20px) var(--s-8);
     border-radius: var(--r-md);
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--white);
+    background: var(--white);
+    color: var(--ink);
     text-decoration: none;
-    transition: background-color var(--dur) var(--ease);
+    box-shadow: var(--shadow-card);
+    transition: transform var(--dur) var(--ease);
   }
-  .dark-card:hover {
-    background: rgba(255, 255, 255, 0.12);
+  .benefit:hover {
+    transform: translateY(-3px);
+    color: var(--ink);
+  }
+  .benefit--blue {
+    background: var(--blue);
     color: var(--white);
   }
-  .dark-card__icon {
+  .benefit--blue:hover {
+    color: var(--white);
+  }
+  .benefit__shield {
+    position: absolute;
+    top: -34px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 68px;
+    height: 76px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: var(--red);
+    padding-bottom: 8px;
+    color: var(--white);
+    background: linear-gradient(to bottom, var(--blue-700), var(--blue));
+    clip-path: polygon(0 0, 100% 0, 100% 62%, 50% 100%, 0 62%);
+  }
+  .benefit--blue .benefit__shield {
+    background: linear-gradient(to bottom, var(--red), var(--red-700));
+  }
+  .benefit__title {
+    font-size: var(--t-xl);
+    font-weight: 400;
+    color: var(--blue);
+    margin-top: var(--s-2);
+  }
+  .benefit--blue .benefit__title {
     color: var(--white);
   }
-  .dark-card__title {
-    font-weight: 700;
-    font-size: var(--t-lg);
-  }
-  .dark-card__line {
+  .benefit__line {
     font-size: var(--t-sm);
-    color: rgba(255, 255, 255, 0.75);
+    color: var(--grey);
+    max-width: 24ch;
+  }
+  .benefit--blue .benefit__line {
+    color: rgba(255, 255, 255, 0.85);
   }
 
   /* About split */

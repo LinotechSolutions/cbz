@@ -38,7 +38,7 @@ export const LINKS = {
   /** Agro-Yield farmer onboarding portal. */
   farmerOnboarding: null as string | null,
   /** ATDC Zimbabwe, the Agro-Yield associate. */
-  atdc: null as string | null,
+  atdc: 'https://africatdc.com/' as string | null,
   documents: {
     businessConditions: 'https://www.cbz.co.zw/ddownload_category/business-conditions/',
     personalAccountTerms: 'https://www.cbz.co.zw/terms-conditions/terms-and-conditions-personal-account/',

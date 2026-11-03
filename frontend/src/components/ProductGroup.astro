@@ -296,9 +296,20 @@ const costLine = (p: ProductRow) =>
     display: grid;
     gap: var(--gap);
   }
-  @media (min-width: 900px) {
+  /* Three across on laptops, four on wide screens; two on tablets. */
+  @media (min-width: 640px) {
     .pc__grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 900px) {
+    .pc__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 1200px) {
+    .pc__grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
   .pcard {
@@ -315,15 +326,10 @@ const costLine = (p: ProductRow) =>
   .pcard__body {
     display: grid;
     gap: var(--s-4);
-    padding: var(--s-8) var(--s-6);
-  }
-  @media (min-width: 640px) {
-    .pcard__body {
-      padding: var(--s-8);
-    }
+    padding: var(--s-6) var(--s-5, 20px);
   }
   .pcard__title {
-    font-size: var(--t-xl);
+    font-size: var(--t-lg);
     font-weight: 400;
     color: var(--blue);
   }
@@ -369,11 +375,6 @@ const costLine = (p: ProductRow) =>
     display: grid;
     gap: var(--s-3);
     margin-top: var(--s-4);
-  }
-  @media (min-width: 640px) {
-    .pcard__actions {
-      grid-template-columns: 1fr 1fr;
-    }
   }
   .pcard__actions :global(.btn) {
     width: 100%;

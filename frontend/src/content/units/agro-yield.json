@@ -19,10 +19,8 @@
       "title": "Choose your service",
       "line": "Farming, commodity trading or supply chain. Each links straight to an enquiry for that service.",
       "items": [
-        { "label": "Farming", "line": "Contract farming, working capital", "kind": "products", "productIds": ["agro_farming", "agro_enterprise"] },
-        { "label": "Commodity trading", "line": "Buy and sell commodities", "kind": "products", "productIds": ["agro_commodity_trading"] },
-        { "label": "Supply chain", "line": "Mechanisation, tractors, boreholes, haulage", "kind": "products", "productIds": ["agro_supply_chain"] },
-        { "label": "Visit ATDC", "line": "Trade and distribution services through the Africa Trade and Distribution Centre. Opens in a new tab.", "kind": "external", "href": null }
+        { "label": "Our services", "line": "Farming, commodity trading and supply chain", "kind": "products", "productIds": ["agro_farming", "agro_enterprise", "agro_commodity_trading", "agro_supply_chain"] },
+        { "label": "Visit ATDC", "line": "Trade and distribution services through the Africa Trade and Distribution Centre. Opens in a new tab.", "kind": "external", "href": "https://africatdc.com/" }
       ]
     },
     {
@@ -46,7 +44,7 @@
       "title": "Explore ATDC",
       "line": "Discover the services and opportunities available through the Africa Trade and Distribution Centre (ATDC).",
       "items": [
-        { "label": "Visit ATDC", "line": "Opens the ATDC website in a new tab", "kind": "external", "href": null },
+        { "label": "Visit ATDC", "line": "Opens africatdc.com in a new tab", "kind": "external", "href": "https://africatdc.com/" },
         { "label": "A Group business", "line": "ATDC Zimbabwe is a joint venture in which CBZ Agro-Yield holds 40%, giving farmers and agribusinesses a route to regional markets.", "kind": "note" }
       ]
     }

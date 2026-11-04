@@ -47,7 +47,7 @@ const articles = (await getCollection('notices'))
           </h1>
           <p class="hero__lede">Accounts, cover, investments and finance for the season or the business, from one group that has partnered Zimbabweans since {GROUP.founded}.</p>
           <div class="hero__actions">
-            <OpenAccountMenu client:idle items={OPEN_ACCOUNT_ITEMS} />
+            <OpenAccountMenu client:idle items={OPEN_ACCOUNT_ITEMS} label="Explore our products" />
             <a href={CONTACT.whatsapp.chatHref} class="round" target="_blank" rel="noopener noreferrer" aria-label="Chat with us on WhatsApp (opens in a new tab)">
               <Icon name="whatsapp" size={22} />
             </a>

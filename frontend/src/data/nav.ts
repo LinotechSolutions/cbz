@@ -57,7 +57,7 @@ export const CLUSTERS: NavGroup[] = [
     href: '/the-group',
     items: [
       { label: 'The Group', href: '/the-group', line: 'Structure, awards, milestones and board' },
-      { label: 'Journeys', href: '/journeys', line: 'Eight guided flows, from account to advice' },
+      { label: 'Journeys', href: '/journeys', line: 'Nine guided flows, from account to advice' },
       { label: 'CBZ Foundation', href: '/cbz-foundation', line: 'Our philanthropic arm' },
       { label: 'Sustainability', href: '/sustainability', line: 'Grievance mechanism and reports' },
       { label: 'Latest from CBZ', href: '/notices', line: 'Shareholder and customer notices' },
@@ -86,7 +86,7 @@ export const OPEN_ACCOUNT_ITEMS: NavLink[] = [
   { label: 'Get a quote from CBZ Life', href: '/cbz-life/quote', line: 'Funeral and education plans' },
 ];
 
-/** The eight guided flows on the site map. */
+/** The nine guided flows on the site map. */
 export const JOURNEYS: { label: string; line: string; href: string; unit: string }[] = [
   { label: 'Open an account', line: 'A CBZ Bank account in three steps.', href: '/bank/open-account', unit: 'bank' },
   { label: 'Buy a home', line: 'Find a property and finance it with a CBZ Bank mortgage.', href: '/properties/request-a-viewing', unit: 'properties' },
@@ -96,6 +96,7 @@ export const JOURNEYS: { label: string; line: string; href: string; unit: string
   { label: 'Farming finance', line: 'Contract farming for the season with Agro-Yield.', href: '/agro-yield/apply', unit: 'agro-yield' },
   { label: 'Capital raising', line: 'Debt, equity and advisory from CBZ Capital.', href: '/capital/enquiry', unit: 'capital' },
   { label: 'Risk advisory', line: 'A broker’s view of your cover and your risks.', href: '/risk-advisory/quote', unit: 'risk-advisory' },
+  { label: 'Salary loans', line: 'SSB and payroll loans from Red Sphere, through the app.', href: '/red-sphere#explore-loan-products', unit: 'red-sphere' },
 ];
 
 /** The twelve off-site destinations on the site map. Null links are hidden. */

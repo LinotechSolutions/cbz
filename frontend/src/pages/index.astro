@@ -18,6 +18,22 @@ import type { IconName } from '../components/icons';
 const clusterIcon: Record<string, IconName> = { banking: 'bank', investments: 'chart', insurance: 'shield', 'agro-business': 'leaf' };
 const clusters = CLUSTERS.filter((c) => c.isOperating);
 
+/* The task cards: one per cluster, plus Borrow for Red Sphere after Bank. */
+interface HelpCard {
+  title: string;
+  line: string;
+  href: string;
+  icon: IconName;
+}
+const helpCards: HelpCard[] = clusters.flatMap((c): HelpCard[] => {
+  const card: HelpCard = { title: c.taskLabel, line: c.line, href: c.route, icon: clusterIcon[c.id] };
+  if (c.id !== 'banking') return [card];
+  return [
+    { ...card, line: 'Accounts, cards and savings' },
+    { title: 'Borrow', line: 'Salary, business and cash loans', href: '/red-sphere', icon: 'wallet' },
+  ];
+});
+
 const articles = (await getCollection('notices'))
   .filter((n) => n.data.category !== 'security')
   .sort((a, b) => b.data.date.localeCompare(a.data.date))
@@ -65,22 +81,23 @@ const articles = (await getCollection('notices'))
   <section class="top" aria-labelledby="help-heading">
     <div class="container help" id="help">
       <h2 id="help-heading" class="sr-only">What can we help you with?</h2>
-      <a href="/login#apps" class="help__photo">
-        <span class="help__photo-mark" aria-hidden="true"><Icon name="phoneMobile" size={40} /></span>
-        <span class="help__photo-body">
-          <span class="help__photo-title">Bank from your phone</span>
-          <span class="help__photo-line">CBZ Touch, ZikiCash and internet banking <Icon name="arrowRight" size={16} /></span>
+      <a href="/login#apps" class="help__banner">
+        <span class="help__banner-mark" aria-hidden="true"><Icon name="phoneMobile" size={28} /></span>
+        <span class="help__banner-body">
+          <span class="help__banner-title">Bank from your phone</span>
+          <span class="help__banner-line">CBZ Touch, ZikiCash and internet banking</span>
         </span>
+        <span class="icon-pill help__banner-go" aria-hidden="true"><Icon name="arrowRight" size={16} /></span>
       </a>
       <ul role="list" class="help__cards">
         {
-          clusters.map((c, i) => (
+          helpCards.map((c, i) => (
             <li>
-              <a href={c.route} class:list={['benefit', i % 2 === 1 && 'benefit--blue']}>
+              <a href={c.href} class:list={['benefit', i % 2 === 1 && 'benefit--blue']}>
                 <span class="benefit__shield" aria-hidden="true">
-                  <Icon name={clusterIcon[c.id]} size={26} />
+                  <Icon name={c.icon} size={26} />
                 </span>
-                <span class="benefit__title">{c.taskLabel}</span>
+                <span class="benefit__title">{c.title}</span>
                 <span class="benefit__line">{c.line}</span>
               </a>
             </li>
@@ -527,59 +544,53 @@ const articles = (await getCollection('notices'))
   /* Help row: photo card + dark cards */
   .help {
     display: grid;
-    gap: var(--gap);
+    gap: var(--s-6);
   }
-  @media (min-width: 900px) {
-    .help {
-      grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
-    }
-  }
-  .help__photo {
-    position: relative;
-    display: block;
-    min-height: 240px;
+  /* A slim navy banner for the digital channels, above the task cards */
+  .help__banner {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: var(--s-4);
+    padding: var(--s-4) var(--s-5, 20px);
     border-radius: var(--r-lg);
-    overflow: hidden;
+    background: linear-gradient(135deg, var(--blue) 0%, var(--blue-900) 100%);
     color: var(--white);
     text-decoration: none;
     box-shadow: var(--shadow-float);
   }
-  .help__photo {
-    background: linear-gradient(135deg, var(--blue) 0%, var(--blue-900) 100%);
+  .help__banner:hover {
+    color: var(--white);
   }
-  .help__photo-mark {
-    position: absolute;
-    top: var(--s-6);
-    left: var(--s-6);
+  .help__banner-mark {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 64px;
-    height: 64px;
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
     background: var(--red);
     color: var(--white);
+    flex-shrink: 0;
   }
-  .help__photo-body {
-    position: absolute;
-    inset: auto 0 0 0;
+  .help__banner-body {
     display: grid;
-    gap: var(--s-1);
-    padding: var(--s-6);
-    background: linear-gradient(to top, rgba(0, 23, 54, 0.95), rgba(0, 23, 54, 0));
+    gap: 2px;
+    min-width: 0;
   }
-  .help__photo-title {
+  .help__banner-title {
     font-weight: 700;
     font-size: var(--t-lg);
   }
-  .help__photo-line {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--s-1);
+  .help__banner-line {
     font-size: var(--t-sm);
     color: rgba(255, 255, 255, 0.85);
   }
-  /* Benefit cards: alternating white and blue, with a shield badge rising above each card */
+  .help__banner-go {
+    background: rgba(255, 255, 255, 0.14);
+    color: var(--white);
+  }
+  /* Task cards: alternating white and blue, with a shield badge rising above each card */
   .help__cards {
     display: grid;
     gap: var(--gap);
@@ -592,7 +603,12 @@ const articles = (await getCollection('notices'))
   }
   @media (min-width: 900px) {
     .help__cards {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 1200px) {
+    .help__cards {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
     }
   }
   .benefit {

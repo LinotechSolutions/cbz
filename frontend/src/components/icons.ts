@@ -18,6 +18,7 @@ export const ICONS = {
   menu: { d: 'M4 7h16M4 12h16M4 17h16' },
   close: { d: 'M6 6l12 12M18 6 6 18' },
   plus: { d: 'M12 5v14M5 12h14' },
+  wallet: { d: 'M3 7a2 2 0 0 1 2-2h12v4M3 7v11a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2H5a2 2 0 0 1-2-2zM16 14h3' },
   check: { d: 'm5 12 5 5L20 7' },
   info: { d: 'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM12 11v6M12 7.5v.5' },
   warning: { d: 'M12 3 2 20h20L12 3zM12 10v4M12 17v.5' },

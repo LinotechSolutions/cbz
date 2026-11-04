@@ -26,7 +26,7 @@ export const AGRO_PRODUCTS: Record<string, ProductItem[]> = {
       id: 'agro_farming',
       icon: 'Sprout',
       name: 'Agro Farming',
-      description: 'Seasonal contract farming.',
+      description: 'Seasonal contract farming and livestock.',
       pricing: 'Seasonal contract farming',
       image: '/images/cbz-agriculture.webp',
       features: ['Seasonal contract farming'],

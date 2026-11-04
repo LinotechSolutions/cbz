@@ -1,7 +1,7 @@
 /**
  * Life-stage journeys on the home page: a question the visitor recognises,
  * the promise we make, two or three things we offer for it, and the journey
- * it opens. Each maps onto one of the eight guided flows on the site map.
+ * it opens. Each maps onto one of the nine guided flows on the site map.
  */
 export interface LifeStage {
   /** Short tag on the card, e.g. "Students". */
@@ -24,6 +24,15 @@ export const LIFE_STAGES: LifeStage[] = [
     href: '/bank/open-account',
     unit: 'bank',
     image: { src: '/images/loan-education.webp', alt: 'A student on campus' },
+  },
+  {
+    tag: 'Salaried',
+    question: 'Paid monthly and need a little more?',
+    promise: "Let's make your salary stretch.",
+    offers: ['SSB and payroll loans', 'Phone and solar on credit'],
+    href: '/red-sphere#explore-loan-products',
+    unit: 'red-sphere',
+    image: { src: '/images/accounts/individual.webp', alt: 'A young professional with his phone and bank card' },
   },
   {
     tag: 'Families',

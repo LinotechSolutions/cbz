@@ -81,6 +81,9 @@ test('a form validates, saves a draft and submits', async ({ page }) => {
 test('calculator announces a result', async ({ page }) => {
   await page.goto('/calculators');
   const section = page.locator('#mortgage');
+  // The calculator hydrates when visible; typing before that is lost on hydration.
+  await section.scrollIntoViewIfNeeded();
+  await page.locator('#mortgage astro-island:not([ssr])').waitFor({ state: 'attached' });
   await section.getByLabel('Property price').fill('100000');
   await section.getByLabel('Interest rate per year').fill('12');
   await expect(section.locator('dd.figure')).toHaveText(/1,434\.71/);

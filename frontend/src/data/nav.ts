@@ -96,7 +96,7 @@ export const JOURNEYS: { label: string; line: string; href: string; unit: string
   { label: 'Farming finance', line: 'Contract farming for the season with Agro-Yield.', href: '/agro-yield/apply', unit: 'agro-yield' },
   { label: 'Capital raising', line: 'Debt, equity and advisory from CBZ Capital.', href: '/capital/enquiry', unit: 'capital' },
   { label: 'Risk advisory', line: 'A broker’s view of your cover and your risks.', href: '/risk-advisory/quote', unit: 'risk-advisory' },
-  { label: 'Salary loans', line: 'SSB and payroll loans from Red Sphere, through the app.', href: '/red-sphere#explore-loan-products', unit: 'red-sphere' },
+  { label: 'Small business finance', line: 'Working capital, order finance and invoice discounting from Red Sphere.', href: '/red-sphere#explore-loan-products', unit: 'red-sphere' },
 ];
 
 /** The twelve off-site destinations on the site map. Null links are hidden. */

@@ -26,13 +26,13 @@ export const LIFE_STAGES: LifeStage[] = [
     image: { src: '/images/loan-education.webp', alt: 'A student on campus' },
   },
   {
-    tag: 'Salaried',
-    question: 'Paid monthly and need a little more?',
-    promise: "Let's make your salary stretch.",
-    offers: ['SSB and payroll loans', 'Phone and solar on credit'],
+    tag: 'Traders',
+    question: 'Running a small business?',
+    promise: "Let's keep the shelves full.",
+    offers: ['Working capital', 'Order finance and invoice discounting'],
     href: '/red-sphere#explore-loan-products',
     unit: 'red-sphere',
-    image: { src: '/images/accounts/individual.webp', alt: 'A young professional with his phone and bank card' },
+    image: { src: '/images/cbz-payments.webp', alt: 'A shop owner taking a card payment at her counter' },
   },
   {
     tag: 'Families',

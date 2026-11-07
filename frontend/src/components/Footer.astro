@@ -1,9 +1,10 @@
 ---
 /**
- * Footer. The logo and address, a Contact Us block, then three columns from
- * the site map: Our Businesses, Explore Our Solutions, The Group and Access.
- * Everything comes from nav.ts and facts.ts; a null link is hidden.
- * Regulatory and off-site links live on the sitemap page.
+ * Footer, navy. The logo, tagline and address on the left, then five
+ * columns: Contact Us, Our Businesses, The Group, Access and Explore Our
+ * Solutions, each heading underlined in red. Everything comes from nav.ts
+ * and facts.ts; a null link is hidden. Regulatory and off-site links live on
+ * the sitemap page.
  */
 import Logo from './Logo.astro';
 import Icon from './Icon.astro';
@@ -15,19 +16,24 @@ import { isExternal } from '../data/links';
 
 const columns: { heading: string; links: readonly { label: string; href: string | null; external?: boolean }[] }[] = [
   { heading: 'Our Businesses', links: FOOTER.businesses },
-  { heading: 'Explore Our Solutions', links: FOOTER.journeys },
-  { heading: 'The Group and Access', links: FOOTER.group },
+  { heading: 'The Group', links: FOOTER.group },
+  { heading: 'Access', links: FOOTER.access },
+  { heading: 'Explore Our Solutions', links: FOOTER.solutions },
 ];
 const year = new Date().getFullYear();
 ---
 
 <footer class="footer on-dark">
   <div class="container">
-    <div class="footer__top">
+    <div class="footer__grid">
       <div class="footer__brand">
         <Logo brand="holdings" on="dark" height={56} />
         <address class="footer__address">
-          {CONTACT.address.line1}, {CONTACT.address.line2}
+          <Icon name="pin" size={18} class="footer__pin" />
+          <span>
+            {CONTACT.address.line1},<br />
+            {CONTACT.address.line2}
+          </span>
         </address>
       </div>
 
@@ -35,26 +41,27 @@ const year = new Date().getFullYear();
         <h2 class="footer__heading">Contact Us</h2>
         <ul role="list" class="footer__details">
           <li>
-            <span class="footer__label">Phone:</span>
-            <a href={CONTACT.contactCentre.href}>{CONTACT.contactCentre.display}</a>
+            <Icon name="phone" size={18} />
+            <span><span class="footer__label">Phone:</span> <a href={CONTACT.contactCentre.href}>{CONTACT.contactCentre.display}</a></span>
           </li>
           <li>
-            <span class="footer__label">WhatsApp:</span>
-            <a href={CONTACT.whatsapp.href} target="_blank" rel="noopener noreferrer">
-              {CONTACT.whatsapp.display}<span class="sr-only"> (opens in a new tab)</span>
-            </a>
+            <Icon name="whatsapp" size={18} />
+            <span>
+              <span class="footer__label">WhatsApp:</span>
+              <a href={CONTACT.whatsapp.href} target="_blank" rel="noopener noreferrer">
+                {CONTACT.whatsapp.display}<span class="sr-only"> (opens in a new tab)</span>
+              </a>
+            </span>
           </li>
           <li>
-            <span class="footer__label">Email:</span>
-            <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+            <Icon name="mail" size={18} />
+            <span><span class="footer__label">Email:</span> <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></span>
           </li>
         </ul>
         <p class="footer__note">Our digital banking channels are available 24/7.</p>
-        <p class="footer__note small">Toll-free {CONTACT.tollFree.map((t) => t.display).join(' or ')} on all networks.</p>
+        <p class="footer__note footer__note--quiet">Toll-free {CONTACT.tollFree.map((t) => t.display).join(' or ')} on all networks.</p>
       </div>
-    </div>
 
-    <div class="footer__cols">
       {
         columns.map((col) => (
           <nav aria-label={col.heading} class="footer__col">
@@ -106,9 +113,9 @@ const year = new Date().getFullYear();
 
 <style>
   .footer {
-    background: var(--blue-900);
-    color: rgba(255, 255, 255, 0.82);
-    padding-block: var(--s-16) var(--s-8);
+    background: var(--blue);
+    color: rgba(255, 255, 255, 0.88);
+    padding-block: var(--s-12) var(--s-8);
     font-size: var(--t-sm);
   }
   .footer a {
@@ -119,25 +126,51 @@ const year = new Date().getFullYear();
     text-decoration: underline;
     color: var(--white);
   }
-  .footer__top {
+  /* Brand, contact and four link columns */
+  .footer__grid {
     display: grid;
-    gap: var(--s-8);
+    gap: var(--s-8) var(--s-6);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     padding-bottom: var(--s-8);
     border-bottom: 1px solid rgba(255, 255, 255, 0.14);
   }
+  .footer__brand,
+  .footer__contact {
+    grid-column: 1 / -1;
+  }
+  @media (min-width: 640px) {
+    .footer__brand,
+    .footer__contact {
+      grid-column: auto;
+    }
+  }
   @media (min-width: 900px) {
-    .footer__top {
-      grid-template-columns: 1fr 1fr;
+    .footer__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 1200px) {
+    .footer__grid {
+      grid-template-columns: 1.3fr 1.3fr repeat(4, minmax(0, 1fr));
+      gap: var(--s-8) var(--s-5, 20px);
     }
   }
   .footer__brand {
     display: grid;
-    gap: var(--s-5, 20px);
+    gap: var(--s-6);
     align-content: start;
     justify-items: start;
   }
   .footer__address {
+    display: flex;
+    gap: var(--s-3);
+    align-items: flex-start;
     font-style: normal;
+    line-height: 1.4;
+  }
+  .footer__address :global(.footer__pin) {
+    flex-shrink: 0;
+    margin-top: 2px;
   }
   .footer__contact {
     display: grid;
@@ -146,49 +179,52 @@ const year = new Date().getFullYear();
   }
   .footer__details {
     display: grid;
-    gap: var(--s-2);
+    gap: var(--s-3);
   }
   .footer__details li {
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--s-2);
+    gap: var(--s-3);
+    align-items: flex-start;
     font-variant-numeric: tabular-nums;
   }
-  .footer__details a {
-    font-weight: 700;
+  .footer__details li :global(svg) {
+    flex-shrink: 0;
+    margin-top: 2px;
   }
   .footer__label {
-    color: rgba(255, 255, 255, 0.7);
-    min-width: 5.5em;
+    font-weight: 700;
+    color: var(--white);
   }
   .footer__note {
-    color: rgba(255, 255, 255, 0.82);
+    color: rgba(255, 255, 255, 0.88);
+    margin-top: var(--s-2);
   }
-  .footer__note + .footer__note {
-    color: rgba(255, 255, 255, 0.62);
+  .footer__note--quiet {
+    margin-top: 0;
+    font-size: var(--t-xs);
+    color: rgba(255, 255, 255, 0.66);
   }
-  .footer__cols {
-    display: grid;
-    gap: var(--s-8) var(--s-6);
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    padding-block: var(--s-8);
-  }
-  @media (min-width: 900px) {
-    .footer__cols {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-  }
+  /* Headings carry a short red underline */
   .footer__heading {
-    font-size: var(--t-sm);
+    position: relative;
+    font-size: var(--t-md);
     color: var(--white);
+    padding-bottom: var(--s-3);
     margin-bottom: var(--s-3);
   }
-  .footer__contact .footer__heading {
-    margin-bottom: 0;
+  .footer__heading::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 32px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--red);
   }
   .footer__links {
     display: grid;
-    gap: var(--s-2);
+    gap: var(--s-1);
   }
   .footer__links a {
     display: inline-block;
@@ -201,7 +237,6 @@ const year = new Date().getFullYear();
     justify-content: space-between;
     gap: var(--s-4);
     padding-top: var(--s-6);
-    border-top: 1px solid rgba(255, 255, 255, 0.14);
   }
   .footer__social {
     display: flex;

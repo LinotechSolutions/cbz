@@ -153,8 +153,8 @@ const jsonLd = [
 
   <div class="branches" data-unit={unit.slug}>
     {
-      branches.map((b, bi) => (
-        <Section id={b.id} tone={bi % 2 === 0 ? 'white' : 'tint'} heading={b.title} lede={b.line ?? undefined} class="branch" data-branch={b.id}>
+      branches.map((b) => (
+        <Section id={b.id} heading={b.title} lede={b.line ?? undefined} class="branch" data-branch={b.id}>
           <div class="branch__body">
             {b.runs.map((run, ri) =>
               run.kind === 'cards' ? (
@@ -169,6 +169,7 @@ const jsonLd = [
                       );
                     }
                     const ext = it.kind === 'external' || isExternal(it.href!);
+                    const go = ext ? 'Visit' : it.kind === 'form' ? 'Get started' : 'Learn more';
                     return (
                       <li>
                         <a
@@ -184,8 +185,8 @@ const jsonLd = [
                             {ext && <span class="sr-only"> (opens in a new tab)</span>}
                           </span>
                           {visible(it.line) && <span class="card-link__line">{it.line}</span>}
-                          <span class="icon-pill card-link__icon">
-                            <Icon name={ext ? 'external' : 'arrowRight'} size={16} />
+                          <span class="go card-link__go">
+                            {go} <Icon name={ext ? 'external' : 'arrowRight'} size={16} />
                           </span>
                         </a>
                       </li>
@@ -306,14 +307,15 @@ const jsonLd = [
       grid-template-columns: repeat(var(--n), minmax(0, 1fr));
     }
   }
+  /* Branch link card: navy title, grey line, red Get started / Learn more */
   .card-link {
-    position: relative;
     display: grid;
-    gap: var(--s-1);
+    grid-template-rows: auto 1fr auto;
+    gap: var(--s-2);
     align-content: start;
-    min-height: 120px;
+    min-height: 150px;
     height: 100%;
-    padding: var(--s-6) var(--s-12) var(--s-6) var(--s-6);
+    padding: var(--s-6);
     text-decoration: none;
     color: var(--ink);
   }
@@ -330,20 +332,19 @@ const jsonLd = [
     font-size: var(--t-sm);
     color: var(--grey);
   }
-  .card-link__icon {
-    position: absolute;
-    right: var(--s-6);
-    top: var(--s-6);
+  .card-link__go {
+    align-self: end;
+    margin-top: var(--s-3);
   }
   .note {
     display: grid;
     gap: var(--s-1);
     align-content: start;
-    min-height: 120px;
+    min-height: 150px;
     padding: var(--s-6);
-    border: 1px dashed var(--blue-100);
+    border: 1px dashed var(--line);
     border-radius: var(--r-md);
-    background: var(--blue-50);
+    background: var(--white);
   }
   .note__label {
     font-weight: 700;

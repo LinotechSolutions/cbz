@@ -28,8 +28,8 @@ const items = [
   </div>
 
   {
-    items.map((i, idx) => (
-      <Section id={i.id} tone={idx % 2 ? 'tint' : 'white'} heading={CALCULATORS[i.key].title} hideHeading>
+    items.map((i) => (
+      <Section id={i.id} heading={CALCULATORS[i.key].title} hideHeading>
         <Calculator client:visible variant={i.key} config={CALCULATORS[i.key]} />
       </Section>
     ))

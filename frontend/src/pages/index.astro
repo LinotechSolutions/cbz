@@ -26,16 +26,21 @@ const clusters = CLUSTERS.filter((c) => c.isOperating);
 interface HelpCard {
   title: string;
   line: string;
+  go: string;
   href: string;
   icon: IconName;
 }
+const cardCopy: Record<string, { line: string; go: string }> = {
+  banking: { line: 'Everyday banking, accounts, cards and savings.', go: 'Explore Banking' },
+  insurance: { line: 'Short-term insurance solutions for your assets and business.', go: 'Explore Insurance' },
+  investments: { line: 'Wealth creation, unit trusts and corporate finance solutions.', go: 'Explore Investments' },
+  'agro-business': { line: 'Finance, inputs, offtake and sector solutions for the agricultural value chain.', go: 'Explore Agrobusiness' },
+};
 const helpCards: HelpCard[] = clusters.flatMap((c): HelpCard[] => {
-  const card: HelpCard = { title: c.taskLabel, line: c.line, href: c.route, icon: clusterIcon[c.id] };
+  const copy = cardCopy[c.id] ?? { line: c.line, go: `Explore ${c.taskLabel}` };
+  const card: HelpCard = { title: c.taskLabel, line: copy.line, go: copy.go, href: c.route, icon: clusterIcon[c.id] };
   if (c.id !== 'banking') return [card];
-  return [
-    { ...card, line: 'Accounts, cards and savings' },
-    { title: 'Borrow', line: 'Salary, business and cash loans', href: '/red-sphere', icon: 'wallet' },
-  ];
+  return [card, { title: 'Borrow', line: 'Salary, business and cash loans from Red Sphere.', go: 'Explore Loans', href: '/red-sphere', icon: 'wallet' }];
 });
 
 const articles = (await getCollection('notices'))
@@ -55,7 +60,7 @@ const articles = (await getCollection('notices'))
 <BaseLayout
   title={GROUP.name}
   description="CBZ Holdings: banking, insurance, investments and agribusiness in one place. Open an account, apply for a loan, get a quote or start investing."
-  preloadImage="/images/insurance-family.webp"
+  preloadImage="/images/hero-family.webp"
 >
   <!-- 1. Hero: white split banner, copy left and a photograph bleeding right -->
   <header class="hero" aria-labelledby="hero-heading">
@@ -63,7 +68,7 @@ const articles = (await getCollection('notices'))
       <div class="hero__copy">
         <div class="hero__copy-in">
           <h1 id="hero-heading" class="hero__title">
-            <strong>Bank, Invest, Insure and Grow</strong> with CBZ Holdings
+            Bank, Invest, Insure and Grow with <span class="hero__brand">CBZ Holdings.</span>
           </h1>
           <p class="hero__lede">From everyday banking and protecting what matters to building wealth and growing your business, CBZ Holdings brings together the financial solutions, expertise and support you need to achieve more.</p>
           <div class="hero__actions">
@@ -72,27 +77,30 @@ const articles = (await getCollection('notices'))
         </div>
       </div>
       <div class="hero__media">
-        <img src="/images/insurance-family.webp" alt="A family together outdoors" width={1400} height={900} loading="eager" fetchpriority="high" decoding="async" />
+        <img src="/images/hero-family.webp" alt="A family looking ahead together in the city" width={1672} height={941} loading="eager" fetchpriority="high" decoding="async" />
       </div>
     </div>
   </header>
 
-  <!-- 2. What can we help you with? -->
+  <!-- 2. Explore Our Solutions -->
   <section class="top" aria-labelledby="help-heading">
     <div class="container help" id="help">
-      <h2 id="help-heading" class="sr-only">What can we help you with?</h2>
+      <div class="help__head">
+        <h2 id="help-heading" class="help__title h-rule">Explore Our Solutions</h2>
+        <a href="/journeys" class="go help__all">View all solutions <Icon name="arrowRight" size={18} /></a>
+      </div>
       <ul role="list" class="help__cards">
         {
           helpCards.map((c) => (
             <li>
-              <a href={c.href} class="benefit">
+              <a href={c.href} class="benefit card-base">
                 <span class="benefit__icon" aria-hidden="true">
-                  <Icon name={c.icon} size={24} />
+                  <Icon name={c.icon} size={40} />
                 </span>
                 <span class="benefit__title">{c.title}</span>
                 <span class="benefit__line">{c.line}</span>
-                <span class="benefit__go">
-                  Explore <Icon name="arrowRight" size={18} />
+                <span class="go benefit__go">
+                  {c.go} <Icon name="arrowRight" size={18} />
                 </span>
               </a>
             </li>
@@ -106,7 +114,7 @@ const articles = (await getCollection('notices'))
   <section class="container stages" id="journeys" aria-labelledby="stages-heading" data-stages>
       <div class="stages__head">
         <div class="stages__intro">
-          <h2 id="stages-heading" class="stages__title">Whatever your next step, <strong>we’re here to help you move forward.</strong></h2>
+          <h2 id="stages-heading" class="stages__title h-rule">Whatever your next step, <strong>we’re here to help you move forward.</strong></h2>
         </div>
         <a href="/journeys" class="stages__all">Explore all solutions <Icon name="arrowRight" size={18} /></a>
         <div class="stages__arrows">
@@ -155,7 +163,7 @@ const articles = (await getCollection('notices'))
   <section class="digital" id="digital" aria-labelledby="digital-heading">
     <div class="container digital__inner">
       <div class="digital__head">
-        <h2 id="digital-heading" class="digital__title">Bank wherever you are, <strong>whenever you need to</strong></h2>
+        <h2 id="digital-heading" class="digital__title h-rule">Bank wherever you are, <strong>whenever you need to</strong></h2>
         <p class="digital__lede">Three ways to bank without a branch: on your phone, across borders, or from your desk.</p>
       </div>
       <ul role="list" class="digital__cards">
@@ -238,61 +246,70 @@ const articles = (await getCollection('notices'))
     justify-items: start;
     align-content: center;
   }
+  /* Bold navy, with the group name in red */
   .hero__title {
     font-size: var(--t-3xl);
-    font-weight: 400;
-    color: var(--ink);
+    font-weight: 700;
+    color: var(--blue);
     letter-spacing: -0.015em;
+    line-height: 1.1;
     max-width: 16ch;
   }
-  .hero__title strong {
-    font-weight: 700;
+  .hero__brand {
+    color: var(--red);
   }
   .hero__lede {
     color: var(--grey);
     font-size: var(--t-md);
     max-width: 44ch;
   }
+  /* The photograph is supplied already composed: white on the left, the
+     family under a red and navy arc on the right. Anchor it right so the
+     arc stays in view and the white meets the copy. */
   .hero__media {
     position: relative;
     min-height: 260px;
-    background: var(--blue-50);
+    background: var(--white);
   }
   .hero__media img {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: right center;
     aspect-ratio: 16 / 10;
   }
   @media (min-width: 900px) {
     .hero__inner {
       grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-      min-height: 560px;
+      min-height: 520px;
     }
     .hero__copy-in {
       padding: var(--s-12) var(--s-10, 40px) var(--s-12) var(--gutter);
-    }
-    .hero__media {
-      margin-block: var(--s-6) 0;
-      box-shadow: 0 24px 40px -28px rgba(0, 23, 54, 0.5);
     }
     .hero__media img {
       aspect-ratio: auto;
       height: 100%;
     }
   }
-  /* ---------- Help band: white ---------- */
+  @media (min-width: 1200px) {
+    .hero__inner {
+      min-height: 600px;
+    }
+  }
+  /* ---------- Explore Our Solutions ---------- */
   .top {
     position: relative;
     background: var(--white);
-    padding-block: var(--s-10, 40px) var(--s-8);
+    padding-block: var(--s-12) var(--s-8);
   }
 
   /* ---------- Digital banking ---------- */
   .digital {
-    background: var(--blue-50);
+    background: var(--white);
     padding-block: var(--band);
+    border-top: 1px solid var(--line);
+    margin-top: var(--band);
   }
   .digital__inner {
     display: grid;
@@ -342,9 +359,7 @@ const articles = (await getCollection('notices'))
   .dcard__logo--glyph {
     width: 40px;
     justify-content: center;
-    border-radius: var(--r-sm);
-    background: var(--blue-50);
-    color: var(--blue);
+    color: var(--red);
   }
   .dcard__title {
     font-size: var(--t-lg);
@@ -399,6 +414,9 @@ const articles = (await getCollection('notices'))
     color: var(--ink);
     max-width: 26ch;
     line-height: 1.15;
+  }
+  .stages__all {
+    color: var(--red);
   }
   .stages__title strong {
     font-weight: 700;
@@ -608,12 +626,32 @@ const articles = (await getCollection('notices'))
     background: var(--red);
   }
 
-  /* Help row: photo card + dark cards */
+  /* Explore Our Solutions: heading with the red rule, View all on the right */
   .help {
     display: grid;
     gap: var(--s-8);
   }
-  /* Task cards: one quiet style, a navy icon chip, a bold name, one line, Explore */
+  .help__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: var(--s-3) var(--s-6);
+  }
+  .help__title {
+    font-size: var(--t-2xl);
+    font-weight: 700;
+    color: var(--blue);
+    letter-spacing: -0.01em;
+  }
+  .help__all {
+    font-size: var(--t-md);
+    min-height: var(--tap);
+  }
+  .help__all:hover {
+    color: var(--red-700);
+  }
+  /* Solution cards: a red outline icon, a navy name, one line, a red Explore link */
   .help__cards {
     display: grid;
     gap: var(--gap);
@@ -634,68 +672,35 @@ const articles = (await getCollection('notices'))
     }
   }
   .benefit {
-    position: relative;
     display: grid;
     grid-template-rows: auto auto 1fr auto;
     gap: var(--s-3);
     align-content: start;
     height: 100%;
     padding: var(--s-6);
-    border-radius: var(--r-lg);
-    background: var(--white);
     color: var(--ink);
     text-decoration: none;
-    border: 1px solid var(--line);
-    overflow: hidden;
-    transition:
-      border-color var(--dur) var(--ease),
-      box-shadow var(--dur) var(--ease),
-      transform var(--dur) var(--ease);
-  }
-  /* A red rule along the top that appears on hover */
-  .benefit::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: var(--red);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform var(--dur) var(--ease);
   }
   .benefit:hover,
   .benefit:focus-visible {
-    transform: translateY(-4px);
-    border-color: transparent;
-    box-shadow: var(--shadow-float);
     color: var(--ink);
-  }
-  .benefit:hover::before,
-  .benefit:focus-visible::before {
-    transform: scaleX(1);
   }
   .benefit__icon {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    width: 52px;
-    height: 52px;
-    border-radius: var(--r-md);
-    background: var(--blue);
-    color: var(--white);
+    height: 48px;
+    color: var(--red);
   }
   .benefit__title {
     font-size: var(--t-xl);
     font-weight: 700;
     color: var(--blue);
-    margin-top: var(--s-3);
+    margin-top: var(--s-2);
     letter-spacing: -0.01em;
   }
   @media (min-width: 900px) {
     .benefit {
-      min-height: 260px;
+      min-height: 250px;
     }
   }
   /* Five across: a touch smaller so Agrobusiness sits inside its card */
@@ -707,24 +712,11 @@ const articles = (await getCollection('notices'))
   .benefit__line {
     font-size: var(--t-sm);
     color: var(--grey);
-    max-width: 26ch;
     line-height: 1.5;
   }
   .benefit__go {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--s-2);
     align-self: end;
     margin-top: var(--s-4);
-    font-weight: 700;
-    font-size: var(--t-sm);
-    color: var(--red-700);
-  }
-  .benefit__go :global(svg) {
-    transition: transform var(--dur) var(--ease);
-  }
-  .benefit:hover .benefit__go :global(svg) {
-    transform: translateX(4px);
   }
 
   /* About split */

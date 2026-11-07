@@ -80,10 +80,7 @@ const articles = (await getCollection('notices'))
   <!-- 2. What can we help you with? -->
   <section class="top" aria-labelledby="help-heading">
     <div class="container help" id="help">
-      <div class="help__head">
-        <h2 id="help-heading" class="help__title">What can we <strong>help you with?</strong></h2>
-        <p class="help__lede">Five ways to start. Pick one and we take it from there.</p>
-      </div>
+      <h2 id="help-heading" class="sr-only">What can we help you with?</h2>
       <ul role="list" class="help__cards">
         {
           helpCards.map((c) => (
@@ -615,23 +612,6 @@ const articles = (await getCollection('notices'))
   .help {
     display: grid;
     gap: var(--s-8);
-  }
-  .help__head {
-    display: grid;
-    gap: var(--s-2);
-  }
-  .help__title {
-    font-size: var(--t-2xl);
-    font-weight: 400;
-    color: var(--ink);
-    line-height: 1.15;
-  }
-  .help__title strong {
-    font-weight: 700;
-    color: var(--blue);
-  }
-  .help__lede {
-    color: var(--grey);
   }
   /* Task cards: one quiet style, a navy icon chip, a bold name, one line, Explore */
   .help__cards {

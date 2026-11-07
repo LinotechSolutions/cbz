@@ -1,7 +1,7 @@
 /**
  * Life-stage journeys on the home page: a question the visitor recognises,
  * the promise we make, two or three things we offer for it, and the journey
- * it opens. Each maps onto one of the nine guided flows on the site map.
+ * it opens. Each maps onto one of the ten guided flows on the site map.
  */
 export interface LifeStage {
   /** Short tag on the card, e.g. "Students". */

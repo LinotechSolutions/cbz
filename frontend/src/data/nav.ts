@@ -15,25 +15,16 @@ export interface NavGroup {
   items: NavLink[];
 }
 
-/** Cluster mega-menu. Order matches the Group structure chart. */
+/** Cluster mega-menu: Bank, Insure, Invest, Agro-business, Group. */
 export const CLUSTERS: NavGroup[] = [
   {
-    label: 'Finance',
+    label: 'Bank',
     href: '/clusters/banking',
     items: [
       { label: 'CBZ Bank', href: '/bank', line: 'Accounts, cards, loans and mortgages' },
       { label: 'Red Sphere Finance', href: '/red-sphere', line: 'Salary and business loans' },
       { label: 'CBZ Custodial Services', href: null, line: 'Custody and safekeeping of securities' },
       { label: 'Diaspora banking', href: '/diaspora', line: 'Bank with CBZ from abroad' },
-    ],
-  },
-  {
-    label: 'Invest',
-    href: '/clusters/investments',
-    items: [
-      { label: 'Datvest', href: '/datvest', line: 'Unit trusts and wealth management' },
-      { label: 'CBZ Capital', href: '/capital', line: 'Corporate finance and advisory' },
-      { label: 'CBZ Properties', href: '/properties', line: 'Homes, stands and commercial space' },
     ],
   },
   {
@@ -46,18 +37,27 @@ export const CLUSTERS: NavGroup[] = [
     ],
   },
   {
-    label: 'Agro',
+    label: 'Invest',
+    href: '/clusters/investments',
+    items: [
+      { label: 'Datvest', href: '/datvest', line: 'Unit trusts and wealth management' },
+      { label: 'CBZ Capital', href: '/capital', line: 'Corporate finance and advisory' },
+      { label: 'CBZ Properties', href: '/properties', line: 'Homes, stands and commercial space' },
+    ],
+  },
+  {
+    label: 'Agro-business',
     href: '/clusters/agro-business',
     items: [
       { label: 'CBZ Agro-Yield', href: '/agro-yield', line: 'Contract farming, inputs and offtake' },
     ],
   },
   {
-    label: 'The Group',
+    label: 'Group',
     href: '/the-group',
     items: [
       { label: 'The Group', href: '/the-group', line: 'Structure, awards, milestones and board' },
-      { label: 'Journeys', href: '/journeys', line: 'Nine guided flows, from account to advice' },
+      { label: 'Explore our solutions', href: '/journeys', line: 'Ten guided flows, from account to advice' },
       { label: 'CBZ Foundation', href: '/cbz-foundation', line: 'Our philanthropic arm' },
       { label: 'Sustainability', href: '/sustainability', line: 'Grievance mechanism and reports' },
       { label: 'Latest from CBZ', href: '/notices', line: 'Shareholder and customer notices' },
@@ -86,17 +86,18 @@ export const OPEN_ACCOUNT_ITEMS: NavLink[] = [
   { label: 'Get a quote from CBZ Life', href: '/cbz-life/quote', line: 'Funeral and education plans' },
 ];
 
-/** The nine guided flows on the site map. */
+/** The ten guided flows on the site map, one or two per business unit. */
 export const JOURNEYS: { label: string; line: string; href: string; unit: string }[] = [
   { label: 'Open an account', line: 'A CBZ Bank account in three steps.', href: '/bank/open-account', unit: 'bank' },
-  { label: 'Buy a home', line: 'Find a property and finance it with a CBZ Bank mortgage.', href: '/properties/request-a-viewing', unit: 'properties' },
-  { label: 'Car insurance quote', line: 'Comprehensive cover for your vehicle.', href: '/insurance/quote', unit: 'insurance' },
-  { label: 'Banking and loans', line: 'Personal, school fees, civil servant and business loans.', href: '/bank/apply', unit: 'bank' },
-  { label: 'Investments', line: 'Start with Datvest unit trusts or a managed portfolio.', href: '/datvest/start-investing', unit: 'datvest' },
-  { label: 'Farming finance', line: 'Contract farming for the season with Agro-Yield.', href: '/agro-yield/apply', unit: 'agro-yield' },
-  { label: 'Capital raising', line: 'Debt, equity and advisory from CBZ Capital.', href: '/capital/enquiry', unit: 'capital' },
-  { label: 'Risk advisory', line: 'A broker’s view of your cover and your risks.', href: '/risk-advisory/quote', unit: 'risk-advisory' },
+  { label: 'Loans and mortgages', line: 'Personal, school fees, civil servant and business loans from CBZ Bank.', href: '/bank/apply', unit: 'bank' },
   { label: 'Small business finance', line: 'Working capital, order finance and invoice discounting from Red Sphere.', href: '/red-sphere#explore-loan-products', unit: 'red-sphere' },
+  { label: 'Short-term insurance', line: 'Motor, home, travel, business and farm cover from CBZ Insurance.', href: '/insurance/quote', unit: 'insurance' },
+  { label: 'Life assurance', line: 'Funeral, education and group life plans from CBZ Life.', href: '/cbz-life/quote', unit: 'cbz-life' },
+  { label: 'Risk advisory', line: 'A broker’s view of your cover and your risks.', href: '/risk-advisory/quote', unit: 'risk-advisory' },
+  { label: 'Investments', line: 'Start with Datvest unit trusts or a managed portfolio.', href: '/datvest/start-investing', unit: 'datvest' },
+  { label: 'Capital raising', line: 'Debt, equity and advisory from CBZ Capital.', href: '/capital/enquiry', unit: 'capital' },
+  { label: 'Buy a property', line: 'Find a home, stand or commercial space with CBZ Properties.', href: '/properties/request-a-viewing', unit: 'properties' },
+  { label: 'Farming finance', line: 'Contract farming for the season with Agro-Yield.', href: '/agro-yield/apply', unit: 'agro-yield' },
 ];
 
 /** The twelve off-site destinations on the site map. Null links are hidden. */

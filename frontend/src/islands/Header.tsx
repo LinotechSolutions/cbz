@@ -198,8 +198,8 @@ export function Header({ clusters, loginItems, openAccountItems, holdings, holdi
           <img
             src={holdings.src}
             alt={holdings.name}
-            width={Math.round(36 * holdings.aspect)}
-            height={36}
+            width={Math.round(44 * holdings.aspect)}
+            height={44}
             decoding="async"
           />
         </a>
@@ -254,7 +254,7 @@ export function Header({ clusters, loginItems, openAccountItems, holdings, holdi
                       ))}
                     </ul>
                     <a href={g.href} className="hdr__menu-all" onClick={() => close()}>
-                      All of {g.label.toLowerCase()}
+                      View all
                       <Icon name="arrowRight" size={16} />
                     </a>
                   </div>
@@ -351,7 +351,7 @@ export function Header({ clusters, loginItems, openAccountItems, holdings, holdi
                     ))}
                     <li>
                       <a href={g.href} className="hdr__link" onClick={() => setMobileOpen(false)}>
-                        <span className="hdr__link-label">All of {g.label.toLowerCase()}</span>
+                        <span className="hdr__link-label">View all</span>
                       </a>
                     </li>
                   </ul>

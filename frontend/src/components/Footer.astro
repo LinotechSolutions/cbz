@@ -1,21 +1,22 @@
 ---
 /**
- * Footer. Three columns from the site map: businesses, journeys, the Group
- * and access. Everything comes from nav.ts and facts.ts; a null link is
- * hidden. Regulatory and off-site links live on the sitemap page.
+ * Footer. The logo and address, a Contact Us block, then three columns from
+ * the site map: Our Businesses, Explore Our Solutions, The Group and Access.
+ * Everything comes from nav.ts and facts.ts; a null link is hidden.
+ * Regulatory and off-site links live on the sitemap page.
  */
 import Logo from './Logo.astro';
 import Icon from './Icon.astro';
 import { SOCIAL_ICON } from './icons';
-import { CONTACT, GROUP, HOURS, SOCIAL } from '../data/facts';
+import { CONTACT, GROUP, SOCIAL } from '../data/facts';
 import { FOOTER } from '../data/nav';
 import { visible } from '../lib/visible';
 import { isExternal } from '../data/links';
 
 const columns: { heading: string; links: readonly { label: string; href: string | null; external?: boolean }[] }[] = [
-  { heading: 'Our businesses', links: FOOTER.businesses },
-  { heading: 'Journeys', links: FOOTER.journeys },
-  { heading: 'The Group and access', links: FOOTER.group },
+  { heading: 'Our Businesses', links: FOOTER.businesses },
+  { heading: 'Explore Our Solutions', links: FOOTER.journeys },
+  { heading: 'The Group and Access', links: FOOTER.group },
 ];
 const year = new Date().getFullYear();
 ---
@@ -24,38 +25,32 @@ const year = new Date().getFullYear();
   <div class="container">
     <div class="footer__top">
       <div class="footer__brand">
-        <Logo brand="holdings" on="dark" height={36} />
+        <Logo brand="holdings" on="dark" height={56} />
         <address class="footer__address">
           {CONTACT.address.line1}, {CONTACT.address.line2}
         </address>
       </div>
 
       <div class="footer__contact">
-        <a href={CONTACT.contactCentre.href} class="footer__channel">
-          <Icon name="phone" size={18} />
-          <span>
-            <span class="footer__channel-label">Contact centre</span>
-            <span class="footer__channel-value">{CONTACT.contactCentre.display}</span>
-          </span>
-        </a>
-        <a href={CONTACT.whatsapp.href} class="footer__channel" target="_blank" rel="noopener noreferrer">
-          <Icon name="whatsapp" size={18} class="footer__wa" />
-          <span>
-            <span class="footer__channel-label">WhatsApp</span>
-            <span class="footer__channel-value">{CONTACT.whatsapp.display}</span>
-          </span>
-          <span class="sr-only">(opens in a new tab)</span>
-        </a>
-        <a href={`mailto:${CONTACT.email}`} class="footer__channel">
-          <Icon name="mail" size={18} />
-          <span>
-            <span class="footer__channel-label">Email</span>
-            <span class="footer__channel-value">{CONTACT.email}</span>
-          </span>
-        </a>
-        <p class="footer__hours small">
-          Toll-free {CONTACT.tollFree.map((t) => t.display).join(' or ')} on all networks. Digital channels {HOURS.digital}.
-        </p>
+        <h2 class="footer__heading">Contact Us</h2>
+        <ul role="list" class="footer__details">
+          <li>
+            <span class="footer__label">Phone:</span>
+            <a href={CONTACT.contactCentre.href}>{CONTACT.contactCentre.display}</a>
+          </li>
+          <li>
+            <span class="footer__label">WhatsApp:</span>
+            <a href={CONTACT.whatsapp.href} target="_blank" rel="noopener noreferrer">
+              {CONTACT.whatsapp.display}<span class="sr-only"> (opens in a new tab)</span>
+            </a>
+          </li>
+          <li>
+            <span class="footer__label">Email:</span>
+            <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+          </li>
+        </ul>
+        <p class="footer__note">Our digital banking channels are available 24/7.</p>
+        <p class="footer__note small">Toll-free {CONTACT.tollFree.map((t) => t.display).join(' or ')} on all networks.</p>
       </div>
     </div>
 
@@ -137,7 +132,7 @@ const year = new Date().getFullYear();
   }
   .footer__brand {
     display: grid;
-    gap: var(--s-3);
+    gap: var(--s-5, 20px);
     align-content: start;
     justify-items: start;
   }
@@ -149,28 +144,28 @@ const year = new Date().getFullYear();
     gap: var(--s-3);
     align-content: start;
   }
-  .footer__channel {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--s-3);
-    min-height: var(--tap);
-  }
-  .footer__channel > span {
+  .footer__details {
     display: grid;
+    gap: var(--s-2);
   }
-  .footer__channel-label {
-    font-size: var(--t-xs);
-    color: rgba(255, 255, 255, 0.7);
-  }
-  .footer__channel-value {
-    font-weight: 700;
+  .footer__details li {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
     font-variant-numeric: tabular-nums;
   }
-  .footer__wa {
-    color: var(--whatsapp);
+  .footer__details a {
+    font-weight: 700;
   }
-  .footer__hours {
+  .footer__label {
     color: rgba(255, 255, 255, 0.7);
+    min-width: 5.5em;
+  }
+  .footer__note {
+    color: rgba(255, 255, 255, 0.82);
+  }
+  .footer__note + .footer__note {
+    color: rgba(255, 255, 255, 0.62);
   }
   .footer__cols {
     display: grid;
@@ -187,6 +182,9 @@ const year = new Date().getFullYear();
     font-size: var(--t-sm);
     color: var(--white);
     margin-bottom: var(--s-3);
+  }
+  .footer__contact .footer__heading {
+    margin-bottom: 0;
   }
   .footer__links {
     display: grid;

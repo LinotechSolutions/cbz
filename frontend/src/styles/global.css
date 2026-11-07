@@ -104,23 +104,48 @@ summary {
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: var(--gap);
 }
+/* Bands are all white; a hairline separates one from the next. */
 .band {
   padding-block: var(--band);
+  background: var(--white);
 }
-.band--tint {
-  background: var(--blue-50);
+.band + .band {
+  border-top: 1px solid var(--line);
 }
-.band--dark {
-  background: var(--blue-900);
-  color: var(--white);
+
+/* Section heading with the short red rule above it. */
+.h-rule {
+  position: relative;
+  padding-top: var(--s-4);
 }
-.band--dark h1,
-.band--dark h2,
-.band--dark h3 {
-  color: var(--white);
+.h-rule::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 56px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--red);
 }
-.band--surface {
-  background: var(--surface);
+
+/* Red text link with an arrow, used at the foot of cards. */
+.go {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-weight: 700;
+  font-size: var(--t-sm);
+  color: var(--red);
+  text-decoration: none;
+}
+.go svg {
+  transition: transform var(--dur) var(--ease);
+}
+a:hover .go svg,
+a.go:hover svg,
+a:focus-visible .go svg {
+  transform: translateX(4px);
 }
 .stack > * + * {
   margin-top: var(--s-4);

@@ -121,29 +121,40 @@ export const OFFSITE: NavLink[] = [
   { label: 'Official documents', href: LINKS.documents.policiesAndRegulations, external: true },
 ];
 
-/** Footer columns mirror the site map's groups. */
+/** Footer columns: Our Businesses, The Group, Access, Explore Our Solutions. */
 export const FOOTER = {
   businesses: [
     { label: 'CBZ Bank', href: '/bank' },
     { label: 'CBZ Insurance', href: '/insurance' },
     { label: 'CBZ Life', href: '/cbz-life' },
-    { label: 'Datvest', href: '/datvest' },
     { label: 'CBZ Properties', href: '/properties' },
+    { label: 'Datvest', href: '/datvest' },
     { label: 'CBZ Agro-Yield', href: '/agro-yield' },
     { label: 'Red Sphere Finance', href: '/red-sphere' },
     { label: 'CBZ Capital', href: '/capital' },
     { label: 'CBZ Risk Advisory', href: '/risk-advisory' },
   ],
-  journeys: JOURNEYS.map((j) => ({ label: j.label, href: j.href })),
+  /** One solution per business, in title case. */
+  solutions: [
+    { label: 'Open an Account', href: '/bank/open-account' },
+    { label: 'Insurance Solutions', href: '/insurance/quote' },
+    { label: 'Life Assurance Solutions', href: '/cbz-life/quote' },
+    { label: 'Buy a Property', href: '/properties/request-a-viewing' },
+    { label: 'Investments', href: '/datvest/start-investing' },
+    { label: 'Agrobusiness Solutions', href: '/agro-yield/apply' },
+    { label: 'Capital Raising', href: '/capital/enquiry' },
+  ],
   group: [
     { label: 'The Group', href: '/the-group' },
     { label: 'CBZ Foundation', href: '/cbz-foundation' },
     { label: 'Sustainability', href: '/sustainability' },
-    { label: 'Diaspora banking', href: '/diaspora' },
-    { label: 'Log in', href: '/login' },
+    { label: 'Diaspora Banking', href: '/diaspora' },
+  ],
+  access: [
+    { label: 'Log In', href: '/login' },
+    { label: 'Find a Branch', href: '/contact#branches' },
     { label: 'Security', href: '/security' },
     { label: 'Latest from CBZ', href: '/notices' },
-    { label: 'Contact us', href: '/contact' },
   ],
   regulatory: [
     { label: 'Business conditions', href: '/business-conditions' },

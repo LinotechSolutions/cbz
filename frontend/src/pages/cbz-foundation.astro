@@ -53,7 +53,7 @@ const work = [
     </div>
   </Section>
 
-  <Section id="focus" tone="tint" heading="Three focus areas">
+  <Section id="focus" heading="Three focus areas">
     <ul role="list" class="focus">
       {
         focus.map((f) => (
@@ -76,8 +76,8 @@ const work = [
     </p>
   </Section>
 
-  <Section id="contact" tone="dark">
-    <div class="contact on-dark">
+  <Section id="contact">
+    <div class="contact">
       <div class="stack">
         <h2>{contact.heading}</h2>
         <p class="contact__body">{contact.body}</p>
@@ -153,11 +153,11 @@ const work = [
       grid-template-columns: 1fr auto;
     }
   }
-  .contact__body {
-    color: rgba(255, 255, 255, 0.82);
+  .contact h2 {
+    color: var(--blue);
   }
-  .contact__body a {
-    color: var(--white);
+  .contact__body {
+    color: var(--grey);
   }
   .contact__actions {
     display: flex;

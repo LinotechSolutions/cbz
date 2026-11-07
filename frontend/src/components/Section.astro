@@ -1,7 +1,8 @@
 ---
 /**
- * A page band. Bands alternate white and blue-50; separation comes from colour
- * and space, never from shadows.
+ * A page band. Every band is white; a hairline and space separate one from
+ * the next, and the heading carries a short red rule. `tone` is kept for
+ * callers but no longer changes the background.
  */
 interface Props {
   id?: string;
@@ -41,7 +42,7 @@ const headingId = id ? `${id}-heading` : undefined;
     {
       heading && (
         <header class:list={['head', align === 'center' && 'head--center', hideHeading && 'sr-only']}>
-          <h2 id={headingId}>{heading}</h2>
+          <h2 id={headingId} class="h-rule">{heading}</h2>
           {lede && <p class="lede">{lede}</p>}
         </header>
       )
@@ -51,9 +52,6 @@ const headingId = id ? `${id}-heading` : undefined;
 </section>
 
 <style>
-  .band--white {
-    background: var(--white);
-  }
   .band--compact {
     padding-block: var(--s-12);
   }
@@ -67,15 +65,17 @@ const headingId = id ? `${id}-heading` : undefined;
   }
   .head h2 {
     font-size: var(--t-2xl);
+    color: var(--blue);
   }
   .head--center {
     justify-items: center;
     text-align: center;
   }
+  .head--center .h-rule::before {
+    left: 50%;
+    transform: translateX(-50%);
+  }
   .head--center .lede {
     max-width: 48ch;
-  }
-  .band--dark .lede {
-    color: rgba(255, 255, 255, 0.78);
   }
 </style>

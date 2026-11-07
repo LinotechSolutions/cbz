@@ -48,7 +48,7 @@ const channels = [
     <p class="small muted hours">Digital channels: {HOURS.digital}.</p>
   </Section>
 
-  <Section id="branches" tone="tint" heading="Branches and ATMs" lede="Search the map, or open it in your own maps app for directions.">
+  <Section id="branches" heading="Branches and ATMs" lede="Search the map, or open it in your own maps app for directions.">
     <BranchFinder id="contact-branches" />
   </Section>
 
@@ -72,7 +72,7 @@ const channels = [
     </p>
   </Section>
 
-  <Section id="message" tone="tint" heading="Send us a message" lede="Tell us how we can help and the right team will reply.">
+  <Section id="message" heading="Send us a message" lede="Tell us how we can help and the right team will reply.">
     <StepForm client:visible def={FORMS['contact-enquiry']} />
   </Section>
 </BaseLayout>

@@ -189,7 +189,7 @@ const jsonLd = [
   <div class="branches" data-unit={unit.slug}>
     {
       branches.map((b) => (
-        <Section id={b.id} heading={b.title} lede={b.line ?? undefined} class="branch" data-branch={b.id}>
+        <Section id={b.id} heading={b.title} lede={b.line ?? undefined} hideHeading={b.items.every((i) => i.kind === 'faq')} class="branch" data-branch={b.id}>
           <div class="branch__body">
             {b.runs.map((run, ri) =>
               run.kind === 'cards' ? (

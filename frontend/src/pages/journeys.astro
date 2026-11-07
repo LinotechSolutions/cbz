@@ -1,6 +1,6 @@
 ---
 /**
- * Journeys: the nine guided flows on the site map, each leading straight
+ * Explore our solutions: the ten guided flows on the site map, each leading straight
  * into the unit's application, quote or enquiry form.
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -13,6 +13,8 @@ const icon: Record<string, IconName> = {
   bank: 'bank',
   properties: 'home',
   insurance: 'car',
+  'cbz-life': 'shield',
+  'red-sphere': 'wallet',
   datvest: 'chart',
   'agro-yield': 'leaf',
   capital: 'chart',
@@ -20,11 +22,11 @@ const icon: Record<string, IconName> = {
 };
 ---
 
-<BaseLayout title="Journeys" description="Nine guided flows: open an account, buy a home, insure a car, borrow, invest, finance a season, raise capital, review your risks or fund a small business.">
+<BaseLayout title="Explore our solutions" description="Ten guided flows: open an account, borrow, fund a small business, insure, assure, review your risks, invest, raise capital, buy a property or finance a season.">
   <div class="container page">
-    <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Journeys' }]} />
-    <h1>Where would you like to start?</h1>
-    <p class="lede">Nine guided flows. Each one takes a few minutes and ends with the right team calling you back.</p>
+    <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Explore our solutions' }]} />
+    <h1>Explore our solutions</h1>
+    <p class="lede">Ten guided flows, one for each of our businesses. Each one takes a few minutes and ends with the right team calling you back.</p>
     <ol role="list" class="journeys">
       {
         JOURNEYS.map((j, i) => (

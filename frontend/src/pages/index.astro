@@ -1,16 +1,20 @@
 ---
 /**
- * Home: Hero, What can we help you with?, Life-stage journeys, Learn more.
- * A white split hero with the photograph bleeding right, a navy band that
- * fades to white under the benefit cards, the journey carousel, and the rail.
+ * Home: Hero, What can we help you with?, Whatever your next step, Digital
+ * banking, Learn more. A white split hero with the photograph bleeding right,
+ * five quiet task cards, the journey carousel, three digital channel cards,
+ * and the article rail.
  */
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ArticleRail from '../components/ArticleRail.astro';
 import Icon from '../components/Icon.astro';
+import Logo from '../components/Logo.astro';
+import StoreBadges from '../components/StoreBadges.astro';
 import { OpenAccountMenu } from '../islands/OpenAccountMenu';
 import { OPEN_ACCOUNT_ITEMS } from '../data/nav';
-import { CONTACT, GROUP } from '../data/facts';
+import { GROUP } from '../data/facts';
+import { LINKS } from '../data/links';
 import { CLUSTERS } from '../data/group';
 import { LIFE_STAGES } from '../data/lifeStages';
 import type { IconName } from '../components/icons';
@@ -59,15 +63,11 @@ const articles = (await getCollection('notices'))
       <div class="hero__copy">
         <div class="hero__copy-in">
           <h1 id="hero-heading" class="hero__title">
-            <strong>Bank, insure, invest</strong> and grow, in one place
+            <strong>Bank, Invest, Insure and Grow</strong> with CBZ Holdings
           </h1>
-          <p class="hero__lede">Accounts, cover, investments and finance for the season or the business, from one group that has partnered Zimbabweans since {GROUP.founded}.</p>
+          <p class="hero__lede">From everyday banking and protecting what matters to building wealth and growing your business, CBZ Holdings brings together the financial solutions, expertise and support you need to achieve more.</p>
           <div class="hero__actions">
             <OpenAccountMenu client:idle items={OPEN_ACCOUNT_ITEMS} label="Explore our products" />
-            <a href={CONTACT.whatsapp.chatHref} class="round" target="_blank" rel="noopener noreferrer" aria-label="Chat with us on WhatsApp (opens in a new tab)">
-              <Icon name="whatsapp" size={22} />
-            </a>
-            <a href="/contact" class="btn btn--secondary btn--lg">Talk to us</a>
           </div>
         </div>
       </div>
@@ -81,24 +81,19 @@ const articles = (await getCollection('notices'))
   <section class="top" aria-labelledby="help-heading">
     <div class="container help" id="help">
       <h2 id="help-heading" class="sr-only">What can we help you with?</h2>
-      <a href="/login#apps" class="help__banner">
-        <span class="help__banner-mark" aria-hidden="true"><Icon name="phoneMobile" size={28} /></span>
-        <span class="help__banner-body">
-          <span class="help__banner-title">Bank from your phone</span>
-          <span class="help__banner-line">CBZ Touch, ZikiCash and internet banking</span>
-        </span>
-        <span class="icon-pill help__banner-go" aria-hidden="true"><Icon name="arrowRight" size={16} /></span>
-      </a>
       <ul role="list" class="help__cards">
         {
-          helpCards.map((c, i) => (
+          helpCards.map((c) => (
             <li>
-              <a href={c.href} class:list={['benefit', i % 2 === 1 && 'benefit--blue']}>
-                <span class="benefit__shield" aria-hidden="true">
-                  <Icon name={c.icon} size={26} />
+              <a href={c.href} class="benefit">
+                <span class="benefit__icon" aria-hidden="true">
+                  <Icon name={c.icon} size={22} />
                 </span>
                 <span class="benefit__title">{c.title}</span>
                 <span class="benefit__line">{c.line}</span>
+                <span class="benefit__go" aria-hidden="true">
+                  <Icon name="arrowRight" size={18} />
+                </span>
               </a>
             </li>
           ))
@@ -111,10 +106,9 @@ const articles = (await getCollection('notices'))
   <section class="container stages" id="journeys" aria-labelledby="stages-heading" data-stages>
       <div class="stages__head">
         <div class="stages__intro">
-          <p class="stages__eyebrow">Life stages</p>
-          <h2 id="stages-heading" class="stages__title">Wherever you are in life, <strong>we have a next step</strong></h2>
+          <h2 id="stages-heading" class="stages__title">Whatever your next step, <strong>we’re here to help you move forward.</strong></h2>
         </div>
-        <a href="/journeys" class="stages__all">All journeys <Icon name="arrowRight" size={18} /></a>
+        <a href="/journeys" class="stages__all">Explore all solutions <Icon name="arrowRight" size={18} /></a>
         <div class="stages__arrows">
           <button type="button" class="stages__arrow" data-prev aria-label="Previous">
             <Icon name="arrowRight" size={20} class="stages__flip" />
@@ -157,7 +151,44 @@ const articles = (await getCollection('notices'))
       </div>
   </section>
 
-  <!-- 4. Learn more -->
+  <!-- 4. Digital banking: CBZ Touch, ZikiCash and internet banking -->
+  <section class="digital" id="digital" aria-labelledby="digital-heading">
+    <div class="container digital__inner">
+      <div class="digital__head">
+        <h2 id="digital-heading" class="digital__title">Bank wherever you are, <strong>whenever you need to</strong></h2>
+        <p class="digital__lede">Three ways to bank without a branch: on your phone, across borders, or from your desk.</p>
+      </div>
+      <ul role="list" class="digital__cards">
+        <li class="dcard card-base">
+          <span class="dcard__logo"><Logo brand="cbz-touch" on="light" height={34} decorative clearSpace={false} /></span>
+          <h3 class="dcard__title">CBZ Touch</h3>
+          <p class="dcard__line">Zero-rated mobile banking: transfers, bills, school fees, cardless withdrawals and card controls, with no data charges on local networks.</p>
+          <div class="dcard__foot">
+            <StoreBadges app="cbz-touch" appStore={LINKS.touch.appStore} playStore={LINKS.touch.playStore} />
+          </div>
+        </li>
+        <li class="dcard card-base">
+          <span class="dcard__logo"><Logo brand="ziki-cash" on="light" height={24} decorative clearSpace={false} /></span>
+          <h3 class="dcard__title">ZikiCash</h3>
+          <p class="dcard__line">Send money home from the United Kingdom to Zimbabwe, pay bills and deposit straight into a CBZ account or collect at a branch, ATM or agent.</p>
+          <div class="dcard__foot">
+            <StoreBadges app="ziki-cash" appStore={LINKS.zikiCash.appStore} playStore={LINKS.zikiCash.playStore} />
+          </div>
+        </li>
+        <li class="dcard card-base">
+          <span class="dcard__logo dcard__logo--glyph"><Icon name="globe" size={26} /></span>
+          <h3 class="dcard__title">Internet banking</h3>
+          <p class="dcard__line">Balances, statements, internal and RTGS transfers, Visa card transfers and utility payments, on the personal and corporate platforms.</p>
+          <div class="dcard__foot">
+            <a href="/login" class="btn btn--primary">Log in</a>
+            <a href="/bank#cards-and-digital" class="btn btn--secondary">Learn more</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 5. Learn more -->
   {
     articles.length > 0 && (
       <ArticleRail id="learn" heading="Learn more" headingStrong="Learn" articles={articles} seeAll={{ label: 'See all', href: '/notices' }} />
@@ -257,30 +288,84 @@ const articles = (await getCollection('notices'))
     background: var(--white);
     padding-block: var(--s-10, 40px) var(--s-8);
   }
+
+  /* ---------- Digital banking ---------- */
+  .digital {
+    background: var(--blue-50);
+    padding-block: var(--band);
+  }
+  .digital__inner {
+    display: grid;
+    gap: var(--s-8);
+  }
+  .digital__head {
+    display: grid;
+    gap: var(--s-3);
+    max-width: 48rem;
+  }
+  .digital__title {
+    font-size: var(--t-2xl);
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.15;
+  }
+  .digital__title strong {
+    font-weight: 700;
+    color: var(--blue);
+  }
+  .digital__lede {
+    color: var(--grey);
+    font-size: var(--t-md);
+  }
+  .digital__cards {
+    display: grid;
+    gap: var(--gap);
+  }
+  @media (min-width: 900px) {
+    .digital__cards {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .dcard {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    gap: var(--s-3);
+    height: 100%;
+    padding: var(--s-6);
+    background: var(--white);
+  }
+  .dcard__logo {
+    display: inline-flex;
+    align-items: center;
+    height: 40px;
+  }
+  .dcard__logo--glyph {
+    width: 40px;
+    justify-content: center;
+    border-radius: var(--r-sm);
+    background: var(--blue-50);
+    color: var(--blue);
+  }
+  .dcard__title {
+    font-size: var(--t-lg);
+    color: var(--blue);
+  }
+  .dcard__line {
+    color: var(--grey);
+    font-size: var(--t-sm);
+  }
+  .dcard__foot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    margin-top: var(--s-2);
+  }
   .hero__actions {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: var(--s-3);
     margin-top: var(--s-2);
-  }
-  .round {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    background: var(--blue-50);
-    color: var(--blue);
-    transition:
-      transform var(--dur) var(--ease),
-      background-color var(--dur) var(--ease);
-  }
-  .round:hover {
-    transform: scale(1.05);
-    background: var(--blue-100);
-    color: var(--blue);
   }
 
   /* Life-stage journeys: photo cards in a row that snaps as you scroll */
@@ -308,29 +393,11 @@ const articles = (await getCollection('notices'))
       grid-column: auto;
     }
   }
-  .stages__eyebrow {
-    position: relative;
-    padding-left: var(--s-8);
-    font-size: var(--t-xs);
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--red-700);
-  }
-  .stages__eyebrow::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    width: 20px;
-    height: 2px;
-    background: var(--red);
-  }
   .stages__title {
     font-size: var(--t-2xl);
     font-weight: 400;
     color: var(--ink);
-    max-width: 24ch;
+    max-width: 26ch;
     line-height: 1.15;
   }
   .stages__title strong {
@@ -546,55 +613,10 @@ const articles = (await getCollection('notices'))
     display: grid;
     gap: var(--s-6);
   }
-  /* A slim navy banner for the digital channels, above the task cards */
-  .help__banner {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    gap: var(--s-4);
-    padding: var(--s-4) var(--s-5, 20px);
-    border-radius: var(--r-lg);
-    background: linear-gradient(135deg, var(--blue) 0%, var(--blue-900) 100%);
-    color: var(--white);
-    text-decoration: none;
-    box-shadow: var(--shadow-float);
-  }
-  .help__banner:hover {
-    color: var(--white);
-  }
-  .help__banner-mark {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    background: var(--red);
-    color: var(--white);
-    flex-shrink: 0;
-  }
-  .help__banner-body {
-    display: grid;
-    gap: 2px;
-    min-width: 0;
-  }
-  .help__banner-title {
-    font-weight: 700;
-    font-size: var(--t-lg);
-  }
-  .help__banner-line {
-    font-size: var(--t-sm);
-    color: rgba(255, 255, 255, 0.85);
-  }
-  .help__banner-go {
-    background: rgba(255, 255, 255, 0.14);
-    color: var(--white);
-  }
-  /* Task cards: alternating white and blue, with a shield badge rising above each card */
+  /* Task cards: one quiet style, a small icon, a bold name and one line */
   .help__cards {
     display: grid;
     gap: var(--gap);
-    padding-top: var(--s-10, 40px);
   }
   @media (min-width: 640px) {
     .help__cards {
@@ -614,68 +636,58 @@ const articles = (await getCollection('notices'))
   .benefit {
     position: relative;
     display: grid;
+    grid-template-rows: auto auto 1fr auto;
     gap: var(--s-3);
     align-content: start;
-    justify-items: center;
-    text-align: center;
     height: 100%;
-    padding: var(--s-12) var(--s-5, 20px) var(--s-8);
+    padding: var(--s-6) var(--s-5, 20px);
     border-radius: var(--r-md);
     background: var(--white);
     color: var(--ink);
     text-decoration: none;
     border: 1px solid var(--line);
-    box-shadow: var(--shadow-card);
-    transition: transform var(--dur) var(--ease);
+    transition:
+      border-color var(--dur) var(--ease),
+      box-shadow var(--dur) var(--ease),
+      transform var(--dur) var(--ease);
   }
-  .benefit--blue {
-    border-color: transparent;
-  }
-  .benefit:hover {
+  .benefit:hover,
+  .benefit:focus-visible {
     transform: translateY(-3px);
+    border-color: var(--blue-100);
+    box-shadow: var(--shadow-card);
     color: var(--ink);
   }
-  .benefit--blue {
-    background: var(--blue);
-    color: var(--white);
-  }
-  .benefit--blue:hover {
-    color: var(--white);
-  }
-  .benefit__shield {
-    position: absolute;
-    top: -34px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 68px;
-    height: 76px;
+  .benefit__icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding-bottom: 8px;
-    color: var(--white);
-    background: linear-gradient(to bottom, var(--blue-700), var(--blue));
-    clip-path: polygon(0 0, 100% 0, 100% 62%, 50% 100%, 0 62%);
-  }
-  .benefit--blue .benefit__shield {
-    background: linear-gradient(to bottom, var(--red), var(--red-700));
+    width: 44px;
+    height: 44px;
+    border-radius: var(--r-sm);
+    background: var(--blue-50);
+    color: var(--blue);
   }
   .benefit__title {
     font-size: var(--t-xl);
-    font-weight: 400;
+    font-weight: 700;
     color: var(--blue);
     margin-top: var(--s-2);
-  }
-  .benefit--blue .benefit__title {
-    color: var(--white);
   }
   .benefit__line {
     font-size: var(--t-sm);
     color: var(--grey);
-    max-width: 24ch;
+    max-width: 26ch;
   }
-  .benefit--blue .benefit__line {
-    color: rgba(255, 255, 255, 0.85);
+  .benefit__go {
+    display: inline-flex;
+    align-items: center;
+    color: var(--red-700);
+    margin-top: var(--s-2);
+    transition: transform var(--dur) var(--ease);
+  }
+  .benefit:hover .benefit__go {
+    transform: translateX(4px);
   }
 
   /* About split */

@@ -17,8 +17,6 @@ export interface Range {
 interface CalculatorLook {
   /** The red outline icon beside the title, also used on the result rows. */
   icon: IconName;
-  /** The photograph beside the calculator on wide screens. */
-  image: { src: string; alt: string };
 }
 
 export interface LoanCalculatorConfig extends CalculatorLook {
@@ -58,7 +56,6 @@ export const CALCULATORS: Record<CalculatorKey, CalculatorConfig> = {
     title: 'Mortgage calculator',
     intro: 'Estimate your monthly repayment and plan your dream home.',
     icon: 'home',
-    image: { src: '/images/loan-home.webp', alt: '' },
     currency: 'USD',
     price: { label: 'Property price', min: 5_000, max: 2_000_000, step: 500, default: null, placeholder: 'e.g. 100,000' },
     deposit: { label: 'Deposit', min: 0, max: 2_000_000, step: 500, default: null, placeholder: 'e.g. 20,000' },
@@ -72,7 +69,6 @@ export const CALCULATORS: Record<CalculatorKey, CalculatorConfig> = {
     title: 'Car finance calculator',
     intro: 'Estimate your monthly repayment on a vehicle.',
     icon: 'car',
-    image: { src: '/images/insurance-car.webp', alt: '' },
     currency: 'USD',
     price: { label: 'Vehicle price', min: 1_000, max: 500_000, step: 100, default: null, placeholder: 'e.g. 50,000' },
     deposit: { label: 'Deposit', min: 0, max: 500_000, step: 100, default: null, placeholder: 'e.g. 10,000' },
@@ -86,7 +82,6 @@ export const CALCULATORS: Record<CalculatorKey, CalculatorConfig> = {
     title: 'Loan calculator',
     intro: 'Estimate your monthly repayment on a Red Sphere loan.',
     icon: 'wallet',
-    image: { src: '/images/cbz-payments.webp', alt: '' },
     currency: 'USD',
     price: { label: 'Loan amount', min: 50, max: 50_000, step: 10, default: null, placeholder: 'e.g. 2,000' },
     deposit: null,
@@ -108,7 +103,6 @@ export const CALCULATORS: Record<CalculatorKey, CalculatorConfig> = {
     title: 'Car insurance quote',
     intro: 'Get an indicative annual premium for comprehensive cover.',
     icon: 'car',
-    image: { src: '/images/insurance-car.webp', alt: '' },
     currency: 'USD',
     value: {
       label: 'Vehicle value',
@@ -128,7 +122,6 @@ export const CALCULATORS: Record<CalculatorKey, CalculatorConfig> = {
     title: 'Life policy quote',
     intro: 'Get an indicative monthly premium for a funeral or education plan.',
     icon: 'shield',
-    image: { src: '/images/insurance-family.webp', alt: '' },
     currency: 'USD',
     value: {
       label: 'Cover amount',

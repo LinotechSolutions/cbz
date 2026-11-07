@@ -129,6 +129,37 @@ const SERVE_TITLE: Record<string, string> = {
 const segments = unit.segments.map((s) => ({ label: s.label, href: s.href, line: s.line ?? undefined, icon: segmentIcon(s.label) }));
 const serveTitle = SERVE_TITLE[unit.slug] ?? `${unit.shortName} for everyone.`;
 
+/* Link cards: a red icon picked from the label. */
+const itemIcon = (label: string): IconName => {
+  const l = label.toLowerCase();
+  if (/cancel/.test(l)) return 'close';
+  if (/status|check|verify|track/.test(l)) return 'check';
+  if (/enquir|question|help|support/.test(l)) return 'info';
+  if (/renew|date|season|calendar|schedule/.test(l)) return 'calendar';
+  if (/motor|car|vehicle|personal lines/.test(l)) return 'car';
+  if (/pay|premium|debit|fee|deposit|contribut/.test(l)) return 'wallet';
+  if (/claim|cover|insur|protect|policy/.test(l)) return 'shield';
+  if (/statement|report|fund|portfolio|invest|rate|return|valuation/.test(l)) return 'chart';
+  if (/home|house|property|stand|viewing|mortgage|rent/.test(l)) return 'home';
+  if (/farm|crop|contract|input|offtake|agro/.test(l)) return 'leaf';
+  if (/app|touch|mobile|phone|ussd/.test(l)) return 'phoneMobile';
+  if (/call|contact|speak|agent|branch/.test(l)) return 'phone';
+  if (/mail|email|write/.test(l)) return 'mail';
+  if (/account|open|sign up|register|onboard|kyc/.test(l)) return 'user';
+  if (/loan|borrow|finance|facility|capital|funding|raise/.test(l)) return 'bank';
+  if (/abroad|diaspora|foreign|international|export/.test(l)) return 'globe';
+  return 'arrowRight';
+};
+/* A branch whose only content is one link becomes a tinted feature panel. */
+type Branch = (typeof branches)[number];
+function featureOf(b: Branch) {
+  if (b.runs.length !== 1 || b.runs[0].kind !== 'cards' || b.runs[0].items.length !== 1) return null;
+  const it = b.runs[0].items[0];
+  if (it.kind === 'note' || !visible(it.href)) return null;
+  const ext = it.kind === 'external' || isExternal(it.href!);
+  return { label: it.label, href: it.href, ext, go: ext ? 'Visit' : 'Get started', icon: itemIcon(`${b.title} ${it.label}`) };
+}
+
 /* Product cards without a photograph show the unit's icon instead. */
 const PRODUCT_ICON: Record<string, IconName> = {
   bank: 'wallet',
@@ -188,23 +219,53 @@ const jsonLd = [
 
   <div class="branches" data-unit={unit.slug}>
     {
-      branches.map((b) => (
-        <Section id={b.id} heading={b.title} lede={b.line ?? undefined} hideHeading={b.items.every((i) => i.kind === 'faq' || i.kind === 'calculator')} class="branch" data-branch={b.id}>
+      branches.map((b) => {
+        const feature = featureOf(b);
+        const selfHeaded = feature !== null || b.items.every((i) => i.kind === 'faq' || i.kind === 'calculator');
+        return (
+        <Section id={b.id} heading={b.title} lede={b.line ?? undefined} hideHeading={selfHeaded} class="branch" data-branch={b.id}>
           <div class="branch__body">
-            {b.runs.map((run, ri) =>
+            {feature && (
+              <div class="feature">
+                <div class="feature__copy">
+                  <p class="feature__title h-rule" aria-hidden="true">{b.title}</p>
+                  {visible(b.line) && <p class="feature__lede">{b.line}</p>}
+                  <a
+                    href={feature.href!}
+                    class="btn btn--primary feature__btn"
+                    target={feature.ext ? '_blank' : undefined}
+                    rel={feature.ext ? 'noopener noreferrer' : undefined}
+                    data-track="apply_click"
+                    data-track-props={JSON.stringify({ unit: unit.slug, branch: b.id, item: feature.label })}
+                  >
+                    {feature.go} <Icon name={feature.ext ? 'external' : 'arrowRight'} size={18} />
+                    {feature.ext && <span class="sr-only"> (opens in a new tab)</span>}
+                  </a>
+                </div>
+                <span class="feature__art" aria-hidden="true">
+                  <Icon name={feature.icon} size={72} />
+                </span>
+              </div>
+            )}
+            {!feature && b.runs.map((run, ri) =>
               run.kind === 'cards' ? (
-                <ul role="list" class="cards" style={`--n:${Math.min(run.items.length, 3)}`}>
+                <ul role="list" class:list={['cards', run.items.length === 2 && 'cards--pair']} style={`--n:${Math.min(run.items.length, 3)}`}>
                   {run.items.map((it) => {
                     if (it.kind === 'note') {
                       return (
-                        <li class="note">
-                          <span class="note__label">{it.label}</span>
-                          {visible(it.line) && <span class="note__line">{it.line}</span>}
+                        <li class="note card-link card-base">
+                          <span class="card-link__icon" aria-hidden="true">
+                            <Icon name={itemIcon(it.label)} size={26} />
+                          </span>
+                          <span class="card-link__text">
+                            <span class="card-link__label">{it.label}</span>
+                            {visible(it.line) && <span class="card-link__line">{it.line}</span>}
+                          </span>
                         </li>
                       );
                     }
                     const ext = it.kind === 'external' || isExternal(it.href!);
-                    const go = ext ? 'Visit' : it.kind === 'form' ? 'Get started' : 'Learn more';
+                    const go = ext ? 'Visit' : 'Get started';
                     return (
                       <li>
                         <a
@@ -215,13 +276,18 @@ const jsonLd = [
                           data-track="apply_click"
                           data-track-props={JSON.stringify({ unit: unit.slug, branch: b.id, item: it.label })}
                         >
-                          <span class="card-link__label">
-                            {it.label}
-                            {ext && <span class="sr-only"> (opens in a new tab)</span>}
+                          <span class="card-link__icon" aria-hidden="true">
+                            <Icon name={itemIcon(it.label)} size={26} />
                           </span>
-                          {visible(it.line) && <span class="card-link__line">{it.line}</span>}
-                          <span class="go card-link__go">
-                            {go} <Icon name={ext ? 'external' : 'arrowRight'} size={16} />
+                          <span class="card-link__text">
+                            <span class="card-link__label">
+                              {it.label}
+                              {ext && <span class="sr-only"> (opens in a new tab)</span>}
+                            </span>
+                            {visible(it.line) && <span class="card-link__line">{it.line}</span>}
+                            <span class="go card-link__go">
+                              {go} <Icon name={ext ? 'external' : 'arrowRight'} size={16} />
+                            </span>
                           </span>
                         </a>
                       </li>
@@ -305,7 +371,8 @@ const jsonLd = [
             )}
           </div>
         </Section>
-      ))
+        );
+      })
     }
     {hiddenBranches.length > 0 && <span hidden data-branches-awaiting-link={hiddenBranches.join(', ')} />}
   </div>
@@ -343,11 +410,11 @@ const jsonLd = [
       grid-template-columns: repeat(var(--n), minmax(0, 1fr));
     }
   }
-  /* Branch link card: navy title, grey line, red Get started / Learn more */
+  /* Branch link card: a red icon in a pale red circle, navy title, grey line,
+     red Get started. Icon on top; beside the text when two cards share a row. */
   .card-link {
     display: grid;
-    grid-template-rows: auto 1fr auto;
-    gap: var(--s-2);
+    gap: var(--s-4);
     align-content: start;
     min-height: 150px;
     height: 100%;
@@ -357,6 +424,23 @@ const jsonLd = [
   }
   .card-link:hover {
     color: var(--ink);
+  }
+  .card-link__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--red-50);
+    color: var(--red);
+    flex-shrink: 0;
+  }
+  .card-link__text {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: var(--s-2);
+    min-width: 0;
   }
   .card-link__label {
     font-weight: 700;
@@ -372,24 +456,71 @@ const jsonLd = [
     align-self: end;
     margin-top: var(--s-3);
   }
-  .note {
-    display: grid;
-    gap: var(--s-1);
-    align-content: start;
-    min-height: 150px;
-    padding: var(--s-6);
-    border: 1px dashed var(--line);
-    border-radius: var(--r-md);
-    background: var(--white);
+  @media (min-width: 640px) {
+    .cards--pair .card-link {
+      grid-template-columns: auto 1fr;
+      align-items: start;
+      gap: var(--s-5, 20px);
+    }
+    .cards--pair .card-link__icon {
+      width: 80px;
+      height: 80px;
+    }
   }
-  .note__label {
+
+  /* Feature panel: one link in its own tinted band with a big icon */
+  .feature {
+    display: grid;
+    gap: var(--s-6);
+    padding: var(--s-8) var(--s-6);
+    border-radius: var(--r-lg);
+    background: var(--blue-50);
+  }
+  @media (min-width: 900px) {
+    .feature {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      padding: var(--s-10, 40px) var(--s-10, 40px);
+    }
+  }
+  .feature__copy {
+    display: grid;
+    gap: var(--s-4);
+    justify-items: start;
+  }
+  .feature__title {
+    font-size: var(--t-2xl);
     font-weight: 700;
     color: var(--blue);
-    font-size: var(--t-md);
+    line-height: 1.15;
   }
-  .note__line {
-    font-size: var(--t-sm);
+  .feature__lede {
     color: var(--grey);
+    max-width: 44ch;
+  }
+  .feature__btn {
+    gap: var(--s-2);
+    margin-top: var(--s-2);
+  }
+  .feature__art {
+    display: none;
+  }
+  @media (min-width: 900px) {
+    .feature__art {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: var(--white);
+      color: var(--red);
+      box-shadow: var(--shadow-card);
+    }
+  }
+  /* A note is the same card without a link */
+  .note {
+    border-style: dashed;
   }
   .app {
     justify-items: start;

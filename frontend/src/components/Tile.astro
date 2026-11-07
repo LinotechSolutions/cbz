@@ -34,7 +34,7 @@ const external = isExternal(href);
     {
       icon && (
         <span class="tile__icon">
-          <Icon name={icon} size={size === 'lead' ? 40 : 32} />
+          <Icon name={icon} size={size === 'lead' ? 34 : 26} />
         </span>
       )
     }
@@ -82,12 +82,17 @@ const external = isExternal(href);
   .tile__icon {
     display: inline-flex;
     align-items: center;
-    height: 44px;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--red-50);
     color: var(--red);
     margin-bottom: var(--s-2);
   }
   .tile--lead .tile__icon {
-    height: 52px;
+    width: 80px;
+    height: 80px;
   }
   .tile__title {
     font-weight: 700;

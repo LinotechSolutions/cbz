@@ -8,8 +8,7 @@ import { Icon } from './Icon';
 
 /**
  * A calculator: the red outline icon and title over a white form card and a
- * navy "Your estimated results" card, with the photograph beside them on
- * wide screens. Figures update as you type; the Calculate button brings the
+ * navy "Your estimated results" card. Figures update as you type; the Calculate button brings the
  * results into view on a phone.
  */
 interface Props {
@@ -372,7 +371,6 @@ export function Calculator({ variant, config, embedded = false, products }: Prop
           </a>
         </div>
 
-        {!embedded && <img src={config.image.src} alt={config.image.alt} width={800} height={800} loading="lazy" decoding="async" className="calc__photo" />}
       </div>
     </div>
   );
@@ -387,7 +385,6 @@ const css = `
 .calc__intro{color:var(--grey);font-size:var(--t-sm)}
 .calc__grid{display:grid;gap:var(--gap)}
 @media (min-width:900px){.calc__grid{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)}}
-@media (min-width:1200px){.calc:not(.calc--embedded) .calc__grid{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr)}}
 .calc__form{display:grid;gap:var(--s-5,20px);align-content:start;background:var(--white);border:1px solid var(--line);border-radius:var(--r-lg);padding:var(--s-6);box-shadow:var(--shadow-card)}
 .calc__fields{display:grid;gap:var(--s-4)}
 .calc__fields .field{align-content:start}
@@ -417,6 +414,4 @@ const css = `
 .calc__note{display:flex;gap:var(--s-3);align-items:flex-start;padding:var(--s-3) var(--s-4);border-radius:var(--r-md);background:rgba(255,255,255,.1);font-size:var(--t-xs);color:rgba(255,255,255,.88);max-width:none}
 .calc__note svg{flex-shrink:0;margin-top:1px}
 .calc__cta{justify-self:start;margin-top:var(--s-1)}
-.calc__photo{display:none}
-@media (min-width:1200px){.calc:not(.calc--embedded) .calc__photo{display:block;width:100%;height:100%;min-height:100%;object-fit:cover;border-radius:var(--r-lg)}}
 `;

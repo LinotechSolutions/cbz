@@ -19,6 +19,8 @@ export const ICONS = {
   close: { d: 'M6 6l12 12M18 6 6 18' },
   plus: { d: 'M12 5v14M5 12h14' },
   wallet: { d: 'M3 7a2 2 0 0 1 2-2h12v4M3 7v11a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2H5a2 2 0 0 1-2-2zM16 14h3' },
+  user: { d: 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21a8 8 0 0 1 16 0' },
+  building: { d: 'M4 21V4h10v17M14 9h6v12M4 21h16M7 8h1M7 12h1M7 16h1M10 8h1M10 12h1M10 16h1M17 13h1M17 17h1' },
   check: { d: 'm5 12 5 5L20 7' },
   info: { d: 'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM12 11v6M12 7.5v.5' },
   warning: { d: 'M12 3 2 20h20L12 3zM12 10v4M12 17v.5' },

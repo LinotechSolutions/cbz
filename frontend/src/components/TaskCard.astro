@@ -1,7 +1,8 @@
 ---
 /**
- * The white card that overlaps the bottom edge of a hero. On the home page it
- * asks "What can we help you with?"; on unit pages it is a compact jump list.
+ * The white card that overlaps the bottom edge of a unit hero: a "Who we
+ * serve" label over a short title, then one entry per audience with an icon
+ * chip, a name, one line and a chevron, divided by hairlines.
  */
 import Icon from './Icon.astro';
 import type { IconName } from './icons';
@@ -14,34 +15,33 @@ interface Item {
 }
 interface Props {
   heading: string;
+  /** The short title under the heading, e.g. "Banking for everyone." */
+  title: string;
   items: Item[];
-  kind?: 'tasks' | 'jump';
-  hideHeading?: boolean;
 }
-const { heading, items, kind = 'tasks', hideHeading = false } = Astro.props;
+const { heading, title, items } = Astro.props;
 ---
 
 <div class="wrap">
   <div class="container">
-    <nav class:list={['card', `card--${kind}`]} aria-label={heading}>
-      <h2 class:list={['card__heading', hideHeading && 'sr-only']}>{heading}</h2>
-      <ul role="list" class="card__list" style={`--n:${items.length}`}>
+    <nav class="card" aria-label={heading} style={`--n:${items.length}`}>
+      <div class="card__intro">
+        <h2 class="card__heading">{heading}</h2>
+        <p class="card__title">{title}</p>
+      </div>
+      <ul role="list" class="card__list">
         {
           items.map((it) => (
-            <li>
+            <li class="card__cell">
               <a href={it.href} class="card__item">
-                {it.icon && (
-                  <span class="card__icon">
-                    <Icon name={it.icon} size={kind === 'tasks' ? 24 : 18} />
-                  </span>
-                )}
+                <span class="card__icon" aria-hidden="true">
+                  <Icon name={it.icon ?? 'user'} size={24} />
+                </span>
                 <span class="card__text">
                   <span class="card__label">{it.label}</span>
                   {it.line && <span class="card__line">{it.line}</span>}
                 </span>
-                <span class="icon-pill card__chev">
-                  <Icon name="arrowRight" size={16} />
-                </span>
+                <Icon name="chevronRight" size={18} class="card__chev" />
               </a>
             </li>
           ))
@@ -58,116 +58,120 @@ const { heading, items, kind = 'tasks', hideHeading = false } = Astro.props;
     margin-top: calc(-1 * var(--overlap, 56px));
   }
   .card {
+    display: grid;
+    gap: var(--s-4);
     background: var(--white);
     border: 1px solid var(--line);
     border-radius: var(--r-lg);
-    padding: var(--s-6);
+    padding: var(--s-5, 20px) var(--s-6);
     box-shadow: var(--shadow-card);
   }
-  @media (min-width: 900px) {
-    .card {
-      padding: var(--s-8);
-    }
+  .card__intro {
+    display: grid;
+    gap: var(--s-1);
+    align-content: center;
   }
   .card__heading {
-    font-size: var(--t-xl);
-    margin-bottom: var(--s-6);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    font-size: var(--t-xs);
+    font-weight: 700;
+    color: var(--blue);
   }
-  .card--jump .card__heading {
-    font-size: var(--t-sm);
-    margin-bottom: var(--s-3);
-    color: var(--grey);
-    font-weight: 400;
+  .card__heading::before {
+    content: '';
+    width: 24px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--red);
+  }
+  .card__title {
+    font-size: var(--t-lg);
+    font-weight: 700;
+    color: var(--blue);
+    line-height: 1.2;
+    max-width: 12ch;
   }
   .card__list {
     display: grid;
-    gap: var(--s-2);
+  }
+  .card__cell + .card__cell {
+    border-top: 1px solid var(--line);
   }
   .card__item {
     display: flex;
     align-items: center;
     gap: var(--s-4);
     min-height: var(--tap);
-    padding: var(--s-3);
-    border-radius: var(--r-md);
+    padding: var(--s-3) 0;
     color: var(--blue);
     text-decoration: none;
-    font-weight: 700;
-    transition: background-color var(--dur) var(--ease);
+    border-radius: var(--r-sm);
   }
   .card__item:hover {
-    background: var(--blue-50);
     color: var(--blue);
+  }
+  .card__item:hover .card__label {
+    text-decoration: underline;
   }
   .card__icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 48px;
-    height: 48px;
-    border-radius: var(--r-md);
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
     background: var(--blue-50);
     color: var(--blue);
     flex-shrink: 0;
-  }
-  .card--jump .card__icon {
-    width: 32px;
-    height: 32px;
-    border-radius: var(--r-sm);
   }
   .card__text {
     display: grid;
     gap: 2px;
     flex: 1;
+    min-width: 0;
   }
   .card__label {
+    font-weight: 700;
     font-size: var(--t-md);
-  }
-  .card--tasks .card__label {
-    font-size: var(--t-lg);
+    line-height: 1.25;
   }
   .card__line {
-    font-weight: 400;
     color: var(--grey);
     font-size: var(--t-sm);
-    max-width: 40ch;
+    line-height: 1.35;
+  }
+  .card :global(.card__chev) {
+    flex-shrink: 0;
+    color: var(--blue);
+    transition: transform var(--dur) var(--ease);
+  }
+  .card__item:hover :global(.card__chev) {
+    transform: translateX(3px);
   }
   @media (min-width: 900px) {
-    .card--tasks .card__list {
+    .card {
+      grid-template-columns: auto 1fr;
+      gap: var(--s-6);
+      padding: var(--s-4) var(--s-6);
+    }
+    .card__intro {
+      padding-right: var(--s-6);
+      border-right: 1px solid var(--line);
+    }
+    .card__list {
       grid-template-columns: repeat(var(--n), minmax(0, 1fr));
-      gap: var(--s-4);
     }
-    .card--tasks .card__item {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: var(--s-4);
-      padding: var(--s-6);
-      height: 100%;
-      border: 1px solid var(--line);
-      transition:
-        background-color var(--dur) var(--ease),
-        box-shadow var(--dur) var(--ease);
+    .card__cell + .card__cell {
+      border-top: 0;
+      border-left: 1px solid var(--line);
     }
-    .card--tasks .card__item:hover {
-      background: var(--white);
-      box-shadow: var(--shadow-card);
+    .card__item {
+      padding: var(--s-2) var(--s-5, 20px);
     }
-    .card--tasks .card__chev {
-      margin-top: auto;
-    }
-    .card--jump .card__list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--s-2) var(--s-4);
-    }
-    .card--jump .card__item {
-      padding: var(--s-2) var(--s-3);
-      border: 1px solid var(--line);
-      border-radius: var(--r-pill);
-    }
-    .card--jump .card__chev,
-    .card--jump .card__line {
-      display: none;
+    .card__cell:first-child .card__item {
+      padding-left: 0;
     }
   }
 </style>

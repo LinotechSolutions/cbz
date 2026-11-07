@@ -6,8 +6,8 @@
   "logo": "bank",
   "order": 1,
   "hero": {
-    "title": "Banking for every stage of life",
-    "lede": "Accounts, cards, savings and loans for individuals, companies, schools and churches, with CBZ Touch and internet banking.",
+    "title": "Banking that moves with every stage of your life.",
+    "lede": "From everyday transactions to business growth, discover banking solutions designed around your ambitions.",
     "image": {
       "src": "/images/hero-digital.webp",
       "alt": "A customer smiling at her phone while banking on the go"
@@ -24,17 +24,17 @@
   "segments": [
     {
       "label": "Individuals",
-      "line": "Current, savings, foreign currency and student accounts",
+      "line": "Banking for everyday life.",
       "href": "#panel-bank-accounts"
     },
     {
       "label": "Companies, schools and churches",
-      "line": "Corporate, school and church accounts and merchant POS",
+      "line": "Solutions for organisations.",
       "href": "#panel-bank-accounts"
     },
     {
       "label": "Diaspora",
-      "line": "Bank at home from abroad",
+      "line": "Banking beyond borders.",
       "href": "/diaspora"
     }
   ],

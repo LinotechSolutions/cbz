@@ -25,6 +25,7 @@ import { LINKS, isExternal } from '../data/links';
 import { CONTACT } from '../data/facts';
 import { visible } from '../lib/visible';
 import type { DarkSafeLogoKey } from '../data/logos';
+import type { IconName } from '../components/icons';
 
 interface Props {
   unit: CollectionEntry<'units'>['data'];
@@ -106,7 +107,40 @@ const appLinks = {
   'ziki-cash': { appStore: LINKS.zikiCash.appStore, playStore: LINKS.zikiCash.playStore },
 } as const;
 
-const segments = unit.segments.map((s) => ({ label: s.label, href: s.href, line: s.line ?? undefined }));
+/* Who we serve: an icon per audience, picked from the label, and a short title per unit. */
+const segmentIcon = (label: string): IconName => {
+  const l = label.toLowerCase();
+  if (/diaspora/.test(l)) return 'globe';
+  if (/individual|retail|personal|employee/.test(l)) return 'user';
+  if (/farm|sector/.test(l)) return 'leaf';
+  if (/pension|fund|institution/.test(l)) return 'chart';
+  if (/compan|business|corporate|sme|school|church|organisation/.test(l)) return 'building';
+  return 'user';
+};
+const SERVE_TITLE: Record<string, string> = {
+  bank: 'Banking for everyone.',
+  insurance: 'Cover for everyone.',
+  'cbz-life': 'Protection for every family.',
+  'risk-advisory': 'Advice for every business.',
+  datvest: 'Investing for everyone.',
+  capital: 'Capital for every business.',
+  properties: 'Property for everyone.',
+};
+const segments = unit.segments.map((s) => ({ label: s.label, href: s.href, line: s.line ?? undefined, icon: segmentIcon(s.label) }));
+const serveTitle = SERVE_TITLE[unit.slug] ?? `${unit.shortName} for everyone.`;
+
+/* Product cards without a photograph show the unit's icon instead. */
+const PRODUCT_ICON: Record<string, IconName> = {
+  bank: 'wallet',
+  'red-sphere': 'wallet',
+  insurance: 'shield',
+  'cbz-life': 'shield',
+  'risk-advisory': 'shield',
+  datvest: 'chart',
+  capital: 'chart',
+  properties: 'home',
+  'agro-yield': 'leaf',
+};
 
 const jsonLd = [
   {
@@ -143,13 +177,14 @@ const jsonLd = [
     lede={unit.hero.lede}
     image={unit.hero.image}
     logo={unit.logo as DarkSafeLogoKey}
+    eyebrow={unit.name}
     crumbs={[{ label: 'Home', href: '/' }, { label: cluster.label, href: cluster.href }, { label: unit.shortName }]}
     primary={{ ...unit.primaryCta, track: 'apply_click', trackProps: { unit: unit.slug, from: 'hero' } }}
     secondary={unit.secondaryCta ?? undefined}
     overlap={segments.length > 0}
   />
 
-  {segments.length > 0 && <TaskCard heading="Who we serve" items={segments} kind="jump" />}
+  {segments.length > 0 && <TaskCard heading="Who we serve" title={serveTitle} items={segments} />}
 
   <div class="branches" data-unit={unit.slug}>
     {
@@ -215,6 +250,7 @@ const jsonLd = [
                           products={list}
                           primaryCta={unit.primaryCta}
                           note={unit.productsNote}
+                          icon={PRODUCT_ICON[unit.slug] ?? 'wallet'}
                         />
                       </div>
                     );

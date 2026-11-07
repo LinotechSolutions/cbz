@@ -1,13 +1,14 @@
 ---
 /**
  * Products as cards: filter tabs with a blue underline, then a card per
- * product with its name over a short rule, a summary, up to four big facts,
- * and two buttons. "Tell me more" opens a panel with pill tabs: What you
+ * product with its photograph (or the unit's icon), a centred name and
+ * summary, the pricing line as a check, up to four facts and two buttons. "Tell me more" opens a panel with pill tabs: What you
  * get, Who it's for, What it costs, How to get it. Without JavaScript every
  * card shows and every panel is open.
  */
 import Button from './Button.astro';
 import Icon from './Icon.astro';
+import type { IconName } from './icons';
 import { visible } from '../lib/visible';
 
 export interface ProductRow {
@@ -23,6 +24,8 @@ export interface ProductRow {
   apply: { label: string; href: string };
   /** When set, these replace `apply` on the card: first primary, the rest secondary. */
   actions?: { label: string; href: string }[] | null;
+  /** A photograph for the top of the card; cards without one show `icon`. */
+  image?: { src: string; alt: string } | null;
 }
 
 interface Props {
@@ -33,8 +36,10 @@ interface Props {
   note?: string | null;
   idPrefix?: string;
   hideCta?: boolean;
+  /** Shown on cards that have no photograph. */
+  icon?: IconName;
 }
-const { unitSlug, categories, products, note, idPrefix = unitSlug } = Astro.props;
+const { unitSlug, categories, products, note, idPrefix = unitSlug, icon = 'wallet' } = Astro.props;
 
 const cats = categories.filter((c) => products.some((p) => p.category === c.id));
 const showFilters = cats.length > 1;
@@ -84,11 +89,21 @@ const costLine = (p: ProductRow) =>
         const actions = p.actions && p.actions.length > 0 ? p.actions : [p.apply];
         return (
           <li class="pcard" id={`product-${unitSlug}-${p.productId}`} data-category={p.category}>
+            {p.image && visible(p.image.src) ? (
+              <img src={p.image.src} alt={p.image.alt} width={600} height={400} loading="lazy" decoding="async" class="pcard__img" />
+            ) : (
+              <span class="pcard__glyph" aria-hidden="true">
+                <Icon name={icon} size={44} />
+              </span>
+            )}
             <div class="pcard__body">
               <h3 class="pcard__title">{p.name}</h3>
-              <span class="pcard__rule" aria-hidden="true" />
               <p class="pcard__summary">{p.summary}</p>
-              {visible(p.pricing) && <p class="pcard__pricing">{p.pricing}</p>}
+              {visible(p.pricing) && (
+                <p class="pcard__pricing">
+                  <Icon name="check" size={16} /> {p.pricing}
+                </p>
+              )}
               {facts.length > 0 && (
                 <dl class="pcard__facts">
                   {facts.map((f) => (
@@ -328,55 +343,82 @@ const costLine = (p: ProductRow) =>
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
+  /* Card: a photograph or icon on top, then centred name, summary, one
+     check line, facts and stacked buttons. */
   .pcard {
     display: grid;
+    grid-template-rows: auto 1fr;
     align-content: start;
     background: var(--white);
     border: 1px solid var(--line);
     border-radius: var(--r-md);
     overflow: hidden;
+    transition: box-shadow var(--dur) var(--ease);
+  }
+  .pcard:hover {
+    box-shadow: var(--shadow-card);
   }
   .pcard[hidden] {
     display: none;
   }
+  .pcard__img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+  }
+  .pcard__glyph {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 112px;
+    color: var(--red);
+    border-bottom: 1px solid var(--line);
+  }
   /* min-width: 0 stops a long button label from widening the body past the card. */
   .pcard__body {
     display: grid;
-    gap: var(--s-4);
+    grid-template-rows: auto auto auto auto 1fr;
+    gap: var(--s-3);
+    justify-items: center;
+    text-align: center;
     min-width: 0;
     padding: var(--s-6) var(--s-5, 20px);
     overflow-wrap: anywhere;
   }
   .pcard__title {
     font-size: var(--t-lg);
-    font-weight: 400;
+    font-weight: 700;
     color: var(--blue);
-  }
-  .pcard__rule {
-    display: block;
-    width: 56px;
-    height: 3px;
-    background: var(--red);
-    margin-top: calc(-1 * var(--s-2));
+    line-height: 1.2;
   }
   .pcard__summary {
-    color: var(--ink);
-    max-width: 60ch;
+    color: var(--grey);
+    font-size: var(--t-sm);
+    max-width: 34ch;
   }
   .pcard__pricing {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
     font-size: var(--t-sm);
     font-weight: 700;
+    color: var(--blue);
+  }
+  .pcard__pricing :global(svg) {
     color: var(--blue-700);
+    flex-shrink: 0;
   }
   .pcard__facts {
-    margin: var(--s-2) 0 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
-    gap: var(--s-5, 20px) var(--s-4);
+    margin: var(--s-1) 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--s-3) var(--s-6);
   }
   .fact {
     display: grid;
-    gap: var(--s-1);
+    gap: 2px;
     min-width: 0;
   }
   .fact__value {
@@ -395,7 +437,9 @@ const costLine = (p: ProductRow) =>
   .pcard__actions {
     display: grid;
     gap: var(--s-3);
-    margin-top: var(--s-4);
+    width: 100%;
+    align-self: end;
+    margin-top: var(--s-3);
   }
   .pcard__actions :global(.btn) {
     width: 100%;
@@ -404,9 +448,11 @@ const costLine = (p: ProductRow) =>
     padding: var(--s-3) var(--s-4);
     white-space: normal;
     text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    font-size: var(--t-xs);
+    font-size: var(--t-sm);
+  }
+  .pcard__actions :global(.btn--secondary) {
+    border-color: var(--blue);
+    color: var(--blue);
   }
 
   /* Detail popup: a modal dialog with pill tabs over a grey body */

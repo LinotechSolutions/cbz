@@ -42,19 +42,19 @@ const { title, lede, image, logo, eyebrow, crumbs, primary, secondary, chip, var
         <div class="split__copy">
           <div class="split__copy-in">
             {crumbs && <Breadcrumbs items={crumbs} />}
-            {logo && <Logo brand={logo} on="light" height={30} class="split__logo" />}
+            {eyebrow ? <p class="split__eyebrow">{eyebrow}</p> : logo && <Logo brand={logo} on="light" height={30} class="split__logo" />}
             <h1 class="split__title">{title}</h1>
             <p class="split__lede">{lede}</p>
             {(primary || secondary) && (
               <div class="split__actions">
                 {primary && (
                   <Button href={primary.href} variant="primary" size="lg" track={primary.track} trackProps={primary.trackProps}>
-                    {primary.label}
+                    {primary.label} <Icon name="arrowRight" size={18} />
                   </Button>
                 )}
                 {secondary && (
                   <Button href={secondary.href} variant="secondary" size="lg" track={secondary.track} trackProps={secondary.trackProps}>
-                    {secondary.label}
+                    {secondary.label} <Icon name="arrowRight" size={18} />
                   </Button>
                 )}
               </div>
@@ -163,6 +163,24 @@ const { title, lede, image, logo, eyebrow, crumbs, primary, secondary, chip, var
   .split__logo {
     margin-left: calc(-1 * var(--s-1));
   }
+  /* Unit name as a small-caps eyebrow after a short red dash */
+  .split__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-3);
+    font-size: var(--t-xs);
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--blue);
+  }
+  .split__eyebrow::before {
+    content: '';
+    width: 40px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--red);
+  }
   .split__title {
     font-size: var(--t-3xl);
     font-weight: 700;
@@ -182,11 +200,13 @@ const { title, lede, image, logo, eyebrow, crumbs, primary, secondary, chip, var
     gap: var(--s-3);
     margin-top: var(--s-2);
   }
-  .split__actions :global(.btn--primary) {
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    font-size: var(--t-xs);
-    min-width: 220px;
+  .split__actions :global(.btn) {
+    gap: var(--s-2);
+    min-width: 200px;
+  }
+  .split__actions :global(.btn--secondary) {
+    border-color: var(--blue);
+    color: var(--blue);
   }
   .split__marks {
     display: flex;

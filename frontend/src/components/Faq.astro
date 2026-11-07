@@ -1,16 +1,19 @@
 ---
 /**
- * Frequently asked questions: an accordion with a plus that turns into a
- * minus, then a "still unanswered?" card with a photograph and a button to
- * the unit's call-back form. Native details/summary, so it works without
+ * Frequently asked questions, two columns. Left: "Need help?" with Call Us,
+ * Email Us and Visit Us rows and a photograph in a circle under a red arc.
+ * Right: the questions as white cards with an icon chip, a bold question and
+ * a red chevron that turns when open, then a navy "Still have questions?"
+ * band with a chat button. Native details/summary, so it works without
  * JavaScript and with the keyboard.
  */
-import Button from './Button.astro';
 import Icon from './Icon.astro';
+import type { IconName } from './icons';
+import { CONTACT } from '../data/facts';
 
 interface Props {
   faqs: { question: string; answer: string }[];
-  /** Where the contact button goes, usually the call-back form. */
+  /** Where the call-back link goes, usually the unit's call-back form. */
   contactHref: string;
   contactLabel?: string;
   /** The name of the team that answers, e.g. "CBZ Bank". */
@@ -26,36 +29,92 @@ const {
   image = { src: '/images/cbz-banking-branch.webp', alt: '' },
   id,
 } = Astro.props;
+
+/* An icon for each question, picked from its wording. */
+const iconFor = (q: string): IconName => {
+  const s = q.toLowerCase();
+  if (/open an account|account/.test(s)) return 'wallet';
+  if (/loan|borrow|mortgage|finance/.test(s)) return 'bank';
+  if (/pin|password|secure|safe|fraud/.test(s)) return 'shield';
+  if (/charge|fee|cost|rate|price|premium|return/.test(s)) return 'chart';
+  if (/phone|mobile|app|touch|online/.test(s)) return 'phoneMobile';
+  if (/hour|branch|where|visit/.test(s)) return 'pin';
+  if (/abroad|diaspora|outside|foreign/.test(s)) return 'globe';
+  if (/home|house|property|stand/.test(s)) return 'home';
+  if (/claim|cover|insur|policy/.test(s)) return 'shield';
+  return 'info';
+};
 ---
 
 <div class="faq">
-  <div class="faq__list">
-    {
-      faqs.map((f, i) => (
-        <details class="faq__item" name={`faq-${id}`}>
-          <summary class="faq__q" id={`${id}-q${i}`}>
-            <span>{f.question}</span>
-            <span class="faq__plus" aria-hidden="true">
-              <Icon name="plus" size={18} />
-            </span>
-          </summary>
-          <div class="faq__a">
-            <p>{f.answer}</p>
-          </div>
-        </details>
-      ))
-    }
-  </div>
-
-  <div class="faq__more card-base">
-    <div class="faq__more-copy">
-      <p class="faq__more-title">Are your questions still unanswered?</p>
-      <p class="faq__more-line">Leave your number and what it is about, and {team} calls you back. Or reach us on the contact page.</p>
-      <Button href={contactHref} variant="secondary" track="apply_click" trackProps={{ from: 'faq', unit: id }}>
-        {contactLabel} <Icon name="phone" size={18} />
-      </Button>
+  <aside class="faq__help">
+    <h3 class="faq__help-title h-rule">Need help? <span>We’re here for you.</span></h3>
+    <p class="faq__help-lede">Find quick answers to common questions, or get in touch with the {team} team.</p>
+    <ul role="list" class="faq__rows">
+      <li class="faq__row">
+        <span class="faq__chip" aria-hidden="true"><Icon name="phone" size={22} /></span>
+        <span class="faq__row-text">
+          <span class="faq__row-label">Call Us</span>
+          <a href={CONTACT.contactCentre.href} class="faq__row-value">{CONTACT.contactCentre.display}</a>
+          <span class="faq__row-line">Toll-free {CONTACT.tollFree.map((t) => t.display).join(' or ')} on all networks</span>
+        </span>
+      </li>
+      <li class="faq__row">
+        <span class="faq__chip" aria-hidden="true"><Icon name="mail" size={22} /></span>
+        <span class="faq__row-text">
+          <span class="faq__row-label">Email Us</span>
+          <a href={`mailto:${CONTACT.email}`} class="faq__row-value">{CONTACT.email}</a>
+          <span class="faq__row-line">We’ll get back to you soon.</span>
+        </span>
+      </li>
+      <li class="faq__row">
+        <span class="faq__chip" aria-hidden="true"><Icon name="pin" size={22} /></span>
+        <span class="faq__row-text">
+          <span class="faq__row-label">Visit Us</span>
+          <span class="faq__row-value">Find a branch near you.</span>
+          <a href="/contact#branches" class="go faq__row-go">Locate branch <Icon name="arrowRight" size={16} /></a>
+        </span>
+      </li>
+    </ul>
+    <div class="faq__photo" aria-hidden="true">
+      <img src={image.src} alt="" width={800} height={800} loading="lazy" decoding="async" />
     </div>
-    <img src={image.src} alt={image.alt} width={800} height={600} loading="lazy" decoding="async" class="faq__more-img" />
+  </aside>
+
+  <div class="faq__main">
+    <h3 class="faq__title h-rule">Frequently Asked Questions</h3>
+    <div class="faq__list">
+      {
+        faqs.map((f, i) => (
+          <details class="faq__item" name={`faq-${id}`} open={i === 0 ? true : undefined}>
+            <summary class="faq__q" id={`${id}-q${i}`}>
+              <span class="faq__q-chip" aria-hidden="true">
+                <Icon name={iconFor(f.question)} size={20} />
+              </span>
+              <span class="faq__q-text">{f.question}</span>
+              <span class="faq__chev" aria-hidden="true">
+                <Icon name="chevronDown" size={18} />
+              </span>
+            </summary>
+            <div class="faq__a">
+              <p>{f.answer}</p>
+            </div>
+          </details>
+        ))
+      }
+    </div>
+
+    <div class="faq__band on-dark">
+      <span class="faq__band-icon" aria-hidden="true"><Icon name="chat" size={26} /></span>
+      <div class="faq__band-copy">
+        <p class="faq__band-title">Still have questions?</p>
+        <p class="faq__band-line">Chat with us on WhatsApp, or <a href={contactHref} data-track="apply_click" data-track-props={JSON.stringify({ from: 'faq', unit: id })}>{contactLabel.toLowerCase()}</a> and {team} calls you back.</p>
+      </div>
+      <a href={CONTACT.whatsapp.chatHref} class="btn btn--primary faq__band-btn" target="_blank" rel="noopener noreferrer">
+        Start a chat <Icon name="arrowRight" size={18} />
+        <span class="sr-only">(opens in a new tab)</span>
+      </a>
+    </div>
   </div>
 </div>
 
@@ -64,93 +123,237 @@ const {
     display: grid;
     gap: var(--s-10, 40px);
   }
-  .faq__list {
-    max-width: 56rem;
+  @media (min-width: 900px) {
+    .faq {
+      grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+      gap: var(--s-12);
+      align-items: start;
+    }
+  }
+
+  /* Left: Need help? */
+  .faq__help {
+    display: grid;
+    gap: var(--s-5, 20px);
+    align-content: start;
+  }
+  .faq__help-title {
+    font-size: var(--t-xl);
+    font-weight: 700;
+    color: var(--blue);
+    line-height: 1.15;
+  }
+  .faq__help-title span {
+    display: block;
+  }
+  .faq__help-lede {
+    color: var(--grey);
+    max-width: 36ch;
+  }
+  .faq__rows {
+    display: grid;
+    gap: var(--s-5, 20px);
+  }
+  .faq__row {
+    display: flex;
+    gap: var(--s-4);
+    align-items: flex-start;
+  }
+  .faq__chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--blue-50);
+    color: var(--blue);
+    flex-shrink: 0;
+  }
+  .faq__row-text {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+  }
+  .faq__row-label {
+    font-weight: 700;
+    color: var(--blue);
+  }
+  .faq__row-value {
+    color: var(--ink);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  a.faq__row-value:hover {
+    color: var(--blue);
+    text-decoration: underline;
+  }
+  .faq__row-line {
+    font-size: var(--t-sm);
+    color: var(--grey);
+  }
+  .faq__row-go {
+    margin-top: var(--s-1);
+  }
+  /* The photograph in a circle, a red arc rising on its left */
+  .faq__photo {
+    position: relative;
+    width: min(100%, 300px);
+    aspect-ratio: 1;
+    margin-top: var(--s-2);
+  }
+  .faq__photo::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    background: conic-gradient(from 200deg, var(--red) 0 150deg, transparent 150deg 360deg);
+  }
+  .faq__photo img {
+    position: relative;
+    display: block;
     width: 100%;
-    margin-inline: auto;
-    border-top: 1px solid var(--line);
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  /* Right: the questions */
+  .faq__main {
+    display: grid;
+    gap: var(--s-6);
+  }
+  .faq__title {
+    font-size: var(--t-xl);
+    font-weight: 700;
+    color: var(--blue);
+  }
+  .faq__list {
+    display: grid;
+    gap: var(--s-3);
   }
   .faq__item {
-    border-bottom: 1px solid var(--line);
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    transition: box-shadow var(--dur) var(--ease);
+  }
+  .faq__item[open] {
+    box-shadow: var(--shadow-card);
   }
   .faq__q {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: var(--s-4);
     min-height: var(--tap);
-    padding: var(--s-5, 20px) var(--s-2);
+    padding: var(--s-3) var(--s-4);
     font-weight: 700;
     font-size: var(--t-md);
-    color: var(--ink);
+    color: var(--blue);
     cursor: pointer;
     list-style: none;
   }
   .faq__q::-webkit-details-marker {
     display: none;
   }
-  .faq__q:hover {
-    color: var(--blue);
-  }
-  .faq__plus {
+  .faq__q-chip {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     background: var(--blue-50);
     color: var(--blue);
     flex-shrink: 0;
+  }
+  .faq__q-text {
+    flex: 1;
+    min-width: 0;
+  }
+  .faq__chev {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: var(--blue);
+    flex-shrink: 0;
     transition:
       transform var(--dur) var(--ease),
-      background-color var(--dur) var(--ease);
+      background-color var(--dur) var(--ease),
+      color var(--dur) var(--ease);
   }
-  .faq__item[open] .faq__plus {
-    transform: rotate(45deg);
+  .faq__item[open] .faq__chev {
+    transform: rotate(180deg);
     background: var(--red);
     color: var(--white);
   }
   .faq__a {
-    padding: 0 var(--s-2) var(--s-6);
+    padding: 0 var(--s-4) var(--s-5, 20px) calc(var(--s-4) + 44px + var(--s-4));
     color: var(--grey);
     max-width: var(--measure);
   }
-  .faq__more {
-    display: grid;
-    overflow: hidden;
+  @media (max-width: 639px) {
+    .faq__a {
+      padding-left: var(--s-4);
+    }
   }
-  .faq__more-copy {
+
+  /* Still have questions? band */
+  .faq__band {
     display: grid;
-    gap: var(--s-4);
-    justify-items: start;
-    align-content: center;
-    padding: var(--s-8) var(--s-6);
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: var(--s-4) var(--s-5, 20px);
+    padding: var(--s-6);
+    border-radius: var(--r-lg);
+    background: var(--blue);
+    color: var(--white);
+    margin-top: var(--s-2);
   }
-  .faq__more-title {
-    font-size: var(--t-xl);
+  @media (min-width: 640px) {
+    .faq__band {
+      grid-template-columns: auto 1fr auto;
+    }
+  }
+  .faq__band-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--white);
+  }
+  .faq__band-copy {
+    display: grid;
+    gap: 2px;
+  }
+  .faq__band-title {
     font-weight: 700;
-    color: var(--ink);
+    font-size: var(--t-md);
+    color: var(--white);
   }
-  .faq__more-line {
-    color: var(--grey);
+  .faq__band-line {
+    font-size: var(--t-sm);
+    color: rgba(255, 255, 255, 0.82);
     max-width: 44ch;
   }
-  .faq__more-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    aspect-ratio: 16 / 10;
+  .faq__band-line a {
+    color: var(--white);
+    text-decoration: underline;
   }
-  @media (min-width: 900px) {
-    .faq__more {
-      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-    }
-    .faq__more-copy {
-      padding: var(--s-10, 40px) var(--s-8);
-    }
-    .faq__more-img {
-      aspect-ratio: auto;
+  .faq__band-btn {
+    grid-column: 1 / -1;
+    justify-self: start;
+    gap: var(--s-2);
+  }
+  @media (min-width: 640px) {
+    .faq__band-btn {
+      grid-column: auto;
     }
   }
 </style>

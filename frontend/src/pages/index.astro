@@ -80,19 +80,22 @@ const articles = (await getCollection('notices'))
   <!-- 2. What can we help you with? -->
   <section class="top" aria-labelledby="help-heading">
     <div class="container help" id="help">
-      <h2 id="help-heading" class="sr-only">What can we help you with?</h2>
+      <div class="help__head">
+        <h2 id="help-heading" class="help__title">What can we <strong>help you with?</strong></h2>
+        <p class="help__lede">Five ways to start. Pick one and we take it from there.</p>
+      </div>
       <ul role="list" class="help__cards">
         {
           helpCards.map((c) => (
             <li>
               <a href={c.href} class="benefit">
                 <span class="benefit__icon" aria-hidden="true">
-                  <Icon name={c.icon} size={22} />
+                  <Icon name={c.icon} size={24} />
                 </span>
                 <span class="benefit__title">{c.title}</span>
                 <span class="benefit__line">{c.line}</span>
-                <span class="benefit__go" aria-hidden="true">
-                  <Icon name="arrowRight" size={18} />
+                <span class="benefit__go">
+                  Explore <Icon name="arrowRight" size={18} />
                 </span>
               </a>
             </li>
@@ -611,9 +614,26 @@ const articles = (await getCollection('notices'))
   /* Help row: photo card + dark cards */
   .help {
     display: grid;
-    gap: var(--s-6);
+    gap: var(--s-8);
   }
-  /* Task cards: one quiet style, a small icon, a bold name and one line */
+  .help__head {
+    display: grid;
+    gap: var(--s-2);
+  }
+  .help__title {
+    font-size: var(--t-2xl);
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.15;
+  }
+  .help__title strong {
+    font-weight: 700;
+    color: var(--blue);
+  }
+  .help__lede {
+    color: var(--grey);
+  }
+  /* Task cards: one quiet style, a navy icon chip, a bold name, one line, Explore */
   .help__cards {
     display: grid;
     gap: var(--gap);
@@ -640,53 +660,90 @@ const articles = (await getCollection('notices'))
     gap: var(--s-3);
     align-content: start;
     height: 100%;
-    padding: var(--s-6) var(--s-5, 20px);
-    border-radius: var(--r-md);
+    padding: var(--s-6);
+    border-radius: var(--r-lg);
     background: var(--white);
     color: var(--ink);
     text-decoration: none;
     border: 1px solid var(--line);
+    overflow: hidden;
     transition:
       border-color var(--dur) var(--ease),
       box-shadow var(--dur) var(--ease),
       transform var(--dur) var(--ease);
   }
+  /* A red rule along the top that appears on hover */
+  .benefit::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--red);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--dur) var(--ease);
+  }
   .benefit:hover,
   .benefit:focus-visible {
-    transform: translateY(-3px);
-    border-color: var(--blue-100);
-    box-shadow: var(--shadow-card);
+    transform: translateY(-4px);
+    border-color: transparent;
+    box-shadow: var(--shadow-float);
     color: var(--ink);
+  }
+  .benefit:hover::before,
+  .benefit:focus-visible::before {
+    transform: scaleX(1);
   }
   .benefit__icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
-    border-radius: var(--r-sm);
-    background: var(--blue-50);
-    color: var(--blue);
+    width: 52px;
+    height: 52px;
+    border-radius: var(--r-md);
+    background: var(--blue);
+    color: var(--white);
   }
   .benefit__title {
     font-size: var(--t-xl);
     font-weight: 700;
     color: var(--blue);
-    margin-top: var(--s-2);
+    margin-top: var(--s-3);
+    letter-spacing: -0.01em;
+  }
+  @media (min-width: 900px) {
+    .benefit {
+      min-height: 260px;
+    }
+  }
+  /* Five across: a touch smaller so Agrobusiness sits inside its card */
+  @media (min-width: 1200px) {
+    .benefit__title {
+      font-size: var(--t-lg);
+    }
   }
   .benefit__line {
     font-size: var(--t-sm);
     color: var(--grey);
     max-width: 26ch;
+    line-height: 1.5;
   }
   .benefit__go {
     display: inline-flex;
     align-items: center;
+    gap: var(--s-2);
+    align-self: end;
+    margin-top: var(--s-4);
+    font-weight: 700;
+    font-size: var(--t-sm);
     color: var(--red-700);
-    margin-top: var(--s-2);
+  }
+  .benefit__go :global(svg) {
     transition: transform var(--dur) var(--ease);
   }
-  .benefit:hover .benefit__go {
+  .benefit:hover .benefit__go :global(svg) {
     transform: translateX(4px);
   }
 

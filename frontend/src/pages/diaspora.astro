@@ -1,22 +1,85 @@
 ---
+/**
+ * Diaspora banking: a white split hero with the photograph on the right, a
+ * centred "What you will need" row of three document cards with the two
+ * actions beneath, then the four business units as panels in a two-by-two
+ * grid, each with copy and an Explore link, a photograph and a stack of
+ * mini-tiles to the products behind it.
+ */
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/Hero.astro';
-import Section from '../components/Section.astro';
-import Tile from '../components/Tile.astro';
-import Button from '../components/Button.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
 import Icon from '../components/Icon.astro';
 import StickyCta from '../components/StickyCta.astro';
+import type { IconName } from '../components/icons';
 import { CONTACT } from '../data/facts';
 
-const documents = [
-  { title: 'A valid Zimbabwean identity document', body: 'A copy of your Zimbabwean passport or national ID.' },
+const documents: { title: string; body: string; icon: IconName }[] = [
+  { title: 'A valid Zimbabwean identity document', body: 'A copy of your Zimbabwean passport or national ID.', icon: 'user' },
   {
     title: 'Proof of where you live abroad',
     body: 'A recent utility bill, council tax statement, tenancy agreement or bank statement showing your address.',
+    icon: 'home',
   },
   {
     title: 'Proof of income',
     body: 'Your latest payslip, a letter of employment, or three months of bank statements showing salary deposits.',
+    icon: 'wallet',
+  },
+];
+
+interface Panel {
+  id: string;
+  title: string;
+  lede: string;
+  explore: { label: string; href: string };
+  image: { src: string; alt: string };
+  items: { label: string; href: string; icon: IconName }[];
+}
+const panels: Panel[] = [
+  {
+    id: 'banking',
+    title: 'Banking',
+    lede: 'A foreign currency account you can run from your phone.',
+    explore: { label: 'Explore all banking services', href: '/bank' },
+    image: { src: '/images/cbz-payments.webp', alt: '' },
+    items: [
+      { label: 'Foreign currency account', href: '/bank#product-bank-fca_individual', icon: 'bank' },
+      { label: 'CBZ Touch', href: '/#digital', icon: 'phoneMobile' },
+    ],
+  },
+  {
+    id: 'property',
+    title: 'Property back home',
+    lede: 'Titled stands and turnkey homes from CBZ Properties, financed by CBZ Bank.',
+    explore: { label: 'Explore property services', href: '/properties' },
+    image: { src: '/images/loan-home.webp', alt: '' },
+    items: [
+      { label: 'Browse developments', href: '/properties', icon: 'home' },
+      { label: 'Mortgage calculator', href: '/calculators#mortgage', icon: 'calculator' },
+      { label: 'Diaspora property insurance', href: '/insurance#product-insurance-diaspora', icon: 'shield' },
+    ],
+  },
+  {
+    id: 'invest',
+    title: 'Investing',
+    lede: 'Put foreign currency to work through Datvest.',
+    explore: { label: 'Explore investment options', href: '/datvest' },
+    image: { src: '/images/cbz-wealth.webp', alt: '' },
+    items: [
+      { label: 'Datvest diaspora fund', href: '/datvest#product-datvest-datvest-diaspora-wealth-fund', icon: 'chart' },
+      { label: 'Start investing', href: '/datvest/start-investing', icon: 'arrowRight' },
+    ],
+  },
+  {
+    id: 'life',
+    title: 'CBZ Life for your family',
+    lede: 'Cover the people who depend on you, wherever you are.',
+    explore: { label: 'Explore life insurance', href: '/cbz-life' },
+    image: { src: '/images/insurance-family.webp', alt: '' },
+    items: [
+      { label: 'Comfortsure funeral plan', href: '/cbz-life#product-cbz-life-comfortsure', icon: 'shield' },
+      { label: 'Sarapavana education plan', href: '/cbz-life#product-cbz-life-sarapavana', icon: 'graduation' },
+    ],
   },
 ];
 ---
@@ -25,127 +88,376 @@ const documents = [
   title="Diaspora banking"
   description="Bank with CBZ from abroad: foreign currency accounts, property back home with a CBZ Bank mortgage, Datvest funds and CBZ Life cover for your family."
   unitLogo="bank"
+  preloadImage="/images/accounts/diaspora.webp"
 >
-  <Hero
-    title="Bank at home, from anywhere"
-    lede="Foreign currency accounts, property, investments and cover for your family in Zimbabwe, opened from wherever you live."
-    image={{ src: '/images/accounts/diaspora.webp', alt: 'A woman using her phone to bank from abroad' }}
-    logo="bank"
-    crumbs={[{ label: 'Home', href: '/' }, { label: 'Banking', href: '/clusters/banking' }, { label: 'Diaspora' }]}
-    primary={{ label: 'Open a diaspora account', href: '/bank/open-account', track: 'apply_click', trackProps: { unit: 'bank', from: 'diaspora' } }}
-    secondary={{ label: 'WhatsApp us', href: CONTACT.whatsapp.href }}
-    overlap={false}
-  />
-
-  <Section id="banking" heading="Banking" lede="A foreign currency account you can run from your phone." compact>
-    <div class="tiles" style="--n:2">
-      <Tile
-        title="Foreign currency account"
-        line="Held in five major currencies, with CBZ Touch and internet banking access."
-        href="/bank#product-bank-fca_individual"
-        icon="bank"
-      />
-      <Tile title="CBZ Touch" line="Transfers, bills and school fees for family at home, zero rated in Zimbabwe." href="/#digital" icon="phoneMobile" />
+  <!-- Hero: white split banner, copy left and the photograph bleeding right -->
+  <header class="hero" aria-labelledby="hero-heading">
+    <div class="hero__inner">
+      <div class="hero__copy">
+        <div class="hero__copy-in">
+          <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Banking', href: '/clusters/banking' }, { label: 'Diaspora' }]} />
+          <h1 id="hero-heading" class="hero__title h-rule">
+            Bank at home, <br />from <span class="hero__accent">anywhere</span>
+          </h1>
+          <p class="hero__lede">Foreign currency accounts, property, investments and cover for your family in Zimbabwe, opened from wherever you live.</p>
+          <div class="hero__actions">
+            <a href="/bank/open-account" class="btn btn--primary btn--lg hero__btn" data-track="apply_click" data-track-props='{"unit":"bank","from":"diaspora"}'>
+              Open a diaspora account <Icon name="arrowRight" size={18} />
+            </a>
+            <a href={CONTACT.whatsapp.href} class="btn btn--secondary btn--lg hero__btn hero__btn--navy" target="_blank" rel="noopener noreferrer">
+              <Icon name="whatsapp" size={18} /> WhatsApp us
+              <span class="sr-only">(opens in a new tab)</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="hero__media">
+        <img src="/images/accounts/diaspora.webp" alt="A woman using her phone to bank from abroad" width={1200} height={900} loading="eager" fetchpriority="high" decoding="async" />
+      </div>
     </div>
-  </Section>
+  </header>
 
-  <Section id="property" heading="Property back home" lede="Titled stands and turnkey homes from CBZ Properties, financed by CBZ Bank." compact>
-    <div class="tiles" style="--n:3">
-      <Tile title="Browse developments" line="Serviced stands with title deeds, and cluster homes." href="/properties" icon="home" />
-      <Tile title="Mortgage calculator" line="Estimate the monthly repayment on a CBZ Bank mortgage." href="/calculators#mortgage" icon="calculator" />
-      <Tile
-        title="Diaspora property insurance"
-        line="Cover for the property you own in Zimbabwe, with claims settled in US dollars."
-        href="/insurance#product-insurance-diaspora"
-        icon="shield"
-      />
+  <!-- What you will need: three document cards and the two actions -->
+  <section class="band need" id="documents" aria-labelledby="need-heading">
+    <div class="container">
+      <div class="need__head">
+        <h2 id="need-heading" class="need__title h-rule">What you will need</h2>
+        <p class="need__lede">Three documents open a diaspora account.</p>
+      </div>
+      <ol class="need__cards" role="list">
+        {
+          documents.map((d) => (
+            <li class="need__card">
+              <span class="chip" aria-hidden="true">
+                <Icon name={d.icon} size={24} />
+              </span>
+              <span class="need__text">
+                <strong class="need__card-title">{d.title}</strong>
+                <span class="need__card-body">{d.body}</span>
+              </span>
+            </li>
+          ))
+        }
+      </ol>
+      <div class="need__cta">
+        <a href="/bank/open-account" class="btn btn--primary hero__btn" data-track="apply_click" data-track-props='{"unit":"bank","from":"diaspora-docs"}'>
+          Open a diaspora account <Icon name="arrowRight" size={18} />
+        </a>
+        <a href={CONTACT.whatsapp.href} class="btn btn--secondary hero__btn hero__btn--navy" target="_blank" rel="noopener noreferrer">
+          <Icon name="whatsapp" size={18} /> WhatsApp {CONTACT.whatsapp.display}
+          <span class="sr-only">(opens in a new tab)</span>
+        </a>
+      </div>
     </div>
-  </Section>
+  </section>
 
-  <Section id="invest" heading="Investing" lede="Put foreign currency to work through Datvest." compact>
-    <div class="tiles" style="--n:2">
-      <Tile title="Datvest diaspora fund" line="A unit trust for savers living abroad." href="/datvest#product-datvest-datvest-diaspora-wealth-fund" icon="chart" />
-      <Tile title="Start investing" line="Tell Datvest your goal and an adviser sets out the options." href="/datvest/start-investing" icon="wallet" />
+  <!-- The four units: copy, photograph and mini-tiles, two to a row -->
+  <section class="band units" aria-label="Our diaspora services">
+    <div class="container">
+      <div class="units__grid">
+        {
+          panels.map((p) => (
+            <section class="panel" id={p.id} aria-labelledby={`${p.id}-heading`}>
+              <div class="panel__copy">
+                <h2 id={`${p.id}-heading`} class="panel__title h-rule">{p.title}</h2>
+                <p class="panel__lede">{p.lede}</p>
+                <a href={p.explore.href} class="go panel__go">
+                  {p.explore.label} <Icon name="arrowRight" size={16} />
+                </a>
+              </div>
+              <img src={p.image.src} alt={p.image.alt} width={600} height={600} loading="lazy" decoding="async" class="panel__img" />
+              <ul role="list" class="panel__list">
+                {p.items.map((it) => (
+                  <li>
+                    <a href={it.href} class="mini">
+                      <span class="chip chip--sm" aria-hidden="true">
+                        <Icon name={it.icon} size={20} />
+                      </span>
+                      <span class="mini__label">{it.label}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))
+        }
+      </div>
     </div>
-  </Section>
-
-  <Section id="life" heading="CBZ Life for your family" lede="Cover the people who depend on you, wherever you are." compact>
-    <div class="tiles" style="--n:2">
-      <Tile
-        title="Comfortsure funeral cash plan"
-        line="A funeral benefit paid immediately to your nominated beneficiary in Zimbabwe."
-        href="/cbz-life#product-cbz-life-comfortsure"
-        icon="shield"
-      />
-      <Tile
-        title="Sarapavana education plan"
-        line="Savings towards a child’s primary and secondary education, with life cover attached."
-        href="/cbz-life#product-cbz-life-sarapavana"
-        icon="chart"
-      />
-    </div>
-  </Section>
-
-  <Section id="documents" heading="What you will need" lede="Three documents open a diaspora account." compact>
-    <ol class="docs">
-      {
-        documents.map((d) => (
-          <li class="docs__item">
-            <strong>{d.title}</strong>
-            <span class="small muted">{d.body}</span>
-          </li>
-        ))
-      }
-    </ol>
-    <div class="docs__cta">
-      <Button href="/bank/open-account" variant="primary" size="lg" track="apply_click" trackProps={{ unit: 'bank', from: 'diaspora-docs' }}>
-        Open a diaspora account
-      </Button>
-      <a href={CONTACT.whatsapp.href} class="btn btn--secondary btn--lg" target="_blank" rel="noopener noreferrer">
-        <Icon name="whatsapp" size={18} /> WhatsApp {CONTACT.whatsapp.display}
-        <span class="sr-only">(opens in a new tab)</span>
-      </a>
-    </div>
-  </Section>
+  </section>
 
   <StickyCta label="Open a diaspora account" href="/bank/open-account" unit="bank" />
 </BaseLayout>
 
 <style>
-  /* Two or three equal columns, set per section */
-  .tiles {
+  /* ---------- Hero ---------- */
+  .hero {
+    background: var(--white);
+    border-bottom: 1px solid var(--line);
+  }
+  .hero__inner {
     display: grid;
-    gap: var(--gap);
   }
-  @media (min-width: 640px) {
-    .tiles {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
+  .hero__copy {
+    display: flex;
+    justify-content: flex-end;
   }
-  @media (min-width: 900px) {
-    .tiles {
-      grid-template-columns: repeat(var(--n, 2), minmax(0, 1fr));
-    }
-  }
-  .docs {
+  .hero__copy-in {
+    width: 100%;
+    max-width: calc(var(--max) / 2);
+    padding: var(--s-8) var(--gutter);
     display: grid;
     gap: var(--s-4);
-    padding-left: 1.4em;
-    max-width: var(--measure);
+    justify-items: start;
+    align-content: center;
   }
-  .docs__item {
-    display: grid;
-    gap: var(--s-1);
-    padding-left: var(--s-2);
-  }
-  .docs__item::marker {
-    color: var(--blue-700);
+  .hero__title {
+    font-size: var(--t-3xl);
     font-weight: 700;
+    color: var(--blue);
+    line-height: 1.08;
+    letter-spacing: -0.015em;
   }
-  .docs__cta {
+  .hero__accent {
+    color: var(--red);
+  }
+  .hero__lede {
+    color: var(--grey);
+    font-size: var(--t-md);
+    max-width: 44ch;
+  }
+  .hero__actions {
     display: flex;
     flex-wrap: wrap;
     gap: var(--s-3);
+    margin-top: var(--s-2);
+  }
+  .hero__btn {
+    gap: var(--s-2);
+  }
+  .hero__btn--navy {
+    border-color: var(--blue);
+    color: var(--blue);
+  }
+  .hero__media {
+    position: relative;
+    min-height: 240px;
+  }
+  .hero__media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 70% 30%;
+    aspect-ratio: 16 / 10;
+  }
+  @media (min-width: 900px) {
+    .hero__inner {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      min-height: 460px;
+    }
+    .hero__copy-in {
+      padding: var(--s-10, 40px) var(--s-8) var(--s-10, 40px) var(--gutter);
+    }
+    .hero__media img {
+      aspect-ratio: auto;
+      height: 100%;
+      mask-image: linear-gradient(to right, transparent, #000 18%);
+      -webkit-mask-image: linear-gradient(to right, transparent, #000 18%);
+    }
+  }
+
+  /* ---------- Shared icon chip ---------- */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--red-50);
+    color: var(--red);
+    flex-shrink: 0;
+  }
+  .chip--sm {
+    width: 44px;
+    height: 44px;
+  }
+
+  /* ---------- What you will need ---------- */
+  .need {
+    padding-block: var(--s-12);
+  }
+  .need__head {
+    display: grid;
+    gap: var(--s-2);
+    justify-items: center;
+    text-align: center;
+    margin-bottom: var(--s-8);
+  }
+  .need__title {
+    font-size: var(--t-2xl);
+    color: var(--blue);
+  }
+  .need__title::before {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .need__lede {
+    color: var(--grey);
+  }
+  .need__cards {
+    display: grid;
+    gap: var(--gap);
+  }
+  @media (min-width: 900px) {
+    .need__cards {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .need__card {
+    display: flex;
+    gap: var(--s-4);
+    align-items: flex-start;
+    padding: var(--s-5, 20px);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    background: var(--white);
+    box-shadow: var(--shadow-card);
+  }
+  .need__text {
+    display: grid;
+    gap: var(--s-1);
+  }
+  .need__card-title {
+    color: var(--blue);
+    font-size: var(--t-md);
+    line-height: 1.25;
+  }
+  .need__card-body {
+    color: var(--grey);
+    font-size: var(--t-sm);
+    line-height: 1.5;
+  }
+  .need__cta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--s-3);
     margin-top: var(--s-8);
+  }
+
+  /* ---------- Unit panels ---------- */
+  .units {
+    padding-block: var(--s-10, 40px) var(--s-16);
+  }
+  .units__grid {
+    display: grid;
+    gap: var(--gap);
+  }
+  @media (min-width: 1200px) {
+    .units__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .panel {
+    display: grid;
+    gap: var(--s-5, 20px);
+    padding: var(--s-6);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    background: var(--white);
+    box-shadow: var(--shadow-card);
+  }
+  @media (min-width: 640px) {
+    .panel {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      grid-template-areas:
+        'copy img'
+        'list list';
+    }
+    .panel__copy {
+      grid-area: copy;
+    }
+    .panel__img {
+      grid-area: img;
+    }
+    .panel__list {
+      grid-area: list;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+  }
+  @media (min-width: 900px) {
+    .panel {
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.9fr) minmax(0, 1fr);
+      grid-template-areas: 'copy img list';
+      align-items: stretch;
+    }
+    .panel__list {
+      grid-template-columns: 1fr;
+      align-content: center;
+    }
+  }
+  .panel__copy {
+    display: grid;
+    gap: var(--s-3);
+    align-content: center;
+    justify-items: start;
+  }
+  .panel__title {
+    font-size: var(--t-xl);
+    color: var(--blue);
+    line-height: 1.15;
+  }
+  .panel__lede {
+    color: var(--grey);
+    font-size: var(--t-sm);
+    line-height: 1.5;
+  }
+  .panel__go {
+    margin-top: var(--s-2);
+  }
+  .panel__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 180px;
+    object-fit: cover;
+    border-radius: var(--r-md);
+    aspect-ratio: 4 / 3;
+  }
+  @media (min-width: 900px) {
+    .panel__img {
+      aspect-ratio: auto;
+    }
+  }
+  .panel__list {
+    display: grid;
+    gap: var(--s-3);
+  }
+  .mini {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+    min-height: 64px;
+    padding: var(--s-2) var(--s-4) var(--s-2) var(--s-2);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: var(--white);
+    color: var(--blue);
+    text-decoration: none;
+    transition:
+      border-color var(--dur) var(--ease),
+      box-shadow var(--dur) var(--ease);
+  }
+  .mini:hover {
+    color: var(--blue);
+    border-color: var(--blue-100);
+    box-shadow: var(--shadow-card);
+  }
+  .mini__label {
+    font-weight: 700;
+    font-size: var(--t-sm);
+    line-height: 1.25;
   }
 </style>

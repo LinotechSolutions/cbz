@@ -74,6 +74,25 @@
       "title": "Talk to an agent",
       "line": "A CBZ Life consultant calls you back.",
       "items": [{ "label": "Agent enquiry", "line": "Leave your number and what it is about", "kind": "form", "href": "/cbz-life/talk-to-an-agent" }]
+    },
+    {
+      "id": "faq",
+      "title": "Let's answer the questions in your mind",
+      "line": "You can find the answers to frequently asked questions below.",
+      "items": [
+        {
+          "label": "Contact us",
+          "kind": "faq",
+          "href": "/cbz-life/talk-to-an-agent",
+          "faqs": [
+            { "question": "How do I get a quote?", "answer": "Use the quote request form or ask a consultant to call you. We come back with a quotation based on the plan and the level of cover you choose." },
+            { "question": "How do I pay my premium?", "answer": "By debit order from your CBZ account, through CBZ Touch or internet banking, or at any branch. Pay online shows the options for your policy." },
+            { "question": "How do I submit a claim?", "answer": "Use the claim submission form, or visit a branch with the policy number and the supporting documents. A claims consultant guides you through the rest." },
+            { "question": "Can I change my beneficiaries or my cover?", "answer": "Yes. Ask through Talk to an agent or at a branch. Some changes need a signed form and can change your premium." },
+            { "question": "What happens if I miss a premium?", "answer": "Tell us as soon as you can. Your policy document sets out the grace period and what you need to do to keep the cover in force." }
+          ]
+        }
+      ]
     }
   ],
   "categories": [

@@ -116,7 +116,10 @@ const articles = (await getCollection('notices'))
         <div class="stages__intro">
           <h2 id="stages-heading" class="stages__title h-rule">Whatever your next step, <strong>we’re here to help you move forward.</strong></h2>
         </div>
-        <a href="/journeys" class="stages__all">Explore all solutions <Icon name="arrowRight" size={18} /></a>
+        <a href="/journeys" class="stages__all">
+          <span class="stages__all-text">Explore all solutions</span>
+          <span class="stages__all-arrow" aria-hidden="true"><Icon name="arrowRight" size={18} /></span>
+        </a>
         <div class="stages__arrows">
           <button type="button" class="stages__arrow" data-prev aria-label="Previous">
             <Icon name="arrowRight" size={20} class="stages__flip" />
@@ -126,6 +129,12 @@ const articles = (await getCollection('notices'))
           </button>
         </div>
       </div>
+      <!-- The slanted card shape, in bounding-box units so it scales with the card -->
+      <svg width="0" height="0" aria-hidden="true" focusable="false" class="stages__clip">
+        <clipPath id="stage-clip" clipPathUnits="objectBoundingBox">
+          <path d="M0.2,0 L0.9,0 Q1,0 1,0.07 L0.93,0.92 Q0.92,1 0.82,1 L0.1,1 Q0,1 0.004,0.93 L0.074,0.08 Q0.084,0 0.2,0 Z" />
+        </clipPath>
+      </svg>
       <ul role="list" class="stages__row" data-row>
         {
           LIFE_STAGES.map((s) => (
@@ -133,15 +142,14 @@ const articles = (await getCollection('notices'))
               <a href={s.href} class="stage__link" data-track="apply_click" data-track-props={JSON.stringify({ unit: s.unit, from: 'home-stages' })}>
                 <img src={s.image.src} alt="" width={600} height={800} loading="lazy" decoding="async" class="stage__img" />
                 <span class="stage__shade" aria-hidden="true" />
+                <span class="stage__arc" aria-hidden="true" />
                 <span class="stage__tag">{s.tag}</span>
                 <span class="stage__body">
+                  <span class="stage__icon" aria-hidden="true">
+                    <Icon name={s.icon} size={28} />
+                  </span>
                   <span class="stage__q">{s.question}</span>
                   <span class="stage__promise">{s.promise}</span>
-                  <span class="stage__offers">
-                    {s.offers.map((o) => (
-                      <span class="stage__offer">{o}</span>
-                    ))}
-                  </span>
                   <span class="stage__cta">
                     Let's go <Icon name="arrowRight" size={18} />
                   </span>
@@ -411,29 +419,47 @@ const articles = (await getCollection('notices'))
   .stages__title {
     font-size: var(--t-2xl);
     font-weight: 400;
-    color: var(--ink);
+    color: var(--blue);
     max-width: 26ch;
     line-height: 1.15;
-  }
-  .stages__all {
-    color: var(--red);
   }
   .stages__title strong {
     font-weight: 700;
     color: var(--blue);
   }
+  /* Explore all solutions: navy text over a red underline, a red disc arrow */
   .stages__all {
     display: inline-flex;
     align-items: center;
-    gap: var(--s-2);
+    gap: var(--s-3);
     min-height: var(--tap);
     font-weight: 700;
-    color: var(--red-700);
+    color: var(--blue);
     text-decoration: none;
   }
+  .stages__all-text {
+    padding-bottom: 4px;
+    border-bottom: 2px solid var(--red);
+  }
+  .stages__all-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--red);
+    color: var(--white);
+    transition: transform var(--dur) var(--ease);
+  }
   .stages__all:hover {
-    text-decoration: underline;
-    color: var(--red-700);
+    color: var(--blue);
+  }
+  .stages__all:hover .stages__all-arrow {
+    transform: translateX(3px);
+  }
+  .stages__clip {
+    position: absolute;
   }
   .stages__arrows {
     display: none;
@@ -490,26 +516,44 @@ const articles = (await getCollection('notices'))
       flex-basis: calc((100% - 2 * var(--s-4)) / 3);
     }
   }
+  /* The card is clipped to a slanted shape with rounded corners; the shadow
+     sits on the list item so it follows the shape. */
+  .stage {
+    filter: drop-shadow(0 20px 28px rgba(0, 23, 54, 0.28));
+    transition: filter var(--dur) var(--ease);
+  }
+  .stage:hover {
+    filter: drop-shadow(0 28px 36px rgba(0, 23, 54, 0.36));
+  }
   .stage__link {
     position: relative;
     display: block;
     aspect-ratio: 3 / 4;
+    clip-path: url(#stage-clip);
     border-radius: var(--r-lg);
     overflow: hidden;
     color: var(--white);
     text-decoration: none;
     background: var(--blue);
     isolation: isolate;
-    box-shadow: 0 24px 48px -28px rgba(0, 23, 54, 0.55);
-    transition:
-      transform var(--dur) var(--ease),
-      box-shadow var(--dur) var(--ease);
+    transition: transform var(--dur) var(--ease);
   }
   .stage__link:hover,
   .stage__link:focus-visible {
     transform: translateY(-4px);
-    box-shadow: 0 32px 56px -28px rgba(0, 23, 54, 0.65);
     color: var(--white);
+  }
+  /* A red arc rising from the bottom-right corner */
+  .stage__arc {
+    position: absolute;
+    right: -46%;
+    bottom: -44%;
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 20px solid var(--red);
+    z-index: -1;
+    pointer-events: none;
   }
   .stage__img {
     position: absolute;
@@ -527,12 +571,24 @@ const articles = (await getCollection('notices'))
     position: absolute;
     inset: 0;
     z-index: -1;
-    background: linear-gradient(to top, rgba(0, 23, 54, 0.96) 0%, rgba(0, 23, 54, 0.7) 38%, rgba(0, 23, 54, 0.1) 68%, rgba(0, 23, 54, 0) 100%);
+    background: linear-gradient(to top, rgba(0, 37, 84, 0.98) 0%, rgba(0, 37, 84, 0.88) 30%, rgba(0, 37, 84, 0.35) 55%, rgba(0, 37, 84, 0) 75%);
+  }
+  .stage__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--red);
+    color: var(--white);
+    margin-bottom: var(--s-2);
+    box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.5);
   }
   .stage__tag {
     position: absolute;
-    top: var(--s-4);
-    left: var(--s-4);
+    top: var(--s-5, 20px);
+    left: var(--s-8);
     display: inline-flex;
     align-items: center;
     min-height: 28px;
@@ -565,39 +621,26 @@ const articles = (await getCollection('notices'))
     font-size: var(--t-md);
     color: rgba(255, 255, 255, 0.88);
   }
-  .stage__offers {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--s-2);
-    margin-top: var(--s-1);
-  }
-  .stage__offer {
-    display: inline-flex;
-    align-items: center;
-    min-height: 26px;
-    padding: 0 var(--s-3);
-    border-radius: var(--r-pill);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    background: rgba(255, 255, 255, 0.12);
-    font-size: var(--t-xs);
-    color: var(--white);
-  }
+  /* White pill with red text */
   .stage__cta {
     display: inline-flex;
     align-items: center;
     gap: var(--s-2);
-    min-height: 40px;
-    padding: 0 var(--s-5, 20px);
-    margin-top: var(--s-2);
+    min-height: 44px;
+    padding: 0 var(--s-6);
+    margin-top: var(--s-3);
     border-radius: var(--r-pill);
-    background: var(--red);
-    color: var(--white);
+    background: var(--white);
+    color: var(--red);
     font-weight: 700;
-    font-size: var(--t-sm);
-    transition: background-color var(--dur) var(--ease);
+    font-size: var(--t-md);
+    transition:
+      background-color var(--dur) var(--ease),
+      color var(--dur) var(--ease);
   }
   .stage__link:hover .stage__cta {
-    background: var(--red-700);
+    background: var(--red);
+    color: var(--white);
   }
   .stages__foot {
     display: flex;

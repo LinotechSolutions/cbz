@@ -86,7 +86,6 @@ const specIcon = (label: string): IconName => {
                   <span class="sr-only">(opens in a new tab)</span>
                 </span>
               </span>
-              <span class="lst__curve" aria-hidden="true" />
             </a>
           </li>
         );
@@ -205,6 +204,20 @@ const specIcon = (label: string): IconName => {
   .lst__media {
     position: relative;
     display: block;
+    overflow: hidden;
+  }
+  /* A red arc curling out of the top-left corner of the photograph */
+  .lst__media::before {
+    content: '';
+    position: absolute;
+    top: -70px;
+    left: -70px;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: 18px solid var(--red);
+    z-index: 1;
+    pointer-events: none;
   }
   .lst__link :global(.frame) {
     border-radius: 0;
@@ -212,6 +225,7 @@ const specIcon = (label: string): IconName => {
   .lst__chip {
     position: absolute;
     top: var(--s-4);
+    z-index: 2;
     display: inline-flex;
     align-items: center;
     gap: var(--s-2);
@@ -225,7 +239,8 @@ const specIcon = (label: string): IconName => {
     box-shadow: 0 2px 8px rgba(0, 23, 54, 0.12);
   }
   .lst__chip--type {
-    left: var(--s-4);
+    left: var(--s-6);
+    top: var(--s-6);
   }
   .lst__chip--status {
     right: var(--s-4);
@@ -306,17 +321,5 @@ const specIcon = (label: string): IconName => {
   }
   .lst__go {
     margin-top: var(--s-1);
-  }
-  /* A red curve tucked into the bottom-right corner */
-  .lst__curve {
-    position: absolute;
-    right: -36px;
-    bottom: -36px;
-    width: 96px;
-    height: 96px;
-    border-radius: 50%;
-    background: var(--red);
-    z-index: -1;
-    pointer-events: none;
   }
 </style>

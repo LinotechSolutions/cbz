@@ -108,7 +108,7 @@ export const UNCONFIRMED: { item: string; owner: string; note?: string }[] = [
   { item: 'CBZ Bank calls to action (site map says "to be confirmed"; Open an account, Apply for a loan and Call me back are in place)', owner: 'CBZ Bank' },
   { item: 'Board of directors: names, roles and photos', owner: 'Corporate Affairs' },
   { item: 'Sustainability: Grievance Procedure PDF, Grievance Resolution Form PDF, grievance mailbox, and the reports to publish', owner: 'Sustainability', note: 'src/data/sustainability.ts; links are hidden until set.' },
-  { item: 'Off-site links: farmer onboarding, property management sign-in', owner: 'Agro-Yield, Digital, CBZ Properties' },
+  { item: 'Off-site link: property management sign-in', owner: 'Digital, CBZ Properties' },
   { item: 'Zeex invoice-discounting wording and customer journey on the Red Sphere page', owner: 'Red Sphere Finance and Zeex', note: 'Both parties to approve. Link to zeex.co.zw is live.' },
   { item: 'ATDC button placement on the Agro-Yield page (Supply chain, commodity trading or a Group businesses area)', owner: 'CBZ Agro-Yield', note: 'Placed in Choose your service and in its own Explore ATDC section, linking to africatdc.com. Confirm or move.' },
   { item: 'Integrations behind the forms: SSP Pure, ICECASH and Flex Cube (Insurance), Life Central (Life)', owner: 'Digital', note: 'Recorded on each unit JSON under "systems"; nothing is wired yet.' },

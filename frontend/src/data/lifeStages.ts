@@ -86,7 +86,7 @@ export const LIFE_STAGES: LifeStage[] = [
     question: 'Farming this season?',
     promise: "Let's back the harvest.",
     offers: ['Contract farming', 'Equipment and inputs'],
-    href: '/agro-yield/apply',
+    href: 'https://agrideck.cbz.co.zw/',
     unit: 'agro-yield',
     image: { src: '/images/cbz-agriculture.webp', alt: 'A farmer in a maize field' },
   },

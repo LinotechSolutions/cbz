@@ -10,7 +10,7 @@ export const REDIRECTS = {
   '/buy-a-home': '/properties/request-a-viewing',
   '/car-insurance-quote': '/insurance/quote',
   '/invest-journey': '/datvest/start-investing',
-  '/agro-journey': '/agro-yield/apply',
+  '/agro-journey': 'https://agrideck.cbz.co.zw/',
   '/capital-journey': '/capital/enquiry',
   '/risk-journey': '/risk-advisory/quote',
   '/personal-banking': '/bank',

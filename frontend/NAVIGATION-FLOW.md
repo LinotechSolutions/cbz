@@ -64,7 +64,7 @@ Conventions
 | Log in ▸ Red Sphere portal | ↗ `https://rs.cbz.co.zw/` |
 | **Open an account** (red) ▸ Sign up for CBZ Bank | `/bank/open-account` |
 | Open an account ▸ Apply with Red Sphere | ↗ Red Sphere on Google Play |
-| Open an account ▸ Sign up for Agro-Yield | `/agro-yield/apply` |
+| Open an account ▸ Sign up for Agro-Yield | ↗ `https://agrideck.cbz.co.zw/` (Agrideck) |
 | Open an account ▸ Start investing with Datvest | `/datvest/start-investing` |
 | Open an account ▸ Get a quote from CBZ Insurance | `/insurance/quote` |
 | Open an account ▸ Get a quote from CBZ Life | `/cbz-life/quote` |
@@ -90,7 +90,7 @@ Essential only / Allow analytics; Privacy policy → `/privacy-policy`.
 | Our Businesses | CBZ Bank `/bank`; CBZ Insurance `/insurance`; CBZ Life `/cbz-life`; CBZ Properties `/properties`; Datvest `/datvest`; CBZ Agro-Yield `/agro-yield`; Red Sphere Finance `/red-sphere`; CBZ Capital `/capital`; CBZ Risk Advisory `/risk-advisory` |
 | The Group | The Group `/the-group`; CBZ Foundation `/cbz-foundation`; Sustainability `/sustainability`; Diaspora Banking `/diaspora` |
 | Access | Log In `/login`; Find a Branch `/contact#branches`; Security `/security`; Latest from CBZ `/notices` |
-| Explore Our Solutions | Open an Account `/bank/open-account`; Insurance Solutions `/insurance/quote`; Life Assurance Solutions `/cbz-life/quote`; Buy a Property `/properties/request-a-viewing`; Investments `/datvest/start-investing`; Agrobusiness Solutions `/agro-yield/apply`; Capital Raising `/capital/enquiry` |
+| Explore Our Solutions | Open an Account `/bank/open-account`; Insurance Solutions `/insurance/quote`; Life Assurance Solutions `/cbz-life/quote`; Buy a Property `/properties/request-a-viewing`; Investments `/datvest/start-investing`; Agrobusiness Solutions ↗ Agrideck; Capital Raising `/capital/enquiry` |
 | Social | Facebook, X, LinkedIn, YouTube, Instagram ↗ |
 
 Note: Business conditions, Privacy policy, Tip-offs, Website terms and
@@ -118,7 +118,7 @@ header, footer and chat launcher.
 | **Explore our products** (red button) | opens a dropdown of six choices | see below |
 | ▸ Sign up for CBZ Bank | Current, savings and foreign currency accounts | `/bank/open-account` |
 | ▸ Apply with Red Sphere | Salary and business loans, through the app | ↗ Red Sphere on Google Play |
-| ▸ Sign up for Agro-Yield | Contract farming and seasonal finance | `/agro-yield/apply` |
+| ▸ Sign up for Agro-Yield | Contract farming and seasonal finance, on Agrideck | ↗ `https://agrideck.cbz.co.zw/` |
 | ▸ Start investing with Datvest | Unit trusts and managed portfolios | `/datvest/start-investing` |
 | ▸ Get a quote from CBZ Insurance | Motor, home and business cover | `/insurance/quote` |
 | ▸ Get a quote from CBZ Life | Funeral and education plans | `/cbz-life/quote` |
@@ -156,7 +156,7 @@ the link.
 | First home: Buying your first home? | `/properties/request-a-viewing` |
 | Motorists: Bought a car? | `/insurance/quote` |
 | Business: Growing a business? | `/bank/apply` |
-| Farmers: Farming this season? | `/agro-yield/apply` |
+| Farmers: Farming this season? | ↗ `https://agrideck.cbz.co.zw/` (Agrideck) |
 | Investors: Thinking about tomorrow? | `/datvest/start-investing` |
 | Diaspora: Living abroad? | `/diaspora` |
 | Explore all solutions | `/journeys` |
@@ -333,14 +333,14 @@ Listing cards on `/properties` no longer link to these pages.
 
 ### 4.9 CBZ Agro-Yield `/agro-yield`
 
-| Hero | Enquire now → `/agro-yield/enquire`; Apply for farming finance → `/agro-yield/apply` |
+| Hero | Enquire now → `/agro-yield/enquire`; Apply online ↗ `https://agrideck.cbz.co.zw/` (Agrideck) |
 | --- | --- |
 | Who we serve | none |
 
 | Section | Contents and buttons |
 | --- | --- |
-| Choose your service `#choose-your-service` | Product cards (Farming, Enterprise, Commodity trading, Supply chain). Every card: **Apply for farming finance** → `/agro-yield/apply`. Link card **Visit ATDC** ▸ Visit ↗ `https://africatdc.com/`. |
-| Register as a farmer | Hidden: the farmer onboarding URL is still null. |
+| Choose your service `#choose-your-service` | Product cards (Farming, Enterprise, Commodity trading, Supply chain). Every card: **Apply online** ↗ Agrideck. Link card **Visit ATDC** ▸ Visit ↗ `https://africatdc.com/`. |
+| Register as a farmer `#register-as-a-farmer` | **Farmer onboarding platform** ▸ Visit ↗ `https://agrideck.cbz.co.zw/` (Agrideck). |
 | Enquire now `#enquire-now` | **Lead form** ▸ Get started → `/agro-yield/enquire`; notes "Customer confirmation" and "Agro-Yield business development" (no links). |
 | Explore ATDC `#explore-atdc` | **Visit ATDC** ▸ Visit ↗; note "A Group business". |
 
@@ -375,7 +375,7 @@ Ten cards, each the whole card is the link:
 | Investments | `/datvest/start-investing` |
 | Capital raising | `/capital/enquiry` |
 | Buy a property | `/properties/request-a-viewing` |
-| Farming finance | `/agro-yield/apply` |
+| Farming finance | ↗ `https://agrideck.cbz.co.zw/` (Agrideck) |
 
 ---
 
@@ -463,7 +463,7 @@ yet**; the mailbox or API for each unit is still to be wired.
 | `/capital/call-me-back` | Call me back: CBZ Capital | We will call you. |
 | `/risk-advisory/quote` | Request a risk consultation | Your request is in. A consultant will contact you within two working days. |
 | `/risk-advisory/insurance-audit` | Audit request | (unit-specific) |
-| `/agro-yield/apply` | Apply for farming finance | Your application is in. Agro-Yield will contact you about the next steps. |
+| `/agro-yield/apply` | Apply for farming finance. No longer linked from the site: every apply action goes to Agrideck. Page kept for old links. | Your application is in. Agro-Yield will contact you about the next steps. |
 | `/agro-yield/enquire` | Lead form | (unit-specific) |
 | `/red-sphere/enquire` | Enquiry form | (unit-specific) |
 | `/sustainability/grievance` | Raise a grievance | Your grievance is registered. |
@@ -482,7 +482,7 @@ yet**; the mailbox or API for each unit is still to be wired.
 | `/buy-a-home` | `/properties/request-a-viewing` |
 | `/car-insurance-quote` | `/insurance/quote` |
 | `/invest-journey` | `/datvest/start-investing` |
-| `/agro-journey` | `/agro-yield/apply` |
+| `/agro-journey` | ↗ `https://agrideck.cbz.co.zw/` |
 | `/capital-journey` | `/capital/enquiry` |
 | `/risk-journey` | `/risk-advisory/quote` |
 | `/personal-banking`, `/personal-banking/accounts` | `/bank` |
@@ -500,7 +500,7 @@ yet**; the mailbox or API for each unit is still to be wired.
 ## 13. Open items that affect the flow
 
 - Forms submit nowhere yet (section 11).
-- Hidden until a URL is supplied: Farmer onboarding platform (Agro-Yield), Property management portal (Log in), Internet banking personal new platform (Log in), CBZ Custodial Services page, Grievance documents, Sustainability reports, grievance mailbox, Foundation mailbox.
+- Hidden until a URL is supplied: Property management portal (Log in), Internet banking personal new platform (Log in), CBZ Custodial Services page, Grievance documents, Sustainability reports, grievance mailbox, Foundation mailbox.
 - Bank Who we serve chips (Individuals, Companies) point at anchors that do not exist on the page.
 - Regulatory links (Business conditions, Privacy policy, Tip-offs, Website terms, Sitemap) are reachable only from `/sitemap` and the cookie banner.
 - Log in page still lists the Red Sphere portal, while every other Red Sphere entry point goes to Google Play.

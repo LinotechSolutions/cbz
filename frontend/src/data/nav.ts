@@ -80,7 +80,7 @@ export const LOGIN_ITEMS: NavLink[] = [
 export const OPEN_ACCOUNT_ITEMS: NavLink[] = [
   { label: 'Sign up for CBZ Bank', href: '/bank/open-account', line: 'Current, savings and foreign currency accounts' },
   { label: 'Apply with Red Sphere', href: LINKS.redSphere.playStore, line: 'Salary and business loans, through the app', external: true },
-  { label: 'Sign up for Agro-Yield', href: '/agro-yield/apply', line: 'Contract farming and seasonal finance' },
+  { label: 'Sign up for Agro-Yield', href: LINKS.farmerOnboarding, line: 'Contract farming and seasonal finance, on Agrideck', external: true },
   { label: 'Start investing with Datvest', href: '/datvest/start-investing', line: 'Unit trusts and managed portfolios' },
   { label: 'Get a quote from CBZ Insurance', href: '/insurance/quote', line: 'Motor, home and business cover' },
   { label: 'Get a quote from CBZ Life', href: '/cbz-life/quote', line: 'Funeral and education plans' },
@@ -97,7 +97,7 @@ export const JOURNEYS: { label: string; line: string; href: string; unit: string
   { label: 'Investments', line: 'Start with Datvest unit trusts or a managed portfolio.', href: '/datvest/start-investing', unit: 'datvest' },
   { label: 'Capital raising', line: 'Debt, equity and advisory from CBZ Capital.', href: '/capital/enquiry', unit: 'capital' },
   { label: 'Buy a property', line: 'Find a home, stand or commercial space with CBZ Properties.', href: '/properties/request-a-viewing', unit: 'properties' },
-  { label: 'Farming finance', line: 'Contract farming for the season with Agro-Yield.', href: '/agro-yield/apply', unit: 'agro-yield' },
+  { label: 'Farming finance', line: 'Contract farming for the season with Agro-Yield, on Agrideck.', href: LINKS.farmerOnboarding ?? '/agro-yield/enquire', unit: 'agro-yield' },
 ];
 
 /** The twelve off-site destinations on the site map. Null links are hidden. */
@@ -141,7 +141,7 @@ export const FOOTER = {
     { label: 'Life Assurance Solutions', href: '/cbz-life/quote' },
     { label: 'Buy a Property', href: '/properties/request-a-viewing' },
     { label: 'Investments', href: '/datvest/start-investing' },
-    { label: 'Agrobusiness Solutions', href: '/agro-yield/apply' },
+    { label: 'Agrobusiness Solutions', href: LINKS.farmerOnboarding ?? '/agro-yield/enquire' },
     { label: 'Capital Raising', href: '/capital/enquiry' },
   ],
   group: [

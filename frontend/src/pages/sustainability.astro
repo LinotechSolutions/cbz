@@ -1,13 +1,15 @@
 ---
 /**
- * Sustainability: a permanent home for the grievance mechanism documents, the
- * online grievance form and the sustainability reports library.
+ * Sustainability: an editorial banner with an environmental photograph and
+ * tabs, the four-step grievance mechanism with its actions, a document
+ * library for the procedure and the form, and a navy reports band.
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import Section from '../components/Section.astro';
 import Icon from '../components/Icon.astro';
 import ExternalLink from '../components/ExternalLink.astro';
+import type { IconName } from '../components/icons';
 import { SUSTAINABILITY } from '../data/sustainability';
 import { CONTACT } from '../data/facts';
 import { visible } from '../lib/visible';
@@ -15,36 +17,55 @@ import { visible } from '../lib/visible';
 const docs = SUSTAINABILITY.grievance.documents;
 const reports = [...SUSTAINABILITY.reports].sort((a, b) => b.year.localeCompare(a.year));
 const email = SUSTAINABILITY.grievance.email;
-const steps = [
-  { title: 'Raise it', body: 'Use the online form, complete the Grievance Resolution Form, or write to us. You receive a reference number.' },
-  { title: 'We acknowledge it', body: 'The Sustainability team confirms receipt and tells you who is handling your grievance.' },
-  { title: 'We investigate', body: 'The matter is looked into under the Grievance Procedure, with you kept informed.' },
-  { title: 'We resolve it', body: 'You receive the outcome and the steps taken. If you disagree, the procedure says how to escalate.' },
+const steps: { title: string; body: string; icon: IconName }[] = [
+  { title: 'Raise it', body: 'Use the online form, complete the Grievance Resolution Form, or write to us. You receive a reference number.', icon: 'document' },
+  { title: 'We acknowledge it', body: 'The Sustainability team confirms receipt and tells you who is handling your grievance.', icon: 'mail' },
+  { title: 'We investigate', body: 'The matter is looked into under the Grievance Procedure, with you kept informed.', icon: 'search' },
+  { title: 'We resolve it', body: 'You receive the outcome and the steps taken. If you disagree, the procedure says how to escalate.', icon: 'handshake' },
 ];
+const PHOTO = { src: '/images/cbz-agriculture.webp', alt: '' };
 ---
 
 <BaseLayout
   title="Sustainability"
   description="CBZ Holdings sustainability: the Grievance Procedure, the Grievance Resolution Form, an online grievance form and our sustainability reports."
 >
-  <div class="container head">
-    <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Sustainability' }]} />
-    <h1>Sustainability</h1>
-    <p class="lede">{SUSTAINABILITY.intro}</p>
-    <nav aria-label="On this page" class="jump">
-      <a href="#grievance">Grievance mechanism</a>
-      <a href="#documents">Documents</a>
-      <a href="#reports">Reports</a>
-    </nav>
+  <!-- Editorial banner: copy and tabs on the left, the photograph on the right -->
+  <div class="container">
+    <header class="banner">
+      <div class="banner__copy">
+        <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Sustainability' }]} />
+        <h1 class="banner__title h-rule">Sustainability</h1>
+        <p class="banner__lede">{SUSTAINABILITY.intro}</p>
+        <nav aria-label="On this page" class="tabs">
+          <a href="#grievance" class="tabs__link">Grievance mechanism</a>
+          <a href="#documents" class="tabs__link">Documents</a>
+          <a href="#reports" class="tabs__link">Reports</a>
+        </nav>
+      </div>
+      <div class="banner__media" aria-hidden="true">
+        <img src={PHOTO.src} alt="" width={1000} height={1000} loading="eager" fetchpriority="high" decoding="async" />
+        <span class="banner__swoosh banner__swoosh--navy" />
+        <span class="banner__swoosh banner__swoosh--red" />
+        <p class="banner__quote">Building a sustainable future together</p>
+      </div>
+    </header>
   </div>
 
+  <!-- Grievance mechanism: four connected steps, then the actions -->
   <Section id="grievance" heading="Grievance mechanism" lede={SUSTAINABILITY.grievance.lede}>
     <ol class="steps" role="list">
       {
         steps.map((s, i) => (
           <li class="step">
-            <span class="step__n" aria-hidden="true">
-              {i + 1}
+            <span class="step__corner" aria-hidden="true" />
+            <span class="step__top">
+              <span class="step__n" aria-hidden="true">
+                {i + 1}
+              </span>
+              <span class="step__icon" aria-hidden="true">
+                <Icon name={s.icon} size={30} />
+              </span>
             </span>
             <span class="step__title">{s.title}</span>
             <span class="step__body">{s.body}</span>
@@ -53,71 +74,108 @@ const steps = [
       }
     </ol>
     <div class="raise">
-      <a href="/sustainability/grievance" class="btn btn--primary btn--lg" data-track="apply_click" data-track-props='{"unit":"sustainability","from":"grievance"}'>
-        Raise a grievance online
+      <a href="/sustainability/grievance" class="btn btn--primary btn--lg raise__btn" data-track="apply_click" data-track-props='{"unit":"sustainability","from":"grievance"}'>
+        Raise a grievance online <Icon name="arrowRight" size={18} />
       </a>
       {
         visible(email) ? (
-          <a href={`mailto:${email}`} class="btn btn--secondary btn--lg">
-            Email {email}
+          <a href={`mailto:${email}`} class="btn btn--secondary btn--lg raise__btn raise__btn--navy">
+            <Icon name="mail" size={18} /> Email {email}
           </a>
         ) : (
-          <a href={CONTACT.contactCentre.href} class="btn btn--secondary btn--lg">
-            Call {CONTACT.contactCentre.display}
+          <a href={CONTACT.contactCentre.href} class="btn btn--secondary btn--lg raise__btn raise__btn--navy">
+            <Icon name="phone" size={18} /> Call {CONTACT.contactCentre.display}
           </a>
         )
       }
-      <p class="small muted raise__note">
-        Prefer to stay anonymous? Use <a href="/tip-offs">Tip-offs anonymous</a>. Fraud on your own account is faster through the Contact Centre.
+      <p class="small raise__note">
+        <Icon name="info" size={18} />
+        <span>
+          Prefer to stay anonymous? Use <a href="/tip-offs">Tip-offs anonymous</a>. Fraud on your own account is faster through the Contact Centre.
+        </span>
       </p>
     </div>
   </Section>
 
+  <!-- Documents: a library card for the procedure and the form -->
   <Section id="documents" heading="Documents" lede="The procedure and the form, as published.">
-    <ul role="list" class="docs">
-      {
-        docs.map((d) => (
-          <li class:list={['doc', 'card-base', !visible(d.href) && 'doc--pending']}>
-            <span class="doc__icon"><Icon name="info" size={22} /></span>
-            <span class="doc__text">
-              <span class="doc__label">{d.label}</span>
-              <span class="doc__note">{d.note}</span>
-            </span>
-            {visible(d.href) ? (
-              <ExternalLink href={d.href!} class="btn btn--secondary">
-                Download
-              </ExternalLink>
-            ) : (
-              <span class="doc__soon">Being published</span>
-            )}
-          </li>
-        ))
-      }
-    </ul>
-  </Section>
-
-  <Section id="reports" heading="Sustainability reports" lede="Our reporting on environmental and social performance.">
-    {
-      reports.length > 0 ? (
-        <ul role="list" class="reports rule-list">
-          {reports.map((r) => (
-            <li class="report">
-              <span class="report__year">{r.year}</span>
-              <span class="report__title">{r.title}</span>
-              {visible(r.href) ? (
-                <ExternalLink href={r.href!} class="btn btn--secondary">
-                  Download
+    <div class="lib">
+      <div class="lib__head">
+        <span class="lib__disc" aria-hidden="true"><Icon name="document" size={26} /></span>
+        <div class="lib__text">
+          <h3 class="lib__title">Procedures and forms</h3>
+          <p class="lib__lede">The official grievance procedure and the form to complete and return.</p>
+        </div>
+        <span class="lib__count small muted">{docs.length} documents</span>
+      </div>
+      <ul role="list" class="docs">
+        {
+          docs.map((d) => (
+            <li class="doc">
+              <span class="doc__icon" aria-hidden="true"><Icon name="document" size={26} /></span>
+              <span class="doc__text">
+                <span class="doc__label">{d.label}</span>
+                <span class="doc__note">{d.note}</span>
+              </span>
+              {visible(d.href) ? (
+                <ExternalLink href={d.href!} class="go doc__go">
+                  View document <Icon name="arrowRight" size={16} />
                 </ExternalLink>
               ) : (
-                <span class="doc__soon">Being published</span>
+                <span class="doc__soon">
+                  <span class="doc__dot" aria-hidden="true" /> Being published
+                </span>
               )}
             </li>
-          ))}
-        </ul>
-      ) : (
-        <p class="muted">Reports will be published here as they are released. Group results and circulars are under <a href="/notices">Latest from CBZ</a>.</p>
-      )
-    }
+          ))
+        }
+      </ul>
+    </div>
+  </Section>
+
+  <!-- Reports: a navy band with the seedling photograph -->
+  <Section id="reports" heading="Sustainability reports" hideHeading>
+    <div class="rep on-dark">
+      <div class="rep__copy">
+        <span class="rep__disc" aria-hidden="true"><Icon name="leaf" size={30} /></span>
+        <div class="rep__text">
+          <p class="rep__eyebrow">Our commitment</p>
+          <h3 class="rep__title">Sustainability reports</h3>
+          <p class="rep__lede">Our reporting on environmental and social performance.</p>
+          {
+            reports.length > 0 ? (
+              <ul role="list" class="rep__list">
+                {reports.map((r) => (
+                  <li class="rep__item">
+                    <span class="rep__year">{r.year}</span>
+                    <span class="rep__name">{r.title}</span>
+                    {visible(r.href) ? (
+                      <ExternalLink href={r.href!} class="rep__link">
+                        Download <Icon name="arrowRight" size={16} />
+                      </ExternalLink>
+                    ) : (
+                      <span class="doc__soon doc__soon--dark">Being published</span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p class="rep__note">
+                <Icon name="document" size={18} />
+                <span>
+                  Reports will be published here as they are released. Group results and circulars are under <a href="/notices">Latest from CBZ</a>.
+                </span>
+              </p>
+            )
+          }
+        </div>
+      </div>
+      <div class="rep__media" aria-hidden="true">
+        <img src={PHOTO.src} alt="" width={1000} height={1000} loading="lazy" decoding="async" />
+        <span class="rep__band rep__band--red" />
+        <span class="rep__band rep__band--navy" />
+      </div>
+    </div>
   </Section>
 
   <Section id="related" heading="Related" compact>
@@ -130,26 +188,131 @@ const steps = [
 </BaseLayout>
 
 <style>
-  .head {
+  /* ---------- Banner ---------- */
+  .banner {
+    position: relative;
+    display: grid;
+    overflow: hidden;
+    margin-top: var(--s-6);
+    border-radius: var(--r-lg);
+    border: 1px solid var(--line);
+    background: linear-gradient(135deg, var(--blue-50), var(--white) 70%);
+    box-shadow: var(--shadow-card);
+  }
+  .banner__copy {
     display: grid;
     gap: var(--s-4);
-    padding-block: var(--s-8) var(--s-6);
+    align-content: center;
+    padding: var(--s-8) var(--s-6);
   }
-  .jump {
+  .banner__title {
+    font-size: var(--t-3xl);
+    color: var(--blue);
+  }
+  .banner__lede {
+    color: var(--grey);
+    max-width: 48ch;
+  }
+  .tabs {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--s-2) var(--s-6);
+    gap: 0 var(--s-5, 20px);
+    margin-top: var(--s-2);
   }
-  .jump a {
-    font-weight: 700;
-    text-decoration: none;
-    min-height: var(--tap);
+  .tabs__link {
+    position: relative;
     display: inline-flex;
     align-items: center;
+    min-height: var(--tap);
+    font-weight: 700;
+    color: var(--blue);
+    text-decoration: none;
   }
-  .jump a:hover {
-    text-decoration: underline;
+  .tabs__link + .tabs__link::before {
+    content: '';
+    position: absolute;
+    left: calc(-1 * var(--s-5, 20px) / 2);
+    top: 25%;
+    height: 50%;
+    width: 1px;
+    background: var(--line);
   }
+  .tabs__link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 100%;
+    bottom: 4px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--red);
+    transition: right var(--dur) var(--ease);
+  }
+  .tabs__link:first-child::after,
+  .tabs__link:hover::after {
+    right: 0;
+  }
+  .banner__media {
+    position: relative;
+    min-height: 220px;
+    overflow: hidden;
+    order: -1;
+  }
+  .banner__media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .banner__swoosh {
+    position: absolute;
+    width: 480px;
+    height: 480px;
+    border-radius: 50%;
+  }
+  .banner__swoosh--navy {
+    background: var(--blue);
+    right: -220px;
+    bottom: -320px;
+  }
+  .banner__swoosh--red {
+    background: var(--red);
+    right: -200px;
+    bottom: -340px;
+  }
+  .banner__quote {
+    position: absolute;
+    left: 38%;
+    bottom: var(--s-6);
+    max-width: 14ch;
+    padding-left: var(--s-3);
+    border-left: 3px solid var(--red);
+    color: var(--white);
+    font-style: italic;
+    font-weight: 700;
+    line-height: 1.25;
+    text-shadow: 0 1px 3px rgba(0, 23, 54, 0.6);
+  }
+  @media (min-width: 900px) {
+    .banner {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      min-height: 360px;
+    }
+    .banner__copy {
+      padding: var(--s-10, 40px);
+    }
+    .banner__media {
+      order: 0;
+      min-height: 100%;
+    }
+    .banner__media img {
+      mask-image: linear-gradient(to right, transparent, #000 30%);
+      -webkit-mask-image: linear-gradient(to right, transparent, #000 30%);
+    }
+  }
+
+  /* ---------- Steps ---------- */
   .steps {
     display: grid;
     gap: var(--gap);
@@ -162,124 +325,389 @@ const steps = [
   @media (min-width: 900px) {
     .steps {
       grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--s-8);
     }
   }
   .step {
+    position: relative;
     display: grid;
-    gap: var(--s-2);
+    gap: var(--s-3);
     align-content: start;
-    padding: var(--s-6);
+    justify-items: center;
+    text-align: center;
+    padding: var(--s-6) var(--s-5, 20px);
     background: var(--white);
     border: 1px solid var(--line);
-    border-radius: var(--r-md);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+  }
+  /* A red curve tucked into the top-left corner */
+  .step__corner {
+    position: absolute;
+    top: -40px;
+    left: -40px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--red);
+  }
+  .step__top {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
   }
   .step__n {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     background: var(--blue);
     color: var(--white);
     font-weight: 700;
     font-size: var(--t-sm);
   }
+  .step__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--blue-50);
+    color: var(--blue);
+  }
   .step__title {
     font-weight: 700;
     color: var(--blue);
-    font-size: var(--t-md);
+    font-size: var(--t-lg);
   }
   .step__body {
     font-size: var(--t-sm);
     color: var(--grey);
+    line-height: 1.5;
+  }
+  /* Arrows between the steps on wide screens */
+  @media (min-width: 900px) {
+    .step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: calc(-1 * var(--s-8) / 2 - 12px);
+      width: 24px;
+      height: 24px;
+      transform: translateY(-50%);
+      border-radius: 50%;
+      background: var(--blue-50) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23002554' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14m-6-6 6 6-6 6'/%3E%3C/svg%3E") center / 14px no-repeat;
+      z-index: 1;
+    }
   }
   .raise {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--s-3);
+    gap: var(--s-3) var(--s-4);
     margin-top: var(--s-8);
   }
+  .raise__btn {
+    gap: var(--s-2);
+  }
+  .raise__btn--navy {
+    border-color: var(--blue);
+    color: var(--blue);
+  }
   .raise__note {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--s-2);
     flex-basis: 100%;
     max-width: none;
+    color: var(--grey);
+  }
+  .raise__note :global(svg) {
+    flex-shrink: 0;
+    margin-top: 1px;
+    color: var(--blue);
+  }
+  @media (min-width: 1200px) {
+    .raise__note {
+      flex-basis: auto;
+      margin-left: var(--s-4);
+    }
+  }
+
+  /* ---------- Document library ---------- */
+  .lib {
+    display: grid;
+    gap: var(--s-6);
+    padding: var(--s-6);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    background: var(--white);
+    box-shadow: var(--shadow-card);
+  }
+  .lib__head {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: var(--s-4);
+  }
+  @media (min-width: 640px) {
+    .lib__head {
+      grid-template-columns: auto 1fr auto;
+    }
+  }
+  .lib__disc {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: var(--white);
+  }
+  .lib__text {
+    display: grid;
+    gap: 2px;
+  }
+  .lib__title {
+    font-size: var(--t-lg);
+    color: var(--blue);
+  }
+  .lib__lede {
+    color: var(--grey);
+    font-size: var(--t-sm);
+  }
+  .lib__count {
+    grid-column: 2;
+  }
+  @media (min-width: 640px) {
+    .lib__count {
+      grid-column: auto;
+    }
   }
   .docs {
     display: grid;
     gap: var(--gap);
   }
+  @media (min-width: 900px) {
+    .docs {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
   .doc {
     display: grid;
     grid-template-columns: auto 1fr;
-    gap: var(--s-4);
-    align-items: center;
-    padding: var(--s-6);
-  }
-  @media (min-width: 640px) {
-    .doc {
-      grid-template-columns: auto 1fr auto;
-    }
+    gap: var(--s-3) var(--s-4);
+    align-items: start;
+    padding: var(--s-5, 20px);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: var(--white);
   }
   .doc__icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
+    width: 56px;
+    height: 56px;
     border-radius: var(--r-md);
     background: var(--blue-50);
     color: var(--blue);
   }
   .doc__text {
     display: grid;
-    gap: 2px;
+    gap: var(--s-1);
   }
   .doc__label {
     font-weight: 700;
     color: var(--blue);
-    font-size: var(--t-lg);
+    font-size: var(--t-md);
   }
   .doc__note {
     font-size: var(--t-sm);
     color: var(--grey);
   }
+  .doc__go,
   .doc__soon {
-    font-size: var(--t-xs);
-    color: var(--grey);
-    padding: var(--s-2) var(--s-3);
-    border: 1px dashed var(--line);
-    border-radius: var(--r-pill);
-    white-space: nowrap;
-  }
-  .doc--pending .doc__soon {
     grid-column: 2;
     justify-self: start;
   }
+  .doc__soon {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    font-size: var(--t-xs);
+    color: var(--grey);
+    padding: var(--s-1) var(--s-3);
+    border-radius: var(--r-pill);
+    background: var(--surface);
+    white-space: nowrap;
+  }
+  .doc__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--grey);
+  }
+  .doc__soon--dark {
+    background: rgba(255, 255, 255, 0.14);
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  /* ---------- Reports band ---------- */
+  .rep {
+    position: relative;
+    display: grid;
+    overflow: hidden;
+    border-radius: var(--r-lg);
+    background: var(--blue);
+    color: var(--white);
+  }
+  .rep__copy {
+    display: grid;
+    gap: var(--s-5, 20px);
+    padding: var(--s-8) var(--s-6);
+  }
   @media (min-width: 640px) {
-    .doc--pending .doc__soon {
-      grid-column: auto;
+    .rep__copy {
+      grid-template-columns: auto 1fr;
+      align-items: start;
     }
   }
-  .reports {
-    max-width: 800px;
+  .rep__disc {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--white);
   }
-  .report {
+  .rep__text {
+    display: grid;
+    gap: var(--s-2);
+  }
+  @media (min-width: 640px) {
+    .rep__text {
+      padding-left: var(--s-5, 20px);
+      border-left: 1px solid rgba(255, 255, 255, 0.2);
+    }
+  }
+  .rep__eyebrow {
+    font-size: var(--t-xs);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  .rep__title {
+    font-size: var(--t-2xl);
+    color: var(--white);
+  }
+  .rep__lede {
+    color: rgba(255, 255, 255, 0.85);
+  }
+  .rep__note {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--s-2);
+    margin-top: var(--s-3);
+    padding-top: var(--s-4);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: var(--t-sm);
+    color: rgba(255, 255, 255, 0.85);
+    max-width: 60ch;
+  }
+  .rep__note :global(svg) {
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .rep__note a,
+  .rep__link {
+    color: var(--white);
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-color: var(--red);
+    text-underline-offset: 4px;
+  }
+  .rep__list {
+    display: grid;
+    gap: var(--s-2);
+    margin-top: var(--s-3);
+  }
+  .rep__item {
     display: grid;
     grid-template-columns: auto 1fr auto;
     gap: var(--s-4);
     align-items: center;
-    padding: var(--s-4) 0;
+    padding: var(--s-3) 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: var(--t-sm);
   }
-  .report__year {
+  .rep__year {
     font-weight: 700;
-    color: var(--grey);
     font-variant-numeric: tabular-nums;
   }
-  .report__title {
-    font-weight: 700;
-    color: var(--blue);
+  .rep__media {
+    position: relative;
+    min-height: 200px;
+    overflow: hidden;
   }
+  .rep__media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .rep__band {
+    position: absolute;
+    top: -20%;
+    bottom: -20%;
+    width: 40px;
+    transform: skewX(-18deg);
+  }
+  .rep__band--red {
+    right: 8%;
+    background: var(--red);
+  }
+  .rep__band--navy {
+    right: 0;
+    width: 32px;
+    background: var(--blue);
+    opacity: 0.9;
+  }
+  @media (min-width: 900px) {
+    .rep {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    }
+    .rep__copy {
+      padding: var(--s-10, 40px);
+    }
+    .rep__media {
+      min-height: 100%;
+    }
+    .rep__media img {
+      mask-image: linear-gradient(to right, transparent, #000 35%);
+      -webkit-mask-image: linear-gradient(to right, transparent, #000 35%);
+    }
+  }
+  @media (max-width: 899px) {
+    .rep__media {
+      order: -1;
+    }
+  }
+
   .related {
     display: grid;
     gap: var(--s-3);

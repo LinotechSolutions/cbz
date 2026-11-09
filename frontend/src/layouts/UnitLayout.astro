@@ -270,13 +270,28 @@ const jsonLd = [
               run.kind === 'cards' ? (
                 <ul role="list" class:list={['cards', run.items.length === 2 && 'cards--pair']} style={`--n:${Math.min(run.items.length, 3)}`}>
                   {run.items.map((it) => {
+                    const photo = it.image && visible(it.image.src) ? it.image : null;
+                    const media = photo && (
+                      <span class="card-link__media" aria-hidden="true">
+                        <img src={photo.src} alt="" width={600} height={600} loading="lazy" decoding="async" />
+                        <span class="card-link__edge" />
+                      </span>
+                    );
                     if (it.kind === 'note') {
                       return (
-                        <li class="note card-link card-base">
-                          <span class="card-link__icon" aria-hidden="true">
-                            <Icon name={itemIcon(it.label)} size={26} />
-                          </span>
+                        <li class:list={['note', 'card-link', 'card-base', photo && 'card-link--photo']}>
+                          {media}
+                          {!photo && (
+                            <span class="card-link__icon" aria-hidden="true">
+                              <Icon name={itemIcon(it.label)} size={26} />
+                            </span>
+                          )}
                           <span class="card-link__text">
+                            {photo && (
+                              <span class="card-link__icon" aria-hidden="true">
+                                <Icon name={itemIcon(it.label)} size={26} />
+                              </span>
+                            )}
                             <span class="card-link__label">{it.label}</span>
                             {visible(it.line) && <span class="card-link__line">{it.line}</span>}
                           </span>
@@ -289,24 +304,38 @@ const jsonLd = [
                       <li>
                         <a
                           href={it.href!}
-                          class="card-link card-base"
+                          class:list={['card-link', 'card-base', photo && 'card-link--photo']}
                           target={ext ? '_blank' : undefined}
                           rel={ext ? 'noopener noreferrer' : undefined}
                           data-track="apply_click"
                           data-track-props={JSON.stringify({ unit: unit.slug, branch: b.id, item: it.label })}
                         >
-                          <span class="card-link__icon" aria-hidden="true">
-                            <Icon name={itemIcon(it.label)} size={26} />
-                          </span>
+                          {media}
+                          {!photo && (
+                            <span class="card-link__icon" aria-hidden="true">
+                              <Icon name={itemIcon(it.label)} size={26} />
+                            </span>
+                          )}
                           <span class="card-link__text">
+                            {photo && (
+                              <span class="card-link__icon" aria-hidden="true">
+                                <Icon name={itemIcon(it.label)} size={26} />
+                              </span>
+                            )}
                             <span class="card-link__label">
                               {it.label}
                               {ext && <span class="sr-only"> (opens in a new tab)</span>}
                             </span>
                             {visible(it.line) && <span class="card-link__line">{it.line}</span>}
-                            <span class="go card-link__go">
-                              {go} <Icon name={ext ? 'external' : 'arrowRight'} size={16} />
-                            </span>
+                            {photo ? (
+                              <span class="btn btn--primary card-link__btn">
+                                {go} <Icon name={ext ? 'external' : 'arrowRight'} size={18} />
+                              </span>
+                            ) : (
+                              <span class="go card-link__go">
+                                {go} <Icon name={ext ? 'external' : 'arrowRight'} size={16} />
+                              </span>
+                            )}
                           </span>
                         </a>
                       </li>
@@ -460,6 +489,80 @@ const jsonLd = [
     grid-template-rows: auto 1fr auto;
     gap: var(--s-2);
     min-width: 0;
+  }
+  .card-link__text .card-link__icon {
+    margin-bottom: var(--s-2);
+  }
+  /* A card with a photograph: the picture on the left behind a red curved
+     edge, the icon chip, copy and a red button on the right. */
+  .card-link--photo {
+    padding: 0;
+    overflow: hidden;
+    gap: 0;
+  }
+  .card-link--photo .card-link__text {
+    grid-template-rows: auto auto 1fr auto;
+    padding: var(--s-6);
+  }
+  .card-link--photo .card-link__text .card-link__icon {
+    width: 56px;
+    height: 56px;
+  }
+  .card-link__media {
+    position: relative;
+    display: block;
+    min-height: 180px;
+    overflow: hidden;
+  }
+  .card-link__media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  /* A white ellipse with a red left edge, giving the photo a curved red separator */
+  .card-link__edge {
+    position: absolute;
+    top: -25%;
+    bottom: -25%;
+    right: -70%;
+    width: 110%;
+    border-radius: 50%;
+    background: var(--white);
+    border-left: 10px solid var(--red);
+  }
+  .card-link__btn {
+    justify-self: start;
+    align-self: end;
+    gap: var(--s-2);
+    margin-top: var(--s-2);
+  }
+  @media (min-width: 640px) {
+    .card-link--photo {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+      align-items: stretch;
+    }
+    .cards.cards--pair .card-link--photo {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+      grid-template-rows: minmax(0, 1fr);
+      align-items: stretch;
+      align-content: stretch;
+      gap: 0;
+    }
+    .cards.cards--pair .card-link--photo .card-link__icon {
+      width: 56px;
+      height: 56px;
+    }
+    .card-link--photo .card-link__media {
+      min-height: 100%;
+    }
+    .card-link__edge {
+      top: -20%;
+      bottom: -20%;
+      right: -60%;
+      width: 90%;
+    }
   }
   .card-link__label {
     font-weight: 700;

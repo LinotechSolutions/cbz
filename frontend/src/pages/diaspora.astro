@@ -37,20 +37,20 @@ const documents = [
     overlap={false}
   />
 
-  <Section id="banking" heading="Banking" lede="A foreign currency account you can run from your phone.">
-    <div class="tiles">
+  <Section id="banking" heading="Banking" lede="A foreign currency account you can run from your phone." compact>
+    <div class="tiles" style="--n:2">
       <Tile
         title="Foreign currency account"
         line="Held in five major currencies, with CBZ Touch and internet banking access."
         href="/bank#product-bank-fca_individual"
         icon="bank"
       />
-      <Tile title="CBZ Touch" line="Transfers, bills and school fees for family at home, zero rated in Zimbabwe." href="/#digital-channels" icon="phoneMobile" />
+      <Tile title="CBZ Touch" line="Transfers, bills and school fees for family at home, zero rated in Zimbabwe." href="/#digital" icon="phoneMobile" />
     </div>
   </Section>
 
-  <Section id="property" heading="Property back home" lede="Titled stands and turnkey homes from CBZ Properties, financed by CBZ Bank.">
-    <div class="tiles">
+  <Section id="property" heading="Property back home" lede="Titled stands and turnkey homes from CBZ Properties, financed by CBZ Bank." compact>
+    <div class="tiles" style="--n:3">
       <Tile title="Browse developments" line="Serviced stands with title deeds, and cluster homes." href="/properties" icon="home" />
       <Tile title="Mortgage calculator" line="Estimate the monthly repayment on a CBZ Bank mortgage." href="/calculators#mortgage" icon="calculator" />
       <Tile
@@ -62,15 +62,15 @@ const documents = [
     </div>
   </Section>
 
-  <Section id="invest" heading="Investing" lede="Put foreign currency to work through Datvest.">
-    <div class="tiles">
+  <Section id="invest" heading="Investing" lede="Put foreign currency to work through Datvest." compact>
+    <div class="tiles" style="--n:2">
       <Tile title="Datvest diaspora fund" line="A unit trust for savers living abroad." href="/datvest#product-datvest-datvest-diaspora-wealth-fund" icon="chart" />
-      <Tile title="Start investing" line="Tell Datvest your goal and an adviser sets out the options." href="/datvest/start-investing" icon="arrowRight" />
+      <Tile title="Start investing" line="Tell Datvest your goal and an adviser sets out the options." href="/datvest/start-investing" icon="wallet" />
     </div>
   </Section>
 
-  <Section id="life" heading="CBZ Life for your family" lede="Cover the people who depend on you, wherever you are.">
-    <div class="tiles">
+  <Section id="life" heading="CBZ Life for your family" lede="Cover the people who depend on you, wherever you are." compact>
+    <div class="tiles" style="--n:2">
       <Tile
         title="Comfortsure funeral cash plan"
         line="A funeral benefit paid immediately to your nominated beneficiary in Zimbabwe."
@@ -86,7 +86,7 @@ const documents = [
     </div>
   </Section>
 
-  <Section id="documents" heading="What you will need" lede="Three documents open a diaspora account.">
+  <Section id="documents" heading="What you will need" lede="Three documents open a diaspora account." compact>
     <ol class="docs">
       {
         documents.map((d) => (
@@ -112,13 +112,19 @@ const documents = [
 </BaseLayout>
 
 <style>
+  /* Two or three equal columns, set per section */
   .tiles {
     display: grid;
     gap: var(--gap);
   }
   @media (min-width: 640px) {
     .tiles {
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 900px) {
+    .tiles {
+      grid-template-columns: repeat(var(--n, 2), minmax(0, 1fr));
     }
   }
   .docs {

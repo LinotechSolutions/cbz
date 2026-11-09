@@ -11,7 +11,7 @@
     "image": { "src": "/images/hero-advice.webp", "alt": "A client reviewing a seasonal finance plan at his desk" }
   },
   "primaryCta": { "label": "Enquire now", "href": "/agro-yield/enquire" },
-  "secondaryCta": { "label": "Apply for farming finance", "href": "/agro-yield/apply" },
+  "secondaryCta": { "label": "Apply online", "href": "https://agrideck.cbz.co.zw/" },
   "segments": [],
   "branches": [
     {
@@ -27,7 +27,7 @@
       "id": "register-as-a-farmer",
       "title": "Register as a farmer",
       "line": "Onboard on the Agro-Yield farmer platform.",
-      "items": [{ "label": "Farmer onboarding platform", "line": "Opens in a new tab", "kind": "external", "href": null }]
+      "items": [{ "label": "Farmer onboarding platform", "line": "Register and apply on Agrideck", "kind": "external", "href": "https://agrideck.cbz.co.zw/" }]
     },
     {
       "id": "enquire-now",

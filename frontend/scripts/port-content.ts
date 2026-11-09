@@ -97,7 +97,7 @@ const UNITS: UnitPort[] = [
     unit: 'agro-yield',
     source: AGRO_PRODUCTS,
     verified: true,
-    apply: () => ({ label: 'Apply for farming finance', href: '/agro-yield/apply' }),
+    apply: () => ({ label: 'Apply online', href: 'https://agrideck.cbz.co.zw/' }),
   },
   {
     unit: 'insurance',

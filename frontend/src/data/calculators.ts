@@ -146,7 +146,7 @@ export const AGRO_SEASONS: readonly SeasonWindow[] = [
     closes: { day: 31, month: 1 },
     title: 'Summer cropping season: applications open',
     body: 'Finance for maize, soya, sorghum and other summer crops, with inputs and offtake arranged.',
-    cta: { label: 'Apply for summer contract farming', href: '/agro-yield/apply' },
+    cta: { label: 'Apply for summer contract farming', href: 'https://agrideck.cbz.co.zw/' },
   },
   {
     season: 'winter',
@@ -154,6 +154,6 @@ export const AGRO_SEASONS: readonly SeasonWindow[] = [
     closes: { day: 31, month: 7 },
     title: 'Winter cropping season: applications open',
     body: 'Finance for wheat, barley and other winter crops, with inputs and offtake arranged.',
-    cta: { label: 'Apply for winter contract farming', href: '/agro-yield/apply' },
+    cta: { label: 'Apply for winter contract farming', href: 'https://agrideck.cbz.co.zw/' },
   },
 ];

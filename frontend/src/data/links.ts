@@ -36,7 +36,7 @@ export const LINKS = {
   /** Zeex invoice discounting platform. Red Sphere Finance is the financier. */
   zeex: 'https://zeex.co.zw/' as string | null,
   /** Agro-Yield farmer onboarding portal. */
-  farmerOnboarding: null as string | null,
+  farmerOnboarding: 'https://agrideck.cbz.co.zw/' as string | null,
   /** ATDC Zimbabwe, the Agro-Yield associate. */
   atdc: 'https://africatdc.com/' as string | null,
   documents: {

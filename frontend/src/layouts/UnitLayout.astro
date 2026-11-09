@@ -462,11 +462,10 @@ const jsonLd = [
      red Get started. Icon on top; beside the text when two cards share a row. */
   .card-link {
     display: grid;
-    gap: var(--s-4);
+    gap: var(--s-3);
     align-content: start;
-    min-height: 150px;
     height: 100%;
-    padding: var(--s-6);
+    padding: var(--s-5, 20px);
     text-decoration: none;
     color: var(--ink);
   }
@@ -477,8 +476,8 @@ const jsonLd = [
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 64px;
-    height: 64px;
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
     background: var(--red-50);
     color: var(--red);
@@ -511,7 +510,7 @@ const jsonLd = [
   .card-link__media {
     position: relative;
     display: block;
-    min-height: 180px;
+    min-height: 150px;
     overflow: hidden;
   }
   .card-link__media img {
@@ -585,8 +584,8 @@ const jsonLd = [
       gap: var(--s-5, 20px);
     }
     .cards--pair .card-link__icon {
-      width: 80px;
-      height: 80px;
+      width: 64px;
+      height: 64px;
     }
   }
 
@@ -604,10 +603,10 @@ const jsonLd = [
   }
   .feature__copy {
     display: grid;
-    gap: var(--s-4);
+    gap: var(--s-3);
     justify-items: start;
     align-content: center;
-    padding: var(--s-8) var(--s-6);
+    padding: var(--s-6);
   }
   .feature__title {
     font-size: var(--t-2xl);
@@ -653,7 +652,7 @@ const jsonLd = [
   }
   .feature__media {
     position: relative;
-    min-height: 220px;
+    min-height: 160px;
     overflow: hidden;
   }
   .feature__media img {
@@ -714,10 +713,10 @@ const jsonLd = [
   @media (min-width: 900px) {
     .feature {
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      min-height: 340px;
+      min-height: 260px;
     }
     .feature__copy {
-      padding: var(--s-10, 40px) var(--s-10, 40px);
+      padding: var(--s-8) var(--s-8);
     }
     .feature__media {
       min-height: 100%;
@@ -738,7 +737,7 @@ const jsonLd = [
   @media (max-width: 899px) {
     .feature__media {
       order: -1;
-      min-height: 200px;
+      min-height: 160px;
     }
     .feature__swoosh {
       width: 300px;

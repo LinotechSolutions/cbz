@@ -476,11 +476,11 @@ const costLine = (p: ProductRow) =>
   /* The photograph under a curved edge, with a red arc in the top corner */
   .pcard__top {
     position: relative;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 16 / 9;
     background: var(--blue-50);
   }
   .pcard__top--plain {
-    aspect-ratio: 3 / 1;
+    aspect-ratio: 4 / 1;
   }
   .pcard__img {
     display: block;
@@ -518,13 +518,13 @@ const costLine = (p: ProductRow) =>
   /* The floating icon badge over the join between photograph and copy */
   .pcard__badge {
     position: absolute;
-    bottom: -28px;
+    bottom: -24px;
     left: var(--s-5, 20px);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 64px;
-    height: 64px;
+    width: 56px;
+    height: 56px;
     border-radius: var(--r-md);
     background: var(--white);
     color: var(--blue);
@@ -535,28 +535,33 @@ const costLine = (p: ProductRow) =>
   .pcard__body {
     display: grid;
     grid-template-rows: auto auto auto auto 1fr;
-    gap: var(--s-3);
+    gap: var(--s-2);
     min-width: 0;
-    padding: var(--s-12) var(--s-5, 20px) var(--s-5, 20px);
+    padding: var(--s-10, 40px) var(--s-5, 20px) var(--s-4);
     overflow-wrap: anywhere;
   }
   .pcard__title {
-    font-size: var(--t-lg);
+    font-size: var(--t-md);
     font-weight: 700;
     color: var(--blue);
     line-height: 1.2;
   }
+  /* Three lines at most; the rest is in Tell me more */
   .pcard__summary {
     color: var(--grey);
     font-size: var(--t-sm);
-    line-height: 1.5;
+    line-height: 1.45;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
   .pcard__points {
     list-style: none;
-    padding: var(--s-3) 0 0;
+    padding: var(--s-2) 0 0;
     margin: 0;
     display: grid;
-    gap: var(--s-2);
+    gap: var(--s-1);
     border-top: 1px solid var(--line);
     font-size: var(--t-sm);
     color: var(--ink);
@@ -605,18 +610,19 @@ const costLine = (p: ProductRow) =>
   /* Red primary button, understated Tell me more beneath */
   .pcard__actions {
     display: grid;
-    gap: var(--s-2);
+    gap: 0;
     width: 100%;
     align-self: end;
     justify-items: center;
-    margin-top: var(--s-3);
+    margin-top: var(--s-2);
   }
   .pcard__actions :global(.btn) {
     width: 100%;
     min-width: 0;
     height: auto;
     gap: var(--s-2);
-    padding: var(--s-3) var(--s-4);
+    padding: var(--s-2) var(--s-4);
+    min-height: var(--tap);
     white-space: normal;
     text-align: center;
     font-size: var(--t-sm);
@@ -629,7 +635,7 @@ const costLine = (p: ProductRow) =>
     display: inline-flex;
     align-items: center;
     gap: var(--s-2);
-    min-height: var(--tap);
+    min-height: 40px;
     padding: 0 var(--s-3);
     font-weight: 700;
     font-size: var(--t-sm);

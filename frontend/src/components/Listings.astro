@@ -1,11 +1,16 @@
 ---
 /**
- * Property listings grid with the URL-synced filters island. Rendered inside
- * the "Property listing" branch of the CBZ Properties page.
+ * Property listings: the URL-synced filters, a View all properties button and
+ * previous/next arrows, then a row of cards that snaps as you scroll. Each
+ * card has a large photograph with the type and status chips, the title and
+ * a red price pill, the location, up to three specifications (or the summary
+ * when none are supplied), a Propertybook link and a red curve in the corner.
+ * Rendered inside the "Property listing" branch of the CBZ Properties page.
  */
 import { getCollection } from 'astro:content';
 import ResponsiveImage from './ResponsiveImage.astro';
 import Icon from './Icon.astro';
+import type { IconName } from './icons';
 import { PropertyFilters } from '../islands/PropertyFilters';
 import { LINKS } from '../data/links';
 import { visible } from '../lib/visible';
@@ -15,113 +20,303 @@ const listings = (await getCollection('properties')).map((p) => p.data).sort((a,
 const locations = [...new Set(listings.map((l) => l.location))].sort();
 const statusLabel = { 'for-sale': 'For sale', 'to-let': 'To let', sold: 'Sold' } as const;
 const typeLabel = { residential: 'Residential', commercial: 'Commercial', land: 'Land' } as const;
+const typeIcon: Record<keyof typeof typeLabel, IconName> = { residential: 'home', commercial: 'building', land: 'leaf' };
+const specIcon = (label: string): IconName => {
+  const l = label.toLowerCase();
+  if (/bed/.test(l)) return 'home';
+  if (/park|garage|car/.test(l)) return 'car';
+  if (/secur|guard/.test(l)) return 'shield';
+  if (/size|area|m²|sqm|hectare|stand/.test(l)) return 'chart';
+  return 'check';
+};
 ---
 
-<div class="listings-wrap" id="listings">
-  <PropertyFilters client:idle locations={locations} total={listings.length} />
-  <ul role="list" class="listings">
+<div class="listings-wrap" id="listings" data-listings>
+  <div class="listings__bar">
+    <PropertyFilters client:idle locations={locations} total={listings.length} />
+    <div class="listings__nav">
+      <a href={LINKS.propertyListings} class="btn btn--primary listings__all" target="_blank" rel="noopener noreferrer">
+        View all properties <Icon name="arrowRight" size={18} />
+        <span class="sr-only">(opens in a new tab)</span>
+      </a>
+      <button type="button" class="listings__arrow" data-prev aria-label="Previous">
+        <Icon name="arrowRight" size={20} class="listings__flip" />
+      </button>
+      <button type="button" class="listings__arrow" data-next aria-label="Next">
+        <Icon name="arrowRight" size={20} />
+      </button>
+    </div>
+  </div>
+
+  <ul role="list" class="listings" data-row>
     {
-      listings.map((l) => (
-        <li class="lst" data-property data-type={l.type} data-location={l.location} data-status={l.status}>
-          <a href={LINKS.propertyListings} class="lst__link card-base" target="_blank" rel="noopener noreferrer">
-            <ResponsiveImage src={l.images[0].src} alt={l.images[0].alt || l.title} ratio="3:2" />
-            <span class="lst__body">
-              <span class="lst__meta small">
-                {typeLabel[l.type]}, {l.location}, {statusLabel[l.status].toLowerCase()}
+      listings.map((l) => {
+        const specs = l.details.slice(0, 3);
+        return (
+          <li class="lst" data-property data-type={l.type} data-location={l.location} data-status={l.status}>
+            <a href={LINKS.propertyListings} class="lst__link card-base" target="_blank" rel="noopener noreferrer">
+              <span class="lst__media">
+                <ResponsiveImage src={l.images[0].src} alt={l.images[0].alt || l.title} ratio="3:2" />
+                <span class="lst__chip lst__chip--type">
+                  <Icon name={typeIcon[l.type]} size={16} /> {typeLabel[l.type]}
+                </span>
+                <span class="lst__chip lst__chip--status">{statusLabel[l.status]}</span>
               </span>
-              <span class="lst__title">{l.title}</span>
-              <span class="lst__price">{visible(l.price) ? l.price : 'Price on application'}</span>
-              <span class="lst__go small">
-                View on Propertybook <Icon name="external" size={12} />
-                <span class="sr-only">(opens in a new tab)</span>
+              <span class="lst__body">
+                <span class="lst__head">
+                  <span class="lst__title">{l.title}</span>
+                  <span class:list={['lst__price', !visible(l.price) && 'lst__price--poa']}>{visible(l.price) ? l.price : 'Price on application'}</span>
+                </span>
+                <span class="lst__where">
+                  <Icon name="pin" size={16} /> {l.location}
+                </span>
+                {specs.length > 0 ? (
+                  <span class="lst__specs">
+                    {specs.map((d) => (
+                      <span class="lst__spec">
+                        <Icon name={specIcon(d.label)} size={16} /> {d.value}
+                      </span>
+                    ))}
+                  </span>
+                ) : (
+                  <span class="lst__summary">{l.summary}</span>
+                )}
+                <span class="go lst__go">
+                  View on Propertybook <Icon name="external" size={14} />
+                  <span class="sr-only">(opens in a new tab)</span>
+                </span>
               </span>
-            </span>
-          </a>
-        </li>
-      ))
+              <span class="lst__curve" aria-hidden="true" />
+            </a>
+          </li>
+        );
+      })
     }
   </ul>
   {listings.length === 0 && <p class="muted">No listings yet. Ask us about current developments.</p>}
-  <a href={LINKS.propertyListings} class="lst__all" target="_blank" rel="noopener noreferrer">
-    Browse all CBZ Properties listings on Propertybook <Icon name="external" size={14} />
-    <span class="sr-only">(opens in a new tab)</span>
-  </a>
 </div>
+
+<script>
+  // Arrows step one card at a time, skipping cards the filters have hidden.
+  document.querySelectorAll<HTMLElement>('[data-listings]').forEach((wrap) => {
+    const row = wrap.querySelector<HTMLElement>('[data-row]');
+    if (!row) return;
+    const step = () => (row.querySelector<HTMLElement>('.lst:not([hidden])')?.offsetWidth ?? 320) + 24;
+    const smooth = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+    wrap.querySelector('[data-prev]')?.addEventListener('click', () => row.scrollBy({ left: -step(), behavior: smooth }));
+    wrap.querySelector('[data-next]')?.addEventListener('click', () => row.scrollBy({ left: step(), behavior: smooth }));
+  });
+</script>
 
 <style>
   .listings-wrap {
     display: grid;
     gap: var(--s-6);
   }
-  .listings {
+  .listings__bar {
     display: grid;
-    gap: var(--gap);
+    gap: var(--s-4);
+    align-items: end;
+  }
+  @media (min-width: 1200px) {
+    .listings__bar {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+  }
+  .listings__nav {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+  }
+  .listings__all {
+    gap: var(--s-2);
+    margin-right: var(--s-2);
+  }
+  .listings__arrow {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: var(--tap);
+    height: var(--tap);
+    border-radius: 50%;
+    color: var(--blue);
+    border: 1px solid var(--line);
+    background: var(--white);
+    transition: background-color var(--dur) var(--ease);
   }
   @media (min-width: 640px) {
-    .listings {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+    .listings__arrow {
+      display: inline-flex;
+    }
+  }
+  .listings__arrow:hover {
+    background: var(--blue-50);
+  }
+  .listings__arrow :global(.listings__flip) {
+    transform: scaleX(-1);
+  }
+
+  /* One row that snaps as you scroll: one card on phones, two on tablets, three on laptops */
+  .listings {
+    display: flex;
+    gap: var(--s-6);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+    margin-inline: calc(-1 * var(--gutter));
+    padding-inline: var(--gutter);
+    padding-bottom: var(--s-3);
+  }
+  .listings::-webkit-scrollbar {
+    display: none;
+  }
+  .lst {
+    flex: 0 0 min(86vw, 360px);
+    scroll-snap-align: start;
+  }
+  @media (min-width: 640px) {
+    .lst {
+      flex-basis: calc((100% - var(--s-6)) / 2);
     }
   }
   @media (min-width: 900px) {
-    .listings {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+    .lst {
+      flex-basis: calc((100% - 2 * var(--s-6)) / 3);
     }
   }
   .lst[hidden] {
     display: none;
   }
   .lst__link {
+    position: relative;
     display: grid;
-    gap: var(--s-3);
+    grid-template-rows: auto 1fr;
+    height: 100%;
     text-decoration: none;
     color: var(--ink);
+    border-radius: var(--r-lg);
     overflow: hidden;
-    height: 100%;
+    isolation: isolate;
   }
   .lst__link:hover {
     color: var(--ink);
   }
+  .lst__media {
+    position: relative;
+    display: block;
+  }
   .lst__link :global(.frame) {
     border-radius: 0;
   }
+  .lst__chip {
+    position: absolute;
+    top: var(--s-4);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    min-height: 32px;
+    padding: 0 var(--s-3);
+    border-radius: var(--r-pill);
+    background: rgba(255, 255, 255, 0.94);
+    color: var(--blue);
+    font-size: var(--t-xs);
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(0, 23, 54, 0.12);
+  }
+  .lst__chip--type {
+    left: var(--s-4);
+  }
+  .lst__chip--status {
+    right: var(--s-4);
+  }
   .lst__body {
     display: grid;
-    gap: var(--s-1);
-    padding: 0 var(--s-5, 20px) var(--s-5, 20px);
+    gap: var(--s-3);
+    align-content: start;
+    padding: var(--s-5, 20px) var(--s-5, 20px) var(--s-6);
   }
-  .lst__meta {
-    color: var(--grey);
+  .lst__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--s-3);
   }
   .lst__title {
     font-weight: 700;
     color: var(--blue);
     font-size: var(--t-md);
+    line-height: 1.25;
   }
+  /* The price in a red pill; "Price on application" in a softer one */
   .lst__price {
-    font-weight: 700;
-    color: var(--blue-700);
-    font-size: var(--t-sm);
-  }
-  .lst__go {
+    flex-shrink: 0;
     display: inline-flex;
     align-items: center;
-    gap: var(--s-1);
-    margin-top: var(--s-2);
+    min-height: 32px;
+    padding: 0 var(--s-3);
+    border-radius: var(--r-pill);
+    background: var(--red);
+    color: var(--white);
     font-weight: 700;
-    color: var(--red-700);
+    font-size: var(--t-sm);
+    white-space: nowrap;
   }
-  .lst__all {
-    justify-self: start;
+  .lst__price--poa {
+    background: var(--red-50);
+    color: var(--red-700);
+    font-size: var(--t-xs);
+  }
+  .lst__where {
     display: inline-flex;
     align-items: center;
     gap: var(--s-2);
-    font-weight: 700;
-    color: var(--red-700);
-    text-decoration: none;
-    min-height: var(--tap);
+    color: var(--grey);
+    font-size: var(--t-sm);
   }
-  .lst__all:hover {
-    text-decoration: underline;
-    color: var(--red-700);
+  .lst__where :global(svg) {
+    color: var(--blue);
+  }
+  .lst__specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2) var(--s-4);
+    padding-top: var(--s-3);
+    border-top: 1px solid var(--line);
+    font-size: var(--t-sm);
+    color: var(--ink);
+  }
+  .lst__spec {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+  }
+  .lst__spec :global(svg) {
+    color: var(--blue);
+  }
+  .lst__summary {
+    padding-top: var(--s-3);
+    border-top: 1px solid var(--line);
+    font-size: var(--t-sm);
+    color: var(--grey);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .lst__go {
+    margin-top: var(--s-1);
+  }
+  /* A red curve tucked into the bottom-right corner */
+  .lst__curve {
+    position: absolute;
+    right: -36px;
+    bottom: -36px;
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background: var(--red);
+    z-index: -1;
+    pointer-events: none;
   }
 </style>

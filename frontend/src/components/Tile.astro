@@ -56,21 +56,19 @@ const external = isExternal(href);
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: var(--s-4);
-    padding: var(--s-5, 20px);
-    min-height: 120px;
+    gap: var(--s-3);
+    padding: var(--s-6);
     color: var(--ink);
     text-decoration: none;
+    border-radius: var(--r-lg);
   }
   .tile:hover {
     color: var(--ink);
   }
   .tile--lead {
-    min-height: 180px;
-    padding: var(--s-6);
+    padding: var(--s-8);
   }
   .tile--small {
-    min-height: 112px;
     padding: var(--s-5, 20px) var(--s-6);
   }
   .tile__body {
@@ -83,12 +81,12 @@ const external = isExternal(href);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 52px;
-    height: 52px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     background: var(--red-50);
     color: var(--red);
-    margin-bottom: var(--s-1);
+    margin-bottom: var(--s-2);
   }
   .tile--lead .tile__icon {
     width: 64px;
@@ -96,9 +94,10 @@ const external = isExternal(href);
   }
   .tile__title {
     font-weight: 700;
-    font-size: var(--t-lg);
+    font-size: var(--t-md);
     color: var(--blue);
     line-height: 1.25;
+    letter-spacing: -0.01em;
   }
   .tile--lead .tile__title {
     font-size: var(--t-xl);
@@ -106,9 +105,11 @@ const external = isExternal(href);
   .tile__line {
     color: var(--grey);
     font-size: var(--t-sm);
-    max-width: 40ch;
+    line-height: 1.5;
+    max-width: 36ch;
   }
   .tile__go {
     margin-top: auto;
+    padding-top: var(--s-2);
   }
 </style>

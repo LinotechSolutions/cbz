@@ -105,25 +105,48 @@ Shows the unit's primary action (e.g. Open an account → `/bank/open-account`).
 
 ## 2. Home `/`
 
-### 2.1 Hero
+Five sections, top to bottom: hero, task cards, journey carousel, digital
+banking, learn more rail. Nothing else is on the page apart from the global
+header, footer and chat launcher.
 
-- Heading: "Bank, Invest, Insure and Grow with CBZ Holdings."
-- **Explore our products** (red dropdown): the six Open an account items listed under Header above.
+### 2.1 Hero (white split banner)
 
-### 2.2 Explore Our Solutions `#help`
+| Element | What it is | Goes to |
+| --- | --- | --- |
+| Heading | "Bank, Invest, Insure and Grow with **CBZ Holdings.**" (group name in red) | text only |
+| Lede | "From everyday banking and protecting what matters to building wealth and growing your business, CBZ Holdings brings together the financial solutions, expertise and support you need to achieve more." | text only |
+| **Explore our products** (red button) | opens a dropdown of six choices | see below |
+| ▸ Sign up for CBZ Bank | Current, savings and foreign currency accounts | `/bank/open-account` |
+| ▸ Apply with Red Sphere | Salary and business loans, through the app | ↗ Red Sphere on Google Play |
+| ▸ Sign up for Agro-Yield | Contract farming and seasonal finance | `/agro-yield/apply` |
+| ▸ Start investing with Datvest | Unit trusts and managed portfolios | `/datvest/start-investing` |
+| ▸ Get a quote from CBZ Insurance | Motor, home and business cover | `/insurance/quote` |
+| ▸ Get a quote from CBZ Life | Funeral and education plans | `/cbz-life/quote` |
+| Photograph | family under the red and navy arc | not a link |
 
-| Control | Goes to |
-| --- | --- |
-| View all solutions | `/journeys` |
-| Bank card ▸ Explore Banking | `/clusters/banking` |
-| Borrow card ▸ Explore Loans | `/red-sphere` |
-| Insure card ▸ Explore Insurance | `/clusters/insurance` |
-| Invest card ▸ Explore Investments | `/clusters/investments` |
-| Agrobusiness card ▸ Explore Agrobusiness | `/clusters/agro-business` |
+### 2.2 Task cards `#help` (on-screen title "Explore Our Solutions")
 
-### 2.3 Whatever your next step `#journeys` (life-stage carousel)
+Five white cards, each one whole card is the link. Each has a red outline
+icon, a bold name, one line and a red Explore link.
 
-Arrows scroll one card; dots show position. Each card's **Let's go**:
+| Card | Line on the card | Goes to |
+| --- | --- | --- |
+| **Bank** ▸ Explore Banking | Everyday banking, accounts, cards and savings. | `/clusters/banking` (Banking cluster page) |
+| **Borrow** ▸ Explore Loans | Salary, business and cash loans from Red Sphere. | `/red-sphere` (Red Sphere page) |
+| **Insure** ▸ Explore Insurance | Short-term insurance solutions for your assets and business. | `/clusters/insurance` (Insurance cluster page) |
+| **Invest** ▸ Explore Investments | Wealth creation, unit trusts and corporate finance solutions. | `/clusters/investments` (Investment cluster page) |
+| **Agrobusiness** ▸ Explore Agrobusiness | Finance, inputs, offtake and sector solutions for the agricultural value chain. | `/clusters/agro-business` (Agro-Business cluster page) |
+| View all solutions (top right) | | `/journeys` |
+
+From a cluster page the visitor picks a company card to reach the unit page
+(section 3).
+
+### 2.3 Journey carousel `#journeys` (on-screen title "Whatever your next step, we're here to help you move forward.")
+
+Slanted photo cards. Arrows (‹ ›) scroll one card at a time; the dots and
+the "1 of 9" counter follow the scroll. Each card shows a tag, a red icon
+disc, a question, a promise and a white **Let's go** pill; the whole card is
+the link.
 
 | Card | Goes to |
 | --- | --- |
@@ -138,18 +161,26 @@ Arrows scroll one card; dots show position. Each card's **Let's go**:
 | Diaspora: Living abroad? | `/diaspora` |
 | Explore all solutions | `/journeys` |
 
-### 2.4 Bank wherever you are `#digital`
+### 2.4 Digital banking `#digital` (on-screen title "Bank wherever you are, whenever you need to")
 
-| Card | Buttons |
-| --- | --- |
-| CBZ Touch | App Store ↗ `apps.apple.com/zw/app/cbz-touch/id1099147682`; Google Play ↗ `play.google.com/…zw.co.cbz.touch` |
-| ZikiCash | App Store ↗ `apps.apple.com/app/zikicash/id6444567196`; Google Play ↗ `play.google.com/…com.kuva.zikicash` |
-| Internet banking | Log in → `/login`; Learn more → `/bank#cards-and-digital` |
+Three white cards.
 
-### 2.5 Learn more `#learn`
+| Card | Copy | Buttons |
+| --- | --- | --- |
+| CBZ Touch (logo) | Zero-rated mobile banking: transfers, bills, school fees, cardless withdrawals and card controls. | App Store ↗ `apps.apple.com/zw/app/cbz-touch/id1099147682`; Google Play ↗ `play.google.com/store/apps/details?id=zw.co.cbz.touch` |
+| ZikiCash (logo) | Send money home from the United Kingdom to Zimbabwe. | App Store ↗ `apps.apple.com/app/zikicash/id6444567196`; Google Play ↗ `play.google.com/store/apps/details?id=com.kuva.zikicash` |
+| Internet banking (globe icon) | Balances, statements, transfers and payments on the personal and corporate platforms. | **Log in** → `/login`; **Learn more** → `/bank#cards-and-digital` |
 
-Article cards (Read) → `/notices/<slug>` for each notice except security
-notices. See all → `/notices`. Arrows scroll the rail.
+### 2.5 Learn more rail `#learn` (on-screen title "Learn more")
+
+Article cards with a photograph, title, summary, category and date. The
+whole card (and its **Read** link) → `/notices/<slug>`. Security notices are
+left out of this rail. **See all** → `/notices`. Arrows scroll the rail.
+
+Current notices: `agm-notice-2026`, `cautionary-statement`,
+`digital-card-upgrade`, `fy2025-results`, `monetary-policy-circular`,
+`saturday-banking` (and `security-and-online-safety`, which appears only on
+`/notices`).
 
 ---
 
@@ -157,8 +188,8 @@ notices. See all → `/notices`. Arrows scroll the rail.
 
 `/clusters/banking`, `/clusters/insurance`, `/clusters/investments`, `/clusters/agro-business`
 
-- Navy hero with breadcrumb Home › cluster.
-- One card per company in the cluster. **Visit <company>** → the unit page
+- Navy hero: breadcrumb Home (→ `/`) › cluster name; cluster title and summary. No buttons.
+- One card per company in the cluster, with the company logo, name, summary and any held entities. **Visit <company>** → the unit page
   (`/bank`, `/red-sphere`, `/insurance`, `/cbz-life`, `/risk-advisory`,
   `/datvest`, `/capital`, `/properties`, `/agro-yield`). CBZ Custodial
   Services shows "Page coming soon" and is not a link. Held entities (CBZ
@@ -170,15 +201,16 @@ notices. See all → `/notices`. Arrows scroll the rail.
 
 All nine unit pages share one template, in this order:
 
-1. **Hero** (white split): breadcrumb Home › cluster › unit; unit eyebrow; title; lede; **primary** and **secondary** buttons (per unit below).
-2. **Who we serve** card: one chip per audience; each chip scrolls to an anchor (per unit below).
-3. **Sections**, one per branch of the site map, in the order below. Section types:
-   - **Product carousel**: pill filters (All + categories) show and hide cards; arrows scroll. Each card has the unit's apply button (per unit below) and **Tell me more**, which opens a dialog with four tabs: What you get, Who it's for, What it costs, How to get it. The How to get it tab repeats the apply button. A URL such as `/bank#product-bank-current` opens that card's dialog.
-   - **Link cards**: Get started → a form or page; Visit → an off-site link.
-   - **Feature cards** (single-action sections): Get started → the form.
-   - **Calculator**: figures update as you type; **Calculate** scrolls to the result; the result card's button goes to the apply form (per calculator below).
-   - **FAQ**: Call Us `tel:+2638677004050`; Email Us `mailto:contactcentre@cbz.co.zw`; Locate branch → `/contact#branches`; questions open and close; **Start a chat** ↗ WhatsApp; "contact us" → the unit's call-back form.
-4. **Sticky bar** (phones): the primary button.
+1. **Hero** (white split banner). Breadcrumb: Home → `/`, cluster name → the cluster page (Banking `/clusters/banking`, Insurance `/clusters/insurance`, Investments `/clusters/investments`, Agro-Business `/clusters/agro-business`), then the unit name as text. Red-dash eyebrow with the unit name (text). Title and lede (text). **Primary** button (red) and **secondary** button (navy outline), per unit below. The header also shows the unit's logo beside CBZ Holdings; it links to the unit page.
+2. **Who we serve** card (white, overlapping the hero): the label "Who we serve", a short title such as "Banking for everyone.", then one row per audience with an icon chip, a name, one line and a chevron. Each row scrolls to an anchor or opens a page (per unit below). Units without audiences (Red Sphere, Agro-Yield) have no card.
+3. **Sections**, one per branch of the site map, in the order given per unit. Each has a heading under a short red rule and an optional line. Section types:
+   - **Product carousel**: pill filters (**All** plus one per category, navy when selected) show and hide cards and return the row to the start; ‹ › arrows scroll. Each product card shows a photograph (or the unit icon), a floating icon badge, the product name, a short summary, up to two benefits with check marks, the unit's **apply button** (per unit below) and a **Tell me more** link. Tell me more opens a dialog with the product name, a close button and four tabs: **What you get** (benefits), **Who it's for** (audience), **What it costs** (pricing line and any rate, term, fee or limit facts), **How to get it** (requirements and the apply button again). Escape, the close button or a click outside closes it. A URL such as `/bank#product-bank-current` opens that card's dialog on arrival.
+   - **Link cards**: icon chip, label, line, then **Get started** → a form or page, or **Visit** ↗ an off-site link. A card with a photograph has a red curved separator and a red Get started button. Note cards (information only) have a dashed border and no link.
+   - **Feature cards** (sections with one action, e.g. Take cover): photograph with the red and navy curves and an icon disc, the title, line, a red **Get started** button and up to three benefit points (text). Two to a row when sections follow each other.
+   - **Calculator**: red icon and title; a white form (amount, deposit where relevant, a term dropdown and a rate field; Red Sphere also has a product selector that fills the rate); a red **Calculate** button that scrolls to the navy result card; the result card shows the monthly figure, totals, a note and the unit's apply button (per calculator in section 7).
+   - **Store badges**: App Store ↗ and Google Play ↗ for the app named.
+   - **FAQ** (on-screen title "Frequently Asked Questions"). Left column "Need help? We're here for you.": **Call Us** `tel:+2638677004050` with the toll-free line as text; **Email Us** `mailto:contactcentre@cbz.co.zw`; **Visit Us** ▸ Locate branch → `/contact#branches`; the unit photograph in a circle. Right column: five questions that open and close (first open by default); then the navy "Still have questions?" band with **Start a chat** ↗ WhatsApp and a "contact us" link → the unit's call-back form (per unit below).
+4. **Sticky bar** (phones only): the primary button.
 
 ### 4.1 CBZ Bank `/bank`
 

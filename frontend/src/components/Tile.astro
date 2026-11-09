@@ -57,8 +57,8 @@ const external = isExternal(href);
     display: flex;
     flex-direction: column;
     gap: var(--s-4);
-    padding: var(--s-6);
-    min-height: 160px;
+    padding: var(--s-5, 20px);
+    min-height: 120px;
     color: var(--ink);
     text-decoration: none;
   }
@@ -66,8 +66,8 @@ const external = isExternal(href);
     color: var(--ink);
   }
   .tile--lead {
-    min-height: 240px;
-    padding: var(--s-8);
+    min-height: 180px;
+    padding: var(--s-6);
   }
   .tile--small {
     min-height: 112px;
@@ -83,16 +83,16 @@ const external = isExternal(href);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 64px;
-    height: 64px;
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
     background: var(--red-50);
     color: var(--red);
-    margin-bottom: var(--s-2);
+    margin-bottom: var(--s-1);
   }
   .tile--lead .tile__icon {
-    width: 80px;
-    height: 80px;
+    width: 64px;
+    height: 64px;
   }
   .tile__title {
     font-weight: 700;

@@ -56,7 +56,7 @@ const specIcon = (label: string): IconName => {
           <li class="lst" data-property data-type={l.type} data-location={l.location} data-status={l.status}>
             <a href={LINKS.propertyListings} class="lst__link card-base" target="_blank" rel="noopener noreferrer">
               <span class="lst__media">
-                <ResponsiveImage src={l.images[0].src} alt={l.images[0].alt || l.title} ratio="3:2" />
+                <ResponsiveImage src={l.images[0].src} alt={l.images[0].alt || l.title} ratio="16:9" />
                 <span class="lst__chip lst__chip--type">
                   <Icon name={typeIcon[l.type]} size={16} /> {typeLabel[l.type]}
                 </span>
@@ -232,9 +232,9 @@ const specIcon = (label: string): IconName => {
   }
   .lst__body {
     display: grid;
-    gap: var(--s-3);
+    gap: var(--s-2);
     align-content: start;
-    padding: var(--s-5, 20px) var(--s-5, 20px) var(--s-6);
+    padding: var(--s-4) var(--s-5, 20px) var(--s-5, 20px);
   }
   .lst__head {
     display: flex;

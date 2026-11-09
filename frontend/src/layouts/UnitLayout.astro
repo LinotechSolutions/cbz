@@ -25,7 +25,7 @@ import { LINKS, isExternal } from '../data/links';
 import { CONTACT } from '../data/facts';
 import { visible } from '../lib/visible';
 import type { DarkSafeLogoKey } from '../data/logos';
-import type { IconName } from '../components/icons';
+import { ICONS, type IconName } from '../components/icons';
 
 interface Props {
   unit: CollectionEntry<'units'>['data'];
@@ -132,6 +132,7 @@ const serveTitle = SERVE_TITLE[unit.slug] ?? `${unit.shortName} for everyone.`;
 /* Link cards: a red icon picked from the label. */
 const itemIcon = (label: string): IconName => {
   const l = label.toLowerCase();
+  if (/agent|talk to|consultant|speak to|call me|call back/.test(l)) return 'headset';
   if (/cancel/.test(l)) return 'close';
   if (/status|check|verify|track/.test(l)) return 'check';
   if (/enquir|question|help|support/.test(l)) return 'info';
@@ -159,6 +160,9 @@ function featureOf(b: Branch) {
   const ext = it.kind === 'external' || isExternal(it.href!);
   return { label: it.label, href: it.href, ext, go: ext ? 'Visit' : 'Get started', icon: itemIcon(`${b.title} ${it.label}`) };
 }
+/* Feature panels alternate the photograph right, then left, down the page. */
+const featureSide = new Map(branches.filter((b) => featureOf(b)).map((b, i) => [b.id, i % 2 === 0 ? 'right' : 'left'] as const));
+const pointIcon = (name?: string): IconName => (name && name in ICONS ? (name as IconName) : 'check');
 
 /* Product cards without a photograph show the unit's icon instead. */
 const PRODUCT_ICON: Record<string, IconName> = {
@@ -226,7 +230,7 @@ const jsonLd = [
         <Section id={b.id} heading={b.title} lede={b.line ?? undefined} hideHeading={selfHeaded} class="branch" data-branch={b.id}>
           <div class="branch__body">
             {feature && (
-              <div class="feature">
+              <div class:list={['feature', `feature--${featureSide.get(b.id) ?? 'right'}`]}>
                 <div class="feature__copy">
                   <p class="feature__title h-rule" aria-hidden="true">{b.title}</p>
                   {visible(b.line) && <p class="feature__lede">{b.line}</p>}
@@ -241,10 +245,25 @@ const jsonLd = [
                     {feature.go} <Icon name={feature.ext ? 'external' : 'arrowRight'} size={18} />
                     {feature.ext && <span class="sr-only"> (opens in a new tab)</span>}
                   </a>
+                  {b.points && b.points.length > 0 && (
+                    <ul role="list" class="feature__points">
+                      {b.points.map((pt) => (
+                        <li class="feature__point">
+                          <Icon name={pointIcon(pt.icon)} size={22} />
+                          <span>{pt.label}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
-                <span class="feature__art" aria-hidden="true">
-                  <Icon name={feature.icon} size={72} />
-                </span>
+                <div class="feature__media" aria-hidden="true">
+                  <img src={(b.image ?? unit.hero.image).src} alt="" width={900} height={600} loading="lazy" decoding="async" />
+                  <span class="feature__swoosh feature__swoosh--navy" />
+                  <span class="feature__swoosh feature__swoosh--red" />
+                  <span class="feature__disc">
+                    <Icon name={feature.icon} size={34} />
+                  </span>
+                </div>
               </div>
             )}
             {!feature && b.runs.map((run, ri) =>
@@ -468,25 +487,24 @@ const jsonLd = [
     }
   }
 
-  /* Feature panel: one link in its own tinted band with a big icon */
+  /* Feature panel: one link in a rounded, image-led panel. Copy on one side,
+     the photograph fading in from the other under red and navy curves, with
+     a white disc carrying the icon. Consecutive panels swap sides. */
   .feature {
+    position: relative;
     display: grid;
-    gap: var(--s-6);
-    padding: var(--s-8) var(--s-6);
+    overflow: hidden;
     border-radius: var(--r-lg);
-    background: var(--blue-50);
-  }
-  @media (min-width: 900px) {
-    .feature {
-      grid-template-columns: minmax(0, 1fr) auto;
-      align-items: center;
-      padding: var(--s-10, 40px) var(--s-10, 40px);
-    }
+    background: linear-gradient(135deg, var(--blue-50), var(--white) 70%);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-card);
   }
   .feature__copy {
     display: grid;
     gap: var(--s-4);
     justify-items: start;
+    align-content: center;
+    padding: var(--s-8) var(--s-6);
   }
   .feature__title {
     font-size: var(--t-2xl);
@@ -496,26 +514,158 @@ const jsonLd = [
   }
   .feature__lede {
     color: var(--grey);
-    max-width: 44ch;
+    max-width: 40ch;
   }
   .feature__btn {
     gap: var(--s-2);
+  }
+  .feature__points {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3) 0;
     margin-top: var(--s-2);
   }
-  .feature__art {
-    display: none;
+  .feature__point {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+    padding-right: var(--s-4);
+    margin-right: var(--s-4);
+    border-right: 1px solid var(--line);
+    color: var(--blue);
+    font-size: var(--t-xs);
+    line-height: 1.2;
+  }
+  .feature__point:last-child {
+    border-right: 0;
+    margin-right: 0;
+    padding-right: 0;
+  }
+  .feature__point span {
+    max-width: 8em;
+    color: var(--ink);
+  }
+  .feature__point :global(svg) {
+    flex-shrink: 0;
+  }
+  .feature__media {
+    position: relative;
+    min-height: 220px;
+    overflow: hidden;
+  }
+  .feature__media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  /* Red and navy curves rising from the outer bottom corner */
+  .feature__swoosh {
+    position: absolute;
+    width: 440px;
+    height: 440px;
+    border-radius: 50%;
+  }
+  .feature__swoosh--navy {
+    background: var(--blue);
+    bottom: -280px;
+  }
+  .feature__swoosh--red {
+    background: var(--red);
+    bottom: -300px;
+  }
+  .feature__disc {
+    position: absolute;
+    top: var(--s-6);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.94);
+    color: var(--red);
+    box-shadow: var(--shadow-float);
+  }
+  /* Photo on the right: curves at the bottom-right, disc top-right */
+  .feature--right .feature__swoosh--navy {
+    right: -200px;
+  }
+  .feature--right .feature__swoosh--red {
+    right: -180px;
+  }
+  .feature--right .feature__disc {
+    right: var(--s-6);
+  }
+  /* Photo on the left: mirrored */
+  .feature--left .feature__swoosh--navy {
+    left: -200px;
+  }
+  .feature--left .feature__swoosh--red {
+    left: -180px;
+  }
+  .feature--left .feature__disc {
+    left: var(--s-6);
   }
   @media (min-width: 900px) {
-    .feature__art {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      background: var(--white);
-      color: var(--red);
-      box-shadow: var(--shadow-card);
+    .feature {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      min-height: 340px;
+    }
+    .feature__copy {
+      padding: var(--s-10, 40px) var(--s-10, 40px);
+    }
+    .feature__media {
+      min-height: 100%;
+    }
+    /* The photograph fades into the panel on its inner edge */
+    .feature--right .feature__media img {
+      mask-image: linear-gradient(to right, transparent, #000 30%);
+      -webkit-mask-image: linear-gradient(to right, transparent, #000 30%);
+    }
+    .feature--left .feature__media {
+      order: -1;
+    }
+    .feature--left .feature__media img {
+      mask-image: linear-gradient(to left, transparent, #000 30%);
+      -webkit-mask-image: linear-gradient(to left, transparent, #000 30%);
+    }
+  }
+  @media (max-width: 899px) {
+    .feature__media {
+      order: -1;
+      min-height: 200px;
+    }
+    .feature__swoosh {
+      width: 300px;
+      height: 300px;
+    }
+    .feature__swoosh--navy {
+      bottom: -205px;
+    }
+    .feature__swoosh--red {
+      bottom: -220px;
+    }
+    .feature--right .feature__swoosh--navy,
+    .feature--left .feature__swoosh--navy {
+      inset-inline: auto;
+    }
+    .feature--right .feature__swoosh--navy {
+      right: -160px;
+    }
+    .feature--right .feature__swoosh--red {
+      right: -145px;
+    }
+    .feature--left .feature__swoosh--navy {
+      left: -160px;
+    }
+    .feature--left .feature__swoosh--red {
+      left: -145px;
+    }
+    .feature__media img {
+      mask-image: linear-gradient(to top, transparent, #000 35%);
+      -webkit-mask-image: linear-gradient(to top, transparent, #000 35%);
     }
   }
   /* A note is the same card without a link */

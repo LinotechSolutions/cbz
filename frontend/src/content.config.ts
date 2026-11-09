@@ -62,6 +62,9 @@ const branch = z.object({
   id: z.string().min(1),
   title: z.string().min(1),
   line: nullableString.default(null),
+  /** A branch with a single link renders as a feature panel; these dress it. */
+  image: imageRef.optional(),
+  points: z.array(z.object({ label: z.string().min(1), icon: z.string().optional() })).max(3).optional(),
   items: z.array(branchItem).min(1),
 });
 

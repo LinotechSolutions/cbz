@@ -29,24 +29,48 @@
     },
     {
       "id": "take-cover",
+      "image": { "src": "/images/insurance-family.webp", "alt": "" },
+      "points": [
+        { "label": "Trusted protection", "icon": "shield" },
+        { "label": "Dedicated support", "icon": "headset" },
+        { "label": "Simple process", "icon": "bolt" }
+      ],
       "title": "Take cover",
       "line": "Start a policy. A consultant completes the onboarding with you.",
       "items": [{ "label": "Policy onboarding", "line": "Comfortsure or Sarapavana, in a few steps", "kind": "form", "href": "/cbz-life/take-cover" }]
     },
     {
       "id": "submit-claim",
+      "image": { "src": "/images/cbz-protection.webp", "alt": "" },
+      "points": [
+        { "label": "Guided process", "icon": "document" },
+        { "label": "Expert support", "icon": "handshake" },
+        { "label": "Track your claim", "icon": "check" }
+      ],
       "title": "Submit a claim",
       "line": "Register a claim on a policy and a claims consultant guides you through the rest.",
       "items": [{ "label": "Claim submission", "line": "Policy number, date of the event and your details", "kind": "form", "href": "/cbz-life/claim" }]
     },
     {
       "id": "pay-online",
+      "image": { "src": "/images/cbz-payments.webp", "alt": "" },
+      "points": [
+        { "label": "Secure payments", "icon": "shield" },
+        { "label": "Instant confirmation", "icon": "bolt" },
+        { "label": "Any device", "icon": "laptop" }
+      ],
       "title": "Pay online",
       "line": "Pay a premium and manage your policy.",
       "items": [{ "label": "Policy administration", "line": "CBZ Touch, internet banking or USSD, and changes to your policy", "kind": "page", "href": "/cbz-life/pay" }]
     },
     {
       "id": "talk-to-an-agent",
+      "image": { "src": "/images/cbz-banking.webp", "alt": "" },
+      "points": [
+        { "label": "We call you back", "icon": "phone" },
+        { "label": "CBZ Life consultant", "icon": "headset" },
+        { "label": "Your questions answered", "icon": "chat" }
+      ],
       "title": "Talk to an agent",
       "line": "A CBZ Life consultant calls you back.",
       "items": [{ "label": "Agent enquiry", "line": "Leave your number and what it is about", "kind": "form", "href": "/cbz-life/talk-to-an-agent" }]

@@ -27,12 +27,24 @@
     },
     {
       "id": "request-insurance-audit",
+      "image": { "src": "/images/hero-advice.webp", "alt": "" },
+      "points": [
+        { "label": "Gaps and overlaps", "icon": "document" },
+        { "label": "Cost review", "icon": "chart" },
+        { "label": "Broker-led", "icon": "handshake" }
+      ],
       "title": "Request an insurance audit",
       "line": "A broker reviews every policy your organisation holds for gaps, overlaps and cost.",
       "items": [{ "label": "Audit request form", "line": "Your organisation and the policies you hold today", "kind": "form", "href": "/risk-advisory/insurance-audit" }]
     },
     {
       "id": "get-a-quote",
+      "image": { "src": "/images/cbz-protection.webp", "alt": "" },
+      "points": [
+        { "label": "Licensed underwriters", "icon": "shield" },
+        { "label": "Placed for you", "icon": "handshake" },
+        { "label": "Cover compared", "icon": "chart" }
+      ],
       "title": "Get a quote",
       "line": "Cover placed across licensed underwriters on your behalf.",
       "items": [{ "label": "Quotation request form", "line": "What needs cover, and for whom", "kind": "form", "href": "/risk-advisory/quote" }]

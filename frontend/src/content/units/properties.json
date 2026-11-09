@@ -65,6 +65,12 @@
     },
     {
       "id": "schedule-viewing",
+      "image": { "src": "/images/loan-home.webp", "alt": "" },
+      "points": [
+        { "label": "Choose a time", "icon": "calendar" },
+        { "label": "An agent confirms", "icon": "phone" },
+        { "label": "Any listed property", "icon": "home" }
+      ],
       "title": "Schedule a viewing",
       "line": "Name the property and when suits you; an agent confirms a time.",
       "items": [

@@ -76,6 +76,12 @@
     },
     {
       "id": "submit-claim",
+      "image": { "src": "/images/cbz-banking.webp", "alt": "" },
+      "points": [
+        { "label": "Guided process", "icon": "document" },
+        { "label": "Assessor support", "icon": "handshake" },
+        { "label": "Track your claim", "icon": "check" }
+      ],
       "title": "Submit a claim",
       "line": "Tell us what happened and a claims assessor contacts you about the next steps.",
       "items": [

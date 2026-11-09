@@ -96,7 +96,7 @@ test('old routes redirect', async ({ page }) => {
 
 test('every business page is built from its site map branches', async ({ page }) => {
   const expected: Record<string, string[]> = {
-    'cbz-life': ['get-a-quote', 'take-cover', 'submit-claim', 'pay-online', 'talk-to-an-agent'],
+    'cbz-life': ['get-a-quote', 'take-cover', 'submit-claim', 'pay-online', 'talk-to-an-agent', 'faq'],
     insurance: ['request-quote', 'insure-now', 'submit-claim', 'policy-changes', 'faq'],
     'risk-advisory': ['key-products', 'request-insurance-audit', 'get-a-quote'],
     properties: ['property-listing', 'virtual-tours', 'schedule-viewing', 'faq'],

@@ -99,6 +99,7 @@ const FAQ_PHOTO: Record<string, { src: string; alt: string }> = {
   properties: { src: '/images/loan-home.webp', alt: '' },
   datvest: { src: '/images/cbz-wealth.webp', alt: '' },
   capital: { src: '/images/accounts/partnership.webp', alt: '' },
+  'cbz-life': { src: '/images/insurance-family.webp', alt: '' },
 };
 
 const appLinks = {
@@ -160,8 +161,16 @@ function featureOf(b: Branch) {
   const ext = it.kind === 'external' || isExternal(it.href!);
   return { label: it.label, href: it.href, ext, go: ext ? 'Visit' : 'Get started', icon: itemIcon(`${b.title} ${it.label}`) };
 }
-/* Feature panels alternate the photograph right, then left, down the page. */
-const featureSide = new Map(branches.filter((b) => featureOf(b)).map((b, i) => [b.id, i % 2 === 0 ? 'right' : 'left'] as const));
+/* Consecutive feature branches share one band, two to a row. */
+type Group = { kind: 'features'; branches: Branch[] } | { kind: 'branch'; branch: Branch };
+const groups: Group[] = [];
+for (const b of branches) {
+  const last = groups[groups.length - 1];
+  if (featureOf(b)) {
+    if (last && last.kind === 'features') last.branches.push(b);
+    else groups.push({ kind: 'features', branches: [b] });
+  } else groups.push({ kind: 'branch', branch: b });
+}
 const pointIcon = (name?: string): IconName => (name && name in ICONS ? (name as IconName) : 'check');
 
 /* Product cards without a photograph show the unit's icon instead. */
@@ -223,50 +232,63 @@ const jsonLd = [
 
   <div class="branches" data-unit={unit.slug}>
     {
-      branches.map((b) => {
-        const feature = featureOf(b);
-        const selfHeaded = feature !== null || b.items.every((i) => i.kind === 'faq' || i.kind === 'calculator');
+      groups.map((g) => {
+        if (g.kind === 'features') {
+          return (
+            <section class="band features" aria-label="Get started">
+              <div class="container">
+                <div class="features__grid" style={`--n:${Math.min(g.branches.length, 2)}`}>
+                  {g.branches.map((b) => {
+                    const feature = featureOf(b)!;
+                    return (
+                      <section id={b.id} class="feature" data-branch={b.id} aria-labelledby={`${b.id}-heading`}>
+                        <div class="feature__media" aria-hidden="true">
+                          <img src={(b.image ?? unit.hero.image).src} alt="" width={900} height={500} loading="lazy" decoding="async" />
+                          <span class="feature__swoosh feature__swoosh--navy" />
+                          <span class="feature__swoosh feature__swoosh--red" />
+                          <span class="feature__disc">
+                            <Icon name={feature.icon} size={30} />
+                          </span>
+                        </div>
+                        <div class="feature__copy">
+                          <h2 id={`${b.id}-heading`} class="feature__title h-rule">{b.title}</h2>
+                          {visible(b.line) && <p class="feature__lede">{b.line}</p>}
+                          <a
+                            href={feature.href!}
+                            class="btn btn--primary feature__btn"
+                            target={feature.ext ? '_blank' : undefined}
+                            rel={feature.ext ? 'noopener noreferrer' : undefined}
+                            data-track="apply_click"
+                            data-track-props={JSON.stringify({ unit: unit.slug, branch: b.id, item: feature.label })}
+                          >
+                            {feature.go} <Icon name={feature.ext ? 'external' : 'arrowRight'} size={18} />
+                            {feature.ext && <span class="sr-only"> (opens in a new tab)</span>}
+                          </a>
+                          {b.points && b.points.length > 0 && (
+                            <ul role="list" class="feature__points">
+                              {b.points.map((pt) => (
+                                <li class="feature__point">
+                                  <Icon name={pointIcon(pt.icon)} size={20} />
+                                  <span>{pt.label}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </div>
+                      </section>
+                    );
+                  })}
+                </div>
+              </div>
+            </section>
+          );
+        }
+        const b = g.branch;
+        const selfHeaded = b.items.every((i) => i.kind === 'faq' || i.kind === 'calculator');
         return (
         <Section id={b.id} heading={b.title} lede={b.line ?? undefined} hideHeading={selfHeaded} class="branch" data-branch={b.id}>
           <div class="branch__body">
-            {feature && (
-              <div class:list={['feature', `feature--${featureSide.get(b.id) ?? 'right'}`]}>
-                <div class="feature__copy">
-                  <p class="feature__title h-rule" aria-hidden="true">{b.title}</p>
-                  {visible(b.line) && <p class="feature__lede">{b.line}</p>}
-                  <a
-                    href={feature.href!}
-                    class="btn btn--primary feature__btn"
-                    target={feature.ext ? '_blank' : undefined}
-                    rel={feature.ext ? 'noopener noreferrer' : undefined}
-                    data-track="apply_click"
-                    data-track-props={JSON.stringify({ unit: unit.slug, branch: b.id, item: feature.label })}
-                  >
-                    {feature.go} <Icon name={feature.ext ? 'external' : 'arrowRight'} size={18} />
-                    {feature.ext && <span class="sr-only"> (opens in a new tab)</span>}
-                  </a>
-                  {b.points && b.points.length > 0 && (
-                    <ul role="list" class="feature__points">
-                      {b.points.map((pt) => (
-                        <li class="feature__point">
-                          <Icon name={pointIcon(pt.icon)} size={22} />
-                          <span>{pt.label}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-                <div class="feature__media" aria-hidden="true">
-                  <img src={(b.image ?? unit.hero.image).src} alt="" width={900} height={600} loading="lazy" decoding="async" />
-                  <span class="feature__swoosh feature__swoosh--navy" />
-                  <span class="feature__swoosh feature__swoosh--red" />
-                  <span class="feature__disc">
-                    <Icon name={feature.icon} size={34} />
-                  </span>
-                </div>
-              </div>
-            )}
-            {!feature && b.runs.map((run, ri) =>
+            {b.runs.map((run, ri) =>
               run.kind === 'cards' ? (
                 <ul role="list" class:list={['cards', run.items.length === 2 && 'cards--pair']} style={`--n:${Math.min(run.items.length, 3)}`}>
                   {run.items.map((it) => {
@@ -589,15 +611,25 @@ const jsonLd = [
     }
   }
 
-  /* Feature panel: one link in a rounded, image-led panel. Copy on one side,
-     the photograph fading in from the other under red and navy curves, with
-     a white disc carrying the icon. Consecutive panels swap sides. */
+  /* Feature cards: single-link branches, two to a row. The photograph on top
+     with red and navy curves in its top-left corner and a white disc for the
+     icon at the top-right, then the title, line, red button and benefits. */
+  .features__grid {
+    display: grid;
+    gap: var(--gap);
+  }
+  @media (min-width: 900px) {
+    .features__grid {
+      grid-template-columns: repeat(var(--n, 2), minmax(0, 1fr));
+    }
+  }
   .feature {
     position: relative;
     display: grid;
+    grid-template-rows: auto 1fr;
     overflow: hidden;
     border-radius: var(--r-lg);
-    background: linear-gradient(135deg, var(--blue-50), var(--white) 70%);
+    background: linear-gradient(180deg, var(--blue-50), var(--white) 60%);
     border: 1px solid var(--line);
     box-shadow: var(--shadow-card);
   }
@@ -605,11 +637,11 @@ const jsonLd = [
     display: grid;
     gap: var(--s-3);
     justify-items: start;
-    align-content: center;
-    padding: var(--s-6);
+    align-content: start;
+    padding: var(--s-5, 20px) var(--s-6) var(--s-6);
   }
   .feature__title {
-    font-size: var(--t-2xl);
+    font-size: var(--t-xl);
     font-weight: 700;
     color: var(--blue);
     line-height: 1.15;
@@ -652,7 +684,7 @@ const jsonLd = [
   }
   .feature__media {
     position: relative;
-    min-height: 160px;
+    height: 170px;
     overflow: hidden;
   }
   .feature__media img {
@@ -661,114 +693,39 @@ const jsonLd = [
     width: 100%;
     height: 100%;
     object-fit: cover;
+    mask-image: linear-gradient(to top, transparent, #000 40%);
+    -webkit-mask-image: linear-gradient(to top, transparent, #000 40%);
   }
-  /* Red and navy curves rising from the outer bottom corner */
+  /* Red and navy curves curling out of the top-left corner */
   .feature__swoosh {
     position: absolute;
-    width: 440px;
-    height: 440px;
+    width: 260px;
+    height: 260px;
     border-radius: 50%;
   }
   .feature__swoosh--navy {
     background: var(--blue);
-    bottom: -280px;
+    top: -170px;
+    left: -150px;
   }
   .feature__swoosh--red {
     background: var(--red);
-    bottom: -300px;
+    top: -185px;
+    left: -165px;
   }
   .feature__disc {
     position: absolute;
-    top: var(--s-6);
+    top: var(--s-4);
+    right: var(--s-4);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 84px;
-    height: 84px;
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.94);
     color: var(--red);
     box-shadow: var(--shadow-float);
-  }
-  /* Photo on the right: curves at the bottom-right, disc top-right */
-  .feature--right .feature__swoosh--navy {
-    right: -200px;
-  }
-  .feature--right .feature__swoosh--red {
-    right: -180px;
-  }
-  .feature--right .feature__disc {
-    right: var(--s-6);
-  }
-  /* Photo on the left: mirrored */
-  .feature--left .feature__swoosh--navy {
-    left: -200px;
-  }
-  .feature--left .feature__swoosh--red {
-    left: -180px;
-  }
-  .feature--left .feature__disc {
-    left: var(--s-6);
-  }
-  @media (min-width: 900px) {
-    .feature {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      min-height: 260px;
-    }
-    .feature__copy {
-      padding: var(--s-8) var(--s-8);
-    }
-    .feature__media {
-      min-height: 100%;
-    }
-    /* The photograph fades into the panel on its inner edge */
-    .feature--right .feature__media img {
-      mask-image: linear-gradient(to right, transparent, #000 30%);
-      -webkit-mask-image: linear-gradient(to right, transparent, #000 30%);
-    }
-    .feature--left .feature__media {
-      order: -1;
-    }
-    .feature--left .feature__media img {
-      mask-image: linear-gradient(to left, transparent, #000 30%);
-      -webkit-mask-image: linear-gradient(to left, transparent, #000 30%);
-    }
-  }
-  @media (max-width: 899px) {
-    .feature__media {
-      order: -1;
-      min-height: 160px;
-    }
-    .feature__swoosh {
-      width: 300px;
-      height: 300px;
-    }
-    .feature__swoosh--navy {
-      bottom: -205px;
-    }
-    .feature__swoosh--red {
-      bottom: -220px;
-    }
-    .feature--right .feature__swoosh--navy,
-    .feature--left .feature__swoosh--navy {
-      inset-inline: auto;
-    }
-    .feature--right .feature__swoosh--navy {
-      right: -160px;
-    }
-    .feature--right .feature__swoosh--red {
-      right: -145px;
-    }
-    .feature--left .feature__swoosh--navy {
-      left: -160px;
-    }
-    .feature--left .feature__swoosh--red {
-      left: -145px;
-    }
-    .feature__media img {
-      mask-image: linear-gradient(to top, transparent, #000 35%);
-      -webkit-mask-image: linear-gradient(to top, transparent, #000 35%);
-    }
   }
   /* A note is the same card without a link */
   .note {

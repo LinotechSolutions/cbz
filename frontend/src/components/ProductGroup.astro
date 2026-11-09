@@ -1,10 +1,12 @@
 ---
 /**
- * Products as cards: filter tabs with a blue underline, then a card per
- * product with its photograph (or the unit's icon), a centred name and
- * summary, the pricing line as a check, up to four facts and two buttons. "Tell me more" opens a panel with pill tabs: What you
- * get, Who it's for, What it costs, How to get it. Without JavaScript every
- * card shows and every panel is open.
+ * Products as cards in a row that snaps as you scroll: pill filters with an
+ * icon each and previous/next arrows, then a card per product with a large
+ * photograph (or the unit's icon) under a curved edge, a floating icon badge,
+ * the name, a short summary, two benefits with check marks, a red primary
+ * button and an understated "Tell me more" link. "Tell me more" opens a
+ * dialog with pill tabs: What you get, Who it's for, What it costs, How to
+ * get it. Without JavaScript every card shows and every panel is open.
  */
 import Button from './Button.astro';
 import Icon from './Icon.astro';
@@ -24,7 +26,7 @@ export interface ProductRow {
   apply: { label: string; href: string };
   /** When set, these replace `apply` on the card: first primary, the rest secondary. */
   actions?: { label: string; href: string }[] | null;
-  /** A photograph for the top of the card; cards without one show `icon`. */
+  /** A photograph for the top of the card; cards without one show an icon. */
   image?: { src: string; alt: string } | null;
 }
 
@@ -36,13 +38,33 @@ interface Props {
   note?: string | null;
   idPrefix?: string;
   hideCta?: boolean;
-  /** Shown on cards that have no photograph. */
+  /** The unit's icon, used for "All" and for cards whose name suggests nothing more specific. */
   icon?: IconName;
 }
 const { unitSlug, categories, products, note, idPrefix = unitSlug, icon = 'wallet' } = Astro.props;
 
 const cats = categories.filter((c) => products.some((p) => p.category === c.id));
 const showFilters = cats.length > 1;
+
+/* An icon for each filter pill and each card, from the wording. */
+const iconFor = (text: string, fallback: IconName): IconName => {
+  const t = text.toLowerCase();
+  if (/joint|couple|family|group|employee|benefit/.test(t)) return 'users';
+  if (/corporate|business|compan|school|church|sme|institution|merchant|pos/.test(t)) return 'building';
+  if (/foreign|fca|diaspora|international|nostro|offshore/.test(t)) return 'globe';
+  if (/student|education|school fees|tuition/.test(t)) return 'graduation';
+  if (/saving|saver|deposit|invest|unit trust|wealth|fund|portfolio|treasury/.test(t)) return 'chart';
+  if (/loan|lend|credit|mortgage|finance|capital|debt|syndicat/.test(t)) return 'bank';
+  if (/card|visa|payment|pay|cash|wallet/.test(t)) return 'wallet';
+  if (/touch|app|mobile|digital|internet|channel|e-statement|ussd/.test(t)) return 'phoneMobile';
+  if (/motor|vehicle|car|fleet/.test(t)) return 'car';
+  if (/home|house|property|residential|commercial|stand|office|estate/.test(t)) return 'home';
+  if (/farm|agro|agri|crop|livestock|season/.test(t)) return 'leaf';
+  if (/insur|cover|shield|protect|life|funeral|risk|claim|liabil|broking|reinsur/.test(t)) return 'shield';
+  if (/advis|m&a|equity|ipo|listing|valuation|restructur/.test(t)) return 'chart';
+  if (/individual|personal|current|private|senior|retail/.test(t)) return 'user';
+  return fallback;
+};
 
 const factLabels: Record<string, string> = {
   interestRate: 'Interest',
@@ -59,6 +81,12 @@ function factsFor(p: ProductRow) {
   }
   return facts.slice(0, 4);
 }
+/** Two short points for the card: the first two benefits, else the pricing line. */
+function pointsFor(p: ProductRow) {
+  const pts = (p.benefits ?? []).filter((b) => b.length <= 48).slice(0, 2);
+  if (pts.length === 0 && visible(p.pricing)) pts.push(p.pricing!);
+  return pts;
+}
 /** Long lists open on the first category so the page stays short; "All" is a tap away. */
 const startFilter = products.length > 6 && cats.length > 1 ? cats[0].id : 'all';
 const costLine = (p: ProductRow) =>
@@ -66,43 +94,68 @@ const costLine = (p: ProductRow) =>
 ---
 
 <div class="pc" data-product-cards data-unit={unitSlug} data-start={startFilter}>
-  {
-    showFilters && (
-      <div class="pc__filters" role="tablist" aria-label="Filter products">
-        <button type="button" role="tab" class="pc__filter" aria-selected={startFilter === 'all' ? 'true' : 'false'} data-filter="all">
-          All
-        </button>
-        {cats.map((c) => (
-          <button type="button" role="tab" class="pc__filter" aria-selected={startFilter === c.id ? 'true' : 'false'} data-filter={c.id} id={`panel-${idPrefix}-${c.id}`}>
-            {c.label}
+  <div class="pc__bar">
+    {
+      showFilters ? (
+        <div class="pc__filters" role="tablist" aria-label="Filter products">
+          <button type="button" role="tab" class="pc__filter" aria-selected={startFilter === 'all' ? 'true' : 'false'} data-filter="all">
+            <Icon name={icon} size={18} /> All
           </button>
-        ))}
-      </div>
-    )
-  }
+          {cats.map((c) => (
+            <button type="button" role="tab" class="pc__filter" aria-selected={startFilter === c.id ? 'true' : 'false'} data-filter={c.id} id={`panel-${idPrefix}-${c.id}`}>
+              <Icon name={iconFor(c.label, icon)} size={18} /> {c.label}
+            </button>
+          ))}
+        </div>
+      ) : (
+        <span />
+      )
+    }
+    <div class="pc__arrows">
+      <button type="button" class="pc__arrow" data-prev aria-label="Previous">
+        <Icon name="arrowRight" size={20} class="pc__flip" />
+      </button>
+      <button type="button" class="pc__arrow" data-next aria-label="Next">
+        <Icon name="arrowRight" size={20} />
+      </button>
+    </div>
+  </div>
 
-  <ul role="list" class="pc__grid">
+  <ul role="list" class="pc__grid" data-row>
     {
       products.map((p) => {
         const facts = factsFor(p);
+        const points = pointsFor(p);
         const did = `detail-${idPrefix}-${p.productId}`;
         const actions = p.actions && p.actions.length > 0 ? p.actions : [p.apply];
+        const hasPhoto = Boolean(p.image && visible(p.image.src));
         return (
           <li class="pcard" id={`product-${unitSlug}-${p.productId}`} data-category={p.category}>
-            {p.image && visible(p.image.src) ? (
-              <img src={p.image.src} alt={p.image.alt} width={600} height={400} loading="lazy" decoding="async" class="pcard__img" />
-            ) : (
-              <span class="pcard__glyph" aria-hidden="true">
-                <Icon name={icon} size={44} />
+            <div class:list={['pcard__top', !hasPhoto && 'pcard__top--plain']}>
+              {hasPhoto ? (
+                <img src={p.image!.src} alt={p.image!.alt} width={600} height={400} loading="lazy" decoding="async" class="pcard__img" />
+              ) : (
+                <span class="pcard__wash" aria-hidden="true" />
+              )}
+              <span class="pcard__curve" aria-hidden="true" />
+              <span class="pcard__badge" aria-hidden="true">
+                <Icon name={iconFor(`${p.name} ${p.category}`, icon)} size={30} />
               </span>
-            )}
+            </div>
             <div class="pcard__body">
               <h3 class="pcard__title">{p.name}</h3>
               <p class="pcard__summary">{p.summary}</p>
-              {visible(p.pricing) && (
-                <p class="pcard__pricing">
-                  <Icon name="check" size={16} /> {p.pricing}
-                </p>
+              {points.length > 0 && (
+                <ul class="pcard__points">
+                  {points.map((b) => (
+                    <li>
+                      <span class="pcard__tick">
+                        <Icon name="check" size={12} />
+                      </span>
+                      {b}
+                    </li>
+                  ))}
+                </ul>
               )}
               {facts.length > 0 && (
                 <dl class="pcard__facts">
@@ -117,11 +170,11 @@ const costLine = (p: ProductRow) =>
               <div class="pcard__actions">
                 {actions.map((a, ai) => (
                   <Button href={a.href} variant={ai === 0 ? 'primary' : 'secondary'} track="apply_click" trackProps={{ unit: unitSlug, product: p.productId, action: a.label }}>
-                    {a.label}
+                    {a.label} {ai === 0 && <Icon name="arrowRight" size={18} />}
                   </Button>
                 ))}
-                <button type="button" class="btn btn--secondary pcard__more" aria-haspopup="dialog" aria-controls={did} data-more>
-                  Tell me more
+                <button type="button" class="pcard__more" aria-haspopup="dialog" aria-controls={did} data-more>
+                  Tell me more <Icon name="chevronRight" size={16} class="pcard__more-ic" />
                 </button>
               </div>
             </div>
@@ -206,6 +259,7 @@ const costLine = (p: ProductRow) =>
     // Filter tabs
     const filters = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-filter]'));
     const cards = Array.from(root.querySelectorAll<HTMLElement>('.pcard'));
+    const row = root.querySelector<HTMLElement>('[data-row]');
     function filter(id: string) {
       filters.forEach((f) => {
         const on = f.dataset.filter === id;
@@ -215,6 +269,7 @@ const costLine = (p: ProductRow) =>
       cards.forEach((c) => {
         c.hidden = id !== 'all' && c.dataset.category !== id;
       });
+      row?.scrollTo({ left: 0 });
     }
     if (filters.length) filter(root.dataset.start || 'all');
     filters.forEach((f, i) => {
@@ -230,6 +285,14 @@ const costLine = (p: ProductRow) =>
         }
       });
     });
+
+    // Arrows step one card at a time, skipping cards the filters have hidden.
+    if (row) {
+      const step = () => (row.querySelector<HTMLElement>('.pcard:not([hidden])')?.offsetWidth ?? 300) + 24;
+      const smooth = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+      root.querySelector('[data-prev]')?.addEventListener('click', () => row.scrollBy({ left: -step(), behavior: smooth }));
+      root.querySelector('[data-next]')?.addEventListener('click', () => row.scrollBy({ left: step(), behavior: smooth }));
+    }
 
     // Tell me more opens the details in a modal dialog; Escape, the close
     // button and a click on the backdrop close it, and focus returns to the opener.
@@ -280,7 +343,7 @@ const costLine = (p: ProductRow) =>
       const card = root.querySelector<HTMLElement>(`#${CSS.escape(id)}`);
       if (!card) return;
       filter('all');
-      card.scrollIntoView({ block: 'start' });
+      card.scrollIntoView({ block: 'start', inline: 'start' });
       const detail = card.querySelector<HTMLDialogElement>('[data-detail]');
       if (detail && !detail.open) detail.showModal();
     }
@@ -294,66 +357,115 @@ const costLine = (p: ProductRow) =>
     display: grid;
     gap: var(--s-6);
   }
+  .pc__bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-3) var(--s-6);
+  }
+  /* Pill filters, navy when selected */
   .pc__filters {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--s-2) var(--s-6);
-    border-bottom: 1px solid var(--line);
+    gap: var(--s-2);
   }
   .pc__filter {
-    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
     min-height: var(--tap);
-    padding: 0 var(--s-1);
+    padding: 0 var(--s-5, 20px);
+    border-radius: var(--r-pill);
+    border: 1px solid var(--line);
+    background: var(--white);
     font-weight: 700;
     font-size: var(--t-sm);
-    color: var(--grey);
-    letter-spacing: 0.01em;
-    transition: color var(--dur) var(--ease);
-  }
-  .pc__filter:hover,
-  .pc__filter[aria-selected='true'] {
     color: var(--blue);
+    transition:
+      background-color var(--dur) var(--ease),
+      border-color var(--dur) var(--ease),
+      color var(--dur) var(--ease);
   }
-  .pc__filter[aria-selected='true']::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -1px;
-    height: 3px;
+  .pc__filter:hover {
+    background: var(--blue-50);
+  }
+  .pc__filter[aria-selected='true'] {
     background: var(--blue);
+    border-color: var(--blue);
+    color: var(--white);
   }
-  .pc__grid {
-    display: grid;
-    gap: var(--gap);
+  .pc__arrows {
+    display: none;
+    gap: var(--s-2);
+    margin-left: auto;
   }
-  /* Three across on laptops, four on wide screens; two on tablets. */
   @media (min-width: 640px) {
-    .pc__grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+    .pc__arrows {
+      display: flex;
+    }
+  }
+  .pc__arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--tap);
+    height: var(--tap);
+    border-radius: 50%;
+    color: var(--blue);
+    border: 1px solid var(--line);
+    background: var(--white);
+    transition: background-color var(--dur) var(--ease);
+  }
+  .pc__arrow:hover {
+    background: var(--blue-50);
+  }
+  .pc__arrow :global(.pc__flip) {
+    transform: scaleX(-1);
+  }
+
+  /* One row that snaps as you scroll: one card on phones, two on tablets,
+     three on laptops, four on wide screens */
+  .pc__grid {
+    display: flex;
+    gap: var(--s-6);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+    margin-inline: calc(-1 * var(--gutter));
+    padding-inline: var(--gutter);
+    padding-block: var(--s-2) var(--s-4);
+  }
+  .pc__grid::-webkit-scrollbar {
+    display: none;
+  }
+  .pcard {
+    position: relative;
+    flex: 0 0 min(86vw, 340px);
+    scroll-snap-align: start;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    transition: box-shadow var(--dur) var(--ease);
+  }
+  @media (min-width: 640px) {
+    .pcard {
+      flex-basis: calc((100% - var(--s-6)) / 2);
     }
   }
   @media (min-width: 900px) {
-    .pc__grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+    .pcard {
+      flex-basis: calc((100% - 2 * var(--s-6)) / 3);
     }
   }
   @media (min-width: 1200px) {
-    .pc__grid {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+    .pcard {
+      flex-basis: calc((100% - 3 * var(--s-6)) / 4);
     }
-  }
-  /* Card: a photograph or icon on top, then centred name, summary, one
-     check line, facts and stacked buttons. */
-  .pcard {
-    display: grid;
-    grid-template-rows: auto 1fr;
-    align-content: start;
-    background: var(--white);
-    border: 1px solid var(--line);
-    border-radius: var(--r-md);
-    overflow: hidden;
-    transition: box-shadow var(--dur) var(--ease);
   }
   .pcard:hover {
     box-shadow: var(--shadow-card);
@@ -361,29 +473,71 @@ const costLine = (p: ProductRow) =>
   .pcard[hidden] {
     display: none;
   }
+  /* The photograph under a curved edge, with a red arc in the top corner */
+  .pcard__top {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    background: var(--blue-50);
+  }
+  .pcard__top--plain {
+    aspect-ratio: 3 / 1;
+  }
   .pcard__img {
     display: block;
     width: 100%;
-    aspect-ratio: 3 / 2;
+    height: 100%;
     object-fit: cover;
   }
-  .pcard__glyph {
-    display: flex;
+  .pcard__wash {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--blue-100), var(--blue-50) 60%, var(--white));
+  }
+  .pcard__top::before {
+    content: '';
+    position: absolute;
+    top: -70px;
+    left: -70px;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: 18px solid var(--red);
+    opacity: 0.9;
+    z-index: 1;
+  }
+  .pcard__curve {
+    position: absolute;
+    left: -10%;
+    right: -10%;
+    bottom: -1px;
+    height: 40px;
+    background: var(--white);
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    z-index: 2;
+  }
+  /* The floating icon badge over the join between photograph and copy */
+  .pcard__badge {
+    position: absolute;
+    bottom: -28px;
+    left: var(--s-5, 20px);
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 112px;
-    color: var(--red);
-    border-bottom: 1px solid var(--line);
+    width: 64px;
+    height: 64px;
+    border-radius: var(--r-md);
+    background: var(--white);
+    color: var(--blue);
+    box-shadow: var(--shadow-float);
+    z-index: 3;
   }
   /* min-width: 0 stops a long button label from widening the body past the card. */
   .pcard__body {
     display: grid;
     grid-template-rows: auto auto auto auto 1fr;
     gap: var(--s-3);
-    justify-items: center;
-    text-align: center;
     min-width: 0;
-    padding: var(--s-6) var(--s-5, 20px);
+    padding: var(--s-12) var(--s-5, 20px) var(--s-5, 20px);
     overflow-wrap: anywhere;
   }
   .pcard__title {
@@ -395,25 +549,39 @@ const costLine = (p: ProductRow) =>
   .pcard__summary {
     color: var(--grey);
     font-size: var(--t-sm);
-    max-width: 34ch;
+    line-height: 1.5;
   }
-  .pcard__pricing {
+  .pcard__points {
+    list-style: none;
+    padding: var(--s-3) 0 0;
+    margin: 0;
+    display: grid;
+    gap: var(--s-2);
+    border-top: 1px solid var(--line);
+    font-size: var(--t-sm);
+    color: var(--ink);
+  }
+  .pcard__points li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--s-2);
+  }
+  .pcard__tick {
     display: inline-flex;
     align-items: center;
-    gap: var(--s-2);
-    font-size: var(--t-sm);
-    font-weight: 700;
-    color: var(--blue);
-  }
-  .pcard__pricing :global(svg) {
-    color: var(--blue-700);
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: var(--white);
     flex-shrink: 0;
   }
   .pcard__facts {
-    margin: var(--s-1) 0 0;
+    margin: 0;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     gap: var(--s-3) var(--s-6);
   }
   .fact {
@@ -423,8 +591,8 @@ const costLine = (p: ProductRow) =>
   }
   .fact__value {
     margin: 0;
-    font-size: var(--t-lg);
-    font-weight: 400;
+    font-size: var(--t-md);
+    font-weight: 700;
     color: var(--blue);
     line-height: 1.15;
     overflow-wrap: normal;
@@ -434,17 +602,20 @@ const costLine = (p: ProductRow) =>
     font-size: var(--t-xs);
     color: var(--grey);
   }
+  /* Red primary button, understated Tell me more beneath */
   .pcard__actions {
     display: grid;
-    gap: var(--s-3);
+    gap: var(--s-2);
     width: 100%;
     align-self: end;
+    justify-items: center;
     margin-top: var(--s-3);
   }
   .pcard__actions :global(.btn) {
     width: 100%;
     min-width: 0;
     height: auto;
+    gap: var(--s-2);
     padding: var(--s-3) var(--s-4);
     white-space: normal;
     text-align: center;
@@ -453,6 +624,26 @@ const costLine = (p: ProductRow) =>
   .pcard__actions :global(.btn--secondary) {
     border-color: var(--blue);
     color: var(--blue);
+  }
+  .pcard__more {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    min-height: var(--tap);
+    padding: 0 var(--s-3);
+    font-weight: 700;
+    font-size: var(--t-sm);
+    color: var(--blue);
+  }
+  .pcard__more:hover {
+    text-decoration: underline;
+  }
+  .pcard__more :global(.pcard__more-ic) {
+    width: 20px;
+    height: 20px;
+    padding: 2px;
+    border-radius: 50%;
+    border: 1.5px solid var(--blue);
   }
 
   /* Detail popup: a modal dialog with pill tabs over a grey body */
@@ -483,7 +674,8 @@ const costLine = (p: ProductRow) =>
     border-top: 1px solid var(--line);
     border-radius: 0;
   }
-  .pc:not(.pc--js) .pdetail__close {
+  .pc:not(.pc--js) .pdetail__close,
+  .pc:not(.pc--js) .pc__arrows {
     display: none;
   }
   .pdetail__head {

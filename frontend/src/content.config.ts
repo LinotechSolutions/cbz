@@ -51,6 +51,8 @@ const branchItem = z.object({
   line: nullableString.default(null),
   kind: z.enum(['form', 'page', 'external', 'app', 'products', 'calculator', 'listings', 'note', 'faq']),
   href: nullableString.default(null),
+  /** A photograph on the left of the link card. */
+  image: imageRef.optional(),
   faqs: z.array(z.object({ question: z.string().min(1), answer: z.string().min(1) })).optional(),
   app: z.enum(['cbz-touch', 'red-sphere', 'ziki-cash']).optional(),
   categories: z.array(z.string()).optional(),

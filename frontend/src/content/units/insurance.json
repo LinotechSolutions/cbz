@@ -63,12 +63,14 @@
       "items": [
         {
           "label": "Personal lines policy application",
+          "image": { "src": "/images/insurance-family.webp", "alt": "" },
           "line": "Motor, home and contents, travel or personal accident",
           "kind": "form",
           "href": "/insurance/insure-now"
         },
         {
           "label": "Premium payment",
+          "image": { "src": "/images/cbz-payments.webp", "alt": "" },
           "line": "Direct debit from your CBZ account, or mobile money",
           "kind": "note"
         }

@@ -3,9 +3,13 @@
  * the promise we make, two or three things we offer for it, and the journey
  * it opens. Each maps onto one of the ten guided flows on the site map.
  */
+import type { IconName } from '../components/icons';
+
 export interface LifeStage {
   /** Short tag on the card, e.g. "Students". */
   tag: string;
+  /** The icon in the red disc on the card. */
+  icon: IconName;
   question: string;
   promise: string;
   /** Two or three products or services behind the promise. */
@@ -18,6 +22,7 @@ export interface LifeStage {
 export const LIFE_STAGES: LifeStage[] = [
   {
     tag: 'Students',
+    icon: 'graduation',
     question: 'Just got into varsity?',
     promise: "Let's help you grow.",
     offers: ['SmartCash Student account', 'Zero-rated CBZ Touch'],
@@ -27,6 +32,7 @@ export const LIFE_STAGES: LifeStage[] = [
   },
   {
     tag: 'Traders',
+    icon: 'store',
     question: 'Running a small business?',
     promise: "Let's keep the shelves full.",
     offers: ['Working capital', 'Order finance and invoice discounting'],
@@ -36,6 +42,7 @@ export const LIFE_STAGES: LifeStage[] = [
   },
   {
     tag: 'Families',
+    icon: 'users',
     question: 'Starting a family?',
     promise: "Let's build together.",
     offers: ['Funeral cover', 'Education plan'],
@@ -45,6 +52,7 @@ export const LIFE_STAGES: LifeStage[] = [
   },
   {
     tag: 'First home',
+    icon: 'home',
     question: 'Buying your first home?',
     promise: "Let's open the door.",
     offers: ['CBZ Bank mortgage', 'Stands and homes'],
@@ -54,6 +62,7 @@ export const LIFE_STAGES: LifeStage[] = [
   },
   {
     tag: 'Motorists',
+    icon: 'car',
     question: 'Bought a car?',
     promise: "Let's keep it covered.",
     offers: ['Comprehensive cover', 'Quick claims'],
@@ -63,6 +72,7 @@ export const LIFE_STAGES: LifeStage[] = [
   },
   {
     tag: 'Business',
+    icon: 'building',
     question: 'Growing a business?',
     promise: "Let's fund the next step.",
     offers: ['Working capital', 'Invoice discounting'],
@@ -72,6 +82,7 @@ export const LIFE_STAGES: LifeStage[] = [
   },
   {
     tag: 'Farmers',
+    icon: 'leaf',
     question: 'Farming this season?',
     promise: "Let's back the harvest.",
     offers: ['Contract farming', 'Equipment and inputs'],
@@ -81,6 +92,7 @@ export const LIFE_STAGES: LifeStage[] = [
   },
   {
     tag: 'Investors',
+    icon: 'chart',
     question: 'Thinking about tomorrow?',
     promise: "Let's make your money work.",
     offers: ['Unit trusts', 'Managed portfolios'],
@@ -90,6 +102,7 @@ export const LIFE_STAGES: LifeStage[] = [
   },
   {
     tag: 'Diaspora',
+    icon: 'globe',
     question: 'Living abroad?',
     promise: "Let's keep you close to home.",
     offers: ['Diaspora account', 'Send money home'],

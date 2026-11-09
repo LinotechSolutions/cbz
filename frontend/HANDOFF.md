@@ -47,7 +47,7 @@ Form pages carry the Zod validator as well (about 78KB); they are outside the ho
 `AGRO_SEASONS` in `src/data/calculators.ts` holds placeholder windows (summer: August to January, winter: February to July). Agro-Yield to confirm dates and copy.
 
 <!-- handoff:start -->
-_Generated 2026-11-07 by `npm run handoff`. Do not edit between the markers._
+_Generated 2026-11-09 by `npm run handoff`. Do not edit between the markers._
 
 ### Content in place
 

@@ -543,11 +543,11 @@ const articles = (await getCollection('notices'))
     transform: translateY(-4px);
     color: var(--white);
   }
-  /* A red arc rising from the bottom-right corner */
+  /* A red arc curling out of the top-left corner */
   .stage__arc {
     position: absolute;
-    right: -46%;
-    bottom: -44%;
+    left: -46%;
+    top: -44%;
     width: 100%;
     aspect-ratio: 1;
     border-radius: 50%;
@@ -588,7 +588,7 @@ const articles = (await getCollection('notices'))
   .stage__tag {
     position: absolute;
     top: var(--s-5, 20px);
-    left: var(--s-8);
+    right: var(--s-5, 20px);
     display: inline-flex;
     align-items: center;
     min-height: 28px;

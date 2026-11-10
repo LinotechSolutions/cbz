@@ -22,6 +22,7 @@ import { AGRO_PRODUCTS } from '../src/content/_import/data/products/agro';
 import { SBU_PRODUCTS, INVESTMENT_PRODUCTS, PROPERTY_PRODUCTS } from '../src/content/_import/data/cbzData';
 import { ANNOUNCEMENTS } from '../src/content/_import/data/announcementsData';
 import type { ProductItem } from '../src/content/_import/types';
+import { audiencesFor } from '../src/data/audiences';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const out = (...p: string[]) => join(root, 'src', 'content', ...p);
@@ -152,6 +153,7 @@ for (const u of UNITS) {
         benefits,
         eligibility: p.requirements && p.requirements.length ? p.requirements : null,
         audience: p.target ?? null,
+        audiences: audiencesFor(u.unit, productId, category),
         pricing: orNull(p.pricing, u.verified),
         details: {
           tenor: orNull(p.tenor, u.verified),

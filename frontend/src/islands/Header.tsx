@@ -385,7 +385,7 @@ export function Header({ clusters, loginItems, openAccountItems, holdings, holdi
 }
 
 const css = `
-.hdr{position:sticky;top:0;z-index:50;background:var(--blue-900);border-bottom:1px solid rgba(255,255,255,.1);color:var(--white)}
+.hdr{position:sticky;top:var(--strip-h);z-index:50;background:var(--blue-900);border-bottom:1px solid rgba(255,255,255,.1);color:var(--white)}
 .hdr__inner{display:flex;align-items:center;gap:var(--s-4);height:var(--header-h)}
 .hdr__home{display:inline-flex;align-items:center;height:100%}
 .hdr__home img{display:block}

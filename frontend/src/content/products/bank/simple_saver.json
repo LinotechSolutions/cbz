@@ -17,6 +17,9 @@
     "ID and US$2 to open the account"
   ],
   "audience": "Individuals",
+  "audiences": [
+    "personal"
+  ],
   "pricing": "US$2 to open · US$5 initial deposit",
   "details": {
     "tenor": null,

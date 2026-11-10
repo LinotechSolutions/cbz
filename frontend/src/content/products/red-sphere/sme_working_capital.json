@@ -23,6 +23,9 @@
     "Copy of security to be declared"
   ],
   "audience": "Registered enterprises",
+  "audiences": [
+    "business"
+  ],
   "pricing": "5% interest · 5.2% admin fee",
   "details": {
     "tenor": "12 months",

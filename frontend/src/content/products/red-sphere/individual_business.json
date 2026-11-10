@@ -18,6 +18,9 @@
     "Financials for 6 months"
   ],
   "audience": "Unregistered small business",
+  "audiences": [
+    "business"
+  ],
   "pricing": "5% interest · 5.2% admin fee",
   "details": {
     "tenor": "6 months",

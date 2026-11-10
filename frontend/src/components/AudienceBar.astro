@@ -1,8 +1,14 @@
 ---
 /**
- * The white strip above the header: Personal, Business, Corporate & Investment
- * and Diaspora. The tab for the audience the current page serves is red; Group
- * pages light none. On phones the row scrolls sideways.
+ * The white strip above the header: Personal, Business & SME, Corporate &
+ * Investment and Diaspora. It sticks to the top with the navy bar beneath it.
+ *
+ * The navy tab is the chosen audience. Before the visitor chooses, it is the
+ * audience the page serves (from AUDIENCES.match); Group pages light none.
+ * Once chosen, the choice is kept in localStorage and follows the visitor
+ * from page to page. On a page with product cards the tabs filter the cards
+ * in place and write `?for=<audience>` to the address; elsewhere they go to
+ * their landing page. Without JavaScript they are plain links.
  */
 import { AUDIENCES } from '../data/nav';
 
@@ -10,16 +16,16 @@ interface Props {
   currentPath: string;
 }
 const { currentPath } = Astro.props;
-const active = AUDIENCES.find((a) => a.match.test(currentPath))?.id ?? null;
+const active = AUDIENCES.find((a) => a.match.test(currentPath))?.id ?? '';
 ---
 
-<nav class="aud" aria-label="Who we serve">
+<nav class="aud" aria-label="Who we serve" data-audience-bar data-default={active}>
   <div class="container aud__inner">
     <ul role="list" class="aud__list">
       {
         AUDIENCES.map((a) => (
           <li class:list={['aud__item', { 'is-active': a.id === active }]}>
-            <a href={a.href} class="aud__tab" aria-current={a.id === active ? 'true' : undefined}>
+            <a href={a.href} class="aud__tab" data-audience-tab={a.id} aria-current={a.id === active ? 'true' : undefined}>
               {a.label}
             </a>
           </li>
@@ -29,8 +35,91 @@ const active = AUDIENCES.find((a) => a.match.test(currentPath))?.id ?? null;
   </div>
 </nav>
 
+<script>
+  const KEY = 'cbz-audience';
+  const root = document.querySelector<HTMLElement>('[data-audience-bar]');
+  if (root) {
+    const tabs = Array.from(root.querySelectorAll<HTMLAnchorElement>('[data-audience-tab]'));
+    const ids = tabs.map((t) => t.dataset.audienceTab!);
+    const serverDefault = root.dataset.default || '';
+    const hasProducts = document.querySelector('[data-audiences]') !== null;
+
+    const stored = (): string => {
+      const q = new URLSearchParams(location.search).get('for');
+      if (q && ids.includes(q)) return q;
+      try {
+        const s = localStorage.getItem(KEY);
+        if (s && ids.includes(s)) return s;
+      } catch {
+        /* storage blocked */
+      }
+      return '';
+    };
+    const remember = (id: string) => {
+      try {
+        localStorage.setItem(KEY, id);
+      } catch {
+        /* storage blocked */
+      }
+    };
+    const highlight = (id: string) => {
+      tabs.forEach((t) => {
+        const on = t.dataset.audienceTab === id;
+        t.parentElement?.classList.toggle('is-active', on);
+        if (on) t.setAttribute('aria-current', 'true');
+        else t.removeAttribute('aria-current');
+      });
+    };
+    const apply = (id: string, chosen: boolean) => {
+      document.documentElement.dataset.audience = id;
+      highlight(id);
+      if (chosen) {
+        remember(id);
+        if (hasProducts) {
+          const u = new URL(location.href);
+          u.searchParams.set('for', id);
+          history.replaceState(null, '', u);
+        }
+      }
+      document.dispatchEvent(new CustomEvent('cbz:audience', { detail: id }));
+    };
+
+    const initial = stored() || serverDefault;
+    if (initial) apply(initial, false);
+
+    tabs.forEach((t) => {
+      t.addEventListener('click', (e) => {
+        const id = t.dataset.audienceTab!;
+        remember(id);
+        if (!hasProducts || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+        e.preventDefault();
+        apply(id, true);
+        // Bring the first product group into view so the change is visible.
+        const group = document.querySelector<HTMLElement>('[data-product-cards]');
+        const first = group?.closest<HTMLElement>('section[id]') ?? group;
+        if (first) {
+          const r = first.getBoundingClientRect();
+          if (r.top > window.innerHeight * 0.6 || r.bottom < 0) {
+            const smooth = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+            first.scrollIntoView({ block: 'start', behavior: smooth });
+          }
+        }
+      });
+    });
+
+    // Product groups offer the audiences they do serve when the chosen one is empty.
+    document.addEventListener('cbz:audience-set', (e) => {
+      const id = (e as CustomEvent<string>).detail;
+      if (ids.includes(id)) apply(id, true);
+    });
+  }
+</script>
+
 <style>
   .aud {
+    position: sticky;
+    top: 0;
+    z-index: 51;
     background: var(--white);
     height: var(--strip-h);
   }
@@ -52,7 +141,7 @@ const active = AUDIENCES.find((a) => a.match.test(currentPath))?.id ?? null;
     align-items: center;
     flex-shrink: 0;
   }
-  /* Thin rules between tabs; none next to the red tab. */
+  /* Thin rules between tabs; none next to the navy tab. */
   .aud__item + .aud__item::before {
     content: '';
     width: 1px;
@@ -86,16 +175,24 @@ const active = AUDIENCES.find((a) => a.match.test(currentPath))?.id ?? null;
     outline-offset: -3px;
   }
   .aud__item.is-active .aud__tab {
-    background: var(--red);
+    background: var(--blue-900);
     color: var(--white);
   }
   .aud__item.is-active .aud__tab:hover {
-    background: var(--red-hover);
+    background: var(--blue);
+  }
+  .aud__item.is-active .aud__tab:focus-visible {
+    outline-color: var(--white);
   }
   @media (max-width: 899px) {
     .aud__tab {
       padding: 0 var(--s-4);
       font-size: var(--t-xs);
     }
+  }
+  /* Both bars stick, so in-page anchors stop below them. */
+  :global(main section[id]),
+  :global(main .content[id]) {
+    scroll-margin-top: calc(var(--strip-h) + var(--header-h) + var(--s-4));
   }
 </style>

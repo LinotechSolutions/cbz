@@ -13,6 +13,9 @@
     "Minimum balance of $1,500 or an investment of $5,000"
   ],
   "audience": "High net worth individuals",
+  "audiences": [
+    "personal"
+  ],
   "pricing": "Minimum balance $1,500 or investment $5,000",
   "details": {
     "tenor": null,

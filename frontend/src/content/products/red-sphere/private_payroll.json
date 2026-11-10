@@ -18,6 +18,9 @@
     "Bank statement"
   ],
   "audience": "Salary based individuals",
+  "audiences": [
+    "personal"
+  ],
   "pricing": "7.25% interest · 5% admin fee",
   "details": {
     "tenor": "12 months",

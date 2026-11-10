@@ -18,6 +18,9 @@
     "Tertiary students"
   ],
   "audience": "Students",
+  "audiences": [
+    "personal"
+  ],
   "pricing": "No maintenance fees",
   "details": {
     "tenor": null,

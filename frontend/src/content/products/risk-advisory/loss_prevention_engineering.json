@@ -16,6 +16,10 @@
     "Building layout diagrams and electrical reticulation plans"
   ],
   "audience": "Industrial plants, manufacturing facilities, warehouses, and farms",
+  "audiences": [
+    "business",
+    "corporate"
+  ],
   "pricing": "Technical Survey",
   "details": {
     "tenor": null,

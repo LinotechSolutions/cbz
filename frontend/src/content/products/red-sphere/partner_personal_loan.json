@@ -16,6 +16,9 @@
     "Disbursement history"
   ],
   "audience": "All agents and partners",
+  "audiences": [
+    "personal"
+  ],
   "pricing": "5% interest · up to US$2,000",
   "details": {
     "tenor": "12 months",

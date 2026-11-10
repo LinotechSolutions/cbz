@@ -14,6 +14,9 @@
     "New and existing corporates"
   ],
   "audience": "Employees in the private sector and NGOs / IOs",
+  "audiences": [
+    "personal"
+  ],
   "pricing": "Up to US$5,000",
   "details": {
     "tenor": "3 to 12 months",

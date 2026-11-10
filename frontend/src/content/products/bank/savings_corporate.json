@@ -19,6 +19,10 @@
     "Directors' proof of residence (latest utility bill)"
   ],
   "audience": "Registered corporates",
+  "audiences": [
+    "business",
+    "corporate"
+  ],
   "pricing": "Earns interest on savings",
   "details": {
     "tenor": null,

@@ -9,6 +9,9 @@
   ],
   "eligibility": null,
   "audience": null,
+  "audiences": [
+    "business"
+  ],
   "pricing": "Joint venture schemes",
   "details": {
     "tenor": null,

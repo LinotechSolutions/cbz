@@ -16,6 +16,9 @@
     "Strategic business plan and asset condition reports"
   ],
   "audience": "Boards of directors, special committees, and institutional investors",
+  "audiences": [
+    "corporate"
+  ],
   "pricing": "Valuation Mandate",
   "details": {
     "tenor": null,

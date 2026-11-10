@@ -10,6 +10,10 @@
   ],
   "eligibility": null,
   "audience": "Borrowers and lending partners",
+  "audiences": [
+    "business",
+    "corporate"
+  ],
   "pricing": "Employee benefits",
   "details": {
     "tenor": null,

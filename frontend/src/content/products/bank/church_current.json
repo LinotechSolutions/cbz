@@ -18,6 +18,9 @@
     "Church constitution"
   ],
   "audience": "Churches and church groups",
+  "audiences": [
+    "business"
+  ],
   "pricing": "Minimum balance $50 · initial deposit $100",
   "details": {
     "tenor": null,

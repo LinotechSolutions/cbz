@@ -16,6 +16,10 @@
     "Key supplier dependency list"
   ],
   "audience": "Financial institutions, utilities, mission-critical processors, and retailers",
+  "audiences": [
+    "business",
+    "corporate"
+  ],
   "pricing": "Strategic Advisory",
   "details": {
     "tenor": null,

@@ -20,6 +20,10 @@
     "Can also be opened for directors of a company that banks with CBZ"
   ],
   "audience": "Individuals (formally employed) and companies",
+  "audiences": [
+    "personal",
+    "business"
+  ],
   "pricing": "Visa debit card included",
   "details": {
     "tenor": null,

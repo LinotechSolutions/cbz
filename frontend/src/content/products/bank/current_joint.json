@@ -19,6 +19,9 @@
     "Opened only for legally married couples"
   ],
   "audience": "Individuals (formally employed)",
+  "audiences": [
+    "personal"
+  ],
   "pricing": "For legally married couples",
   "details": {
     "tenor": null,

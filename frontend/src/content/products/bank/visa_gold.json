@@ -19,6 +19,10 @@
     "Open to companies, where cards are funded from an existing corporate account"
   ],
   "audience": "Individuals and corporates",
+  "audiences": [
+    "personal",
+    "business"
+  ],
   "pricing": "Open to non-account holders",
   "details": {
     "tenor": null,

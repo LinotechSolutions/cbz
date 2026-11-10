@@ -16,6 +16,9 @@
     "Regulatory circular approvals from stock exchange regulators"
   ],
   "audience": "Listed corporations, growing mid-caps, and developmental projects",
+  "audiences": [
+    "corporate"
+  ],
   "pricing": "Equity Placement",
   "details": {
     "tenor": null,

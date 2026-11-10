@@ -13,6 +13,9 @@
     "Existing corporate account holders"
   ],
   "audience": "Merchants",
+  "audiences": [
+    "business"
+  ],
   "pricing": "For existing corporate account holders",
   "details": {
     "tenor": null,

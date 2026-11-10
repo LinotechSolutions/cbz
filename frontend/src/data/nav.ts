@@ -29,9 +29,12 @@ export interface Audience {
 }
 
 /**
- * The white strip above the header: one tab per audience. Personal is the
- * home page; Business and Corporate & Investment open their part of Explore
- * our solutions until they have landing pages of their own.
+ * The white strip above the header: one tab per audience. On a page with
+ * product cards the tabs filter those cards in place (see AudienceBar.astro
+ * and ProductGroup.astro); elsewhere they go to `href`. Personal is the home
+ * page; Business & SME and Corporate & Investment open their part of Explore
+ * our solutions until they have landing pages of their own. `match` gives the
+ * page's default audience before the visitor has chosen one.
  */
 export const AUDIENCES: Audience[] = [
   {
@@ -43,7 +46,7 @@ export const AUDIENCES: Audience[] = [
   },
   {
     id: 'business',
-    label: 'Business',
+    label: 'Business & SME',
     href: '/journeys#business',
     match: /^\/(red-sphere|agro-yield|clusters\/agro-business)/,
     line: 'Finance for traders, small businesses and farmers.',

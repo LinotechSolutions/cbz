@@ -16,6 +16,9 @@
     "Actuarial valuation reports and asset manager statements"
   ],
   "audience": "Pension fund boards of trustees, principal officers, and employers",
+  "audiences": [
+    "corporate"
+  ],
   "pricing": "Retirement Advisory",
   "details": {
     "tenor": null,

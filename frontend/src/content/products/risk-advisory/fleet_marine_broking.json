@@ -16,6 +16,10 @@
     "Route descriptions and typical cargo profile"
   ],
   "audience": "Logistics operators, fleet owners, distributors, and importers/exporters",
+  "audiences": [
+    "business",
+    "corporate"
+  ],
   "pricing": "Brokerage Placement",
   "details": {
     "tenor": null,

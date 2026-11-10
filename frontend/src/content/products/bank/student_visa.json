@@ -17,6 +17,9 @@
     "Students who are not CBZ account holders can also apply"
   ],
   "audience": "Students",
+  "audiences": [
+    "personal"
+  ],
   "pricing": "Open to non-account holders",
   "details": {
     "tenor": null,

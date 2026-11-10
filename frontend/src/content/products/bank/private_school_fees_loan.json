@@ -15,6 +15,9 @@
     "Account holder should have at least one month's salary coming through CBZ Bank"
   ],
   "audience": "Parents with children in private school",
+  "audiences": [
+    "personal"
+  ],
   "pricing": "Up to 3x net salary",
   "details": {
     "tenor": "4 months",

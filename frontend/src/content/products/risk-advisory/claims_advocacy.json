@@ -16,6 +16,10 @@
     "Proof of loss and repair/replacement quotations"
   ],
   "audience": "All corporate clients experiencing significant insured losses",
+  "audiences": [
+    "business",
+    "corporate"
+  ],
   "pricing": "Claims Representation",
   "details": {
     "tenor": null,

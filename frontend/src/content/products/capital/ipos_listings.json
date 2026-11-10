@@ -17,6 +17,9 @@
     "Auditors and legal counsel approval documents"
   ],
   "audience": "High-growth private firms and public entities listing on ZSE or VFEX",
+  "audiences": [
+    "corporate"
+  ],
   "pricing": "Capital Raising",
   "details": {
     "tenor": null,

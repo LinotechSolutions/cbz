@@ -16,6 +16,9 @@
     "30% deposit on the vehicle"
   ],
   "audience": "All agents and partners",
+  "audiences": [
+    "personal"
+  ],
   "pricing": "5% interest · 30% deposit",
   "details": {
     "tenor": "12 months",

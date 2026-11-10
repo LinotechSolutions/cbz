@@ -16,6 +16,9 @@
     "Opening deposit"
   ],
   "audience": "Individuals",
+  "audiences": [
+    "personal"
+  ],
   "pricing": "No monthly service fees",
   "details": {
     "tenor": null,

@@ -14,6 +14,9 @@
     "New and existing corporates"
   ],
   "audience": "Employees in the private sector",
+  "audiences": [
+    "personal"
+  ],
   "pricing": "Up to 12x net salary",
   "details": {
     "tenor": "Up to 36 months",

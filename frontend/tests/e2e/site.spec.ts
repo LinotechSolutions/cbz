@@ -30,6 +30,25 @@ test('open account menu lists the six entry points', async ({ page, isMobile }) 
   await expect(page.getByRole('link', { name: /Get a quote from CBZ Life/ })).toBeVisible();
 });
 
+test('the audience strip filters products in place and is remembered', async ({ page }) => {
+  await page.goto('/bank');
+  const strip = page.getByRole('navigation', { name: 'Who we serve' });
+  // Default on the Bank page is Personal: a personal card shows, a business one does not.
+  await expect(strip.getByRole('link', { name: 'Personal' })).toHaveAttribute('aria-current', 'true');
+  await expect(page.locator('#product-bank-student_visa')).toBeVisible();
+  await expect(page.locator('#product-bank-sme_debit_card')).toBeHidden();
+  await strip.getByRole('link', { name: 'Business & SME' }).click();
+  await expect(page).toHaveURL(/for=business/);
+  await expect(strip.getByRole('link', { name: 'Business & SME' })).toHaveAttribute('aria-current', 'true');
+  await expect(page.locator('#product-bank-sme_debit_card')).toBeVisible();
+  await expect(page.locator('#product-bank-student_visa')).toBeHidden();
+  // The choice follows the visitor to the next page.
+  await page.goto('/red-sphere');
+  await expect(strip.getByRole('link', { name: 'Business & SME' })).toHaveAttribute('aria-current', 'true');
+  await expect(page.locator('#product-red-sphere-sme_working_capital')).toBeVisible();
+  await expect(page.locator('#product-red-sphere-ssb_loan')).toBeHidden();
+});
+
 test('escape closes a header menu and returns focus', async ({ page, isMobile }) => {
   test.skip(isMobile, 'desktop menus only');
   await page.goto('/');

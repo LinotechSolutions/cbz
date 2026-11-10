@@ -21,6 +21,8 @@ export interface ProductRow {
   benefits: string[];
   eligibility: string[] | null;
   audience: string | null;
+  /** Audience strip tags (personal, business, corporate, diaspora); an empty list shows for every audience. */
+  audiences?: string[];
   pricing: string | null;
   details?: { tenor: string | null; interestRate: string | null; adminFee: string | null; limit: string | null };
   apply: { label: string; href: string };
@@ -130,7 +132,7 @@ const costLine = (p: ProductRow) =>
         const actions = p.actions && p.actions.length > 0 ? p.actions : [p.apply];
         const hasPhoto = Boolean(p.image && visible(p.image.src));
         return (
-          <li class="pcard" id={`product-${unitSlug}-${p.productId}`} data-category={p.category}>
+          <li class="pcard" id={`product-${unitSlug}-${p.productId}`} data-category={p.category} data-audiences={(p.audiences ?? []).join(' ')}>
             <div class:list={['pcard__top', !hasPhoto && 'pcard__top--plain']}>
               {hasPhoto ? (
                 <img src={p.image!.src} alt={p.image!.alt} width={600} height={400} loading="lazy" decoding="async" class="pcard__img" />
@@ -250,28 +252,85 @@ const costLine = (p: ProductRow) =>
       })
     }
   </ul>
+  <!-- Shown when the chosen audience has nothing in this group; filled by the script. -->
+  <div class="pc__empty" data-empty hidden>
+    <p class="pc__empty-text" data-empty-text></p>
+    <div class="pc__empty-actions" data-empty-actions></div>
+  </div>
 </div>
 
 <script>
   document.querySelectorAll<HTMLElement>('[data-product-cards]').forEach((root) => {
     root.classList.add('pc--js');
 
-    // Filter tabs
+    // Filter tabs, combined with the audience chosen in the header strip.
     const filters = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-filter]'));
     const cards = Array.from(root.querySelectorAll<HTMLElement>('.pcard'));
     const row = root.querySelector<HTMLElement>('[data-row]');
+    const empty = root.querySelector<HTMLElement>('[data-empty]');
+    const emptyText = root.querySelector<HTMLElement>('[data-empty-text]');
+    const emptyActions = root.querySelector<HTMLElement>('[data-empty-actions]');
+    let current = root.dataset.start || 'all';
+    const audience = () => document.documentElement.dataset.audience || '';
+    const serves = (c: HTMLElement, a: string) => {
+      const tags = (c.dataset.audiences || '').split(' ').filter(Boolean);
+      return !a || tags.length === 0 || tags.includes(a);
+    };
+    const labelFor = (a: string) => document.querySelector(`[data-audience-tab="${a}"]`)?.textContent?.trim() ?? a;
     function filter(id: string) {
+      const a = audience();
+      // A category pill with nothing for this audience is hidden; fall back to All.
+      filters.forEach((f) => {
+        const cat = f.dataset.filter!;
+        f.hidden = cat !== 'all' && !cards.some((c) => c.dataset.category === cat && serves(c, a));
+      });
+      if (id !== 'all' && filters.some((f) => f.dataset.filter === id && f.hidden)) id = 'all';
+      current = id;
       filters.forEach((f) => {
         const on = f.dataset.filter === id;
         f.setAttribute('aria-selected', on ? 'true' : 'false');
         f.tabIndex = on ? 0 : -1;
       });
+      let shown = 0;
       cards.forEach((c) => {
-        c.hidden = id !== 'all' && c.dataset.category !== id;
+        c.hidden = (id !== 'all' && c.dataset.category !== id) || !serves(c, a);
+        if (!c.hidden) shown++;
       });
       row?.scrollTo({ left: 0 });
+      const none = shown === 0 && a !== '';
+      root.dataset.empty = none ? 'true' : 'false';
+      // A sub-group with nothing for this audience steps aside when a sibling
+      // in the same section still has cards; the empty note shows only when
+      // every group in the section is empty.
+      requestAnimationFrame(() => {
+        const wrap = root.closest<HTMLElement>('.content');
+        const body = wrap?.parentElement;
+        if (!wrap || !body) return;
+        const siblings = Array.from(body.querySelectorAll<HTMLElement>(':scope > .content [data-product-cards]')).filter((g) => g !== root);
+        const siblingHasCards = siblings.some((g) => g.dataset.empty === 'false');
+        // The wrapper has its own display rule, so toggle inline rather than with `hidden`.
+        wrap.style.display = none && siblingHasCards ? 'none' : '';
+      });
+      if (empty && emptyText && emptyActions) {
+        empty.hidden = !none;
+        if (none) {
+          emptyText.textContent = `Nothing here for ${labelFor(a)} yet.`;
+          const others = Array.from(new Set(cards.flatMap((c) => (c.dataset.audiences || '').split(' ').filter(Boolean)))).filter((x) => x !== a);
+          emptyActions.replaceChildren(
+            ...others.map((o) => {
+              const b = document.createElement('button');
+              b.type = 'button';
+              b.className = 'btn btn--secondary';
+              b.textContent = `Show ${labelFor(o)}`;
+              b.addEventListener('click', () => document.dispatchEvent(new CustomEvent('cbz:audience-set', { detail: o })));
+              return b;
+            }),
+          );
+        }
+      }
     }
-    if (filters.length) filter(root.dataset.start || 'all');
+    filter(current);
+    document.addEventListener('cbz:audience', () => filter(current));
     filters.forEach((f, i) => {
       f.addEventListener('click', () => filter(f.dataset.filter!));
       f.addEventListener('keydown', (e) => {
@@ -394,6 +453,31 @@ const costLine = (p: ProductRow) =>
     background: var(--blue);
     border-color: var(--blue);
     color: var(--white);
+  }
+  .pc__filter[hidden] {
+    display: none;
+  }
+  /* The chosen audience has nothing in this group */
+  .pc__empty {
+    display: grid;
+    gap: var(--s-4);
+    justify-items: start;
+    padding: var(--s-6);
+    border: 1px dashed var(--line);
+    border-radius: var(--r-md);
+    background: var(--surface);
+  }
+  .pc__empty[hidden] {
+    display: none;
+  }
+  .pc__empty-text {
+    font-weight: 700;
+    color: var(--blue);
+  }
+  .pc__empty-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
   }
   .pc__arrows {
     display: none;

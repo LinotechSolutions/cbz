@@ -9,6 +9,9 @@
   ],
   "eligibility": null,
   "audience": "Retirees",
+  "audiences": [
+    "personal"
+  ],
   "pricing": "Employee benefits",
   "details": {
     "tenor": null,

@@ -16,6 +16,9 @@
     "For parents wanting to save for children under the age of 12"
   ],
   "audience": "Parents or guardians saving for children aged 0-12",
+  "audiences": [
+    "personal"
+  ],
   "pricing": "Interest 4% per annum",
   "details": {
     "tenor": null,

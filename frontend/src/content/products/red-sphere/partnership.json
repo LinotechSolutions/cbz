@@ -19,6 +19,9 @@
     "CBZ account holder"
   ],
   "audience": "Registered companies",
+  "audiences": [
+    "business"
+  ],
   "pricing": "8% commission",
   "details": {
     "tenor": null,

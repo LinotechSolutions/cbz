@@ -17,6 +17,10 @@
     "Can also be opened for directors of a company that banks with CBZ"
   ],
   "audience": "Individuals",
+  "audiences": [
+    "personal",
+    "diaspora"
+  ],
   "pricing": "USD, GBP, ZAR, BWP, EUR",
   "details": {
     "tenor": null,

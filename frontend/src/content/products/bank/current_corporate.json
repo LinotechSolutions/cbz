@@ -22,6 +22,10 @@
     "Tax clearance"
   ],
   "audience": "Registered corporates",
+  "audiences": [
+    "business",
+    "corporate"
+  ],
   "pricing": "For registered corporates",
   "details": {
     "tenor": null,

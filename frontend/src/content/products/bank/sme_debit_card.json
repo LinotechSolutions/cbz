@@ -12,6 +12,9 @@
     "For already existing SME clients"
   ],
   "audience": "SME's",
+  "audiences": [
+    "business"
+  ],
   "pricing": "For existing SME clients",
   "details": {
     "tenor": null,

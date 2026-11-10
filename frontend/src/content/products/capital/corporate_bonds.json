@@ -17,6 +17,9 @@
     "Legal opinion and trust deed documentation"
   ],
   "audience": "Listed corporates, local authorities, and tier-one enterprises",
+  "audiences": [
+    "corporate"
+  ],
   "pricing": "Capital Markets",
   "details": {
     "tenor": null,

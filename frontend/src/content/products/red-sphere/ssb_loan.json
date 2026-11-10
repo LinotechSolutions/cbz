@@ -17,6 +17,9 @@
     "Proof of employment / residence"
   ],
   "audience": "Government employees",
+  "audiences": [
+    "personal"
+  ],
   "pricing": "6% interest · up to US$2,400",
   "details": {
     "tenor": "24 months",

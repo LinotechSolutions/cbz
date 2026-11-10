@@ -215,4 +215,5 @@ export const UNCONFIRMED: { item: string; owner: string; note?: string }[] = [
   { item: 'Zeex invoice-discounting wording and customer journey on the Red Sphere page', owner: 'Red Sphere Finance and Zeex', note: 'Both parties to approve. Link to zeex.co.zw is live.' },
   { item: 'ATDC button placement on the Agro-Yield page (Supply chain, commodity trading or a Group businesses area)', owner: 'CBZ Agro-Yield', note: 'Placed in Choose your service and in its own Explore ATDC section, linking to africatdc.com. Confirm or move.' },
   { item: 'Integrations behind the forms: SSP Pure, ICECASH and Flex Cube (Insurance), Life Central (Life)', owner: 'Digital', note: 'Recorded on each unit JSON under "systems"; nothing is wired yet.' },
+  { item: 'Landing pages for the Business and Corporate & Investment audience tabs in the header', owner: 'Marketing', note: 'The tabs open the matching part of Explore our solutions (/journeys#business, /journeys#corporate) until dedicated pages exist. Personal is the home page; Diaspora is /diaspora.' },
 ];

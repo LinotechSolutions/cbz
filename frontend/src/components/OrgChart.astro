@@ -1,8 +1,11 @@
 ---
 /**
- * A leadership hierarchy: the chairperson (or the most senior person) on
- * top, a connected row of up to `rowMax` people beneath, and the rest in a
- * band of compact cards. Portraits show initials until photographs arrive.
+ * A leadership hierarchy. The lead (the chairperson for a board, the chief
+ * executive for management) sits on a large card at the top; connector
+ * lines run to a row of smaller cards; anyone beyond `rowMax` goes in a
+ * band of compact cards. The executive variant sits in a tinted panel with
+ * a navy strip so board and management read as distinct sections.
+ * Portraits show initials until photographs arrive.
  */
 import Icon from './Icon.astro';
 
@@ -17,23 +20,48 @@ export interface Person {
 interface Props {
   id: string;
   people: Person[];
+  /** Board: red tag, chair on top. Executive: navy tag, tinted panel. */
+  variant?: 'board' | 'executive';
+  /** Who leads: the person whose role says chair (none if nobody does), or the first person. */
+  lead?: 'chair' | 'first';
+  /** The tag on the lead card; derived from the role when absent. */
+  leadTag?: string;
+  /** A small title above the chart, e.g. "Board leadership". */
+  title?: string;
   /** How many sit in the connected row; the rest go to the band. */
   rowMax?: number;
   bandTitle?: string;
   bandLine?: string;
   bandLink?: { label: string; href: string };
 }
-const { id, people, rowMax = 5, bandTitle = 'Our leadership', bandLine, bandLink } = Astro.props;
+const {
+  id,
+  people,
+  variant = 'board',
+  lead = 'chair',
+  leadTag,
+  title,
+  rowMax = 5,
+  bandTitle = 'Our leadership',
+  bandLine,
+  bandLink,
+} = Astro.props;
 
-const topIndex = Math.max(
-  0,
-  people.findIndex((p) => /chair/i.test(p.role)),
-);
-const top = people[topIndex];
+const chairIndex = people.findIndex((p) => /chair/i.test(p.role));
+const topIndex = lead === 'first' ? (people.length > 0 ? 0 : -1) : chairIndex;
+const top = topIndex >= 0 ? people[topIndex] : null;
 const rest = people.filter((_, i) => i !== topIndex);
 const row = rest.slice(0, rowMax);
 const band = rest.slice(rowMax);
-const tag = /chair/i.test(top.role) ? (/acting/i.test(top.role) ? 'Acting Chairperson' : 'Chairperson') : 'Executive';
+const tag =
+  leadTag ??
+  (top && /chair/i.test(top.role)
+    ? /acting/i.test(top.role)
+      ? 'Acting Chairperson'
+      : 'Chairperson'
+    : top
+      ? top.role.split(/,| and /)[0]
+      : '');
 
 const initials = (name: string) =>
   name
@@ -45,24 +73,37 @@ const initials = (name: string) =>
     .toUpperCase();
 ---
 
-<div class="org" style={`--n:${row.length}`} data-org={id}>
-  <div class="org__top">
-    <article class="org__lead card-base">
-      <span class="org__photo org__photo--lead" aria-hidden="true">
-        <span class="org__swoosh org__swoosh--navy"></span>
-        <span class="org__swoosh org__swoosh--red"></span>
-        {top.image ? <img src={top.image.src} alt="" width={480} height={480} loading="lazy" decoding="async" /> : <span class="org__initials">{initials(top.name)}</span>}
-      </span>
-      <div class="org__lead-text">
-        <span class="org__tag">{tag}</span>
-        <span class="org__name">{top.name}</span>
-        <span class="org__role">{top.role}</span>
-        {top.since && <span class="org__since">Appointed {top.since}</span>}
-        {top.line && <span class="org__line">{top.line}</span>}
-        <span class="org__rule" aria-hidden="true"></span>
+<div class:list={['org', `org--${variant}`, top && row.length > 0 && 'org--led']} style={`--n:${row.length}`} data-org={id}>
+  {
+    title && (
+      <h3 class="org__title">
+        <span class="org__title-dot" aria-hidden="true" />
+        {title}
+      </h3>
+    )
+  }
+
+  {
+    top && (
+      <div class="org__top">
+        <article class="org__lead card-base">
+          <span class="org__photo org__photo--lead" aria-hidden="true">
+            <span class="org__swoosh org__swoosh--navy" />
+            <span class="org__swoosh org__swoosh--red" />
+            {top.image ? <img src={top.image.src} alt="" width={600} height={600} loading="lazy" decoding="async" /> : <span class="org__initials org__initials--lead">{initials(top.name)}</span>}
+          </span>
+          <div class="org__lead-text">
+            <span class="org__tag">{tag}</span>
+            <span class="org__name org__name--lead">{top.name}</span>
+            <span class="org__role org__role--lead">{top.role}</span>
+            {top.since && <span class="org__since">Appointed {top.since}</span>}
+            {top.line && <span class="org__line org__line--lead">{top.line}</span>}
+            <span class="org__rule" aria-hidden="true" />
+          </div>
+        </article>
       </div>
-    </article>
-  </div>
+    )
+  }
 
   {
     row.length > 0 && (
@@ -91,7 +132,7 @@ const initials = (name: string) =>
     band.length > 0 && (
       <div class="org__band">
         <div class="org__band-copy">
-          <h3 class="org__band-title">{bandTitle}</h3>
+          <h4 class="org__band-title">{bandTitle}</h4>
           {bandLine && <p class="org__band-line">{bandLine}</p>}
           {bandLink && (
             <a href={bandLink.href} class="go">
@@ -105,7 +146,7 @@ const initials = (name: string) =>
               <span class="org__photo org__photo--mini" aria-hidden="true">
                 <span class="org__swoosh org__swoosh--navy" />
                 <span class="org__swoosh org__swoosh--red" />
-                {p.image ? <img src={p.image.src} alt="" width={240} height={240} loading="lazy" decoding="async" /> : <span class="org__initials">{initials(p.name)}</span>}
+                {p.image ? <img src={p.image.src} alt="" width={240} height={240} loading="lazy" decoding="async" /> : <span class="org__initials org__initials--mini">{initials(p.name)}</span>}
               </span>
               <span class="org__mini-text">
                 <span class="org__name">{p.name}</span>
@@ -123,8 +164,38 @@ const initials = (name: string) =>
 
 <style>
   .org {
+    --org-accent: var(--red);
+    --org-line: var(--blue-100);
     display: grid;
     gap: var(--s-6);
+  }
+  /* Executive management: a tinted panel under a navy strip */
+  .org--executive {
+    --org-accent: var(--blue);
+    padding: var(--s-6);
+    border-radius: var(--r-lg);
+    background: var(--blue-50);
+    border-top: 4px solid var(--blue);
+  }
+  .org--executive .org__band {
+    background: var(--white);
+    border: 1px solid var(--line);
+  }
+  .org__title {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    font-size: var(--t-xs);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--blue);
+  }
+  .org__title-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--org-accent);
   }
 
   /* Portrait: a pale panel with navy and red curves rising from the
@@ -134,10 +205,13 @@ const initials = (name: string) =>
     display: grid;
     place-items: center;
     aspect-ratio: 4 / 3;
-    max-height: 200px;
+    max-height: 150px;
     overflow: hidden;
     border-radius: var(--r-md);
     background: linear-gradient(160deg, var(--blue-50), var(--white) 70%);
+  }
+  .org--executive .org__photo {
+    background: linear-gradient(160deg, var(--blue-100), var(--white) 70%);
   }
   .org__photo img {
     position: relative;
@@ -149,32 +223,30 @@ const initials = (name: string) =>
   .org__swoosh {
     position: absolute;
     border-radius: 50%;
+    width: 150px;
+    height: 150px;
   }
   .org__swoosh--navy {
-    width: 190px;
-    height: 190px;
-    left: -70px;
-    bottom: -118px;
+    left: -56px;
+    bottom: -94px;
     background: var(--blue);
   }
   .org__swoosh--red {
-    width: 190px;
-    height: 190px;
-    left: -62px;
-    bottom: -126px;
+    left: -50px;
+    bottom: -100px;
     background: var(--red);
   }
   .org__initials {
     position: relative;
     display: inline-grid;
     place-items: center;
-    width: 76px;
+    width: 56px;
     aspect-ratio: 1;
     border-radius: 50%;
     background: var(--white);
     color: var(--blue);
     font-weight: 700;
-    font-size: clamp(1rem, 2.4vw, 1.6rem);
+    font-size: var(--t-sm);
     letter-spacing: 0.02em;
     box-shadow: var(--shadow-card);
   }
@@ -183,11 +255,12 @@ const initials = (name: string) =>
     display: block;
     font-weight: 700;
     color: var(--blue);
+    font-size: var(--t-sm);
     line-height: 1.2;
   }
   .org__role {
     display: block;
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
     color: var(--grey);
     line-height: 1.3;
   }
@@ -204,24 +277,24 @@ const initials = (name: string) =>
   }
   .org__rule {
     display: block;
-    width: 44px;
+    width: 36px;
     height: 3px;
     border-radius: 2px;
-    background: var(--red);
+    background: var(--org-accent);
     margin-top: var(--s-2);
   }
   .org__tag {
     display: inline-block;
     justify-self: start;
-    padding: 2px var(--s-3);
+    padding: 3px var(--s-3);
     border-radius: var(--r-pill);
-    background: var(--red);
+    background: var(--org-accent);
     color: var(--white);
     font-size: var(--t-xs);
     font-weight: 700;
   }
 
-  /* Top: the chairperson, portrait beside the text */
+  /* Top: the lead, on a large card with the portrait beside the text */
   .org__top {
     position: relative;
     display: grid;
@@ -230,17 +303,18 @@ const initials = (name: string) =>
   .org__lead {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    width: min(100%, 560px);
+    width: min(100%, 720px);
     overflow: hidden;
+    box-shadow: var(--shadow-float);
   }
   @media (min-width: 640px) {
     .org__lead {
-      grid-template-columns: 200px minmax(0, 1fr);
+      grid-template-columns: 260px minmax(0, 1fr);
     }
   }
   .org__photo--lead {
     aspect-ratio: 16 / 9;
-    max-height: 180px;
+    max-height: 200px;
     border-radius: 0;
   }
   @media (min-width: 640px) {
@@ -248,27 +322,54 @@ const initials = (name: string) =>
       aspect-ratio: auto;
       max-height: none;
       height: 100%;
-      min-height: 200px;
+      min-height: 240px;
     }
+  }
+  .org__photo--lead .org__swoosh {
+    width: 220px;
+    height: 220px;
+  }
+  .org__photo--lead .org__swoosh--navy {
+    left: -80px;
+    bottom: -136px;
+  }
+  .org__photo--lead .org__swoosh--red {
+    left: -72px;
+    bottom: -146px;
+  }
+  .org__initials--lead {
+    width: 96px;
+    font-size: var(--t-xl);
   }
   .org__lead-text {
     display: grid;
     gap: var(--s-1);
     align-content: center;
-    padding: var(--s-5, 20px) var(--s-6);
+    padding: var(--s-6) var(--s-6) var(--s-6);
   }
-  .org__lead-text .org__name {
-    font-size: var(--t-xl);
+  .org__name--lead {
+    font-size: var(--t-2xl);
+    line-height: 1.1;
+  }
+  .org__role--lead {
+    font-size: var(--t-md);
+    color: var(--ink);
+  }
+  .org__line--lead {
+    font-size: var(--t-sm);
   }
   .org__lead-text .org__tag {
     margin-bottom: var(--s-2);
   }
+  .org__lead-text .org__rule {
+    width: 56px;
+  }
 
-  /* Row: connected to the top card by a stem, a rail and a stub per card */
+  /* Row: connected to the lead by a stem, a rail and a stub per card */
   .org__row {
     position: relative;
     display: grid;
-    gap: var(--gap);
+    gap: var(--s-3);
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .org__node {
@@ -276,7 +377,7 @@ const initials = (name: string) =>
   }
   .org__card {
     display: grid;
-    gap: var(--s-1);
+    gap: 2px;
     align-content: start;
     justify-items: center;
     text-align: center;
@@ -286,40 +387,40 @@ const initials = (name: string) =>
     width: 100%;
     margin-bottom: var(--s-2);
   }
-  .org__card .org__rule {
-    margin-top: var(--s-2);
-  }
   @media (min-width: 900px) {
-    .org__top::after {
+    .org--led .org__top::after {
       content: '';
       position: absolute;
       left: 50%;
       bottom: calc(-1 * var(--s-6));
       height: var(--s-6);
-      border-left: 2px solid var(--blue-100);
+      border-left: 2px solid var(--org-line);
     }
     .org__row {
-      grid-template-columns: repeat(var(--n, 5), minmax(0, 1fr));
+      grid-template-columns: repeat(var(--n, 5), minmax(0, 260px));
+      justify-content: center;
+    }
+    .org--led .org__row {
       padding-top: var(--s-6);
     }
-    .org__row::before {
+    .org--led .org__row::before {
       content: '';
       position: absolute;
       top: 0;
       left: calc(50% / var(--n, 5));
       width: calc(100% - 100% / var(--n, 5));
-      border-top: 2px solid var(--blue-100);
+      border-top: 2px solid var(--org-line);
     }
-    .org__node {
+    .org--led .org__node {
       position: relative;
     }
-    .org__node::before {
+    .org--led .org__node::before {
       content: '';
       position: absolute;
       top: calc(-1 * var(--s-6));
       left: 50%;
       height: var(--s-6);
-      border-left: 2px solid var(--blue-100);
+      border-left: 2px solid var(--org-line);
     }
     .org[style*='--n:1'] .org__row::before {
       display: none;
@@ -345,10 +446,10 @@ const initials = (name: string) =>
     gap: var(--s-2);
     justify-items: start;
     padding-left: var(--s-4);
-    border-left: 3px solid var(--red);
+    border-left: 3px solid var(--org-accent);
   }
   .org__band-title {
-    font-size: var(--t-xl);
+    font-size: var(--t-lg);
     font-weight: 700;
     color: var(--blue);
     line-height: 1.1;
@@ -357,6 +458,10 @@ const initials = (name: string) =>
     font-size: var(--t-sm);
     color: var(--grey);
     max-width: 30ch;
+  }
+  /* Red on the tinted band needs the darker red for contrast */
+  .org__band-copy :global(.go) {
+    color: var(--red-700);
   }
   .org__band-list {
     display: grid;
@@ -369,35 +474,34 @@ const initials = (name: string) =>
   }
   .org__mini {
     display: grid;
-    grid-template-columns: 96px minmax(0, 1fr);
-    gap: var(--s-4);
+    grid-template-columns: 88px minmax(0, 1fr);
+    gap: var(--s-3);
     align-items: center;
     overflow: hidden;
   }
   .org__photo--mini {
     aspect-ratio: auto;
-    width: 96px;
+    width: 88px;
     height: 100%;
-    min-height: 96px;
+    min-height: 88px;
+    max-height: none;
     border-radius: 0;
   }
-  .org__photo--mini .org__initials {
-    width: 44px;
-    font-size: var(--t-sm);
-  }
   .org__photo--mini .org__swoosh {
-    width: 90px;
-    height: 90px;
-    left: -34px;
-    bottom: -58px;
+    width: 80px;
+    height: 80px;
+  }
+  .org__photo--mini .org__swoosh--navy {
+    left: -30px;
+    bottom: -52px;
   }
   .org__photo--mini .org__swoosh--red {
-    left: -30px;
-    bottom: -62px;
+    left: -26px;
+    bottom: -56px;
   }
-  /* Red on the tinted band needs the darker red for contrast */
-  .org__band-copy :global(.go) {
-    color: var(--red-700);
+  .org__initials--mini {
+    width: 40px;
+    font-size: var(--t-xs);
   }
   .org__mini-text {
     display: grid;

@@ -22,7 +22,7 @@ const jump = [
   { label: 'Awards', href: '#awards' },
   { label: 'Milestones', href: '#milestones' },
   ...(board.length ? [{ label: 'Board', href: '#board' }] : []),
-  ...(EXCO.length ? [{ label: 'Executive committee', href: '#exco' }] : []),
+  ...(EXCO.length ? [{ label: 'Executive management', href: '#exco' }] : []),
 ];
 ---
 
@@ -123,11 +123,13 @@ const jump = [
     board.length > 0 && (
       <Section
         id="board"
-        heading="Board of directors"
+        heading="Board leadership"
         lede="Six independent non-executive directors and two executive directors, with the Group Chief Legal Counsel attending ex officio."
       >
         <OrgChart
           id="board"
+          variant="board"
+          lead="chair"
           people={board}
           rowMax={5}
           bandTitle="Executive directors"
@@ -147,9 +149,12 @@ const jump = [
 
   {
     EXCO.length > 0 && (
-      <Section id="exco" heading="Executive committee" lede="The Group executive committee leads the eleven operating companies day to day.">
+      <Section id="exco" heading="Executive management" lede="The Group executive committee leads the eleven operating companies day to day.">
         <OrgChart
           id="exco"
+          variant="executive"
+          lead="first"
+          leadTag="Group Chief Executive Officer"
           people={EXCO}
           rowMax={5}
           bandTitle="Group functions and clusters"

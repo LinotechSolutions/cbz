@@ -197,6 +197,10 @@ const held = (unit.heldEntities ?? []).map((e) => (e.stake === 100 ? `wholly own
 const heldLine = held.length > 0 ? `${unit.shortName} ${held.join(' and ')}.` : '';
 const faqHref = unit.branches.flatMap((b) => b.items).find((i) => i.kind === 'faq')?.href ?? null;
 const teamContactHref = faqHref ?? '/contact';
+/* Board leadership (chair and directors) and executive management (the MD or Principal Officer) */
+const isExec = (p: { role: string }) => /^(acting )?(managing director|principal officer|chief executive)/i.test(p.role);
+const execPeople = unit.team.filter(isExec);
+const boardPeople = unit.team.filter((p) => !isExec(p));
 
 const jsonLd = [
   {
@@ -521,14 +525,24 @@ const jsonLd = [
       </div>
     {
       unit.team.length > 0 ? (
-        <OrgChart
-          id={unit.slug}
-          people={unit.team}
-          rowMax={5}
-          bandTitle="Our leadership"
-          bandLine={`Also on the ${unit.shortName} board.`}
-          bandLink={{ label: 'Group board and executive', href: '/the-group#board' }}
-        />
+        <div class="gov">
+          {boardPeople.length > 0 && (
+            <OrgChart
+              id={`${unit.slug}-board`}
+              title="Board leadership"
+              variant="board"
+              lead="chair"
+              people={boardPeople}
+              rowMax={5}
+              bandTitle="Also on the board"
+              bandLine={`Group directors who sit on the ${unit.shortName} board.`}
+              bandLink={{ label: 'Group board and executive', href: '/the-group#board' }}
+            />
+          )}
+          {execPeople.length > 0 && (
+            <OrgChart id={`${unit.slug}-exec`} title="Executive management" variant="executive" lead="first" people={execPeople} rowMax={4} bandTitle="Management" />
+          )}
+        </div>
       ) : (
         <div class="team__pending card-base">
           <span class="team__icon" aria-hidden="true">
@@ -959,6 +973,10 @@ const jsonLd = [
   /* Meet the team: copy and a Group leadership button on the left, the unit
      photograph with navy and red curves and the logo plate on the right;
      then the hierarchy chart, or the holding panel until profiles arrive. */
+  .gov {
+    display: grid;
+    gap: var(--s-8);
+  }
   .band--compact {
     padding-block: var(--s-12);
   }

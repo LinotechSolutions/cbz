@@ -18,18 +18,26 @@ Conventions
 
 ## 1. Elements on every page
 
-### Utility bar (thin navy strip)
+### Audience strip (white strip above the header)
 
-| Control | Goes to |
+Four tabs. The tab for the audience the current page serves is red (Personal on the home, Bank, Insurance, Life, Properties and Datvest pages; Business on Red Sphere and Agro-Yield; Corporate & Investment on Capital and Risk Advisory; Diaspora on `/diaspora`). Group pages light none. On phones the row scrolls sideways.
+
+| Tab | Goes to |
 | --- | --- |
-| Find a branch | `/contact#branches` |
+| Personal | `/` |
+| Business | `/journeys#business` |
+| Corporate & Investment | `/journeys#corporate` |
+| Diaspora | `/diaspora` |
 
-### Header
+### Header (navy bar)
+
+Logo, a thin divider, the five cluster menus, then Find a branch, Log in and the red Sign up button. Between 900px and 1100px Find a branch is its pin icon alone.
 
 | Control | Goes to |
 | --- | --- |
 | CBZ Holdings logo (home, Group pages and every page that is not a business unit's) | `/` |
 | Unit logo (a business page and its forms, e.g. CBZ Bank; shown in place of the Holdings logo) | that unit's page |
+| Find a branch (pin icon; also the last row of the phone menu sheet) | `/contact#branches` |
 | **Bank** (label) | `/clusters/banking` |
 | Bank ▸ CBZ Bank | `/bank` |
 | Bank ▸ Red Sphere Finance | `/red-sphere` |
@@ -382,20 +390,21 @@ Listing cards on `/properties` no longer link to these pages.
 
 ## 6. Explore our solutions `/journeys`
 
-Ten cards, each the whole card is the link:
+Ten cards in three audience groups (the header's audience tabs land here); the whole card is the link:
 
-| Card | Goes to |
-| --- | --- |
-| Open an account | `/bank/open-account` |
-| Loans and mortgages | `/bank/apply` |
-| Small business finance | `/red-sphere#explore-loan-products` |
-| Short-term insurance | `/insurance/quote` |
-| Life assurance | `/cbz-life/quote` |
-| Risk advisory | `/risk-advisory/quote` |
-| Investments | `/datvest/start-investing` |
-| Capital raising | `/capital/enquiry` |
-| Buy a property | `/properties/request-a-viewing` |
-| Farming finance | ↗ `https://agrideck.cbz.co.zw/` (Agrideck) |
+| Group | Card | Goes to |
+| --- | --- | --- |
+| Personal `#personal` | Open an account | `/bank/open-account` |
+| Personal | Loans and mortgages | `/bank/apply` |
+| Personal | Short-term insurance | `/insurance/quote` |
+| Personal | Life assurance | `/cbz-life/quote` |
+| Personal | Investments | `/datvest/start-investing` |
+| Personal | Buy a property | `/properties/request-a-viewing` |
+| Business `#business` | Small business finance | `/red-sphere#explore-loan-products` |
+| Business | Farming finance | ↗ `https://agrideck.cbz.co.zw/` (Agrideck) |
+| Corporate & Investment `#corporate` | Risk advisory | `/risk-advisory/quote` |
+| Corporate & Investment | Capital raising | `/capital/enquiry` |
+| (footer line) | Living abroad? See diaspora banking | `/diaspora` |
 
 ---
 

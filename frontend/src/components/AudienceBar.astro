@@ -1,0 +1,101 @@
+---
+/**
+ * The white strip above the header: Personal, Business, Corporate & Investment
+ * and Diaspora. The tab for the audience the current page serves is red; Group
+ * pages light none. On phones the row scrolls sideways.
+ */
+import { AUDIENCES } from '../data/nav';
+
+interface Props {
+  currentPath: string;
+}
+const { currentPath } = Astro.props;
+const active = AUDIENCES.find((a) => a.match.test(currentPath))?.id ?? null;
+---
+
+<nav class="aud" aria-label="Who we serve">
+  <div class="container aud__inner">
+    <ul role="list" class="aud__list">
+      {
+        AUDIENCES.map((a) => (
+          <li class:list={['aud__item', { 'is-active': a.id === active }]}>
+            <a href={a.href} class="aud__tab" aria-current={a.id === active ? 'true' : undefined}>
+              {a.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</nav>
+
+<style>
+  .aud {
+    background: var(--white);
+    height: var(--strip-h);
+  }
+  .aud__inner {
+    height: 100%;
+  }
+  .aud__list {
+    display: flex;
+    align-items: stretch;
+    height: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .aud__list::-webkit-scrollbar {
+    display: none;
+  }
+  .aud__item {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  /* Thin rules between tabs; none next to the red tab. */
+  .aud__item + .aud__item::before {
+    content: '';
+    width: 1px;
+    height: 20px;
+    background: var(--line);
+  }
+  .aud__item.is-active::before,
+  .aud__item.is-active + .aud__item::before {
+    background: transparent;
+  }
+  .aud__tab {
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 var(--s-6);
+    font-weight: 700;
+    font-size: var(--t-sm);
+    color: var(--blue);
+    text-decoration: none;
+    white-space: nowrap;
+    border-radius: var(--r-sm) var(--r-sm) 0 0;
+    transition:
+      background-color var(--dur) var(--ease),
+      color var(--dur) var(--ease);
+  }
+  .aud__tab:hover {
+    background: var(--blue-50);
+    color: var(--blue);
+  }
+  .aud__tab:focus-visible {
+    outline-offset: -3px;
+  }
+  .aud__item.is-active .aud__tab {
+    background: var(--red);
+    color: var(--white);
+  }
+  .aud__item.is-active .aud__tab:hover {
+    background: var(--red-hover);
+  }
+  @media (max-width: 899px) {
+    .aud__tab {
+      padding: 0 var(--s-4);
+      font-size: var(--t-xs);
+    }
+  }
+</style>

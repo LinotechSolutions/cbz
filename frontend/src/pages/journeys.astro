@@ -1,13 +1,21 @@
 ---
 /**
- * Explore our solutions: the ten guided flows on the site map, each leading straight
- * into the unit's application, quote or enquiry form.
+ * Explore our solutions: the ten guided flows on the site map, grouped by the
+ * audience tabs in the header (Personal, Business, Corporate & Investment),
+ * each leading straight into the unit's application, quote or enquiry form.
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import Icon from '../components/Icon.astro';
-import { JOURNEYS } from '../data/nav';
+import { AUDIENCES, JOURNEYS } from '../data/nav';
 import type { IconName } from '../components/icons';
+
+const groups = AUDIENCES.filter((a) => a.id !== 'diaspora').map((a) => ({
+  ...a,
+  flows: JOURNEYS.filter((j) => j.audience === a.id),
+}));
+/** Numbered in page order, so the count runs 1 to 10 down the page. */
+const ordered = groups.flatMap((g) => g.flows);
 
 const icon: Record<string, IconName> = {
   bank: 'bank',
@@ -27,25 +35,39 @@ const icon: Record<string, IconName> = {
     <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Explore our solutions' }]} />
     <h1>Explore our solutions</h1>
     <p class="lede">Ten guided flows, one for each of our businesses. Each one takes a few minutes and ends with the right team calling you back.</p>
-    <ol role="list" class="journeys">
-      {
-        JOURNEYS.map((j, i) => (
-          <li>
-            <a href={j.href} class="journey" data-track="apply_click" data-track-props={JSON.stringify({ unit: j.unit, from: 'journeys' })}>
-              <span class="journey__n" aria-hidden="true">
-                {i + 1}
-              </span>
-              <Icon name={icon[j.unit] ?? 'arrowRight'} size={24} class="journey__icon" />
-              <span class="journey__text">
-                <span class="journey__label">{j.label}</span>
-                <span class="journey__line">{j.line}</span>
-              </span>
-              <Icon name="chevronRight" size={18} class="journey__chev" />
-            </a>
-          </li>
-        ))
-      }
-    </ol>
+    {
+      groups.map((g) => (
+        <section id={g.id} class="group" aria-labelledby={`${g.id}-heading`}>
+          <h2 id={`${g.id}-heading`} class="h-rule">
+            {g.label}
+          </h2>
+          <p class="small muted">{g.line}</p>
+          <ol role="list" class="journeys">
+            {g.flows.map((j) => (
+              <li>
+                <a href={j.href} class="journey" data-track="apply_click" data-track-props={JSON.stringify({ unit: j.unit, from: 'journeys' })}>
+                  <span class="journey__n" aria-hidden="true">
+                    {ordered.indexOf(j) + 1}
+                  </span>
+                  <Icon name={icon[j.unit] ?? 'arrowRight'} size={24} class="journey__icon" />
+                  <span class="journey__text">
+                    <span class="journey__label">{j.label}</span>
+                    <span class="journey__line">{j.line}</span>
+                  </span>
+                  <Icon name="chevronRight" size={18} class="journey__chev" />
+                </a>
+              </li>
+            ))}
+          </ol>
+        </section>
+      ))
+    }
+    <p class="small">
+      Living abroad?
+      <a href="/diaspora" class="go">
+        See diaspora banking <Icon name="arrowRight" size={16} />
+      </a>
+    </p>
   </div>
 </BaseLayout>
 
@@ -55,10 +77,15 @@ const icon: Record<string, IconName> = {
     gap: var(--s-6);
     padding-block: var(--s-8) var(--band);
   }
+  .group {
+    display: grid;
+    gap: var(--s-3);
+    scroll-margin-top: calc(var(--header-h) + var(--s-6));
+  }
   .journeys {
     display: grid;
     gap: var(--gap);
-    margin-top: var(--s-4);
+    margin-top: var(--s-2);
   }
   @media (min-width: 640px) {
     .journeys {

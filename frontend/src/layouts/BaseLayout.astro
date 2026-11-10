@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import UtilityBar from '../components/UtilityBar.astro';
+import AudienceBar from '../components/AudienceBar.astro';
 import Footer from '../components/Footer.astro';
 import { Header } from '../islands/Header';
 import { ChatLauncher } from '../islands/ChatLauncher';
@@ -123,7 +123,7 @@ const headerUnit =
   </head>
   <body class={bodyClass}>
     <a href="#main" class="skip-link">Skip to content</a>
-    <UtilityBar />
+    <AudienceBar currentPath={pathname} />
     <Header
       client:load
       clusters={CLUSTERS}

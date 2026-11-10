@@ -72,8 +72,8 @@
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 
   /* Layout constants */
-  --header-h: 64px;
-  --utility-h: 36px;
+  --header-h: 72px;
+  --strip-h: 44px;
   --sticky-cta-h: 64px;
   --tap: 44px;
 }

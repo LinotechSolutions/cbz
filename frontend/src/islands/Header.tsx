@@ -24,9 +24,11 @@ interface Props {
 const isExternal = (href: string) => /^https?:\/\//.test(href);
 
 /**
- * Site header: cluster mega-menu, split Log in menu and the red Open an
- * account menu. Before hydration the triggers are plain links, so the header
- * works with JavaScript off. Menus follow the WAI-ARIA disclosure pattern.
+ * Site header (navy bar): logo, a divider, the cluster mega-menu, then Find a
+ * branch, the split Log in menu and the red Sign up menu. Before hydration the
+ * triggers are plain links, so the header works with JavaScript off. Menus
+ * follow the WAI-ARIA disclosure pattern. The audience strip above it is a
+ * separate Astro component.
  */
 export function Header({ clusters, loginItems, openAccountItems, holdings, holdingsLight, unitLogo, currentPath }: Props) {
   const [hydrated, setHydrated] = useState(false);
@@ -219,6 +221,7 @@ export function Header({ clusters, loginItems, openAccountItems, holdings, holdi
             />
           </a>
         )}
+        <span className="hdr__divider" aria-hidden="true" />
 
         <nav className="hdr__nav" aria-label="Main">
           <ul role="list" className="hdr__list">
@@ -269,6 +272,10 @@ export function Header({ clusters, loginItems, openAccountItems, holdings, holdi
         </nav>
 
         <div className="hdr__actions">
+          <a href="/contact#branches" className="hdr__branch" aria-label="Find a branch">
+            <Icon name="pin" size={18} />
+            <span className="hdr__branch-text">Find a branch</span>
+          </a>
           <div className="hdr__item hdr__item--login">
             {menuButton('login', 'Log in', '/contact#log-in', 'hdr__login')}
             {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
@@ -366,6 +373,10 @@ export function Header({ clusters, loginItems, openAccountItems, holdings, holdi
                 </details>
               ))}
             </nav>
+            <a href="/contact#branches" className="sheet__branch" onClick={() => setMobileOpen(false)}>
+              <Icon name="pin" size={18} />
+              Find a branch
+            </a>
           </div>
         </div>
       )}
@@ -378,7 +389,8 @@ const css = `
 .hdr__inner{display:flex;align-items:center;gap:var(--s-4);height:var(--header-h)}
 .hdr__home{display:inline-flex;align-items:center;height:100%}
 .hdr__home img{display:block}
-.hdr__nav{display:none;margin-left:var(--s-4)}
+.hdr__divider{display:none;width:1px;height:40px;background:rgba(255,255,255,.3);flex-shrink:0}
+.hdr__nav{display:none}
 .hdr__list{display:flex;gap:var(--s-1)}
 .hdr__item{position:relative}
 .hdr__top{display:inline-flex;align-items:center;gap:var(--s-1);height:var(--tap);padding:0 var(--s-3);border-radius:var(--r-pill);font-weight:700;color:var(--white);text-decoration:none;white-space:nowrap;transition:background-color var(--dur) var(--ease)}
@@ -400,6 +412,9 @@ const css = `
 .hdr__menu-all{display:inline-flex;align-items:center;gap:var(--s-2);margin:var(--s-2) var(--s-4) var(--s-2);font-weight:700;color:var(--blue-700);text-decoration:none;min-height:var(--tap)}
 .hdr__menu-all:hover{text-decoration:underline}
 .hdr__actions{margin-left:auto;display:flex;align-items:center;gap:var(--s-2)}
+.hdr__branch{display:none;align-items:center;gap:var(--s-2);height:var(--tap);padding:0 var(--s-3);margin-right:var(--s-2);border-radius:var(--r-pill);font-weight:700;color:var(--white);text-decoration:none;white-space:nowrap;transition:background-color var(--dur) var(--ease)}
+.hdr__branch:hover{background:rgba(255,255,255,.12);color:var(--white)}
+.hdr__branch-text{display:none}
 .hdr__login{display:none;align-items:center;gap:var(--s-1);height:var(--tap);padding:0 var(--s-4);border-radius:var(--r-pill);font-weight:700;color:var(--white);text-decoration:none;white-space:nowrap;background:none;border:1px solid rgba(255,255,255,.3)}
 .hdr__actions .btn{white-space:nowrap}
 .hdr__login:hover,.hdr__login[aria-expanded="true"]{background:rgba(255,255,255,.12)}
@@ -407,10 +422,15 @@ const css = `
 .hdr__open{gap:var(--s-1)}
 .hdr__burger{display:inline-flex;align-items:center;justify-content:center;width:var(--tap);height:var(--tap);color:var(--white);border-radius:var(--r-sm)}
 @media (min-width:900px){
+  .hdr__divider{display:block}
   .hdr__nav{display:block}
+  .hdr__branch{display:inline-flex}
   .hdr__login{display:inline-flex}
   .hdr__item--open{display:block}
   .hdr__burger{display:none}
+}
+@media (min-width:1100px){
+  .hdr__branch-text{display:inline}
 }
 .sheet{position:fixed;inset:0;z-index:70;background:var(--white);display:flex;flex-direction:column;overflow-y:auto}
 .sheet__bar{display:flex;align-items:center;justify-content:space-between;padding:var(--s-3) var(--gutter);border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--white)}
@@ -424,4 +444,6 @@ const css = `
 .sheet__cluster{display:flex;align-items:center;justify-content:space-between;min-height:52px;font-weight:700;font-size:var(--t-lg);color:var(--blue)}
 .sheet__group[open] summary svg:last-child{transform:rotate(180deg)}
 .sheet__links{display:grid;padding-bottom:var(--s-3)}
+.sheet__branch{display:inline-flex;align-items:center;gap:var(--s-2);min-height:var(--tap);font-weight:700;color:var(--blue);text-decoration:none}
+.sheet__branch:hover{text-decoration:underline}
 `;

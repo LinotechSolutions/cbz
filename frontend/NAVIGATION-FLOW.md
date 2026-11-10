@@ -211,7 +211,7 @@ All nine unit pages share one template, in this order:
    - **Store badges**: App Store ↗ and Google Play ↗ for the app named.
    - **FAQ** (on-screen title "Frequently Asked Questions"). Left column "Need help? We're here for you.": **Call Us** `tel:+2638677004050` with the toll-free line as text; **Email Us** `mailto:contactcentre@cbz.co.zw`; **Visit Us** ▸ Locate branch → `/contact#branches`; the unit photograph in a circle. Right column: five questions that open and close (first open by default); then the navy "Still have questions?" band with **Start a chat** ↗ WhatsApp and a "contact us" link → the unit's call-back form (per unit below).
 4. **About <unit>** `#about` (every unit, after the last section): a photograph with the red curve and the unit's logo on a white plate; a paragraph on the unit, four key facts (text), and the line "Part of **CBZ Holdings**" → `/the-group` with any held companies; **About the Group** → `/the-group`.
-5. **Meet the team** `#team` (every unit): profile cards (portrait, name, role; text only) once the unit supplies them. Until then a holding panel: "Leadership profiles are on their way." with **Talk to the team** → the unit's call-back form (or `/contact` where it has none) and **WhatsApp us** ↗.
+5. **Meet the team** `#team` (every unit): profile cards for the managing director or principal officer, the board chairperson and the directors (portrait placeholder until photographs arrive, name, role; text only, no links). A unit with no names yet would show a holding panel instead, with **Talk to the team** → its call-back form and **WhatsApp us** ↗.
 6. **Sticky bar** (phones only): the primary button.
 
 ### 4.1 CBZ Bank `/bank`
@@ -229,7 +229,7 @@ Sections
 | Cards and digital banking `#cards-and-digital` | Product carousel, filters Cards / Digital and merchant. Card buttons differ by product: **CBZ Touch** → App Store ↗ and Google Play ↗; **Internet banking** and **E-statements** → Log in to internet banking → `/login`; **Visa POS, Local POS, Kleva POS** → Speak to an agent → `/bank/call-me-back`; all other cards → Open an account → `/bank/open-account`. Then CBZ Touch store badges (App Store ↗, Google Play ↗) and link card **Log in to internet banking** ▸ Get started → `/login`. |
 | FAQ `#faq` | Five questions. "contact us" → `/bank/call-me-back`. |
 | About `#about` | Paragraph, four facts and the unit logo on the photograph. **CBZ Holdings** and **About the Group** → `/the-group`. |
-| Meet the team `#team` | Holding panel until profiles arrive. **Talk to the team** → `/bank/call-me-back`; **WhatsApp us** ↗. |
+| Meet the team `#team` | Profile cards: managing director or principal officer, board chairperson and directors (name and role, text only). |
 
 Gap: the Who we serve anchors `#panel-bank-accounts` do not exist on the
 bank page (the filter tabs carry a longer id because the page has several
@@ -249,7 +249,7 @@ product lists), so the Individuals and Companies chips do not scroll.
 | Download the app `#download-the-app` | App Store ↗ `apps.apple.com/zw/app/redsphere/id6775831304`; Google Play ↗. |
 | Explore invoice discounting `#explore-invoice-discounting` | **Explore Invoice Discounting** ▸ Visit ↗ Zeex; note "How it works". |
 | About `#about` | Paragraph, four facts and the unit logo on the photograph. **CBZ Holdings** and **About the Group** → `/the-group`. |
-| Meet the team `#team` | Holding panel until profiles arrive. **Talk to the team** → `/contact`; **WhatsApp us** ↗. |
+| Meet the team `#team` | Profile cards: managing director or principal officer, board chairperson and directors (name and role, text only). |
 
 ### 4.3 CBZ Insurance `/insurance`
 
@@ -265,7 +265,7 @@ product lists), so the Individuals and Companies chips do not scroll.
 | Policy changes `#policy-changes` | **Policy status** → `/insurance/policy-changes?request=status`; **Cancellation** → `/insurance/policy-changes?request=cancellation`; **Enquiries** → `/insurance/policy-changes?request=premium`. |
 | FAQ `#faq` | "contact us" → `/insurance/call-me-back`. |
 | About `#about` | Paragraph, four facts and the unit logo on the photograph. **CBZ Holdings** and **About the Group** → `/the-group`. |
-| Meet the team `#team` | Holding panel until profiles arrive. **Talk to the team** → `/insurance/call-me-back`; **WhatsApp us** ↗. |
+| Meet the team `#team` | Profile cards: managing director or principal officer, board chairperson and directors (name and role, text only). |
 
 ### 4.4 CBZ Life `/cbz-life`
 
@@ -282,7 +282,7 @@ product lists), so the Individuals and Companies chips do not scroll.
 | Talk to an agent `#talk-to-an-agent` | Feature card ▸ Get started → `/cbz-life/talk-to-an-agent`. |
 | FAQ `#faq` | "contact us" → `/cbz-life/talk-to-an-agent`. |
 | About `#about` | Paragraph, four facts and the unit logo on the photograph. **CBZ Holdings** and **About the Group** → `/the-group`. |
-| Meet the team `#team` | Holding panel until profiles arrive. **Talk to the team** → `/cbz-life/talk-to-an-agent`; **WhatsApp us** ↗. |
+| Meet the team `#team` | Profile cards: managing director or principal officer, board chairperson and directors (name and role, text only). |
 
 The four feature cards sit two to a row in one band.
 
@@ -298,7 +298,7 @@ The four feature cards sit two to a row in one band.
 | Request an insurance audit `#request-insurance-audit` | Feature card ▸ Get started → `/risk-advisory/insurance-audit`. |
 | Get a quote `#get-a-quote` | Feature card ▸ Get started → `/risk-advisory/quote`. |
 | About `#about` | Paragraph, four facts and the unit logo on the photograph. **CBZ Holdings** and **About the Group** → `/the-group`. |
-| Meet the team `#team` | Holding panel until profiles arrive. **Talk to the team** → `/contact`; **WhatsApp us** ↗. |
+| Meet the team `#team` | Profile cards: managing director or principal officer, board chairperson and directors (name and role, text only). |
 
 No FAQ section yet.
 
@@ -313,7 +313,7 @@ No FAQ section yet.
 | Learn more `#learn-more` | Product carousel, filters Unit trusts / Institutional / Private wealth. Every card: **Start investing** → `/datvest/start-investing`. Note card "Wealth-creation advisory" (no link). |
 | FAQ `#faq` | "contact us" → `/datvest/call-me-back`. |
 | About `#about` | Paragraph, four facts and the unit logo on the photograph. **CBZ Holdings** and **About the Group** → `/the-group`. |
-| Meet the team `#team` | Holding panel until profiles arrive. **Talk to the team** → `/datvest/call-me-back`; **WhatsApp us** ↗. |
+| Meet the team `#team` | Profile cards: managing director or principal officer, board chairperson and directors (name and role, text only). |
 
 ### 4.7 CBZ Capital `/capital`
 
@@ -326,7 +326,7 @@ No FAQ section yet.
 | Learn more `#learn-more` | Two product lists: Investment products (debt, equity) and Corporate finance advisory (advisory, infrastructure). Every card: **Start a capital enquiry** → `/capital/enquiry`. |
 | FAQ `#faq` | "contact us" → `/capital/call-me-back`. |
 | About `#about` | Paragraph, four facts and the unit logo on the photograph. **CBZ Holdings** and **About the Group** → `/the-group`. |
-| Meet the team `#team` | Holding panel until profiles arrive. **Talk to the team** → `/capital/call-me-back`; **WhatsApp us** ↗. |
+| Meet the team `#team` | Profile cards: managing director or principal officer, board chairperson and directors (name and role, text only). |
 
 ### 4.8 CBZ Properties `/properties`
 
@@ -341,7 +341,7 @@ No FAQ section yet.
 | Schedule a viewing `#schedule-viewing` | Feature card ▸ Get started → `/properties/request-a-viewing`. |
 | FAQ `#faq` | "contact us" → `/properties/call-back`. |
 | About `#about` | Paragraph, four facts and the unit logo on the photograph. **CBZ Holdings** and **About the Group** → `/the-group`. |
-| Meet the team `#team` | Holding panel until profiles arrive. **Talk to the team** → `/properties/call-back`; **WhatsApp us** ↗. |
+| Meet the team `#team` | Profile cards: managing director or principal officer, board chairperson and directors (name and role, text only). |
 
 Property detail pages `/properties/<id>` still exist (one per listing):
 **View on Propertybook** ↗; **Request a viewing** → `/properties/request-a-viewing?property=<id>`;
@@ -362,7 +362,7 @@ Listing cards on `/properties` no longer link to these pages.
 | Enquire now `#enquire-now` | **Lead form** ▸ Get started → `/agro-yield/enquire`; notes "Customer confirmation" and "Agro-Yield business development" (no links). |
 | Explore ATDC `#explore-atdc` | **Visit ATDC** ▸ Visit ↗; note "A Group business". |
 | About `#about` | Paragraph, four facts and the unit logo on the photograph. **CBZ Holdings** and **About the Group** → `/the-group`. |
-| Meet the team `#team` | Holding panel until profiles arrive. **Talk to the team** → `/contact`; **WhatsApp us** ↗. |
+| Meet the team `#team` | Profile cards: managing director or principal officer, board chairperson and directors (name and role, text only). |
 
 ---
 
@@ -436,7 +436,7 @@ Jump links: Mortgage `#mortgage`, Car finance `#car-finance`, Red Sphere loan `#
 
 ## 10. The Group and about pages
 
-**The Group `/the-group`**: jump links Structure `#structure`, Awards `#awards`, Milestones `#milestones`, Board `#board` (if listed). Structure: cluster names → cluster pages; company names → unit pages. Awards: Investor relations and annual reports ↗ `cbz.co.zw/investor-relations`.
+**The Group `/the-group`**: jump links Structure `#structure`, Awards `#awards`, Milestones `#milestones`, Board `#board`, Executive committee `#exco`. Structure: cluster names → cluster pages; company names → unit pages. Awards: Investor relations and annual reports ↗ `cbz.co.zw/investor-relations`. Board of directors: nine cards (portrait placeholder until photographs arrive, name, role, appointment month and one line of background; text only), then the six board committees as chips (text). Executive committee: twelve cards (name and role; text only).
 
 **CBZ Foundation `/cbz-foundation`**: hero Contact the Foundation → `/contact`. The work so far: Philanthropic initiatives ↗; Community involvement news ↗. Contact: Contact the Foundation → `/contact`; Call +263 8677 004050 → tel.
 

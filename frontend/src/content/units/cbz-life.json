@@ -109,7 +109,13 @@
     { "value": "Group life", "label": "Retirement savings, annuities and credit life" },
     { "value": "CBZ Shield", "label": "Wholly owned subsidiary" }
   ],
-  "team": [],
+  "team": [
+    { "name": "Jonah Mutizwa", "role": "Principal Officer", "image": null },
+    { "name": "Henry Tshuma", "role": "Board Chairperson", "image": null },
+    { "name": "Munesh Narotam", "role": "Director", "image": null },
+    { "name": "Dr Chessman Wekwete", "role": "Director", "image": null },
+    { "name": "Dr Welcome Sibanda", "role": "Director", "image": null }
+  ],
   "seo": {
     "title": "CBZ Life: funeral, education and group life cover",
     "description": "Comfortsure funeral cash plan, Sarapavana education plan, group life, retirement savings, annuities and credit life from CBZ Life."

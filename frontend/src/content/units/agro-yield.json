@@ -60,7 +60,13 @@
     { "value": "Offtake", "label": "Market routes for commodities" },
     { "value": "ATDC", "label": "40% stake in ATDC Zimbabwe" }
   ],
-  "team": [],
+  "team": [
+    { "name": "Wellington Mutizwa", "role": "Managing Director and Head of Agro-Business Cluster", "image": null },
+    { "name": "Wayne Parham", "role": "Acting Board Chairperson", "image": null },
+    { "name": "Percival Mazike", "role": "Director", "image": null },
+    { "name": "Prof. Paul Mapfumo", "role": "Director", "image": null },
+    { "name": "Michael Zihumo", "role": "Director", "image": null }
+  ],
   "seo": {
     "title": "CBZ Agro-Yield: contract farming, inputs and offtake",
     "description": "Seasonal contract farming finance, joint ventures, commodity trading and farm supply chain from CBZ Agro-Yield."

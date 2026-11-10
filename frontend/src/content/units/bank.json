@@ -184,7 +184,18 @@
     { "value": "24/7", "label": "Digital banking, every day" },
     { "value": "ZSE: CBZ", "label": "Part of a listed group" }
   ],
-  "team": [],
+  "team": [
+    { "name": "Valeta Mthimkhulu", "role": "Managing Director", "image": null },
+    { "name": "Dr Alex Marufu", "role": "Board Chairperson", "image": null },
+    { "name": "Jiten Shah", "role": "Director", "image": null },
+    { "name": "Edwin Shangwa", "role": "Director", "image": null },
+    { "name": "Dr Christian Beddies", "role": "Director", "image": null },
+    { "name": "Shirley Naik", "role": "Director", "image": null },
+    { "name": "Robert Hoard", "role": "Director", "image": null },
+    { "name": "Norman Mhondiwa", "role": "Director", "image": null },
+    { "name": "Lawrence Nyazema", "role": "Director and Group Chief Executive Officer", "image": null },
+    { "name": "Joel Makombe", "role": "Director and Group Chief Financial Officer", "image": null }
+  ],
   "seo": {
     "title": "CBZ Bank: accounts, cards, loans and mortgages",
     "description": "Open a CBZ Bank account, apply for a loan or mortgage, and bank on CBZ Touch. Accounts for individuals, companies, schools and churches."

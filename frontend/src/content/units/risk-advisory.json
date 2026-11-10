@@ -66,7 +66,11 @@
     { "value": "Claims", "label": "Independent assessment and lodgement" },
     { "value": "Employee benefits", "label": "Pension advisory and healthcare consulting" }
   ],
-  "team": [],
+  "team": [
+    { "name": "Takawira Chinyani", "role": "Principal Officer and Head of Insurance Cluster", "image": null },
+    { "name": "Nhamo Marandu", "role": "Director", "image": null },
+    { "name": "Regai Hove", "role": "Director", "image": null }
+  ],
   "seo": {
     "title": "CBZ Risk Advisory: broking, risk audits and employee benefits",
     "description": "Independent insurance broking, enterprise risk audits, employee benefits and pensions consulting and reinsurance placement from CBZ Risk Advisory Services."

@@ -116,7 +116,12 @@
     { "value": "Mergers and acquisitions", "label": "Buy-side and sell-side advisory" },
     { "value": "Private equity", "label": "Venture solutions and syndicated finance" }
   ],
-  "team": [],
+  "team": [
+    { "name": "Patrick Matute", "role": "Managing Director", "image": null },
+    { "name": "Fungai Kuipa", "role": "Board Chairperson", "image": null },
+    { "name": "Lionel Chinyamutangira", "role": "Director", "image": null },
+    { "name": "Tendai Muzadzi", "role": "Director and Head of Investments Cluster", "image": null }
+  ],
   "seo": {
     "title": "CBZ Capital: investment banking and corporate advisory",
     "description": "Debt and equity raising, loan syndications, M&A advisory, ZSE and VFEX listings and PPP infrastructure finance from CBZ Capital."

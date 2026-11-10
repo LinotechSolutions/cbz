@@ -69,7 +69,7 @@ _Generated 2026-11-10 by `npm run handoff`. Do not edit between the markers._
 | Unit mailboxes for form routing | Marketing managers |  |
 | Final photography for heroes and tiles | Marketing |  |
 | Campaign artwork and copy | Marketing |  |
-| Leadership profiles per unit (names, roles and photos) | Each unit | Meet the team on each business page shows a holding panel until the unit JSON "team" list is filled. |
+| Leadership photographs per unit, and confirmation of the subsidiary board names taken from the 2025 annual report (p. 161, a rotated page) | Each unit | Names and roles sit in each unit JSON under "team". Confirm: the CBZ Bank chair's full name (Dr Alex Marufu), the CBZ Insurance Principal Officer's first name (Jame Mharadze), the Agro-Yield director Mutendadzamera (first name unclear, left out) and whether Nomathema Ndlovu still chairs CBZ Risk Advisory (marked retired or resigned, left out). |
 | Objectives and customer segmentation per unit | Marketing |  |
 | Property listings, prices and photography | CBZ Properties |  |
 | FAQ answers on the Bank, Insurance, Properties, Datvest and Capital pages | Each business unit | Drafted from the product data and form copy; each unit to confirm or replace the five questions. |
@@ -79,7 +79,7 @@ _Generated 2026-11-10 by `npm run handoff`. Do not edit between the markers._
 | Analytics vendor and tag | Digital |  |
 | Notices content (the six ported notices are sample content) | Corporate Communications |  |
 | CBZ Bank calls to action (site map says "to be confirmed"; Open an account, Apply for a loan and Call me back are in place) | CBZ Bank |  |
-| Board of directors: names, roles and photos | Corporate Affairs |  |
+| Board and executive committee photographs; Group CEO appointment date (the 2025 report says 1 December 2024, ZSE notices 1 December 2023; the site shows December 2023) | Corporate Affairs | Names and roles are in src/data/facts.ts (BOARD, EXCO) from the 2025 annual report. |
 | Sustainability: Grievance Procedure PDF, Grievance Resolution Form PDF, grievance mailbox, and the reports to publish | Sustainability | src/data/sustainability.ts; links are hidden until set. |
 | Off-site link: property management sign-in | Digital, CBZ Properties |  |
 | Zeex invoice-discounting wording and customer journey on the Red Sphere page | Red Sphere Finance and Zeex | Both parties to approve. Link to zeex.co.zw is live. |
@@ -138,6 +138,15 @@ _Generated 2026-11-10 by `npm run handoff`. Do not edit between the markers._
 - `properties/neighborhood-retail-convenience-hubs.json`: price, tourUrl
 - `properties/pomona-industrial-logistics-and-warehouse-park.json`: price, tourUrl
 - `properties/pomona-north-private-residential-estate.json`: price, tourUrl
+- `units/agro-yield.json`: team[0].image, team[1].image, team[2].image, team[3].image, team[4].image
+- `units/bank.json`: team[0].image, team[1].image, team[2].image, team[3].image, team[4].image, team[5].image, team[6].image, team[7].image, team[8].image, team[9].image
+- `units/capital.json`: team[0].image, team[1].image, team[2].image, team[3].image
 - `units/cbz-foundation.json`: secondaryCta, productsNote
+- `units/cbz-life.json`: team[0].image, team[1].image, team[2].image, team[3].image, team[4].image
+- `units/datvest.json`: team[0].image, team[1].image, team[2].image, team[3].image
+- `units/insurance.json`: team[0].image, team[1].image, team[2].image, team[3].image, team[4].image
+- `units/properties.json`: team[0].image, team[1].image, team[2].image, team[3].image, team[4].image, team[5].image
+- `units/red-sphere.json`: team[0].image, team[1].image, team[2].image, team[3].image, team[4].image
+- `units/risk-advisory.json`: team[0].image, team[1].image, team[2].image
 
 <!-- handoff:end -->

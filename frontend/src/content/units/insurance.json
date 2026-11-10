@@ -188,7 +188,13 @@
     { "value": "Agriculture", "label": "Crop, livestock and machinery" },
     { "value": "CBZ Secure", "label": "Wholly owned subsidiary" }
   ],
-  "team": [],
+  "team": [
+    { "name": "Jame Mharadze", "role": "Principal Officer", "image": null },
+    { "name": "Ambrose Matika", "role": "Board Chairperson", "image": null },
+    { "name": "Wilberforce Chitiga", "role": "Director", "image": null },
+    { "name": "Joey Shumbamhini", "role": "Director", "image": null },
+    { "name": "Dr Nancy Matshe", "role": "Director", "image": null }
+  ],
   "seo": {
     "title": "CBZ Insurance: motor, home, business and farm cover",
     "description": "Short-term insurance from CBZ Insurance: motor, home and contents, travel, personal accident, business cover and agricultural protection."

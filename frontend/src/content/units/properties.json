@@ -140,7 +140,14 @@
     { "value": "Advisory", "label": "Valuations and project management" },
     { "value": "Financed", "label": "CBZ Bank mortgages and CBZ Insurance cover" }
   ],
-  "team": [],
+  "team": [
+    { "name": "Patrick Matute", "role": "Acting Managing Director", "image": null },
+    { "name": "Motsi Sinyoro", "role": "Acting Board Chairperson", "image": null },
+    { "name": "Brenda Tsvetu", "role": "Director", "image": null },
+    { "name": "Nyasha Mukura", "role": "Director", "image": null },
+    { "name": "Shadreck Keche", "role": "Director", "image": null },
+    { "name": "Tendai Muzadzi", "role": "Director and Head of Investments Cluster", "image": null }
+  ],
   "seo": {
     "title": "CBZ Properties: homes, stands and commercial space",
     "description": "Residential stands and homes, commercial space and property advisory from CBZ Properties, with CBZ Bank mortgages alongside."

@@ -118,7 +118,12 @@
     { "value": "Private wealth", "label": "Advisory and family office" },
     { "value": "Investments", "label": "Part of the CBZ investment cluster" }
   ],
-  "team": [],
+  "team": [
+    { "name": "Tendai Muzadzi", "role": "Managing Director and Head of Investments Cluster", "image": null },
+    { "name": "Heena Joshi", "role": "Acting Board Chairperson", "image": null },
+    { "name": "Conrad Mukanganga", "role": "Director", "image": null },
+    { "name": "Mirirai Moyo", "role": "Director", "image": null }
+  ],
   "seo": {
     "title": "Datvest: unit trusts, pensions and wealth management",
     "description": "Invest with Datvest, the asset manager of CBZ Holdings: unit trusts, institutional and pension fund mandates, and private wealth management."

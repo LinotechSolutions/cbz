@@ -166,7 +166,13 @@
     { "value": "US$2,400", "label": "SSB loan limit" },
     { "value": "8%", "label": "Partner commission" }
   ],
-  "team": [],
+  "team": [
+    { "name": "Desmund Ali", "role": "Managing Director", "image": null },
+    { "name": "Jamille Jinnah", "role": "Board Chairperson", "image": null },
+    { "name": "Walker Jabulani Ntini", "role": "Director", "image": null },
+    { "name": "Tsitsi Mariwo", "role": "Director", "image": null },
+    { "name": "Violet Masunda", "role": "Director", "image": null }
+  ],
   "seo": {
     "title": "Red Sphere Finance: salary and business loans",
     "description": "Apply online for a Red Sphere Finance loan: SSB and payroll loans, pensioner loans, SME working capital, and agent and partner lending."

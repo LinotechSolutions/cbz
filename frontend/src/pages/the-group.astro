@@ -1,16 +1,18 @@
 ---
 /**
- * The Group: Structure, Awards, Milestones and Board, as on the site map.
- * The Board renders only once the business supplies the profiles.
+ * The Group: Structure, Awards, Milestones, Board and Executive committee,
+ * as on the site map. Board and executive names come from the annual report;
+ * portraits show a placeholder until photographs are supplied.
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import Section from '../components/Section.astro';
 import Logo from '../components/Logo.astro';
+import Icon from '../components/Icon.astro';
 import ExternalLink from '../components/ExternalLink.astro';
 import ResponsiveImage from '../components/ResponsiveImage.astro';
 import { CLUSTERS, companiesIn, heldBy, VALUE_PROPOSITION, type ClusterId } from '../data/group';
-import { AWARDS, GROUP, MILESTONES, BOARD } from '../data/facts';
+import { AWARDS, GROUP, MILESTONES, BOARD, BOARD_COMMITTEES, EXCO } from '../data/facts';
 import { LINKS } from '../data/links';
 import { visible } from '../lib/visible';
 import type { DarkSafeLogoKey } from '../data/logos';
@@ -21,6 +23,7 @@ const jump = [
   { label: 'Awards', href: '#awards' },
   { label: 'Milestones', href: '#milestones' },
   ...(board.length ? [{ label: 'Board', href: '#board' }] : []),
+  ...(EXCO.length ? [{ label: 'Executive committee', href: '#exco' }] : []),
 ];
 ---
 
@@ -119,13 +122,49 @@ const jump = [
 
   {
     board.length > 0 && (
-      <Section id="board" heading="Board">
+      <Section
+        id="board"
+        heading="Board of directors"
+        lede="Six independent non-executive directors and two executive directors, with the Group Chief Legal Counsel attending ex officio."
+      >
         <ul role="list" class="board">
           {board.map((p) => (
-            <li class="person">
-              {p.image ? <ResponsiveImage src={p.image.src} alt={p.image.alt} ratio="1:1" /> : <div class="person__placeholder" aria-hidden="true" />}
+            <li class="person card-base">
+              <span class="person__photo" aria-hidden="true">
+                {p.image ? <ResponsiveImage src={p.image.src} alt="" ratio="1:1" /> : <Icon name="user" size={48} />}
+                <span class="person__arc" />
+              </span>
               <span class="person__name">{p.name}</span>
-              <span class="small muted">{p.role}</span>
+              <span class="person__role">{p.role}</span>
+              {p.since && <span class="person__since">Appointed {p.since}</span>}
+              {p.line && <span class="person__line">{p.line}</span>}
+            </li>
+          ))}
+        </ul>
+        <div class="committees">
+          <span class="committees__label">Board committees</span>
+          <ul role="list" class="committees__list">
+            {BOARD_COMMITTEES.map((c) => (
+              <li class="committees__item">{c}</li>
+            ))}
+          </ul>
+        </div>
+      </Section>
+    )
+  }
+
+  {
+    EXCO.length > 0 && (
+      <Section id="exco" heading="Executive committee" lede="The Group executive committee leads the eleven operating companies day to day.">
+        <ul role="list" class="board board--exco">
+          {EXCO.map((p) => (
+            <li class="person card-base">
+              <span class="person__photo" aria-hidden="true">
+                {p.image ? <ResponsiveImage src={p.image.src} alt="" ratio="1:1" /> : <Icon name="user" size={48} />}
+                <span class="person__arc" />
+              </span>
+              <span class="person__name">{p.name}</span>
+              <span class="person__role">{p.role}</span>
             </li>
           ))}
         </ul>
@@ -262,22 +301,99 @@ const jump = [
     color: var(--blue);
     font-variant-numeric: tabular-nums;
   }
+  /* Board and executive committee: portrait with a red curve, name, role,
+     appointment and one line of background. */
   .board {
     display: grid;
     gap: var(--gap);
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  @media (min-width: 640px) {
+    .board {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 900px) {
+    .board {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .board--exco {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
   }
   .person {
     display: grid;
-    gap: var(--s-2);
+    gap: var(--s-1);
+    align-content: start;
+    padding: var(--s-3);
   }
-  .person__placeholder {
+  .person__photo {
+    position: relative;
+    display: grid;
+    place-items: center;
     aspect-ratio: 1;
-    background: var(--blue-100);
     border-radius: var(--r-md);
+    overflow: hidden;
+    background: var(--blue-50);
+    color: var(--blue);
+    margin-bottom: var(--s-2);
+  }
+  .person__photo :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .person__arc {
+    position: absolute;
+    top: -40px;
+    left: -40px;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: 10px solid var(--red);
   }
   .person__name {
     font-weight: 700;
     color: var(--blue);
+  }
+  .person__role {
+    font-size: var(--t-sm);
+    color: var(--ink);
+  }
+  .person__since {
+    font-size: var(--t-xs);
+    color: var(--red-700);
+    font-weight: 700;
+  }
+  .person__line {
+    font-size: var(--t-xs);
+    color: var(--grey);
+    margin-top: var(--s-1);
+  }
+  .committees {
+    display: grid;
+    gap: var(--s-3);
+    margin-top: var(--s-8);
+    padding-top: var(--s-6);
+    border-top: 1px solid var(--line);
+  }
+  .committees__label {
+    font-weight: 700;
+    color: var(--blue);
+  }
+  .committees__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+  }
+  .committees__item {
+    padding: var(--s-1) var(--s-3);
+    border-radius: var(--r-pill);
+    background: var(--blue-50);
+    color: var(--blue);
+    font-size: var(--t-sm);
+    font-weight: 700;
   }
 </style>

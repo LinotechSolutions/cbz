@@ -1,18 +1,125 @@
-# CBZ Holdings website: navigation flow
+# CBZ Holdings website: sitemap and navigation flow
 
 Every page, every section, every button and where it goes. Taken from the
-built site on 9 November 2026 (`main` at `471276a`).
+built site on 10 November 2026 (`main` at `f1fbc1d`).
 
-Conventions
+How to read this document
 
+- Section 0 is the site map: every URL, what the page is for, and its main
+  buttons. Sections 1 to 13 then describe each page element by element.
 - `↗` opens in a new tab (off-site).
 - `#anchor` scrolls to a section on the same page.
+- `▸` is an item inside a menu, dropdown or card.
 - "Hidden" means the link's URL is still null in `src/data/links.ts` or the
   unit content, so the item does not render until the URL is supplied.
 - **Forms do not send anywhere yet.** Every form saves a draft in the browser,
   validates, shows a success screen with a locally generated reference such as
   `BANK-K3M2Q1`, and clears the draft. No email or API is wired up. Adding
   `?mockfail=1` to a form URL shows the error state.
+
+---
+
+## 0. Site map
+
+Fifty-odd pages in seven groups. Indentation shows where a page sits; the
+right-hand column names the page's main buttons (the ones in its hero or at
+the top of the page). Details for each page are in the section given.
+
+### 0.1 Audience homes (the header strip)
+
+| Page | What it is | Main buttons | See |
+| --- | --- | --- | --- |
+| `/` Personal home | The front door for individuals: hero, five task cards, nine life-stage journey cards, three digital channel cards, Learn more rail. | **Explore our products** (red menu of six sign-up choices) | 2 |
+| `/business` Business home | The same layout for companies, traders and farmers. Opening it selects the Business audience. | **Explore business products** (red menu of six) | 2b |
+| `/school` School home | The same layout for schools. Opening it selects the School audience. | **Explore school products** (red menu of six) | 2c |
+| `/diaspora` Diaspora banking | What a Zimbabwean abroad needs: the three documents, then banking, property, investing and life cover panels. Opening it selects the Diaspora audience. | **Open a diaspora account** → `/bank/open-account`; **WhatsApp us** ↗ | 5 |
+
+### 0.2 Cluster pages (the Bank, Insure, Invest and Farm menu labels)
+
+| Page | What it is | Main buttons | See |
+| --- | --- | --- | --- |
+| `/clusters/banking` Banking | The companies in the banking cluster: CBZ Bank, Red Sphere Finance, CBZ Custodial Services. | **Visit <company>** per card | 3 |
+| `/clusters/insurance` Insurance | CBZ Insurance, CBZ Life, CBZ Risk Advisory. | **Visit <company>** | 3 |
+| `/clusters/investments` Investments | Datvest, CBZ Capital, CBZ Properties. | **Visit <company>** | 3 |
+| `/clusters/agro-business` Farm | CBZ Agro-Yield and ATDC. (The URL keeps its old name; everything on screen says Farm.) | **Visit CBZ Agro-Yield** | 3 |
+
+The Borrow menu label goes straight to `/red-sphere`.
+
+### 0.3 Business unit pages and their forms
+
+Each unit page follows one template (section 4): hero with two buttons, Who we serve chips, one section per branch of the site map, FAQ, About, Meet the team, and on phones a sticky bar with the primary button. Pages indented under a unit are its forms (section 11).
+
+| Page | What it is | Main buttons | See |
+| --- | --- | --- | --- |
+| `/bank` CBZ Bank | Accounts, savings, loans, cards, digital and merchant channels. | **Open an account** → `/bank/open-account`; **Apply for a loan** → `/bank/apply` | 4.1 |
+| ├ `/bank/open-account` | Account opening form (three steps). | **Continue** / **Send my application** | 11 |
+| ├ `/bank/apply` | Loan and mortgage application form. | **Continue** / **Send my application** | 11 |
+| └ `/bank/call-me-back` | Call-back request for CBZ Bank. | **Request a call** | 11 |
+| `/red-sphere` Red Sphere Finance | SME, SSB, private individual and cash loans, loan calculator, app download, invoice discounting with Zeex. | **Apply online** ↗ Google Play; **Loan calculator** → `#loan-calculator` | 4.2 |
+| └ `/red-sphere/enquire` | Enquiry form (call-back style). | **Request a call** | 11 |
+| `/insurance` CBZ Insurance | Short-term cover: personal, business and agriculture; quote, insure now, claims, policy changes. | **Request a quote** → `/insurance/quote`; **Insure now** → `/insurance/insure-now` | 4.3 |
+| ├ `/insurance/quote` | Quote request form. | **Request my quote** | 11 |
+| ├ `/insurance/insure-now` | Personal lines policy application. | **Send my application** | 11 |
+| ├ `/insurance/claim` | Claim submission. | **Submit my claim** | 11 |
+| ├ `/insurance/policy-changes` | Policy status, cancellation or premium enquiry (`?request=status|cancellation|premium` pre-selects). | **Send my request** | 11 |
+| └ `/insurance/call-me-back` | Call-back request for CBZ Insurance. | **Request a call** | 11 |
+| `/cbz-life` CBZ Life | Funeral, education, group life, retirement and annuity plans; quote, take cover, claims, pay online, talk to an agent. | **Get a quote** → `/cbz-life/quote`; **Talk to an agent** → `/cbz-life/talk-to-an-agent` | 4.4 |
+| ├ `/cbz-life/quote` | Quotation request form. | **Request my quotation** | 11 |
+| ├ `/cbz-life/take-cover` | Policy onboarding form. | **Send my application** | 11 |
+| ├ `/cbz-life/claim` | Claim submission. | **Submit my claim** | 11 |
+| ├ `/cbz-life/pay` | How to pay a premium (not a form): CBZ Touch, internet banking, USSD, policy administration links. | **Get CBZ Touch** → `/login#apps`; **Open internet banking** ↗ | 11 |
+| └ `/cbz-life/talk-to-an-agent` | Agent enquiry form (call-back style; the same form also sits on `/cbz-life/pay`). | **Request a call** | 11 |
+| `/risk-advisory` CBZ Risk Advisory | Broking, enterprise risk audits, employee benefits and reinsurance. | **Get a quote** → `/risk-advisory/quote`; **Request an insurance audit** → `/risk-advisory/insurance-audit` | 4.5 |
+| ├ `/risk-advisory/quote` | Quote request (also where `/risk-advisory/consultation` redirects). | **Request my quote** | 11 |
+| └ `/risk-advisory/insurance-audit` | Audit request form. | **Request an audit** | 11 |
+| `/datvest` Datvest | Unit trusts, institutional mandates and private wealth. | **Call me back** → `/datvest/call-me-back`; **Start investing** → `/datvest/start-investing` | 4.6 |
+| ├ `/datvest/start-investing` | Start investing form. | **Send my request** | 11 |
+| └ `/datvest/call-me-back` | Call-back request for Datvest. | **Request a call** | 11 |
+| `/capital` CBZ Capital | Debt and equity capital markets, corporate advisory, PPPs and infrastructure. | **Call me back** → `/capital/call-me-back`; **Start a capital enquiry** → `/capital/enquiry` | 4.7 |
+| ├ `/capital/enquiry` | Capital enquiry form. | **Send my enquiry** | 11 |
+| └ `/capital/call-me-back` | Call-back request for CBZ Capital. | **Request a call** | 11 |
+| `/properties` CBZ Properties | Property listings with Type, Location and Status filters (the audience strip picks homes or commercial space), virtual tours, viewings. | **Schedule a viewing** → `/properties/request-a-viewing`; **See the listings** → `#property-listing` | 4.8 |
+| ├ `/properties/<id>` | One page per listing (twelve), reachable by URL only. | **View on Propertybook** ↗; **Request a viewing** → `/properties/request-a-viewing?property=<id>` | 4.8 |
+| ├ `/properties/request-a-viewing` | Viewing request form (`?property=<id>` pre-selects a listing). | **Request a viewing** | 11 |
+| └ `/properties/call-back` | Call-back request for CBZ Properties. | **Request a call** | 11 |
+| `/agro-yield` CBZ Agro-Yield | Farming, enterprise, commodity trading and supply chain divisions; farmer onboarding on Agrideck; ATDC. | **Enquire now** → `/agro-yield/enquire`; **Apply online** ↗ Agrideck | 4.9 |
+| ├ `/agro-yield/enquire` | Lead form (call-back style). | **Request a call** | 11 |
+| └ `/agro-yield/apply` | Farming finance application, kept for old links; nothing on the site links to it. | **Send my application** | 11 |
+
+### 0.4 Solutions, tools and access
+
+| Page | What it is | Main buttons | See |
+| --- | --- | --- | --- |
+| `/journeys` Explore our solutions | The ten guided flows, grouped Personal and Business, each card going straight to a form. | the ten cards | 6 |
+| `/calculators` Calculators | Mortgage, car finance, Red Sphere loan, car insurance quote, life policy quote. | **Calculate** on each; result button per calculator | 7 |
+| `/login` Log in | Internet banking platforms, the three apps, security advice. | platform links ↗; store badges ↗ | 8 |
+| `/contact` Contact us | Ways to reach us, branches and ATMs map, the six sign-up choices, a message form. | **Send message** on the message form | 9 |
+
+### 0.5 The Group
+
+| Page | What it is | Main buttons | See |
+| --- | --- | --- | --- |
+| `/the-group` The Group | Structure (four clusters, ten companies), awards, milestones, board leadership chart, executive management chart. | jump links Structure, Awards, Milestones, Board, Executive management | 10 |
+| `/cbz-foundation` CBZ Foundation | The philanthropic arm. | **Contact the Foundation** → `/contact` | 10 |
+| `/sustainability` Sustainability | Grievance mechanism, documents, reports. | **Raise a grievance online** → `/sustainability/grievance` | 10 |
+| └ `/sustainability/grievance` | Grievance form. | **Submit my grievance** | 11 |
+| `/notices` Latest from CBZ | Shareholder, customer, regulatory, operational and security notices, filterable by category. | category filters; each card → `/notices/<slug>` | 10 |
+| └ `/notices/<slug>` | One notice (seven at present). | **Download the full notice** ↗ where a document exists | 10 |
+| `/security` Security | How to spot fake CBZ messages and what to do. | **Call** → tel | 10 |
+
+### 0.6 Regulatory and utility pages
+
+| Page | What it is | See |
+| --- | --- | --- |
+| `/business-conditions` | Business conditions, linking to the published documents ↗. | 10 |
+| `/privacy-policy` | Privacy policy (linked from the cookie banner). | 10 |
+| `/tip-offs` | Tip-offs anonymous. | 10 |
+| `/sitemap` | The on-site human sitemap: every page and anchor, regulatory and off-site links. | 10 |
+| `/404` | Not found: **Home** → `/`; **Sitemap** → `/sitemap`. | 10 |
+
+### 0.7 Old URLs
+
+Twenty-one old addresses redirect (section 12): twenty to pages above, and `/agro-journey` off-site to Agrideck.
 
 ---
 
@@ -85,7 +192,19 @@ Logo, a thin divider, the six menus (Bank, Insure, Invest, Borrow, Farm, Group),
 | Sign up ▸ Start investing with Datvest | `/datvest/start-investing` |
 | Sign up ▸ Get a quote from CBZ Insurance | `/insurance/quote` |
 | Sign up ▸ Get a quote from CBZ Life | `/cbz-life/quote` |
-| Menu button (phones) | opens the menu sheet with the same items; without JavaScript it goes to `/sitemap` |
+| Menu button (phones) | opens the menu sheet below; without JavaScript it goes to `/sitemap` |
+
+### Phone menu sheet (under 900px)
+
+The navy bar keeps only the logo and the menu button; Find a branch, Log in and Sign up move into a full-screen white sheet. The audience strip stays above the bar and scrolls sideways.
+
+| Row | What it does |
+| --- | --- |
+| Logo (full colour) and **Close** (×) | the logo is the same link as in the bar; Close shuts the sheet (Escape does too) |
+| **Sign up** (red, full width) | expands the six Sign up items listed above |
+| **Log in** (navy outline, full width) | expands the six Log in items listed above |
+| **Bank**, **Insure**, **Invest**, **Borrow**, **Farm**, **Group** | each expands its items as in the desktop menu, ending with **View all** → the menu label's page |
+| **Find a branch** (pin) | `/contact#branches` |
 
 ### Chat with us (floating pill, bottom right)
 
@@ -524,6 +643,8 @@ Jump links: Mortgage `#mortgage`, Car finance `#car-finance`, Red Sphere loan `#
 Every form: stepped, validates each step, saves a draft in the browser as you
 type, shows a success screen with a reference. **Nothing is sent anywhere
 yet**; the mailbox or API for each unit is still to be wired.
+
+Every stepped form has a **Continue** button per step and a **Back** link; the last step has the submit button named in section 0.3 (for example **Send my application**, **Request my quote**, **Request a call**).
 
 | Page | Title | Success message |
 | --- | --- | --- |

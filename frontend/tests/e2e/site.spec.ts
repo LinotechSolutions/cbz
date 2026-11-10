@@ -22,9 +22,9 @@ test('open account menu lists the six entry points', async ({ page, isMobile }) 
   await page.goto('/');
   if (isMobile) {
     await page.getByRole('button', { name: 'Open menu' }).click();
-    await page.getByRole('dialog', { name: 'Menu' }).getByText('Open an account').first().click();
+    await page.getByRole('dialog', { name: 'Menu' }).getByText('Sign up').first().click();
   } else {
-    await page.getByRole('banner').getByRole('button', { name: 'Open an account' }).click();
+    await page.getByRole('banner').getByRole('button', { name: 'Sign up' }).click();
   }
   await expect(page.getByRole('link', { name: /Sign up for CBZ Bank/ })).toBeVisible();
   await expect(page.getByRole('link', { name: /Get a quote from CBZ Life/ })).toBeVisible();

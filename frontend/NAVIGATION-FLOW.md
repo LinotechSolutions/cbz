@@ -62,12 +62,12 @@ Conventions
 | Log in ▸ Self-service portal | ↗ `https://selfservice.cbz.co.zw/` |
 | Log in ▸ CBZ Touch | `/login#apps` |
 | Log in ▸ Red Sphere portal | ↗ `https://rs.cbz.co.zw/` |
-| **Open an account** (red) ▸ Sign up for CBZ Bank | `/bank/open-account` |
-| Open an account ▸ Apply with Red Sphere | ↗ Red Sphere on Google Play |
-| Open an account ▸ Sign up for Agro-Yield | ↗ `https://agrideck.cbz.co.zw/` (Agrideck) |
-| Open an account ▸ Start investing with Datvest | `/datvest/start-investing` |
-| Open an account ▸ Get a quote from CBZ Insurance | `/insurance/quote` |
-| Open an account ▸ Get a quote from CBZ Life | `/cbz-life/quote` |
+| **Sign up** (red) ▸ Sign up for CBZ Bank | `/bank/open-account` |
+| Sign up ▸ Apply with Red Sphere | ↗ Red Sphere on Google Play |
+| Sign up ▸ Sign up for Agro-Yield | ↗ `https://agrideck.cbz.co.zw/` (Agrideck) |
+| Sign up ▸ Start investing with Datvest | `/datvest/start-investing` |
+| Sign up ▸ Get a quote from CBZ Insurance | `/insurance/quote` |
+| Sign up ▸ Get a quote from CBZ Life | `/cbz-life/quote` |
 | Menu button (phones) | opens the menu sheet with the same items; without JavaScript it goes to `/sitemap` |
 
 ### Chat with us (floating pill, bottom right)

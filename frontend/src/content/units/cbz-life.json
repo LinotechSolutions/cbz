@@ -103,6 +103,7 @@
   "systems": ["Life Central"],
   "heldEntities": [{ "name": "CBZ Shield", "stake": 100 }],
   "about": "CBZ Life provides long-term assurance for individuals and for employers. Individual plans cover funeral costs and build savings towards a child’s education, with life cover attached. Employee benefits cover group life, retirement savings, annuities in retirement, and credit life that settles an outstanding loan balance.",
+  "aboutImage": { "src": "/images/insurance-family.webp", "alt": "A young family at home" },
   "keyFacts": [
     { "value": "Immediate", "label": "Comfortsure funeral benefit payment" },
     { "value": "Primary and secondary", "label": "Education covered by Sarapavana" },

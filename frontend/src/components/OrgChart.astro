@@ -1,0 +1,407 @@
+---
+/**
+ * A leadership hierarchy: the chairperson (or the most senior person) on
+ * top, a connected row of up to `rowMax` people beneath, and the rest in a
+ * band of compact cards. Portraits show initials until photographs arrive.
+ */
+import Icon from './Icon.astro';
+
+export interface Person {
+  name: string;
+  role: string;
+  image: { src: string; alt: string } | null;
+  since?: string;
+  line?: string;
+}
+
+interface Props {
+  id: string;
+  people: Person[];
+  /** How many sit in the connected row; the rest go to the band. */
+  rowMax?: number;
+  bandTitle?: string;
+  bandLine?: string;
+  bandLink?: { label: string; href: string };
+}
+const { id, people, rowMax = 5, bandTitle = 'Our leadership', bandLine, bandLink } = Astro.props;
+
+const topIndex = Math.max(
+  0,
+  people.findIndex((p) => /chair/i.test(p.role)),
+);
+const top = people[topIndex];
+const rest = people.filter((_, i) => i !== topIndex);
+const row = rest.slice(0, rowMax);
+const band = rest.slice(rowMax);
+const tag = /chair/i.test(top.role) ? (/acting/i.test(top.role) ? 'Acting Chairperson' : 'Chairperson') : 'Executive';
+
+const initials = (name: string) =>
+  name
+    .replace(/^(Dr|Prof\.?|Mr|Mrs|Ms)\s+/i, '')
+    .split(/\s+/)
+    .map((w) => w[0])
+    .slice(0, 2)
+    .join('')
+    .toUpperCase();
+---
+
+<div class="org" style={`--n:${row.length}`} data-org={id}>
+  <div class="org__top">
+    <article class="org__lead card-base">
+      <span class="org__photo org__photo--lead" aria-hidden="true">
+        <span class="org__swoosh org__swoosh--navy"></span>
+        <span class="org__swoosh org__swoosh--red"></span>
+        {top.image ? <img src={top.image.src} alt="" width={480} height={480} loading="lazy" decoding="async" /> : <span class="org__initials">{initials(top.name)}</span>}
+      </span>
+      <div class="org__lead-text">
+        <span class="org__tag">{tag}</span>
+        <span class="org__name">{top.name}</span>
+        <span class="org__role">{top.role}</span>
+        {top.since && <span class="org__since">Appointed {top.since}</span>}
+        {top.line && <span class="org__line">{top.line}</span>}
+        <span class="org__rule" aria-hidden="true"></span>
+      </div>
+    </article>
+  </div>
+
+  {
+    row.length > 0 && (
+      <ul role="list" class="org__row">
+        {row.map((p) => (
+          <li class="org__node">
+            <article class="org__card card-base">
+              <span class="org__photo" aria-hidden="true">
+                <span class="org__swoosh org__swoosh--navy" />
+                <span class="org__swoosh org__swoosh--red" />
+                {p.image ? <img src={p.image.src} alt="" width={480} height={360} loading="lazy" decoding="async" /> : <span class="org__initials">{initials(p.name)}</span>}
+              </span>
+              <span class="org__name">{p.name}</span>
+              <span class="org__role">{p.role}</span>
+              {p.since && <span class="org__since">Appointed {p.since}</span>}
+              {p.line && <span class="org__line">{p.line}</span>}
+              <span class="org__rule" aria-hidden="true" />
+            </article>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+
+  {
+    band.length > 0 && (
+      <div class="org__band">
+        <div class="org__band-copy">
+          <h3 class="org__band-title">{bandTitle}</h3>
+          {bandLine && <p class="org__band-line">{bandLine}</p>}
+          {bandLink && (
+            <a href={bandLink.href} class="go">
+              {bandLink.label} <Icon name="arrowRight" size={16} />
+            </a>
+          )}
+        </div>
+        <ul role="list" class="org__band-list">
+          {band.map((p) => (
+            <li class="org__mini card-base">
+              <span class="org__photo org__photo--mini" aria-hidden="true">
+                <span class="org__swoosh org__swoosh--navy" />
+                <span class="org__swoosh org__swoosh--red" />
+                {p.image ? <img src={p.image.src} alt="" width={240} height={240} loading="lazy" decoding="async" /> : <span class="org__initials">{initials(p.name)}</span>}
+              </span>
+              <span class="org__mini-text">
+                <span class="org__name">{p.name}</span>
+                <span class="org__role">{p.role}</span>
+                {p.since && <span class="org__since">Appointed {p.since}</span>}
+                <span class="org__rule" aria-hidden="true" />
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .org {
+    display: grid;
+    gap: var(--s-6);
+  }
+
+  /* Portrait: a pale panel with navy and red curves rising from the
+     bottom-left, the photograph or initials on top. */
+  .org__photo {
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 3;
+    max-height: 200px;
+    overflow: hidden;
+    border-radius: var(--r-md);
+    background: linear-gradient(160deg, var(--blue-50), var(--white) 70%);
+  }
+  .org__photo img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+  .org__swoosh {
+    position: absolute;
+    border-radius: 50%;
+  }
+  .org__swoosh--navy {
+    width: 190px;
+    height: 190px;
+    left: -70px;
+    bottom: -118px;
+    background: var(--blue);
+  }
+  .org__swoosh--red {
+    width: 190px;
+    height: 190px;
+    left: -62px;
+    bottom: -126px;
+    background: var(--red);
+  }
+  .org__initials {
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    width: 76px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--white);
+    color: var(--blue);
+    font-weight: 700;
+    font-size: clamp(1rem, 2.4vw, 1.6rem);
+    letter-spacing: 0.02em;
+    box-shadow: var(--shadow-card);
+  }
+
+  .org__name {
+    display: block;
+    font-weight: 700;
+    color: var(--blue);
+    line-height: 1.2;
+  }
+  .org__role {
+    display: block;
+    font-size: var(--t-sm);
+    color: var(--grey);
+    line-height: 1.3;
+  }
+  .org__since {
+    display: block;
+    font-size: var(--t-xs);
+    font-weight: 700;
+    color: var(--red-700);
+  }
+  .org__line {
+    display: block;
+    font-size: var(--t-xs);
+    color: var(--grey);
+  }
+  .org__rule {
+    display: block;
+    width: 44px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--red);
+    margin-top: var(--s-2);
+  }
+  .org__tag {
+    display: inline-block;
+    justify-self: start;
+    padding: 2px var(--s-3);
+    border-radius: var(--r-pill);
+    background: var(--red);
+    color: var(--white);
+    font-size: var(--t-xs);
+    font-weight: 700;
+  }
+
+  /* Top: the chairperson, portrait beside the text */
+  .org__top {
+    position: relative;
+    display: grid;
+    justify-items: center;
+  }
+  .org__lead {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    width: min(100%, 560px);
+    overflow: hidden;
+  }
+  @media (min-width: 640px) {
+    .org__lead {
+      grid-template-columns: 200px minmax(0, 1fr);
+    }
+  }
+  .org__photo--lead {
+    aspect-ratio: 16 / 9;
+    max-height: 180px;
+    border-radius: 0;
+  }
+  @media (min-width: 640px) {
+    .org__photo--lead {
+      aspect-ratio: auto;
+      max-height: none;
+      height: 100%;
+      min-height: 200px;
+    }
+  }
+  .org__lead-text {
+    display: grid;
+    gap: var(--s-1);
+    align-content: center;
+    padding: var(--s-5, 20px) var(--s-6);
+  }
+  .org__lead-text .org__name {
+    font-size: var(--t-xl);
+  }
+  .org__lead-text .org__tag {
+    margin-bottom: var(--s-2);
+  }
+
+  /* Row: connected to the top card by a stem, a rail and a stub per card */
+  .org__row {
+    position: relative;
+    display: grid;
+    gap: var(--gap);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .org__node {
+    display: grid;
+  }
+  .org__card {
+    display: grid;
+    gap: var(--s-1);
+    align-content: start;
+    justify-items: center;
+    text-align: center;
+    padding: var(--s-3) var(--s-3) var(--s-4);
+  }
+  .org__card .org__photo {
+    width: 100%;
+    margin-bottom: var(--s-2);
+  }
+  .org__card .org__rule {
+    margin-top: var(--s-2);
+  }
+  @media (min-width: 900px) {
+    .org__top::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: calc(-1 * var(--s-6));
+      height: var(--s-6);
+      border-left: 2px solid var(--blue-100);
+    }
+    .org__row {
+      grid-template-columns: repeat(var(--n, 5), minmax(0, 1fr));
+      padding-top: var(--s-6);
+    }
+    .org__row::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: calc(50% / var(--n, 5));
+      width: calc(100% - 100% / var(--n, 5));
+      border-top: 2px solid var(--blue-100);
+    }
+    .org__node {
+      position: relative;
+    }
+    .org__node::before {
+      content: '';
+      position: absolute;
+      top: calc(-1 * var(--s-6));
+      left: 50%;
+      height: var(--s-6);
+      border-left: 2px solid var(--blue-100);
+    }
+    .org[style*='--n:1'] .org__row::before {
+      display: none;
+    }
+  }
+
+  /* Band: the rest, as compact cards beside a short title */
+  .org__band {
+    display: grid;
+    gap: var(--s-5, 20px);
+    padding: var(--s-5, 20px);
+    border-radius: var(--r-lg);
+    background: var(--blue-50);
+  }
+  @media (min-width: 900px) {
+    .org__band {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
+      align-items: center;
+    }
+  }
+  .org__band-copy {
+    display: grid;
+    gap: var(--s-2);
+    justify-items: start;
+    padding-left: var(--s-4);
+    border-left: 3px solid var(--red);
+  }
+  .org__band-title {
+    font-size: var(--t-xl);
+    font-weight: 700;
+    color: var(--blue);
+    line-height: 1.1;
+  }
+  .org__band-line {
+    font-size: var(--t-sm);
+    color: var(--grey);
+    max-width: 30ch;
+  }
+  .org__band-list {
+    display: grid;
+    gap: var(--s-3);
+  }
+  @media (min-width: 640px) {
+    .org__band-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .org__mini {
+    display: grid;
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: var(--s-4);
+    align-items: center;
+    overflow: hidden;
+  }
+  .org__photo--mini {
+    aspect-ratio: auto;
+    width: 96px;
+    height: 100%;
+    min-height: 96px;
+    border-radius: 0;
+  }
+  .org__photo--mini .org__initials {
+    width: 44px;
+    font-size: var(--t-sm);
+  }
+  .org__photo--mini .org__swoosh {
+    width: 90px;
+    height: 90px;
+    left: -34px;
+    bottom: -58px;
+  }
+  .org__photo--mini .org__swoosh--red {
+    left: -30px;
+    bottom: -62px;
+  }
+  /* Red on the tinted band needs the darker red for contrast */
+  .org__band-copy :global(.go) {
+    color: var(--red-700);
+  }
+  .org__mini-text {
+    display: grid;
+    gap: 2px;
+    padding: var(--s-3) var(--s-3) var(--s-3) 0;
+  }
+</style>

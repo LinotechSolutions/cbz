@@ -54,6 +54,7 @@
   "systems": [],
   "heldEntities": [{ "name": "ATDC Zimbabwe", "stake": 40 }],
   "about": "CBZ Agro-Yield is the CBZ Group’s agribusiness. It works with farming enterprises through joint ventures, funds seasonal contract farming, opens market and offtake routes for commodities, and supplies the mechanisation, equipment and water infrastructure that production depends on.",
+  "aboutImage": { "src": "/images/cbz-agriculture.webp", "alt": "A farmer in a maize field" },
   "keyFacts": [
     { "value": "Four", "label": "Operating divisions" },
     { "value": "Seasonal", "label": "Contract farming cycles" },

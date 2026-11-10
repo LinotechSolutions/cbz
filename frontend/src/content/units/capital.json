@@ -110,6 +110,7 @@
   "productsNote": "Transaction advisory, capital raising and syndication terms are tailored to each mandate and subject to regulatory approvals.",
   "systems": [],
   "about": "CBZ Capital is the investment banking and corporate advisory arm of CBZ Holdings Limited. It structures and lead-arranges debt capital syndications, corporate bond issuances, strategic mergers and acquisitions, and public-private partnership infrastructure transactions, and advises on listings on the ZSE and VFEX, working alongside Datvest and CBZ Properties in the Group’s investment cluster.",
+  "aboutImage": { "src": "/images/about-capital.webp", "alt": "Harare city skyline" },
   "keyFacts": [
     { "value": "Equity, debt and mezzanine", "label": "Structuring and capital raising" },
     { "value": "ZSE and VFEX", "label": "Listing advisory and sponsorship" },

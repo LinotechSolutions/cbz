@@ -160,6 +160,7 @@
   "productsNote": "Tenors, interest rates and administration fees are those set out in the Red Sphere Finance product documentation and are subject to credit assessment and approval. Interest rates may change, so confirm the current terms before you apply.",
   "systems": [],
   "about": "Red Sphere Finance is the CBZ Group’s microfinance business. It lends against a salary, a payroll agreement or a trading record, so customers who fall outside traditional bank lending can still access credit, and partners and agents can extend it through their own networks.",
+  "aboutImage": { "src": "/images/cbz-payments.webp", "alt": "A shop owner taking a card payment at her counter" },
   "keyFacts": [
     { "value": "From 5%", "label": "Interest on business and partner facilities" },
     { "value": "1 to 24 months", "label": "Tenors, by product" },

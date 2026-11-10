@@ -47,7 +47,7 @@ Form pages carry the Zod validator as well (about 78KB); they are outside the ho
 `AGRO_SEASONS` in `src/data/calculators.ts` holds placeholder windows (summer: August to January, winter: February to July). Agro-Yield to confirm dates and copy.
 
 <!-- handoff:start -->
-_Generated 2026-11-09 by `npm run handoff`. Do not edit between the markers._
+_Generated 2026-11-10 by `npm run handoff`. Do not edit between the markers._
 
 ### Content in place
 
@@ -69,7 +69,7 @@ _Generated 2026-11-09 by `npm run handoff`. Do not edit between the markers._
 | Unit mailboxes for form routing | Marketing managers |  |
 | Final photography for heroes and tiles | Marketing |  |
 | Campaign artwork and copy | Marketing |  |
-| Leadership profiles per unit | Each unit |  |
+| Leadership profiles per unit (names, roles and photos) | Each unit | Meet the team on each business page shows a holding panel until the unit JSON "team" list is filled. |
 | Objectives and customer segmentation per unit | Marketing |  |
 | Property listings, prices and photography | CBZ Properties |  |
 | FAQ answers on the Bank, Insurance, Properties, Datvest and Capital pages | Each business unit | Drafted from the product data and form copy; each unit to confirm or replace the five questions. |

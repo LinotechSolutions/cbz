@@ -28,8 +28,8 @@ Conventions
 
 | Control | Goes to |
 | --- | --- |
-| CBZ Holdings logo | `/` |
-| Unit logo (business pages only, e.g. CBZ Bank) | that unit's page |
+| CBZ Holdings logo (home, Group pages and every page that is not a business unit's) | `/` |
+| Unit logo (a business page and its forms, e.g. CBZ Bank; shown in place of the Holdings logo) | that unit's page |
 | **Bank** (label) | `/clusters/banking` |
 | Bank ▸ CBZ Bank | `/bank` |
 | Bank ▸ Red Sphere Finance | `/red-sphere` |
@@ -201,7 +201,7 @@ Current notices: `agm-notice-2026`, `cautionary-statement`,
 
 All nine unit pages share one template, in this order:
 
-1. **Hero** (white split banner). Breadcrumb: Home → `/`, cluster name → the cluster page (Banking `/clusters/banking`, Insurance `/clusters/insurance`, Investments `/clusters/investments`, Agro-Business `/clusters/agro-business`), then the unit name as text. Red-dash eyebrow with the unit name (text). Title and lede (text). **Primary** button (red) and **secondary** button (navy outline), per unit below. The header also shows the unit's logo beside CBZ Holdings; it links to the unit page.
+1. **Hero** (white split banner). Breadcrumb: Home → `/`, cluster name → the cluster page (Banking `/clusters/banking`, Insurance `/clusters/insurance`, Investments `/clusters/investments`, Agro-Business `/clusters/agro-business`), then the unit name as text. Red-dash eyebrow with the unit name (text). Title and lede (text). **Primary** button (red) and **secondary** button (navy outline), per unit below. On a business page the header shows that unit's logo in place of the CBZ Holdings mark; it links to the unit page.
 2. **Who we serve** card (white, overlapping the hero): the label "Who we serve", a short title such as "Banking for everyone.", then one row per audience with an icon chip, a name, one line and a chevron. Each row scrolls to an anchor or opens a page (per unit below). Units without audiences (Red Sphere, Agro-Yield) have no card.
 3. **Sections**, one per branch of the site map, in the order given per unit. Each has a heading under a short red rule and an optional line. Section types:
    - **Product carousel**: pill filters (**All** plus one per category, navy when selected) show and hide cards and return the row to the start; ‹ › arrows scroll. Each product card shows a photograph (or the unit icon), a floating icon badge, the product name, a short summary, up to two benefits with check marks, the unit's **apply button** (per unit below) and a **Tell me more** link. Tell me more opens a dialog with the product name, a close button and four tabs: **What you get** (benefits), **Who it's for** (audience), **What it costs** (pricing line and any rate, term, fee or limit facts), **How to get it** (requirements and the apply button again). Escape, the close button or a click outside closes it. A URL such as `/bank#product-bank-current` opens that card's dialog on arrival.
@@ -210,7 +210,9 @@ All nine unit pages share one template, in this order:
    - **Calculator**: red icon and title; a white form (amount, deposit where relevant, a term dropdown and a rate field; Red Sphere also has a product selector that fills the rate); a red **Calculate** button that scrolls to the navy result card; the result card shows the monthly figure, totals, a note and the unit's apply button (per calculator in section 7).
    - **Store badges**: App Store ↗ and Google Play ↗ for the app named.
    - **FAQ** (on-screen title "Frequently Asked Questions"). Left column "Need help? We're here for you.": **Call Us** `tel:+2638677004050` with the toll-free line as text; **Email Us** `mailto:contactcentre@cbz.co.zw`; **Visit Us** ▸ Locate branch → `/contact#branches`; the unit photograph in a circle. Right column: five questions that open and close (first open by default); then the navy "Still have questions?" band with **Start a chat** ↗ WhatsApp and a "contact us" link → the unit's call-back form (per unit below).
-4. **Sticky bar** (phones only): the primary button.
+4. **About <unit>** `#about` (every unit, after the last section): a photograph with the red curve and the unit's logo on a white plate; a paragraph on the unit, four key facts (text), and the line "Part of **CBZ Holdings**" → `/the-group` with any held companies; **About the Group** → `/the-group`.
+5. **Meet the team** `#team` (every unit): profile cards (portrait, name, role; text only) once the unit supplies them. Until then a holding panel: "Leadership profiles are on their way." with **Talk to the team** → the unit's call-back form (or `/contact` where it has none) and **WhatsApp us** ↗.
+6. **Sticky bar** (phones only): the primary button.
 
 ### 4.1 CBZ Bank `/bank`
 
@@ -226,6 +228,8 @@ Sections
 | Apply for a loan `#apply-for-a-loan` | Product carousel (Loans). Every card: **Apply for a loan** → `/bank/apply`. **Mortgage calculator** ▸ Apply for a mortgage → `/bank/apply`. **Car finance calculator** ▸ Apply for car finance → `/bank/apply`. Link card **Loan application form** ▸ Get started → `/bank/apply`. |
 | Cards and digital banking `#cards-and-digital` | Product carousel, filters Cards / Digital and merchant. Card buttons differ by product: **CBZ Touch** → App Store ↗ and Google Play ↗; **Internet banking** and **E-statements** → Log in to internet banking → `/login`; **Visa POS, Local POS, Kleva POS** → Speak to an agent → `/bank/call-me-back`; all other cards → Open an account → `/bank/open-account`. Then CBZ Touch store badges (App Store ↗, Google Play ↗) and link card **Log in to internet banking** ▸ Get started → `/login`. |
 | FAQ `#faq` | Five questions. "contact us" → `/bank/call-me-back`. |
+| About `#about` | Paragraph, four facts and the unit logo on the photograph. **CBZ Holdings** and **About the Group** → `/the-group`. |
+| Meet the team `#team` | Holding panel until profiles arrive. **Talk to the team** → `/bank/call-me-back`; **WhatsApp us** ↗. |
 
 Gap: the Who we serve anchors `#panel-bank-accounts` do not exist on the
 bank page (the filter tabs carry a longer id because the page has several
@@ -244,6 +248,8 @@ product lists), so the Individuals and Companies chips do not scroll.
 | Apply or enquire `#apply-or-enquire` | **Online loan application** ▸ Visit ↗ Google Play; **Explore Invoice Discounting** ▸ Visit ↗ `https://zeex.co.zw/`; **Enquiry form** ▸ Get started → `/red-sphere/enquire`; note card "Red Sphere business development" (no link). |
 | Download the app `#download-the-app` | App Store ↗ `apps.apple.com/zw/app/redsphere/id6775831304`; Google Play ↗. |
 | Explore invoice discounting `#explore-invoice-discounting` | **Explore Invoice Discounting** ▸ Visit ↗ Zeex; note "How it works". |
+| About `#about` | Paragraph, four facts and the unit logo on the photograph. **CBZ Holdings** and **About the Group** → `/the-group`. |
+| Meet the team `#team` | Holding panel until profiles arrive. **Talk to the team** → `/contact`; **WhatsApp us** ↗. |
 
 ### 4.3 CBZ Insurance `/insurance`
 
@@ -258,6 +264,8 @@ product lists), so the Individuals and Companies chips do not scroll.
 | Submit a claim `#submit-claim` | Feature card ▸ Get started → `/insurance/claim`. |
 | Policy changes `#policy-changes` | **Policy status** → `/insurance/policy-changes?request=status`; **Cancellation** → `/insurance/policy-changes?request=cancellation`; **Enquiries** → `/insurance/policy-changes?request=premium`. |
 | FAQ `#faq` | "contact us" → `/insurance/call-me-back`. |
+| About `#about` | Paragraph, four facts and the unit logo on the photograph. **CBZ Holdings** and **About the Group** → `/the-group`. |
+| Meet the team `#team` | Holding panel until profiles arrive. **Talk to the team** → `/insurance/call-me-back`; **WhatsApp us** ↗. |
 
 ### 4.4 CBZ Life `/cbz-life`
 
@@ -273,6 +281,8 @@ product lists), so the Individuals and Companies chips do not scroll.
 | Pay online `#pay-online` | Feature card ▸ Get started → `/cbz-life/pay`. |
 | Talk to an agent `#talk-to-an-agent` | Feature card ▸ Get started → `/cbz-life/talk-to-an-agent`. |
 | FAQ `#faq` | "contact us" → `/cbz-life/talk-to-an-agent`. |
+| About `#about` | Paragraph, four facts and the unit logo on the photograph. **CBZ Holdings** and **About the Group** → `/the-group`. |
+| Meet the team `#team` | Holding panel until profiles arrive. **Talk to the team** → `/cbz-life/talk-to-an-agent`; **WhatsApp us** ↗. |
 
 The four feature cards sit two to a row in one band.
 
@@ -287,6 +297,8 @@ The four feature cards sit two to a row in one band.
 | Key products `#key-products` | Product carousel, four filters. Every card: **Request a risk consultation** → `/risk-advisory/consultation`, which redirects to `/risk-advisory/quote`. |
 | Request an insurance audit `#request-insurance-audit` | Feature card ▸ Get started → `/risk-advisory/insurance-audit`. |
 | Get a quote `#get-a-quote` | Feature card ▸ Get started → `/risk-advisory/quote`. |
+| About `#about` | Paragraph, four facts and the unit logo on the photograph. **CBZ Holdings** and **About the Group** → `/the-group`. |
+| Meet the team `#team` | Holding panel until profiles arrive. **Talk to the team** → `/contact`; **WhatsApp us** ↗. |
 
 No FAQ section yet.
 
@@ -300,6 +312,8 @@ No FAQ section yet.
 | --- | --- |
 | Learn more `#learn-more` | Product carousel, filters Unit trusts / Institutional / Private wealth. Every card: **Start investing** → `/datvest/start-investing`. Note card "Wealth-creation advisory" (no link). |
 | FAQ `#faq` | "contact us" → `/datvest/call-me-back`. |
+| About `#about` | Paragraph, four facts and the unit logo on the photograph. **CBZ Holdings** and **About the Group** → `/the-group`. |
+| Meet the team `#team` | Holding panel until profiles arrive. **Talk to the team** → `/datvest/call-me-back`; **WhatsApp us** ↗. |
 
 ### 4.7 CBZ Capital `/capital`
 
@@ -311,6 +325,8 @@ No FAQ section yet.
 | --- | --- |
 | Learn more `#learn-more` | Two product lists: Investment products (debt, equity) and Corporate finance advisory (advisory, infrastructure). Every card: **Start a capital enquiry** → `/capital/enquiry`. |
 | FAQ `#faq` | "contact us" → `/capital/call-me-back`. |
+| About `#about` | Paragraph, four facts and the unit logo on the photograph. **CBZ Holdings** and **About the Group** → `/the-group`. |
+| Meet the team `#team` | Holding panel until profiles arrive. **Talk to the team** → `/capital/call-me-back`; **WhatsApp us** ↗. |
 
 ### 4.8 CBZ Properties `/properties`
 
@@ -324,6 +340,8 @@ No FAQ section yet.
 | Virtual tours `#virtual-tours` | **Browse listings on Propertybook** ▸ Visit ↗; note "Property virtual tour" (no link yet). |
 | Schedule a viewing `#schedule-viewing` | Feature card ▸ Get started → `/properties/request-a-viewing`. |
 | FAQ `#faq` | "contact us" → `/properties/call-back`. |
+| About `#about` | Paragraph, four facts and the unit logo on the photograph. **CBZ Holdings** and **About the Group** → `/the-group`. |
+| Meet the team `#team` | Holding panel until profiles arrive. **Talk to the team** → `/properties/call-back`; **WhatsApp us** ↗. |
 
 Property detail pages `/properties/<id>` still exist (one per listing):
 **View on Propertybook** ↗; **Request a viewing** → `/properties/request-a-viewing?property=<id>`;
@@ -343,6 +361,8 @@ Listing cards on `/properties` no longer link to these pages.
 | Register as a farmer `#register-as-a-farmer` | **Farmer onboarding platform** ▸ Visit ↗ `https://agrideck.cbz.co.zw/` (Agrideck). |
 | Enquire now `#enquire-now` | **Lead form** ▸ Get started → `/agro-yield/enquire`; notes "Customer confirmation" and "Agro-Yield business development" (no links). |
 | Explore ATDC `#explore-atdc` | **Visit ATDC** ▸ Visit ↗; note "A Group business". |
+| About `#about` | Paragraph, four facts and the unit logo on the photograph. **CBZ Holdings** and **About the Group** → `/the-group`. |
+| Meet the team `#team` | Holding panel until profiles arrive. **Talk to the team** → `/contact`; **WhatsApp us** ↗. |
 
 ---
 

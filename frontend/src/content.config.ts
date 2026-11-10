@@ -91,9 +91,15 @@ const units = defineCollection({
     /** Systems the unit integrates with, for the backend handoff. Never shown to customers. */
     systems: z.array(z.string()).default([]),
     heldEntities: z.array(z.object({ name: z.string(), stake: z.number().min(0).max(100) })).optional(),
-    /** Used by pages with their own layout (the Foundation). */
-    about: z.string().max(520).optional(),
+    /** The About band after the branches: who the unit is, in one paragraph. */
+    about: z.string().max(700).optional(),
+    /** A photograph for the About band; the hero image when absent. */
+    aboutImage: imageRef.optional(),
     keyFacts: z.array(z.object({ label: z.string(), value: nullableString })).max(6).optional(),
+    /** Meet the team: leadership profiles. Empty until the unit supplies names, roles and photos. */
+    team: z
+      .array(z.object({ name: z.string().min(1), role: z.string().min(1), image: imageRef.nullable().default(null) }))
+      .default([]),
     contact: z.object({ heading: z.string(), body: z.string() }).optional(),
     seo: z.object({ title: z.string().max(70), description: z.string().max(160) }),
   }),

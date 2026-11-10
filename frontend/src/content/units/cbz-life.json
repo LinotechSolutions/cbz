@@ -102,6 +102,14 @@
   "productsNote": "Benefits, premiums and terms depend on the cover selected and on underwriting. Speak to a CBZ Life consultant for a quotation and the full policy terms.",
   "systems": ["Life Central"],
   "heldEntities": [{ "name": "CBZ Shield", "stake": 100 }],
+  "about": "CBZ Life provides long-term assurance for individuals and for employers. Individual plans cover funeral costs and build savings towards a child’s education, with life cover attached. Employee benefits cover group life, retirement savings, annuities in retirement, and credit life that settles an outstanding loan balance.",
+  "keyFacts": [
+    { "value": "Immediate", "label": "Comfortsure funeral benefit payment" },
+    { "value": "Primary and secondary", "label": "Education covered by Sarapavana" },
+    { "value": "Group life", "label": "Retirement savings, annuities and credit life" },
+    { "value": "CBZ Shield", "label": "Wholly owned subsidiary" }
+  ],
+  "team": [],
   "seo": {
     "title": "CBZ Life: funeral, education and group life cover",
     "description": "Comfortsure funeral cash plan, Sarapavana education plan, group life, retirement savings, annuities and credit life from CBZ Life."

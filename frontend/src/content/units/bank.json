@@ -177,6 +177,14 @@
   ],
   "productsNote": "Requirements, features and benefits are those set out in the Retail Banking Product Manual. Lending is subject to credit assessment, and interest rates are subject to change; confirm current terms before you apply.",
   "systems": [],
+  "about": "CBZ Bank is the Group’s commercial bank. It runs everyday transactional and savings accounts, foreign currency accounts, cards, and personal, school fees and business lending, alongside mortgages, internet banking, CBZ Touch and merchant point of sale, for individuals, companies, schools, churches and Zimbabweans abroad.",
+  "keyFacts": [
+    { "value": "Five", "label": "Foreign currencies held" },
+    { "value": "Zero rated", "label": "CBZ Touch mobile banking" },
+    { "value": "24/7", "label": "Digital banking, every day" },
+    { "value": "ZSE: CBZ", "label": "Part of a listed group" }
+  ],
+  "team": [],
   "seo": {
     "title": "CBZ Bank: accounts, cards, loans and mortgages",
     "description": "Open a CBZ Bank account, apply for a loan or mortgage, and bank on CBZ Touch. Accounts for individuals, companies, schools and churches."

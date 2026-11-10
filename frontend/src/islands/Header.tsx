@@ -16,7 +16,8 @@ interface Props {
   holdings: LogoProp;
   /** Full-colour lockup for the white mobile sheet. */
   holdingsLight: LogoProp;
-  unitLogo: (LogoProp & { key: string }) | null;
+  /** On a business page the unit's own logo replaces the Holdings mark; `light` is the full-colour file for the white menu sheet. */
+  unitLogo: (LogoProp & { key: string; href: string; light: string }) | null;
   currentPath: string;
 }
 
@@ -190,30 +191,33 @@ export function Header({ clusters, loginItems, openAccountItems, holdings, holdi
       </a>
     );
 
+  /* Wide lockups (Red Sphere, Risk Advisory) sit a little shorter so they fit beside the actions on a phone. */
+  const unitHeight = unitLogo ? Math.min(40, Math.round(180 / unitLogo.aspect)) : 44;
+
   return (
     <header className="hdr" ref={rootRef}>
       <style>{css}</style>
       <div className="container hdr__inner">
-        <a href="/" className="hdr__home" aria-label="CBZ Holdings home">
-          <img
-            src={holdings.src}
-            alt={holdings.name}
-            width={Math.round(44 * holdings.aspect)}
-            height={44}
-            decoding="async"
-          />
-        </a>
-        {unitLogo && (
-          <span className="hdr__unit" aria-hidden="true">
-            <span className="hdr__unit-rule" />
+        {unitLogo ? (
+          <a href={unitLogo.href} className="hdr__home" aria-label={`${unitLogo.name} home`}>
             <img
               src={unitLogo.src}
-              alt=""
-              width={Math.round(28 * unitLogo.aspect)}
-              height={28}
+              alt={unitLogo.name}
+              width={Math.round(unitHeight * unitLogo.aspect)}
+              height={unitHeight}
               decoding="async"
             />
-          </span>
+          </a>
+        ) : (
+          <a href="/" className="hdr__home" aria-label="CBZ Holdings home">
+            <img
+              src={holdings.src}
+              alt={holdings.name}
+              width={Math.round(44 * holdings.aspect)}
+              height={44}
+              decoding="async"
+            />
+          </a>
         )}
 
         <nav className="hdr__nav" aria-label="Main">
@@ -311,7 +315,11 @@ export function Header({ clusters, loginItems, openAccountItems, holdings, holdi
       {mobileOpen && (
         <div className="sheet" id={`${uid}-sheet`} role="dialog" aria-modal="true" aria-label="Menu" ref={sheetRef}>
           <div className="sheet__bar">
-            <img src={holdingsLight.src} alt={holdingsLight.name} width={Math.round(32 * holdingsLight.aspect)} height={32} />
+            {unitLogo ? (
+              <img src={unitLogo.light} alt={unitLogo.name} width={Math.round(32 * unitLogo.aspect)} height={32} />
+            ) : (
+              <img src={holdingsLight.src} alt={holdingsLight.name} width={Math.round(32 * holdingsLight.aspect)} height={32} />
+            )}
             <button type="button" className="sheet__close" onClick={() => setMobileOpen(false)}>
               <Icon name="close" size={24} label="Close menu" />
             </button>
@@ -370,8 +378,6 @@ const css = `
 .hdr__inner{display:flex;align-items:center;gap:var(--s-4);height:var(--header-h)}
 .hdr__home{display:inline-flex;align-items:center;height:100%}
 .hdr__home img{display:block}
-.hdr__unit{display:none;align-items:center;gap:var(--s-4)}
-.hdr__unit-rule{width:1px;height:28px;background:rgba(255,255,255,.25)}
 .hdr__nav{display:none;margin-left:var(--s-4)}
 .hdr__list{display:flex;gap:var(--s-1)}
 .hdr__item{position:relative}
@@ -401,14 +407,10 @@ const css = `
 .hdr__open{gap:var(--s-1)}
 .hdr__burger{display:inline-flex;align-items:center;justify-content:center;width:var(--tap);height:var(--tap);color:var(--white);border-radius:var(--r-sm)}
 @media (min-width:900px){
-  .hdr__unit{display:inline-flex}
   .hdr__nav{display:block}
   .hdr__login{display:inline-flex}
   .hdr__item--open{display:block}
   .hdr__burger{display:none}
-}
-@media (min-width:900px) and (max-width:1099px){
-  .hdr__unit{display:none}
 }
 .sheet{position:fixed;inset:0;z-index:70;background:var(--white);display:flex;flex-direction:column;overflow-y:auto}
 .sheet__bar{display:flex;align-items:center;justify-content:space-between;padding:var(--s-3) var(--gutter);border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--white)}

@@ -19,6 +19,7 @@ import Listings from '../components/Listings.astro';
 import StoreBadges from '../components/StoreBadges.astro';
 import StickyCta from '../components/StickyCta.astro';
 import Icon from '../components/Icon.astro';
+import Logo from '../components/Logo.astro';
 import { Calculator } from '../islands/Calculator';
 import { CALCULATORS } from '../data/calculators';
 import { LINKS, isExternal } from '../data/links';
@@ -185,6 +186,16 @@ const PRODUCT_ICON: Record<string, IconName> = {
   properties: 'home',
   'agro-yield': 'leaf',
 };
+
+/* About and Meet the team, after the last branch. The team grid fills from
+   the unit's `team` list; until names arrive, a holding panel points to the
+   unit's contact form. */
+const aboutImage = unit.aboutImage ?? unit.hero.image;
+const facts = (unit.keyFacts ?? []).filter((f) => visible(f.value)).slice(0, 4);
+const held = (unit.heldEntities ?? []).map((e) => (e.stake === 100 ? `wholly owns ${e.name}` : `holds ${e.stake}% of ${e.name}`));
+const heldLine = held.length > 0 ? `${unit.shortName} ${held.join(' and ')}.` : '';
+const faqHref = unit.branches.flatMap((b) => b.items).find((i) => i.kind === 'faq')?.href ?? null;
+const teamContactHref = faqHref ?? '/contact';
 
 const jsonLd = [
   {
@@ -446,6 +457,86 @@ const jsonLd = [
     }
     {hiddenBranches.length > 0 && <span hidden data-branches-awaiting-link={hiddenBranches.join(', ')} />}
   </div>
+
+  {
+    unit.about && (
+      <Section id="about" heading={`About ${unit.name}`} compact>
+        <div class="about">
+          <div class="about__media" aria-hidden="true">
+            <img src={aboutImage.src} alt="" width={900} height={680} loading="lazy" decoding="async" />
+            <span class="about__arc" />
+            <span class="about__plate">
+              <Logo brand={unit.logo as DarkSafeLogoKey} on="light" height={32} decorative />
+            </span>
+          </div>
+          <div class="about__copy">
+            <p class="about__text">{unit.about}</p>
+            {facts.length > 0 && (
+              <ul role="list" class="facts">
+                {facts.map((f) => (
+                  <li class="fact">
+                    <span class="fact__value">{f.value}</span>
+                    <span class="fact__label">{f.label}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <div class="about__group">
+              <span class="about__group-icon" aria-hidden="true">
+                <Icon name="building" size={22} />
+              </span>
+              <p>
+                Part of <a href="/the-group">CBZ Holdings</a>, listed on the Zimbabwe Stock Exchange. {heldLine}
+              </p>
+            </div>
+            <a href="/the-group" class="go about__go">
+              About the Group <Icon name="arrowRight" size={16} />
+            </a>
+          </div>
+        </div>
+      </Section>
+    )
+  }
+
+  <Section id="team" heading="Meet the team" lede={`The people who lead ${unit.shortName}.`} compact>
+    {
+      unit.team.length > 0 ? (
+        <ul role="list" class="team">
+          {unit.team.map((p) => (
+            <li class="person card-base">
+              <span class="person__photo" aria-hidden="true">
+                {p.image ? <img src={p.image.src} alt="" width={600} height={600} loading="lazy" decoding="async" /> : <Icon name="user" size={48} />}
+                <span class="person__arc" />
+              </span>
+              <span class="person__name">{p.name}</span>
+              <span class="person__role">{p.role}</span>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div class="team__pending card-base">
+          <span class="team__icon" aria-hidden="true">
+            <Icon name="users" size={28} />
+          </span>
+          <div class="team__copy">
+            <p class="team__title">Leadership profiles are on their way.</p>
+            <p class="team__line">
+              We are preparing introductions to the people who lead {unit.name}. Until then, the team is a call or a message away.
+            </p>
+          </div>
+          <div class="team__actions">
+            <a href={teamContactHref} class="btn btn--primary" data-track="apply_click" data-track-props={JSON.stringify({ unit: unit.slug, from: 'team' })}>
+              Talk to the team <Icon name="arrowRight" size={18} />
+            </a>
+            <a href={CONTACT.whatsapp.chatHref} class="btn btn--secondary" target="_blank" rel="noopener noreferrer">
+              WhatsApp us <Icon name="external" size={18} />
+              <span class="sr-only">(opens in a new tab)</span>
+            </a>
+          </div>
+        </div>
+      )
+    }
+  </Section>
 
   <StickyCta label={unit.primaryCta.label} href={unit.primaryCta.href} unit={unit.slug} />
 </BaseLayout>
@@ -730,6 +821,225 @@ const jsonLd = [
   /* A note is the same card without a link */
   .note {
     border-style: dashed;
+  }
+
+  /* About: the photograph with a red curve in its top-left corner and the
+     unit's logo on a white plate; beside it the paragraph, four facts and
+     the Group line. */
+  .about {
+    display: grid;
+    gap: var(--s-8);
+  }
+  @media (min-width: 900px) {
+    .about {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: var(--s-12);
+      align-items: start;
+    }
+  }
+  .about__media {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    max-height: 360px;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+  }
+  .about__media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .about__arc {
+    position: absolute;
+    top: -70px;
+    left: -70px;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    border: 16px solid var(--red);
+    border-color: var(--red) transparent transparent var(--red);
+    transform: rotate(0deg);
+  }
+  .about__plate {
+    position: absolute;
+    left: var(--s-4);
+    bottom: var(--s-4);
+    display: inline-flex;
+    padding: var(--s-2) var(--s-3);
+    border-radius: var(--r-md);
+    background: var(--white);
+    box-shadow: var(--shadow-float);
+  }
+  .about__copy {
+    display: grid;
+    gap: var(--s-5, 20px);
+    align-content: start;
+  }
+  .about__text {
+    color: var(--ink);
+    font-size: var(--t-md);
+    line-height: 1.6;
+    max-width: 60ch;
+  }
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s-3);
+  }
+  @media (min-width: 640px) {
+    .facts {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .about .facts {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .fact {
+    display: grid;
+    gap: 2px;
+    padding: var(--s-3) var(--s-4);
+    border-left: 3px solid var(--red);
+    background: var(--blue-50);
+    border-radius: 0 var(--r-md) var(--r-md) 0;
+  }
+  .fact__value {
+    font-weight: 700;
+    color: var(--blue);
+    font-size: var(--t-lg);
+    line-height: 1.2;
+  }
+  .fact__label {
+    font-size: var(--t-xs);
+    color: var(--grey);
+  }
+  .about__group {
+    display: flex;
+    gap: var(--s-3);
+    align-items: flex-start;
+    color: var(--grey);
+    font-size: var(--t-sm);
+    max-width: 56ch;
+  }
+  .about__group a {
+    color: var(--blue);
+    font-weight: 700;
+  }
+  .about__group-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--red-50);
+    color: var(--red);
+    flex-shrink: 0;
+  }
+
+  /* Meet the team: square portraits with a red curve, name and role; or the
+     holding panel until the profiles arrive. */
+  .team {
+    display: grid;
+    gap: var(--gap);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  @media (min-width: 640px) {
+    .team {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 900px) {
+    .team {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  .person {
+    display: grid;
+    gap: var(--s-1);
+    padding: var(--s-3);
+  }
+  .person__photo {
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+    border-radius: var(--r-md);
+    overflow: hidden;
+    background: var(--blue-50);
+    color: var(--blue);
+    margin-bottom: var(--s-2);
+  }
+  .person__photo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .person__arc {
+    position: absolute;
+    top: -40px;
+    left: -40px;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: 10px solid var(--red);
+    border-color: var(--red) transparent transparent var(--red);
+  }
+  .person__name {
+    font-weight: 700;
+    color: var(--blue);
+  }
+  .person__role {
+    font-size: var(--t-sm);
+    color: var(--grey);
+  }
+  .team__pending {
+    display: grid;
+    gap: var(--s-4);
+    padding: var(--s-6);
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .team__pending {
+      grid-template-columns: auto 1fr auto;
+      gap: var(--s-5, 20px);
+    }
+  }
+  .team__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--red-50);
+    color: var(--red);
+  }
+  .team__copy {
+    display: grid;
+    gap: 2px;
+  }
+  .team__title {
+    font-weight: 700;
+    color: var(--blue);
+    font-size: var(--t-md);
+  }
+  .team__line {
+    color: var(--grey);
+    font-size: var(--t-sm);
+    max-width: 60ch;
+  }
+  .team__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+  }
+  .team__actions .btn {
+    gap: var(--s-2);
   }
   .app {
     justify-items: start;

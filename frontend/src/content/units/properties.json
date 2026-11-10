@@ -133,6 +133,14 @@
   ],
   "productsNote": "Prices, availability and specifications are confirmed on application.",
   "systems": [],
+  "about": "CBZ Properties manages and develops the Group’s real estate interests, serving individuals, SMEs, corporates and institutions. Its mandate spans property development and project management, residential and commercial sales, leasing and property management, valuations and advisory, estate agency and facilities management. A purchase can be financed by a CBZ Bank mortgage and insured by CBZ Insurance.",
+  "keyFacts": [
+    { "value": "Residential", "label": "Stands, homes and clusters" },
+    { "value": "Commercial", "label": "Office, retail and industrial" },
+    { "value": "Advisory", "label": "Valuations and project management" },
+    { "value": "Financed", "label": "CBZ Bank mortgages and CBZ Insurance cover" }
+  ],
+  "team": [],
   "seo": {
     "title": "CBZ Properties: homes, stands and commercial space",
     "description": "Residential stands and homes, commercial space and property advisory from CBZ Properties, with CBZ Bank mortgages alongside."

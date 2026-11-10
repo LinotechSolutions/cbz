@@ -117,7 +117,7 @@ const products = defineCollection({
     eligibility: z.array(z.string()).nullable(),
     audience: nullableString,
     /** Audience strip tags; set by scripts/port-content.ts from src/data/audiences.ts. */
-    audiences: z.array(z.enum(['personal', 'business', 'corporate', 'diaspora'])).default([]),
+    audiences: z.array(z.enum(['personal', 'business', 'school', 'diaspora'])).default([]),
     pricing: nullableString,
     details: z
       .object({

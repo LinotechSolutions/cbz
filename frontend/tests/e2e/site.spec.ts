@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-const PAGES = ['/', '/bank', '/insurance', '/properties', '/calculators', '/contact', '/the-group', '/journeys', '/login', '/notices', '/sitemap', '/sustainability', '/sustainability/grievance'];
+const PAGES = ['/', '/business', '/school', '/bank', '/insurance', '/properties', '/calculators', '/contact', '/the-group', '/journeys', '/login', '/notices', '/sitemap', '/sustainability', '/sustainability/grievance'];
 
 for (const path of PAGES) {
   test(`${path} has no serious accessibility violations`, async ({ page }) => {
@@ -30,23 +30,42 @@ test('open account menu lists the six entry points', async ({ page, isMobile }) 
   await expect(page.getByRole('link', { name: /Get a quote from CBZ Life/ })).toBeVisible();
 });
 
-test('the audience strip filters products in place and is remembered', async ({ page }) => {
+test('the audience strip opens an audience home and the choice follows the visitor', async ({ page }) => {
   await page.goto('/bank');
   const strip = page.getByRole('navigation', { name: 'Who we serve' });
-  // Default on the Bank page is Personal: a personal card shows, a business one does not.
+  // Before a choice, Personal: a personal card shows, a business one does not.
   await expect(strip.getByRole('link', { name: 'Personal' })).toHaveAttribute('aria-current', 'true');
   await expect(page.locator('#product-bank-student_visa')).toBeVisible();
   await expect(page.locator('#product-bank-sme_debit_card')).toBeHidden();
-  await strip.getByRole('link', { name: 'Business & SME' }).click();
-  await expect(page).toHaveURL(/for=business/);
-  await expect(strip.getByRole('link', { name: 'Business & SME' })).toHaveAttribute('aria-current', 'true');
+  // Business opens the Business home and becomes the chosen audience.
+  await strip.getByRole('link', { name: 'Business' }).click();
+  await expect(page).toHaveURL(/\/business$/);
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('business');
+  await expect(strip.getByRole('link', { name: 'Business' })).toHaveAttribute('aria-current', 'true');
+  // The same menus now show business products on the unit pages.
+  await page.goto('/bank');
+  await expect(strip.getByRole('link', { name: 'Business' })).toHaveAttribute('aria-current', 'true');
   await expect(page.locator('#product-bank-sme_debit_card')).toBeVisible();
   await expect(page.locator('#product-bank-student_visa')).toBeHidden();
-  // The choice follows the visitor to the next page.
   await page.goto('/red-sphere');
-  await expect(strip.getByRole('link', { name: 'Business & SME' })).toHaveAttribute('aria-current', 'true');
   await expect(page.locator('#product-red-sphere-sme_working_capital')).toBeVisible();
   await expect(page.locator('#product-red-sphere-ssb_loan')).toBeHidden();
+  // Property listings follow too: commercial space for Business, homes for Personal.
+  await page.goto('/properties');
+  await expect(page.locator('[data-property][data-type="commercial"]').first()).toBeVisible();
+  await expect(page.locator('[data-property][data-type="residential"]').first()).toBeHidden();
+  await strip.getByRole('link', { name: 'Personal' }).click();
+  await page.goto('/properties');
+  await expect(page.locator('[data-property][data-type="residential"]').first()).toBeVisible();
+  await expect(page.locator('[data-property][data-type="commercial"]').first()).toBeHidden();
+});
+
+test('the School home exists and school products show on the Bank page', async ({ page }) => {
+  await page.goto('/school');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('school');
+  await page.goto('/bank');
+  await expect(page.locator('#product-bank-school_current')).toBeVisible();
+  await expect(page.locator('#product-bank-smartcash_student')).toBeHidden();
 });
 
 test('escape closes a header menu and returns focus', async ({ page, isMobile }) => {

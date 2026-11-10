@@ -24,6 +24,7 @@
   "audiences": [
     "personal",
     "business",
+    "school",
     "diaspora"
   ],
   "pricing": "Zero rated",

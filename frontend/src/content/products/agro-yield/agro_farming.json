@@ -10,7 +10,8 @@
   "eligibility": null,
   "audience": null,
   "audiences": [
-    "business"
+    "business",
+    "school"
   ],
   "pricing": "Seasonal contract farming",
   "details": {

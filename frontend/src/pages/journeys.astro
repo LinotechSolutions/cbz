@@ -10,10 +10,10 @@ import Icon from '../components/Icon.astro';
 import { AUDIENCES, JOURNEYS } from '../data/nav';
 import type { IconName } from '../components/icons';
 
-const groups = AUDIENCES.filter((a) => a.id !== 'diaspora').map((a) => ({
+const groups = AUDIENCES.map((a) => ({
   ...a,
   flows: JOURNEYS.filter((j) => j.audience === a.id),
-}));
+})).filter((g) => g.flows.length > 0);
 /** Numbered in page order, so the count runs 1 to 10 down the page. */
 const ordered = groups.flatMap((g) => g.flows);
 

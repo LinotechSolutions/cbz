@@ -8,9 +8,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import Section from '../components/Section.astro';
 import Logo from '../components/Logo.astro';
-import Icon from '../components/Icon.astro';
+import OrgChart from '../components/OrgChart.astro';
 import ExternalLink from '../components/ExternalLink.astro';
-import ResponsiveImage from '../components/ResponsiveImage.astro';
 import { CLUSTERS, companiesIn, heldBy, VALUE_PROPOSITION, type ClusterId } from '../data/group';
 import { AWARDS, GROUP, MILESTONES, BOARD, BOARD_COMMITTEES, EXCO } from '../data/facts';
 import { LINKS } from '../data/links';
@@ -127,20 +126,13 @@ const jump = [
         heading="Board of directors"
         lede="Six independent non-executive directors and two executive directors, with the Group Chief Legal Counsel attending ex officio."
       >
-        <ul role="list" class="board">
-          {board.map((p) => (
-            <li class="person card-base">
-              <span class="person__photo" aria-hidden="true">
-                {p.image ? <ResponsiveImage src={p.image.src} alt="" ratio="1:1" /> : <Icon name="user" size={48} />}
-                <span class="person__arc" />
-              </span>
-              <span class="person__name">{p.name}</span>
-              <span class="person__role">{p.role}</span>
-              {p.since && <span class="person__since">Appointed {p.since}</span>}
-              {p.line && <span class="person__line">{p.line}</span>}
-            </li>
-          ))}
-        </ul>
+        <OrgChart
+          id="board"
+          people={board}
+          rowMax={5}
+          bandTitle="Executive directors"
+          bandLine="The Group CEO and CFO sit on the board; the Group Chief Legal Counsel attends ex officio."
+        />
         <div class="committees">
           <span class="committees__label">Board committees</span>
           <ul role="list" class="committees__list">
@@ -156,18 +148,13 @@ const jump = [
   {
     EXCO.length > 0 && (
       <Section id="exco" heading="Executive committee" lede="The Group executive committee leads the eleven operating companies day to day.">
-        <ul role="list" class="board board--exco">
-          {EXCO.map((p) => (
-            <li class="person card-base">
-              <span class="person__photo" aria-hidden="true">
-                {p.image ? <ResponsiveImage src={p.image.src} alt="" ratio="1:1" /> : <Icon name="user" size={48} />}
-                <span class="person__arc" />
-              </span>
-              <span class="person__name">{p.name}</span>
-              <span class="person__role">{p.role}</span>
-            </li>
-          ))}
-        </ul>
+        <OrgChart
+          id="exco"
+          people={EXCO}
+          rowMax={5}
+          bandTitle="Group functions and clusters"
+          bandLine="Twelve executives lead the eleven operating companies."
+        />
       </Section>
     )
   }
@@ -301,77 +288,7 @@ const jump = [
     color: var(--blue);
     font-variant-numeric: tabular-nums;
   }
-  /* Board and executive committee: portrait with a red curve, name, role,
-     appointment and one line of background. */
-  .board {
-    display: grid;
-    gap: var(--gap);
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  @media (min-width: 640px) {
-    .board {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-  }
-  @media (min-width: 900px) {
-    .board {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-    .board--exco {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-  }
-  .person {
-    display: grid;
-    gap: var(--s-1);
-    align-content: start;
-    padding: var(--s-3);
-  }
-  .person__photo {
-    position: relative;
-    display: grid;
-    place-items: center;
-    aspect-ratio: 1;
-    border-radius: var(--r-md);
-    overflow: hidden;
-    background: var(--blue-50);
-    color: var(--blue);
-    margin-bottom: var(--s-2);
-  }
-  .person__photo :global(img) {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .person__arc {
-    position: absolute;
-    top: -40px;
-    left: -40px;
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    border: 10px solid var(--red);
-  }
-  .person__name {
-    font-weight: 700;
-    color: var(--blue);
-  }
-  .person__role {
-    font-size: var(--t-sm);
-    color: var(--ink);
-  }
-  .person__since {
-    font-size: var(--t-xs);
-    color: var(--red-700);
-    font-weight: 700;
-  }
-  .person__line {
-    font-size: var(--t-xs);
-    color: var(--grey);
-    margin-top: var(--s-1);
-  }
+  /* Board committees under the hierarchy chart */
   .committees {
     display: grid;
     gap: var(--s-3);

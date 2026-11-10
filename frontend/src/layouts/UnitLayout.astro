@@ -20,6 +20,7 @@ import StoreBadges from '../components/StoreBadges.astro';
 import StickyCta from '../components/StickyCta.astro';
 import Icon from '../components/Icon.astro';
 import Logo from '../components/Logo.astro';
+import OrgChart from '../components/OrgChart.astro';
 import { Calculator } from '../islands/Calculator';
 import { CALCULATORS } from '../data/calculators';
 import { LINKS, isExternal } from '../data/links';
@@ -498,21 +499,36 @@ const jsonLd = [
     )
   }
 
-  <Section id="team" heading="Meet the team" lede={`The people who lead ${unit.shortName}.`} compact>
+  <section id="team" class="band band--compact" aria-labelledby="team-heading">
+    <div class="container">
+      <div class="team-head">
+        <div class="team-head__copy">
+          <h2 id="team-heading" class="h-rule">Meet the Team</h2>
+          <p class="team-head__lede">The people who lead {unit.shortName}.</p>
+          <p class="team-head__line">The board and executive of {unit.name}, as published in the CBZ Holdings annual report.</p>
+          <a href="/the-group#board" class="btn btn--primary team-head__btn">
+            Group leadership <Icon name="arrowRight" size={18} />
+          </a>
+        </div>
+        <div class="team-head__media" aria-hidden="true">
+          <img src={unit.hero.image.src} alt="" width={900} height={420} loading="lazy" decoding="async" />
+          <span class="team-head__swoosh team-head__swoosh--navy"></span>
+          <span class="team-head__swoosh team-head__swoosh--red"></span>
+          <span class="team-head__plate">
+            <Logo brand={unit.logo as DarkSafeLogoKey} on="light" height={28} decorative />
+          </span>
+        </div>
+      </div>
     {
       unit.team.length > 0 ? (
-        <ul role="list" class="team">
-          {unit.team.map((p) => (
-            <li class="person card-base">
-              <span class="person__photo" aria-hidden="true">
-                {p.image ? <img src={p.image.src} alt="" width={600} height={600} loading="lazy" decoding="async" /> : <Icon name="user" size={48} />}
-                <span class="person__arc" />
-              </span>
-              <span class="person__name">{p.name}</span>
-              <span class="person__role">{p.role}</span>
-            </li>
-          ))}
-        </ul>
+        <OrgChart
+          id={unit.slug}
+          people={unit.team}
+          rowMax={5}
+          bandTitle="Our leadership"
+          bandLine={`Also on the ${unit.shortName} board.`}
+          bandLink={{ label: 'Group board and executive', href: '/the-group#board' }}
+        />
       ) : (
         <div class="team__pending card-base">
           <span class="team__icon" aria-hidden="true">
@@ -536,7 +552,8 @@ const jsonLd = [
         </div>
       )
     }
-  </Section>
+    </div>
+  </section>
 
   <StickyCta label={unit.primaryCta.label} href={unit.primaryCta.href} unit={unit.slug} />
 </BaseLayout>
@@ -939,62 +956,90 @@ const jsonLd = [
     flex-shrink: 0;
   }
 
-  /* Meet the team: square portraits with a red curve, name and role; or the
-     holding panel until the profiles arrive. */
-  .team {
-    display: grid;
-    gap: var(--gap);
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  /* Meet the team: copy and a Group leadership button on the left, the unit
+     photograph with navy and red curves and the logo plate on the right;
+     then the hierarchy chart, or the holding panel until profiles arrive. */
+  .band--compact {
+    padding-block: var(--s-12);
   }
-  @media (min-width: 640px) {
-    .team {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
+  .team-head {
+    display: grid;
+    gap: var(--s-6);
+    margin-bottom: var(--s-8);
   }
   @media (min-width: 900px) {
-    .team {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+    .team-head {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: var(--s-10, 40px);
+      align-items: center;
     }
   }
-  .person {
+  .team-head__copy {
     display: grid;
-    gap: var(--s-1);
-    padding: var(--s-3);
+    gap: var(--s-3);
+    justify-items: start;
   }
-  .person__photo {
-    position: relative;
-    display: grid;
-    place-items: center;
-    aspect-ratio: 1;
-    border-radius: var(--r-md);
-    overflow: hidden;
-    background: var(--blue-50);
+  .team-head__copy h2 {
+    font-size: var(--t-2xl);
     color: var(--blue);
-    margin-bottom: var(--s-2);
   }
-  .person__photo img {
+  .team-head__lede {
+    font-size: var(--t-lg);
+    font-weight: 700;
+    color: var(--blue);
+  }
+  .team-head__line {
+    color: var(--grey);
+    max-width: 40ch;
+  }
+  .team-head__btn {
+    gap: var(--s-2);
+    margin-top: var(--s-2);
+  }
+  .team-head__media {
+    position: relative;
+    height: 220px;
+    overflow: hidden;
+    border-radius: var(--r-lg) var(--r-lg) var(--r-lg) 80px;
+    box-shadow: var(--shadow-card);
+  }
+  @media (min-width: 900px) {
+    .team-head__media {
+      height: 260px;
+    }
+  }
+  .team-head__media img {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
-  .person__arc {
+  .team-head__swoosh {
     position: absolute;
-    top: -40px;
-    left: -40px;
-    width: 90px;
-    height: 90px;
     border-radius: 50%;
-    border: 10px solid var(--red);
+    width: 420px;
+    height: 420px;
   }
-  .person__name {
-    font-weight: 700;
-    color: var(--blue);
+  .team-head__swoosh--navy {
+    left: -340px;
+    top: -60px;
+    background: var(--blue);
   }
-  .person__role {
-    font-size: var(--t-sm);
-    color: var(--grey);
+  .team-head__swoosh--red {
+    left: -352px;
+    top: -40px;
+    background: var(--red);
+  }
+  .team-head__plate {
+    position: absolute;
+    right: var(--s-4);
+    top: var(--s-4);
+    display: inline-flex;
+    padding: var(--s-2) var(--s-3);
+    border-radius: var(--r-md);
+    background: var(--white);
+    box-shadow: var(--shadow-float);
   }
   .team__pending {
     display: grid;

@@ -60,6 +60,7 @@
   "systems": [],
   "heldEntities": [{ "name": "Botswana Reinsurance Brokers", "stake": 100 }],
   "about": "CBZ Risk Advisory Services supports the Group and its clients through enterprise-wide risk management and tailored advisory. It covers short-term insurance broking across motor, residential and commercial cover, risk assessment with control measures and financing solutions such as captive management, and independent claims assessment and lodgement. Alongside that sit employee benefits and pensions, pension advisory and healthcare consulting, and individual life financial planning. Botswana Reinsurance Brokers, wholly owned, extends the broking reach regionally.",
+  "aboutImage": { "src": "/images/about-risk-advisory.webp", "alt": "Advisers reviewing a risk report in a boardroom" },
   "keyFacts": [
     { "value": "Botswana Re Brokers", "label": "Wholly owned reinsurance broker" },
     { "value": "Risk assessment", "label": "Control measures and captive management" },

@@ -181,6 +181,14 @@
       "stake": 100
     }
   ],
+  "about": "CBZ Insurance is the Group’s short-term insurer, covering individuals, businesses and farms. Motor, home, travel and accident cover for people; property, liability, marine and engineering cover for businesses; and crop, livestock and machinery cover for farmers. Cover can be arranged alongside a CBZ Bank facility, so an asset is protected from the day it is financed.",
+  "keyFacts": [
+    { "value": "Personal", "label": "Motor, home, travel and accident" },
+    { "value": "Business", "label": "Property, liability, marine and engineering" },
+    { "value": "Agriculture", "label": "Crop, livestock and machinery" },
+    { "value": "CBZ Secure", "label": "Wholly owned subsidiary" }
+  ],
+  "team": [],
   "seo": {
     "title": "CBZ Insurance: motor, home, business and farm cover",
     "description": "Short-term insurance from CBZ Insurance: motor, home and contents, travel, personal accident, business cover and agricultural protection."

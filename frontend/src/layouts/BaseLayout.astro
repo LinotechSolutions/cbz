@@ -16,7 +16,7 @@ interface Props {
   image?: string;
   /** Extra JSON-LD objects for this page. */
   jsonLd?: Record<string, unknown>[];
-  /** The unit whose logo sits in the header beside the Holdings mark. */
+  /** The unit whose logo replaces the Holdings mark in the header. Group pages leave it out. */
   unitLogo?: DarkSafeLogoKey;
   noindex?: boolean;
   /** Pages that hold a form: the chat pill moves up less, and the sticky bar is absent. */
@@ -60,6 +60,34 @@ const organisation = {
 };
 const ld = [organisation, ...jsonLd];
 const pathname = Astro.url.pathname;
+
+/** Where the unit logo in the header goes: that brand's page on this site. */
+const UNIT_HOME: Record<DarkSafeLogoKey, string> = {
+  holdings: '/',
+  bank: '/bank',
+  insurance: '/insurance',
+  life: '/cbz-life',
+  datvest: '/datvest',
+  capital: '/capital',
+  properties: '/properties',
+  'agro-yield': '/agro-yield',
+  'risk-advisory': '/risk-advisory',
+  'red-sphere': '/red-sphere',
+  'cbz-touch': '/login#apps',
+  'ziki-cash': '/diaspora',
+  'cbz-way': '/the-group',
+};
+const headerUnit =
+  unitLogo && unitLogo !== 'holdings'
+    ? {
+        key: unitLogo,
+        name: LOGOS[unitLogo].name,
+        src: (LOGOS[unitLogo].white ?? LOGOS[unitLogo].full).src,
+        light: LOGOS[unitLogo].full.src,
+        aspect: LOGOS[unitLogo].full.aspect,
+        href: UNIT_HOME[unitLogo],
+      }
+    : null;
 ---
 
 <!doctype html>
@@ -101,7 +129,7 @@ const pathname = Astro.url.pathname;
       clusters={CLUSTERS}
       loginItems={LOGIN_ITEMS}
       openAccountItems={OPEN_ACCOUNT_ITEMS}
-      unitLogo={unitLogo ? { key: unitLogo, name: LOGOS[unitLogo].name, src: (LOGOS[unitLogo].white ?? LOGOS[unitLogo].full).src, aspect: LOGOS[unitLogo].full.aspect } : null}
+      unitLogo={headerUnit}
       holdings={{ src: LOGOS.holdings.white!.src, aspect: LOGOS.holdings.full.aspect, name: LOGOS.holdings.name }}
       holdingsLight={{ src: LOGOS.holdings.full.src, aspect: LOGOS.holdings.full.aspect, name: LOGOS.holdings.name }}
       currentPath={pathname}

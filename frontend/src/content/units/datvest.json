@@ -111,6 +111,14 @@
   ],
   "productsNote": "The value of investments can fall as well as rise, and past performance is not a guide to future returns. Fund terms and pricing are confirmed on application.",
   "systems": [],
+  "about": "Datvest is the investment management arm of CBZ Holdings, serving individuals, corporates, pension funds, institutions and high-net-worth clients. It runs unit trusts for individual savers, wealth and portfolio management, pension fund management, treasury bills and bonds, equity and money-market investments, and alternative investments, focused on capital preservation, value growth and risk-adjusted returns.",
+  "keyFacts": [
+    { "value": "Unit trusts", "label": "For individual savers" },
+    { "value": "Institutional", "label": "Segregated and fiduciary mandates" },
+    { "value": "Private wealth", "label": "Advisory and family office" },
+    { "value": "Investments", "label": "Part of the CBZ investment cluster" }
+  ],
+  "team": [],
   "seo": {
     "title": "Datvest: unit trusts, pensions and wealth management",
     "description": "Invest with Datvest, the asset manager of CBZ Holdings: unit trusts, institutional and pension fund mandates, and private wealth management."

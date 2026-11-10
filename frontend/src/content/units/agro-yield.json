@@ -53,6 +53,14 @@
   "productsNote": "Scheme terms, pricing and qualifying criteria depend on the crop, the season and the agreement in place. Speak to CBZ Agro-Yield for the current terms.",
   "systems": [],
   "heldEntities": [{ "name": "ATDC Zimbabwe", "stake": 40 }],
+  "about": "CBZ Agro-Yield is the CBZ Group’s agribusiness. It works with farming enterprises through joint ventures, funds seasonal contract farming, opens market and offtake routes for commodities, and supplies the mechanisation, equipment and water infrastructure that production depends on.",
+  "keyFacts": [
+    { "value": "Four", "label": "Operating divisions" },
+    { "value": "Seasonal", "label": "Contract farming cycles" },
+    { "value": "Offtake", "label": "Market routes for commodities" },
+    { "value": "ATDC", "label": "40% stake in ATDC Zimbabwe" }
+  ],
+  "team": [],
   "seo": {
     "title": "CBZ Agro-Yield: contract farming, inputs and offtake",
     "description": "Seasonal contract farming finance, joint ventures, commodity trading and farm supply chain from CBZ Agro-Yield."

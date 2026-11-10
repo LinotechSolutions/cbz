@@ -59,6 +59,14 @@
   "productsNote": "Broking and advisory services are governed by IPEC regulations. Terms, premium rates and coverage extensions are negotiated across licensed underwriters based on risk profiling.",
   "systems": [],
   "heldEntities": [{ "name": "Botswana Reinsurance Brokers", "stake": 100 }],
+  "about": "CBZ Risk Advisory Services supports the Group and its clients through enterprise-wide risk management and tailored advisory. It covers short-term insurance broking across motor, residential and commercial cover, risk assessment with control measures and financing solutions such as captive management, and independent claims assessment and lodgement. Alongside that sit employee benefits and pensions, pension advisory and healthcare consulting, and individual life financial planning. Botswana Reinsurance Brokers, wholly owned, extends the broking reach regionally.",
+  "keyFacts": [
+    { "value": "Botswana Re Brokers", "label": "Wholly owned reinsurance broker" },
+    { "value": "Risk assessment", "label": "Control measures and captive management" },
+    { "value": "Claims", "label": "Independent assessment and lodgement" },
+    { "value": "Employee benefits", "label": "Pension advisory and healthcare consulting" }
+  ],
+  "team": [],
   "seo": {
     "title": "CBZ Risk Advisory: broking, risk audits and employee benefits",
     "description": "Independent insurance broking, enterprise risk audits, employee benefits and pensions consulting and reinsurance placement from CBZ Risk Advisory Services."

@@ -96,7 +96,7 @@ export const UNCONFIRMED: { item: string; owner: string; note?: string }[] = [
   { item: 'Unit mailboxes for form routing', owner: 'Marketing managers' },
   { item: 'Final photography for heroes and tiles', owner: 'Marketing' },
   { item: 'Campaign artwork and copy', owner: 'Marketing' },
-  { item: 'Leadership profiles per unit', owner: 'Each unit' },
+  { item: 'Leadership profiles per unit (names, roles and photos)', owner: 'Each unit', note: 'Meet the team on each business page shows a holding panel until the unit JSON "team" list is filled.' },
   { item: 'Objectives and customer segmentation per unit', owner: 'Marketing' },
   { item: 'Property listings, prices and photography', owner: 'CBZ Properties' },
   { item: 'FAQ answers on the Bank, Insurance, Properties, Datvest and Capital pages', owner: 'Each business unit', note: 'Drafted from the product data and form copy; each unit to confirm or replace the five questions.' },

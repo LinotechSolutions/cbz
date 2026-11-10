@@ -18,6 +18,9 @@
     "Valid ID, passport size photo, proof of residence and proof of source of income"
   ],
   "audience": "Individuals",
+  "audiences": [
+    "personal"
+  ],
   "pricing": "Initial deposit US$5",
   "details": {
     "tenor": null,

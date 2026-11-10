@@ -16,6 +16,9 @@
     "New and existing account holders"
   ],
   "audience": "Individuals",
+  "audiences": [
+    "personal"
+  ],
   "pricing": "No withdrawals before 12 months",
   "details": {
     "tenor": null,

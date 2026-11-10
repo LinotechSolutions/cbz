@@ -18,6 +18,9 @@
     "Valid ID"
   ],
   "audience": "Individuals (formally employed)",
+  "audiences": [
+    "personal"
+  ],
   "pricing": "Earns interest on savings",
   "details": {
     "tenor": null,

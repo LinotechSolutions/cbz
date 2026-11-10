@@ -78,6 +78,14 @@
   --tap: 44px;
 }
 
+/* Both bars stick on phones, so each is a little shorter there. */
+@media (max-width: 899px) {
+  :root {
+    --header-h: 64px;
+    --strip-h: 40px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   :root {
     --dur: 0ms;

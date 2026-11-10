@@ -12,6 +12,10 @@
   ],
   "eligibility": null,
   "audience": null,
+  "audiences": [
+    "business",
+    "corporate"
+  ],
   "pricing": "Mechanisation and equipment",
   "details": {
     "tenor": null,

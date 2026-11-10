@@ -17,6 +17,12 @@
     "Existing account holders"
   ],
   "audience": "Individuals and corporates",
+  "audiences": [
+    "personal",
+    "business",
+    "corporate",
+    "diaspora"
+  ],
   "pricing": "For existing account holders",
   "details": {
     "tenor": null,

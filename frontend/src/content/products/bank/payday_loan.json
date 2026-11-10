@@ -14,6 +14,9 @@
     "Existing customers"
   ],
   "audience": "Individuals",
+  "audiences": [
+    "personal"
+  ],
   "pricing": "50% of net salary",
   "details": {
     "tenor": "30 days",

@@ -10,6 +10,9 @@
   ],
   "eligibility": null,
   "audience": "Individuals and the family members they insure",
+  "audiences": [
+    "personal"
+  ],
   "pricing": "Individual life",
   "details": {
     "tenor": null,

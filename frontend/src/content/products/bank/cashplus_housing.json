@@ -17,6 +17,9 @@
     "New and existing account holders"
   ],
   "audience": "Individuals",
+  "audiences": [
+    "personal"
+  ],
   "pricing": "Mortgage tenure 2 to 10 years",
   "details": {
     "tenor": null,

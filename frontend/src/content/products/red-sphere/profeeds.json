@@ -16,6 +16,10 @@
     "Sales records and collateral for high value farmers"
   ],
   "audience": "Farmers and civil service employees",
+  "audiences": [
+    "personal",
+    "business"
+  ],
   "pricing": "5% farmers · 6% civil service",
   "details": {
     "tenor": "12 months for farmers, 24 months for civil service employees",

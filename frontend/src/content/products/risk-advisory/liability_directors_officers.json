@@ -17,6 +17,9 @@
     "Details of internal governance and cyber compliance controls"
   ],
   "audience": "Company boards, trustees, professionals, and corporate executives",
+  "audiences": [
+    "corporate"
+  ],
   "pricing": "Liability Placement",
   "details": {
     "tenor": null,

@@ -16,6 +16,10 @@
     "Current medical aid package details and historical premium claims loss ratio"
   ],
   "audience": "Corporate HR departments and employee benefit committees",
+  "audiences": [
+    "business",
+    "corporate"
+  ],
   "pricing": "Employee Benefits",
   "details": {
     "tenor": null,

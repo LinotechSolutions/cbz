@@ -15,6 +15,9 @@
     "Signing mandates"
   ],
   "audience": "Primary, secondary and tertiary institutions",
+  "audiences": [
+    "business"
+  ],
   "pricing": "No monthly account charges",
   "details": {
     "tenor": null,

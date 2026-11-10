@@ -17,6 +17,9 @@
     "Feasibility study and asset/collateral schedule"
   ],
   "audience": "Corporates, parastatals, and institutional developers",
+  "audiences": [
+    "corporate"
+  ],
   "pricing": "Structured Debt",
   "details": {
     "tenor": null,

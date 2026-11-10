@@ -13,6 +13,11 @@
     "Minimum investment of ZWL1,000,000.00 or USD100,000.00"
   ],
   "audience": "Pension funds, individuals, private investors, unit trust companies, insurance and assurance companies, asset managers and corporate investors",
+  "audiences": [
+    "personal",
+    "business",
+    "corporate"
+  ],
   "pricing": "Minimum USD100,000 or ZWL1,000,000",
   "details": {
     "tenor": null,

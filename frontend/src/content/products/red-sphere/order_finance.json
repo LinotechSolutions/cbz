@@ -19,6 +19,10 @@
     "Invoice or order"
   ],
   "audience": "Registered companies",
+  "audiences": [
+    "business",
+    "corporate"
+  ],
   "pricing": "5% interest · 90 days",
   "details": {
     "tenor": "90 days",

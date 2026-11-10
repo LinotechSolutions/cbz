@@ -17,6 +17,9 @@
     "Board resolution authorising transaction mandate"
   ],
   "audience": "Shareholders, institutional investors, and expanding corporates",
+  "audiences": [
+    "corporate"
+  ],
   "pricing": "Corporate Advisory",
   "details": {
     "tenor": null,

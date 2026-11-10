@@ -12,6 +12,9 @@
     "Existing individual account holders"
   ],
   "audience": "Individuals",
+  "audiences": [
+    "personal"
+  ],
   "pricing": "For existing account holders",
   "details": {
     "tenor": null,

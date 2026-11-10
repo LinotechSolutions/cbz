@@ -7,6 +7,11 @@
   "benefits": [],
   "eligibility": null,
   "audience": null,
+  "audiences": [
+    "personal",
+    "business",
+    "corporate"
+  ],
   "pricing": null,
   "details": {
     "tenor": null,

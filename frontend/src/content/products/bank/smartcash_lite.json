@@ -15,6 +15,9 @@
     "Copy of ID"
   ],
   "audience": "All individual clients, especially the unbanked, students and low income earners",
+  "audiences": [
+    "personal"
+  ],
   "pricing": "Opens instantly with your ID",
   "details": {
     "tenor": null,

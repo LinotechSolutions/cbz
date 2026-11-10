@@ -10,6 +10,9 @@
   ],
   "eligibility": null,
   "audience": "Parents and guardians saving for a child’s education",
+  "audiences": [
+    "personal"
+  ],
   "pricing": "Individual life",
   "details": {
     "tenor": null,

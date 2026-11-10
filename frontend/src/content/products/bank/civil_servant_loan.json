@@ -16,6 +16,9 @@
     "Salary to be deducted from SSB"
   ],
   "audience": "Civil servants",
+  "audiences": [
+    "personal"
+  ],
   "pricing": "Up to 10x net salary",
   "details": {
     "tenor": "36 months",

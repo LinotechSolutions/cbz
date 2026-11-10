@@ -17,6 +17,10 @@
     "Site risk survey reports"
   ],
   "audience": "Commercial enterprises, manufacturers, and property funds",
+  "audiences": [
+    "business",
+    "corporate"
+  ],
   "pricing": "Commission Broking",
   "details": {
     "tenor": null,

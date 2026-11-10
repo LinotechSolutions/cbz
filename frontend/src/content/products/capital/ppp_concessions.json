@@ -16,6 +16,9 @@
     "Technical feasibility studies and environmental clearance certificates"
   ],
   "audience": "State-owned enterprises, ministries, local authorities, and private developers",
+  "audiences": [
+    "corporate"
+  ],
   "pricing": "Infrastructure Advisory",
   "details": {
     "tenor": null,

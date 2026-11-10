@@ -16,6 +16,9 @@
     "Market demand analysis and pricing study"
   ],
   "audience": "Infrastructure consortia, energy developers, and industrial ventures",
+  "audiences": [
+    "corporate"
+  ],
   "pricing": "Financial Modeling",
   "details": {
     "tenor": null,

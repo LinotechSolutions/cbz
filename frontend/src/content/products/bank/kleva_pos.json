@@ -13,6 +13,9 @@
     "Existing customers"
   ],
   "audience": "SMEs, sole traders and street vendors",
+  "audiences": [
+    "business"
+  ],
   "pricing": "Free to qualifying traders",
   "details": {
     "tenor": null,

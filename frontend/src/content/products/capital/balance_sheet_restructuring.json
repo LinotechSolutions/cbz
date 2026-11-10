@@ -16,6 +16,10 @@
     "Independent audit reports and turnaround strategy plan"
   ],
   "audience": "Enterprises undergoing strategic operational transitions or restructuring",
+  "audiences": [
+    "business",
+    "corporate"
+  ],
   "pricing": "Strategic Advisory",
   "details": {
     "tenor": null,

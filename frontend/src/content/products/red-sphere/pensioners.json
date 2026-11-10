@@ -16,6 +16,9 @@
     "Proof of employment / residence"
   ],
   "audience": "Government pensioners",
+  "audiences": [
+    "personal"
+  ],
   "pricing": "6% interest",
   "details": {
     "tenor": "12 months",

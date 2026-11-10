@@ -18,6 +18,9 @@
     "CBZ account holder"
   ],
   "audience": "All",
+  "audiences": [
+    "business"
+  ],
   "pricing": "5% plus a monthly once-off fee",
   "details": {
     "tenor": null,

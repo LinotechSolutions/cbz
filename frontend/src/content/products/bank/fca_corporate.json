@@ -16,6 +16,10 @@
     "Directors' proof of residence (latest utility bill)"
   ],
   "audience": "Corporates",
+  "audiences": [
+    "business",
+    "corporate"
+  ],
   "pricing": "GBP, USD, ZAR, BWP, EUR",
   "details": {
     "tenor": null,

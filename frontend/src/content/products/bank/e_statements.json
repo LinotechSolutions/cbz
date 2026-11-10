@@ -13,6 +13,10 @@
     "Existing customers"
   ],
   "audience": "Corporates",
+  "audiences": [
+    "business",
+    "corporate"
+  ],
   "pricing": "For existing customers",
   "details": {
     "tenor": null,

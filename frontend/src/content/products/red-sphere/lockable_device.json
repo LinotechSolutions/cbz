@@ -16,6 +16,9 @@
     "Payslip"
   ],
   "audience": "Salaried individuals without direct deductions",
+  "audiences": [
+    "personal"
+  ],
   "pricing": "5% interest",
   "details": {
     "tenor": "6 months",

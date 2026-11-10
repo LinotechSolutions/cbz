@@ -21,6 +21,11 @@
     "Active CBZ Bank account or wallet"
   ],
   "audience": "Individual clients and single signatory SMEs",
+  "audiences": [
+    "personal",
+    "business",
+    "diaspora"
+  ],
   "pricing": "Zero rated",
   "details": {
     "tenor": null,

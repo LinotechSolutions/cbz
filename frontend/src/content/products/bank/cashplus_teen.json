@@ -19,6 +19,9 @@
     "For parents with teenagers"
   ],
   "audience": "Teenagers",
+  "audiences": [
+    "personal"
+  ],
   "pricing": "No maintenance fees",
   "details": {
     "tenor": null,

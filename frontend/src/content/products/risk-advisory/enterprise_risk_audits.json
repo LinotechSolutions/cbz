@@ -16,6 +16,9 @@
     "Existing risk registers and internal audit reports"
   ],
   "audience": "C-suite executives, audit committees, and corporate boards",
+  "audiences": [
+    "corporate"
+  ],
   "pricing": "Consultancy Mandate",
   "details": {
     "tenor": null,

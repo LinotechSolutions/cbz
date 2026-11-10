@@ -9,6 +9,9 @@
   ],
   "eligibility": null,
   "audience": null,
+  "audiences": [
+    "business"
+  ],
   "pricing": "Seasonal contract farming",
   "details": {
     "tenor": null,

@@ -16,6 +16,9 @@
     "Engineering survey report and maximum probable loss (MPL) calculations"
   ],
   "audience": "Direct insurance underwriters, mining houses, and mega-infrastructure projects",
+  "audiences": [
+    "corporate"
+  ],
   "pricing": "Treaty / Facultative",
   "details": {
     "tenor": null,

@@ -9,6 +9,10 @@
   ],
   "eligibility": null,
   "audience": "Individuals and groups saving for retirement",
+  "audiences": [
+    "personal",
+    "business"
+  ],
   "pricing": "Employee benefits",
   "details": {
     "tenor": null,

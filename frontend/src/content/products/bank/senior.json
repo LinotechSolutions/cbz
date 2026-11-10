@@ -21,6 +21,9 @@
     "Valid ID"
   ],
   "audience": "Retired customers over 60 years of age",
+  "audiences": [
+    "personal"
+  ],
   "pricing": "No service charges",
   "details": {
     "tenor": null,

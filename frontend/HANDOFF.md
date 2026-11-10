@@ -85,7 +85,8 @@ _Generated 2026-11-10 by `npm run handoff`. Do not edit between the markers._
 | Zeex invoice-discounting wording and customer journey on the Red Sphere page | Red Sphere Finance and Zeex | Both parties to approve. Link to zeex.co.zw is live. |
 | ATDC button placement on the Agro-Yield page (Supply chain, commodity trading or a Group businesses area) | CBZ Agro-Yield | Placed in Choose your service and in its own Explore ATDC section, linking to africatdc.com. Confirm or move. |
 | Integrations behind the forms: SSP Pure, ICECASH and Flex Cube (Insurance), Life Central (Life) | Digital | Recorded on each unit JSON under "systems"; nothing is wired yet. |
-| Landing pages for the Business and Corporate & Investment audience tabs in the header | Marketing | The tabs open the matching part of Explore our solutions (/journeys#business, /journeys#corporate) until dedicated pages exist. Personal is the home page; Diaspora is /diaspora. |
+| Landing pages for the Business & SME and Corporate & Investment audience tabs in the header | Marketing | On product pages the tabs filter the cards in place. Elsewhere they open the matching part of Explore our solutions (/journeys#business, /journeys#corporate) until dedicated pages exist. Personal is the home page; Diaspora is /diaspora. |
+| Audience tags on every product (Personal, Business & SME, Corporate & Investment, Diaspora) | Each business unit | Assigned in src/data/audiences.ts from each product's "who it's for" line; units to confirm, in particular products tagged for more than one audience. |
 
 ### Values still null in data modules
 

@@ -7,6 +7,10 @@
   "benefits": [],
   "eligibility": null,
   "audience": null,
+  "audiences": [
+    "diaspora",
+    "personal"
+  ],
   "pricing": null,
   "details": {
     "tenor": null,

@@ -281,7 +281,7 @@ export function Header({ clusters, loginItems, openAccountItems, holdings, holdi
             </div>
           </div>
           <div className="hdr__item hdr__item--open">
-            {menuButton('open', 'Open an account', '/contact#open-account', 'btn btn--primary hdr__open')}
+            {menuButton('open', 'Sign up', '/contact#open-account', 'btn btn--primary hdr__open')}
             {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
             <div id={`${uid}-open`} className="hdr__menu hdr__menu--right" hidden={open !== 'open'} onKeyDown={onMenuKey}>
               <ul role="list" className="hdr__menu-list">
@@ -328,7 +328,7 @@ export function Header({ clusters, loginItems, openAccountItems, holdings, holdi
             <div className="sheet__primary">
               <details className="sheet__group sheet__group--open">
                 <summary className="btn btn--primary btn--block sheet__summary">
-                  Open an account <Icon name="chevronDown" size={16} />
+                  Sign up <Icon name="chevronDown" size={16} />
                 </summary>
                 <ul role="list" className="sheet__links">
                   {openAccountItems.filter((i) => i.href).map((it) => (

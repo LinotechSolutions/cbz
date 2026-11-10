@@ -11,7 +11,8 @@
   "audience": "Individuals and groups saving for retirement",
   "audiences": [
     "personal",
-    "business"
+    "business",
+    "school"
   ],
   "pricing": "Employee benefits",
   "details": {

@@ -20,22 +20,24 @@ Conventions
 
 ### Audience strip (white strip above the header)
 
-Four tabs; the strip sticks to the top of the window with the navy bar under it. The navy tab is the chosen audience. Before the visitor chooses, it is the audience the page serves (Personal on the home, Bank, Insurance, Life, Properties and Datvest pages; Business & SME on Red Sphere and Agro-Yield; Corporate & Investment on Capital and Risk Advisory; Diaspora on `/diaspora`); Group pages light none. Once chosen, the choice is remembered in the browser and the same tab stays navy on every page until it is changed.
-
-**On a page with product cards** (Bank, Red Sphere, Insurance, Life, Datvest, Capital, Risk Advisory, Agro-Yield) a tab filters every product carousel on the page to that audience, scrolls the first carousel into view, and writes `?for=personal|business|corporate|diaspora` to the address so the view can be shared. Category pills with nothing for that audience disappear. A carousel with nothing for the chosen audience shows "Nothing here for <audience> yet" and a button per audience it does serve (for example Personal on CBZ Risk Advisory offers Business & SME and Corporate & Investment). Which products belong to which audience is listed in `src/data/audiences.ts` and summarised per unit in section 4.
-
-**On any other page** (and without JavaScript) a tab goes to:
+Four tabs; the strip sticks to the top of the window with the navy bar under it. A tab opens that audience's home page and makes it the chosen audience. The navy tab is the chosen audience; it is remembered in the browser and stays navy on every page until another tab is chosen. Before any choice, Personal is navy. Opening an audience home (for example a link straight to `/school`) also selects that audience.
 
 | Tab | Goes to |
 | --- | --- |
-| Personal | `/` |
-| Business & SME | `/journeys#business` |
-| Corporate & Investment | `/journeys#corporate` |
-| Diaspora | `/diaspora` |
+| Personal | `/` (section 2) |
+| Business | `/business` (section 2b) |
+| School | `/school` (section 2c) |
+| Diaspora | `/diaspora` (section 5) |
+
+The menus in the navy bar are the same for every audience. What changes is what the pages show:
+
+- **Product carousels** (Bank, Red Sphere, Insurance, Life, Datvest, Capital, Risk Advisory, Agro-Yield) show only the cards tagged for the chosen audience, so Bank ▸ CBZ Bank shows the company accounts, merchant POS and corporate channels for Business, and the school account, fees collection and staff cover for School. Category pills with nothing for that audience disappear. A carousel with nothing for the chosen audience shows "Nothing here for <audience> yet" and a button per audience it does serve (for example Personal on CBZ Capital offers Business); pressing one switches the audience in place and writes `?for=<audience>` to the address. Where a section has several carousels, an empty one steps aside while its neighbours show. Which products belong to which audience is in `src/data/audiences.ts` and summarised in section 4.
+- **Property listings** (Invest ▸ CBZ Properties) show homes and stands for Personal and Diaspora, office, retail and industrial space to let for Business and School, and land for Personal, Business and Diaspora. The Type, Location and Status filters work within that.
+- Any page can be opened for one audience with `?for=personal|business|school|diaspora`.
 
 ### Header (navy bar)
 
-Logo, a thin divider, the five cluster menus, then Find a branch, Log in and the red Sign up button. Between 900px and 1100px Find a branch is its pin icon alone.
+Logo, a thin divider, the six menus (Bank, Insure, Invest, Borrow, Farm, Group), then Find a branch, Log in and the red Sign up button. Between 900px and 1100px Find a branch is its pin icon alone.
 
 | Control | Goes to |
 | --- | --- |
@@ -44,9 +46,7 @@ Logo, a thin divider, the five cluster menus, then Find a branch, Log in and the
 | Find a branch (pin icon; also the last row of the phone menu sheet) | `/contact#branches` |
 | **Bank** (label) | `/clusters/banking` |
 | Bank ▸ CBZ Bank | `/bank` |
-| Bank ▸ Red Sphere Finance | `/red-sphere` |
 | Bank ▸ CBZ Custodial Services | no page yet, shown as plain text |
-| Bank ▸ Diaspora banking | `/diaspora` |
 | Bank ▸ View all | `/clusters/banking` |
 | **Insure** (label) | `/clusters/insurance` |
 | Insure ▸ CBZ Insurance | `/insurance` |
@@ -58,9 +58,14 @@ Logo, a thin divider, the five cluster menus, then Find a branch, Log in and the
 | Invest ▸ CBZ Capital | `/capital` |
 | Invest ▸ CBZ Properties | `/properties` |
 | Invest ▸ View all | `/clusters/investments` |
-| **Agro-business** (label) | `/clusters/agro-business` |
-| Agro-business ▸ CBZ Agro-Yield | `/agro-yield` |
-| Agro-business ▸ View all | `/clusters/agro-business` |
+| **Borrow** (label) | `/red-sphere` |
+| Borrow ▸ Red Sphere Finance | `/red-sphere` |
+| Borrow ▸ CBZ Bank loans | `/bank#apply-for-a-loan` |
+| Borrow ▸ Loan calculators | `/calculators` |
+| Borrow ▸ View all | `/red-sphere` |
+| **Farm** (label) | `/clusters/agro-business` |
+| Farm ▸ CBZ Agro-Yield | `/agro-yield` |
+| Farm ▸ View all | `/clusters/agro-business` |
 | **Group** (label) | `/the-group` |
 | Group ▸ The Group | `/the-group` |
 | Group ▸ Explore our solutions | `/journeys` |
@@ -102,7 +107,7 @@ Essential only / Allow analytics; Privacy policy → `/privacy-policy`.
 | Our Businesses | CBZ Bank `/bank`; CBZ Insurance `/insurance`; CBZ Life `/cbz-life`; CBZ Properties `/properties`; Datvest `/datvest`; CBZ Agro-Yield `/agro-yield`; Red Sphere Finance `/red-sphere`; CBZ Capital `/capital`; CBZ Risk Advisory `/risk-advisory` |
 | The Group | The Group `/the-group`; CBZ Foundation `/cbz-foundation`; Sustainability `/sustainability`; Diaspora Banking `/diaspora` |
 | Access | Log In `/login`; Find a Branch `/contact#branches`; Security `/security`; Latest from CBZ `/notices` |
-| Explore Our Solutions | Open an Account `/bank/open-account`; Insurance Solutions `/insurance/quote`; Life Assurance Solutions `/cbz-life/quote`; Buy a Property `/properties/request-a-viewing`; Investments `/datvest/start-investing`; Agrobusiness Solutions ↗ Agrideck; Capital Raising `/capital/enquiry` |
+| Explore Our Solutions | Open an Account `/bank/open-account`; Insurance Solutions `/insurance/quote`; Life Assurance Solutions `/cbz-life/quote`; Buy a Property `/properties/request-a-viewing`; Investments `/datvest/start-investing`; Farm Solutions ↗ Agrideck; Capital Raising `/capital/enquiry` |
 | Social | Facebook, X, LinkedIn, YouTube, Instagram ↗ |
 
 Note: Business conditions, Privacy policy, Tip-offs, Website terms and
@@ -147,7 +152,7 @@ icon, a bold name, one line and a red Explore link.
 | **Borrow** ▸ Explore Loans | Salary, business and cash loans from Red Sphere. | `/red-sphere` (Red Sphere page) |
 | **Insure** ▸ Explore Insurance | Short-term insurance solutions for your assets and business. | `/clusters/insurance` (Insurance cluster page) |
 | **Invest** ▸ Explore Investments | Wealth creation, unit trusts and corporate finance solutions. | `/clusters/investments` (Investment cluster page) |
-| **Agrobusiness** ▸ Explore Agrobusiness | Finance, inputs, offtake and sector solutions for the agricultural value chain. | `/clusters/agro-business` (Agro-Business cluster page) |
+| **Farm** ▸ Explore Farming | Finance, inputs, offtake and sector solutions for the agricultural value chain. | `/clusters/agro-business` (Farm cluster page) |
 | View all solutions (top right) | | `/journeys` |
 
 From a cluster page the visitor picks a company card to reach the unit page
@@ -196,6 +201,40 @@ Current notices: `agm-notice-2026`, `cautionary-statement`,
 
 ---
 
+## 2b. Business home `/business`
+
+The same five sections as the Personal home (hero `#hero-heading`, task cards `#help`, journey carousel `#journeys`, digital cards `#digital`, Learn more `#learn`), with business copy and links. Opening it selects the Business audience.
+
+| Element | Goes to |
+| --- | --- |
+| Hero title "Run, fund, protect and grow your business with CBZ Holdings." | text only |
+| **Explore business products** (red menu) ▸ Open a business account | `/bank/open-account` |
+| ▸ Working capital with Red Sphere | ↗ Red Sphere on Google Play |
+| ▸ Insure your business | `/insurance/quote` |
+| ▸ Cover your staff with CBZ Life | `/cbz-life/quote` |
+| ▸ Invest surplus cash with Datvest | `/datvest/start-investing` |
+| ▸ Contract farming with Agro-Yield | ↗ Agrideck |
+| Task cards: Bank / Borrow / Insure / Invest / Farm | `/bank` / `/red-sphere` / `/clusters/insurance` / `/clusters/investments` / `/clusters/agro-business` |
+| Journey cards (nine): Opening a company account? / Running a small business? / Taking card payments? / Protecting your premises and stock? / Looking after your staff? / Need office or warehouse space? / Raising capital? / Farming at scale? / Surplus cash to put to work? | `/bank/open-account` / `/red-sphere#explore-loan-products` / `/bank#cards-and-digital` / `/insurance/quote` / `/cbz-life/quote` / `/properties?type=commercial` / `/capital/enquiry` / ↗ Agrideck / `/datvest/start-investing` |
+| Digital cards: CBZ Touch (store badges); Corporate internet banking ▸ Log in `/login`, See business channels `/bank#cards-and-digital`; Merchant POS ▸ See POS devices `/bank#cards-and-digital`, Speak to an agent `/bank/call-me-back` | |
+
+## 2c. School home `/school`
+
+The same layout again, for schools. Opening it selects the School audience.
+
+| Element | Goes to |
+| --- | --- |
+| Hero title "Bank, insure and build your school with CBZ Holdings." | text only |
+| **Explore school products** (red menu) ▸ Open a school account | `/bank/open-account` |
+| ▸ Collect fees on POS and CBZ Touch | `/bank#cards-and-digital` |
+| ▸ Insure school buildings and assets | `/insurance/quote` |
+| ▸ Group life for teaching staff | `/cbz-life/quote` |
+| ▸ Invest school funds with Datvest | `/datvest/start-investing` |
+| ▸ Sarapavana education plan for parents | `/cbz-life#product-cbz-life-sarapavana` |
+| Task cards: Bank / Borrow / Insure / Invest / Farm | `/bank` / `/bank#apply-for-a-loan` / `/clusters/insurance` / `/clusters/investments` / `/clusters/agro-business` |
+| Journey cards (eight): Opening a school account? / Collecting school fees? / Insuring the school buildings? / Looking after your teachers? / Helping parents pay fees? / Building a new block? / Investing school funds? / Running a school farm? | `/bank/open-account` / `/bank#cards-and-digital` / `/insurance/quote` / `/cbz-life/quote` / `/bank#apply-for-a-loan` / `/properties` / `/datvest/start-investing` / ↗ Agrideck |
+| Digital cards: CBZ Touch (store badges); Internet banking ▸ Log in `/login`, See school channels `/bank#cards-and-digital`; Kleva POS ▸ See POS devices `/bank#cards-and-digital`, Speak to an agent `/bank/call-me-back` | |
+
 ## 3. Cluster pages
 
 `/clusters/banking`, `/clusters/insurance`, `/clusters/investments`, `/clusters/agro-business`
@@ -213,7 +252,7 @@ Current notices: `agm-notice-2026`, `cautionary-statement`,
 
 All nine unit pages share one template, in this order:
 
-1. **Hero** (white split banner). Breadcrumb: Home → `/`, cluster name → the cluster page (Banking `/clusters/banking`, Insurance `/clusters/insurance`, Investments `/clusters/investments`, Agro-Business `/clusters/agro-business`), then the unit name as text. Red-dash eyebrow with the unit name (text). Title and lede (text). **Primary** button (red) and **secondary** button (navy outline), per unit below. On a business page the header shows that unit's logo in place of the CBZ Holdings mark; it links to the unit page.
+1. **Hero** (white split banner). Breadcrumb: Home → `/`, cluster name → the cluster page (Banking `/clusters/banking`, Insurance `/clusters/insurance`, Investments `/clusters/investments`, Farm `/clusters/agro-business`), then the unit name as text. Red-dash eyebrow with the unit name (text). Title and lede (text). **Primary** button (red) and **secondary** button (navy outline), per unit below. On a business page the header shows that unit's logo in place of the CBZ Holdings mark; it links to the unit page.
 2. **Who we serve** card (white, overlapping the hero): the label "Who we serve", a short title such as "Banking for everyone.", then one row per audience with an icon chip, a name, one line and a chevron. Each row scrolls to an anchor or opens a page (per unit below). Units without audiences (Red Sphere, Agro-Yield) have no card.
 3. **Sections**, one per branch of the site map, in the order given per unit. Each has a heading under a short red rule and an optional line. Section types:
    - **Product carousel**: shows only the cards tagged for the audience chosen in the header strip (see "Audience strip" in section 1; the per-unit split is below). Pill filters (**All** plus one per category, navy when selected) show and hide cards within that and return the row to the start; ‹ › arrows scroll. Each product card shows a photograph (or the unit icon), a floating icon badge, the product name, a short summary, up to two benefits with check marks, the unit's **apply button** (per unit below) and a **Tell me more** link. Tell me more opens a dialog with the product name, a close button and four tabs: **What you get** (benefits), **Who it's for** (audience), **What it costs** (pricing line and any rate, term, fee or limit facts), **How to get it** (requirements and the apply button again). Escape, the close button or a click outside closes it. A URL such as `/bank#product-bank-current` opens that card's dialog on arrival.
@@ -225,16 +264,16 @@ All nine unit pages share one template, in this order:
 4. **About <unit>** `#about` (every unit, after the last section): a photograph with the red curve and the unit's logo on a white plate; a paragraph on the unit, four key facts (text), and the line "Part of **CBZ Holdings**" → `/the-group` with any held companies; **About the Group** → `/the-group`.
    **Products by audience** (a product can sit under more than one tab):
 
-   | Unit | Personal | Business & SME | Corporate & Investment | Diaspora |
+   | Unit | Personal | Business | School | Diaspora |
    | --- | --- | --- | --- | --- |
-   | CBZ Bank | SmartCash Lite, General, Extra and Student; Current Account and Current Account (Joint); Private Banking; Foreign Currency Account (Individual); Savings Account (Individual); CashPlus Individual, Housing, Junior, Teen and Student; Simple Saver; Senior Citizens Savings; Fixed Deposit; all six loans; ATM Card, Student Visa Card, Visa Gold Card; CBZ Touch, Internet Banking | Current Account; Current Account (Corporate); Foreign Currency Account (Corporate); Church Current Account; School Current Account; CashPlus Business; Savings Account (Corporate); Fixed Deposit; Visa Gold Card; SME's Debit Card; CBZ Touch, Internet Banking, E-statements, Local POS, Visa POS, Kleva POS | Current Account (Corporate); Foreign Currency Account (Corporate); Savings Account (Corporate); Fixed Deposit; Internet Banking; E-statements | Foreign Currency Account (Individual); CBZ Touch; Internet Banking |
-   | Red Sphere | SSB Loan; Private Payroll Loan; Pensioners Loan; Partner Lockable Device; Agents & Partners Personal and Car Loans; Profeeds | SME Working Capital; SME Tuck-shop Facility; Individual Business Loans; Order Financing & Invoice Discounting; Agency Contract; Partnership; Profeeds | Order Financing & Invoice Discounting | none |
-   | CBZ Insurance | Comprehensive Motor; Home & Contents; Health & Personal Accident; Milady; Travel; Diaspora Property | SME Business Shield; All-Risks Business Assets; Commercial Property & Plant; Engineering & Construction; Marine Cargo; Professional & Public Liability; all six agriculture covers | Commercial Property & Plant; Engineering & Construction; Marine Cargo; Professional & Public Liability; Contract Farming Scheme Cover | Diaspora Property; Home & Contents |
-   | CBZ Life | Comfortsure Funeral; Sarapavana Education; Annuities; Retirement Savings | Retirement Savings; Group Life; Credit Life | Group Life; Credit Life | none |
-   | Datvest | all six unit trusts; all six private wealth products | High-Yield Fixed Income Fund; Money Market Fund; Corporate Treasury Liquidity Placement | Money Market Fund; Philanthropic & Endowment Structuring; all six institutional products | Diaspora Wealth Fund; USD Inflation-Shield Fund; Structured Offshore USD Notes; VFEX USD Equities |
-   | CBZ Capital | none | Recapitalisation & Restructuring | all ten products | none |
-   | CBZ Risk Advisory | none | Corporate Property & Assets Broking; Commercial Fleet & Marine; Business Continuity; Loss Prevention; Corporate Healthcare & Group Benefits; Claims Advocacy | all ten products | none |
-   | CBZ Agro-Yield | none | all four divisions | Agro Commodity Trading; Agro Supply Chain | none |
+   | CBZ Bank | SmartCash Lite, General, Extra and Student; Current Account and Current Account (Joint); Private Banking; Foreign Currency Account (Individual); Savings Account (Individual); CashPlus Individual, Housing, Junior, Teen and Student; Simple Saver; Senior Citizens Savings; Fixed Deposit; all six loans; ATM Card, Student Visa Card, Visa Gold Card; CBZ Touch, Internet Banking | Current Account; Current Account (Corporate); Foreign Currency Account (Corporate); Church Current Account; CashPlus Business; Savings Account (Corporate); Fixed Deposit; Visa Gold Card; SME's Debit Card; CBZ Touch, Internet Banking, E-statements, Local POS, Visa POS, Kleva POS | School Current Account; Foreign Currency Account (Corporate); Savings Account (Corporate); Fixed Deposit; Private School Fees Loan (for parents); CBZ Touch, Internet Banking, E-statements, Local POS, Visa POS, Kleva POS | Foreign Currency Account (Individual); CBZ Touch; Internet Banking |
+   | Red Sphere | SSB Loan; Private Payroll Loan; Pensioners Loan; Partner Lockable Device; Agents & Partners Personal and Car Loans; Profeeds | SME Working Capital; SME Tuck-shop Facility; Individual Business Loans; Order Financing & Invoice Discounting; Agency Contract; Partnership; Profeeds | none | none |
+   | CBZ Insurance | Comprehensive Motor; Home & Contents; Health & Personal Accident; Milady; Travel; Diaspora Property | SME Business Shield; All-Risks Business Assets; Commercial Property & Plant; Engineering & Construction; Marine Cargo; Professional & Public Liability; all six agriculture covers | All-Risks Business Assets; Commercial Property & Plant; Engineering & Construction; Professional & Public Liability; Irrigation & Farming Machinery | Diaspora Property; Home & Contents |
+   | CBZ Life | Comfortsure Funeral; Sarapavana Education; Annuities; Retirement Savings | Retirement Savings; Group Life; Credit Life | Sarapavana Education (for parents); Retirement Savings; Group Life | Comfortsure Funeral |
+   | Datvest | all six unit trusts; all six private wealth products | High-Yield Fixed Income Fund; Money Market Fund; Philanthropic & Endowment Structuring; all six institutional products | High-Yield Fixed Income Fund; Money Market Fund; Corporate Treasury Liquidity Placement; Defined Benefit & Contribution Pensions | Diaspora Wealth Fund; USD Inflation-Shield Fund; Structured Offshore USD Notes; VFEX USD Equities |
+   | CBZ Capital | none | all ten products | none | none |
+   | CBZ Risk Advisory | none | all ten products | Corporate Property & Assets Broking; Loss Prevention; Corporate Healthcare & Group Benefits; Pension Fund Structuring; Claims Advocacy | none |
+   | CBZ Agro-Yield | none | all four divisions | Agro Farming; Agro Supply Chain | none |
 
 5. **Meet the team** `#team` (every unit): on-screen title "Meet the Team", the line "The people who lead <unit>.", a sentence on the source, and **Group leadership** → `/the-group#board`; beside it the unit photograph with navy and red curves and the unit logo on a white plate. Then two charts. **Board leadership** (red dot label): the board chairperson's large card on top (red "Chairperson" tag), connector lines to a row of up to five smaller director cards, and a tinted "Also on the board" band holding any further directors with **Group board and executive** → `/the-group#board`. **Executive management** (navy strip, tinted panel): the managing director or principal officer on a large card with a navy tag. Portraits show initials until photographs arrive; names and roles are text only. A unit with no names yet would show a holding panel instead, with **Talk to the team** → its call-back form and **WhatsApp us** ↗.
 6. **Sticky bar** (phones only): the primary button.
@@ -407,7 +446,7 @@ Listing cards on `/properties` no longer link to these pages.
 
 ## 6. Explore our solutions `/journeys`
 
-Ten cards in three audience groups (the header's audience tabs land here); the whole card is the link:
+Ten cards in two groups, Personal and Business; the whole card is the link:
 
 | Group | Card | Goes to |
 | --- | --- | --- |
@@ -418,9 +457,9 @@ Ten cards in three audience groups (the header's audience tabs land here); the w
 | Personal | Investments | `/datvest/start-investing` |
 | Personal | Buy a property | `/properties/request-a-viewing` |
 | Business `#business` | Small business finance | `/red-sphere#explore-loan-products` |
+| Business | Risk advisory | `/risk-advisory/quote` |
+| Business | Capital raising | `/capital/enquiry` |
 | Business | Farming finance | ↗ `https://agrideck.cbz.co.zw/` (Agrideck) |
-| Corporate & Investment `#corporate` | Risk advisory | `/risk-advisory/quote` |
-| Corporate & Investment | Capital raising | `/capital/enquiry` |
 | (footer line) | Living abroad? See diaspora banking | `/diaspora` |
 
 ---

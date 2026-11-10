@@ -11,7 +11,8 @@
   "eligibility": null,
   "audience": "Individuals and the family members they insure",
   "audiences": [
-    "personal"
+    "personal",
+    "diaspora"
   ],
   "pricing": "Individual life",
   "details": {

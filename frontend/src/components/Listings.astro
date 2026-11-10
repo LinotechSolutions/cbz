@@ -13,6 +13,7 @@ import Icon from './Icon.astro';
 import type { IconName } from './icons';
 import { PropertyFilters } from '../islands/PropertyFilters';
 import { LINKS } from '../data/links';
+import { LISTING_AUDIENCES } from '../data/audiences';
 import { visible } from '../lib/visible';
 
 /* Every card goes to the CBZ Properties listings on Propertybook, where viewings are booked. */
@@ -53,7 +54,7 @@ const specIcon = (label: string): IconName => {
       listings.map((l) => {
         const specs = l.details.slice(0, 3);
         return (
-          <li class="lst" data-property data-type={l.type} data-location={l.location} data-status={l.status}>
+          <li class="lst" data-property data-type={l.type} data-location={l.location} data-status={l.status} data-audiences={LISTING_AUDIENCES[l.type].join(' ')}>
             <a href={LINKS.propertyListings} class="lst__link card-base" target="_blank" rel="noopener noreferrer">
               <span class="lst__media">
                 <ResponsiveImage src={l.images[0].src} alt={l.images[0].alt || l.title} ratio="16:9" />
@@ -93,6 +94,9 @@ const specIcon = (label: string): IconName => {
     }
   </ul>
   {listings.length === 0 && <p class="muted">No listings yet. Ask us about current developments.</p>}
+  <p class="small muted lst-note">
+    Showing properties for the audience chosen at the top of the page. Switch to Business for office, retail and industrial space, or to Personal for homes and stands.
+  </p>
 </div>
 
 <script>
@@ -111,6 +115,16 @@ const specIcon = (label: string): IconName => {
   .listings-wrap {
     display: grid;
     gap: var(--s-6);
+  }
+  /* The audience chosen in the header strip: homes and stands for people, commercial space for organisations. */
+  :global(html[data-audience='personal']) .lst:not([data-audiences~='personal']),
+  :global(html[data-audience='business']) .lst:not([data-audiences~='business']),
+  :global(html[data-audience='school']) .lst:not([data-audiences~='school']),
+  :global(html[data-audience='diaspora']) .lst:not([data-audiences~='diaspora']) {
+    display: none;
+  }
+  .lst-note {
+    max-width: var(--measure);
   }
   .listings__bar {
     display: grid;

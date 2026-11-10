@@ -15,68 +15,41 @@ export interface NavGroup {
   items: NavLink[];
 }
 
-export type AudienceId = 'personal' | 'business' | 'corporate' | 'diaspora';
+export type AudienceId = 'personal' | 'business' | 'school' | 'diaspora';
 
 export interface Audience {
   id: AudienceId;
   label: string;
-  /** Where the tab goes. */
+  /** That audience's home page, where the tab goes. */
   href: string;
-  /** Pages on which this tab shows as current. Group pages light none. */
+  /** The home page itself (and anything under it): being here selects the audience. */
   match: RegExp;
   /** One line under the heading on the solutions page. */
   line: string;
 }
 
 /**
- * The white strip above the header: one tab per audience. On a page with
- * product cards the tabs filter those cards in place (see AudienceBar.astro
- * and ProductGroup.astro); elsewhere they go to `href`. Personal is the home
- * page; Business & SME and Corporate & Investment open their part of Explore
- * our solutions until they have landing pages of their own. `match` gives the
- * page's default audience before the visitor has chosen one.
+ * The white strip above the header: one tab per audience. A tab opens that
+ * audience's home and makes it the chosen audience; the choice is kept in
+ * the browser, and every product carousel and property listing then shows
+ * that audience's products (see AudienceBar.astro, ProductGroup.astro and
+ * Listings.astro). The menus in the navy bar are the same for every audience.
  */
 export const AUDIENCES: Audience[] = [
-  {
-    id: 'personal',
-    label: 'Personal',
-    href: '/',
-    match: /^\/($|bank|insurance|cbz-life|properties|datvest|calculators|login|clusters\/(banking|insurance))/,
-    line: 'Everyday banking, cover, investments and a home of your own.',
-  },
-  {
-    id: 'business',
-    label: 'Business & SME',
-    href: '/journeys#business',
-    match: /^\/(red-sphere|agro-yield|clusters\/agro-business)/,
-    line: 'Finance for traders, small businesses and farmers.',
-  },
-  {
-    id: 'corporate',
-    label: 'Corporate & Investment',
-    href: '/journeys#corporate',
-    match: /^\/(capital|risk-advisory|clusters\/investments)/,
-    line: 'Capital raising, institutional mandates and risk advice.',
-  },
-  {
-    id: 'diaspora',
-    label: 'Diaspora',
-    href: '/diaspora',
-    match: /^\/diaspora/,
-    line: 'Bank with CBZ from abroad.',
-  },
+  { id: 'personal', label: 'Personal', href: '/', match: /^\/$/, line: 'Everyday banking, cover, investments and a home of your own.' },
+  { id: 'business', label: 'Business', href: '/business', match: /^\/business(\/|$)/, line: 'Accounts, finance, cover and space for companies, traders and farmers.' },
+  { id: 'school', label: 'School', href: '/school', match: /^\/school(\/|$)/, line: 'Accounts, fees collection, cover and savings plans for schools and their parents.' },
+  { id: 'diaspora', label: 'Diaspora', href: '/diaspora', match: /^\/diaspora(\/|$)/, line: 'Bank with CBZ from abroad.' },
 ];
 
-/** Cluster mega-menu: Bank, Insure, Invest, Agro-business, Group. */
+/** Header menus: Bank, Insure, Invest, Borrow, Farm, Group. The same for every audience. */
 export const CLUSTERS: NavGroup[] = [
   {
     label: 'Bank',
     href: '/clusters/banking',
     items: [
       { label: 'CBZ Bank', href: '/bank', line: 'Accounts, cards, loans and mortgages' },
-      { label: 'Red Sphere Finance', href: '/red-sphere', line: 'Salary and business loans' },
       { label: 'CBZ Custodial Services', href: null, line: 'Custody and safekeeping of securities' },
-      { label: 'Diaspora banking', href: '/diaspora', line: 'Bank with CBZ from abroad' },
     ],
   },
   {
@@ -98,7 +71,16 @@ export const CLUSTERS: NavGroup[] = [
     ],
   },
   {
-    label: 'Agro-business',
+    label: 'Borrow',
+    href: '/red-sphere',
+    items: [
+      { label: 'Red Sphere Finance', href: '/red-sphere', line: 'Salary, SME, tuck-shop and partner loans' },
+      { label: 'CBZ Bank loans', href: '/bank#apply-for-a-loan', line: 'Payday, school fees, civil servant and mortgage loans' },
+      { label: 'Loan calculators', href: '/calculators', line: 'Mortgage, car finance and Red Sphere repayments' },
+    ],
+  },
+  {
+    label: 'Farm',
     href: '/clusters/agro-business',
     items: [
       { label: 'CBZ Agro-Yield', href: '/agro-yield', line: 'Contract farming, inputs and offtake' },
@@ -139,15 +121,15 @@ export const OPEN_ACCOUNT_ITEMS: NavLink[] = [
 ];
 
 /** The ten guided flows on the site map, one or two per business unit. */
-export const JOURNEYS: { label: string; line: string; href: string; unit: string; audience: Exclude<AudienceId, 'diaspora'> }[] = [
+export const JOURNEYS: { label: string; line: string; href: string; unit: string; audience: 'personal' | 'business' }[] = [
   { label: 'Open an account', line: 'A CBZ Bank account in three steps.', href: '/bank/open-account', unit: 'bank', audience: 'personal' },
   { label: 'Loans and mortgages', line: 'Personal, school fees, civil servant and business loans from CBZ Bank.', href: '/bank/apply', unit: 'bank', audience: 'personal' },
   { label: 'Small business finance', line: 'Working capital, order finance and invoice discounting from Red Sphere.', href: '/red-sphere#explore-loan-products', unit: 'red-sphere', audience: 'business' },
   { label: 'Short-term insurance', line: 'Motor, home, travel, business and farm cover from CBZ Insurance.', href: '/insurance/quote', unit: 'insurance', audience: 'personal' },
   { label: 'Life assurance', line: 'Funeral, education and group life plans from CBZ Life.', href: '/cbz-life/quote', unit: 'cbz-life', audience: 'personal' },
-  { label: 'Risk advisory', line: 'A broker’s view of your cover and your risks.', href: '/risk-advisory/quote', unit: 'risk-advisory', audience: 'corporate' },
+  { label: 'Risk advisory', line: 'A broker’s view of your cover and your risks.', href: '/risk-advisory/quote', unit: 'risk-advisory', audience: 'business' },
   { label: 'Investments', line: 'Start with Datvest unit trusts or a managed portfolio.', href: '/datvest/start-investing', unit: 'datvest', audience: 'personal' },
-  { label: 'Capital raising', line: 'Debt, equity and advisory from CBZ Capital.', href: '/capital/enquiry', unit: 'capital', audience: 'corporate' },
+  { label: 'Capital raising', line: 'Debt, equity and advisory from CBZ Capital.', href: '/capital/enquiry', unit: 'capital', audience: 'business' },
   { label: 'Buy a property', line: 'Find a home, stand or commercial space with CBZ Properties.', href: '/properties/request-a-viewing', unit: 'properties', audience: 'personal' },
   { label: 'Farming finance', line: 'Contract farming for the season with Agro-Yield, on Agrideck.', href: LINKS.farmerOnboarding ?? '/agro-yield/enquire', unit: 'agro-yield', audience: 'business' },
 ];
@@ -193,7 +175,7 @@ export const FOOTER = {
     { label: 'Life Assurance Solutions', href: '/cbz-life/quote' },
     { label: 'Buy a Property', href: '/properties/request-a-viewing' },
     { label: 'Investments', href: '/datvest/start-investing' },
-    { label: 'Agrobusiness Solutions', href: LINKS.farmerOnboarding ?? '/agro-yield/enquire' },
+    { label: 'Farm Solutions', href: LINKS.farmerOnboarding ?? '/agro-yield/enquire' },
     { label: 'Capital Raising', href: '/capital/enquiry' },
   ],
   group: [

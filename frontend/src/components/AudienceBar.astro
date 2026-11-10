@@ -1,14 +1,16 @@
 ---
 /**
- * The white strip above the header: Personal, Business & SME, Corporate &
- * Investment and Diaspora. It sticks to the top with the navy bar beneath it.
+ * The white strip above the header: Personal, Business, School and Diaspora.
+ * It sticks to the top with the navy bar beneath it.
  *
- * The navy tab is the chosen audience. Before the visitor chooses, it is the
- * audience the page serves (from AUDIENCES.match); Group pages light none.
- * Once chosen, the choice is kept in localStorage and follows the visitor
- * from page to page. On a page with product cards the tabs filter the cards
- * in place and write `?for=<audience>` to the address; elsewhere they go to
- * their landing page. Without JavaScript they are plain links.
+ * A tab opens that audience's home page (/, /business, /school, /diaspora)
+ * and makes it the chosen audience. The choice is kept in localStorage and
+ * follows the visitor from page to page: the navy tab stays put, and every
+ * product carousel and property listing shows that audience's products. A
+ * page can also be opened for one audience with `?for=<audience>`. Visiting
+ * an audience home selects that audience. Without JavaScript the tabs are
+ * plain links and the server's default (the page's own audience, else
+ * Personal) is marked.
  */
 import { AUDIENCES } from '../data/nav';
 
@@ -16,10 +18,12 @@ interface Props {
   currentPath: string;
 }
 const { currentPath } = Astro.props;
-const active = AUDIENCES.find((a) => a.match.test(currentPath))?.id ?? '';
+/** The audience whose home this is; Personal everywhere else before the visitor chooses. */
+const own = AUDIENCES.find((a) => a.match.test(currentPath))?.id ?? '';
+const active = own || 'personal';
 ---
 
-<nav class="aud" aria-label="Who we serve" data-audience-bar data-default={active}>
+<nav class="aud" aria-label="Who we serve" data-audience-bar data-own={own}>
   <div class="container aud__inner">
     <ul role="list" class="aud__list">
       {
@@ -41,8 +45,7 @@ const active = AUDIENCES.find((a) => a.match.test(currentPath))?.id ?? '';
   if (root) {
     const tabs = Array.from(root.querySelectorAll<HTMLAnchorElement>('[data-audience-tab]'));
     const ids = tabs.map((t) => t.dataset.audienceTab!);
-    const serverDefault = root.dataset.default || '';
-    const hasProducts = document.querySelector('[data-audiences]') !== null;
+    const own = root.dataset.own || '';
 
     const stored = (): string => {
       const q = new URLSearchParams(location.search).get('for');
@@ -62,55 +65,34 @@ const active = AUDIENCES.find((a) => a.match.test(currentPath))?.id ?? '';
         /* storage blocked */
       }
     };
-    const highlight = (id: string) => {
+    const apply = (id: string) => {
+      document.documentElement.dataset.audience = id;
       tabs.forEach((t) => {
         const on = t.dataset.audienceTab === id;
         t.parentElement?.classList.toggle('is-active', on);
         if (on) t.setAttribute('aria-current', 'true');
         else t.removeAttribute('aria-current');
       });
-    };
-    const apply = (id: string, chosen: boolean) => {
-      document.documentElement.dataset.audience = id;
-      highlight(id);
-      if (chosen) {
-        remember(id);
-        if (hasProducts) {
-          const u = new URL(location.href);
-          u.searchParams.set('for', id);
-          history.replaceState(null, '', u);
-        }
-      }
       document.dispatchEvent(new CustomEvent('cbz:audience', { detail: id }));
     };
 
-    const initial = stored() || serverDefault;
-    if (initial) apply(initial, false);
+    // An audience home selects its audience; elsewhere the remembered choice applies.
+    const initial = own || stored() || 'personal';
+    if (own) remember(own);
+    apply(initial);
 
-    tabs.forEach((t) => {
-      t.addEventListener('click', (e) => {
-        const id = t.dataset.audienceTab!;
-        remember(id);
-        if (!hasProducts || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
-        e.preventDefault();
-        apply(id, true);
-        // Bring the first product group into view so the change is visible.
-        const group = document.querySelector<HTMLElement>('[data-product-cards]');
-        const first = group?.closest<HTMLElement>('section[id]') ?? group;
-        if (first) {
-          const r = first.getBoundingClientRect();
-          if (r.top > window.innerHeight * 0.6 || r.bottom < 0) {
-            const smooth = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
-            first.scrollIntoView({ block: 'start', behavior: smooth });
-          }
-        }
-      });
-    });
+    // A tab is a link to the audience home; remember the choice on the way.
+    tabs.forEach((t) => t.addEventListener('click', () => remember(t.dataset.audienceTab!)));
 
     // Product groups offer the audiences they do serve when the chosen one is empty.
     document.addEventListener('cbz:audience-set', (e) => {
       const id = (e as CustomEvent<string>).detail;
-      if (ids.includes(id)) apply(id, true);
+      if (!ids.includes(id)) return;
+      remember(id);
+      apply(id);
+      const u = new URL(location.href);
+      u.searchParams.set('for', id);
+      history.replaceState(null, '', u);
     });
   }
 </script>

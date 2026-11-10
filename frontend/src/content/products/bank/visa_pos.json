@@ -14,7 +14,8 @@
   ],
   "audience": "Merchants",
   "audiences": [
-    "business"
+    "business",
+    "school"
   ],
   "pricing": "For existing corporate account holders",
   "details": {

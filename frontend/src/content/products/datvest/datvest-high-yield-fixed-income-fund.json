@@ -9,7 +9,8 @@
   "audience": null,
   "audiences": [
     "personal",
-    "business"
+    "business",
+    "school"
   ],
   "pricing": null,
   "details": {

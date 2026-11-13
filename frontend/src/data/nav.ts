@@ -1,4 +1,5 @@
 import { LINKS } from './links';
+import type { IconName } from '../components/icons';
 
 export interface NavLink {
   label: string;
@@ -50,6 +51,8 @@ export interface MegaColumn {
 export interface MegaMenu {
   id: string;
   label: string;
+  /** The icon on the chip in the navy band. */
+  icon: IconName;
   /** Where the label itself goes before hydration, and the "View all" link. */
   href: string;
   /** One line under the columns. */
@@ -82,6 +85,7 @@ export const MEGA: MegaMenu[] = [
   {
     id: 'bank',
     label: 'Bank',
+    icon: 'bank',
     href: '/clusters/banking',
     note: 'Accounts, savings, payments, cards and digital banking from CBZ Bank.',
     columns: [
@@ -148,6 +152,7 @@ export const MEGA: MegaMenu[] = [
   {
     id: 'borrow',
     label: 'Borrow',
+    icon: 'wallet',
     href: '/red-sphere',
     note: 'Loans by purpose, from CBZ Bank and Red Sphere Finance.',
     columns: [
@@ -209,6 +214,7 @@ export const MEGA: MegaMenu[] = [
   {
     id: 'insure',
     label: 'Insure',
+    icon: 'shield',
     href: '/clusters/insurance',
     note: 'Cover for your family, what you own, your business and your staff.',
     columns: [
@@ -271,6 +277,7 @@ export const MEGA: MegaMenu[] = [
   {
     id: 'invest',
     label: 'Invest',
+    icon: 'chart',
     href: '/clusters/investments',
     note: 'From a first unit trust to capital raising and commercial property.',
     columns: [
@@ -334,6 +341,7 @@ export const MEGA: MegaMenu[] = [
   {
     id: 'grow',
     label: 'Grow',
+    icon: 'leaf',
     href: '/clusters/agro-business',
     note: 'The farming value chain and SME growth, from inputs to offtake.',
     columns: [
@@ -395,6 +403,7 @@ export const MEGA: MegaMenu[] = [
   {
     id: 'group',
     label: 'Group',
+    icon: 'users',
     href: '/the-group',
     note: 'Who we are, how we are structured, and how to reach us.',
     columns: [
@@ -457,10 +466,121 @@ export const MEGA: MegaMenu[] = [
   },
 ];
 
-/** Plain links on the right of the navy bar, before Log in and Sign up. */
+/** Plain links in the header row, before Log in and Sign up. */
 export const UTILITY_LINKS: NavLink[] = [
   { label: 'Branches & ATMs', href: '/contact#branches' },
   { label: 'Help', href: '/contact' },
+];
+
+export interface Intent {
+  /** The verb, e.g. "open". */
+  verb: string;
+  /** What can follow it, each going to one page or product card. */
+  objects: { label: string; href: string; external?: boolean }[];
+}
+
+/**
+ * The "I want to … " sentence builder at the top of the search dialog: pick
+ * a verb, pick what you want, press Search. Every combination lands on a
+ * page, a section or a product card.
+ */
+export const INTENTS: Intent[] = [
+  {
+    verb: 'open',
+    objects: [
+      { label: 'a bank account', href: '/bank/open-account' },
+      { label: 'a business account', href: '/bank/open-account?for=business' },
+      { label: 'a school account', href: `${P('bank', 'school_current')}` },
+      { label: 'a foreign currency account', href: P('bank', 'fca_individual') },
+      { label: 'a diaspora account', href: '/diaspora' },
+    ],
+  },
+  {
+    verb: 'start',
+    objects: [
+      { label: 'saving and investing', href: '/datvest/start-investing' },
+      { label: 'saving for my child', href: P('bank', 'cashplus_junior') },
+      { label: 'a fixed deposit', href: P('bank', 'fixed_deposit') },
+      { label: 'a funeral plan', href: '/cbz-life/quote' },
+      { label: 'banking on my phone', href: '/login#apps' },
+    ],
+  },
+  {
+    verb: 'borrow',
+    objects: [
+      { label: 'against my salary', href: P('red-sphere', 'ssb_loan') },
+      { label: 'for school fees', href: P('bank', 'private_school_fees_loan') },
+      { label: 'for a home', href: '/bank/apply' },
+      { label: 'for a car', href: '/calculators#car-finance' },
+      { label: 'for my business', href: '/red-sphere#explore-loan-products' },
+    ],
+  },
+  {
+    verb: 'insure',
+    objects: [
+      { label: 'my car', href: P('insurance', 'motor') },
+      { label: 'my home', href: P('insurance', 'home') },
+      { label: 'my family', href: P('cbz-life', 'comfortsure') },
+      { label: 'my business', href: P('insurance', 'sme_shield') },
+      { label: 'my farm', href: P('insurance', 'multi_peril') },
+      { label: 'my staff', href: P('cbz-life', 'group_life') },
+    ],
+  },
+  {
+    verb: 'invest',
+    objects: [
+      { label: 'in unit trusts', href: '/datvest#panel-datvest-unit-trusts' },
+      { label: 'in a money market fund', href: P('datvest', 'datvest-money-market-fund') },
+      { label: 'surplus company cash', href: P('datvest', 'corporate-treasury-liquidity-placement') },
+      { label: 'in property', href: '/properties' },
+      { label: 'for retirement', href: P('cbz-life', 'retirement_savings') },
+    ],
+  },
+  {
+    verb: 'pay',
+    objects: [
+      { label: 'school fees', href: P('bank', 'cbz_touch') },
+      { label: 'bills', href: P('bank', 'cbz_touch') },
+      { label: 'my insurance premium', href: '/cbz-life/pay' },
+      { label: 'suppliers', href: P('bank', 'internet_banking') },
+    ],
+  },
+  {
+    verb: 'grow',
+    objects: [
+      { label: 'my farm', href: '/agro-yield' },
+      { label: 'my SME', href: P('red-sphere', 'sme_working_capital') },
+      { label: 'my company', href: '/capital' },
+      { label: 'my wealth', href: P('datvest', 'high-net-worth-wealth-architecture') },
+    ],
+  },
+  {
+    verb: 'find',
+    objects: [
+      { label: 'a branch or ATM', href: '/contact#branches' },
+      { label: 'a property', href: '/properties#property-listing' },
+      { label: 'a calculator', href: '/calculators' },
+      { label: 'the CBZ Touch app', href: '/login#apps' },
+    ],
+  },
+  {
+    verb: 'claim',
+    objects: [
+      { label: 'on my car or home cover', href: '/insurance/claim' },
+      { label: 'on a life policy', href: '/cbz-life/claim' },
+    ],
+  },
+  {
+    verb: 'talk to',
+    objects: [
+      { label: 'CBZ Bank', href: '/bank/call-me-back' },
+      { label: 'CBZ Insurance', href: '/insurance/call-me-back' },
+      { label: 'CBZ Life', href: '/cbz-life/talk-to-an-agent' },
+      { label: 'Datvest', href: '/datvest/call-me-back' },
+      { label: 'CBZ Properties', href: '/properties/call-back' },
+      { label: 'someone at CBZ', href: '/contact' },
+    ],
+  },
 ];
 
 /** Split log-in menu. */

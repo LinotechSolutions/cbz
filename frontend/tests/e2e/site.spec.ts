@@ -78,7 +78,10 @@ test('a mega menu opens its purpose columns and search finds a product', async (
   await expect(banner.getByText('Offered by').first()).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(banner.getByRole('heading', { name: 'Choose an account' })).toBeHidden();
-  await banner.getByRole('button', { name: 'Search' }).click();
+  await banner.getByRole('button', { name: 'Find ways to bank better' }).click();
+  // The sentence builder: "I want to: insure my car" goes to the motor cover card.
+  await page.getByLabel('What do you want to do').selectOption('insure');
+  await expect(page.getByLabel('What', { exact: true })).toHaveValue(/product-insurance-motor/);
   await page.getByLabel('Search products and pages').fill('smartcash');
   await expect(page.getByRole('link', { name: /SmartCash Lite/ })).toBeVisible();
 });

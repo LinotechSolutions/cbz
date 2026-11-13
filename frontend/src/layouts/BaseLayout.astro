@@ -4,7 +4,7 @@ import Footer from '../components/Footer.astro';
 import { Header } from '../islands/Header';
 import { ChatLauncher } from '../islands/ChatLauncher';
 import { ConsentBanner } from '../islands/ConsentBanner';
-import { AUDIENCES, MEGA, LOGIN_ITEMS, OPEN_ACCOUNT_ITEMS, UTILITY_LINKS } from '../data/nav';
+import { AUDIENCES, INTENTS, MEGA, LOGIN_ITEMS, OPEN_ACCOUNT_ITEMS, UTILITY_LINKS } from '../data/nav';
 import { CONTACT, GROUP, SOCIAL } from '../data/facts';
 import { LOGOS, type DarkSafeLogoKey } from '../data/logos';
 
@@ -148,6 +148,7 @@ const audienceIds = AUDIENCES.map((a) => a.id);
     <Header
       client:load
       mega={MEGA}
+      intents={INTENTS}
       loginItems={LOGIN_ITEMS}
       openAccountItems={OPEN_ACCOUNT_ITEMS}
       utilityLinks={UTILITY_LINKS}

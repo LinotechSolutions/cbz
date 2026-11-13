@@ -72,17 +72,17 @@
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 
   /* Layout constants */
-  /* The sticky header: the white strip (logo and audience tabs) and the navy bar beneath it. */
-  --strip-h: 60px;
+  /* The sticky header: the white row (logo, audience toggle, search, actions) and the chip band beneath it. */
+  --strip-h: 64px;
   --header-h: 56px;
   --sticky-cta-h: 64px;
   --tap: 44px;
 }
 
-/* On phones the navy bar folds into the menu sheet; the strip holds the logo row and the tab row. */
+/* On phones the chip band folds into the menu sheet; the white row holds the logo and, beneath it, the audience toggle. */
 @media (max-width: 899px) {
   :root {
-    --strip-h: 96px;
+    --strip-h: 104px;
     --header-h: 0px;
   }
 }

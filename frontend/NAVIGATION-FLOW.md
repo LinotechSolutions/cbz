@@ -125,9 +125,9 @@ Twenty-one old addresses redirect (section 12): twenty to pages above, and `/agr
 
 ## 1. Elements on every page
 
-### Audience strip (white strip, the top row of the header)
+### Audience toggle (the top row of the header)
 
-The logo on the left (CBZ Holdings, or the business unit's own logo on its pages, in full colour), a thin vertical divider, then four plain-text tabs. The chosen audience is in red and bold; the others are navy. The strip and the navy bar beneath it stick to the top of the window together. A tab opens that audience's home page and makes it the chosen audience; the choice is remembered in the browser and the same tab stays red on every page until another is chosen. Before any choice, Personal is red. Opening an audience home (for example a link straight to `/school`) also selects that audience. On phones the tabs drop to a second scrollable row under the logo, and the menu button sits at the right of the logo row.
+The header is two rows that stick to the top of the window together. The top row is white: the logo on the left (CBZ Holdings, or the business unit's own logo on its pages, in full colour), then a navy pill holding four segments, Personal, Business, School and Diaspora, with the chosen segment shown white on navy. A segment opens that audience's home page and makes it the chosen audience; the choice is remembered in the browser and stays selected on every page until another is chosen. Before any choice, Personal is selected. Opening an audience home (for example a link straight to `/school`) also selects that audience. To the right of the pill sit the rounded **Find ways to bank better** field, **Log in** (shield icon), **Get the app** and the red **Sign up** menu. On phones the top row keeps the logo and the menu button, with the toggle on a scrollable second row beneath.
 
 | Tab | Goes to |
 | --- | --- |
@@ -142,17 +142,19 @@ The menus in the navy bar are the same for every audience. What changes is what 
 - **Property listings** (Invest ▸ CBZ Properties) show homes and stands for Personal and Diaspora, office, retail and industrial space to let for Business and School, and land for Personal, Business and Diaspora. The Type, Location and Status filters work within that.
 - Any page can be opened for one audience with `?for=personal|business|school|diaspora`.
 
-### Header (navy bar, the second row)
+### Header menus (the chip band, the second row)
 
-Six menu labels on the left (Bank, Borrow, Insure, Invest, Grow, Group); on the right Search, Branches & ATMs, Help, the outlined **Log in** menu and the red **Sign up** menu. Between 900px and 1200px Branches & ATMs and Help are hidden (they stay in the mega menus and the footer). The label of the menu whose business the page belongs to carries a red underline.
+A light grey band with six white chips, each with an icon: Bank, Borrow, Insure, Invest, Grow, Group; on the right Branches & ATMs and Help. Between 900px and 1200px Get the app, Branches & ATMs and Help are hidden and the search field is its icon alone (everything stays in the mega menus, the phone sheet and the footer). The chip of the menu whose business the page belongs to carries a navy border and a red underline; an open chip turns navy.
 
-Each label opens a **mega menu**: a full-width white panel of five columns. Each column is a purpose ("Choose an account", "Pay for education") with up to five links and an "Offered by" line naming the business unit(s) in red. A grey footer strip carries one line of copy, three buttons (the first red, the others navy outline) and a **View all** link to the label's page. A `#product-…` link opens that product card's details on the unit page, switching the audience if the card is not in the chosen one. Escape, a click outside or another label closes the panel. Without JavaScript the label is a link to its page.
+Each chip opens a **mega menu**: a full-width white panel of five columns. Each column is a purpose ("Choose an account", "Pay for education") with up to five links and an "Offered by" line naming the business unit(s) in red. A grey footer strip carries one line of copy, three buttons (the first red, the others navy outline) and a **View all** link to the chip's page. A `#product-…` link opens that product card's details on the unit page, switching the audience if the card is not in the chosen one. Escape, a click outside or another chip closes the panel. Without JavaScript the chip is a link to its page.
 
 | Control | Goes to |
 | --- | --- |
-| CBZ Holdings logo in the strip (home, Group pages and every page that is not a business unit's) | `/` |
-| Unit logo in the strip (a business page and its forms, e.g. CBZ Bank; shown in place of the Holdings logo) | that unit's page |
-| **Search** | opens the search dialog: type two letters or more to search every product card, menu link, guided flow and main page; Enter opens the first result; results show the name, a line and the business |
+| CBZ Holdings logo in the top row (home, Group pages and every page that is not a business unit's) | `/` |
+| Unit logo in the top row (a business page and its forms, e.g. CBZ Bank; shown in place of the Holdings logo) | that unit's page |
+| **Find ways to bank better** (rounded field) | opens the search dialog, which starts with the sentence builder **I want to:** [verb] [what] → **Search**. The verbs are open, start, borrow, insure, invest, pay, grow, find, claim and talk to; each verb lists the things it can be followed by (for example "insure" offers my car, my home, my family, my business, my farm, my staff) and every sentence lands on one page or product card (`src/data/nav.ts`, `INTENTS`). Beneath it, free-text search: type two letters or more to search every product card, menu link, guided flow and main page; Enter opens the first result |
+| **Log in** (shield icon) | opens the six Log in items below |
+| **Get the app** | `/login#apps` |
 | **Branches & ATMs** | `/contact#branches` |
 | **Help** | `/contact` |
 | **Bank** (label; View all) | `/clusters/banking` |
@@ -213,15 +215,16 @@ Each label opens a **mega menu**: a full-width white panel of five columns. Each
 
 ### Phone menu sheet (under 900px)
 
-The navy bar is not shown on phones. The white strip holds the logo and the menu button on its first row and the audience tabs on a second, scrollable row. The menu button opens a full-screen white sheet.
+The chip band is not shown on phones. The top row holds the logo and the menu button, with the audience toggle on a second, scrollable row. The menu button opens a full-screen white sheet.
 
 | Row | What it does |
 | --- | --- |
 | Logo and **Close** (×) | Close shuts the sheet (Escape does too) |
+| **Find ways to bank better** | opens the search dialog (sentence builder and free-text search) |
 | **Sign up** (red, full width) | expands the six Sign up items listed above |
 | **Log in** (navy outline, full width) | expands the six Log in items listed above |
-| **Bank**, **Borrow**, **Insure**, **Invest**, **Grow**, **Group** | each expands the same five purpose groups and links as its mega menu, ending with **View all** → the label's page |
-| **Search** | opens the search dialog |
+| **Get the app** (navy outline, full width) | `/login#apps` |
+| **Bank**, **Borrow**, **Insure**, **Invest**, **Grow**, **Group** (each with its icon) | each expands the same five purpose groups and links as its mega menu, ending with **View all** → the chip's page |
 | **Branches & ATMs** (pin) | `/contact#branches` |
 | **Help** (headset) | `/contact` |
 

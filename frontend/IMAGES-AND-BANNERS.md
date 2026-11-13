@@ -192,10 +192,10 @@ All logos are SVG in `public/brand/logos`, registered in `src/data/logos.ts` wit
 
 | Brand | Files | Where it appears |
 | --- | --- | --- |
-| CBZ Holdings | `holdings-full.svg`, `holdings-white.svg`, `holdings-roundel.svg`, `cbz-roundel-red.png` (favicon and home-screen icon) | Header on the homes, Group pages and every page that is not a unit's (white); phone menu sheet (full colour); The Group and Foundation heroes (white); footer; structure cards; the About section's "Part of CBZ Holdings" line. |
-| CBZ Bank | `bank-full.svg`, `bank-white.svg` | Header on Bank pages and its forms, and on Diaspora (white); hero eyebrow area, About plate, team plate (full colour); cluster and structure cards; footer. |
-| Red Sphere Finance | `red-sphere-full.svg`, `red-sphere-white.svg`, `red-sphere-roundel.svg` | Header on Red Sphere pages; plates; cluster and structure cards. The lockup is wide, so the header shows it a little shorter. |
-| CBZ Insurance, CBZ Life, CBZ Risk Advisory, Datvest (plus `datvest-roundel.svg`), CBZ Capital, CBZ Properties, CBZ Agro-Yield | `<brand>-full.svg`, `<brand>-white.svg` | Header on that unit's pages; plates; cluster and structure cards; footer. |
+| CBZ Holdings | `holdings-full.svg`, `holdings-white.svg`, `holdings-roundel.svg`, `cbz-roundel-red.png` (favicon and home-screen icon) | The header's white strip on the homes, Group pages and every page that is not a unit's (full colour); phone menu sheet; The Group and Foundation heroes (white); footer; structure cards; the About section's "Part of CBZ Holdings" line. |
+| CBZ Bank | `bank-full.svg`, `bank-white.svg` | The header's white strip on Bank pages and its forms, and on Diaspora (full colour); About plate, team plate; cluster and structure cards; footer. |
+| Red Sphere Finance | `red-sphere-full.svg`, `red-sphere-white.svg`, `red-sphere-roundel.svg` | The header's white strip on Red Sphere pages; plates; cluster and structure cards. The lockup is wide, so the strip shows it a little shorter. |
+| CBZ Insurance, CBZ Life, CBZ Risk Advisory, Datvest (plus `datvest-roundel.svg`), CBZ Capital, CBZ Properties, CBZ Agro-Yield | `<brand>-full.svg`, `<brand>-white.svg` | The header's white strip on that unit's pages; plates; cluster and structure cards; footer. |
 | CBZ Touch | `cbz-touch-full.svg`, `cbz-touch-white.svg` | Digital cards on the three homes; CBZ Touch product card. |
 | ZikiCash | `ziki-cash-full.svg`, `ziki-cash-white.svg` | Digital card on the Personal home. |
 | CBZ Way | `cbz-way-full.svg`, `cbz-way-white.svg` | Registered; links to The Group; not placed on a page. |

@@ -1,11 +1,10 @@
 ---
 import '../styles/global.css';
-import AudienceBar from '../components/AudienceBar.astro';
 import Footer from '../components/Footer.astro';
 import { Header } from '../islands/Header';
 import { ChatLauncher } from '../islands/ChatLauncher';
 import { ConsentBanner } from '../islands/ConsentBanner';
-import { CLUSTERS, LOGIN_ITEMS, OPEN_ACCOUNT_ITEMS } from '../data/nav';
+import { AUDIENCES, MEGA, LOGIN_ITEMS, OPEN_ACCOUNT_ITEMS, UTILITY_LINKS } from '../data/nav';
 import { CONTACT, GROUP, SOCIAL } from '../data/facts';
 import { LOGOS, type DarkSafeLogoKey } from '../data/logos';
 
@@ -82,12 +81,16 @@ const headerUnit =
     ? {
         key: unitLogo,
         name: LOGOS[unitLogo].name,
-        src: (LOGOS[unitLogo].white ?? LOGOS[unitLogo].full).src,
-        light: LOGOS[unitLogo].full.src,
+        src: LOGOS[unitLogo].full.src,
         aspect: LOGOS[unitLogo].full.aspect,
         href: UNIT_HOME[unitLogo],
       }
     : null;
+
+/** The audience whose home this page is (Business, School, Diaspora), else '' and the remembered choice applies. */
+const audienceOwn = AUDIENCES.find((a) => a.id !== 'personal' && a.match.test(pathname))?.id ?? '';
+const audienceTabs = AUDIENCES.map((a) => ({ id: a.id, label: a.label, href: a.href }));
+const audienceIds = AUDIENCES.map((a) => a.id);
 ---
 
 <!doctype html>
@@ -120,18 +123,38 @@ const headerUnit =
     <link rel="preload" href="/fonts/CBZSans-Bold.woff2" as="font" type="font/woff2" crossorigin />
 
     {ld.map((obj) => <script type="application/ld+json" set:html={JSON.stringify(obj)} />)}
+    {/* The chosen audience (Personal, Business, School, Diaspora), set before paint so product cards never flash. An audience home selects itself; otherwise ?for=, then the remembered choice, then Personal. */}
+    <script is:inline define:vars={{ own: audienceOwn, ids: audienceIds }}>
+      (function () {
+        const key = 'cbz-audience';
+        let pick = own || '';
+        try {
+          const q = new URLSearchParams(location.search).get('for');
+          if (!pick && q && ids.indexOf(q) >= 0) pick = q;
+          if (!pick) {
+            const s = localStorage.getItem(key);
+            if (s && ids.indexOf(s) >= 0) pick = s;
+          }
+          if (own) localStorage.setItem(key, own);
+        } catch {
+          /* storage blocked */
+        }
+        document.documentElement.dataset.audience = pick || 'personal';
+      })();
+    </script>
   </head>
   <body class={bodyClass}>
     <a href="#main" class="skip-link">Skip to content</a>
-    <AudienceBar currentPath={pathname} />
     <Header
       client:load
-      clusters={CLUSTERS}
+      mega={MEGA}
       loginItems={LOGIN_ITEMS}
       openAccountItems={OPEN_ACCOUNT_ITEMS}
+      utilityLinks={UTILITY_LINKS}
       unitLogo={headerUnit}
-      holdings={{ src: LOGOS.holdings.white!.src, aspect: LOGOS.holdings.full.aspect, name: LOGOS.holdings.name }}
       holdingsLight={{ src: LOGOS.holdings.full.src, aspect: LOGOS.holdings.full.aspect, name: LOGOS.holdings.name }}
+      audiences={audienceTabs}
+      audienceOwn={audienceOwn}
       currentPath={pathname}
     />
     <main id="main" tabindex="-1">

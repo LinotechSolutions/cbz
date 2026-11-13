@@ -72,17 +72,18 @@
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 
   /* Layout constants */
-  --header-h: 72px;
-  --strip-h: 44px;
+  /* The sticky header: the white strip (logo and audience tabs) and the navy bar beneath it. */
+  --strip-h: 60px;
+  --header-h: 56px;
   --sticky-cta-h: 64px;
   --tap: 44px;
 }
 
-/* Both bars stick on phones, so each is a little shorter there. */
+/* On phones the navy bar folds into the menu sheet; the strip holds the logo row and the tab row. */
 @media (max-width: 899px) {
   :root {
-    --header-h: 64px;
-    --strip-h: 40px;
+    --strip-h: 96px;
+    --header-h: 0px;
   }
 }
 

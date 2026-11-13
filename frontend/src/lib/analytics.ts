@@ -11,7 +11,9 @@ export type AnalyticsEvent =
   | 'form_submitted'
   | 'store_badge_click'
   | 'chat_opened'
-  | 'login_choice';
+  | 'login_choice'
+  | 'search_open'
+  | 'search_go';
 
 export type Props = Record<string, string | number | boolean>;
 

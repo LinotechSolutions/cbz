@@ -34,16 +34,16 @@ the top of the page). Details for each page are in the section given.
 | `/school` School home | The same layout for schools. Opening it selects the School audience. | **Explore school products** (red menu of six) | 2c |
 | `/diaspora` Diaspora banking | What a Zimbabwean abroad needs: the three documents, then banking, property, investing and life cover panels. Opening it selects the Diaspora audience. | **Open a diaspora account** → `/bank/open-account`; **WhatsApp us** ↗ | 5 |
 
-### 0.2 Cluster pages (the Bank, Insure, Invest and Farm menu labels)
+### 0.2 Cluster pages (where the Bank, Insure, Invest and Grow menus' View all links go)
 
 | Page | What it is | Main buttons | See |
 | --- | --- | --- | --- |
 | `/clusters/banking` Banking | The companies in the banking cluster: CBZ Bank, Red Sphere Finance, CBZ Custodial Services. | **Visit <company>** per card | 3 |
 | `/clusters/insurance` Insurance | CBZ Insurance, CBZ Life, CBZ Risk Advisory. | **Visit <company>** | 3 |
 | `/clusters/investments` Investments | Datvest, CBZ Capital, CBZ Properties. | **Visit <company>** | 3 |
-| `/clusters/agro-business` Farm | CBZ Agro-Yield and ATDC. (The URL keeps its old name; everything on screen says Farm.) | **Visit CBZ Agro-Yield** | 3 |
+| `/clusters/agro-business` Farm | CBZ Agro-Yield and ATDC. (The URL keeps its old name; the page says Farm and the header menu that leads here is Grow.) | **Visit CBZ Agro-Yield** | 3 |
 
-The Borrow menu label goes straight to `/red-sphere`.
+The Borrow menu's View all goes to `/red-sphere`.
 
 ### 0.3 Business unit pages and their forms
 
@@ -125,9 +125,9 @@ Twenty-one old addresses redirect (section 12): twenty to pages above, and `/agr
 
 ## 1. Elements on every page
 
-### Audience strip (white strip above the header)
+### Audience strip (white strip, the top row of the header)
 
-Four tabs; the strip sticks to the top of the window with the navy bar under it. A tab opens that audience's home page and makes it the chosen audience. The navy tab is the chosen audience; it is remembered in the browser and stays navy on every page until another tab is chosen. Before any choice, Personal is navy. Opening an audience home (for example a link straight to `/school`) also selects that audience.
+The logo on the left (CBZ Holdings, or the business unit's own logo on its pages, in full colour), a thin vertical divider, then four plain-text tabs. The chosen audience is in red and bold; the others are navy. The strip and the navy bar beneath it stick to the top of the window together. A tab opens that audience's home page and makes it the chosen audience; the choice is remembered in the browser and the same tab stays red on every page until another is chosen. Before any choice, Personal is red. Opening an audience home (for example a link straight to `/school`) also selects that audience. On phones the tabs drop to a second scrollable row under the logo, and the menu button sits at the right of the logo row.
 
 | Tab | Goes to |
 | --- | --- |
@@ -142,44 +142,61 @@ The menus in the navy bar are the same for every audience. What changes is what 
 - **Property listings** (Invest ▸ CBZ Properties) show homes and stands for Personal and Diaspora, office, retail and industrial space to let for Business and School, and land for Personal, Business and Diaspora. The Type, Location and Status filters work within that.
 - Any page can be opened for one audience with `?for=personal|business|school|diaspora`.
 
-### Header (navy bar)
+### Header (navy bar, the second row)
 
-Logo, a thin divider, the six menus (Bank, Insure, Invest, Borrow, Farm, Group), then Find a branch, Log in and the red Sign up button. Between 900px and 1100px Find a branch is its pin icon alone.
+Six menu labels on the left (Bank, Borrow, Insure, Invest, Grow, Group); on the right Search, Branches & ATMs, Help, the outlined **Log in** menu and the red **Sign up** menu. Between 900px and 1200px Branches & ATMs and Help are hidden (they stay in the mega menus and the footer). The label of the menu whose business the page belongs to carries a red underline.
+
+Each label opens a **mega menu**: a full-width white panel of five columns. Each column is a purpose ("Choose an account", "Pay for education") with up to five links and an "Offered by" line naming the business unit(s) in red. A grey footer strip carries one line of copy, three buttons (the first red, the others navy outline) and a **View all** link to the label's page. A `#product-…` link opens that product card's details on the unit page, switching the audience if the card is not in the chosen one. Escape, a click outside or another label closes the panel. Without JavaScript the label is a link to its page.
 
 | Control | Goes to |
 | --- | --- |
-| CBZ Holdings logo (home, Group pages and every page that is not a business unit's) | `/` |
-| Unit logo (a business page and its forms, e.g. CBZ Bank; shown in place of the Holdings logo) | that unit's page |
-| Find a branch (pin icon; also the last row of the phone menu sheet) | `/contact#branches` |
-| **Bank** (label) | `/clusters/banking` |
-| Bank ▸ CBZ Bank | `/bank` |
-| Bank ▸ CBZ Custodial Services | no page yet, shown as plain text |
-| Bank ▸ View all | `/clusters/banking` |
-| **Insure** (label) | `/clusters/insurance` |
-| Insure ▸ CBZ Insurance | `/insurance` |
-| Insure ▸ CBZ Life | `/cbz-life` |
-| Insure ▸ CBZ Risk Advisory | `/risk-advisory` |
-| Insure ▸ View all | `/clusters/insurance` |
-| **Invest** (label) | `/clusters/investments` |
-| Invest ▸ Datvest | `/datvest` |
-| Invest ▸ CBZ Capital | `/capital` |
-| Invest ▸ CBZ Properties | `/properties` |
-| Invest ▸ View all | `/clusters/investments` |
-| **Borrow** (label) | `/red-sphere` |
-| Borrow ▸ Red Sphere Finance | `/red-sphere` |
-| Borrow ▸ CBZ Bank loans | `/bank#apply-for-a-loan` |
-| Borrow ▸ Loan calculators | `/calculators` |
-| Borrow ▸ View all | `/red-sphere` |
-| **Farm** (label) | `/clusters/agro-business` |
-| Farm ▸ CBZ Agro-Yield | `/agro-yield` |
-| Farm ▸ View all | `/clusters/agro-business` |
-| **Group** (label) | `/the-group` |
-| Group ▸ The Group | `/the-group` |
-| Group ▸ Explore our solutions | `/journeys` |
-| Group ▸ CBZ Foundation | `/cbz-foundation` |
-| Group ▸ Sustainability | `/sustainability` |
-| Group ▸ Latest from CBZ | `/notices` |
-| Group ▸ Contact us | `/contact` |
+| CBZ Holdings logo in the strip (home, Group pages and every page that is not a business unit's) | `/` |
+| Unit logo in the strip (a business page and its forms, e.g. CBZ Bank; shown in place of the Holdings logo) | that unit's page |
+| **Search** | opens the search dialog: type two letters or more to search every product card, menu link, guided flow and main page; Enter opens the first result; results show the name, a line and the business |
+| **Branches & ATMs** | `/contact#branches` |
+| **Help** | `/contact` |
+| **Bank** (label; View all) | `/clusters/banking` |
+| Bank ▸ Choose an account (CBZ Bank) | Current Account, Savings Account, Simple Saver, SmartCash, Foreign Currency Account → `/bank#product-bank-<id>` |
+| Bank ▸ Save for a goal (CBZ Bank) | CashPlus Junior, Teen, Student, Housing, Fixed Deposit → product cards |
+| Bank ▸ Pay & transact (CBZ Bank) | Bills & school fees → CBZ Touch card; Transfers → Internet Banking card; Foreign currency payments → Foreign Currency Account card; E-statements → card |
+| Bank ▸ Cards & merchant services (CBZ Bank) | Visa Gold, Student Visa, Debit / ATM card, SME Debit Card, Kleva POS → product cards |
+| Bank ▸ Bank digitally (CBZ Bank) | Internet Banking → `/login`; CBZ Touch → `/login#apps`; Cardless withdrawals → CBZ Touch card; Stay safe online → `/security` |
+| Bank ▸ footer | **Open an account** → `/bank/open-account`; Compare accounts → `/bank#open-an-account`; Log in → `/login` |
+| **Borrow** (label; View all) | `/red-sphere` |
+| Borrow ▸ Borrow against salary (CBZ Bank / Red Sphere) | Civil Servant Loan, Nostro Individual Loan, Payday Loan → Bank cards; Private Payroll Loan, SSB Loan → Red Sphere cards |
+| Borrow ▸ Pay for education (CBZ Bank / CBZ Life) | Private School Fees Loan, Student Loan Facility → Bank cards; Sarapavana Education Plan → Life card |
+| Borrow ▸ Finance property (CBZ Bank) | Mortgage finance → `/bank/apply`; Mortgage calculator → `/calculators#mortgage`; CashPlus Housing → card |
+| Borrow ▸ Grow my business (Red Sphere) | SME Working Capital, Tuck-shop Facility, Order Finance → cards; Invoice Discounting → `/red-sphere#explore-invoice-discounting` |
+| Borrow ▸ Finance assets (CBZ Bank / Red Sphere) | Car finance → `/calculators#car-finance`; Partner Car Loan, Device finance → Red Sphere cards |
+| Borrow ▸ footer | **Compare options** → `/calculators`; Check requirements → `/bank#apply-for-a-loan`; Apply → `/bank/apply` |
+| **Insure** (label; View all) | `/clusters/insurance` |
+| Insure ▸ Protect my family (CBZ Life) | Comfortsure Funeral Cashplan, Sarapavana Education Plan, Credit Life → cards; Get a life quote → `/cbz-life/quote` |
+| Insure ▸ Plan for retirement (CBZ Life / Datvest) | Retirement Savings, Annuities → Life cards; Pension fund management → Datvest card |
+| Insure ▸ Protect what I own (CBZ Insurance) | Motor, Home & Contents, Travel, Health & Personal Accident → cards |
+| Insure ▸ Protect business / farm (CBZ Insurance) | SME Business Shield, Commercial Property & Plant, Goods in transit (Marine Cargo), Crop protection (Multi-Peril) → cards |
+| Insure ▸ Manage benefits & risk (CBZ Risk Advisory / CBZ Life) | Group Life → Life card; Healthcare & group benefits, Enterprise risk audits, Pensions advisory → Risk Advisory cards |
+| Insure ▸ footer | **Get a quote** → `/insurance/quote`; Explore cover → `/insurance`; Request advice → `/risk-advisory/quote` |
+| **Invest** (label; View all) | `/clusters/investments` |
+| Invest ▸ Grow my money (Datvest) | Unit trusts → `/datvest#panel-datvest-unit-trusts`; Money Market Fund, Fixed income, Equity Fund → cards |
+| Invest ▸ Manage wealth (Datvest) | Wealth management, Portfolio management, Trust & estate planning, Pension fund management → cards |
+| Invest ▸ Raise capital (CBZ Capital) | Corporate finance → `/capital#learn-more`; Debt / equity raising, Syndicated finance, IPOs & listings → cards |
+| Invest ▸ Property (CBZ Properties) | Homes and stands for sale → `/properties#property-listing`; Commercial space to let → `/properties?type=commercial`; Request a viewing → `/properties/request-a-viewing`; Valuations & advisory → `/properties/call-back` |
+| Invest ▸ Strategic transactions (CBZ Capital) | M&A advisory, Valuations & fairness opinions, Restructuring, Public-private partnerships → cards |
+| Invest ▸ footer | **Explore investments** → `/datvest`; Speak to a specialist → `/datvest/call-me-back`; Explore property → `/properties` |
+| **Grow** (label; View all) | `/clusters/agro-business` (the Farm cluster page) |
+| Grow ▸ Produce more (CBZ Agro-Yield) | Contract farming, Agro enterprise → cards; Input finance on Agrideck ↗; Register as a farmer → `/agro-yield#register-as-a-farmer` |
+| Grow ▸ Access machinery (Agro-Yield / CBZ Insurance) | Supply chain & logistics → card; Irrigation & machinery cover → Insurance card; ATDC equipment ↗ `africatdc.com` |
+| Grow ▸ Sell produce (Agro-Yield / CBZ Insurance) | Commodity trading → card; Livestock cover, Weather index cover → Insurance cards |
+| Grow ▸ Finance agriculture (Agro-Yield / CBZ Bank / Red Sphere) | Seasonal finance on Agrideck ↗; Profeeds farmer product → Red Sphere card; Farm loans → `/bank/apply`; Contract farming cover → Insurance card |
+| Grow ▸ Grow my SME (Red Sphere / CBZ Bank) | SME Working Capital, Order Finance → Red Sphere cards; Invoice Discounting → `/red-sphere#explore-invoice-discounting`; Merchant POS → Kleva POS card |
+| Grow ▸ footer | **Explore farming** → `/agro-yield`; Request finance → `/agro-yield/enquire`; Sell produce → Commodity trading card |
+| **Group** (label; View all) | `/the-group` |
+| Group ▸ About (CBZ Holdings) | Who we are → `/the-group`; Structure → `#structure`; Leadership → `#board`; Milestones → `#milestones` |
+| Group ▸ Businesses | Banking, Insurance, Investments, Farm → the four cluster pages |
+| Group ▸ Investors | Results and reports ↗ investor relations; Latest notices → `/notices`; Awards → `/the-group#awards`; Executive management → `/the-group#exco` |
+| Group ▸ Sustainability & trust | Sustainability → `/sustainability`; Raise a concern → `/sustainability/grievance`; Tip-offs anonymous → `/tip-offs`; Security → `/security` |
+| Group ▸ Community & help | CBZ Foundation → `/cbz-foundation`; Explore our solutions → `/journeys`; Contact us → `/contact`; Sitemap → `/sitemap` |
+| Group ▸ footer | **About CBZ** → `/the-group`; Group businesses → `/the-group#structure`; Investor information ↗ |
 | **Log in** ▸ Internet banking, personal | ↗ `https://obdx.cbz.co.zw/index.html?module=login` |
 | Log in ▸ Internet banking, corporate (new platform) | ↗ `https://cbzonline.cbz.co.zw/mfmbs/cbz-corp/` |
 | Log in ▸ Internet banking, corporate (previous platform, OBDX) | ↗ `https://obdx.cbz.co.zw/` |
@@ -196,15 +213,17 @@ Logo, a thin divider, the six menus (Bank, Insure, Invest, Borrow, Farm, Group),
 
 ### Phone menu sheet (under 900px)
 
-The navy bar keeps only the logo and the menu button; Find a branch, Log in and Sign up move into a full-screen white sheet. The audience strip stays above the bar and scrolls sideways.
+The navy bar is not shown on phones. The white strip holds the logo and the menu button on its first row and the audience tabs on a second, scrollable row. The menu button opens a full-screen white sheet.
 
 | Row | What it does |
 | --- | --- |
-| Logo (full colour) and **Close** (×) | the logo is the same link as in the bar; Close shuts the sheet (Escape does too) |
+| Logo and **Close** (×) | Close shuts the sheet (Escape does too) |
 | **Sign up** (red, full width) | expands the six Sign up items listed above |
 | **Log in** (navy outline, full width) | expands the six Log in items listed above |
-| **Bank**, **Insure**, **Invest**, **Borrow**, **Farm**, **Group** | each expands its items as in the desktop menu, ending with **View all** → the menu label's page |
-| **Find a branch** (pin) | `/contact#branches` |
+| **Bank**, **Borrow**, **Insure**, **Invest**, **Grow**, **Group** | each expands the same five purpose groups and links as its mega menu, ending with **View all** → the label's page |
+| **Search** | opens the search dialog |
+| **Branches & ATMs** (pin) | `/contact#branches` |
+| **Help** (headset) | `/contact` |
 
 ### Chat with us (floating pill, bottom right)
 

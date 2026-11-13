@@ -8,13 +8,6 @@ export interface NavLink {
   external?: boolean;
 }
 
-export interface NavGroup {
-  label: string;
-  /** Where the top-level label itself goes. */
-  href: string;
-  items: NavLink[];
-}
-
 export type AudienceId = 'personal' | 'business' | 'school' | 'diaspora';
 
 export interface Audience {
@@ -42,62 +35,432 @@ export const AUDIENCES: Audience[] = [
   { id: 'diaspora', label: 'Diaspora', href: '/diaspora', match: /^\/diaspora(\/|$)/, line: 'Bank with CBZ from abroad.' },
 ];
 
-/** Header menus: Bank, Insure, Invest, Borrow, Farm, Group. The same for every audience. */
-export const CLUSTERS: NavGroup[] = [
+export interface MegaLink {
+  label: string;
+  href: string;
+  external?: boolean;
+}
+export interface MegaColumn {
+  /** The customer's purpose, e.g. "Choose an account". */
+  title: string;
+  items: MegaLink[];
+  /** The business units behind the column, shown as "Offered by". */
+  offeredBy: { name: string; href: string }[];
+}
+export interface MegaMenu {
+  id: string;
+  label: string;
+  /** Where the label itself goes before hydration, and the "View all" link. */
+  href: string;
+  /** One line under the columns. */
+  note: string;
+  columns: MegaColumn[];
+  /** The buttons on the panel's footer: the first is red, the rest navy outline. */
+  actions: MegaLink[];
+}
+
+const P = (unit: string, id: string) => `/${unit}#product-${unit}-${id}`;
+const BANK = { name: 'CBZ Bank', href: '/bank' };
+const RED_SPHERE = { name: 'Red Sphere Finance', href: '/red-sphere' };
+const LIFE = { name: 'CBZ Life', href: '/cbz-life' };
+const INSURANCE = { name: 'CBZ Insurance', href: '/insurance' };
+const RISK = { name: 'CBZ Risk Advisory', href: '/risk-advisory' };
+const DATVEST = { name: 'Datvest', href: '/datvest' };
+const CAPITAL = { name: 'CBZ Capital', href: '/capital' };
+const PROPERTIES = { name: 'CBZ Properties', href: '/properties' };
+const AGRO = { name: 'CBZ Agro-Yield', href: '/agro-yield' };
+const HOLDINGS = { name: 'CBZ Holdings', href: '/the-group' };
+
+/**
+ * The navy bar's six menus. Each opens a full-width panel of five columns
+ * grouped by what the customer wants to do, each column naming the business
+ * unit behind it. Every link goes to a page, a section or a product card on
+ * this site (a `#product-…` link opens that card's details). The same for
+ * every audience; the audience strip decides which product cards show.
+ */
+export const MEGA: MegaMenu[] = [
   {
+    id: 'bank',
     label: 'Bank',
     href: '/clusters/banking',
-    items: [
-      { label: 'CBZ Bank', href: '/bank', line: 'Accounts, cards, loans and mortgages' },
-      { label: 'CBZ Custodial Services', href: null, line: 'Custody and safekeeping of securities' },
+    note: 'Accounts, savings, payments, cards and digital banking from CBZ Bank.',
+    columns: [
+      {
+        title: 'Choose an account',
+        items: [
+          { label: 'Current Account', href: P('bank', 'current') },
+          { label: 'Savings Account', href: P('bank', 'savings_individual') },
+          { label: 'Simple Saver', href: P('bank', 'simple_saver') },
+          { label: 'SmartCash', href: P('bank', 'smartcash_general') },
+          { label: 'Foreign Currency Account', href: P('bank', 'fca_individual') },
+        ],
+        offeredBy: [BANK],
+      },
+      {
+        title: 'Save for a goal',
+        items: [
+          { label: 'CashPlus Junior', href: P('bank', 'cashplus_junior') },
+          { label: 'CashPlus Teen', href: P('bank', 'cashplus_teen') },
+          { label: 'CashPlus Student', href: P('bank', 'cashplus_student') },
+          { label: 'CashPlus Housing', href: P('bank', 'cashplus_housing') },
+          { label: 'Fixed Deposit', href: P('bank', 'fixed_deposit') },
+        ],
+        offeredBy: [BANK],
+      },
+      {
+        title: 'Pay & transact',
+        items: [
+          { label: 'Bills & school fees', href: P('bank', 'cbz_touch') },
+          { label: 'Transfers', href: P('bank', 'internet_banking') },
+          { label: 'Foreign currency payments', href: P('bank', 'fca_individual') },
+          { label: 'E-statements', href: P('bank', 'e_statements') },
+        ],
+        offeredBy: [BANK],
+      },
+      {
+        title: 'Cards & merchant services',
+        items: [
+          { label: 'Visa Gold', href: P('bank', 'visa_gold') },
+          { label: 'Student Visa', href: P('bank', 'student_visa') },
+          { label: 'Debit / ATM card', href: P('bank', 'atm_card') },
+          { label: 'SME Debit Card', href: P('bank', 'sme_debit_card') },
+          { label: 'Kleva POS', href: P('bank', 'kleva_pos') },
+        ],
+        offeredBy: [BANK],
+      },
+      {
+        title: 'Bank digitally',
+        items: [
+          { label: 'Internet Banking', href: '/login' },
+          { label: 'CBZ Touch', href: '/login#apps' },
+          { label: 'Cardless withdrawals', href: P('bank', 'cbz_touch') },
+          { label: 'Stay safe online', href: '/security' },
+        ],
+        offeredBy: [BANK],
+      },
+    ],
+    actions: [
+      { label: 'Open an account', href: '/bank/open-account' },
+      { label: 'Compare accounts', href: '/bank#open-an-account' },
+      { label: 'Log in', href: '/login' },
     ],
   },
   {
-    label: 'Insure',
-    href: '/clusters/insurance',
-    items: [
-      { label: 'CBZ Insurance', href: '/insurance', line: 'Motor, home, business and farm cover' },
-      { label: 'CBZ Life', href: '/cbz-life', line: 'Funeral, education and group life' },
-      { label: 'CBZ Risk Advisory', href: '/risk-advisory', line: 'Broking and risk management' },
-    ],
-  },
-  {
-    label: 'Invest',
-    href: '/clusters/investments',
-    items: [
-      { label: 'Datvest', href: '/datvest', line: 'Unit trusts and wealth management' },
-      { label: 'CBZ Capital', href: '/capital', line: 'Corporate finance and advisory' },
-      { label: 'CBZ Properties', href: '/properties', line: 'Homes, stands and commercial space' },
-    ],
-  },
-  {
+    id: 'borrow',
     label: 'Borrow',
     href: '/red-sphere',
-    items: [
-      { label: 'Red Sphere Finance', href: '/red-sphere', line: 'Salary, SME, tuck-shop and partner loans' },
-      { label: 'CBZ Bank loans', href: '/bank#apply-for-a-loan', line: 'Payday, school fees, civil servant and mortgage loans' },
-      { label: 'Loan calculators', href: '/calculators', line: 'Mortgage, car finance and Red Sphere repayments' },
+    note: 'Loans by purpose, from CBZ Bank and Red Sphere Finance.',
+    columns: [
+      {
+        title: 'Borrow against salary',
+        items: [
+          { label: 'Civil Servant Loan', href: P('bank', 'civil_servant_loan') },
+          { label: 'Private Payroll Loan', href: P('red-sphere', 'private_payroll') },
+          { label: 'Nostro Individual Loan', href: P('bank', 'nostro_loan') },
+          { label: 'Payday Loan', href: P('bank', 'payday_loan') },
+          { label: 'SSB Loan', href: P('red-sphere', 'ssb_loan') },
+        ],
+        offeredBy: [BANK, RED_SPHERE],
+      },
+      {
+        title: 'Pay for education',
+        items: [
+          { label: 'Private School Fees Loan', href: P('bank', 'private_school_fees_loan') },
+          { label: 'Student Loan Facility', href: P('bank', 'student_loan_facility') },
+          { label: 'Sarapavana Education Plan', href: P('cbz-life', 'sarapavana') },
+        ],
+        offeredBy: [BANK, LIFE],
+      },
+      {
+        title: 'Finance property',
+        items: [
+          { label: 'Mortgage finance', href: '/bank/apply' },
+          { label: 'Mortgage calculator', href: '/calculators#mortgage' },
+          { label: 'CashPlus Housing', href: P('bank', 'cashplus_housing') },
+        ],
+        offeredBy: [BANK],
+      },
+      {
+        title: 'Grow my business',
+        items: [
+          { label: 'SME Working Capital', href: P('red-sphere', 'sme_working_capital') },
+          { label: 'Tuck-shop Facility', href: P('red-sphere', 'tuckshop') },
+          { label: 'Order Finance', href: P('red-sphere', 'order_finance') },
+          { label: 'Invoice Discounting', href: '/red-sphere#explore-invoice-discounting' },
+        ],
+        offeredBy: [RED_SPHERE],
+      },
+      {
+        title: 'Finance assets',
+        items: [
+          { label: 'Car finance', href: '/calculators#car-finance' },
+          { label: 'Partner Car Loan', href: P('red-sphere', 'partner_car_loan') },
+          { label: 'Device finance', href: P('red-sphere', 'lockable_device') },
+        ],
+        offeredBy: [BANK, RED_SPHERE],
+      },
+    ],
+    actions: [
+      { label: 'Compare options', href: '/calculators' },
+      { label: 'Check requirements', href: '/bank#apply-for-a-loan' },
+      { label: 'Apply', href: '/bank/apply' },
     ],
   },
   {
-    label: 'Farm',
+    id: 'insure',
+    label: 'Insure',
+    href: '/clusters/insurance',
+    note: 'Cover for your family, what you own, your business and your staff.',
+    columns: [
+      {
+        title: 'Protect my family',
+        items: [
+          { label: 'Comfortsure Funeral Cashplan', href: P('cbz-life', 'comfortsure') },
+          { label: 'Sarapavana Education Plan', href: P('cbz-life', 'sarapavana') },
+          { label: 'Credit Life', href: P('cbz-life', 'credit_life') },
+          { label: 'Get a life quote', href: '/cbz-life/quote' },
+        ],
+        offeredBy: [LIFE],
+      },
+      {
+        title: 'Plan for retirement',
+        items: [
+          { label: 'Retirement Savings', href: P('cbz-life', 'retirement_savings') },
+          { label: 'Annuities', href: P('cbz-life', 'annuities') },
+          { label: 'Pension fund management', href: P('datvest', 'defined-benefit-and-contribution-pensions') },
+        ],
+        offeredBy: [LIFE, DATVEST],
+      },
+      {
+        title: 'Protect what I own',
+        items: [
+          { label: 'Motor', href: P('insurance', 'motor') },
+          { label: 'Home & Contents', href: P('insurance', 'home') },
+          { label: 'Travel', href: P('insurance', 'travel') },
+          { label: 'Health & Personal Accident', href: P('insurance', 'health') },
+        ],
+        offeredBy: [INSURANCE],
+      },
+      {
+        title: 'Protect business / farm',
+        items: [
+          { label: 'SME Business Shield', href: P('insurance', 'sme_shield') },
+          { label: 'Commercial Property & Plant', href: P('insurance', 'commercial_plant') },
+          { label: 'Goods in transit', href: P('insurance', 'marine') },
+          { label: 'Crop protection', href: P('insurance', 'multi_peril') },
+        ],
+        offeredBy: [INSURANCE],
+      },
+      {
+        title: 'Manage benefits & risk',
+        items: [
+          { label: 'Group Life', href: P('cbz-life', 'group_life') },
+          { label: 'Healthcare & group benefits', href: P('risk-advisory', 'group_medical_benefits') },
+          { label: 'Enterprise risk audits', href: P('risk-advisory', 'enterprise_risk_audits') },
+          { label: 'Pensions advisory', href: P('risk-advisory', 'pension_trustee_advisory') },
+        ],
+        offeredBy: [RISK, LIFE],
+      },
+    ],
+    actions: [
+      { label: 'Get a quote', href: '/insurance/quote' },
+      { label: 'Explore cover', href: '/insurance' },
+      { label: 'Request advice', href: '/risk-advisory/quote' },
+    ],
+  },
+  {
+    id: 'invest',
+    label: 'Invest',
+    href: '/clusters/investments',
+    note: 'From a first unit trust to capital raising and commercial property.',
+    columns: [
+      {
+        title: 'Grow my money',
+        items: [
+          { label: 'Unit trusts', href: '/datvest#panel-datvest-unit-trusts' },
+          { label: 'Money Market Fund', href: P('datvest', 'datvest-money-market-fund') },
+          { label: 'Fixed income', href: P('datvest', 'datvest-high-yield-fixed-income-fund') },
+          { label: 'Equity Fund', href: P('datvest', 'datvest-equity-fund') },
+        ],
+        offeredBy: [DATVEST],
+      },
+      {
+        title: 'Manage wealth',
+        items: [
+          { label: 'Wealth management', href: P('datvest', 'high-net-worth-wealth-architecture') },
+          { label: 'Portfolio management', href: P('datvest', 'segregated-equity-and-bond-mandates') },
+          { label: 'Trust & estate planning', href: P('datvest', 'intergenerational-trust-and-estate-planning') },
+          { label: 'Pension fund management', href: P('datvest', 'defined-benefit-and-contribution-pensions') },
+        ],
+        offeredBy: [DATVEST],
+      },
+      {
+        title: 'Raise capital',
+        items: [
+          { label: 'Corporate finance', href: '/capital#learn-more' },
+          { label: 'Debt / equity raising', href: P('capital', 'rights_issues_placements') },
+          { label: 'Syndicated finance', href: P('capital', 'loan_syndications') },
+          { label: 'IPOs & listings', href: P('capital', 'ipos_listings') },
+        ],
+        offeredBy: [CAPITAL],
+      },
+      {
+        title: 'Property',
+        items: [
+          { label: 'Homes and stands for sale', href: '/properties#property-listing' },
+          { label: 'Commercial space to let', href: '/properties?type=commercial' },
+          { label: 'Request a viewing', href: '/properties/request-a-viewing' },
+          { label: 'Valuations & advisory', href: '/properties/call-back' },
+        ],
+        offeredBy: [PROPERTIES],
+      },
+      {
+        title: 'Strategic transactions',
+        items: [
+          { label: 'M&A advisory', href: P('capital', 'mna_advisory') },
+          { label: 'Valuations & fairness opinions', href: P('capital', 'independent_valuations') },
+          { label: 'Restructuring', href: P('capital', 'balance_sheet_restructuring') },
+          { label: 'Public-private partnerships', href: P('capital', 'ppp_concessions') },
+        ],
+        offeredBy: [CAPITAL],
+      },
+    ],
+    actions: [
+      { label: 'Explore investments', href: '/datvest' },
+      { label: 'Speak to a specialist', href: '/datvest/call-me-back' },
+      { label: 'Explore property', href: '/properties' },
+    ],
+  },
+  {
+    id: 'grow',
+    label: 'Grow',
     href: '/clusters/agro-business',
-    items: [
-      { label: 'CBZ Agro-Yield', href: '/agro-yield', line: 'Contract farming, inputs and offtake' },
+    note: 'The farming value chain and SME growth, from inputs to offtake.',
+    columns: [
+      {
+        title: 'Produce more',
+        items: [
+          { label: 'Contract farming', href: P('agro-yield', 'agro_farming') },
+          { label: 'Agro enterprise', href: P('agro-yield', 'agro_enterprise') },
+          { label: 'Input finance on Agrideck', href: LINKS.farmerOnboarding ?? '/agro-yield/enquire', external: Boolean(LINKS.farmerOnboarding) },
+          { label: 'Register as a farmer', href: '/agro-yield#register-as-a-farmer' },
+        ],
+        offeredBy: [AGRO],
+      },
+      {
+        title: 'Access machinery',
+        items: [
+          { label: 'Supply chain & logistics', href: P('agro-yield', 'agro_supply_chain') },
+          { label: 'Irrigation & machinery cover', href: P('insurance', 'irrigation_machinery') },
+          { label: 'ATDC equipment', href: LINKS.atdc ?? '/agro-yield#explore-atdc', external: Boolean(LINKS.atdc) },
+        ],
+        offeredBy: [AGRO, INSURANCE],
+      },
+      {
+        title: 'Sell produce',
+        items: [
+          { label: 'Commodity trading', href: P('agro-yield', 'agro_commodity_trading') },
+          { label: 'Livestock cover', href: P('insurance', 'livestock') },
+          { label: 'Weather index cover', href: P('insurance', 'satellite_weather') },
+        ],
+        offeredBy: [AGRO, INSURANCE],
+      },
+      {
+        title: 'Finance agriculture',
+        items: [
+          { label: 'Seasonal finance on Agrideck', href: LINKS.farmerOnboarding ?? '/agro-yield/enquire', external: Boolean(LINKS.farmerOnboarding) },
+          { label: 'Profeeds farmer product', href: P('red-sphere', 'profeeds') },
+          { label: 'Farm loans', href: '/bank/apply' },
+          { label: 'Contract farming cover', href: P('insurance', 'contract_farming') },
+        ],
+        offeredBy: [AGRO, BANK, RED_SPHERE],
+      },
+      {
+        title: 'Grow my SME',
+        items: [
+          { label: 'SME Working Capital', href: P('red-sphere', 'sme_working_capital') },
+          { label: 'Order Finance', href: P('red-sphere', 'order_finance') },
+          { label: 'Invoice Discounting', href: '/red-sphere#explore-invoice-discounting' },
+          { label: 'Merchant POS', href: P('bank', 'kleva_pos') },
+        ],
+        offeredBy: [RED_SPHERE, BANK],
+      },
+    ],
+    actions: [
+      { label: 'Explore farming', href: '/agro-yield' },
+      { label: 'Request finance', href: '/agro-yield/enquire' },
+      { label: 'Sell produce', href: P('agro-yield', 'agro_commodity_trading') },
     ],
   },
   {
+    id: 'group',
     label: 'Group',
     href: '/the-group',
-    items: [
-      { label: 'The Group', href: '/the-group', line: 'Structure, awards, milestones and board' },
-      { label: 'Explore our solutions', href: '/journeys', line: 'Ten guided flows, from account to advice' },
-      { label: 'CBZ Foundation', href: '/cbz-foundation', line: 'Our philanthropic arm' },
-      { label: 'Sustainability', href: '/sustainability', line: 'Grievance mechanism and reports' },
-      { label: 'Latest from CBZ', href: '/notices', line: 'Shareholder and customer notices' },
-      { label: 'Contact us', href: '/contact', line: 'Call, chat or find a branch' },
+    note: 'Who we are, how we are structured, and how to reach us.',
+    columns: [
+      {
+        title: 'About',
+        items: [
+          { label: 'Who we are', href: '/the-group' },
+          { label: 'Structure', href: '/the-group#structure' },
+          { label: 'Leadership', href: '/the-group#board' },
+          { label: 'Milestones', href: '/the-group#milestones' },
+        ],
+        offeredBy: [HOLDINGS],
+      },
+      {
+        title: 'Businesses',
+        items: [
+          { label: 'Banking', href: '/clusters/banking' },
+          { label: 'Insurance', href: '/clusters/insurance' },
+          { label: 'Investments', href: '/clusters/investments' },
+          { label: 'Farm', href: '/clusters/agro-business' },
+        ],
+        offeredBy: [HOLDINGS],
+      },
+      {
+        title: 'Investors',
+        items: [
+          { label: 'Results and reports', href: LINKS.investorRelations, external: true },
+          { label: 'Latest notices', href: '/notices' },
+          { label: 'Awards', href: '/the-group#awards' },
+          { label: 'Executive management', href: '/the-group#exco' },
+        ],
+        offeredBy: [HOLDINGS],
+      },
+      {
+        title: 'Sustainability & trust',
+        items: [
+          { label: 'Sustainability', href: '/sustainability' },
+          { label: 'Raise a concern', href: '/sustainability/grievance' },
+          { label: 'Tip-offs anonymous', href: '/tip-offs' },
+          { label: 'Security', href: '/security' },
+        ],
+        offeredBy: [HOLDINGS],
+      },
+      {
+        title: 'Community & help',
+        items: [
+          { label: 'CBZ Foundation', href: '/cbz-foundation' },
+          { label: 'Explore our solutions', href: '/journeys' },
+          { label: 'Contact us', href: '/contact' },
+          { label: 'Sitemap', href: '/sitemap' },
+        ],
+        offeredBy: [HOLDINGS],
+      },
+    ],
+    actions: [
+      { label: 'About CBZ', href: '/the-group' },
+      { label: 'Group businesses', href: '/the-group#structure' },
+      { label: 'Investor information', href: LINKS.investorRelations, external: true },
     ],
   },
+];
+
+/** Plain links on the right of the navy bar, before Log in and Sign up. */
+export const UTILITY_LINKS: NavLink[] = [
+  { label: 'Branches & ATMs', href: '/contact#branches' },
+  { label: 'Help', href: '/contact' },
 ];
 
 /** Split log-in menu. */

@@ -47,7 +47,7 @@ Form pages carry the Zod validator as well (about 78KB); they are outside the ho
 `AGRO_SEASONS` in `src/data/calculators.ts` holds placeholder windows (summer: August to January, winter: February to July). Agro-Yield to confirm dates and copy.
 
 <!-- handoff:start -->
-_Generated 2026-11-10 by `npm run handoff`. Do not edit between the markers._
+_Generated 2026-11-13 by `npm run handoff`. Do not edit between the markers._
 
 ### Content in place
 
@@ -86,6 +86,7 @@ _Generated 2026-11-10 by `npm run handoff`. Do not edit between the markers._
 | ATDC button placement on the Agro-Yield page (Supply chain, commodity trading or a Group businesses area) | CBZ Agro-Yield | Placed in Choose your service and in its own Explore ATDC section, linking to africatdc.com. Confirm or move. |
 | Integrations behind the forms: SSP Pure, ICECASH and Flex Cube (Insurance), Life Central (Life) | Digital | Recorded on each unit JSON under "systems"; nothing is wired yet. |
 | Copy and photographs for the Business and School home pages (/business, /school) | Marketing | Drafted in src/data/homes.ts from the product data; photographs reuse the existing library. The cluster is labelled Farm throughout the site; two official job titles still read Agro-Business Cluster (src/data/facts.ts EXCO and agro-yield.json team) pending confirmation of the wording to use. |
+| Careers and community pages for the Group menu | Human Resources, Corporate Communications | The header design lists Careers and Community under Group; neither page exists yet, so the menu shows CBZ Foundation, Explore our solutions, Contact us and Sitemap instead. |
 | Audience tags on every product (Personal, Business, School, Diaspora) | Each business unit | Assigned in src/data/audiences.ts from each product's "who it's for" line; units to confirm, in particular the School tags and products tagged for more than one audience. |
 
 ### Values still null in data modules

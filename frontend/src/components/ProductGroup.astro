@@ -401,6 +401,12 @@ const costLine = (p: ProductRow) =>
       if (!id) return;
       const card = root.querySelector<HTMLElement>(`#${CSS.escape(id)}`);
       if (!card) return;
+      // A deep link to a card outside the chosen audience switches to one it serves.
+      const a = audience();
+      if (!serves(card, a)) {
+        const first = (card.dataset.audiences || '').split(' ').filter(Boolean)[0];
+        if (first) document.dispatchEvent(new CustomEvent('cbz:audience-set', { detail: first }));
+      }
       filter('all');
       card.scrollIntoView({ block: 'start', inline: 'start' });
       const detail = card.querySelector<HTMLDialogElement>('[data-detail]');

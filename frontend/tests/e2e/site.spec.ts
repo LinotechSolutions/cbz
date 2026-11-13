@@ -68,6 +68,21 @@ test('the School home exists and school products show on the Bank page', async (
   await expect(page.locator('#product-bank-smartcash_student')).toBeHidden();
 });
 
+test('a mega menu opens its purpose columns and search finds a product', async ({ page, isMobile }) => {
+  test.skip(isMobile, 'desktop menus only');
+  await page.goto('/');
+  const banner = page.getByRole('banner');
+  await banner.getByRole('button', { name: 'Bank', exact: true }).click();
+  await expect(banner.getByRole('heading', { name: 'Choose an account' })).toBeVisible();
+  await expect(banner.getByRole('link', { name: 'Current Account', exact: true })).toBeVisible();
+  await expect(banner.getByText('Offered by').first()).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(banner.getByRole('heading', { name: 'Choose an account' })).toBeHidden();
+  await banner.getByRole('button', { name: 'Search' }).click();
+  await page.getByLabel('Search products and pages').fill('smartcash');
+  await expect(page.getByRole('link', { name: /SmartCash Lite/ })).toBeVisible();
+});
+
 test('escape closes a header menu and returns focus', async ({ page, isMobile }) => {
   test.skip(isMobile, 'desktop menus only');
   await page.goto('/');

@@ -1,0 +1,40 @@
+{
+  "id": "dabuka-village-ruwa",
+  "title": "Dabuka Village, Ruwa",
+  "type": "land",
+  "location": "Ruwa",
+  "status": "for-sale",
+  "price": "US$75/m² before VAT",
+  "summary": "Secure a fully serviced residential stand, ready for title, in a fast-growing and well-planned community.",
+  "details": [
+    {
+      "label": "Stand size",
+      "value": "510 to 688 m²"
+    },
+    {
+      "label": "Price",
+      "value": "US$75/m² before VAT"
+    },
+    {
+      "label": "Terms of sale",
+      "value": "Mortgage: 25% deposit, balance over 8 years at 17% interest per annum"
+    }
+  ],
+  "images": [
+    {
+      "src": "/images/cbz-agriculture.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 5,
+  "verified": true
+}

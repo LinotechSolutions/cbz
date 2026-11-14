@@ -1,0 +1,44 @@
+{
+  "id": "new-ridgeview-belvedere",
+  "title": "New Ridgeview, Belvedere",
+  "type": "residential",
+  "location": "Harare",
+  "status": "for-sale",
+  "price": "US$300,000 before VAT",
+  "summary": "A four-bedroom house with lounge, dining room, kitchen, bathroom and toilet, plus borehole, CCTV, solar, durawall and gate. Title deeds available.",
+  "details": [
+    {
+      "label": "Bedrooms",
+      "value": "4"
+    },
+    {
+      "label": "Stand size",
+      "value": "1,083 m²"
+    },
+    {
+      "label": "Price",
+      "value": "US$300,000 before VAT"
+    },
+    {
+      "label": "Extras",
+      "value": "Borehole, CCTV, solar, durawall, gate, title deeds"
+    }
+  ],
+  "images": [
+    {
+      "src": "/images/loan-home.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 14,
+  "verified": true
+}

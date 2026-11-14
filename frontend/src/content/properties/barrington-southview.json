@@ -1,0 +1,40 @@
+{
+  "id": "barrington-southview",
+  "title": "Barrington, Southview (Harare South)",
+  "type": "land",
+  "location": "Harare",
+  "status": "for-sale",
+  "price": "US$115/m² cash, inclusive of VAT",
+  "summary": "A high-density housing development, fully serviced with water, sewer, tarred roads and storm water drains.",
+  "details": [
+    {
+      "label": "Stand size",
+      "value": "200 m² average"
+    },
+    {
+      "label": "Price",
+      "value": "US$115/m² cash or US$120/m² on payment terms, inclusive of VAT"
+    },
+    {
+      "label": "Terms of sale",
+      "value": "30% deposit, with the balance payable by 31 December 2026"
+    }
+  ],
+  "images": [
+    {
+      "src": "/images/cbz-agriculture.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 1,
+  "verified": true
+}

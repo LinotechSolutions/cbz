@@ -1,0 +1,40 @@
+{
+  "id": "insukamini-lower-gweru",
+  "title": "Insukamini, Lower Gweru",
+  "type": "residential",
+  "location": "Gweru",
+  "status": "for-sale",
+  "price": "US$50,000 before VAT",
+  "summary": "A stand with a three-bedroom house with lounge and kitchen, and outside toilets. Water is available on the property; electricity is not currently connected.",
+  "details": [
+    {
+      "label": "Bedrooms",
+      "value": "3"
+    },
+    {
+      "label": "Stand size",
+      "value": "4,375 m²"
+    },
+    {
+      "label": "Price",
+      "value": "US$50,000.00 before VAT"
+    }
+  ],
+  "images": [
+    {
+      "src": "/images/loan-home.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 19,
+  "verified": true
+}

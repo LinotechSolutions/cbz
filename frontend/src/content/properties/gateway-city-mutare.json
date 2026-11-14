@@ -1,0 +1,44 @@
+{
+  "id": "gateway-city-mutare",
+  "title": "Gateway City, Mutare",
+  "type": "land",
+  "location": "Mutare",
+  "status": "for-sale",
+  "price": "US$20/m² before VAT",
+  "summary": "A new address for a more serene lifestyle: 2,200 m² residential stands strategically located for holiday homes and accommodation near the Beira border. Title deeds available.",
+  "details": [
+    {
+      "label": "Stand size",
+      "value": "2,200 m² average"
+    },
+    {
+      "label": "Price",
+      "value": "US$20/m² before VAT"
+    },
+    {
+      "label": "Terms of sale",
+      "value": "Mortgage: 10% deposit, 12% interest per annum for up to 10 years; or instalments: 10% deposit, balance over 36 months at 12% interest per annum"
+    },
+    {
+      "label": "Title",
+      "value": "Title deeds available"
+    }
+  ],
+  "images": [
+    {
+      "src": "/images/cbz-agriculture.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 3,
+  "verified": true
+}

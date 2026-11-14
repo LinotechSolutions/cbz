@@ -1,0 +1,36 @@
+{
+  "id": "hogerty-hill-1384",
+  "title": "Hogerty Hill, 1,384 m² stand",
+  "type": "land",
+  "location": "Harare",
+  "status": "for-sale",
+  "price": "US$110,720 before VAT",
+  "summary": "A beautiful residential stand with ample space to create a home that suits your lifestyle: room for your dream house, landscaped gardens, entertainment areas and more.",
+  "details": [
+    {
+      "label": "Stand size",
+      "value": "1,384 m²"
+    },
+    {
+      "label": "Price",
+      "value": "US$110,720.00 before VAT"
+    }
+  ],
+  "images": [
+    {
+      "src": "/images/cbz-agriculture.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 11,
+  "verified": true
+}

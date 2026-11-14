@@ -1,0 +1,36 @@
+{
+  "id": "inyanga-township",
+  "title": "Former banking hall, Inyanga Township",
+  "type": "commercial",
+  "location": "Nyanga",
+  "status": "for-sale",
+  "price": "US$96,000 before VAT",
+  "summary": "A single-storey building with rendered brick walls under a monopitch IBR roof: a banking hall with large glass frontage and fitted wood and glass counters, a back office, a small kitchen and a toilet.",
+  "details": [
+    {
+      "label": "Floor area",
+      "value": "408 m²"
+    },
+    {
+      "label": "Price",
+      "value": "US$96,000.00 before VAT"
+    }
+  ],
+  "images": [
+    {
+      "src": "/images/about-capital.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 25,
+  "verified": true
+}

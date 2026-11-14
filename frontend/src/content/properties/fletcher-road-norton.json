@@ -1,0 +1,44 @@
+{
+  "id": "fletcher-road-norton",
+  "title": "Fletcher Road, Norton",
+  "type": "commercial",
+  "location": "Norton",
+  "status": "for-sale",
+  "price": "US$300,000 before VAT",
+  "summary": "A stand with a built-up area of approximately 1,000 m², previously used as a laboratory warehouse, with a borehole for a reliable water supply. Title deeds available.",
+  "details": [
+    {
+      "label": "Stand size",
+      "value": "1,500 m²"
+    },
+    {
+      "label": "Built-up area",
+      "value": "Approximately 1,000 m²"
+    },
+    {
+      "label": "Price",
+      "value": "US$300,000.00 before VAT"
+    },
+    {
+      "label": "Title",
+      "value": "Title deeds available"
+    }
+  ],
+  "images": [
+    {
+      "src": "/images/about-capital.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 26,
+  "verified": true
+}

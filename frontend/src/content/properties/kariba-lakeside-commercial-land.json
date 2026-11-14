@@ -1,0 +1,44 @@
+{
+  "id": "kariba-lakeside-commercial-land",
+  "title": "Kariba lakeside commercial land, Powerlines Road",
+  "type": "commercial",
+  "location": "Kariba",
+  "status": "for-sale",
+  "price": "US$1.1 million cash, before VAT",
+  "summary": "A rare commercial investment opportunity on 8.5 hectares of prime lakeshore land along Powerlines Road, Kariba: an existing workshop with a vehicle inspection pit and four storerooms, a three-bedroom main house with office, lounge and verandah, staff quarters, a borehole and a plunge pool.",
+  "details": [
+    {
+      "label": "Land",
+      "value": "8.5 hectares"
+    },
+    {
+      "label": "Price",
+      "value": "US$1.1 million cash, before VAT"
+    },
+    {
+      "label": "Buildings",
+      "value": "Workshop with inspection pit and four storerooms; three-bedroom main house with office, lounge and verandah; staff quarters"
+    },
+    {
+      "label": "Water",
+      "value": "Borehole and plunge swimming pool"
+    }
+  ],
+  "images": [
+    {
+      "src": "/images/about-capital.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 31,
+  "verified": true
+}

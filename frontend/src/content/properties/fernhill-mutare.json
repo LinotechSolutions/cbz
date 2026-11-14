@@ -1,0 +1,36 @@
+{
+  "id": "fernhill-mutare",
+  "title": "Fernhill, Mutare",
+  "type": "commercial",
+  "location": "Mutare",
+  "status": "for-sale",
+  "price": "US$1.2 million before VAT",
+  "summary": "A high-value property in Fernhill, Mutare, with a single-storey building of rendered brick under a monopitch IBR roof housing a banking hall with glass frontage and fitted counters, a back office, kitchen and toilet.",
+  "details": [
+    {
+      "label": "Size",
+      "value": "2,000 to 16,000 m²"
+    },
+    {
+      "label": "Price",
+      "value": "USD 1.2 million before VAT"
+    }
+  ],
+  "images": [
+    {
+      "src": "/images/about-capital.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 29,
+  "verified": true
+}

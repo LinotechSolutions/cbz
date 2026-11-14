@@ -71,6 +71,9 @@ export const ICONS = {
   instagram: {
     d: 'M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4zM12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM17.5 6.5h.01',
   },
+  star: { d: 'm12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3l-5.6 2.9 1.1-6.2L3 9.6l6.2-.9z' },
+  card: { d: 'M3 6h18v12H3zM3 10h18M7 15h4' },
+  key: { d: 'M7.5 15.5a4.5 4.5 0 1 1 4.2-6H21l2 2-2.5 2.5L18 11.5l-2 2-2-2h-2.3a4.5 4.5 0 0 1-4.2 4z' },
 } as const satisfies Record<string, { d: string; fill?: boolean }>;
 
 export const SOCIAL_ICON: Record<string, IconName> = {

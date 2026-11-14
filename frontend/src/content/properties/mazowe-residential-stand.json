@@ -1,0 +1,36 @@
+{
+  "id": "mazowe-residential-stand",
+  "title": "Residential stand, Mazowe",
+  "type": "land",
+  "location": "Mazowe",
+  "status": "for-sale",
+  "price": "US$30,000 before VAT",
+  "summary": "A vacant residential stand in Mazowe.",
+  "details": [
+    {
+      "label": "Stand size",
+      "value": "1,094 m²"
+    },
+    {
+      "label": "Price",
+      "value": "US$30,000 before VAT"
+    }
+  ],
+  "images": [
+    {
+      "src": "/images/cbz-agriculture.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 8,
+  "verified": true
+}

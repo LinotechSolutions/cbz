@@ -1,0 +1,40 @@
+{
+  "id": "bindura-commercial-stand",
+  "title": "Commercial stand, Bindura",
+  "type": "commercial",
+  "location": "Bindura",
+  "status": "for-sale",
+  "price": "US$250,000 before VAT",
+  "summary": "A prime commercial stand available on a cession agreement.",
+  "details": [
+    {
+      "label": "Stand size",
+      "value": "6,940 m²"
+    },
+    {
+      "label": "Price",
+      "value": "US$250,000 before VAT"
+    },
+    {
+      "label": "Tenure",
+      "value": "Cession agreement"
+    }
+  ],
+  "images": [
+    {
+      "src": "/images/about-capital.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 23,
+  "verified": true
+}

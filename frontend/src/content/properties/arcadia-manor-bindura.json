@@ -1,0 +1,40 @@
+{
+  "id": "arcadia-manor-bindura",
+  "title": "Arcadia Manor, Bindura",
+  "type": "land",
+  "location": "Bindura",
+  "status": "for-sale",
+  "price": "US$20/m² before VAT",
+  "summary": "Spacious, fully serviced residential stands in a secure gated community with public lighting, 5 km from Bindura town.",
+  "details": [
+    {
+      "label": "Stand size",
+      "value": "1,250 to 3,500 m²"
+    },
+    {
+      "label": "Price",
+      "value": "US$20/m² before VAT"
+    },
+    {
+      "label": "Terms of sale",
+      "value": "25% deposit, balance over 18 months at 0% interest per annum"
+    }
+  ],
+  "images": [
+    {
+      "src": "/images/cbz-agriculture.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 9,
+  "verified": true
+}

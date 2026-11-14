@@ -6,6 +6,7 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { AUDIENCES, JOURNEYS, MEGA, OPEN_ACCOUNT_ITEMS } from '../data/nav';
+import { AFFLUENT_HOME, SOLUTIONS, TIERS, solutionHref, tierHref } from '../data/affluent';
 
 interface Hit {
   label: string;
@@ -42,6 +43,9 @@ export const GET: APIRoute = async () => {
     }
   }
   for (const j of JOURNEYS) add({ label: j.label, line: j.line, href: j.href, group: 'Guided flow' });
+  add({ label: AFFLUENT_HOME.title, line: AFFLUENT_HOME.lede, href: AFFLUENT_HOME.path, group: 'Affluent Banking' });
+  for (const t of TIERS) add({ label: t.name, line: t.title, href: tierHref(t.id), group: 'Affluent Banking' });
+  for (const s of SOLUTIONS) add({ label: s.title, line: s.cardLine, href: solutionHref(s.id), group: 'Affluent Banking' });
   for (const o of OPEN_ACCOUNT_ITEMS) if (o.href) add({ label: o.label, line: o.line ?? '', href: o.href, group: 'Sign up' });
   const pages: Hit[] = [
     { label: 'Calculators', line: 'Mortgage, car finance, loan, car insurance and life policy', href: '/calculators', group: 'Tools' },

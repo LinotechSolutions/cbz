@@ -1,0 +1,524 @@
+---
+/**
+ * One Affluent Banking solution screen (accounts, cards, loans, vehicle
+ * finance, safe deposit boxes, insurance, property, investments, farm
+ * finance), laid out as the design brief's loans page: a full-bleed
+ * photograph hero with the title over it; an Explore / Compare tab bar with
+ * the breadcrumb beneath it; on Explore, the lede, three icon pillars,
+ * "What … are you looking for?" with underline tabs and an accordion of
+ * options under each; on Compare, the three tiers side by side; then a
+ * "Please note" line and the call to action.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import Icon from './Icon.astro';
+import StickyCta from './StickyCta.astro';
+import { TIERS, AFFLUENT_HOME, tierHref, type Solution } from '../data/affluent';
+import { isExternal } from '../data/links';
+
+interface Props {
+  solution: Solution;
+}
+const { solution } = Astro.props;
+const noun = solution.name.toLowerCase();
+const site = Astro.site ?? new URL('https://www.cbz.co.zw');
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', site).toString() },
+      { '@type': 'ListItem', position: 2, name: AFFLUENT_HOME.title, item: new URL(AFFLUENT_HOME.path, site).toString() },
+      { '@type': 'ListItem', position: 3, name: solution.name },
+    ],
+  },
+];
+const ctaExt = isExternal(solution.cta.href);
+---
+
+<BaseLayout title={solution.title} description={solution.lede} unitLogo="bank" preloadImage={solution.image.src} jsonLd={jsonLd}>
+  <!-- Hero: the photograph full bleed with the title over it -->
+  <header class="hero on-dark" aria-labelledby="hero-heading">
+    <img class="hero__img" src={solution.image.src} alt="" width={1000} height={600} loading="eager" fetchpriority="high" decoding="async" />
+    <div class="container hero__in">
+      <h1 id="hero-heading" class="hero__title">{solution.title}</h1>
+    </div>
+  </header>
+
+  <!-- Explore / Compare tabs, then the breadcrumb -->
+  <div class="modes" data-tabs>
+    <div class="container">
+      <div class="modes__bar" role="tablist" aria-label="Explore or compare">
+        <button type="button" role="tab" id="mode-tab-explore" class="modes__tab" aria-selected="true" aria-controls="mode-explore" tabindex="0" data-tab="explore">Explore</button>
+        <button type="button" role="tab" id="mode-tab-compare" class="modes__tab" aria-selected="false" aria-controls="mode-compare" tabindex="-1" data-tab="compare">Compare</button>
+      </div>
+      <div class="modes__crumbs">
+        <Breadcrumbs items={[{ label: AFFLUENT_HOME.title, href: AFFLUENT_HOME.path }, { label: solution.name }]} />
+      </div>
+    </div>
+
+    <!-- Explore -->
+    <div role="tabpanel" id="mode-explore" aria-labelledby="mode-tab-explore" tabindex="0">
+      <section class="band explore" aria-labelledby="explore-heading">
+        <div class="container explore__in">
+          <h2 id="explore-heading" class="sr-only">Explore {noun}</h2>
+          <p class="explore__lede">{solution.lede}</p>
+          <ul role="list" class="pillars">
+            {
+              solution.pillars.map((p) => (
+                <li class="pillar">
+                  <Icon name={p.icon} size={44} class="pillar__ic" />
+                  <strong class="pillar__title">{p.title}</strong>
+                  <span class="pillar__body">{p.body}</span>
+                </li>
+              ))
+            }
+          </ul>
+
+          <h2 class="explore__q">What {solution.id === 'accounts' || solution.id === 'cards' ? 'banking solutions' : noun + ' solutions'} are you looking for?</h2>
+          <div class="opts" data-tabs>
+            <div class="opts__bar" role="tablist" aria-label={`${solution.name} options`}>
+              {
+                solution.tabs.map((t, i) => (
+                  <button type="button" role="tab" id={`opt-tab-${t.id}`} class="opts__tab" aria-selected={i === 0 ? 'true' : 'false'} aria-controls={`opt-${t.id}`} tabindex={i === 0 ? 0 : -1} data-tab={t.id}>
+                    {t.label}
+                  </button>
+                ))
+              }
+            </div>
+            {
+              solution.tabs.map((t, i) => (
+                <div role="tabpanel" id={`opt-${t.id}`} class="opts__panel" aria-labelledby={`opt-tab-${t.id}`} hidden={i !== 0} tabindex="0">
+                  <p class="opts__intro">{t.intro}</p>
+                  <h3 class="opts__choose">Choose what suits your needs</h3>
+                  <div class="acc">
+                    {t.items.map((it) => (
+                      <details class="acc__item">
+                        <summary class="acc__sum">
+                          <span>{it.title}</span>
+                          <Icon name="chevronDown" size={22} class="acc__chev" />
+                        </summary>
+                        <p class="acc__body">{it.body}</p>
+                      </details>
+                    ))}
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Compare -->
+    <div role="tabpanel" id="mode-compare" aria-labelledby="mode-tab-compare" tabindex="0" hidden>
+      <section class="band compare" aria-labelledby="compare-heading">
+        <div class="container">
+          <h2 id="compare-heading" class="compare__title">Compare {noun} across the three tiers</h2>
+          <div class="compare__scroll">
+            <table class="compare__table">
+              <thead>
+                <tr>
+                  <th scope="col"><span class="sr-only">What</span></th>
+                  {
+                    TIERS.map((t) => (
+                      <th scope="col">
+                        <a href={tierHref(t.id)}>{t.name}</a>
+                      </th>
+                    ))
+                  }
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  solution.compare.map((row) => (
+                    <tr>
+                      <th scope="row">{row.label}</th>
+                      {TIERS.map((t) => (
+                        <td>{row.values[t.id]}</td>
+                      ))}
+                    </tr>
+                  ))
+                }
+                <tr>
+                  <th scope="row"><span class="sr-only">Find out more</span></th>
+                  {
+                    TIERS.map((t) => (
+                      <td>
+                        <a href={tierHref(t.id)} class="compare__more">
+                          Tell me more
+                        </a>
+                      </td>
+                    ))
+                  }
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Please note, and the call to action -->
+  <section class="band foot" aria-label="Next step">
+    <div class="container foot__in">
+      <p class="foot__note">
+        <strong>Please note:</strong> facilities are subject to credit approval and the terms of your tier. Offered by {solution.offeredBy.map((o, i) => (
+          <>
+            {i > 0 && ', '}
+            <a href={o.href}>{o.name}</a>
+          </>
+        ))}, part of CBZ Holdings.
+      </p>
+      <a
+        href={solution.cta.href}
+        class="btn btn--primary btn--lg foot__btn"
+        target={ctaExt ? '_blank' : undefined}
+        rel={ctaExt ? 'noopener noreferrer' : undefined}
+        data-track="apply_click"
+        data-track-props={JSON.stringify({ unit: 'bank', from: `affluent-${solution.id}` })}
+      >
+        {solution.cta.label} <Icon name={ctaExt ? 'external' : 'arrowRight'} size={18} />
+        {ctaExt && <span class="sr-only"> (opens in a new tab)</span>}
+      </a>
+    </div>
+  </section>
+
+  <StickyCta label={solution.cta.label} href={solution.cta.href} unit="bank" />
+</BaseLayout>
+
+<script>
+  // Tabs: a click or an arrow key chooses a tab; the matching panel shows. A hash naming a tab opens it (and the Explore / Compare bar above it).
+  document.querySelectorAll<HTMLElement>('[data-tabs]').forEach((wrap) => {
+    const tabs = Array.from(wrap.querySelectorAll<HTMLButtonElement>(':scope > div > [role="tab"], :scope > div > div > [role="tab"]')).filter((t) => t.closest('[data-tabs]') === wrap);
+    const show = (tab: HTMLButtonElement, focus = false) => {
+      tabs.forEach((t) => {
+        const on = t === tab;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        t.tabIndex = on ? 0 : -1;
+        const panel = document.getElementById(t.getAttribute('aria-controls') ?? '');
+        if (panel) panel.hidden = !on;
+      });
+      if (focus) tab.focus();
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => show(t));
+      t.addEventListener('keydown', (e) => {
+        const d = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 0;
+        if (!d) return;
+        e.preventDefault();
+        show(tabs[(i + d + tabs.length) % tabs.length], true);
+      });
+    });
+    const wanted = tabs.find((t) => t.dataset.tab && `#${t.dataset.tab}` === location.hash);
+    if (wanted) {
+      show(wanted);
+      // An option tab sits inside Explore; make sure that mode is open.
+      const outer = wrap.parentElement?.closest<HTMLElement>('[data-tabs]');
+      outer?.querySelector<HTMLButtonElement>('[data-tab="explore"]')?.click();
+      wrap.scrollIntoView({ block: 'start' });
+    }
+  });
+</script>
+
+<style>
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    isolation: isolate;
+    background: var(--blue-900);
+    color: var(--white);
+    overflow: hidden;
+  }
+  .hero__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 60% 35%;
+    z-index: -2;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(180deg, rgba(0, 23, 54, 0.55), rgba(0, 23, 54, 0.35));
+  }
+  .hero__in {
+    display: grid;
+    align-content: center;
+    min-height: 280px;
+    padding-block: var(--s-12);
+  }
+  @media (min-width: 900px) {
+    .hero__in {
+      min-height: 400px;
+    }
+  }
+  .hero__title {
+    font-size: var(--t-3xl);
+    color: var(--white);
+    letter-spacing: -0.015em;
+    text-shadow: 0 2px 12px rgba(0, 23, 54, 0.4);
+  }
+
+  /* ---------- Explore / Compare bar ---------- */
+  .modes__bar {
+    display: flex;
+    gap: var(--s-6);
+    border-bottom: 1px solid var(--line);
+  }
+  .modes__tab {
+    position: relative;
+    min-height: 56px;
+    padding: 0 var(--s-1);
+    font-size: var(--t-lg);
+    color: var(--ink);
+  }
+  .modes__tab::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 3px;
+    background: transparent;
+    transition: background-color var(--dur) var(--ease);
+  }
+  .modes__tab[aria-selected='true'] {
+    color: var(--red-700);
+    font-weight: 700;
+  }
+  .modes__tab[aria-selected='true']::after {
+    background: var(--red);
+  }
+  .modes__crumbs {
+    padding-block: var(--s-4);
+  }
+
+  /* ---------- Explore ---------- */
+  .explore {
+    padding-top: var(--s-6);
+  }
+  .explore__in {
+    display: grid;
+    gap: var(--s-10, 40px);
+    justify-items: center;
+    text-align: center;
+  }
+  .explore__lede {
+    color: var(--ink);
+    font-size: var(--t-md);
+    max-width: 64ch;
+    line-height: 1.6;
+  }
+  .pillars {
+    display: grid;
+    gap: var(--s-8) var(--gap);
+    width: 100%;
+  }
+  @media (min-width: 720px) {
+    .pillars {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .pillar {
+    display: grid;
+    gap: var(--s-3);
+    justify-items: center;
+    align-content: start;
+    padding-inline: var(--s-4);
+  }
+  .pillar :global(.pillar__ic) {
+    color: var(--red);
+  }
+  .pillar__title {
+    color: var(--ink);
+    font-size: var(--t-md);
+  }
+  .pillar__body {
+    color: var(--grey);
+    line-height: 1.55;
+    max-width: 36ch;
+  }
+  .explore__q {
+    font-size: var(--t-2xl);
+    color: var(--ink);
+    margin-top: var(--s-4);
+  }
+  .opts {
+    width: 100%;
+    display: grid;
+    gap: var(--s-8);
+    justify-items: center;
+  }
+  .opts__bar {
+    display: flex;
+    gap: var(--s-6);
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .opts__bar::-webkit-scrollbar {
+    display: none;
+  }
+  .opts__tab {
+    position: relative;
+    min-height: 52px;
+    padding: 0 var(--s-1);
+    font-size: var(--t-lg);
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .opts__tab::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 3px;
+    background: transparent;
+  }
+  .opts__tab[aria-selected='true'] {
+    color: var(--red-700);
+  }
+  .opts__tab[aria-selected='true']::after {
+    background: var(--red);
+  }
+  .opts__panel[hidden] {
+    display: none;
+  }
+  .opts__panel {
+    width: 100%;
+    display: grid;
+    gap: var(--s-8);
+    justify-items: center;
+  }
+  .opts__intro {
+    color: var(--ink);
+    max-width: 60ch;
+    line-height: 1.6;
+  }
+  .opts__choose {
+    font-size: var(--t-2xl);
+    color: var(--ink);
+  }
+  .acc {
+    width: 100%;
+    max-width: 960px;
+    display: grid;
+    gap: var(--s-3);
+    text-align: left;
+  }
+  .acc__item {
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+    background: var(--white);
+  }
+  .acc__item[open] {
+    border-color: var(--blue-100);
+    box-shadow: var(--shadow-card);
+  }
+  .acc__sum {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-4);
+    min-height: 64px;
+    padding: var(--s-3) var(--s-6);
+    font-size: var(--t-md);
+    font-weight: 700;
+    color: var(--ink);
+    cursor: pointer;
+    list-style: none;
+  }
+  .acc__sum::-webkit-details-marker {
+    display: none;
+  }
+  .acc__sum :global(.acc__chev) {
+    flex-shrink: 0;
+    color: var(--ink);
+    transition: transform var(--dur) var(--ease);
+  }
+  .acc__item[open] .acc__sum :global(.acc__chev) {
+    transform: rotate(180deg);
+  }
+  .acc__body {
+    padding: 0 var(--s-6) var(--s-6);
+    color: var(--grey);
+    line-height: 1.6;
+    max-width: none;
+  }
+
+  /* ---------- Compare ---------- */
+  .compare__title {
+    font-size: var(--t-2xl);
+    color: var(--ink);
+    margin-bottom: var(--s-8);
+  }
+  .compare__scroll {
+    overflow-x: auto;
+  }
+  .compare__table {
+    width: 100%;
+    min-width: 720px;
+    border-collapse: collapse;
+    font-size: var(--t-sm);
+  }
+  .compare__table th,
+  .compare__table td {
+    padding: var(--s-4);
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .compare__table thead th {
+    font-size: var(--t-md);
+    color: var(--blue);
+    border-bottom: 3px solid var(--red);
+  }
+  .compare__table thead th a {
+    color: var(--blue);
+    text-decoration: none;
+  }
+  .compare__table thead th a:hover {
+    text-decoration: underline;
+  }
+  .compare__table tbody th {
+    color: var(--grey);
+    font-weight: 700;
+    width: 22%;
+  }
+  .compare__more {
+    font-weight: 700;
+    color: var(--red-700);
+  }
+
+  /* ---------- Foot ---------- */
+  .foot {
+    padding-block: var(--s-8);
+  }
+  .foot__in {
+    display: grid;
+    gap: var(--s-4);
+    justify-items: start;
+  }
+  @media (min-width: 900px) {
+    .foot__in {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+    }
+  }
+  .foot__note {
+    color: var(--grey);
+    font-size: var(--t-sm);
+    max-width: 80ch;
+  }
+  .foot__btn {
+    gap: var(--s-2);
+  }
+</style>

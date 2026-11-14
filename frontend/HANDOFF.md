@@ -10,7 +10,7 @@ The frontend is complete and static. Nothing on the public site needs a server t
 | `draftStore` | `src/lib/draftStore.ts` | sessionStorage | Redis-backed drafts keyed by form and session; never store ID or account numbers (`NEVER_STORE`) |
 | `track(event, props)` | `src/lib/analytics.ts` | Console in dev, queued until consent | Analytics vendor tag, wired through `setSink()`; only after consent |
 | Chatbot | `src/islands/ChatLauncher.tsx` | Offers WhatsApp, phone and email | Load the chatbot module only when the panel opens |
-| Property listings | `src/content/properties/*.json` | 12 draft listings with placeholder photos and no prices | Real listings, prices and photography, or a feed into the collection |
+| Property listings | `src/content/properties/*.json` | 33 listings from the April 2025 CBZ Properties booklet (`src/content/_import/data/propertyListings.ts`) with the printed prices and terms, stand-in photographs | A photograph per listing, confirmation the listings are current, or a feed into the collection |
 | Deals (track record) | `src/content/deals/` | Empty, band hidden | Datvest and CBZ Capital transactions |
 | Campaigns | `src/content/campaigns/` | Empty, band hidden | Marketing artwork and copy per unit |
 | Rate tables | `src/data/calculators.ts` | `rates: null`, calculators say "Indicative rates coming soon" | CBZ Insurance and CBZ Life rate bands |
@@ -53,7 +53,7 @@ _Generated 2026-11-14 by `npm run handoff`. Do not edit between the markers._
 
 - units: 10
 - products: 136
-- properties: 12
+- properties: 32
 - deals: 0
 - campaigns: 0
 - notices: 7
@@ -87,6 +87,9 @@ _Generated 2026-11-14 by `npm run handoff`. Do not edit between the markers._
 | Integrations behind the forms: SSP Pure, ICECASH and Flex Cube (Insurance), Life Central (Life) | Digital | Recorded on each unit JSON under "systems"; nothing is wired yet. |
 | Copy and photographs for the Business and School home pages (/business, /school) | Marketing | Drafted in src/data/homes.ts from the product data; photographs reuse the existing library. The cluster is labelled Farm throughout the site; two official job titles still read Agro-Business Cluster (src/data/facts.ts EXCO and agro-yield.json team) pending confirmation of the wording to use. |
 | Careers and community pages for the Group menu | Human Resources, Corporate Communications | The header design lists Careers and Community under Group; neither page exists yet, so the menu shows CBZ Foundation, Explore our solutions, Contact us and Sitemap instead. |
+| Affluent Banking photography (/affluent pages) | CBZ Bank, Marketing | The Private, Prime and Wealth Management pages and the nine solution screens reuse the existing library; the brochure photographs (lounge, boardroom, yacht, safe deposit vault, vehicle, farm) should replace them. Copy and figures are from the three brochures (src/data/affluent.ts). |
+| Affluent Banking eligibility | CBZ Bank | The brochures state no income or balance thresholds, so each tier page says "by invitation and application" under How to join. Supply the criteria if they are to be published. |
+| Property listings from the April 2025 booklet | CBZ Properties | 33 listings with the booklet prices and terms (src/content/_import/data/propertyListings.ts). Confirm they are still current, supply a photograph per listing, and confirm the Fernhill, Mutare description (the booklet repeats the Inyanga text). The agents list and cbzpsales@cbz.co.zw are not on the site yet. |
 | Audience tags on every product (Personal, Business, School, Diaspora) | Each business unit | Assigned in src/data/audiences.ts from each product's "who it's for" line; units to confirm, in particular the School tags and products tagged for more than one audience. |
 
 ### Values still null in data modules
@@ -129,18 +132,38 @@ _Generated 2026-11-14 by `npm run handoff`. Do not edit between the markers._
 - products/properties: 162 null fields across its product files (pricing, details, images)
 - products/red-sphere: 48 null fields across its product files (pricing, details, images)
 - products/risk-advisory: 60 null fields across its product files (pricing, details, images)
-- `properties/bloomingdale-master-luxury-clusters.json`: price, tourUrl
-- `properties/cbz-centre-and-suburban-office-parks.json`: price, tourUrl
-- `properties/commercial-land-subdivisions-and-light-industrial.json`: price, tourUrl
-- `properties/diaspora-turnkey-home-build-scheme.json`: price, tourUrl
-- `properties/eco-friendly-sustainable-green-enclaves.json`: price, tourUrl
-- `properties/flexible-business-incubators-and-shared-workspaces.json`: price, tourUrl
-- `properties/fully-serviced-residential-stands.json`: price, tourUrl
-- `properties/middle-income-suburban-housing-developments.json`: price, tourUrl
-- `properties/modern-medical-chambers-and-specialist-clinics.json`: price, tourUrl
-- `properties/neighborhood-retail-convenience-hubs.json`: price, tourUrl
-- `properties/pomona-industrial-logistics-and-warehouse-park.json`: price, tourUrl
-- `properties/pomona-north-private-residential-estate.json`: price, tourUrl
+- `properties/arcadia-manor-bindura.json`: tourUrl
+- `properties/athelney-ruwa.json`: tourUrl
+- `properties/barazza-kirkman-road.json`: tourUrl
+- `properties/barrington-southview.json`: tourUrl
+- `properties/bindura-commercial-stand.json`: tourUrl
+- `properties/checheche-township-house.json`: tourUrl
+- `properties/chegutu-agro-residential-plots.json`: tourUrl
+- `properties/christopher-mews-harare-west.json`: tourUrl
+- `properties/dabuka-village-ruwa.json`: tourUrl
+- `properties/donhodzo-estate-masvingo.json`: tourUrl
+- `properties/fairview-harare.json`: tourUrl
+- `properties/fernhill-mutare.json`: tourUrl
+- `properties/fletcher-road-norton.json`: tourUrl
+- `properties/gateway-city-mutare.json`: tourUrl
+- `properties/gletwyn-township-harare.json`: tourUrl
+- `properties/hedsor-drive-borrowdale.json`: tourUrl
+- `properties/hogerty-hill-1384.json`: tourUrl
+- `properties/hogerty-hill-1837.json`: tourUrl
+- `properties/insukamini-lower-gweru.json`: tourUrl
+- `properties/inyanga-township.json`: tourUrl
+- `properties/inyati-road-chiredzi-commercial-stand.json`: tourUrl
+- `properties/inyati-road-chiredzi-house.json`: tourUrl
+- `properties/kariba-lakeside-commercial-land.json`: tourUrl
+- `properties/kariba-township-nyamhunga.json`: tourUrl
+- `properties/knowe-norton.json`: tourUrl
+- `properties/mazowe-residential-stand.json`: tourUrl
+- `properties/nehosho-gweru.json`: tourUrl
+- `properties/new-ridgeview-belvedere.json`: tourUrl
+- `properties/redcliff-township-kwekwe.json`: tourUrl
+- `properties/ridgeway-south-highlands.json`: tourUrl
+- `properties/rusape-commercial-stand.json`: tourUrl
+- `properties/zvishavane-commercial-stand.json`: tourUrl
 - `units/agro-yield.json`: team[0].image, team[1].image, team[2].image, team[3].image, team[4].image
 - `units/bank.json`: team[0].image, team[1].image, team[2].image, team[3].image, team[4].image, team[5].image, team[6].image, team[7].image, team[8].image, team[9].image
 - `units/capital.json`: team[0].image, team[1].image, team[2].image, team[3].image

@@ -1,0 +1,44 @@
+{
+  "id": "ridgeway-south-highlands",
+  "title": "Ridgeway South, Highlands",
+  "type": "residential",
+  "location": "Harare",
+  "status": "for-sale",
+  "price": "US$350,000 before VAT",
+  "summary": "A modern complex of six four-bedroom duplex garden flats. Open-plan lounge and kitchen with hob and oven, two guest bedrooms, a guest toilet and shower downstairs; two bedrooms with a family shower upstairs. Fully walled, electric-fenced, with 24-hour security.",
+  "details": [
+    {
+      "label": "Units",
+      "value": "Six 4-bedroom duplex garden flats"
+    },
+    {
+      "label": "Stand size",
+      "value": "3,600 m²"
+    },
+    {
+      "label": "Price",
+      "value": "US$350,000 before VAT"
+    },
+    {
+      "label": "Security",
+      "value": "Fully walled, electric fence, 24-hour security"
+    }
+  ],
+  "images": [
+    {
+      "src": "/images/loan-home.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 12,
+  "verified": true
+}

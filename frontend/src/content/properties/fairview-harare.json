@@ -1,0 +1,40 @@
+{
+  "id": "fairview-harare",
+  "title": "Four-bedroom unit, Fairview",
+  "type": "residential",
+  "location": "Harare",
+  "status": "for-sale",
+  "price": "US$200,000 before VAT",
+  "summary": "A prime-located four-bedroom unit near the New Parliament, with a modern open-plan lounge and kitchen with hob and oven.",
+  "details": [
+    {
+      "label": "Bedrooms",
+      "value": "4"
+    },
+    {
+      "label": "Stand size",
+      "value": "1,125 m²"
+    },
+    {
+      "label": "Price",
+      "value": "US$200,000 before VAT"
+    }
+  ],
+  "images": [
+    {
+      "src": "/images/loan-home.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 16,
+  "verified": true
+}

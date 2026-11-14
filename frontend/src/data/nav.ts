@@ -65,6 +65,8 @@ export interface MegaMenu {
   columns: MegaColumn[];
   /** The buttons on the panel's footer: the first is red, the rest navy outline. */
   actions: MegaLink[];
+  /** The audiences whose chip band carries this menu; no tags means everyone. */
+  audiences?: AudienceId[];
 }
 
 const P = (unit: string, id: string) => `/${unit}#product-${unit}-${id}`;
@@ -86,7 +88,7 @@ const AGRO = { name: 'CBZ Agro-Yield', href: '/agro-yield' };
 const HOLDINGS = { name: 'CBZ Holdings', href: '/the-group' };
 
 /**
- * The six header menus. Each opens a full-width panel of up to five columns
+ * The seven header menus. Each opens a full-width panel of up to five columns
  * grouped by what the customer wants to do, each column naming the business
  * unit behind it. Every link goes to a page, a section or a product card on
  * this site (a `#product-…` link opens that card's details).
@@ -94,7 +96,9 @@ const HOLDINGS = { name: 'CBZ Holdings', href: '/the-group' };
  * The panel shows only the links for the audience chosen in the toggle:
  * a product link takes its product's audience tags (src/data/audiences.ts),
  * a page link carries its own `audiences`, and untagged links show to all.
- * Columns with nothing left are hidden.
+ * Columns with nothing left are hidden. A menu with its own `audiences`
+ * (Affluent Banking, for individuals) is on the chip band for those
+ * audiences only.
  */
 const RAW_MEGA: MegaMenu[] = [
   {
@@ -172,6 +176,75 @@ const RAW_MEGA: MegaMenu[] = [
     actions: [
       { label: 'Open an account', href: '/bank/open-account' },
       { label: 'Compare accounts', href: '/bank#open-an-account' },
+      { label: 'Log in', href: '/login' },
+    ],
+  },
+  {
+    id: 'affluent',
+    label: 'Affluent Banking',
+    icon: 'star',
+    href: '/affluent',
+    note: 'Private Banking, Prime Banking and Wealth Management from CBZ Bank, for individuals.',
+    audiences: ['personal'],
+    columns: [
+      {
+        title: 'Private Banking',
+        items: [
+          { label: 'Exclusive banking for those shaping tomorrow', href: '/affluent/private-banking' },
+          { label: 'What you need to know', href: '/affluent/private-banking#know' },
+          { label: 'Visa Infinite', href: '/affluent/cards' },
+          { label: 'Why clients choose CBZ', href: '/affluent/private-banking#why' },
+        ],
+        offeredBy: [BANK],
+      },
+      {
+        title: 'Prime Banking',
+        items: [
+          { label: 'Premium banking that moves with your ambition', href: '/affluent/prime-banking' },
+          { label: 'What you need to know', href: '/affluent/prime-banking#know' },
+          { label: 'Visa Debit and Gold', href: '/affluent/cards#gold' },
+          { label: 'Why clients choose CBZ', href: '/affluent/prime-banking#why' },
+        ],
+        offeredBy: [BANK],
+      },
+      {
+        title: 'Wealth Management',
+        items: [
+          { label: 'Grow, protect and pass on your wealth', href: '/affluent/wealth-management' },
+          { label: 'What you need to know', href: '/affluent/wealth-management#know' },
+          { label: 'Investment solutions', href: '/affluent/investments' },
+          { label: 'Why clients choose CBZ', href: '/affluent/wealth-management#why' },
+        ],
+        offeredBy: [BANK, DATVEST],
+      },
+      {
+        title: 'Solutions for every tier',
+        items: [
+          { label: 'Transactional accounts', href: '/affluent/accounts' },
+          { label: 'Loans', href: '/affluent/loans' },
+          { label: 'Vehicle finance', href: '/affluent/vehicle-finance' },
+          { label: 'Safe deposit boxes', href: '/affluent/safe-deposit' },
+          { label: 'Insurance and life assurance', href: '/affluent/insurance' },
+          { label: 'Property solutions', href: '/affluent/properties' },
+          { label: 'Farm finance', href: '/affluent/farm' },
+        ],
+        offeredBy: [BANK, INSURANCE, PROPERTIES, AGRO],
+      },
+      {
+        title: 'Talk to us',
+        items: [
+          { label: 'Compare the three tiers', href: '/affluent#compare' },
+          { label: 'Private Banking team', href: 'mailto:privatebanking@cbz.co.zw' },
+          { label: 'Prime Banking team', href: 'mailto:primebanking@cbz.co.zw' },
+          { label: 'Wealth Management team', href: 'mailto:wealthmanagement@cbz.co.zw' },
+          { label: 'Call me back', href: '/bank/call-me-back' },
+        ],
+        offeredBy: [BANK],
+      },
+    ],
+    actions: [
+      { label: 'Talk to a Private Banker', href: '/bank/call-me-back' },
+      { label: 'Compare tiers', href: '/affluent#compare' },
       { label: 'Log in', href: '/login' },
     ],
   },
@@ -623,6 +696,14 @@ export const INTENTS: Intent[] = [
       { label: 'my SME', href: P('red-sphere', 'sme_working_capital') },
       { label: 'my company', href: '/capital' },
       { label: 'my wealth', href: P('datvest', 'high-net-worth-wealth-architecture') },
+    ],
+  },
+  {
+    verb: 'join',
+    objects: [
+      { label: 'Private Banking', href: '/affluent/private-banking' },
+      { label: 'Prime Banking', href: '/affluent/prime-banking' },
+      { label: 'Wealth Management', href: '/affluent/wealth-management' },
     ],
   },
   {

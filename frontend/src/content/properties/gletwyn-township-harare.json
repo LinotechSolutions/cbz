@@ -1,0 +1,44 @@
+{
+  "id": "gletwyn-township-harare",
+  "title": "Gletwyn Township, Harare",
+  "type": "residential",
+  "location": "Harare",
+  "status": "for-sale",
+  "price": "US$300,000 before VAT",
+  "summary": "An unfinished double-storey house at wall-plate level with five bedrooms (all en suite), four lock-up garages, a prayer room, office, two lounges, kitchen and pantry.",
+  "details": [
+    {
+      "label": "Bedrooms",
+      "value": "5, all en suite"
+    },
+    {
+      "label": "Stand size",
+      "value": "1,803 m²"
+    },
+    {
+      "label": "Price",
+      "value": "US$300,000 before VAT"
+    },
+    {
+      "label": "Stage",
+      "value": "Unfinished, at wall-plate level"
+    }
+  ],
+  "images": [
+    {
+      "src": "/images/loan-home.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 18,
+  "verified": true
+}

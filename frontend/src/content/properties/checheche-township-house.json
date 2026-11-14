@@ -1,0 +1,40 @@
+{
+  "id": "checheche-township-house",
+  "title": "Four-bedroom house, Checheche Township",
+  "type": "residential",
+  "location": "Checheche",
+  "status": "for-sale",
+  "price": "US$30,000 before VAT",
+  "summary": "A single-storey brick house under asbestos with four bedrooms, living room, kitchen and a bathroom with shower and water closet. Painted ceiling boards and granolithic floors throughout.",
+  "details": [
+    {
+      "label": "Bedrooms",
+      "value": "4"
+    },
+    {
+      "label": "Floor area",
+      "value": "Main building 99.9 m²; staff quarters 32.51 m²"
+    },
+    {
+      "label": "Price",
+      "value": "US$30,000.00 before VAT"
+    }
+  ],
+  "images": [
+    {
+      "src": "/images/loan-home.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 13,
+  "verified": true
+}

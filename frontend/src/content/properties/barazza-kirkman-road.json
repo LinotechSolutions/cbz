@@ -1,0 +1,40 @@
+{
+  "id": "barazza-kirkman-road",
+  "title": "Barazza, Kirkman Road, Harare",
+  "type": "commercial",
+  "location": "Harare",
+  "status": "for-sale",
+  "price": "US$800,000 before VAT",
+  "summary": "Subdivided vacant land along Kirkman Road with title deeds, previously used as a venue for recreational activities and weddings.",
+  "details": [
+    {
+      "label": "Stand size",
+      "value": "8,563 m²"
+    },
+    {
+      "label": "Price",
+      "value": "US$800,000 before VAT"
+    },
+    {
+      "label": "Title",
+      "value": "Title deeds available"
+    }
+  ],
+  "images": [
+    {
+      "src": "/images/about-capital.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 30,
+  "verified": true
+}

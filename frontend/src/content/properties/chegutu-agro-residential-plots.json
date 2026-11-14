@@ -1,0 +1,40 @@
+{
+  "id": "chegutu-agro-residential-plots",
+  "title": "Agro-residential plots, Chegutu",
+  "type": "land",
+  "location": "Chegutu",
+  "status": "for-sale",
+  "price": "US$2.85/m² cash, before VAT",
+  "summary": "Two-hectare agro-residential plots just 6 km north-east of the Chegutu CBD, easily accessible from the Chegutu to Chinhoyi road.",
+  "details": [
+    {
+      "label": "Plot size",
+      "value": "2 hectares"
+    },
+    {
+      "label": "Price",
+      "value": "US$2.85/m² cash or US$3/m² on payment terms, before VAT"
+    },
+    {
+      "label": "Terms of sale",
+      "value": "30% deposit, balance by 31 December 2026 at a 3% once-off admin fee on the balance; or 30% deposit, balance over 12 months at 12% per annum; or 30% deposit paid over 3 months and the balance over the remaining 9 months at 12% per annum"
+    }
+  ],
+  "images": [
+    {
+      "src": "/images/cbz-agriculture.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 20,
+  "verified": true
+}

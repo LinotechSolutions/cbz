@@ -1,0 +1,40 @@
+{
+  "id": "inyati-road-chiredzi-house",
+  "title": "House on Inyati Road, Chiredzi",
+  "type": "residential",
+  "location": "Chiredzi",
+  "status": "for-sale",
+  "price": "US$50,000 before VAT",
+  "summary": "A house in a low-density suburb as you enter Chiredzi town. Title deeds available.",
+  "details": [
+    {
+      "label": "Stand size",
+      "value": "4,072 m²"
+    },
+    {
+      "label": "Price",
+      "value": "US$50,000 before VAT"
+    },
+    {
+      "label": "Title",
+      "value": "Title deeds available"
+    }
+  ],
+  "images": [
+    {
+      "src": "/images/loan-home.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 17,
+  "verified": true
+}

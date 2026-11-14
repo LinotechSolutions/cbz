@@ -1,0 +1,44 @@
+{
+  "id": "athelney-ruwa",
+  "title": "Athelney, Ruwa (Harare East)",
+  "type": "land",
+  "location": "Ruwa",
+  "status": "for-sale",
+  "price": "From US$45/m² before VAT",
+  "summary": "Fully serviced residential stands ready for title: tarred roads, storm water drains, sewer and water. Prices depend on the size of the stand, with a 10-year mortgage facility.",
+  "details": [
+    {
+      "label": "Stand sizes",
+      "value": "400 to 1,500 m²"
+    },
+    {
+      "label": "Price",
+      "value": "US$60.00/m² for stands up to 650 m²; US$55.00/m² for 651 to 1,000 m²; US$45.00/m² above 1,000 m² (before VAT)"
+    },
+    {
+      "label": "Terms of sale",
+      "value": "10-year mortgage with 12% interest per annum and 10% deposit; or 10% deposit, balance over 36 months at 12% interest per annum"
+    },
+    {
+      "label": "Services",
+      "value": "Tarred roads, storm water drains, sewer and water"
+    }
+  ],
+  "images": [
+    {
+      "src": "/images/cbz-agriculture.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 0,
+  "verified": true
+}

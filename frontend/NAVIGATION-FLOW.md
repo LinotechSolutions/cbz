@@ -79,12 +79,32 @@ Each unit page follows one template (section 4): hero with two buttons, Who we s
 | ├ `/capital/enquiry` | Capital enquiry form. | **Send my enquiry** | 11 |
 | └ `/capital/call-me-back` | Call-back request for CBZ Capital. | **Request a call** | 11 |
 | `/properties` CBZ Properties | Property listings with Type, Location and Status filters (the audience strip picks homes or commercial space), virtual tours, viewings. | **Schedule a viewing** → `/properties/request-a-viewing`; **See the listings** → `#property-listing` | 4.8 |
-| ├ `/properties/<id>` | One page per listing (twelve), reachable by URL only. | **View on Propertybook** ↗; **Request a viewing** → `/properties/request-a-viewing?property=<id>` | 4.8 |
+| ├ `/properties/<id>` | One page per listing (33, from the April 2025 CBZ Properties booklet), reachable by URL only. | **View on Propertybook** ↗; **Request a viewing** → `/properties/request-a-viewing?property=<id>` | 4.8 |
 | ├ `/properties/request-a-viewing` | Viewing request form (`?property=<id>` pre-selects a listing). | **Request a viewing** | 11 |
 | └ `/properties/call-back` | Call-back request for CBZ Properties. | **Request a call** | 11 |
 | `/agro-yield` CBZ Agro-Yield | Farming, enterprise, commodity trading and supply chain divisions; farmer onboarding on Agrideck; ATDC. | **Enquire now** → `/agro-yield/enquire`; **Apply online** ↗ Agrideck | 4.9 |
 | ├ `/agro-yield/enquire` | Lead form (call-back style). | **Request a call** | 11 |
 | └ `/agro-yield/apply` | Farming finance application, kept for old links; nothing on the site links to it. | **Send my application** | 11 |
+
+### 0.3b Affluent Banking (Personal audience only)
+
+CBZ Bank's three relationship tiers and the solution screens every tier shares. The **Affluent Banking** chip sits on the header band only while Personal is the chosen audience; the pages themselves are reachable at any time. Layouts are in section 4b.
+
+| Page | What it is | Main buttons | See |
+| --- | --- | --- | --- |
+| `/affluent` Affluent Banking | Overview: the three tiers as photo cards, a comparison table (`#compare`), the nine solution cards, and the three team mailboxes. | **Talk to us** → `/bank/call-me-back`; **Compare the tiers** → `#compare` | 4b |
+| ├ `/affluent/private-banking` Private Banking | "Exclusive banking for those shaping tomorrow": a dedicated Private Banker, Visa Infinite, loans to $40,000, overdraft to $5,000, lounges and events. | **Talk to a Private Banker** → `/bank/call-me-back`; **Email the team** → privatebanking@cbz.co.zw | 4b |
+| ├ `/affluent/prime-banking` Prime Banking | "Premium banking that moves with your ambition": priority service, Visa Debit and Gold, loans to $30,000, overdraft to $2,000, networking. | **Discover Prime Banking** → `/bank/call-me-back`; **Email the team** → primebanking@cbz.co.zw | 4b |
+| ├ `/affluent/wealth-management` Wealth Management | "Expert guidance to grow, protect and pass on your wealth": investment advisory, loans to $50,000, portfolio, retirement, succession and legacy planning. | **Start your wealth planning conversation** → `/bank/call-me-back`; **Email the team** → wealthmanagement@cbz.co.zw | 4b |
+| ├ `/affluent/accounts` Transactional accounts | Everyday banking: premium accounts, weekly cash, digital channels. | **Speak to a Relationship Manager** → `/bank/call-me-back` | 4b |
+| ├ `/affluent/cards` Cards | Visa Infinite (`#infinite`), Visa Debit and Gold (`#gold`), credit card facility (`#credit`). | **Ask about a card** → `/bank/call-me-back` | 4b |
+| ├ `/affluent/loans` Loans | Income-based loans, property-backed equity, overdraft and credit card, per tier. | **Apply through your banker** → `/bank/apply` | 4b |
+| ├ `/affluent/vehicle-finance` Vehicle finance | The CBZ Vehicle Asset Finance Scheme: up to 60 months, partner discounts, motor insurance and life assurance. | **Car finance calculator** → `/calculators#car-finance` | 4b |
+| ├ `/affluent/safe-deposit` Safe deposit boxes | Secure storage for Private and Wealth clients. | **Ask about a safe deposit box** → `/bank/call-me-back` | 4b |
+| ├ `/affluent/insurance` Insurance | Short-term cover (CBZ Insurance) and life assurance (CBZ Life). | **Get a quote** → `/insurance/quote` | 4b |
+| ├ `/affluent/properties` Property | Sales, valuations, development and facilities management (CBZ Properties), with finance from CBZ Bank. | **Browse the listings** → `/properties#property-listing` | 4b |
+| ├ `/affluent/investments` Save & Invest | REVITUS REIT, the Africa Equity Fund and Datvest portfolios. | **Start investing** → `/datvest/start-investing` | 4b |
+| └ `/affluent/farm` Farm finance | Seasonal, equipment, irrigation, commodity, working capital and value chain finance (CBZ Agro-Yield). | **Talk to Agro-Yield** → `/agro-yield/enquire` | 4b |
 
 ### 0.4 Solutions, tools and access
 
@@ -144,7 +164,7 @@ The menus in the navy bar are the same for every audience. What changes is what 
 
 ### Header menus (the chip band, the second row)
 
-A light grey band with six white chips, each with an icon: Bank, Borrow, Insure, Invest, Grow, Group; on the right Branches & ATMs and Help. Between 900px and 1200px Get the app, Branches & ATMs and Help are hidden and the search field is its icon alone (everything stays in the mega menus, the phone sheet and the footer). The chip of the menu whose business the page belongs to carries a navy border and a red underline; an open chip turns navy.
+A light grey band of white chips, each with an icon: Bank, Affluent Banking (Personal audience only), Borrow, Insure, Invest, Grow, Group; on the right Branches & ATMs and Help. Between 900px and 1200px Get the app, Branches & ATMs and Help are hidden and the search field is its icon alone (everything stays in the mega menus, the phone sheet and the footer). The chip of the menu whose business the page belongs to carries a navy border and a red underline; an open chip turns navy.
 
 Each chip opens a **mega menu**: a full-width white panel of up to five columns. Each column is a purpose ("Choose an account", "Pay for education") with its links and an "Offered by" line naming the business unit(s) in red. **The panel follows the audience toggle**: a product link appears only for the audiences its product is tagged with, page links carry their own tags, and a column with nothing left for that audience is hidden. So with Personal chosen, Bank ▸ Choose an account lists Current, Savings, Simple Saver, SmartCash and Foreign Currency accounts; with Business it lists Current, Current (Corporate), Church and Foreign Currency (Corporate) accounts; with School it lists the School Current Account and Foreign Currency (Corporate); with Diaspora it lists the Foreign Currency Account and Open a diaspora account. Some columns exist for one audience only (Borrow ▸ Finance the school; Grow ▸ Invest from abroad). A grey footer strip carries a navy "For <audience>" pill, one line of copy, three buttons (the first red, the others navy outline) and a **View all** link to the chip's page. The table below lists every link; the audience tags are in `src/data/nav.ts` (`MEGA`) and, for product links, `src/data/audiences.ts`. A `#product-…` link opens that product card's details on the unit page, switching the audience if the card is not in the chosen one. Escape, a click outside or another chip closes the panel. Without JavaScript the chip is a link to its page.
 
@@ -152,7 +172,7 @@ Each chip opens a **mega menu**: a full-width white panel of up to five columns.
 | --- | --- |
 | CBZ Holdings logo in the top row (home, Group pages and every page that is not a business unit's) | `/` |
 | Unit logo in the top row (a business page and its forms, e.g. CBZ Bank; shown in place of the Holdings logo) | that unit's page |
-| **Find ways to bank better** (rounded field) | opens the search dialog, which starts with the sentence builder **I want to:** [verb] [what] → **Search**. The verbs are open, start, borrow, insure, invest, pay, grow, find, claim and talk to; each verb lists the things it can be followed by (for example "insure" offers my car, my home, my family, my business, my farm, my staff) and every sentence lands on one page or product card (`src/data/nav.ts`, `INTENTS`). Beneath it, free-text search: type two letters or more to search every product card, menu link, guided flow and main page; Enter opens the first result |
+| **Find ways to bank better** (rounded field) | opens the search dialog, which starts with the sentence builder **I want to:** [verb] [what] → **Search**. The verbs are open, start, borrow, insure, invest, pay, grow, join, find, claim and talk to; each verb lists the things it can be followed by (for example "insure" offers my car, my home, my family, my business, my farm, my staff) and every sentence lands on one page or product card (`src/data/nav.ts`, `INTENTS`). Beneath it, free-text search: type two letters or more to search every product card, menu link, guided flow and main page; Enter opens the first result |
 | **Log in** (shield icon) | opens the six Log in items below |
 | **Get the app** | `/login#apps` |
 | **Branches & ATMs** | `/contact#branches` |
@@ -164,6 +184,13 @@ Each chip opens a **mega menu**: a full-width white panel of up to five columns.
 | Bank ▸ Cards & merchant services (CBZ Bank) | Visa Gold, Student Visa, Debit / ATM card, SME Debit Card, Kleva POS → product cards |
 | Bank ▸ Bank digitally (CBZ Bank) | Internet Banking → `/login`; CBZ Touch → `/login#apps`; Cardless withdrawals → CBZ Touch card; Stay safe online → `/security` |
 | Bank ▸ footer | **Open an account** → `/bank/open-account`; Compare accounts → `/bank#open-an-account`; Log in → `/login` |
+| **Affluent Banking** (label; View all; Personal audience only) | `/affluent` |
+| Affluent Banking ▸ Private Banking (CBZ Bank) | Exclusive banking for those shaping tomorrow → `/affluent/private-banking`; What you need to know → `#know`; Visa Infinite → `/affluent/cards`; Why clients choose CBZ → `#why` |
+| Affluent Banking ▸ Prime Banking (CBZ Bank) | Premium banking that moves with your ambition → `/affluent/prime-banking`; What you need to know → `#know`; Visa Debit and Gold → `/affluent/cards#gold`; Why clients choose CBZ → `#why` |
+| Affluent Banking ▸ Wealth Management (CBZ Bank / Datvest) | Grow, protect and pass on your wealth → `/affluent/wealth-management`; What you need to know → `#know`; Investment solutions → `/affluent/investments`; Why clients choose CBZ → `#why` |
+| Affluent Banking ▸ Solutions for every tier (CBZ Bank / CBZ Insurance / CBZ Properties / CBZ Agro-Yield) | Transactional accounts, Loans, Vehicle finance, Safe deposit boxes, Insurance and life assurance, Property solutions, Farm finance → `/affluent/<solution>` |
+| Affluent Banking ▸ Talk to us (CBZ Bank) | Compare the three tiers → `/affluent#compare`; Private Banking team, Prime Banking team, Wealth Management team → mailto; Call me back → `/bank/call-me-back` |
+| Affluent Banking ▸ footer | **Talk to a Private Banker** → `/bank/call-me-back`; Compare tiers → `/affluent#compare`; Log in → `/login` |
 | **Borrow** (label; View all) | `/red-sphere` |
 | Borrow ▸ Borrow against salary (CBZ Bank / Red Sphere) | Civil Servant Loan, Nostro Individual Loan, Payday Loan → Bank cards; Private Payroll Loan, SSB Loan → Red Sphere cards |
 | Borrow ▸ Pay for education (CBZ Bank / CBZ Life) | Private School Fees Loan, Student Loan Facility → Bank cards; Sarapavana Education Plan → Life card |
@@ -224,7 +251,7 @@ The chip band is not shown on phones. The top row holds the logo and the menu bu
 | **Sign up** (red, full width) | expands the six Sign up items listed above |
 | **Log in** (navy outline, full width) | expands the six Log in items listed above |
 | **Get the app** (navy outline, full width) | `/login#apps` |
-| **Bank**, **Borrow**, **Insure**, **Invest**, **Grow**, **Group** (each with its icon) | each expands the same five purpose groups and links as its mega menu, ending with **View all** → the chip's page |
+| **Bank**, **Affluent Banking** (Personal only), **Borrow**, **Insure**, **Invest**, **Grow**, **Group** (each with its icon) | each expands the same five purpose groups and links as its mega menu, ending with **View all** → the chip's page |
 | **Branches & ATMs** (pin) | `/contact#branches` |
 | **Help** (headset) | `/contact` |
 
@@ -570,6 +597,37 @@ Listing cards on `/properties` no longer link to these pages.
 | Meet the team `#team` | Profile cards: managing director or principal officer, board chairperson and directors (name and role, text only). |
 
 ---
+
+## 4b. Affluent Banking pages `/affluent/…`
+
+Built from `src/data/affluent.ts` (copy and figures from the three CBZ Bank affluent brochures) by `src/components/AffluentTier.astro` and `AffluentSolution.astro`, with `src/pages/affluent/[slug].astro` choosing between them. The header shows the CBZ Bank logo on these pages.
+
+### 4b.1 The overview `/affluent`
+
+Navy hero with the brochure's red arc, **Talk to us** and **Compare the tiers**; "Three tiers, one relationship" (three navy photo cards, each **Tell me more** → the tier page); "Compare the three tiers" (`#compare`, a table: who it is for, relationship, card, income-based loan, overdraft, equity facility, lifestyle, email); "What every tier can get" (nine solution cards, **Tell me more** → the solution screen); three contact cards with each team's mailbox.
+
+### 4b.2 A tier page (Private Banking, Prime Banking, Wealth Management)
+
+| Section | What it shows | Buttons |
+| --- | --- | --- |
+| Hero | The photograph full bleed under a navy wash with the red arc; breadcrumb Home / Affluent Banking / tier; eyebrow with the tier name; the brochure cover line as the title; one line; two buttons. | **Talk to a Private Banker** / **Discover Prime Banking** / **Start your wealth planning conversation** → `/bank/call-me-back`; **Email the team** → the tier mailbox |
+| Experience … (`#experience`) | Four icon pillars (relationship-driven, priority services, advisory, tailored; or the Prime and Wealth equivalents). | none |
+| What you need to know (`#know`) | A panel with four vertical tabs on the left (Day-to-day banking, How to join, Rewards & lifestyle, Loans); the chosen tab is navy with a red pointer and its bullet list shows on the right with a "Subject to credit approval" note where it applies. Arrow keys move between tabs. | the four tabs |
+| What you can also get (`#also`) | Nine cards with a red-to-navy left edge: Transact, Save & Invest, Loans, Insurance, Property, Cards, Vehicle finance, Safe deposit boxes, Farm finance. | **Tell me more** → `/affluent/<solution>` |
+| Why clients choose CBZ (`#why`) | A navy panel with the brochure's six numbered reasons, beside the welcome letter ("Dear Partner …") and the team's email, phone and WhatsApp. | mailto, tel, WhatsApp ↗ |
+| You may be interested in (`#interested`) | Two navy photo cards for the other two tiers. | **Tell me more** → the tier page |
+| Sticky bar (phones) | The hero's first button. | |
+
+### 4b.3 A solution screen (accounts, cards, loans, vehicle finance, safe deposit, insurance, property, investments, farm)
+
+| Section | What it shows | Buttons |
+| --- | --- | --- |
+| Hero | The photograph full bleed with the title over it ("Affluent Banking loans"). | none |
+| Explore / Compare bar | Two underline tabs, then the breadcrumb Affluent Banking / <solution>. `#compare` opens Compare. | **Explore**, **Compare** |
+| Explore | The lede, three icon pillars, "What … solutions are you looking for?" with underline tabs (for example Income-based loan, Property-backed equity, Overdraft and credit card), and under each an intro and an accordion ("Choose what suits your needs") whose rows open to a paragraph. A hash naming a tab (`/affluent/cards#gold`) opens it. | the tabs and accordion rows |
+| Compare | A table of the three tiers (column headings link to the tier pages) with one row per fact and a **Tell me more** row. | **Tell me more** → the tier page |
+| Please note | Credit-approval line, the business unit(s) behind the screen, and the call to action. | the screen's main button (table in 0.3b) |
+| Sticky bar (phones) | The same button. | |
 
 ## 5. Diaspora banking `/diaspora`
 

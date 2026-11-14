@@ -1,0 +1,40 @@
+{
+  "id": "kariba-township-nyamhunga",
+  "title": "Commercial land opposite Nyamhunga, Kariba",
+  "type": "commercial",
+  "location": "Kariba",
+  "status": "for-sale",
+  "price": "US$5.6 million before VAT",
+  "summary": "Located opposite the Nyamhunga residential area and zoned for commercial use under the 1992 Kariba Local Development Plan: ideal for a tourism hub with a hotel, mall, golf course or recreation. Title deeds available.",
+  "details": [
+    {
+      "label": "Price",
+      "value": "USD 5.6 million before VAT"
+    },
+    {
+      "label": "Zoning",
+      "value": "Commercial, 1992 Kariba Local Development Plan"
+    },
+    {
+      "label": "Title",
+      "value": "Title deeds available"
+    }
+  ],
+  "images": [
+    {
+      "src": "/images/about-capital.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 27,
+  "verified": true
+}

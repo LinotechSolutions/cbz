@@ -1,0 +1,36 @@
+{
+  "id": "redcliff-township-kwekwe",
+  "title": "Former banking hall, Redcliff Township, Kwekwe",
+  "type": "commercial",
+  "location": "Kwekwe",
+  "status": "for-sale",
+  "price": "US$180,000 before VAT",
+  "summary": "A building with a banking hall with cubicles, a strong room, back offices, a kitchen with a single stainless-steel sink, and ladies’ and gents’ toilets.",
+  "details": [
+    {
+      "label": "Floor area",
+      "value": "408 m²"
+    },
+    {
+      "label": "Price",
+      "value": "US$180,000.00 before VAT"
+    }
+  ],
+  "images": [
+    {
+      "src": "/images/about-capital.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 24,
+  "verified": true
+}

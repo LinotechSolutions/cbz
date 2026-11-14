@@ -36,12 +36,13 @@ Brand rules that apply to every picture
 
 ## 1. Design language
 
-### 1.1 The three banner layouts
+### 1.1 The four banner layouts
 
 | Layout | Where | How it is built |
 | --- | --- | --- |
 | **Split banner, white left and photograph right** | Personal, Business and School homes (`AudienceHome.astro`); the nine business unit pages (`Hero.astro`, `variant="split"`); Diaspora (`diaspora.astro`). | A two-column grid, copy on the left in a column no wider than half the page, photograph on the right bleeding to the window edge. On desktop the columns are 5 : 7 and the banner is at least 520 px tall (600 px on the homes); on phones the photograph sits under the copy at 4 : 3 (16 : 10 on the homes). The photograph is anchored to its right edge so the subject stays in view as the window narrows. The unit version carries a breadcrumb, a red-dash eyebrow with the unit name, the title, the lede, a red primary and a navy outline secondary button, and three short progress marks. The homes carry the title with the group name in red and one red menu button. |
 | **Navy panel** | Cluster pages (Banking, Insurance, Investments, Farm), The Group, CBZ Foundation (`Hero.astro`, default variant). | A rounded dark navy panel inside the page container (full-bleed with rounded bottom corners on phones), the photograph filling it edge to edge, a navy gradient over the photograph (left to right on desktop, bottom to top on phones) so white copy reads on the left, the logo in white above the title, and room for a frosted glass chip on the right that no page uses yet. Minimum height 560 px. The photograph is positioned 70 % across so the subject sits right of centre. |
+| **Full-bleed photograph with the brochure arc** | Affluent Banking: the three tier pages and the nine solution screens (`AffluentTier.astro`, `AffluentSolution.astro`); the overview `/affluent` uses the same banner without a photograph. | The photograph fills the banner edge to edge behind a navy wash (left to right on tier pages, top to bottom on solution screens); on tier pages a thick red arc, as on the brochure covers, curls in from the top right. The copy sits at the bottom left in white: breadcrumb, an eyebrow with a red triangle and the tier name, the brochure cover line as the title, one line and two buttons. Tier banners are at least 520 px tall on desktop, solution banners 400 px. The photograph is anchored 65 % across and 30 % down so the subject stays right of the copy. |
 | **Photograph with discs** | Sustainability. | White banner with the copy and a tab row on the left; on the right a photograph with a large navy disc and a red disc (480 px) breaking out of its corner and a one-line quote over it. |
 
 Pages without a banner photograph (a plain heading on white): Explore our solutions, Calculators, Log in, Contact us, Latest from CBZ, notice pages, Security, Sitemap, Business conditions, Privacy policy, Tip-offs, Raise a grievance, every form page, 404.
@@ -170,10 +171,30 @@ Each unit page uses the same frames: the composed split hero; product cards with
 | CBZ Risk Advisory | hero-advice | Request an insurance audit → hero-advice; Get a quote → cbz-protection | no FAQ | about-risk-advisory | hero-advice | none |
 | Datvest | hero-digital | none | cbz-wealth | cbz-wealth | hero-digital | none |
 | CBZ Capital | hero-advice | none | accounts/partnership | about-capital | hero-advice | none |
-| CBZ Properties | hero-home | Schedule a viewing → loan-home | loan-home | loan-home | hero-home | Listings (not product cards): every one of the twelve listings shows loan-home, cbz-banking-branch and cbzpicture1 in that order |
+| CBZ Properties | hero-home | Schedule a viewing → loan-home | loan-home | loan-home | hero-home | Listings (not product cards): the 33 booklet listings show a stand-in by type (homes → loan-home, stands and plots → cbz-agriculture, commercial → about-capital), then cbzpicture1 and cbz-banking |
 | CBZ Agro-Yield | hero-advice | none (Visit ATDC and Farmer onboarding are icon cards) | no FAQ | cbz-agriculture | hero-advice | Agro Farming → cbz-agriculture; Agro Enterprise → cbz-agriculture; Agro Commodity Trading → cbz-payments; Agro Supply Chain → cbz-protection |
 
 The Meet the team photograph is the unit's hero image unless the unit sets `aboutImage`; today every unit uses its hero image there, so the same picture appears twice on each page.
+
+### 3.5 Affluent Banking pages
+
+The tier pages and solution screens reuse the library until the brochure photography is supplied (section 6). Every picture here is the full-bleed banner; the tier pages also show the other two tiers' banner pictures in the "You may be interested in" cards, and the overview shows all three.
+
+| Page | Banner photograph | Brochure picture it stands in for |
+| --- | --- | --- |
+| `/affluent` | None: navy gradient with the red arc. | The navy back cover with the wave pattern. |
+| `/affluent/private-banking` | cbz-wealth (man at an office window at dusk) | Two men in a corner office over coffee; a client in an airport lounge. |
+| `/affluent/prime-banking` | accounts/current (woman in a glass-walled office) | A woman at a hotel reception with her case; a woman in a pink blazer on a balcony over the city. |
+| `/affluent/wealth-management` | cbz-protection (three generations outside a brick home) | Grandfather, father and son fishing; a family braai by the pool. |
+| `/affluent/accounts` | accounts/individual (man with a laptop and coffee) | A man in a café with his phone and card. |
+| `/affluent/cards` | cbz-payments (card payment at a café counter) | A laptop shopping screen on the deck of a yacht at sunset; a family at the airport. |
+| `/affluent/loans` | accounts/partnership (handshake over plans) | A man at a desk with coin stacks and a rising chart. |
+| `/affluent/vehicle-finance` | insurance-car (woman beside a blue SUV) | A woman driving a dark SUV, with the partner logos (Croco Motors, ZIMOCO, Hyundai, Byword, BYD). |
+| `/affluent/safe-deposit` | cbz-banking (relationship manager in a branch lobby) | A woman opening a safe deposit box in a vault. |
+| `/affluent/insurance` | insurance-family (family on a sofa) | A family of four on a lawn. |
+| `/affluent/properties` | loan-home (couple with a house key) | A modern apartment block at dusk. |
+| `/affluent/investments` | cbz-wealth | Gold coins, bars and a chess king on navy. |
+| `/affluent/farm` | cbz-agriculture (farmer in a maize field) | A farmer crouched in a maize field under a centre pivot. |
 
 ### 3.4 Everything else
 
@@ -221,7 +242,8 @@ Supply `.webp` (or high-quality JPEG to be converted with `scripts/encode-image.
 | Feature card | 800 × 340, wide | Subject right; the top-left corner is under the discs. | Seven cards across Life, Insurance, Properties and Risk Advisory. |
 | Link card with photograph | 600 × 600, square | Subject left of centre; the right 40 % is cut by the white curve. | Optional; most link cards use an icon. |
 | FAQ circle | 600 × 600, square | Face or subject centred. | Six units. |
-| Property listing | 1200 × 675, 16 : 9 | The property itself; top-left corner under the red arc. | Three per listing, twelve listings. |
+| Property listing | 1200 × 675, 16 : 9 | The property itself; top-left corner under the red arc. | Three per listing, 33 listings from the April 2025 booklet (the booklet has aerial photographs for Athelney, Southview, Hedsor Drive, Gateway City, Donhodzo, Dabuka, Ridgeway South, Checheche, Redcliff, Inyanga and Kariba lakeside). |
+| Affluent banner | 1600 × 900, 16 : 9 | Subject right of centre, mid to dark tones; the left and bottom are covered by the navy wash and white copy, the top right by the red arc. | Three tier pages and nine solution screens; the brochure photographs are the natural source (section 3.5). |
 | Learn more rail | 1200 × 900, 4 : 3 | Subject upper half; the lower half sits behind the white panel. | One per notice category (five). |
 | Leadership portrait | 600 × 600, square | Head and shoulders, plain background, face centred; shown in an 84 px to 128 px circle. | Nine board members, twelve executives, and every unit's board and management (names in `src/data/facts.ts` and each unit's JSON). |
 | Share image | 1200 × 630 | Logo or hero crop with the brand arc. | One site-wide today; a per-unit set would let links to unit pages show their own picture. |
@@ -232,8 +254,9 @@ Supply `.webp` (or high-quality JPEG to be converted with `scripts/encode-image.
 
 - **The same photographs do many jobs.** `cbz-wealth` appears in ten places, `cbz-payments` and `cbz-protection` in eight each, `cbz-banking` in seven. Each unit page repeats its hero image in Meet the team. New photography should start with the nine unit heroes and the nine About pictures.
 - **Four units share one hero** (`hero-advice`: Insurance, Risk Advisory, Capital, Agro-Yield) and four share another (`hero-digital`: Bank, Red Sphere, Life, Datvest).
-- **Property listings** show the same three stand-in photographs (a home, the fees campaign tile, the café) on all twelve listings. CBZ Properties to supply real photographs per listing.
-- **The fees campaign tile** (`cbz-banking-branch.webp`) carries copy and dates and is used as the Bank About picture, the default FAQ picture and on every listing. Replace with a plain branch photograph.
+- **Property listings** show a stand-in by type (a home, a maize field, the Harare skyline) then the café and branch photographs on all 33 listings. CBZ Properties to supply real photographs per listing; the booklet already holds aerials for eleven of them.
+- **Affluent Banking** pages reuse library photographs (section 3.5). The three brochures hold the pictures these pages were designed around; export them at 1600 × 900 and drop them into `src/data/affluent.ts`.
+- **The fees campaign tile** (`cbz-banking-branch.webp`) carries copy and dates and is used as the Bank About picture and the default FAQ picture (no longer on the listings). Replace with a plain branch photograph.
 - **The Group hero** is captioned "CBZ Holdings head office" but shows a man outside a café. A head-office photograph is needed.
 - **Several photographs look generated** and carry invented signage: "Harare Financial Advisors", "St Paul's Community Church", "Harare High School", "Mbare Brews & Co.", "St Anne's" clinic, "Harare Coffee". They are placeholders from the previous build. The two About pictures for Capital and Risk Advisory were generated in Figma for this build and are marked as such in `HANDOFF.md`.
 - **No product photographs** on Insurance, Life, Datvest, Capital, Risk Advisory or Red Sphere cards; those cards show an icon on a pale navy wash.

@@ -1,0 +1,40 @@
+{
+  "id": "donhodzo-estate-masvingo",
+  "title": "Donhodzo Estate, Masvingo",
+  "type": "land",
+  "location": "Masvingo",
+  "status": "for-sale",
+  "price": "US$28/m² cash, inclusive of VAT",
+  "summary": "Fully serviced low-density residential stands, now available and ready for title deeds: an opportunity to build your low-density dream home.",
+  "details": [
+    {
+      "label": "Stand size",
+      "value": "1,094 to 1,800 m²"
+    },
+    {
+      "label": "Price",
+      "value": "US$28/m² cash; US$28.50/m² over 12 months; US$30/m² over 18 months (inclusive of VAT)"
+    },
+    {
+      "label": "Terms of sale",
+      "value": "35% deposit, balance payable over 12 or 18 months at 0% interest"
+    }
+  ],
+  "images": [
+    {
+      "src": "/images/cbz-agriculture.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 4,
+  "verified": true
+}

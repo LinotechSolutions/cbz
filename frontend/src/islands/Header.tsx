@@ -43,9 +43,10 @@ const isExternal = (href: string) => /^https?:\/\//.test(href);
  * Site header, two rows that stick together. The white row: the logo, a
  * segmented Personal / Business / School / Diaspora toggle, a rounded
  * "Find ways to bank better" field that opens the search dialog, Log in,
- * Get the app and the red Sign up menu. The grey band: six icon chips (Bank,
- * Borrow, Insure, Invest, Grow, Group), each opening a full-width mega menu
- * of purpose-led columns. On phones the toggle drops to a second row and the
+ * Get the app and the red Sign up menu. The grey band: icon chips (Bank,
+ * Affluent Banking for the Personal audience, Borrow, Insure, Invest, Grow,
+ * Group), each opening a full-width mega menu of purpose-led columns. On
+ * phones the toggle drops to a second row and the
  * band folds into the menu sheet. Before hydration every trigger is a plain
  * link, so the header works with JavaScript off. Menus follow the WAI-ARIA
  * disclosure pattern.
@@ -207,6 +208,8 @@ export function Header({ mega, intents, loginItems, openAccountItems, utilityLin
   /** The menu whose business this page belongs to. */
   const currentMega = mega.find((m) => currentPath.startsWith(m.href) || m.columns.some((c) => c.offeredBy.some((o) => o.href !== '/' && currentPath.startsWith(o.href))))?.id;
   const audienceLabel = audiences.find((a) => a.id === audience)?.label ?? 'Personal';
+  /** The menus on the chip band for the chosen audience (Affluent Banking is for individuals). */
+  const menus = mega.filter((m) => !m.audiences || m.audiences.includes(audience as never));
   /** A menu's columns for the chosen audience: links without tags show to all; empty columns drop out; an empty menu falls back to everything. */
   const columnsFor = (m: MegaMenu) => {
     const cols = m.columns
@@ -420,7 +423,7 @@ export function Header({ mega, intents, loginItems, openAccountItems, utilityLin
         <div className="container hdr-band__inner">
           <nav className="hdr-band__nav" aria-label="Main">
             <ul role="list" className="hdr-band__list">
-              {mega.map((m) => (
+              {menus.map((m) => (
                 <li key={m.id}>
                   {hydrated ? (
                     <button
@@ -456,7 +459,7 @@ export function Header({ mega, intents, loginItems, openAccountItems, utilityLin
         </div>
 
         {/* The mega panels, full width under the band */}
-        {mega.map((m) => (
+        {menus.map((m) => (
           // Keyboard handler delegates arrow-key movement between the links inside (disclosure pattern).
           // eslint-disable-next-line jsx-a11y/no-static-element-interactions
           <div key={m.id} id={`${uid}-${m.id}`} className="hdr-mega" hidden={open !== m.id} onKeyDown={onMenuKey}>
@@ -569,7 +572,7 @@ export function Header({ mega, intents, loginItems, openAccountItems, utilityLin
               </a>
             </div>
             <nav aria-label="Main">
-              {mega.map((m) => (
+              {menus.map((m) => (
                 <details key={m.id} className="sheet__group">
                   <summary className="sheet__cluster">
                     <span className="sheet__cluster-label">

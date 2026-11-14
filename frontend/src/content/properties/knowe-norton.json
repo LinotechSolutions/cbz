@@ -1,0 +1,44 @@
+{
+  "id": "knowe-norton",
+  "title": "Knowe, Norton",
+  "type": "land",
+  "location": "Norton",
+  "status": "for-sale",
+  "price": "US$51,000 before VAT",
+  "summary": "A piece of land with a three-roomed cottage, connected ZESA power supply and a 10 m deep well. Title deeds available.",
+  "details": [
+    {
+      "label": "Stand size",
+      "value": "3,299 m²"
+    },
+    {
+      "label": "Price",
+      "value": "US$51,000 before VAT"
+    },
+    {
+      "label": "On the stand",
+      "value": "Three-roomed cottage, ZESA power, 10 m deep well"
+    },
+    {
+      "label": "Title",
+      "value": "Title deeds available"
+    }
+  ],
+  "images": [
+    {
+      "src": "/images/cbz-agriculture.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 7,
+  "verified": true
+}

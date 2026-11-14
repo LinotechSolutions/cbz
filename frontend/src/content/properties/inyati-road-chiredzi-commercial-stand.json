@@ -1,0 +1,36 @@
+{
+  "id": "inyati-road-chiredzi-commercial-stand",
+  "title": "Commercial stand, Inyati Road, Chiredzi",
+  "type": "commercial",
+  "location": "Chiredzi",
+  "status": "for-sale",
+  "price": "US$800,000 before VAT",
+  "summary": "A commercial stand situated as you enter the town.",
+  "details": [
+    {
+      "label": "Stand size",
+      "value": "1,561 m²"
+    },
+    {
+      "label": "Price",
+      "value": "US$800,000 before VAT"
+    }
+  ],
+  "images": [
+    {
+      "src": "/images/about-capital.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 21,
+  "verified": true
+}

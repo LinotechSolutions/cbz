@@ -3,7 +3,7 @@
  * collection files. Idempotent: run before every build.
  *
  *  - products/<unit>/<id>.json      one file per product
- *  - properties/<id>.json           draft listings from the Properties catalogue
+ *  - properties/<id>.json           the listings in the CBZ Properties booklet
  *  - notices/<id>.md                the existing announcements, marked unconfirmed
  *
  * Properties, Datvest and Insurance are draft catalogues: names and summaries
@@ -20,6 +20,7 @@ import { LIFE_PRODUCTS } from '../src/content/_import/data/products/life';
 import { RISK_ADVISORY_PRODUCTS } from '../src/content/_import/data/products/riskAdvisory';
 import { AGRO_PRODUCTS } from '../src/content/_import/data/products/agro';
 import { SBU_PRODUCTS, INVESTMENT_PRODUCTS, PROPERTY_PRODUCTS } from '../src/content/_import/data/cbzData';
+import { PROPERTY_LISTINGS, type PropertyListing } from '../src/content/_import/data/propertyListings';
 import { ANNOUNCEMENTS } from '../src/content/_import/data/announcementsData';
 import type { ProductItem } from '../src/content/_import/types';
 import { audiencesFor } from '../src/data/audiences';
@@ -172,35 +173,35 @@ for (const u of UNITS) {
   }
 }
 
-// Properties: residential and commercial items become draft listings.
+// Properties: the listings from the CBZ Properties booklet, one file each.
 rmSync(out('properties'), { recursive: true, force: true });
 let propertyCount = 0;
-const typeFor = (category: string) => (category === 'commercial' ? 'commercial' : 'residential');
-for (const category of ['residential', 'commercial'] as const) {
-  (PROPERTY_PRODUCTS[category] ?? []).forEach((p, i) => {
-    const id = slug(p.id ?? p.name);
-    write(out('properties', `${id}.json`), {
-      id,
-      title: p.name,
-      type: typeFor(category),
-      location: 'Harare',
-      status: category === 'commercial' ? 'to-let' : 'for-sale',
-      price: null,
-      summary: p.description,
-      details: [],
-      images: [
-        { src: '/images/loan-home.webp', alt: '' },
-        { src: '/images/cbz-banking-branch.webp', alt: '' },
-        { src: '/images/cbzpicture1.webp', alt: '' },
-      ],
-      tourUrl: null,
-      order: i,
-      verified: false,
-    });
-    propertyCount++;
+const LISTING_PHOTO: Record<PropertyListing['type'], string> = {
+  residential: '/images/loan-home.webp',
+  land: '/images/cbz-agriculture.webp',
+  commercial: '/images/about-capital.webp',
+};
+PROPERTY_LISTINGS.forEach((l, i) => {
+  write(out('properties', `${l.id}.json`), {
+    id: l.id,
+    title: l.title,
+    type: l.type,
+    location: l.location,
+    status: 'for-sale',
+    price: l.price,
+    summary: l.summary,
+    details: l.details,
+    images: [
+      { src: LISTING_PHOTO[l.type], alt: '' },
+      { src: '/images/cbzpicture1.webp', alt: '' },
+      { src: '/images/cbz-banking.webp', alt: '' },
+    ],
+    tourUrl: null,
+    order: i,
+    verified: true,
   });
-}
-
+  propertyCount++;
+});
 // Notices
 rmSync(out('notices'), { recursive: true, force: true });
 mkdirSync(out('notices'), { recursive: true });
@@ -265,4 +266,4 @@ for (const dir of ['deals', 'campaigns']) {
   if (!existsSync(out(dir))) mkdirSync(out(dir), { recursive: true });
 }
 
-console.log(`Ported ${productCount} products, ${propertyCount} draft properties, ${ANNOUNCEMENTS.length + 1} notices.`);
+console.log(`Ported ${productCount} products, ${propertyCount} properties, ${ANNOUNCEMENTS.length + 1} notices.`);

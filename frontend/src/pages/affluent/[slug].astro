@@ -1,0 +1,26 @@
+---
+/**
+ * /affluent/<tier> and /affluent/<solution>: the three relationship tiers
+ * (Private Banking, Prime Banking, Wealth Management) and the solution
+ * screens every tier shares (accounts, cards, loans, vehicle finance, safe
+ * deposit boxes, insurance, property, investments, farm finance).
+ */
+import AffluentTier from '../../components/AffluentTier.astro';
+import AffluentSolution from '../../components/AffluentSolution.astro';
+import { TIERS, SOLUTIONS, type Tier, type Solution } from '../../data/affluent';
+
+export function getStaticPaths() {
+  return [
+    ...TIERS.map((t) => ({ params: { slug: t.id }, props: { tier: t, solution: null } })),
+    ...SOLUTIONS.map((s) => ({ params: { slug: s.id }, props: { tier: null, solution: s } })),
+  ];
+}
+
+interface Props {
+  tier: Tier | null;
+  solution: Solution | null;
+}
+const { tier, solution } = Astro.props;
+---
+
+{tier ? <AffluentTier tier={tier} /> : solution ? <AffluentSolution solution={solution} /> : null}

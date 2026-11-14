@@ -1,0 +1,44 @@
+{
+  "id": "christopher-mews-harare-west",
+  "title": "Christopher Mews (Harare West)",
+  "type": "land",
+  "location": "Harare",
+  "status": "for-sale",
+  "price": "US$85/m² before VAT",
+  "summary": "An upcoming gated community approximately 18 km from the Harare CBD, with a choice of five approved modern house plans.",
+  "details": [
+    {
+      "label": "Stand size",
+      "value": "300 m²"
+    },
+    {
+      "label": "Price",
+      "value": "US$85/m² before VAT"
+    },
+    {
+      "label": "Terms of sale",
+      "value": "30% deposit, balance over 18 months at 0% interest"
+    },
+    {
+      "label": "House plans",
+      "value": "Five approved modern house plans to choose from"
+    }
+  ],
+  "images": [
+    {
+      "src": "/images/cbz-agriculture.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 6,
+  "verified": true
+}

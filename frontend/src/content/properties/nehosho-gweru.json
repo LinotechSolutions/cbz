@@ -1,0 +1,40 @@
+{
+  "id": "nehosho-gweru",
+  "title": "Five-bedroom home, Nehosho, Gweru",
+  "type": "residential",
+  "location": "Gweru",
+  "status": "for-sale",
+  "price": "US$38,000 before VAT",
+  "summary": "A spacious five-bedroom home with two bathrooms with showers, fully plastered interiors and exteriors, and a well-designed kitchen and dining area, ideal for comfortable family living.",
+  "details": [
+    {
+      "label": "Bedrooms",
+      "value": "5"
+    },
+    {
+      "label": "Size",
+      "value": "168 m²"
+    },
+    {
+      "label": "Price",
+      "value": "US$38,000.00 before VAT"
+    }
+  ],
+  "images": [
+    {
+      "src": "/images/loan-home.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 15,
+  "verified": true
+}

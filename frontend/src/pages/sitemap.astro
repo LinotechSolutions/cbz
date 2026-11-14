@@ -8,6 +8,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import Icon from '../components/Icon.astro';
 import { JOURNEYS, OFFSITE } from '../data/nav';
+import { AFFLUENT_HOME, SOLUTIONS, TIERS, solutionHref, tierHref } from '../data/affluent';
 import { isExternal } from '../data/links';
 import { visible } from '../lib/visible';
 
@@ -55,6 +56,16 @@ const groups: Group[] = [
         .filter((b) => b.items.some((i) => !['form', 'page', 'external'].includes(i.kind) || visible(i.href)))
         .map((b) => ({ label: b.title, href: `/${u.slug}#${b.id}`, line: b.line })),
     })),
+  },
+  {
+    heading: 'Affluent Banking',
+    note: 'CBZ Bank’s three relationship tiers for individuals (Personal audience) and the solution screens every tier shares.',
+    links: [
+      { label: AFFLUENT_HOME.title, href: AFFLUENT_HOME.path },
+      { label: 'Compare the three tiers', href: `${AFFLUENT_HOME.path}#compare` },
+      ...TIERS.map((t) => ({ label: t.name, href: tierHref(t.id), line: t.title })),
+      ...SOLUTIONS.map((s) => ({ label: s.title, href: solutionHref(s.id), line: s.cardLine })),
+    ],
   },
   {
     heading: 'Explore our solutions',

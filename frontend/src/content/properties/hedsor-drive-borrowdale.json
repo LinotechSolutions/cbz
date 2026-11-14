@@ -1,0 +1,44 @@
+{
+  "id": "hedsor-drive-borrowdale",
+  "title": "8 Hedsor Drive, Borrowdale (Harare North)",
+  "type": "residential",
+  "location": "Harare",
+  "status": "for-sale",
+  "price": "US$340,000 before VAT",
+  "summary": "Modern living in 23 exclusive cluster units on 500 m² stands: 185 m² four-bedroom homes with the main bedroom en suite, stylish fitted kitchens, borehole water and 24-hour security.",
+  "details": [
+    {
+      "label": "Bedrooms",
+      "value": "4 bedrooms, main en suite"
+    },
+    {
+      "label": "Built area",
+      "value": "185 m² on a 500 m² stand"
+    },
+    {
+      "label": "Price",
+      "value": "US$340,000 before VAT"
+    },
+    {
+      "label": "Security",
+      "value": "24-hour security"
+    }
+  ],
+  "images": [
+    {
+      "src": "/images/loan-home.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 2,
+  "verified": true
+}

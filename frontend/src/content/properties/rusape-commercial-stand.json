@@ -1,0 +1,40 @@
+{
+  "id": "rusape-commercial-stand",
+  "title": "Commercial stand, Rusape",
+  "type": "commercial",
+  "location": "Rusape",
+  "status": "for-sale",
+  "price": "US$300,000 before VAT",
+  "summary": "A vacant stand in a built-up area near Rusape Township. Title deeds available.",
+  "details": [
+    {
+      "label": "Stand size",
+      "value": "6,940 m²"
+    },
+    {
+      "label": "Price",
+      "value": "US$300,000 before VAT"
+    },
+    {
+      "label": "Title",
+      "value": "Title deeds available"
+    }
+  ],
+  "images": [
+    {
+      "src": "/images/about-capital.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 22,
+  "verified": true
+}

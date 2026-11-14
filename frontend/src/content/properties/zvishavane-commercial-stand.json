@@ -1,0 +1,40 @@
+{
+  "id": "zvishavane-commercial-stand",
+  "title": "Commercial stand, Zvishavane",
+  "type": "commercial",
+  "location": "Zvishavane",
+  "status": "for-sale",
+  "price": "US$1.4 million before VAT",
+  "summary": "A vacant commercial stand. A hardware business is available on a sale-and-lease-back arrangement with a favourable rental structure.",
+  "details": [
+    {
+      "label": "Stand size",
+      "value": "6,056 m²"
+    },
+    {
+      "label": "Price",
+      "value": "US$1.4 million before VAT"
+    },
+    {
+      "label": "Arrangement",
+      "value": "Sale-and-lease-back available with a favourable rental structure"
+    }
+  ],
+  "images": [
+    {
+      "src": "/images/about-capital.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbzpicture1.webp",
+      "alt": ""
+    },
+    {
+      "src": "/images/cbz-banking.webp",
+      "alt": ""
+    }
+  ],
+  "tourUrl": null,
+  "order": 28,
+  "verified": true
+}

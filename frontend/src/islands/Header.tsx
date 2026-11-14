@@ -206,6 +206,15 @@ export function Header({ mega, intents, loginItems, openAccountItems, utilityLin
   const isCurrent = (href: string | null) => href && href !== '/' && currentPath.startsWith(href);
   /** The menu whose business this page belongs to. */
   const currentMega = mega.find((m) => currentPath.startsWith(m.href) || m.columns.some((c) => c.offeredBy.some((o) => o.href !== '/' && currentPath.startsWith(o.href))))?.id;
+  const audienceLabel = audiences.find((a) => a.id === audience)?.label ?? 'Personal';
+  /** A menu's columns for the chosen audience: links without tags show to all; empty columns drop out; an empty menu falls back to everything. */
+  const columnsFor = (m: MegaMenu) => {
+    const cols = m.columns
+      .filter((c) => !c.audiences || c.audiences.includes(audience as never))
+      .map((c) => ({ ...c, items: c.items.filter((it) => !it.audiences || it.audiences.includes(audience as never)) }))
+      .filter((c) => c.items.length > 0);
+    return cols.length > 0 ? cols : m.columns;
+  };
 
   const renderLink = (item: NavLink, event?: 'open_account_choice' | 'login_choice') => {
     if (!item.href) {
@@ -453,7 +462,7 @@ export function Header({ mega, intents, loginItems, openAccountItems, utilityLin
           <div key={m.id} id={`${uid}-${m.id}`} className="hdr-mega" hidden={open !== m.id} onKeyDown={onMenuKey}>
             <div className="container hdr-mega__inner">
               <div className="hdr-mega__cols">
-                {m.columns.map((c) => (
+                {columnsFor(m).map((c) => (
                   <section key={c.title} className="hdr-mega__col" aria-label={c.title}>
                     <h3 className="hdr-mega__title">{c.title}</h3>
                     <ul role="list" className="hdr-mega__links">
@@ -489,7 +498,10 @@ export function Header({ mega, intents, loginItems, openAccountItems, utilityLin
             </div>
             <div className="hdr-mega__foot">
               <div className="container hdr-mega__foot-in">
-                <p className="hdr-mega__note">{m.note}</p>
+                <p className="hdr-mega__note">
+                  <span className="hdr-mega__for">For {audienceLabel}</span>
+                  {m.note}
+                </p>
                 <div className="hdr-mega__actions">
                   {m.actions.map((a, i) => {
                     const ext = a.external || isExternal(a.href);
@@ -566,7 +578,7 @@ export function Header({ mega, intents, loginItems, openAccountItems, utilityLin
                     <Icon name="chevronDown" size={18} />
                   </summary>
                   <div className="sheet__cols">
-                    {m.columns.map((c) => (
+                    {columnsFor(m).map((c) => (
                       <div key={c.title} className="sheet__col">
                         <p className="sheet__col-title">{c.title}</p>
                         <ul role="list" className="sheet__links">
@@ -779,7 +791,8 @@ main section[id],main .content[id]{scroll-margin-top:calc(var(--strip-h) + var(-
 .hdr-mega__by-names a:hover{text-decoration:underline}
 .hdr-mega__foot{background:var(--surface);border-top:1px solid var(--line)}
 .hdr-mega__foot-in{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--s-3) var(--s-6);padding-block:var(--s-3)}
-.hdr-mega__note{color:var(--grey);font-size:var(--t-sm);margin:0;max-width:60ch}
+.hdr-mega__note{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-3);color:var(--grey);font-size:var(--t-sm);margin:0;max-width:70ch}
+.hdr-mega__for{display:inline-flex;align-items:center;min-height:26px;padding:0 var(--s-3);border-radius:var(--r-pill);background:var(--blue);color:var(--white);font-size:var(--t-xs);font-weight:700;white-space:nowrap}
 .hdr-mega__actions{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-2)}
 .hdr-mega__btn{min-height:40px;padding-inline:var(--s-5,20px)}
 .hdr-mega__actions .btn--secondary{border-color:var(--blue);color:var(--blue)}

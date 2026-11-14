@@ -17,7 +17,6 @@ export const REDIRECTS = {
   '/personal-banking/accounts': '/bank',
   '/personal-banking/loans': '/bank/apply',
   '/short-term-insurance': '/insurance',
-  '/insurance/motor': '/insurance/quote',
   '/asset-management': '/datvest',
   '/cbz-asset-management': '/datvest',
   '/properties-development': '/properties',

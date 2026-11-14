@@ -69,7 +69,7 @@ export interface MegaMenu {
   audiences?: AudienceId[];
 }
 
-const P = (unit: string, id: string) => `/${unit}#product-${unit}-${id}`;
+const P = (unit: string, id: string) => `/${unit}/${id}`;
 const BUSINESS: AudienceId[] = ['business'];
 const SCHOOL: AudienceId[] = ['school'];
 const PERSONAL_DIASPORA: AudienceId[] = ['personal', 'diaspora'];
@@ -91,7 +91,7 @@ const HOLDINGS = { name: 'CBZ Holdings', href: '/the-group' };
  * The seven header menus. Each opens a full-width panel of up to five columns
  * grouped by what the customer wants to do, each column naming the business
  * unit behind it. Every link goes to a page, a section or a product card on
- * this site (a `#product-…` link opens that card's details).
+ * this site (a product link opens that product's own page, /<unit>/<id>).
  *
  * The panel shows only the links for the audience chosen in the toggle:
  * a product link takes its product's audience tags (src/data/audiences.ts),
@@ -597,8 +597,7 @@ const RAW_MEGA: MegaMenu[] = [
 
 /** A product link's audiences come from the product's own tags. */
 const productAudiences = (href: string): AudienceId[] | undefined => {
-  // Unit slugs and product ids both contain hyphens, so match the unit twice rather than guessing where it ends.
-  const m = href.match(/^\/([a-z-]+)#product-\1-(.+)$/);
+  const m = href.match(/^\/([a-z-]+)\/([a-z0-9_-]+)$/);
   if (!m) return undefined;
   return PRODUCT_AUDIENCES[m[1]]?.[m[2]];
 };
@@ -634,7 +633,7 @@ export const INTENTS: Intent[] = [
     objects: [
       { label: 'a bank account', href: '/bank/open-account' },
       { label: 'a business account', href: '/bank/open-account?for=business' },
-      { label: 'a school account', href: `${P('bank', 'school_current')}` },
+      { label: 'a school account', href: P('bank', 'school_current') },
       { label: 'a foreign currency account', href: P('bank', 'fca_individual') },
       { label: 'a diaspora account', href: '/diaspora' },
     ],

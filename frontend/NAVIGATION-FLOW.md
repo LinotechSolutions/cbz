@@ -166,7 +166,7 @@ The menus in the navy bar are the same for every audience. What changes is what 
 
 A light grey band of white chips, each with an icon: Bank, Affluent Banking (Personal audience only), Borrow, Insure, Invest, Grow, Group; on the right Branches & ATMs and Help. Between 900px and 1200px Get the app, Branches & ATMs and Help are hidden and the search field is its icon alone (everything stays in the mega menus, the phone sheet and the footer). The chip of the menu whose business the page belongs to carries a navy border and a red underline; an open chip turns navy.
 
-Each chip opens a **mega menu**: a full-width white panel of up to five columns. Each column is a purpose ("Choose an account", "Pay for education") with its links and an "Offered by" line naming the business unit(s) in red. **The panel follows the audience toggle**: a product link appears only for the audiences its product is tagged with, page links carry their own tags, and a column with nothing left for that audience is hidden. So with Personal chosen, Bank ▸ Choose an account lists Current, Savings, Simple Saver, SmartCash and Foreign Currency accounts; with Business it lists Current, Current (Corporate), Church and Foreign Currency (Corporate) accounts; with School it lists the School Current Account and Foreign Currency (Corporate); with Diaspora it lists the Foreign Currency Account and Open a diaspora account. Some columns exist for one audience only (Borrow ▸ Finance the school; Grow ▸ Invest from abroad). A grey footer strip carries a navy "For <audience>" pill, one line of copy, three buttons (the first red, the others navy outline) and a **View all** link to the chip's page. The table below lists every link; the audience tags are in `src/data/nav.ts` (`MEGA`) and, for product links, `src/data/audiences.ts`. A `#product-…` link opens that product card's details on the unit page, switching the audience if the card is not in the chosen one. Escape, a click outside or another chip closes the panel. Without JavaScript the chip is a link to its page.
+Each chip opens a **mega menu**: a full-width white panel of up to five columns. Each column is a purpose ("Choose an account", "Pay for education") with its links and an "Offered by" line naming the business unit(s) in red. **The panel follows the audience toggle**: a product link appears only for the audiences its product is tagged with, page links carry their own tags, and a column with nothing left for that audience is hidden. So with Personal chosen, Bank ▸ Choose an account lists Current, Savings, Simple Saver, SmartCash and Foreign Currency accounts; with Business it lists Current, Current (Corporate), Church and Foreign Currency (Corporate) accounts; with School it lists the School Current Account and Foreign Currency (Corporate); with Diaspora it lists the Foreign Currency Account and Open a diaspora account. Some columns exist for one audience only (Borrow ▸ Finance the school; Grow ▸ Invest from abroad). A grey footer strip carries a navy "For <audience>" pill, one line of copy, three buttons (the first red, the others navy outline) and a **View all** link to the chip's page. The table below lists every link; the audience tags are in `src/data/nav.ts` (`MEGA`) and, for product links, `src/data/audiences.ts`. A product link opens that product's own page, `/<unit>/<productId>` (section 4c). Escape, a click outside or another chip closes the panel. Without JavaScript the chip is a link to its page.
 
 | Control | Goes to |
 | --- | --- |
@@ -178,7 +178,7 @@ Each chip opens a **mega menu**: a full-width white panel of up to five columns.
 | **Branches & ATMs** | `/contact#branches` |
 | **Help** | `/contact` |
 | **Bank** (label; View all) | `/clusters/banking` |
-| Bank ▸ Choose an account (CBZ Bank) | Current Account, Savings Account, Simple Saver, SmartCash, Foreign Currency Account → `/bank#product-bank-<id>` |
+| Bank ▸ Choose an account (CBZ Bank) | Current Account, Savings Account, Simple Saver, SmartCash, Foreign Currency Account → `/bank/<id>` |
 | Bank ▸ Save for a goal (CBZ Bank) | CashPlus Junior, Teen, Student, Housing, Fixed Deposit → product cards |
 | Bank ▸ Pay & transact (CBZ Bank) | Bills & school fees → CBZ Touch card; Transfers → Internet Banking card; Foreign currency payments → Foreign Currency Account card; E-statements → card |
 | Bank ▸ Cards & merchant services (CBZ Bank) | Visa Gold, Student Visa, Debit / ATM card, SME Debit Card, Kleva POS → product cards |
@@ -398,7 +398,7 @@ The same layout again, for schools. Opening it selects the School audience.
 | ▸ Insure school buildings and assets | `/insurance/quote` |
 | ▸ Group life for teaching staff | `/cbz-life/quote` |
 | ▸ Invest school funds with Datvest | `/datvest/start-investing` |
-| ▸ Sarapavana education plan for parents | `/cbz-life#product-cbz-life-sarapavana` |
+| ▸ Sarapavana education plan for parents | `/cbz-life/sarapavana` |
 | Task cards: Bank / Borrow / Insure / Invest / Farm | `/bank` / `/bank#apply-for-a-loan` / `/clusters/insurance` / `/clusters/investments` / `/clusters/agro-business` |
 | Journey cards (eight): Opening a school account? / Collecting school fees? / Insuring the school buildings? / Looking after your teachers? / Helping parents pay fees? / Building a new block? / Investing school funds? / Running a school farm? | `/bank/open-account` / `/bank#cards-and-digital` / `/insurance/quote` / `/cbz-life/quote` / `/bank#apply-for-a-loan` / `/properties` / `/datvest/start-investing` / ↗ Agrideck |
 | Digital cards: CBZ Touch (store badges); Internet banking ▸ Log in `/login`, See school channels `/bank#cards-and-digital`; Kleva POS ▸ See POS devices `/bank#cards-and-digital`, Speak to an agent `/bank/call-me-back` | |
@@ -423,7 +423,7 @@ All nine unit pages share one template, in this order:
 1. **Hero** (white split banner). Breadcrumb: Home → `/`, cluster name → the cluster page (Banking `/clusters/banking`, Insurance `/clusters/insurance`, Investments `/clusters/investments`, Farm `/clusters/agro-business`), then the unit name as text. Red-dash eyebrow with the unit name (text). Title and lede (text). **Primary** button (red) and **secondary** button (navy outline), per unit below. On a business page the header shows that unit's logo in place of the CBZ Holdings mark; it links to the unit page.
 2. **Who we serve** card (white, overlapping the hero): the label "Who we serve", a short title such as "Banking for everyone.", then one row per audience with an icon chip, a name, one line and a chevron. Each row scrolls to an anchor or opens a page (per unit below). Units without audiences (Red Sphere, Agro-Yield) have no card.
 3. **Sections**, one per branch of the site map, in the order given per unit. Each has a heading under a short red rule and an optional line. Section types:
-   - **Product carousel**: shows only the cards tagged for the audience chosen in the header strip (see "Audience strip" in section 1; the per-unit split is below). Pill filters (**All** plus one per category, navy when selected) show and hide cards within that and return the row to the start; ‹ › arrows scroll. Each product card shows a photograph (or the unit icon), a floating icon badge, the product name, a short summary, up to two benefits with check marks, the unit's **apply button** (per unit below) and a **Tell me more** link. Tell me more opens a dialog with the product name, a close button and four tabs: **What you get** (benefits), **Who it's for** (audience), **What it costs** (pricing line and any rate, term, fee or limit facts), **How to get it** (requirements and the apply button again). Escape, the close button or a click outside closes it. A URL such as `/bank#product-bank-current` opens that card's dialog on arrival.
+   - **Product carousel**: shows only the cards tagged for the audience chosen in the header strip (see "Audience strip" in section 1; the per-unit split is below). Pill filters (**All** plus one per category, navy when selected) show and hide cards within that and return the row to the start; ‹ › arrows scroll. Each product card shows a photograph (or the unit icon), a floating icon badge, the product name, a short summary, up to two benefits with check marks, the unit's **apply button** (per unit below) and a **Tell me more** link. **Tell me more** opens the product's own page, `/<unit>/<productId>` (section 4c); there are no popups. A URL such as `/bank/current` opens that card's dialog on arrival.
    - **Link cards**: icon chip, label, line, then **Get started** → a form or page, or **Visit** ↗ an off-site link. A card with a photograph has a red curved separator and a red Get started button. Note cards (information only) have a dashed border and no link.
    - **Feature cards** (sections with one action, e.g. Take cover): photograph with the red and navy curves and an icon disc, the title, line, a red **Get started** button and up to three benefit points (text). Two to a row when sections follow each other.
    - **Calculator**: red icon and title; a white form (amount, deposit where relevant, a term dropdown and a rate field; Red Sphere also has a product selector that fills the rate); a red **Calculate** button that scrolls to the navy result card; the result card shows the monthly figure, totals, a note and the unit's apply button (per calculator in section 7).
@@ -629,16 +629,37 @@ Navy hero with the brochure's red arc, **Talk to us** and **Compare the tiers**;
 | Please note | Credit-approval line, the business unit(s) behind the screen, and the call to action. | the screen's main button (table in 0.3b) |
 | Sticky bar (phones) | The same button. | |
 
+## 4c. Product pages `/<unit>/<productId>`
+
+One page per product (136 today), built by `src/components/ProductPage.astro` from the product's collection file and its unit. Every header dropdown product link, every product card's **Tell me more**, the sentence builder, the search results and the Diaspora and home-page mini tiles land here. The layout follows the design brief's product pages.
+
+| Section | What it shows | Buttons |
+| --- | --- | --- |
+| Hero | The product photograph full bleed under a navy wash; breadcrumb Home / unit / category / product; the product name; the summary; two buttons. | the product's **apply button** (red; per unit, section 4) and **Call me back** → the unit's call-back form (or the product's second action where it has one) |
+| Summary bar (sticks under the header) | A thumbnail, the headline figure (Monthly fee, Card fee, Interest rate, Premium, Minimum investment, Price or Terms, else "On application") and the two buttons again. | as the hero |
+| Key benefits of your <product> (`#benefits`) | Up to four red icon pillars from the product's benefits (a benefit written "Tenor: 24 months" becomes a title and a line); products without benefits yet show three generic pillars for their kind. | none |
+| What you need to know (`#know`) | Vertical tabs: **What you get** (summary and benefits, with any term, rate, fee and limit), **Qualifying criteria** (who it is for and the non-document requirements), **Documents needed** (the requirements that read like paperwork, else a typical list for the kind of product), **Terms and conditions** (pricing line, facts, the unit's product note, Business conditions link, and a "being confirmed" line on draft products). Arrow keys move between tabs; `#documents` or `#terms` in the URL opens that tab. | the four tabs |
+| Loans only: Compare our loans (`#compare`) | This loan (red top edge) and up to two others in the same category: amount, repayment term, interest rate. | apply button on this loan; **Tell me more** → the other loan's page |
+| Loans only: What could my loan instalment be? (`#instalment`) | Repayment term, interest rate, maximum amount and admin fee as stated, then the Red Sphere loan calculator with this loan pre-selected. | **Calculate repayment** |
+| Investments only: Get a fund that suits your needs (`#range`) | An accordion of every fund in the same range, this one open. | **Tell me more** → the fund's page |
+| Cover only: What you can expect (`#expect`) | Features (benefits and facts) and who it covers. | none |
+| Get <product> now (`#get`) | Two red cards: the apply action and Call me back. | the apply button; **Tell me more** → the call-back form |
+| Frequently asked questions (`#faq`) | The unit's five FAQs with the Need help column (Bank, Insurance, Life, Datvest, Capital, Properties). | **Locate branch**, **Start a chat** |
+| You might be interested in (`#interested`) | Two related products (same category first): picture, headline figure, summary. | **Tell me more** → that product's page; its apply button |
+| Sticky bar (phones) | The apply button. | |
+
+Old `/<unit>#product-<unit>-<id>` links still scroll to the card on the unit page.
+
 ## 5. Diaspora banking `/diaspora`
 
 | Section | Buttons |
 | --- | --- |
 | Hero | Open a diaspora account → `/bank/open-account`; WhatsApp us ↗ `wa.me/263774460460` |
 | What you will need `#documents` | Three document cards (no links). Open a diaspora account → `/bank/open-account`; WhatsApp +263 774 460 460 ↗ |
-| Banking `#banking` | Explore all banking services → `/bank`; Foreign currency account → `/bank#product-bank-fca_individual` (opens that card's dialog); CBZ Touch → `/#digital` |
-| Property back home `#property` | Explore property services → `/properties`; Browse developments → `/properties`; Mortgage calculator → `/calculators#mortgage`; Diaspora property insurance → `/insurance#product-insurance-diaspora` |
-| Investing `#invest` | Explore investment options → `/datvest`; Datvest diaspora fund → `/datvest#product-datvest-datvest-diaspora-wealth-fund`; Start investing → `/datvest/start-investing` |
-| CBZ Life for your family `#life` | Explore life insurance → `/cbz-life`; Comfortsure funeral plan → `/cbz-life#product-cbz-life-comfortsure`; Sarapavana education plan → `/cbz-life#product-cbz-life-sarapavana` |
+| Banking `#banking` | Explore all banking services → `/bank`; Foreign currency account → `/bank/fca_individual` (the product page); CBZ Touch → `/#digital` |
+| Property back home `#property` | Explore property services → `/properties`; Browse developments → `/properties`; Mortgage calculator → `/calculators#mortgage`; Diaspora property insurance → `/insurance/diaspora` |
+| Investing `#invest` | Explore investment options → `/datvest`; Datvest diaspora fund → `/datvest/datvest-diaspora-wealth-fund`; Start investing → `/datvest/start-investing` |
+| CBZ Life for your family `#life` | Explore life insurance → `/cbz-life`; Comfortsure funeral plan → `/cbz-life/comfortsure`; Sarapavana education plan → `/cbz-life/sarapavana` |
 | Sticky bar | Open a diaspora account → `/bank/open-account` |
 
 ---

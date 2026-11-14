@@ -35,7 +35,7 @@ export const GET: APIRoute = async () => {
     add({ label: u.name, line: u.hero.lede, href: `/${u.slug}`, group: 'Business' });
   }
   for (const p of products) {
-    add({ label: p.name, line: p.summary, href: `/${p.unit}#product-${p.unit}-${p.productId}`, group: unitName(p.unit) });
+    add({ label: p.name, line: p.summary, href: `/${p.unit}/${p.productId}`, group: unitName(p.unit) });
   }
   for (const m of MEGA) {
     for (const c of m.columns) {

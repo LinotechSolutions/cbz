@@ -60,12 +60,19 @@ test('the audience strip opens an audience home and the choice follows the visit
   await expect(page.locator('[data-property][data-type="commercial"]').first()).toBeHidden();
 });
 
-test('the School home exists and school products show on the Bank page', async ({ page }) => {
+test('the School home exists and school products show on the Bank page and in the Bank menu', async ({ page, isMobile }) => {
   await page.goto('/school');
   await expect(page.getByRole('heading', { level: 1 })).toContainText('school');
   await page.goto('/bank');
   await expect(page.locator('#product-bank-school_current')).toBeVisible();
   await expect(page.locator('#product-bank-smartcash_student')).toBeHidden();
+  if (!isMobile) {
+    const banner = page.getByRole('banner');
+    await banner.getByRole('button', { name: 'Bank', exact: true }).click();
+    await expect(banner.getByRole('link', { name: 'School Current Account' })).toBeVisible();
+    await expect(banner.getByRole('link', { name: 'SmartCash', exact: true })).toBeHidden();
+    await expect(banner.getByText('For School').first()).toBeVisible();
+  }
 });
 
 test('a mega menu opens its purpose columns and search finds a product', async ({ page, isMobile }) => {

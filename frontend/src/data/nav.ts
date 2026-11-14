@@ -1,4 +1,5 @@
 import { LINKS } from './links';
+import { PRODUCT_AUDIENCES } from './audiences';
 import type { IconName } from '../components/icons';
 
 export interface NavLink {
@@ -40,6 +41,8 @@ export interface MegaLink {
   label: string;
   href: string;
   external?: boolean;
+  /** The audiences this link is shown to; a product link takes its product's tags, and no tags means everyone. */
+  audiences?: AudienceId[];
 }
 export interface MegaColumn {
   /** The customer's purpose, e.g. "Choose an account". */
@@ -47,6 +50,8 @@ export interface MegaColumn {
   items: MegaLink[];
   /** The business units behind the column, shown as "Offered by". */
   offeredBy: { name: string; href: string }[];
+  /** The audiences this column is shown to; no tags means everyone. A column with no visible links is hidden. */
+  audiences?: AudienceId[];
 }
 export interface MegaMenu {
   id: string;
@@ -63,6 +68,12 @@ export interface MegaMenu {
 }
 
 const P = (unit: string, id: string) => `/${unit}#product-${unit}-${id}`;
+const BUSINESS: AudienceId[] = ['business'];
+const SCHOOL: AudienceId[] = ['school'];
+const PERSONAL_DIASPORA: AudienceId[] = ['personal', 'diaspora'];
+const PERSONAL_BUSINESS: AudienceId[] = ['personal', 'business'];
+const BUSINESS_SCHOOL: AudienceId[] = ['business', 'school'];
+const NOT_DIASPORA: AudienceId[] = ['personal', 'business', 'school'];
 const BANK = { name: 'CBZ Bank', href: '/bank' };
 const RED_SPHERE = { name: 'Red Sphere Finance', href: '/red-sphere' };
 const LIFE = { name: 'CBZ Life', href: '/cbz-life' };
@@ -75,13 +86,17 @@ const AGRO = { name: 'CBZ Agro-Yield', href: '/agro-yield' };
 const HOLDINGS = { name: 'CBZ Holdings', href: '/the-group' };
 
 /**
- * The navy bar's six menus. Each opens a full-width panel of five columns
+ * The six header menus. Each opens a full-width panel of up to five columns
  * grouped by what the customer wants to do, each column naming the business
  * unit behind it. Every link goes to a page, a section or a product card on
- * this site (a `#product-…` link opens that card's details). The same for
- * every audience; the audience strip decides which product cards show.
+ * this site (a `#product-…` link opens that card's details).
+ *
+ * The panel shows only the links for the audience chosen in the toggle:
+ * a product link takes its product's audience tags (src/data/audiences.ts),
+ * a page link carries its own `audiences`, and untagged links show to all.
+ * Columns with nothing left are hidden.
  */
-export const MEGA: MegaMenu[] = [
+const RAW_MEGA: MegaMenu[] = [
   {
     id: 'bank',
     label: 'Bank',
@@ -97,6 +112,11 @@ export const MEGA: MegaMenu[] = [
           { label: 'Simple Saver', href: P('bank', 'simple_saver') },
           { label: 'SmartCash', href: P('bank', 'smartcash_general') },
           { label: 'Foreign Currency Account', href: P('bank', 'fca_individual') },
+          { label: 'Current Account (Corporate)', href: P('bank', 'current_corporate') },
+          { label: 'Church Current Account', href: P('bank', 'church_current') },
+          { label: 'School Current Account', href: P('bank', 'school_current') },
+          { label: 'Foreign Currency Account (Corporate)', href: P('bank', 'fca_corporate') },
+          { label: 'Open a diaspora account', href: '/diaspora', audiences: ['diaspora'] },
         ],
         offeredBy: [BANK],
       },
@@ -108,6 +128,9 @@ export const MEGA: MegaMenu[] = [
           { label: 'CashPlus Student', href: P('bank', 'cashplus_student') },
           { label: 'CashPlus Housing', href: P('bank', 'cashplus_housing') },
           { label: 'Fixed Deposit', href: P('bank', 'fixed_deposit') },
+          { label: 'Savings Account (Corporate)', href: P('bank', 'savings_corporate') },
+          { label: 'CashPlus Business', href: P('bank', 'cashplus_business') },
+          { label: 'Datvest Diaspora Wealth Fund', href: P('datvest', 'datvest-diaspora-wealth-fund'), audiences: ['diaspora'] },
         ],
         offeredBy: [BANK],
       },
@@ -118,6 +141,7 @@ export const MEGA: MegaMenu[] = [
           { label: 'Transfers', href: P('bank', 'internet_banking') },
           { label: 'Foreign currency payments', href: P('bank', 'fca_individual') },
           { label: 'E-statements', href: P('bank', 'e_statements') },
+          { label: 'Send money home with ZikiCash', href: '/#digital', audiences: ['diaspora'] },
         ],
         offeredBy: [BANK],
       },
@@ -129,6 +153,8 @@ export const MEGA: MegaMenu[] = [
           { label: 'Debit / ATM card', href: P('bank', 'atm_card') },
           { label: 'SME Debit Card', href: P('bank', 'sme_debit_card') },
           { label: 'Kleva POS', href: P('bank', 'kleva_pos') },
+          { label: 'Local POS', href: P('bank', 'local_pos') },
+          { label: 'Visa POS', href: P('bank', 'visa_pos') },
         ],
         offeredBy: [BANK],
       },
@@ -137,7 +163,7 @@ export const MEGA: MegaMenu[] = [
         items: [
           { label: 'Internet Banking', href: '/login' },
           { label: 'CBZ Touch', href: '/login#apps' },
-          { label: 'Cardless withdrawals', href: P('bank', 'cbz_touch') },
+          { label: 'Cardless withdrawals', href: P('bank', 'cbz_touch'), audiences: PERSONAL_DIASPORA },
           { label: 'Stay safe online', href: '/security' },
         ],
         offeredBy: [BANK],
@@ -179,9 +205,10 @@ export const MEGA: MegaMenu[] = [
       {
         title: 'Finance property',
         items: [
-          { label: 'Mortgage finance', href: '/bank/apply' },
-          { label: 'Mortgage calculator', href: '/calculators#mortgage' },
+          { label: 'Mortgage finance', href: '/bank/apply', audiences: PERSONAL_DIASPORA },
+          { label: 'Mortgage calculator', href: '/calculators#mortgage', audiences: PERSONAL_DIASPORA },
           { label: 'CashPlus Housing', href: P('bank', 'cashplus_housing') },
+          { label: 'Diaspora turnkey home build', href: '/properties', audiences: ['diaspora'] },
         ],
         offeredBy: [BANK],
       },
@@ -191,16 +218,27 @@ export const MEGA: MegaMenu[] = [
           { label: 'SME Working Capital', href: P('red-sphere', 'sme_working_capital') },
           { label: 'Tuck-shop Facility', href: P('red-sphere', 'tuckshop') },
           { label: 'Order Finance', href: P('red-sphere', 'order_finance') },
-          { label: 'Invoice Discounting', href: '/red-sphere#explore-invoice-discounting' },
+          { label: 'Invoice Discounting', href: '/red-sphere#explore-invoice-discounting', audiences: BUSINESS },
         ],
         offeredBy: [RED_SPHERE],
       },
       {
+        title: 'Finance the school',
+        items: [
+          { label: 'School Current Account', href: P('bank', 'school_current') },
+          { label: 'Fixed Deposit for reserves', href: P('bank', 'fixed_deposit') },
+          { label: 'Talk to CBZ Bank about a facility', href: '/bank/call-me-back' },
+        ],
+        offeredBy: [BANK],
+        audiences: SCHOOL,
+      },
+      {
         title: 'Finance assets',
         items: [
-          { label: 'Car finance', href: '/calculators#car-finance' },
+          { label: 'Car finance', href: '/calculators#car-finance', audiences: PERSONAL_BUSINESS },
           { label: 'Partner Car Loan', href: P('red-sphere', 'partner_car_loan') },
           { label: 'Device finance', href: P('red-sphere', 'lockable_device') },
+          { label: 'Irrigation & machinery cover', href: P('insurance', 'irrigation_machinery') },
         ],
         offeredBy: [BANK, RED_SPHERE],
       },
@@ -224,6 +262,7 @@ export const MEGA: MegaMenu[] = [
           { label: 'Comfortsure Funeral Cashplan', href: P('cbz-life', 'comfortsure') },
           { label: 'Sarapavana Education Plan', href: P('cbz-life', 'sarapavana') },
           { label: 'Credit Life', href: P('cbz-life', 'credit_life') },
+          { label: 'Diaspora Property Insurance', href: P('insurance', 'diaspora') },
           { label: 'Get a life quote', href: '/cbz-life/quote' },
         ],
         offeredBy: [LIFE],
@@ -252,6 +291,8 @@ export const MEGA: MegaMenu[] = [
         items: [
           { label: 'SME Business Shield', href: P('insurance', 'sme_shield') },
           { label: 'Commercial Property & Plant', href: P('insurance', 'commercial_plant') },
+          { label: 'All-Risks Business Assets', href: P('insurance', 'assets') },
+          { label: 'Professional & Public Liability', href: P('insurance', 'liability') },
           { label: 'Goods in transit', href: P('insurance', 'marine') },
           { label: 'Crop protection', href: P('insurance', 'multi_peril') },
         ],
@@ -284,10 +325,13 @@ export const MEGA: MegaMenu[] = [
       {
         title: 'Grow my money',
         items: [
-          { label: 'Unit trusts', href: '/datvest#panel-datvest-unit-trusts' },
+          { label: 'Unit trusts', href: '/datvest#panel-datvest-unit-trusts', audiences: PERSONAL_DIASPORA },
           { label: 'Money Market Fund', href: P('datvest', 'datvest-money-market-fund') },
           { label: 'Fixed income', href: P('datvest', 'datvest-high-yield-fixed-income-fund') },
           { label: 'Equity Fund', href: P('datvest', 'datvest-equity-fund') },
+          { label: 'USD Inflation-Shield Fund', href: P('datvest', 'datvest-usd-inflation-shield-fund') },
+          { label: 'Diaspora Wealth Fund', href: P('datvest', 'datvest-diaspora-wealth-fund') },
+          { label: 'Corporate treasury placement', href: P('datvest', 'corporate-treasury-liquidity-placement') },
         ],
         offeredBy: [DATVEST],
       },
@@ -298,13 +342,15 @@ export const MEGA: MegaMenu[] = [
           { label: 'Portfolio management', href: P('datvest', 'segregated-equity-and-bond-mandates') },
           { label: 'Trust & estate planning', href: P('datvest', 'intergenerational-trust-and-estate-planning') },
           { label: 'Pension fund management', href: P('datvest', 'defined-benefit-and-contribution-pensions') },
+          { label: 'Offshore USD investment notes', href: P('datvest', 'structured-offshore-usd-investment-notes') },
+          { label: 'VFEX USD equities', href: P('datvest', 'victoria-falls-exchange-vfex-usd-equities') },
         ],
         offeredBy: [DATVEST],
       },
       {
         title: 'Raise capital',
         items: [
-          { label: 'Corporate finance', href: '/capital#learn-more' },
+          { label: 'Corporate finance', href: '/capital#learn-more', audiences: BUSINESS },
           { label: 'Debt / equity raising', href: P('capital', 'rights_issues_placements') },
           { label: 'Syndicated finance', href: P('capital', 'loan_syndications') },
           { label: 'IPOs & listings', href: P('capital', 'ipos_listings') },
@@ -314,8 +360,8 @@ export const MEGA: MegaMenu[] = [
       {
         title: 'Property',
         items: [
-          { label: 'Homes and stands for sale', href: '/properties#property-listing' },
-          { label: 'Commercial space to let', href: '/properties?type=commercial' },
+          { label: 'Homes and stands for sale', href: '/properties#property-listing', audiences: PERSONAL_DIASPORA },
+          { label: 'Commercial space to let', href: '/properties?type=commercial', audiences: BUSINESS_SCHOOL },
           { label: 'Request a viewing', href: '/properties/request-a-viewing' },
           { label: 'Valuations & advisory', href: '/properties/call-back' },
         ],
@@ -350,8 +396,8 @@ export const MEGA: MegaMenu[] = [
         items: [
           { label: 'Contract farming', href: P('agro-yield', 'agro_farming') },
           { label: 'Agro enterprise', href: P('agro-yield', 'agro_enterprise') },
-          { label: 'Input finance on Agrideck', href: LINKS.farmerOnboarding ?? '/agro-yield/enquire', external: Boolean(LINKS.farmerOnboarding) },
-          { label: 'Register as a farmer', href: '/agro-yield#register-as-a-farmer' },
+          { label: 'Input finance on Agrideck', href: LINKS.farmerOnboarding ?? '/agro-yield/enquire', external: Boolean(LINKS.farmerOnboarding), audiences: NOT_DIASPORA },
+          { label: 'Register as a farmer', href: '/agro-yield#register-as-a-farmer', audiences: NOT_DIASPORA },
         ],
         offeredBy: [AGRO],
       },
@@ -360,7 +406,7 @@ export const MEGA: MegaMenu[] = [
         items: [
           { label: 'Supply chain & logistics', href: P('agro-yield', 'agro_supply_chain') },
           { label: 'Irrigation & machinery cover', href: P('insurance', 'irrigation_machinery') },
-          { label: 'ATDC equipment', href: LINKS.atdc ?? '/agro-yield#explore-atdc', external: Boolean(LINKS.atdc) },
+          { label: 'ATDC equipment', href: LINKS.atdc ?? '/agro-yield#explore-atdc', external: Boolean(LINKS.atdc), audiences: BUSINESS_SCHOOL },
         ],
         offeredBy: [AGRO, INSURANCE],
       },
@@ -376,9 +422,9 @@ export const MEGA: MegaMenu[] = [
       {
         title: 'Finance agriculture',
         items: [
-          { label: 'Seasonal finance on Agrideck', href: LINKS.farmerOnboarding ?? '/agro-yield/enquire', external: Boolean(LINKS.farmerOnboarding) },
+          { label: 'Seasonal finance on Agrideck', href: LINKS.farmerOnboarding ?? '/agro-yield/enquire', external: Boolean(LINKS.farmerOnboarding), audiences: NOT_DIASPORA },
           { label: 'Profeeds farmer product', href: P('red-sphere', 'profeeds') },
-          { label: 'Farm loans', href: '/bank/apply' },
+          { label: 'Farm loans', href: '/bank/apply', audiences: PERSONAL_BUSINESS },
           { label: 'Contract farming cover', href: P('insurance', 'contract_farming') },
         ],
         offeredBy: [AGRO, BANK, RED_SPHERE],
@@ -388,10 +434,20 @@ export const MEGA: MegaMenu[] = [
         items: [
           { label: 'SME Working Capital', href: P('red-sphere', 'sme_working_capital') },
           { label: 'Order Finance', href: P('red-sphere', 'order_finance') },
-          { label: 'Invoice Discounting', href: '/red-sphere#explore-invoice-discounting' },
+          { label: 'Invoice Discounting', href: '/red-sphere#explore-invoice-discounting', audiences: BUSINESS },
           { label: 'Merchant POS', href: P('bank', 'kleva_pos') },
         ],
         offeredBy: [RED_SPHERE, BANK],
+      },
+      {
+        title: 'Invest from abroad',
+        items: [
+          { label: 'Farmland and stands', href: '/properties#property-listing' },
+          { label: 'Diaspora Wealth Fund', href: P('datvest', 'datvest-diaspora-wealth-fund') },
+          { label: 'Talk to Agro-Yield', href: '/agro-yield/enquire' },
+        ],
+        offeredBy: [PROPERTIES, DATVEST, AGRO],
+        audiences: ['diaspora'],
       },
     ],
     actions: [
@@ -465,6 +521,21 @@ export const MEGA: MegaMenu[] = [
     ],
   },
 ];
+
+/** A product link's audiences come from the product's own tags. */
+const productAudiences = (href: string): AudienceId[] | undefined => {
+  // Unit slugs and product ids both contain hyphens, so match the unit twice rather than guessing where it ends.
+  const m = href.match(/^\/([a-z-]+)#product-\1-(.+)$/);
+  if (!m) return undefined;
+  return PRODUCT_AUDIENCES[m[1]]?.[m[2]];
+};
+export const MEGA: MegaMenu[] = RAW_MEGA.map((m) => ({
+  ...m,
+  columns: m.columns.map((c) => ({
+    ...c,
+    items: c.items.map((it) => (it.audiences ? it : { ...it, audiences: productAudiences(it.href) })),
+  })),
+}));
 
 /** Plain links in the header row, before Log in and Sign up. */
 export const UTILITY_LINKS: NavLink[] = [

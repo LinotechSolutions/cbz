@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-const PAGES = ['/', '/business', '/school', '/affluent', '/affluent/private-banking', '/affluent/loans', '/bank', '/insurance', '/properties', '/calculators', '/contact', '/the-group', '/journeys', '/login', '/notices', '/sitemap', '/sustainability', '/sustainability/grievance'];
+const PAGES = ['/', '/business', '/school', '/bank/current', '/red-sphere/ssb_loan', '/affluent', '/affluent/private-banking', '/affluent/loans', '/bank', '/insurance', '/properties', '/calculators', '/contact', '/the-group', '/journeys', '/login', '/notices', '/sitemap', '/sustainability', '/sustainability/grievance'];
 
 for (const path of PAGES) {
   test(`${path} has no serious accessibility violations`, async ({ page }) => {
@@ -88,7 +88,7 @@ test('a mega menu opens its purpose columns and search finds a product', async (
   await banner.getByRole('button', { name: 'Find ways to bank better' }).click();
   // The sentence builder: "I want to: insure my car" goes to the motor cover card.
   await page.getByLabel('What do you want to do').selectOption('insure');
-  await expect(page.getByLabel('What', { exact: true })).toHaveValue(/product-insurance-motor/);
+  await expect(page.getByLabel('What', { exact: true })).toHaveValue(/\/insurance\/motor$/);
   await page.getByLabel('Search products and pages').fill('smartcash');
   await expect(page.getByRole('link', { name: /SmartCash Lite/ })).toBeVisible();
 });
@@ -123,6 +123,31 @@ test('Affluent Banking is a Personal-only menu with the three tiers, and the tie
     await expect(page.getByRole('dialog', { name: 'Menu' }).getByText('Affluent Banking')).toHaveCount(0);
   }
 });
+test('a dropdown link opens the product page, with its tabs, and a loan page compares and calculates', async ({ page, isMobile }) => {
+  await page.goto('/');
+  if (!isMobile) {
+    const banner = page.getByRole('banner');
+    await banner.getByRole('button', { name: 'Bank', exact: true }).click();
+    await banner.getByRole('link', { name: 'Current Account', exact: true }).click();
+  } else {
+    await page.goto('/bank/current');
+  }
+  await expect(page).toHaveURL(/\/bank\/current$/);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Current Account');
+  await expect(page.getByRole('heading', { name: 'Key benefits of your Current Account' })).toBeVisible();
+  await page.getByRole('tab', { name: 'Documents needed:' }).click();
+  await expect(page.getByRole('tabpanel', { name: 'Documents needed:' })).toContainText('Proof of residence');
+  await expect(page.getByRole('heading', { name: 'You might be interested in' })).toBeVisible();
+  // A card's Tell me more goes to the same kind of page.
+  await page.goto('/bank');
+  await page.locator('#product-bank-current').getByRole('link', { name: 'Tell me more' }).click();
+  await expect(page).toHaveURL(/\/bank\/current$/);
+  // A loan page: compare cards and the instalment calculator.
+  await page.goto('/red-sphere/ssb_loan');
+  await expect(page.getByRole('heading', { name: 'Compare our loans' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'What could my loan instalment be?' })).toBeVisible();
+});
+
 test('escape closes a header menu and returns focus', async ({ page, isMobile }) => {
   test.skip(isMobile, 'desktop menus only');
   await page.goto('/');

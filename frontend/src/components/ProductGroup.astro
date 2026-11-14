@@ -4,9 +4,8 @@
  * icon each and previous/next arrows, then a card per product with a large
  * photograph (or the unit's icon) under a curved edge, a floating icon badge,
  * the name, a short summary, two benefits with check marks, a red primary
- * button and an understated "Tell me more" link. "Tell me more" opens a
- * dialog with pill tabs: What you get, Who it's for, What it costs, How to
- * get it. Without JavaScript every card shows and every panel is open.
+ * button and an understated "Tell me more" link to the product's own page
+ * (/<unit>/<productId>). Without JavaScript every card shows.
  */
 import Button from './Button.astro';
 import Icon from './Icon.astro';
@@ -91,8 +90,6 @@ function pointsFor(p: ProductRow) {
 }
 /** Long lists open on the first category so the page stays short; "All" is a tap away. */
 const startFilter = products.length > 6 && cats.length > 1 ? cats[0].id : 'all';
-const costLine = (p: ProductRow) =>
-  visible(p.pricing) ? p.pricing! : 'Pricing is confirmed on application. Ask us for current terms before you rely on anything here.';
 ---
 
 <div class="pc" data-product-cards data-unit={unitSlug} data-start={startFilter}>
@@ -128,7 +125,6 @@ const costLine = (p: ProductRow) =>
       products.map((p) => {
         const facts = factsFor(p);
         const points = pointsFor(p);
-        const did = `detail-${idPrefix}-${p.productId}`;
         const actions = p.actions && p.actions.length > 0 ? p.actions : [p.apply];
         const hasPhoto = Boolean(p.image && visible(p.image.src));
         return (
@@ -175,78 +171,12 @@ const costLine = (p: ProductRow) =>
                     {a.label} {ai === 0 && <Icon name="arrowRight" size={18} />}
                   </Button>
                 ))}
-                <button type="button" class="pcard__more" aria-haspopup="dialog" aria-controls={did} data-more>
+                <a href={`/${unitSlug}/${p.productId}`} class="pcard__more">
                   Tell me more <Icon name="chevronRight" size={16} class="pcard__more-ic" />
-                </button>
+                </a>
               </div>
             </div>
 
-            <dialog class="pdetail" id={did} data-detail aria-labelledby={`${did}-title`}>
-              <div class="pdetail__head">
-                <p class="pdetail__title" id={`${did}-title`}>{p.name}</p>
-                <button type="button" class="pdetail__close" data-close aria-label="Close">
-                  <Icon name="close" size={20} />
-                </button>
-              </div>
-              <div class="pdetail__tabs" role="tablist" aria-label={`${p.name} details`}>
-                <button type="button" role="tab" class="pdetail__tab" aria-selected="true" data-tab="get">What you get</button>
-                <button type="button" role="tab" class="pdetail__tab" aria-selected="false" data-tab="who">Who it's for</button>
-                <button type="button" role="tab" class="pdetail__tab" aria-selected="false" data-tab="cost">What it costs</button>
-                <button type="button" role="tab" class="pdetail__tab" aria-selected="false" data-tab="how">How to get it</button>
-              </div>
-              <div class="pdetail__panels">
-                <section class="pdetail__panel" data-panel="get" role="tabpanel">
-                  <h4 class="pdetail__h">What you get</h4>
-                  {visible(p.benefits) ? (
-                    <ul class="tri">
-                      {p.benefits.map((b) => (
-                        <li>{b}</li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p class="muted">{p.summary}</p>
-                  )}
-                </section>
-                <section class="pdetail__panel" data-panel="who" role="tabpanel">
-                  <h4 class="pdetail__h">Who it's for</h4>
-                  {visible(p.audience) ? <p>{p.audience}</p> : <p class="muted">Ask us whether this product fits you.</p>}
-                </section>
-                <section class="pdetail__panel" data-panel="cost" role="tabpanel">
-                  <h4 class="pdetail__h">What it costs</h4>
-                  <p>{costLine(p)}</p>
-                  {facts.length > 0 && (
-                    <ul class="tri">
-                      {facts.map((f) => (
-                        <li>
-                          {f.label}: {f.value}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </section>
-                <section class="pdetail__panel" data-panel="how" role="tabpanel">
-                  <h4 class="pdetail__h">How to get it</h4>
-                  {visible(p.eligibility) && (
-                    <>
-                      <p class="small muted">You will need</p>
-                      <ul class="tri">
-                        {p.eligibility!.map((e) => (
-                          <li>{e}</li>
-                        ))}
-                      </ul>
-                    </>
-                  )}
-                  <p class="pdetail__actions">
-                    {actions.map((a, ai) => (
-                      <Button href={a.href} variant={ai === 0 ? 'primary' : 'secondary'} track="apply_click" trackProps={{ unit: unitSlug, product: p.productId, action: a.label, from: 'detail' }}>
-                        {a.label}
-                      </Button>
-                    ))}
-                  </p>
-                </section>
-                {visible(note) && <p class="pdetail__note small muted">{note}</p>}
-              </div>
-            </dialog>
           </li>
         );
       })
@@ -257,6 +187,7 @@ const costLine = (p: ProductRow) =>
     <p class="pc__empty-text" data-empty-text></p>
     <div class="pc__empty-actions" data-empty-actions></div>
   </div>
+  {visible(note) && <p class="small muted pc__note">{note}</p>}
 </div>
 
 <script>
@@ -353,49 +284,7 @@ const costLine = (p: ProductRow) =>
       root.querySelector('[data-next]')?.addEventListener('click', () => row.scrollBy({ left: step(), behavior: smooth }));
     }
 
-    // Tell me more opens the details in a modal dialog; Escape, the close
-    // button and a click on the backdrop close it, and focus returns to the opener.
-    cards.forEach((card) => {
-      const more = card.querySelector<HTMLButtonElement>('[data-more]');
-      const detail = card.querySelector<HTMLDialogElement>('[data-detail]');
-      if (!more || !detail) return;
-      more.addEventListener('click', () => {
-        detail.showModal();
-        detail.querySelector<HTMLElement>('[role="tab"][aria-selected="true"]')?.focus();
-      });
-      detail.querySelector('[data-close]')?.addEventListener('click', () => detail.close());
-      detail.addEventListener('click', (e) => {
-        if (e.target === detail) detail.close();
-      });
-      const tabs = Array.from(detail.querySelectorAll<HTMLButtonElement>('[data-tab]'));
-      const panels = Array.from(detail.querySelectorAll<HTMLElement>('[data-panel]'));
-      function select(id: string, focus = false) {
-        tabs.forEach((t) => {
-          const on = t.dataset.tab === id;
-          t.setAttribute('aria-selected', on ? 'true' : 'false');
-          t.tabIndex = on ? 0 : -1;
-          if (on && focus) t.focus();
-        });
-        panels.forEach((p) => {
-          p.hidden = p.dataset.panel !== id;
-        });
-      }
-      select('get');
-      tabs.forEach((t, i) => {
-        t.addEventListener('click', () => select(t.dataset.tab!));
-        t.addEventListener('keydown', (e) => {
-          let n = -1;
-          if (e.key === 'ArrowRight') n = (i + 1) % tabs.length;
-          if (e.key === 'ArrowLeft') n = (i - 1 + tabs.length) % tabs.length;
-          if (n >= 0) {
-            e.preventDefault();
-            select(tabs[n].dataset.tab!, true);
-          }
-        });
-      });
-    });
-
-    // Deep links: #product-<unit>-<id> opens that card's detail.
+    // Deep links: #product-<unit>-<id> scrolls to that card.
     function openHash() {
       const id = decodeURIComponent(location.hash.slice(1));
       if (!id) return;
@@ -409,8 +298,6 @@ const costLine = (p: ProductRow) =>
       }
       filter('all');
       card.scrollIntoView({ block: 'start', inline: 'start' });
-      const detail = card.querySelector<HTMLDialogElement>('[data-detail]');
-      if (detail && !detail.open) detail.showModal();
     }
     window.addEventListener('hashchange', openHash);
     openHash();
@@ -742,139 +629,10 @@ const costLine = (p: ProductRow) =>
     border: 1.5px solid var(--blue);
   }
 
-  /* Detail popup: a modal dialog with pill tabs over a grey body */
-  .pdetail {
-    width: min(92vw, 640px);
-    max-height: min(85vh, 720px);
-    margin: auto;
-    padding: var(--s-4);
-    border: 0;
-    border-radius: var(--r-lg);
-    background: var(--white);
-    color: var(--ink);
-    box-shadow: var(--shadow-float);
-    overflow: auto;
+  .pc__note {
+    max-width: var(--measure);
   }
-  .pdetail::backdrop {
-    background: rgba(0, 23, 54, 0.6);
-    backdrop-filter: blur(2px);
-  }
-  /* Without JavaScript the details simply sit under the card. */
-  .pc:not(.pc--js) .pdetail {
-    display: block;
-    position: static;
-    width: auto;
-    max-height: none;
-    margin: 0;
-    box-shadow: none;
-    border-top: 1px solid var(--line);
-    border-radius: 0;
-  }
-  .pc:not(.pc--js) .pdetail__close,
   .pc:not(.pc--js) .pc__arrows {
     display: none;
-  }
-  .pdetail__head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--s-4);
-    padding: var(--s-2) var(--s-2) var(--s-4);
-  }
-  .pdetail__title {
-    font-size: var(--t-lg);
-    font-weight: 700;
-    color: var(--blue);
-  }
-  .pdetail__close {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: var(--tap);
-    height: var(--tap);
-    border-radius: 50%;
-    color: var(--blue);
-    flex-shrink: 0;
-  }
-  .pdetail__close:hover {
-    background: var(--blue-50);
-  }
-  .pdetail__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--s-3);
-  }
-  .pdetail__tabs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--s-1);
-  }
-  .pc:not(.pc--js) .pdetail__tabs {
-    display: none;
-  }
-  .pdetail__tab {
-    min-height: var(--tap);
-    padding: 0 var(--s-5, 20px);
-    border-radius: var(--r-md) var(--r-md) 0 0;
-    background: var(--line);
-    color: var(--blue);
-    font-weight: 700;
-    font-size: var(--t-sm);
-    transition: background-color var(--dur) var(--ease);
-  }
-  .pdetail__tab[aria-selected='true'] {
-    background: var(--surface);
-  }
-  .pdetail__panels {
-    background: var(--surface);
-    border-radius: 0 var(--r-md) var(--r-md) var(--r-md);
-    padding: var(--s-6);
-    display: grid;
-    gap: var(--s-6);
-  }
-  .pdetail__panel {
-    display: grid;
-    gap: var(--s-3);
-  }
-  .pdetail__panel[hidden] {
-    display: none;
-  }
-  .pdetail__h {
-    font-size: var(--t-sm);
-    color: var(--grey);
-    font-weight: 400;
-  }
-  .pc--js .pdetail__h {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-  }
-  .tri {
-    list-style: none;
-    padding: 0;
-    display: grid;
-    gap: var(--s-3);
-  }
-  .tri li {
-    position: relative;
-    padding-left: var(--s-8);
-  }
-  .tri li::before {
-    content: '';
-    position: absolute;
-    left: 2px;
-    top: 0.45em;
-    width: 0;
-    height: 0;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-bottom: 10px solid var(--red);
-  }
-  .pdetail__note {
-    max-width: var(--measure);
-    padding-top: var(--s-2);
-    border-top: 1px solid var(--line);
   }
 </style>

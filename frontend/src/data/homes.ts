@@ -262,7 +262,7 @@ export const SCHOOL_SIGNUP_ITEMS: NavLink[] = [
   { label: 'Insure school buildings and assets', href: '/insurance/quote', line: 'Property, plant, equipment and public liability' },
   { label: 'Group life for teaching staff', href: '/cbz-life/quote', line: 'Group life assurance and retirement savings' },
   { label: 'Invest school funds with Datvest', href: '/datvest/start-investing', line: 'Money market and fixed income funds' },
-  { label: 'Sarapavana education plan for parents', href: '/cbz-life#product-cbz-life-sarapavana', line: 'A savings plan that keeps fees paid' },
+  { label: 'Sarapavana education plan for parents', href: '/cbz-life/sarapavana', line: 'A savings plan that keeps fees paid' },
 ];
 
 export const SCHOOL_STAGES: LifeStage[] = [

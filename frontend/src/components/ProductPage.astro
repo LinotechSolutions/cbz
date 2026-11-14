@@ -1,0 +1,1061 @@
+---
+/**
+ * One product page, in the design brief's layout (Absa product pages): a
+ * full-bleed photograph hero with the name, the summary and two buttons; a
+ * summary bar that sticks under the header (picture, the headline fee or
+ * rate, two buttons); "Key benefits" icon pillars; "What you need to know"
+ * with vertical tabs (What you get, Qualifying criteria, Documents needed,
+ * Terms and conditions); then by kind of product: loans get "Compare our
+ * loans" cards and "What could my instalment be?" with the calculator,
+ * investments get an accordion of the funds in the same range, cover gets
+ * "What you can expect"; then red call-to-action cards, the unit's FAQs and
+ * "You might be interested in" with two related products.
+ *
+ * Every header dropdown link and every card's "Tell me more" lands here.
+ */
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import Icon from './Icon.astro';
+import Faq from './Faq.astro';
+import StickyCta from './StickyCta.astro';
+import type { IconName } from './icons';
+import type { DarkSafeLogoKey } from '../data/logos';
+import { Calculator } from '../islands/Calculator';
+import { CALCULATORS } from '../data/calculators';
+import { isExternal } from '../data/links';
+import { visible } from '../lib/visible';
+
+type Product = CollectionEntry<'products'>['data'];
+type Unit = CollectionEntry<'units'>['data'];
+interface Props {
+  product: Product;
+  unit: Unit;
+  /** Every product of the unit, for the compare cards, the fund list and "You might be interested in". */
+  siblings: Product[];
+}
+const { product: p, unit, siblings } = Astro.props;
+
+const href = (x: Product) => `/${x.unit}/${x.productId}`;
+const categoryLabel = unit.categories.find((c) => c.id === p.category)?.label ?? p.category;
+const inCategory = siblings.filter((s) => s.productId !== p.productId && s.category === p.category);
+const others = siblings.filter((s) => s.productId !== p.productId && s.category !== p.category);
+const interested = [...inCategory, ...others].slice(0, 2);
+
+/* Which layout: loans, investments, cover, or an everyday product. */
+type Variant = 'loan' | 'invest' | 'insure' | 'account';
+const variant: Variant =
+  unit.slug === 'datvest' || unit.slug === 'capital'
+    ? 'invest'
+    : unit.slug === 'insurance' || unit.slug === 'cbz-life' || unit.slug === 'risk-advisory'
+      ? 'insure'
+      : unit.slug === 'red-sphere' || (unit.slug === 'bank' && p.category === 'loans')
+        ? 'loan'
+        : 'account';
+
+/* The photograph: the product's own, else one that fits its wording, else the unit's. */
+const UNIT_IMG: Record<string, string> = {
+  bank: '/images/cbz-banking.webp',
+  'red-sphere': '/images/cbz-payments.webp',
+  insurance: '/images/cbz-protection.webp',
+  'cbz-life': '/images/insurance-family.webp',
+  'risk-advisory': '/images/about-risk-advisory.webp',
+  datvest: '/images/cbz-wealth.webp',
+  capital: '/images/about-capital.webp',
+  properties: '/images/loan-home.webp',
+  'agro-yield': '/images/cbz-agriculture.webp',
+};
+const imageFor = (x: Product) => {
+  if (x.image && visible(x.image.src)) return x.image.src;
+  const t = `${x.name} ${x.summary}`.toLowerCase();
+  if (/motor|vehicle|car\b|fleet/.test(t)) return '/images/insurance-car.webp';
+  if (/home|house|property|mortgage|stand/.test(t)) return '/images/loan-home.webp';
+  if (/student|education|school|tuition/.test(t)) return '/images/loan-education.webp';
+  if (/health|medical|hospital/.test(t)) return '/images/insurance-health.webp';
+  if (/family|funeral|life cover|beneficiar/.test(t)) return '/images/insurance-family.webp';
+  if (/farm|crop|livestock|agro|irrigation|season/.test(t)) return '/images/cbz-agriculture.webp';
+  if (/diaspora|offshore|foreign|abroad/.test(t)) return '/images/accounts/diaspora.webp';
+  if (/corporate|compan|business|sme|merchant/.test(t)) return '/images/accounts/partnership.webp';
+  return UNIT_IMG[x.unit] ?? unit.hero.image.src;
+};
+const image = imageFor(p);
+
+/* The headline figure for the summary bar. */
+const headline = (() => {
+  const d = p.details;
+  if (variant === 'loan') return { label: 'Interest rate', value: d?.interestRate ?? p.pricing };
+  if (variant === 'invest') return { label: unit.slug === 'capital' ? 'Fees' : 'Minimum investment', value: p.pricing };
+  if (variant === 'insure') return { label: 'Premium', value: p.pricing };
+  if (unit.slug === 'properties') return { label: 'Price', value: p.pricing };
+  if (unit.slug === 'agro-yield') return { label: 'Terms', value: p.pricing };
+  return { label: p.category === 'cards' ? 'Card fee' : 'Monthly fee', value: p.pricing };
+})();
+const headlineValue = visible(headline.value) ? headline.value! : 'On application';
+
+/* Buttons: the product's own first, then the unit's call-back form. */
+const actions = p.actions && p.actions.length > 0 ? p.actions : [p.apply];
+const primary = actions[0];
+const callBack = unit.branches.flatMap((b) => b.items).find((i) => i.kind === 'faq')?.href ?? (unit.primaryCta.href.startsWith('/') ? unit.primaryCta.href : '/contact');
+const secondary = actions[1] ?? { label: 'Call me back', href: callBack };
+const ext = (h: string) => isExternal(h);
+
+/* Key benefits: up to four pillars from the benefits, with an icon from the wording. */
+const iconFor = (text: string): IconName => {
+  const t = text.toLowerCase();
+  if (/card|visa|atm|cash/.test(t)) return 'card';
+  if (/loan|credit|overdraft|borrow|finance|limit/.test(t)) return 'wallet';
+  if (/interest|rate|return|yield|grow|compound/.test(t)) return 'percent';
+  if (/touch|app|mobile|internet|online|digital|ussd|statement/.test(t)) return 'phoneMobile';
+  if (/fast|quick|turnaround|instant|immediate|24|daily/.test(t)) return 'bolt';
+  if (/secure|protect|cover|safe|insur|claim|guarantee/.test(t)) return 'shield';
+  if (/family|beneficiar|member|group|staff|employee/.test(t)) return 'users';
+  if (/tenor|term|month|year|period/.test(t)) return 'calendar';
+  if (/saving|deposit|invest|fund|portfolio|capital|wealth/.test(t)) return 'chart';
+  if (/home|house|property|stand|office/.test(t)) return 'home';
+  if (/farm|crop|input|agro|season/.test(t)) return 'leaf';
+  if (/motor|vehicle|car\b/.test(t)) return 'car';
+  if (/global|foreign|abroad|international|diaspora|offshore/.test(t)) return 'globe';
+  if (/advice|advis|manager|relationship|consult/.test(t)) return 'handshake';
+  return 'check';
+};
+const FALLBACK_PILLARS: Record<Variant, { title: string; body: string }[]> = {
+  loan: [
+    { title: 'Flexible amounts and repayments', body: 'Borrow what you need and repay over a term that suits your income.' },
+    { title: 'Fast turnaround', body: 'A quick decision once your documents are in.' },
+    { title: 'Personalised terms', body: 'Rates and limits set against your profile and credit assessment.' },
+  ],
+  invest: [
+    { title: 'Professionally managed', body: 'Experienced managers invest and monitor the fund for you.' },
+    { title: 'Suitable for any budget', body: 'Start with what you have and add to it over time.' },
+    { title: 'Easy access', body: 'Statements and redemptions through the Datvest team.' },
+  ],
+  insure: [
+    { title: 'Provide for what matters', body: p.summary },
+    { title: 'The choice is yours', body: 'Choose the cover and the limits you need, and change them as life changes.' },
+    { title: 'Claims support', body: 'Guided claims with a dedicated team and a clear turnaround.' },
+  ],
+  account: [
+    { title: 'Built for everyday banking', body: p.summary },
+    { title: 'Bank anywhere', body: 'Internet banking, CBZ Touch and USSD, day and night.' },
+    { title: 'Backed by CBZ', body: 'Part of Zimbabwe’s leading financial services group.' },
+  ],
+};
+const splitBenefit = (b: string) => {
+  const m = b.match(/^([^:]{3,40}):\s*(.+)$/);
+  if (m) return { title: m[1], body: m[2] };
+  if (b.length <= 40) return { title: b, body: '' };
+  return { title: b.split(/\s+/).slice(0, 4).join(' '), body: b };
+};
+const pillars = (p.benefits.length > 0 ? p.benefits.slice(0, 4).map(splitBenefit) : FALLBACK_PILLARS[variant]).map((x) => ({ ...x, icon: iconFor(`${x.title} ${x.body}`) }));
+
+/* What you need to know. Documents are the eligibility lines that read like paperwork; the rest are criteria. */
+const isDocument = (s: string) => /\b(id|identity|passport|photo|payslip|pay slip|statement|proof|bill|letter|certificate|cr14|cr6|registration|licence|license|form|copy|document)\b/i.test(s);
+const elig = p.eligibility ?? [];
+const documents = elig.filter(isDocument);
+const criteria = elig.filter((e) => !isDocument(e));
+const DEFAULT_DOCS: Record<Variant, string[]> = {
+  loan: ['A valid national ID or passport', 'Your latest payslips (three months for a salary-based loan)', 'Three months of bank statements', 'Proof of residence not older than three months'],
+  invest: ['A valid national ID or passport', 'Proof of residence not older than three months', 'Proof of the source of funds', 'Your bank account details for payments and redemptions'],
+  insure: ['A valid national ID or passport', 'Details of what is being covered (for example the vehicle registration or the property address)', 'Your previous policy or claims history, if any', 'Bank or mobile money details for the premium'],
+  account: ['A valid national ID or passport', 'Proof of residence not older than three months', 'Two passport-size photographs', 'Your latest payslip, or for a company its registration documents and directors’ IDs'],
+};
+const facts = [
+  ['Term', p.details?.tenor],
+  ['Interest rate', p.details?.interestRate],
+  ['Admin fee', p.details?.adminFee],
+  ['Maximum', p.details?.limit],
+].filter((f): f is [string, string] => visible(f[1]));
+const know = [
+  {
+    id: 'get',
+    label: 'What you get',
+    intro: p.summary,
+    items: p.benefits.length > 0 ? p.benefits : [],
+    note: facts.length > 0 ? facts.map(([l, v]) => `${l}: ${v}`).join(' · ') : null,
+  },
+  {
+    id: 'criteria',
+    label: 'Qualifying criteria',
+    intro: visible(p.audience) ? `For ${p.audience!.charAt(0).toLowerCase()}${p.audience!.slice(1)}.` : `Open to the customers ${unit.name} serves; ask us whether it fits you.`,
+    items: criteria,
+    note: variant === 'loan' ? 'Lending is subject to credit assessment and approval.' : null,
+  },
+  {
+    id: 'documents',
+    label: 'Documents needed',
+    intro: documents.length > 0 ? 'Bring these when you apply.' : 'Typically you will need the following; we confirm the exact list when you apply.',
+    items: documents.length > 0 ? documents : DEFAULT_DOCS[variant],
+    note: null,
+  },
+  {
+    id: 'terms',
+    label: 'Terms and conditions',
+    intro: visible(p.pricing) ? p.pricing! : 'Pricing is confirmed on application.',
+    items: facts.map(([l, v]) => `${l}: ${v}`),
+    note: unit.productsNote ?? null,
+  },
+];
+
+/* Loans: the calculator and the other loans in the range. */
+const pct = (s: string | null | undefined) => {
+  const m = s?.match(/(\d+(?:\.\d+)?)\s*%/);
+  return m ? Number(m[1]) : null;
+};
+const months = (s: string | null | undefined) => {
+  const m = s?.match(/(\d+)\s*months?/i);
+  return m ? Number(m[1]) : null;
+};
+const loanProducts = [p, ...inCategory].map((x) => ({ id: x.productId, label: x.name, ratePct: pct(x.details?.interestRate), maxMonths: months(x.details?.tenor) }));
+const compare = inCategory.slice(0, 3);
+
+const faqItem = unit.branches.flatMap((b) => b.items).find((i) => i.kind === 'faq' && i.faqs && i.faqs.length > 0);
+const site = Astro.site ?? new URL('https://www.cbz.co.zw');
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FinancialProduct',
+    name: p.name,
+    description: p.summary,
+    provider: { '@type': 'FinancialService', name: unit.name, url: new URL(`/${unit.slug}`, site).toString() },
+    url: new URL(href(p), site).toString(),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', site).toString() },
+      { '@type': 'ListItem', position: 2, name: unit.name, item: new URL(`/${unit.slug}`, site).toString() },
+      { '@type': 'ListItem', position: 3, name: p.name },
+    ],
+  },
+];
+---
+
+<BaseLayout title={`${p.name}: ${unit.name}`} description={p.summary} unitLogo={unit.logo as DarkSafeLogoKey} preloadImage={image} jsonLd={jsonLd}>
+  <!-- Hero: the photograph full bleed, dark on the left for the copy -->
+  <header class="hero on-dark" aria-labelledby="hero-heading">
+    <img class="hero__img" src={image} alt="" width={1200} height={700} loading="eager" fetchpriority="high" decoding="async" />
+    <div class="container hero__in">
+      <Breadcrumbs tone="dark" items={[{ label: 'Home', href: '/' }, { label: unit.name, href: `/${unit.slug}` }, { label: categoryLabel, href: `/${unit.slug}#panel-${unit.slug}-${p.category}` }, { label: p.name }]} />
+      <h1 id="hero-heading" class="hero__title">{p.name}</h1>
+      <p class="hero__lede">{p.summary}</p>
+      <div class="hero__actions">
+        <a href={primary.href} class="btn btn--primary btn--lg" target={ext(primary.href) ? '_blank' : undefined} rel={ext(primary.href) ? 'noopener noreferrer' : undefined} data-track="apply_click" data-track-props={JSON.stringify({ unit: unit.slug, product: p.productId, from: 'hero' })}>
+          {primary.label} <Icon name={ext(primary.href) ? 'external' : 'arrowRight'} size={18} />
+          {ext(primary.href) && <span class="sr-only"> (opens in a new tab)</span>}
+        </a>
+        <a href={secondary.href} class="btn btn--secondary btn--lg" target={ext(secondary.href) ? '_blank' : undefined} rel={ext(secondary.href) ? 'noopener noreferrer' : undefined}>
+          {secondary.label}
+          {ext(secondary.href) && <span class="sr-only"> (opens in a new tab)</span>}
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Summary bar, sticky under the header -->
+  <div class="bar">
+    <div class="container bar__in">
+      <img class="bar__img" src={image} alt="" width={120} height={120} loading="lazy" decoding="async" />
+      <div class="bar__fee">
+        <span class="bar__label">{headline.label}</span>
+        <span class="bar__value">{headlineValue}</span>
+      </div>
+      <div class="bar__actions">
+        <a href={secondary.href} class="btn btn--secondary bar__btn" target={ext(secondary.href) ? '_blank' : undefined} rel={ext(secondary.href) ? 'noopener noreferrer' : undefined}>
+          {secondary.label}
+        </a>
+        <a href={primary.href} class="btn btn--primary bar__btn" target={ext(primary.href) ? '_blank' : undefined} rel={ext(primary.href) ? 'noopener noreferrer' : undefined} data-track="apply_click" data-track-props={JSON.stringify({ unit: unit.slug, product: p.productId, from: 'bar' })}>
+          {primary.label}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Key benefits -->
+  <section class="band" id="benefits" aria-labelledby="benefits-heading">
+    <div class="container">
+      <h2 id="benefits-heading" class="sec__title">Key benefits of {/^(the|a|an)\s/i.test(p.name) ? '' : 'your '}{p.name}</h2>
+      <ul role="list" class="pillars" style={`--n:${Math.min(pillars.length, 4)}`}>
+        {
+          pillars.map((x) => (
+            <li class="pillar">
+              <Icon name={x.icon} size={44} class="pillar__ic" />
+              <strong class="pillar__title">{x.title}</strong>
+              {x.body && <span class="pillar__body">{x.body}</span>}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- What you need to know -->
+  <section class="band know" id="know" aria-labelledby="know-heading">
+    <div class="container">
+      <h2 id="know-heading" class="sec__title">What you need to know</h2>
+      <div class="know__panel" data-tabs>
+        <div class="know__tabs" role="tablist" aria-label="What you need to know" aria-orientation="vertical">
+          {
+            know.map((k, i) => (
+              <button type="button" role="tab" id={`know-tab-${k.id}`} class="know__tab" aria-selected={i === 0 ? 'true' : 'false'} aria-controls={`know-panel-${k.id}`} tabindex={i === 0 ? 0 : -1} data-tab={k.id}>
+                <span>{k.label}:</span>
+                <Icon name="play" size={16} class="know__tri" />
+              </button>
+            ))
+          }
+        </div>
+        {
+          know.map((k, i) => (
+            <div role="tabpanel" id={`know-panel-${k.id}`} class="know__body" aria-labelledby={`know-tab-${k.id}`} hidden={i !== 0} tabindex="0">
+              <p class="know__intro">{k.intro}</p>
+              {k.items.length > 0 && (
+                <ul class="know__list">
+                  {k.items.map((it) => (
+                    <li>{it}</li>
+                  ))}
+                </ul>
+              )}
+              {k.note && <p class="know__note">{k.note}</p>}
+              {k.id === 'terms' && (
+                <p class="know__note">
+                  <a href="/business-conditions">Business conditions</a> apply.{!p.verified && ' Figures for this product are being confirmed; ask us before you rely on them.'}
+                </p>
+              )}
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {
+    variant === 'loan' && (
+      <>
+        {compare.length > 0 && (
+          <section class="band" id="compare" aria-labelledby="compare-heading">
+            <div class="container center">
+              <h2 id="compare-heading" class="sec__title">Compare our loans</h2>
+              <p class="sec__lede">Choose the best one for you.</p>
+              <ul role="list" class="loans" style={`--n:${Math.min(compare.length + 1, 3)}`}>
+                {[p, ...compare].slice(0, 3).map((l, i) => (
+                  <li class:list={['loan', i === 0 && 'loan--this']}>
+                    <h3 class="loan__title">{l.name}</h3>
+                    <p class="loan__line">{l.summary}</p>
+                    <dl class="loan__facts">
+                      <div>
+                        <dt>Amount</dt>
+                        <dd>{visible(l.details?.limit) ? l.details!.limit : 'On application'}</dd>
+                      </div>
+                      <div>
+                        <dt>Repayment term</dt>
+                        <dd>{visible(l.details?.tenor) ? l.details!.tenor : 'On application'}</dd>
+                      </div>
+                      {visible(l.details?.interestRate) && (
+                        <div>
+                          <dt>Interest rate</dt>
+                          <dd>{l.details!.interestRate}</dd>
+                        </div>
+                      )}
+                    </dl>
+                    {i === 0 ? (
+                      <a href={primary.href} class="btn btn--primary" target={ext(primary.href) ? '_blank' : undefined} rel={ext(primary.href) ? 'noopener noreferrer' : undefined}>
+                        {primary.label}
+                      </a>
+                    ) : (
+                      <a href={href(l)} class="btn btn--secondary">
+                        Tell me more
+                      </a>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+        <section class="band" id="instalment" aria-labelledby="instalment-heading">
+          <div class="container">
+            <h2 id="instalment-heading" class="sec__title">What could my loan instalment be?</h2>
+            <dl class="terms">
+              <div>
+                <dt>Repayment term:</dt>
+                <dd>{visible(p.details?.tenor) ? `Up to ${p.details!.tenor}` : 'Confirmed on application'}</dd>
+              </div>
+              <div>
+                <dt>Interest rate:</dt>
+                <dd>{visible(p.details?.interestRate) ? `${p.details!.interestRate} per annum, subject to credit assessment` : 'Personalised, based on your profile and credit assessment'}</dd>
+              </div>
+              {visible(p.details?.limit) && (
+                <div>
+                  <dt>Maximum amount:</dt>
+                  <dd>{p.details!.limit}</dd>
+                </div>
+              )}
+              {visible(p.details?.adminFee) && (
+                <div>
+                  <dt>Administration fee:</dt>
+                  <dd>{p.details!.adminFee}</dd>
+                </div>
+              )}
+            </dl>
+            <div class="calc">
+              <Calculator client:visible variant="loan" config={CALCULATORS.loan} products={loanProducts} embedded />
+            </div>
+          </div>
+        </section>
+      </>
+    )
+  }
+
+  {
+    variant === 'invest' && inCategory.length > 0 && (
+      <section class="band" id="range" aria-labelledby="range-heading">
+        <div class="container">
+          <h2 id="range-heading" class="sec__title">Get {categoryLabel.toLowerCase().replace(/s$/, '')} that suits your needs</h2>
+          <div class="acc">
+            {[p, ...inCategory].map((f) => (
+              <details class="acc__item" open={f.productId === p.productId}>
+                <summary class="acc__sum">
+                  <span>{f.name}</span>
+                  <Icon name="chevronDown" size={22} class="acc__chev" />
+                </summary>
+                <div class="acc__body">
+                  <p>{f.summary}</p>
+                  {f.benefits.length > 0 && (
+                    <ul class="know__list">
+                      {f.benefits.map((b) => (
+                        <li>{b}</li>
+                      ))}
+                    </ul>
+                  )}
+                  {f.productId !== p.productId && (
+                    <a href={href(f)} class="go">
+                      Tell me more <Icon name="arrowRight" size={16} />
+                    </a>
+                  )}
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    variant === 'insure' && (
+      <section class="band" id="expect" aria-labelledby="expect-heading">
+        <div class="container">
+          <h2 id="expect-heading" class="sec__title">What you can expect</h2>
+          <h3 class="sub">Features</h3>
+          <ul class="know__list">
+            {(p.benefits.length > 0 ? p.benefits : [p.summary]).map((b) => (
+              <li>{b}</li>
+            ))}
+            {facts.map(([l, v]) => (
+              <li>
+                {l}: {v}
+              </li>
+            ))}
+          </ul>
+          {visible(p.audience) && (
+            <>
+              <h3 class="sub">Who it covers</h3>
+              <p>{p.audience}</p>
+            </>
+          )}
+        </div>
+      </section>
+    )
+  }
+
+  <!-- Red call-to-action cards -->
+  <section class="band" id="get" aria-labelledby="get-heading">
+    <div class="container">
+      <h2 id="get-heading" class="sec__title">Get {p.name} now</h2>
+      <ul role="list" class="ctas">
+        <li class="cta on-dark">
+          <div class="cta__head">
+            <Icon name="document" size={32} />
+            <h3 class="cta__title">{primary.label}</h3>
+          </div>
+          <p class="cta__line">{ext(primary.href) ? `Apply on the ${unit.shortName} platform.` : 'Start online; your answers are saved as you go.'}</p>
+          <a href={primary.href} class="btn btn--secondary cta__btn" target={ext(primary.href) ? '_blank' : undefined} rel={ext(primary.href) ? 'noopener noreferrer' : undefined} data-track="apply_click" data-track-props={JSON.stringify({ unit: unit.slug, product: p.productId, from: 'cta' })}>
+            {primary.label}
+            {ext(primary.href) && <span class="sr-only"> (opens in a new tab)</span>}
+          </a>
+        </li>
+        <li class="cta on-dark">
+          <div class="cta__head">
+            <Icon name="headset" size={32} />
+            <h3 class="cta__title">{secondary.label}</h3>
+          </div>
+          <p class="cta__line">Let one of the {unit.name} team call you back to help you apply.</p>
+          <a href={secondary.href} class="btn btn--secondary cta__btn" target={ext(secondary.href) ? '_blank' : undefined} rel={ext(secondary.href) ? 'noopener noreferrer' : undefined}>
+            Tell me more
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  {
+    faqItem && faqItem.faqs && (
+      <section class="band" id="faq" aria-labelledby="faq-heading">
+        <div class="container">
+          <h2 id="faq-heading" class="sec__title">Frequently asked questions</h2>
+          <Faq id={`${unit.slug}-${p.productId}`} faqs={faqItem.faqs} contactHref={faqItem.href ?? '/contact'} contactLabel={faqItem.label} team={unit.name} image={{ src: image, alt: '' }} />
+        </div>
+      </section>
+    )
+  }
+
+  {
+    interested.length > 0 && (
+      <section class="band" id="interested" aria-labelledby="interested-heading">
+        <div class="container">
+          <h2 id="interested-heading" class="sec__title">You might be interested in</h2>
+          <ul role="list" class="rel">
+            {interested.map((r) => {
+              const ra = (r.actions && r.actions[0]) ?? r.apply;
+              return (
+                <li class="rel__card">
+                  <h3 class="rel__title">{r.name}</h3>
+                  <div class="rel__row">
+                    <img class="rel__img" src={imageFor(r)} alt="" width={240} height={240} loading="lazy" decoding="async" />
+                    <div class="rel__copy">
+                      <span class="bar__label">{headline.label}</span>
+                      <span class="rel__value">{visible(r.pricing) ? r.pricing : 'On application'}</span>
+                      <p class="rel__line">{r.summary}</p>
+                      <div class="rel__actions">
+                        <a href={href(r)} class="btn btn--secondary">
+                          Tell me more
+                        </a>
+                        <a href={ra.href} class="btn btn--primary" target={ext(ra.href) ? '_blank' : undefined} rel={ext(ra.href) ? 'noopener noreferrer' : undefined}>
+                          {ra.label}
+                          {ext(ra.href) && <span class="sr-only"> (opens in a new tab)</span>}
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </section>
+    )
+  }
+
+  <StickyCta label={primary.label} href={primary.href} unit={unit.slug} />
+</BaseLayout>
+
+<script>
+  // Vertical tabs: a click or an arrow key chooses one; a hash naming a tab opens it.
+  document.querySelectorAll<HTMLElement>('[data-tabs]').forEach((wrap) => {
+    const tabs = Array.from(wrap.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+    const show = (tab: HTMLButtonElement, focus = false) => {
+      tabs.forEach((t) => {
+        const on = t === tab;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        t.tabIndex = on ? 0 : -1;
+        const panel = document.getElementById(t.getAttribute('aria-controls') ?? '');
+        if (panel) panel.hidden = !on;
+      });
+      if (focus) tab.focus();
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => show(t));
+      t.addEventListener('keydown', (e) => {
+        const d = e.key === 'ArrowDown' || e.key === 'ArrowRight' ? 1 : e.key === 'ArrowUp' || e.key === 'ArrowLeft' ? -1 : 0;
+        if (!d) return;
+        e.preventDefault();
+        show(tabs[(i + d + tabs.length) % tabs.length], true);
+      });
+    });
+    const wanted = tabs.find((t) => t.dataset.tab && `#${t.dataset.tab}` === location.hash);
+    if (wanted) show(wanted);
+  });
+</script>
+
+<style>
+  .sec__title {
+    font-size: var(--t-2xl);
+    color: var(--ink);
+    margin-bottom: var(--s-8);
+  }
+  .sec__lede {
+    color: var(--grey);
+    margin: calc(-1 * var(--s-6)) 0 var(--s-8);
+  }
+  .center {
+    text-align: center;
+  }
+  .center .sec__lede,
+  .center .sec__title {
+    margin-inline: auto;
+  }
+  .sub {
+    font-size: var(--t-md);
+    color: var(--ink);
+    margin: var(--s-6) 0 var(--s-3);
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    isolation: isolate;
+    background: var(--blue-900);
+    color: var(--white);
+    overflow: hidden;
+  }
+  .hero__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 70% 30%;
+    z-index: -2;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(90deg, rgba(0, 23, 54, 0.9) 0%, rgba(0, 23, 54, 0.65) 45%, rgba(0, 23, 54, 0.25) 100%);
+  }
+  .hero__in {
+    display: grid;
+    gap: var(--s-4);
+    justify-items: start;
+    align-content: center;
+    min-height: 400px;
+    padding-block: var(--s-8) var(--s-12);
+  }
+  @media (min-width: 900px) {
+    .hero__in {
+      min-height: 480px;
+    }
+  }
+  .hero__title {
+    font-size: var(--t-3xl);
+    color: var(--white);
+    letter-spacing: -0.015em;
+    max-width: 18ch;
+  }
+  .hero__lede {
+    color: rgba(255, 255, 255, 0.88);
+    font-size: var(--t-md);
+    max-width: 56ch;
+  }
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    margin-top: var(--s-2);
+  }
+  .hero__actions .btn {
+    gap: var(--s-2);
+  }
+
+  /* ---------- Sticky summary bar ---------- */
+  .bar {
+    position: sticky;
+    top: calc(var(--strip-h) + var(--header-h));
+    z-index: 30;
+    background: var(--white);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 8px 24px -16px rgba(0, 37, 84, 0.25);
+  }
+  .bar__in {
+    display: flex;
+    align-items: center;
+    gap: var(--s-4);
+    min-height: 72px;
+    padding-block: var(--s-2);
+  }
+  .bar__img {
+    display: none;
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+    border-radius: var(--r-sm);
+  }
+  @media (min-width: 640px) {
+    .bar__img {
+      display: block;
+    }
+  }
+  .bar__fee {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+  }
+  .bar__label {
+    font-size: var(--t-xs);
+    color: var(--grey);
+  }
+  .bar__value {
+    font-size: var(--t-lg);
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bar__actions {
+    margin-left: auto;
+    display: flex;
+    gap: var(--s-3);
+    flex-shrink: 0;
+  }
+  .bar__btn {
+    min-height: 40px;
+  }
+  @media (max-width: 639px) {
+    .bar__actions .btn--secondary {
+      display: none;
+    }
+  }
+
+  /* ---------- Pillars ---------- */
+  .pillars {
+    display: grid;
+    gap: var(--s-8) var(--gap);
+  }
+  @media (min-width: 640px) {
+    .pillars {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 1000px) {
+    .pillars {
+      grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr));
+    }
+  }
+  .pillar {
+    display: grid;
+    gap: var(--s-3);
+    align-content: start;
+  }
+  .pillar :global(.pillar__ic) {
+    color: var(--red);
+  }
+  .pillar__title {
+    color: var(--ink);
+    font-size: var(--t-md);
+  }
+  .pillar__body {
+    color: var(--grey);
+    line-height: 1.55;
+  }
+
+  /* ---------- What you need to know ---------- */
+  .know__panel {
+    display: grid;
+    gap: var(--s-6);
+    padding: var(--s-6);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    background: var(--white);
+    box-shadow: var(--shadow-card);
+  }
+  @media (min-width: 900px) {
+    .know__panel {
+      grid-template-columns: 320px minmax(0, 1fr);
+      gap: var(--s-10, 40px);
+      padding: var(--s-8);
+      align-items: start;
+    }
+  }
+  .know__tabs {
+    display: flex;
+    gap: var(--s-2);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .know__tabs::-webkit-scrollbar {
+    display: none;
+  }
+  @media (min-width: 900px) {
+    .know__tabs {
+      flex-direction: column;
+      overflow: visible;
+      gap: var(--s-3);
+    }
+  }
+  .know__tab {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 56px;
+    padding: var(--s-3) var(--s-6);
+    border-radius: var(--r-sm);
+    background: var(--surface);
+    color: var(--ink);
+    font-weight: 700;
+    font-size: var(--t-sm);
+    white-space: nowrap;
+    transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
+  }
+  .know__tab:hover {
+    background: var(--blue-50);
+  }
+  .know__tab[aria-selected='true'] {
+    background: var(--blue);
+    color: var(--white);
+    box-shadow: var(--shadow-card);
+  }
+  .know__tab :global(.know__tri) {
+    display: none;
+    position: absolute;
+    right: -20px;
+    color: var(--red);
+    fill: currentColor;
+  }
+  @media (min-width: 900px) {
+    .know__tab {
+      width: 100%;
+      white-space: normal;
+    }
+    .know__tab[aria-selected='true'] :global(.know__tri) {
+      display: block;
+    }
+  }
+  .know__body {
+    display: grid;
+    gap: var(--s-4);
+    align-content: start;
+    padding-top: var(--s-2);
+  }
+  .know__body[hidden] {
+    display: none;
+  }
+  .know__intro {
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  .know__list {
+    display: grid;
+    gap: var(--s-3);
+    padding-left: 1.2em;
+    max-width: var(--measure);
+    line-height: 1.55;
+  }
+  .know__note {
+    color: var(--grey);
+    font-size: var(--t-sm);
+  }
+
+  /* ---------- Compare our loans ---------- */
+  .loans {
+    display: grid;
+    gap: var(--gap);
+    text-align: center;
+  }
+  @media (min-width: 720px) {
+    .loans {
+      grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr));
+    }
+  }
+  .loan {
+    display: grid;
+    gap: var(--s-4);
+    justify-items: center;
+    align-content: start;
+    padding: var(--s-6);
+    border: 1px solid var(--line);
+    border-top: 6px solid var(--blue);
+    border-radius: var(--r-sm);
+    background: var(--white);
+    box-shadow: var(--shadow-card);
+  }
+  .loan--this {
+    border-top-color: var(--red);
+  }
+  .loan__title {
+    font-size: var(--t-lg);
+    color: var(--ink);
+  }
+  .loan__line {
+    color: var(--grey);
+    line-height: 1.5;
+  }
+  .loan__facts {
+    display: grid;
+    gap: var(--s-3);
+    margin: 0;
+  }
+  .loan__facts dt {
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .loan__facts dd {
+    margin: 0;
+    color: var(--grey);
+  }
+  .terms {
+    display: grid;
+    gap: var(--s-4);
+    margin: 0 0 var(--s-8);
+    max-width: var(--measure);
+  }
+  .terms dt {
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .terms dd {
+    margin: 0;
+    color: var(--grey);
+  }
+  .calc {
+    max-width: 900px;
+  }
+
+  /* ---------- Accordion ---------- */
+  .acc {
+    display: grid;
+    gap: var(--s-3);
+  }
+  .acc__item {
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+    background: var(--white);
+  }
+  .acc__item[open] {
+    border-color: var(--blue-100);
+    box-shadow: var(--shadow-card);
+  }
+  .acc__sum {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-4);
+    min-height: 64px;
+    padding: var(--s-3) var(--s-6);
+    font-size: var(--t-md);
+    font-weight: 700;
+    color: var(--ink);
+    cursor: pointer;
+    list-style: none;
+  }
+  .acc__sum::-webkit-details-marker {
+    display: none;
+  }
+  .acc__sum :global(.acc__chev) {
+    flex-shrink: 0;
+    transition: transform var(--dur) var(--ease);
+  }
+  .acc__item[open] .acc__sum :global(.acc__chev) {
+    transform: rotate(180deg);
+  }
+  .acc__body {
+    display: grid;
+    gap: var(--s-3);
+    justify-items: start;
+    padding: 0 var(--s-6) var(--s-6);
+    color: var(--grey);
+    line-height: 1.6;
+  }
+
+  /* ---------- Red call-to-action cards ---------- */
+  .ctas {
+    display: grid;
+    gap: var(--gap);
+  }
+  @media (min-width: 720px) {
+    .ctas {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .cta {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: var(--s-4);
+    min-height: 220px;
+    padding: var(--s-6);
+    border-radius: var(--r-sm);
+    background: var(--red);
+    color: var(--white);
+  }
+  .cta__head {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+  }
+  .cta__title {
+    color: var(--white);
+    font-size: var(--t-lg);
+  }
+  .cta__line {
+    color: var(--white);
+    line-height: 1.5;
+  }
+  .cta__btn {
+    justify-self: end;
+    border-color: var(--white);
+    background: transparent;
+    backdrop-filter: none;
+  }
+
+  /* ---------- You might be interested in ---------- */
+  .rel {
+    display: grid;
+    gap: var(--gap);
+  }
+  @media (min-width: 900px) {
+    .rel {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .rel__card {
+    display: grid;
+    gap: var(--s-4);
+    padding: var(--s-6);
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+    background: var(--white);
+  }
+  .rel__title {
+    font-size: var(--t-xl);
+    color: var(--ink);
+  }
+  .rel__row {
+    display: grid;
+    gap: var(--s-4);
+  }
+  @media (min-width: 640px) {
+    .rel__row {
+      grid-template-columns: 160px minmax(0, 1fr);
+    }
+  }
+  .rel__img {
+    width: min(100%, 240px);
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: var(--r-md);
+  }
+  .rel__copy {
+    display: grid;
+    gap: var(--s-2);
+    align-content: start;
+  }
+  .rel__value {
+    font-size: var(--t-lg);
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .rel__line {
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .rel__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    margin-top: var(--s-2);
+  }
+</style>

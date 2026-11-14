@@ -1,0 +1,24 @@
+---
+/**
+ * /<unit>/<productId>: one page per product, in the product page layout.
+ * Every header dropdown link and every product card's "Tell me more" lands
+ * here instead of opening a popup.
+ */
+import { getCollection } from 'astro:content';
+import ProductPage from '../../components/ProductPage.astro';
+
+export async function getStaticPaths() {
+  const units = (await getCollection('units')).map((u) => u.data);
+  const products = (await getCollection('products')).map((p) => p.data);
+  return products.flatMap((p) => {
+    const unit = units.find((u) => u.slug === p.unit);
+    if (!unit) return [];
+    const siblings = products.filter((s) => s.unit === p.unit).sort((a, b) => a.order - b.order);
+    return [{ params: { unit: p.unit, product: p.productId }, props: { product: p, unit, siblings } }];
+  });
+}
+
+const { product, unit, siblings } = Astro.props;
+---
+
+<ProductPage product={product} unit={unit} siblings={siblings} />

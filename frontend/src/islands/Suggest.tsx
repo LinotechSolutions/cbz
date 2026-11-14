@@ -90,7 +90,7 @@ export function Suggest({ unit, products }: Props) {
           <ul className="sg__list" role="list">
             {shown.map((s) => (
               <li key={s.productId}>
-                <a href={`#product-${unit}-${s.productId}`} className="sg__item">
+                <a href={`/${unit}/${s.productId}`} className="sg__item">
                   <span className="sg__name">{nameOf(s.productId)}</span>
                   <span className="sg__reason">{s.reason}</span>
                   <Icon name="chevronRight" size={16} />

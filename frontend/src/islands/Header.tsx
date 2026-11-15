@@ -76,6 +76,15 @@ export function Header({ mega, intents, loginItems, openAccountItems, utilityLin
 
   useEffect(() => setHydrated(true), []);
 
+  /* A soft shadow under the header once the page has scrolled. */
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   /* ---------- Audience: remembered choice, mirrored on <html> ---------- */
   const remember = (id: string) => {
     try {
@@ -314,7 +323,7 @@ export function Header({ mega, intents, loginItems, openAccountItems, utilityLin
   const findLabel = 'Find ways to bank better';
 
   return (
-    <header className="hdr" ref={rootRef}>
+    <header className={`hdr${scrolled ? ' is-scrolled' : ''}`} ref={rootRef}>
       <style>{css}</style>
 
       {/* Row 1: logo, audience toggle, search field, actions */}
@@ -721,7 +730,9 @@ export function Header({ mega, intents, loginItems, openAccountItems, utilityLin
 }
 
 const css = `
-.hdr{position:sticky;top:0;z-index:50;color:var(--ink)}
+.hdr{position:sticky;top:0;z-index:50;color:var(--ink);transition:box-shadow var(--dur-slow) var(--ease)}
+.hdr.is-scrolled{box-shadow:0 10px 30px -18px rgba(0,37,84,.35)}
+@keyframes hdr-reveal{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 /* The header sticks, so in-page anchors stop below it. */
 main section[id],main .content[id]{scroll-margin-top:calc(var(--strip-h) + var(--header-h) + var(--s-4))}
 /* Row 1 */
@@ -735,7 +746,7 @@ main section[id],main .content[id]{scroll-margin-top:calc(var(--strip-h) + var(-
 .hdr-seg__list{display:inline-flex;gap:2px;padding:3px;border-radius:var(--r-pill);background:var(--blue);border:1.5px solid var(--blue)}
 .hdr-seg__tab{display:inline-flex;align-items:center;height:34px;padding:0 var(--s-4);border-radius:var(--r-pill);font-weight:700;font-size:var(--t-sm);color:var(--white);text-decoration:none;white-space:nowrap;transition:background-color var(--dur) var(--ease),color var(--dur) var(--ease)}
 .hdr-seg__tab:hover{background:rgba(255,255,255,.14);color:var(--white)}
-.hdr-seg__tab.is-active{background:var(--white);color:var(--blue)}
+.hdr-seg__tab.is-active{background:var(--white);color:var(--blue);box-shadow:0 1px 3px rgba(0,23,54,.25)}
 .hdr-seg__tab:focus-visible{outline-color:var(--white);outline-offset:-3px}
 /* The rounded hdr-search field */
 .hdr-find{display:none;align-items:center;gap:var(--s-3);height:44px;padding:0 var(--s-5,20px);border:1.5px solid var(--line);border-radius:var(--r-pill);background:var(--white);color:var(--grey);font:inherit;font-size:var(--t-sm);text-decoration:none;text-align:left;min-width:0;flex:1 1 220px;max-width:320px;transition:border-color var(--dur) var(--ease)}
@@ -757,7 +768,7 @@ main section[id],main .content[id]{scroll-margin-top:calc(var(--strip-h) + var(-
 .hdr-band__list{display:flex;gap:var(--s-3)}
 .hdr-chip{display:inline-flex;align-items:center;gap:var(--s-2);height:40px;padding:0 var(--s-4);border-radius:var(--r-sm);border:1px solid var(--line);background:var(--white);color:var(--ink);font-weight:700;font-size:var(--t-sm);text-decoration:none;white-space:nowrap;transition:background-color var(--dur) var(--ease),border-color var(--dur) var(--ease),color var(--dur) var(--ease)}
 .hdr-chip__ic{color:var(--blue)}
-.hdr-chip:hover{border-color:var(--blue-700);color:var(--blue)}
+.hdr-chip:hover{border-color:var(--blue-700);color:var(--blue);box-shadow:var(--shadow-card)}
 .hdr-chip[aria-current]{border-color:var(--blue);box-shadow:inset 0 -3px 0 var(--red)}
 .hdr-chip[aria-expanded="true"]{background:var(--blue);border-color:var(--blue);color:var(--white)}
 .hdr-chip[aria-expanded="true"] .hdr-chip__ic{color:var(--white)}
@@ -768,6 +779,7 @@ main section[id],main .content[id]{scroll-margin-top:calc(var(--strip-h) + var(-
 .hdr__item{position:relative}
 .hdr__menu{position:absolute;top:calc(100% + var(--s-2));left:0;min-width:300px;background:var(--white);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow-float);padding:var(--s-3);z-index:60;color:var(--ink)}
 .hdr__menu[hidden]{display:none}
+.hdr__menu:not([hidden]){animation:hdr-reveal var(--dur-slow) var(--ease-out)}
 .hdr__menu--right{left:auto;right:0}
 .hdr__menu-list{display:grid}
 .hdr__link{display:grid;gap:2px;padding:var(--s-3) var(--s-4);border-radius:var(--r-sm);color:var(--ink);text-decoration:none;min-height:var(--tap);transition:background-color var(--dur) var(--ease)}
@@ -779,6 +791,7 @@ main section[id],main .content[id]{scroll-margin-top:calc(var(--strip-h) + var(-
 /* Mega panels */
 .hdr-mega{position:absolute;left:0;right:0;top:100%;background:var(--white);color:var(--ink);border-top:1px solid var(--line);box-shadow:var(--shadow-float);z-index:60;max-height:calc(100vh - 130px);overflow-y:auto}
 .hdr-mega[hidden]{display:none}
+.hdr-mega:not([hidden]){animation:hdr-reveal var(--dur-slow) var(--ease-out)}
 .hdr-mega__inner{padding-block:var(--s-6)}
 .hdr-mega__cols{display:grid;grid-template-columns:repeat(5,minmax(0,1fr))}
 .hdr-mega__col{display:grid;grid-template-rows:auto 1fr auto;gap:var(--s-3);padding:var(--s-2) var(--s-5,20px);border-left:1px solid var(--line)}

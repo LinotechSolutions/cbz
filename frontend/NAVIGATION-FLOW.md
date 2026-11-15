@@ -29,10 +29,10 @@ the top of the page). Details for each page are in the section given.
 
 | Page | What it is | Main buttons | See |
 | --- | --- | --- | --- |
-| `/` Personal home | The front door for individuals: hero, five task cards, nine life-stage journey cards, three digital channel cards, Learn more rail. | **Explore our products** (red menu of six sign-up choices) | 2 |
-| `/business` Business home | The same layout for companies, traders and farmers. Opening it selects the Business audience. | **Explore business products** (red menu of six) | 2b |
-| `/school` School home | The same layout for schools. Opening it selects the School audience. | **Explore school products** (red menu of six) | 2c |
-| `/diaspora` Diaspora banking | What a Zimbabwean abroad needs: the three documents, then banking, property, investing and life cover panels. Opening it selects the Diaspora audience. | **Open a diaspora account** → `/bank/open-account`; **WhatsApp us** ↗ | 5 |
+| `/` Personal home | The front door for individuals, in the design brief's layout (section 2): split hero on a red panel, the "How can we help today?" finder bar, statement band, five solution cards, "We are here to help you grow faster.", nine journey cards, "Our promise to you.", the app band, "Need a personalised solution?", the businesses strip and the Learn more rail. | **Explore our products** (red menu of six sign-up choices); **Get in touch** → `/contact`; **View our products** (finder bar) | 2 |
+| `/business` Business home | The same layout for companies, traders and farmers. Opening it selects the Business audience. **Get in touch** → `/bank/call-me-back`. | **Explore business products** (red menu of six) | 2b |
+| `/school` School home | The same layout for schools. Opening it selects the School audience. **Get in touch** → `/bank/call-me-back`. | **Explore school products** (red menu of six) | 2c |
+| `/diaspora` Diaspora banking | The same layout for Zimbabweans abroad: five diaspora journeys and "What you will need." (the three documents) in place of the promise list. Opening it selects the Diaspora audience. | **Explore diaspora products** (red menu of six); **WhatsApp us** ↗; sticky **Open a diaspora account** on phones | 5 |
 
 ### 0.2 Cluster pages (where the Bank, Insure, Invest and Grow menus' View all links go)
 
@@ -290,118 +290,25 @@ Shows the unit's primary action (e.g. Open an account → `/bank/open-account`).
 
 ## 2. Home `/`
 
-Five sections, top to bottom: hero, task cards, journey carousel, digital
-banking, learn more rail. Nothing else is on the page apart from the global
-header, footer and chat launcher.
+The four audience homes (Personal `/`, Business `/business`, School `/school`, Diaspora `/diaspora`) share `src/components/AudienceHome.astro`; copy, photographs and links are in `src/data/homes.ts`. The sections, in order:
 
-### 2.1 Hero (white split banner)
-
-| Element | What it is | Goes to |
+| Section | What it shows | Buttons |
 | --- | --- | --- |
-| Heading | "Bank, Invest, Insure and Grow with **CBZ Holdings.**" (group name in red) | text only |
-| Lede | "From everyday banking and protecting what matters to building wealth and growing your business, CBZ Holdings brings together the financial solutions, expertise and support you need to achieve more." | text only |
-| **Explore our products** (red button) | opens a dropdown of six choices | see below |
-| ▸ Sign up for CBZ Bank | Current, savings and foreign currency accounts | `/bank/open-account` |
-| ▸ Apply with Red Sphere | Salary and business loans, through the app | ↗ Red Sphere on Google Play |
-| ▸ Sign up for Agro-Yield | Contract farming and seasonal finance, on Agrideck | ↗ `https://agrideck.cbz.co.zw/` |
-| ▸ Start investing with Datvest | Unit trusts and managed portfolios | `/datvest/start-investing` |
-| ▸ Get a quote from CBZ Insurance | Motor, home and business cover | `/insurance/quote` |
-| ▸ Get a quote from CBZ Life | Funeral and education plans | `/cbz-life/quote` |
-| Photograph | family under the red and navy arc | not a link |
+| Hero (`#hero-heading`) | Copy on white (a short red dash, the heading with "CBZ Holdings." in red, one paragraph) beside the photograph on a red panel bleeding to the window edge. | **Explore … products** (red menu of six sign-up choices); **Get in touch** (outlined red) |
+| Finder bar | A rounded bar pulled up over the hero's lower edge: a navy **How can we help today?** label, the **I want to** verb select, the **What** select (follows the verb; the same sentences as the header's search dialog, `INTENTS`) and **View our products**, which opens the chosen page or product. | **View our products** |
+| Statement band (`#statement`) | A grey band: a large navy statement on the left; on the right "Latest from CBZ:" with the newest notice and **Learn more**. | **Learn more** → `/notices/<slug>` |
+| Solutions for every … need. (`#help`) | Five cards (Bank, Borrow, Insure, Invest, Farm; Diaspora: Bank, Property, Invest, Insure, Send money) with a red top bar, a red line icon on a pale halo, a title, a line and a red text link; three to a row, with round red arrows on either side on wide screens. | **Explore …** → the cluster or unit page; **View all solutions** → `/journeys` |
+| We are here to help you grow faster. (`#about`) | A photograph over a tinted square, beside a red dash, the heading with a red full stop, a paragraph and an outlined red button. | **About CBZ Holdings** → `/the-group` |
+| Journeys (`#journeys`) | The slanted photo cards, as before (nine Personal, nine Business, eight School, five Diaspora). | **Let's go** per card; **Explore all solutions** → `/journeys` |
+| Our promise to you. (`#promise`) | Three check-circle points (here when you need us, one relationship, established and regulated) beside a photograph on pale navy shapes. Diaspora shows "What you will need." (the three documents) instead. | none |
+| Download the app (`#digital`) | A navy band: "Bank wherever you are, whenever you need to. Available on the App Store and Google Play." with the store badges, beside the three channel cards (CBZ Touch, ZikiCash or corporate internet banking or POS, Internet banking). | store badges ↗; **Get CBZ Touch** → `/login#apps`; **Log in** → `/login`; the card's second button |
+| Need a personalised solution? (`#talk`) | Centred heading with a red question mark, one line and a large red button. | **Talk to us** → `/contact` |
+| Our businesses (`#businesses`) | A grey strip of the nine business logos, in colour on hover. | each logo → the unit page |
+| Learn more (`#learn`) | The article rail of notices. | **Read** per card; **See all** → `/notices` |
 
-### 2.2 Task cards `#help` (on-screen title "Explore Our Solutions")
+## 2b. Business home `/business` and 2c. School home `/school`
 
-Five white cards, each one whole card is the link. Each has a red outline
-icon, a bold name, one line and a red Explore link.
-
-| Card | Line on the card | Goes to |
-| --- | --- | --- |
-| **Bank** ▸ Explore Banking | Everyday banking, accounts, cards and savings. | `/clusters/banking` (Banking cluster page) |
-| **Borrow** ▸ Explore Loans | Salary, business and cash loans from Red Sphere. | `/red-sphere` (Red Sphere page) |
-| **Insure** ▸ Explore Insurance | Short-term insurance solutions for your assets and business. | `/clusters/insurance` (Insurance cluster page) |
-| **Invest** ▸ Explore Investments | Wealth creation, unit trusts and corporate finance solutions. | `/clusters/investments` (Investment cluster page) |
-| **Farm** ▸ Explore Farming | Finance, inputs, offtake and sector solutions for the agricultural value chain. | `/clusters/agro-business` (Farm cluster page) |
-| View all solutions (top right) | | `/journeys` |
-
-From a cluster page the visitor picks a company card to reach the unit page
-(section 3).
-
-### 2.3 Journey carousel `#journeys` (on-screen title "Whatever your next step, we're here to help you move forward.")
-
-Slanted photo cards. Arrows (‹ ›) scroll one card at a time; the dots and
-the "1 of 9" counter follow the scroll. Each card shows a tag, a red icon
-disc, a question, a promise and a white **Let's go** pill; the whole card is
-the link.
-
-| Card | Goes to |
-| --- | --- |
-| Students: Just got into varsity? | `/bank/open-account` |
-| Traders: Running a small business? | `/red-sphere#explore-loan-products` |
-| Families: Starting a family? | `/cbz-life/quote` |
-| First home: Buying your first home? | `/properties/request-a-viewing` |
-| Motorists: Bought a car? | `/insurance/quote` |
-| Business: Growing a business? | `/bank/apply` |
-| Farmers: Farming this season? | ↗ `https://agrideck.cbz.co.zw/` (Agrideck) |
-| Investors: Thinking about tomorrow? | `/datvest/start-investing` |
-| Diaspora: Living abroad? | `/diaspora` |
-| Explore all solutions | `/journeys` |
-
-### 2.4 Digital banking `#digital` (on-screen title "Bank wherever you are, whenever you need to")
-
-Three white cards.
-
-| Card | Copy | Buttons |
-| --- | --- | --- |
-| CBZ Touch (logo) | Zero-rated mobile banking: transfers, bills, school fees, cardless withdrawals and card controls. | App Store ↗ `apps.apple.com/zw/app/cbz-touch/id1099147682`; Google Play ↗ `play.google.com/store/apps/details?id=zw.co.cbz.touch` |
-| ZikiCash (logo) | Send money home from the United Kingdom to Zimbabwe. | App Store ↗ `apps.apple.com/app/zikicash/id6444567196`; Google Play ↗ `play.google.com/store/apps/details?id=com.kuva.zikicash` |
-| Internet banking (globe icon) | Balances, statements, transfers and payments on the personal and corporate platforms. | **Log in** → `/login`; **Learn more** → `/bank#cards-and-digital` |
-
-### 2.5 Learn more rail `#learn` (on-screen title "Learn more")
-
-Article cards with a photograph, title, summary, category and date. The
-whole card (and its **Read** link) → `/notices/<slug>`. Security notices are
-left out of this rail. **See all** → `/notices`. Arrows scroll the rail.
-
-Current notices: `agm-notice-2026`, `cautionary-statement`,
-`digital-card-upgrade`, `fy2025-results`, `monetary-policy-circular`,
-`saturday-banking` (and `security-and-online-safety`, which appears only on
-`/notices`).
-
----
-
-## 2b. Business home `/business`
-
-The same five sections as the Personal home (hero `#hero-heading`, task cards `#help`, journey carousel `#journeys`, digital cards `#digital`, Learn more `#learn`), with business copy and links. Opening it selects the Business audience.
-
-| Element | Goes to |
-| --- | --- |
-| Hero title "Run, fund, protect and grow your business with CBZ Holdings." | text only |
-| **Explore business products** (red menu) ▸ Open a business account | `/bank/open-account` |
-| ▸ Working capital with Red Sphere | ↗ Red Sphere on Google Play |
-| ▸ Insure your business | `/insurance/quote` |
-| ▸ Cover your staff with CBZ Life | `/cbz-life/quote` |
-| ▸ Invest surplus cash with Datvest | `/datvest/start-investing` |
-| ▸ Contract farming with Agro-Yield | ↗ Agrideck |
-| Task cards: Bank / Borrow / Insure / Invest / Farm | `/bank` / `/red-sphere` / `/clusters/insurance` / `/clusters/investments` / `/clusters/agro-business` |
-| Journey cards (nine): Opening a company account? / Running a small business? / Taking card payments? / Protecting your premises and stock? / Looking after your staff? / Need office or warehouse space? / Raising capital? / Farming at scale? / Surplus cash to put to work? | `/bank/open-account` / `/red-sphere#explore-loan-products` / `/bank#cards-and-digital` / `/insurance/quote` / `/cbz-life/quote` / `/properties?type=commercial` / `/capital/enquiry` / ↗ Agrideck / `/datvest/start-investing` |
-| Digital cards: CBZ Touch (store badges); Corporate internet banking ▸ Log in `/login`, See business channels `/bank#cards-and-digital`; Merchant POS ▸ See POS devices `/bank#cards-and-digital`, Speak to an agent `/bank/call-me-back` | |
-
-## 2c. School home `/school`
-
-The same layout again, for schools. Opening it selects the School audience.
-
-| Element | Goes to |
-| --- | --- |
-| Hero title "Bank, insure and build your school with CBZ Holdings." | text only |
-| **Explore school products** (red menu) ▸ Open a school account | `/bank/open-account` |
-| ▸ Collect fees on POS and CBZ Touch | `/bank#cards-and-digital` |
-| ▸ Insure school buildings and assets | `/insurance/quote` |
-| ▸ Group life for teaching staff | `/cbz-life/quote` |
-| ▸ Invest school funds with Datvest | `/datvest/start-investing` |
-| ▸ Sarapavana education plan for parents | `/cbz-life/sarapavana` |
-| Task cards: Bank / Borrow / Insure / Invest / Farm | `/bank` / `/bank#apply-for-a-loan` / `/clusters/insurance` / `/clusters/investments` / `/clusters/agro-business` |
-| Journey cards (eight): Opening a school account? / Collecting school fees? / Insuring the school buildings? / Looking after your teachers? / Helping parents pay fees? / Building a new block? / Investing school funds? / Running a school farm? | `/bank/open-account` / `/bank#cards-and-digital` / `/insurance/quote` / `/cbz-life/quote` / `/bank#apply-for-a-loan` / `/properties` / `/datvest/start-investing` / ↗ Agrideck |
-| Digital cards: CBZ Touch (store badges); Internet banking ▸ Log in `/login`, See school channels `/bank#cards-and-digital`; Kleva POS ▸ See POS devices `/bank#cards-and-digital`, Speak to an agent `/bank/call-me-back` | |
+The same sections as section 2 with business and school copy: the hero photographs are the business owner in her office and the student with her textbooks; the statement reads "From a first company account to capital raising…" and "From the school account and fees collection…"; the solution cards describe company and school banking; the journeys are the Business and School sets; the promise is "Our promise to your business / school."; the app band shows CBZ Touch, corporate internet banking and Merchant POS (Kleva POS for schools).
 
 ## 3. Cluster pages
 
@@ -652,17 +559,7 @@ Old `/<unit>#product-<unit>-<id>` links still scroll to the card on the unit pag
 
 ## 5. Diaspora banking `/diaspora`
 
-| Section | Buttons |
-| --- | --- |
-| Hero | Open a diaspora account → `/bank/open-account`; WhatsApp us ↗ `wa.me/263774460460` |
-| What you will need `#documents` | Three document cards (no links). Open a diaspora account → `/bank/open-account`; WhatsApp +263 774 460 460 ↗ |
-| Banking `#banking` | Explore all banking services → `/bank`; Foreign currency account → `/bank/fca_individual` (the product page); CBZ Touch → `/#digital` |
-| Property back home `#property` | Explore property services → `/properties`; Browse developments → `/properties`; Mortgage calculator → `/calculators#mortgage`; Diaspora property insurance → `/insurance/diaspora` |
-| Investing `#invest` | Explore investment options → `/datvest`; Datvest diaspora fund → `/datvest/datvest-diaspora-wealth-fund`; Start investing → `/datvest/start-investing` |
-| CBZ Life for your family `#life` | Explore life insurance → `/cbz-life`; Comfortsure funeral plan → `/cbz-life/comfortsure`; Sarapavana education plan → `/cbz-life/sarapavana` |
-| Sticky bar | Open a diaspora account → `/bank/open-account` |
-
----
+The audience home layout (section 2) with diaspora copy: hero "Bank at home, from anywhere with CBZ Holdings." with **Explore diaspora products** (open a diaspora account, browse property, invest with Datvest, cover your family, insure property in Zimbabwe, send money with ZikiCash ↗) and **WhatsApp us** ↗; solution cards Bank, Property, Invest, Insure, Send money; "We are here to help you build back home."; five journeys (banking from abroad, building or buying back home, foreign currency to work, family at home, sending money home); "What you will need." listing the three documents in place of the promise list; the Personal app band; and a sticky **Open a diaspora account** bar on phones.
 
 ## 6. Explore our solutions `/journeys`
 
@@ -725,7 +622,7 @@ Jump links: Mortgage `#mortgage`, Car finance `#car-finance`, Red Sphere loan `#
 
 **CBZ Foundation `/cbz-foundation`**: hero Contact the Foundation → `/contact`. The work so far: Philanthropic initiatives ↗; Community involvement news ↗. Contact: Contact the Foundation → `/contact`; Call +263 8677 004050 → tel.
 
-**Sustainability `/sustainability`**: banner tabs Grievance mechanism `#grievance`, Documents `#documents`, Reports `#reports`. Grievance: Raise a grievance online → `/sustainability/grievance`; Call +263 8677 004050 → tel (becomes Email once a grievance mailbox is supplied); Tip-offs anonymous → `/tip-offs`. Documents: Grievance Procedure and Grievance Resolution Form show "Being published" (become View document ↗ once linked). Reports band: Latest from CBZ → `/notices`. Related: CBZ Foundation `/cbz-foundation`; Tip-offs anonymous `/tip-offs`; The Group `/the-group`.
+**Sustainability `/sustainability`**: the audience home language. Split hero on a red panel ("Building a sustainable future together.") with **Raise a grievance** → `/sustainability/grievance` and **Documents and reports** → `#documents`; a grey statement band with the grievance definition and **Tip-offs anonymous** → `/tip-offs`; "How a grievance is resolved." as four red-topped cards (`#grievance`, Raise it, We acknowledge it, We investigate, We resolve it, each with a red link) and the **Raise a grievance online** and **Call** buttons; "Our commitment to you." check-circle list (`#commitment`); a navy band (`#documents`) with the Grievance Procedure, the Grievance Resolution Form and Sustainability reports (`#reports`) as white cards, "Being published" until the files arrive; "Need to raise a concern?" with **Raise a grievance** and links to the Foundation and the Group. Grievance: Raise a grievance online → `/sustainability/grievance`; Call +263 8677 004050 → tel (becomes Email once a grievance mailbox is supplied); Tip-offs anonymous → `/tip-offs`. Documents: Grievance Procedure and Grievance Resolution Form show "Being published" (become View document ↗ once linked). Reports band: Latest from CBZ → `/notices`. Related: CBZ Foundation `/cbz-foundation`; Tip-offs anonymous `/tip-offs`; The Group `/the-group`.
 
 **Latest from CBZ `/notices`**: filter buttons by category; each card → `/notices/<slug>`. Notice page: Download the full notice ↗ when the notice has a document.
 

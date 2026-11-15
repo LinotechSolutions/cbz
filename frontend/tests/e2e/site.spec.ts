@@ -88,7 +88,7 @@ test('a mega menu opens its purpose columns and search finds a product', async (
   await banner.getByRole('button', { name: 'Find ways to bank better' }).click();
   // The sentence builder: "I want to: insure my car" goes to the motor cover card.
   await page.getByLabel('What do you want to do').selectOption('insure');
-  await expect(page.getByLabel('What', { exact: true })).toHaveValue(/\/insurance\/motor$/);
+  await expect(page.getByRole('dialog').getByLabel('What', { exact: true })).toHaveValue(/\/insurance\/motor$/);
   await page.getByLabel('Search products and pages').fill('smartcash');
   await expect(page.getByRole('link', { name: /SmartCash Lite/ })).toBeVisible();
 });
@@ -238,10 +238,20 @@ test('every business page is built from its site map branches', async ({ page })
   }
 });
 
+test('the home finder bar opens the chosen product page', async ({ page }) => {
+  await page.goto('/business');
+  await expect(page.getByRole('heading', { name: 'Our promise to your business.' })).toBeVisible();
+  const finder = page.getByRole('form', { name: 'Find a product' });
+  await finder.getByLabel('I want to').selectOption('insure');
+  await finder.getByLabel('What', { exact: true }).selectOption({ label: 'my business' });
+  await finder.getByRole('button', { name: 'View our products' }).click();
+  await expect(page).toHaveURL(/\/insurance\/sme_shield$/);
+});
+
 test('home follows the site map order', async ({ page }) => {
   await page.goto('/');
   const ids = await page.locator('main [id]').evaluateAll((els) => els.map((e) => e.id));
-  const order = ['hero-heading', 'help', 'journeys', 'digital', 'learn'];
+  const order = ['hero-heading', 'statement', 'help', 'about', 'journeys', 'promise', 'digital', 'talk', 'businesses', 'learn'];
   let last = -1;
   for (const key of order) {
     const i = ids.findIndex((id) => id === key);

@@ -9,6 +9,7 @@ import type { LogoKey } from './logos';
 import type { AudienceId, NavLink } from './nav';
 import { OPEN_ACCOUNT_ITEMS } from './nav';
 import { LINKS } from './links';
+import { CONTACT, GROUP } from './facts';
 import { LIFE_STAGES, type LifeStage } from './lifeStages';
 
 export interface HelpCard {
@@ -44,11 +45,28 @@ export interface HomeConfig {
     lede: string;
     image: { src: string; alt: string };
     cta: { label: string; items: NavLink[] };
+    /** The outlined button beside the red menu. */
+    secondary: { label: string; href: string };
   };
+  /** The grey band under the hero: a large navy statement beside the latest notice. */
+  statement: string;
+  /** Solution cards; the heading reads "Solutions for every <noun> need." */
+  noun: string;
   help: HelpCard[];
+  /** A photograph with a tinted square behind it, beside a heading with a red full stop, a paragraph and an outlined button. */
+  about: { title: string; body: string; cta: { label: string; href: string }; image: { src: string; alt: string } };
   stages: { title: string; strong: string; items: LifeStage[] };
+  /** The check-circle list beside a photograph. */
+  promise: { title: string; items: { lead: string; body: string }[]; image: { src: string; alt: string } };
   digital: { title: string; strong: string; lede: string; cards: DigitalCard[] };
 }
+
+const tollFree = CONTACT.tollFree.map((t) => t.display).join(' or ');
+const GROUP_PROMISE = [
+  { lead: 'We are here when you need us.', body: `Call ${tollFree} toll free, WhatsApp ${CONTACT.whatsapp.display}, chat on the site or walk into a branch.` },
+  { lead: 'One relationship for everything.', body: 'Banking, loans, cover, investments, property and farm finance from one group, with one team behind you.' },
+  { lead: 'Established and regulated.', body: `${GROUP.listingLine} and ${GROUP.regulatorLine.charAt(0).toLowerCase()}${GROUP.regulatorLine.slice(1)}, with ${GROUP.companies.toLowerCase()} in ${GROUP.clusters.toLowerCase()}.` },
+];
 
 const touchBadges: Pick<DigitalCard, 'logo' | 'logoHeight' | 'app'> = { logo: 'cbz-touch', logoHeight: 34, app: 'cbz-touch' };
 const internetActions = (learn: string): DigitalCard['actions'] => [
@@ -65,9 +83,19 @@ export const PERSONAL_HOME: HomeConfig = {
     title: 'Bank, Invest, Insure and Grow with ',
     brand: 'CBZ Holdings.',
     lede: 'From everyday banking and protecting what matters to building wealth and growing your business, CBZ Holdings brings together the financial solutions, expertise and support you need to achieve more.',
-    image: { src: '/images/hero-family.webp', alt: 'A family looking ahead together in the city' },
+    image: { src: '/images/accounts/individual.webp', alt: 'A man banking on his laptop over coffee' },
     cta: { label: 'Explore our products', items: OPEN_ACCOUNT_ITEMS },
+    secondary: { label: 'Get in touch', href: '/contact' },
   },
+  statement: 'From a first account to retirement plans and everything in between, we provide the guidance and support you need for financial success.',
+  noun: 'personal',
+  about: {
+    title: 'We are here to help you grow faster.',
+    body: 'Whether you are opening your first account, buying a home, covering your family or putting savings to work, the ten companies of CBZ Holdings work as one team around you, in every province and on your phone.',
+    cta: { label: 'About CBZ Holdings', href: '/the-group' },
+    image: { src: '/images/cbz-banking.webp', alt: 'A relationship manager talking a customer through options in a branch' },
+  },
+  promise: { title: 'Our promise to you.', items: GROUP_PROMISE, image: { src: '/images/insurance-family.webp', alt: 'A family laughing together on a sofa' } },
   help: [
     { title: 'Bank', line: 'Everyday banking, accounts, cards and savings.', go: 'Explore Banking', href: '/clusters/banking', icon: 'bank' },
     { title: 'Borrow', line: 'Salary, business and cash loans from Red Sphere.', go: 'Explore Loans', href: '/red-sphere', icon: 'wallet' },
@@ -215,9 +243,19 @@ export const BUSINESS_HOME: HomeConfig = {
     title: 'Run, fund, protect and grow your business with ',
     brand: 'CBZ Holdings.',
     lede: 'From company accounts and card payments to working capital, cover for your premises and staff, and a home for surplus cash, CBZ Holdings brings every service a growing business needs under one roof.',
-    image: { src: '/images/accounts/partnership.webp', alt: 'Two business partners shaking hands' },
+    image: { src: '/images/accounts/current.webp', alt: 'A business owner in her office' },
     cta: { label: 'Explore business products', items: BUSINESS_SIGNUP_ITEMS },
+    secondary: { label: 'Get in touch', href: '/bank/call-me-back' },
   },
+  statement: 'From a first company account to capital raising and everything in between, we provide the banking, finance and cover a growing business needs.',
+  noun: 'business',
+  about: {
+    title: 'We are here to help your business grow faster.',
+    body: 'Company accounts and merchant devices from CBZ Bank, working capital from Red Sphere, cover from CBZ Insurance and CBZ Life, treasury and capital raising from Datvest and CBZ Capital, and space from CBZ Properties: one group, one relationship.',
+    cta: { label: 'About CBZ Holdings', href: '/the-group' },
+    image: { src: '/images/accounts/partnership.webp', alt: 'Two business partners shaking hands over plans' },
+  },
+  promise: { title: 'Our promise to your business.', items: GROUP_PROMISE, image: { src: '/images/cbz-payments.webp', alt: 'A shop owner taking a card payment' } },
   help: [
     { title: 'Bank', line: 'Company accounts, merchant POS, e-statements and corporate internet banking.', go: 'Explore Business Banking', href: '/bank', icon: 'bank' },
     { title: 'Borrow', line: 'Working capital, order finance, invoice discounting and tuck-shop facilities from Red Sphere.', go: 'Explore Business Loans', href: '/red-sphere', icon: 'wallet' },
@@ -357,9 +395,19 @@ export const SCHOOL_HOME: HomeConfig = {
     title: 'Bank, insure and build your school with ',
     brand: 'CBZ Holdings.',
     lede: 'School current accounts, fees collected on CBZ Touch and POS, cover for buildings and teaching staff, and plans that help parents keep fees paid, all from one group.',
-    image: { src: '/images/loan-education.webp', alt: 'A student on campus' },
+    image: { src: '/images/accounts/teen.webp', alt: 'A student with her textbooks' },
     cta: { label: 'Explore school products', items: SCHOOL_SIGNUP_ITEMS },
+    secondary: { label: 'Get in touch', href: '/bank/call-me-back' },
   },
+  statement: 'From the school account and fees collection to cover for buildings and staff, we provide what a school needs to run and grow.',
+  noun: 'school',
+  about: {
+    title: 'We are here to help your school grow faster.',
+    body: 'A school current account with fees collected on CBZ Touch and POS, cover for classrooms and teaching staff, funds that earn between terms and plans that keep parents paying, from one group that understands schools.',
+    cta: { label: 'About CBZ Holdings', href: '/the-group' },
+    image: { src: '/images/loan-education.webp', alt: 'A graduate with her mother outside the university' },
+  },
+  promise: { title: 'Our promise to your school.', items: GROUP_PROMISE, image: { src: '/images/accounts/current.webp', alt: 'A bursar at her desk' } },
   help: [
     { title: 'Bank', line: 'School current account, fees collection, e-statements and fixed deposits.', go: 'Explore School Banking', href: '/bank', icon: 'bank' },
     { title: 'Borrow', line: 'School fees loans for parents and facilities for the school from CBZ Bank.', go: 'Explore Fees Loans', href: '/bank#apply-for-a-loan', icon: 'wallet' },
@@ -397,8 +445,113 @@ export const SCHOOL_HOME: HomeConfig = {
   },
 };
 
-export const HOMES: Record<'personal' | 'business' | 'school', HomeConfig> = {
+/** The red menu on the Diaspora home. */
+export const DIASPORA_SIGNUP_ITEMS: NavLink[] = [
+  { label: 'Open a diaspora account', href: '/bank/open-account', line: 'A foreign currency account run from your phone' },
+  { label: 'Browse property back home', href: '/properties#property-listing', line: 'Titled stands and homes, financed by CBZ Bank' },
+  { label: 'Invest with Datvest', href: '/datvest/start-investing', line: 'The Diaspora Wealth Fund and USD funds' },
+  { label: 'Cover your family with CBZ Life', href: '/cbz-life/quote', line: 'Funeral and education plans' },
+  { label: 'Insure property in Zimbabwe', href: '/insurance/quote', line: 'Diaspora property insurance' },
+  { label: 'Send money home with ZikiCash', href: LINKS.zikiCash.playStore, line: 'From the UK to a CBZ account, a branch or an agent', external: true },
+];
+
+export const DIASPORA_STAGES: LifeStage[] = [
+  {
+    tag: 'Banking',
+    icon: 'globe',
+    question: 'Banking from abroad?',
+    promise: "Let's open an account you run from your phone.",
+    offers: ['Foreign currency account', 'CBZ Touch'],
+    href: '/bank/open-account',
+    unit: 'bank',
+    image: { src: '/images/accounts/diaspora.webp', alt: 'A woman abroad banking on her tablet' },
+  },
+  {
+    tag: 'Property',
+    icon: 'home',
+    question: 'Building or buying back home?',
+    promise: "Let's find the stand and the finance.",
+    offers: ['Titled stands and turnkey homes', 'CBZ Bank mortgage'],
+    href: '/properties#property-listing',
+    unit: 'properties',
+    image: { src: '/images/loan-home.webp', alt: 'A couple with the keys to their new home' },
+  },
+  {
+    tag: 'Investing',
+    icon: 'chart',
+    question: 'Putting foreign currency to work?',
+    promise: "Let's grow it in Zimbabwe.",
+    offers: ['Diaspora Wealth Fund', 'USD Inflation-Shield Fund'],
+    href: '/datvest/start-investing',
+    unit: 'datvest',
+    image: { src: '/images/cbz-wealth.webp', alt: 'A man looking over the city at dusk' },
+  },
+  {
+    tag: 'Family',
+    icon: 'shield',
+    question: 'Looking after family at home?',
+    promise: "Let's cover the people who depend on you.",
+    offers: ['Comfortsure funeral plan', 'Sarapavana education plan'],
+    href: '/cbz-life/quote',
+    unit: 'cbz-life',
+    image: { src: '/images/insurance-family.webp', alt: 'A family together at home' },
+  },
+  {
+    tag: 'Sending money',
+    icon: 'phoneMobile',
+    question: 'Sending money home?',
+    promise: "Let's get it there today.",
+    offers: ['ZikiCash from the UK', 'Collect at a branch, ATM or agent'],
+    href: '/login#apps',
+    unit: 'bank',
+    image: { src: '/images/cbz-payments.webp', alt: 'A payment being made on a phone' },
+  },
+];
+
+export const DIASPORA_HOME: HomeConfig = {
+  id: 'diaspora',
+  path: '/diaspora',
+  title: 'Diaspora banking',
+  description: 'Bank with CBZ from abroad: foreign currency accounts, property back home with a CBZ Bank mortgage, Datvest funds and CBZ Life cover for your family.',
+  hero: {
+    title: 'Bank at home, from anywhere with ',
+    brand: 'CBZ Holdings.',
+    lede: 'Foreign currency accounts, property, investments and cover for your family in Zimbabwe, opened from wherever you live.',
+    image: { src: '/images/accounts/diaspora.webp', alt: 'A woman holding a tablet with a city skyline behind her' },
+    cta: { label: 'Explore diaspora products', items: DIASPORA_SIGNUP_ITEMS },
+    secondary: { label: 'WhatsApp us', href: CONTACT.whatsapp.href },
+  },
+  statement: 'From a foreign currency account to a home and a plan for your family, we provide what Zimbabweans abroad need to stay connected to home.',
+  noun: 'diaspora',
+  about: {
+    title: 'We are here to help you build back home.',
+    body: 'A CBZ Bank account you run from your phone, titled stands and turnkey homes from CBZ Properties financed by CBZ Bank, Datvest funds for your foreign currency and CBZ Life cover for the people who depend on you.',
+    cta: { label: 'About CBZ Holdings', href: '/the-group' },
+    image: { src: '/images/loan-home.webp', alt: 'A couple holding up the key to their new home' },
+  },
+  promise: {
+    title: 'What you will need.',
+    items: [
+      { lead: 'A valid Zimbabwean identity document.', body: 'A copy of your Zimbabwean passport or national ID.' },
+      { lead: 'Proof of where you live abroad.', body: 'A recent utility bill, council tax statement, tenancy agreement or bank statement showing your address.' },
+      { lead: 'Proof of income.', body: 'Your latest payslip, a letter of employment, or three months of bank statements showing salary deposits.' },
+    ],
+    image: { src: '/images/accounts/diaspora.webp', alt: 'A woman holding a tablet with a floor plan' },
+  },
+  help: [
+    { title: 'Bank', line: 'A foreign currency account you can run from your phone, with CBZ Touch and internet banking.', go: 'Explore Banking', href: '/bank', icon: 'bank' },
+    { title: 'Property', line: 'Titled stands and turnkey homes from CBZ Properties, financed by CBZ Bank.', go: 'Explore Property', href: '/properties', icon: 'home' },
+    { title: 'Invest', line: 'Put foreign currency to work through the Datvest Diaspora Wealth Fund and USD funds.', go: 'Explore Investments', href: '/datvest', icon: 'chart' },
+    { title: 'Insure', line: 'CBZ Life cover for your family and CBZ Insurance for property in Zimbabwe.', go: 'Explore Cover', href: '/clusters/insurance', icon: 'shield' },
+    { title: 'Send money', line: 'ZikiCash from the United Kingdom into a CBZ account, a branch, an ATM or an agent.', go: 'Explore ZikiCash', href: '/login#apps', icon: 'phoneMobile' },
+  ],
+  stages: { title: 'Wherever you are, ', strong: 'we’re here to keep you connected to home.', items: DIASPORA_STAGES },
+  digital: PERSONAL_HOME.digital,
+};
+
+export const HOMES: Record<AudienceId, HomeConfig> = {
   personal: PERSONAL_HOME,
   business: BUSINESS_HOME,
   school: SCHOOL_HOME,
+  diaspora: DIASPORA_HOME,
 };

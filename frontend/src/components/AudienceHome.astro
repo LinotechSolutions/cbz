@@ -1,10 +1,17 @@
 ---
 /**
- * An audience home page (Personal, Business, School): a white split hero
- * with the photograph bleeding right, five task cards, the journey carousel,
- * three digital channel cards and the article rail. All copy and links come
- * from src/data/homes.ts; the markup and ids are the same on every audience
- * so the header strip and tests treat them alike.
+ * An audience home page (Personal, Business, School, Diaspora), in the
+ * design brief's layout: a split hero with the copy on white and the
+ * photograph on a red panel; a floating "How can we help today?" finder
+ * bar; a grey band with a large statement beside the latest notice;
+ * "Solutions for every … need." cards with a red top bar in a row with round
+ * red arrows; "We are here to help you grow faster." with a photograph over
+ * a tinted square; the journey carousel; "Our promise to you." as a
+ * check-circle list beside a photograph; a navy "Download the app" band; a
+ * centred "Need a personalised solution?" call to action; a grey strip of
+ * the Group's businesses; and the article rail. All copy and links come from
+ * src/data/homes.ts; the markup and ids are the same on every audience so
+ * the header strip and tests treat them alike.
  */
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -13,8 +20,10 @@ import Icon from './Icon.astro';
 import Logo from './Logo.astro';
 import StoreBadges from './StoreBadges.astro';
 import { OpenAccountMenu } from '../islands/OpenAccountMenu';
-import { LINKS } from '../data/links';
+import { LINKS, isExternal } from '../data/links';
+import { INTENTS } from '../data/nav';
 import type { HomeConfig } from '../data/homes';
+import type { DarkSafeLogoKey } from '../data/logos';
 
 interface Props {
   home: HomeConfig;
@@ -25,71 +34,152 @@ const stores = {
   'cbz-touch': { appStore: LINKS.touch.appStore, playStore: LINKS.touch.playStore },
   'ziki-cash': { appStore: LINKS.zikiCash.appStore, playStore: LINKS.zikiCash.playStore },
 } as const;
+const secondaryExt = isExternal(home.hero.secondary.href);
 
-const articles = (await getCollection('notices'))
+const notices = (await getCollection('notices'))
   .filter((n) => n.data.category !== 'security')
-  .sort((a, b) => b.data.date.localeCompare(a.data.date))
-  .map((n) => ({
-    id: n.id,
-    title: n.data.title,
-    summary: n.data.summary,
-    date: n.data.date,
-    category: n.data.category,
-    reference: n.data.reference,
-    href: `/notices/${n.id}`,
-  }));
+  .sort((a, b) => b.data.date.localeCompare(a.data.date));
+const latest = notices[0];
+const articles = notices.map((n) => ({
+  id: n.id,
+  title: n.data.title,
+  summary: n.data.summary,
+  date: n.data.date,
+  category: n.data.category,
+  reference: n.data.reference,
+  href: `/notices/${n.id}`,
+}));
+
+/* The Group's businesses, for the grey strip. */
+const BUSINESSES: { key: DarkSafeLogoKey; href: string }[] = [
+  { key: 'bank', href: '/bank' },
+  { key: 'red-sphere', href: '/red-sphere' },
+  { key: 'insurance', href: '/insurance' },
+  { key: 'life', href: '/cbz-life' },
+  { key: 'risk-advisory', href: '/risk-advisory' },
+  { key: 'datvest', href: '/datvest' },
+  { key: 'capital', href: '/capital' },
+  { key: 'properties', href: '/properties' },
+  { key: 'agro-yield', href: '/agro-yield' },
+];
+const intents = INTENTS.map((i) => ({ verb: i.verb, objects: i.objects.map((o) => ({ label: o.label, href: o.href, external: Boolean(o.external) })) }));
 ---
 
 <BaseLayout title={home.title} description={home.description} preloadImage={home.hero.image.src}>
-  <!-- 1. Hero: white split banner, copy left and a photograph bleeding right -->
+  <!-- 1. Hero: copy on white, the photograph on a red panel -->
   <header class="hero" aria-labelledby="hero-heading">
     <div class="hero__inner">
       <div class="hero__copy">
         <div class="hero__copy-in">
+          <span class="hero__dash" aria-hidden="true"></span>
           <h1 id="hero-heading" class="hero__title">
             {home.hero.title}<span class="hero__brand">{home.hero.brand}</span>
           </h1>
           <p class="hero__lede">{home.hero.lede}</p>
           <div class="hero__actions">
             <OpenAccountMenu client:idle items={home.hero.cta.items} label={home.hero.cta.label} />
+            <a href={home.hero.secondary.href} class="btn btn--secondary btn--lg hero__alt" target={secondaryExt ? '_blank' : undefined} rel={secondaryExt ? 'noopener noreferrer' : undefined}>
+              {home.hero.secondary.label}
+              {secondaryExt && <span class="sr-only"> (opens in a new tab)</span>}
+            </a>
           </div>
         </div>
       </div>
       <div class="hero__media">
-        <img src={home.hero.image.src} alt={home.hero.image.alt} width={1672} height={941} loading="eager" fetchpriority="high" decoding="async" />
+        <img src={home.hero.image.src} alt={home.hero.image.alt} width={1000} height={747} loading="eager" fetchpriority="high" decoding="async" />
       </div>
+    </div>
+
+    <!-- The finder bar: "How can we help today?" [verb] [what] -> View our products -->
+    <div class="container">
+      <form class="finder" data-finder data-intents={JSON.stringify(intents)} aria-label="Find a product">
+        <span class="finder__label">How can we help today?</span>
+        <label class="sr-only" for="finder-verb">I want to</label>
+        <select id="finder-verb" class="finder__select" data-verb>
+          {intents.map((i) => <option value={i.verb}>{i.verb}</option>)}
+        </select>
+        <label class="sr-only" for="finder-object">What</label>
+        <select id="finder-object" class="finder__select finder__select--wide" data-object>
+          {intents[0]?.objects.map((o) => <option value={o.href}>{o.label}</option>)}
+        </select>
+        <button type="submit" class="finder__go">View our products</button>
+      </form>
     </div>
   </header>
 
-  <!-- 2. Explore Our Solutions -->
-  <section class="top" aria-labelledby="help-heading">
-    <div class="container help" id="help">
-      <div class="help__head">
-        <h2 id="help-heading" class="help__title h-rule">Explore Our Solutions</h2>
-        <a href="/journeys" class="go help__all">View all solutions <Icon name="arrowRight" size={18} /></a>
-      </div>
-      <ul role="list" class="help__cards">
-        {
-          home.help.map((c) => (
-            <li>
-              <a href={c.href} class="benefit card-base">
-                <span class="benefit__icon" aria-hidden="true">
-                  <Icon name={c.icon} size={40} />
-                </span>
-                <span class="benefit__title">{c.title}</span>
-                <span class="benefit__line">{c.line}</span>
-                <span class="go benefit__go">
-                  {c.go} <Icon name="arrowRight" size={18} />
-                </span>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
+  <!-- 2. Statement band: the statement in navy, beside the latest notice -->
+  <section class="statement" id="statement" aria-labelledby="statement-heading">
+    <div class="container statement__in">
+      <h2 id="statement-heading" class="statement__text">{home.statement}</h2>
+      {
+        latest && (
+          <div class="statement__notice">
+            <p class="statement__copy">
+              <strong>Latest from CBZ:</strong> {latest.data.title}. {latest.data.summary}
+            </p>
+            <a href={`/notices/${latest.id}`} class="btn btn--dark statement__btn">
+              Learn more <Icon name="arrowRight" size={18} />
+            </a>
+          </div>
+        )
+      }
     </div>
   </section>
 
-  <!-- 3. Journeys: a carousel of the moments we help with -->
+  <!-- 3. Solutions for every … need. -->
+  <section class="sol" id="help" aria-labelledby="help-heading" data-carousel>
+    <div class="container">
+      <h2 id="help-heading" class="sol__title">
+        Solutions for every<br />{home.noun} need<span class="dot">.</span>
+      </h2>
+      <div class="sol__wrap">
+        <button type="button" class="sol__arrow sol__arrow--prev" data-prev aria-label="Previous">
+          <Icon name="chevronLeft" size={26} />
+        </button>
+        <ul role="list" class="sol__row" data-row>
+          {
+            home.help.map((c) => (
+              <li class="solc">
+                <span class="solc__icon" aria-hidden="true">
+                  <span class="solc__halo" />
+                  <Icon name={c.icon} size={56} />
+                </span>
+                <h3 class="solc__title">{c.title}</h3>
+                <p class="solc__line">{c.line}</p>
+                <a href={c.href} class="solc__go">
+                  {c.go} <Icon name="arrowRight" size={20} />
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+        <button type="button" class="sol__arrow sol__arrow--next" data-next aria-label="Next">
+          <Icon name="chevronRight" size={26} />
+        </button>
+      </div>
+      <a href="/journeys" class="go sol__all">View all solutions <Icon name="arrowRight" size={18} /></a>
+    </div>
+  </section>
+
+  <!-- 4. We are here to help you grow faster. -->
+  <section class="about" id="about" aria-labelledby="about-heading">
+    <div class="container about__in">
+      <div class="about__media">
+        <span class="about__square" aria-hidden="true"></span>
+        <img src={home.about.image.src} alt={home.about.image.alt} width={900} height={900} loading="lazy" decoding="async" />
+      </div>
+      <div class="about__copy">
+        <span class="about__dash" aria-hidden="true"></span>
+        <h2 id="about-heading" class="about__title">
+          {home.about.title.replace(/\.$/, '')}<span class="dot">.</span>
+        </h2>
+        <p class="about__body">{home.about.body}</p>
+        <a href={home.about.cta.href} class="btn btn--outline-red btn--lg">{home.about.cta.label}</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Journeys: a carousel of the moments we help with -->
   <section class="container stages" id="journeys" aria-labelledby="stages-heading" data-stages>
     <div class="stages__head">
       <div class="stages__intro">
@@ -146,17 +236,46 @@ const articles = (await getCollection('notices'))
     </div>
   </section>
 
-  <!-- 4. Digital channels -->
-  <section class="digital" id="digital" aria-labelledby="digital-heading">
+  <!-- 6. Our promise to you: check circles beside a photograph -->
+  <section class="promise" id="promise" aria-labelledby="promise-heading">
+    <div class="container promise__in">
+      <div class="promise__copy">
+        <h2 id="promise-heading" class="promise__title">{home.promise.title}</h2>
+        <ul role="list" class="promise__list">
+          {
+            home.promise.items.map((it) => (
+              <li class="promise__item">
+                <span class="promise__check" aria-hidden="true">
+                  <Icon name="check" size={26} />
+                </span>
+                <p>
+                  <strong>{it.lead}</strong> {it.body}
+                </p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="promise__media" aria-hidden="true">
+        <span class="promise__shape promise__shape--back"></span>
+        <span class="promise__shape promise__shape--front"></span>
+        <img src={home.promise.image.src} alt="" width={700} height={700} loading="lazy" decoding="async" />
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Download the app: a navy band -->
+  <section class="digital on-dark" id="digital" aria-labelledby="digital-heading">
     <div class="container digital__inner">
       <div class="digital__head">
-        <h2 id="digital-heading" class="digital__title h-rule">{home.digital.title}<strong>{home.digital.strong}</strong></h2>
+        <h2 id="digital-heading" class="digital__title">{home.digital.title}<strong>{home.digital.strong}</strong>. Available on the App Store and Google Play.</h2>
         <p class="digital__lede">{home.digital.lede}</p>
+        <StoreBadges app="cbz-touch" appStore={stores['cbz-touch'].appStore} playStore={stores['cbz-touch'].playStore} tone="dark" />
       </div>
       <ul role="list" class="digital__cards">
         {
           home.digital.cards.map((c) => (
-            <li class="dcard card-base">
+            <li class="dcard">
               {c.logo ? (
                 <span class="dcard__logo">
                   <Logo brand={c.logo} on="light" height={c.logoHeight ?? 32} decorative clearSpace={false} />
@@ -169,9 +288,14 @@ const articles = (await getCollection('notices'))
               <h3 class="dcard__title">{c.title}</h3>
               <p class="dcard__line">{c.line}</p>
               <div class="dcard__foot">
-                {c.app && <StoreBadges app={c.app} appStore={stores[c.app].appStore} playStore={stores[c.app].playStore} />}
+                {c.app && c.app !== 'cbz-touch' && <StoreBadges app={c.app} appStore={stores[c.app].appStore} playStore={stores[c.app].playStore} />}
+                {c.app === 'cbz-touch' && (
+                  <a href="/login#apps" class="btn btn--secondary dcard__btn">
+                    Get CBZ Touch
+                  </a>
+                )}
                 {c.actions?.map((a) => (
-                  <a href={a.href} class:list={['btn', `btn--${a.variant}`]}>
+                  <a href={a.href} class:list={['btn', a.variant === 'primary' ? 'btn--primary' : 'btn--secondary', 'dcard__btn']}>
                     {a.label}
                   </a>
                 ))}
@@ -183,7 +307,34 @@ const articles = (await getCollection('notices'))
     </div>
   </section>
 
-  <!-- 5. Learn more -->
+  <!-- 8. Need a personalised solution? -->
+  <section class="talk" id="talk" aria-labelledby="talk-heading">
+    <div class="container talk__in">
+      <h2 id="talk-heading" class="talk__title">Need a personalised solution<span class="dot">?</span></h2>
+      <p class="talk__lede">Get in touch with us, and we will help you to create the right one for your {home.noun === 'personal' ? 'personal' : home.noun} needs.</p>
+      <a href="/contact" class="btn btn--primary btn--lg talk__btn">Talk to us</a>
+    </div>
+  </section>
+
+  <!-- 9. Our businesses: a grey logo strip -->
+  <section class="brands" id="businesses" aria-labelledby="brands-heading">
+    <div class="container brands__in">
+      <h2 id="brands-heading" class="brands__label">Our businesses</h2>
+      <ul role="list" class="brands__list">
+        {
+          BUSINESSES.map((b) => (
+            <li>
+              <a href={b.href} class="brands__link">
+                <Logo brand={b.key} on="light" height={26} clearSpace={false} />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- 10. Learn more -->
   {
     articles.length > 0 && (
       <ArticleRail id="learn" heading="Learn more" headingStrong="Learn" articles={articles} seeAll={{ label: 'See all', href: '/notices' }} />
@@ -192,16 +343,46 @@ const articles = (await getCollection('notices'))
 </BaseLayout>
 
 <script>
-  // Arrows step one card at a time; the dots follow the scroll position.
-  document.querySelectorAll<HTMLElement>('[data-stages]').forEach((wrap) => {
+  // The finder bar: the second select follows the verb; Submit opens the chosen page.
+  document.querySelectorAll<HTMLFormElement>('[data-finder]').forEach((form) => {
+    const intents = JSON.parse(form.dataset.intents || '[]') as { verb: string; objects: { label: string; href: string; external: boolean }[] }[];
+    const verb = form.querySelector<HTMLSelectElement>('[data-verb]');
+    const object = form.querySelector<HTMLSelectElement>('[data-object]');
+    if (!verb || !object) return;
+    const fill = () => {
+      const i = intents.find((x) => x.verb === verb.value) ?? intents[0];
+      object.replaceChildren(
+        ...(i?.objects ?? []).map((o) => {
+          const opt = document.createElement('option');
+          opt.value = o.href;
+          opt.textContent = o.label;
+          return opt;
+        }),
+      );
+    };
+    verb.addEventListener('change', fill);
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const i = intents.find((x) => x.verb === verb.value);
+      const o = i?.objects.find((x) => x.href === object.value) ?? i?.objects[0];
+      if (!o) return;
+      if (o.external) window.open(o.href, '_blank', 'noopener');
+      else location.href = o.href;
+    });
+  });
+
+  // Rows that scroll with arrows: the solution cards and the journeys; the dots follow the scroll.
+  document.querySelectorAll<HTMLElement>('[data-carousel], [data-stages]').forEach((wrap) => {
     const row = wrap.querySelector<HTMLElement>('[data-row]');
     if (!row) return;
-    const dots = Array.from(wrap.querySelectorAll<HTMLElement>('.stages__dot'));
-    const step = () => (row.querySelector<HTMLElement>('.stage')?.offsetWidth ?? 280) + 16;
+    const first = () => row.querySelector<HTMLElement>('li');
+    const step = () => (first()?.offsetWidth ?? 280) + 24;
     const smooth = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
     wrap.querySelector('[data-prev]')?.addEventListener('click', () => row.scrollBy({ left: -step(), behavior: smooth }));
     wrap.querySelector('[data-next]')?.addEventListener('click', () => row.scrollBy({ left: step(), behavior: smooth }));
+    const dots = Array.from(wrap.querySelectorAll<HTMLElement>('.stages__dot'));
     const count = wrap.querySelector<HTMLElement>('[data-count]');
+    if (dots.length === 0) return;
     const mark = () => {
       const i = Math.min(dots.length - 1, Math.max(0, Math.round(row.scrollLeft / step())));
       dots.forEach((d, k) => d.classList.toggle('stages__dot--on', k === i));
@@ -213,9 +394,24 @@ const articles = (await getCollection('notices'))
 </script>
 
 <style>
-  /* ---------- Hero: white split banner ---------- */
+  /* Shared: the red full stop and the outlined red pill */
+  .dot {
+    color: var(--red);
+  }
+  .btn--outline-red {
+    background: transparent;
+    color: var(--red);
+    border-color: var(--red);
+  }
+  .btn--outline-red:hover {
+    background: var(--red-50);
+    color: var(--red-700);
+  }
+
+  /* ---------- 1. Hero ---------- */
   .hero {
     background: var(--white);
+    position: relative;
   }
   .hero__inner {
     display: grid;
@@ -233,12 +429,18 @@ const articles = (await getCollection('notices'))
     justify-items: start;
     align-content: center;
   }
+  .hero__dash {
+    width: 72px;
+    height: 4px;
+    background: var(--red);
+    border-radius: 2px;
+  }
   .hero__title {
     font-size: var(--t-3xl);
     font-weight: 700;
-    color: var(--blue);
-    letter-spacing: -0.015em;
-    line-height: 1.1;
+    color: var(--blue-900);
+    letter-spacing: -0.02em;
+    line-height: 1.08;
     max-width: 16ch;
   }
   .hero__brand {
@@ -246,8 +448,9 @@ const articles = (await getCollection('notices'))
   }
   .hero__lede {
     color: var(--grey);
-    font-size: var(--t-md);
-    max-width: 44ch;
+    font-size: var(--t-lg);
+    line-height: 1.5;
+    max-width: 40ch;
   }
   .hero__actions {
     display: flex;
@@ -256,139 +459,359 @@ const articles = (await getCollection('notices'))
     gap: var(--s-3);
     margin-top: var(--s-2);
   }
+  .hero__alt {
+    border-color: var(--red);
+    color: var(--red);
+  }
+  .hero__alt:hover {
+    background: var(--red-50);
+    color: var(--red-700);
+  }
+  /* The photograph sits on a red panel that bleeds to the window edge */
   .hero__media {
     position: relative;
-    min-height: 260px;
-    background: var(--white);
+    min-height: 300px;
+    background: var(--red);
+    padding: var(--s-6) 0 0 var(--s-6);
   }
   .hero__media img {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: right center;
-    aspect-ratio: 16 / 10;
+    object-position: 60% 25%;
+    aspect-ratio: 4 / 3;
   }
   @media (min-width: 900px) {
     .hero__inner {
-      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-      min-height: 520px;
+      grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+      min-height: 560px;
     }
     .hero__copy-in {
-      padding: var(--s-12) var(--s-10, 40px) var(--s-12) var(--gutter);
+      padding: var(--s-16) var(--s-12) var(--s-24) var(--gutter);
+    }
+    .hero__media {
+      padding: var(--s-10, 40px) 0 0 var(--s-10, 40px);
     }
     .hero__media img {
       aspect-ratio: auto;
       height: 100%;
     }
   }
-  @media (min-width: 1200px) {
-    .hero__inner {
-      min-height: 600px;
+
+  /* The finder bar, pulled up over the hero's lower edge */
+  .finder {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    gap: 0;
+    margin-top: var(--s-6);
+    border-radius: var(--r-md);
+    overflow: hidden;
+    background: var(--white);
+    box-shadow: var(--shadow-float);
+    border: 1px solid var(--line);
+  }
+  @media (min-width: 900px) {
+    .finder {
+      grid-template-columns: auto minmax(0, 1fr) minmax(0, 1.4fr) auto;
+      margin-top: -36px;
+      max-width: 1000px;
     }
   }
-
-  /* ---------- Explore Our Solutions ---------- */
-  .top {
-    position: relative;
-    background: var(--white);
-    padding-block: var(--s-12) var(--s-8);
+  .finder__label {
+    display: flex;
+    align-items: center;
+    min-height: 64px;
+    padding: 0 var(--s-8);
+    background: var(--blue-900);
+    color: var(--white);
+    font-weight: 700;
+    font-size: var(--t-md);
+    white-space: nowrap;
   }
-  .help {
+  .finder__select {
+    min-height: 64px;
+    padding: 0 var(--s-10, 40px) 0 var(--s-6);
+    border: 0;
+    border-top: 1px solid var(--line);
+    background: var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23001736' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right var(--s-4) center;
+    font: inherit;
+    font-size: var(--t-md);
+    font-weight: 700;
+    color: var(--blue-900);
+    appearance: none;
+    -webkit-appearance: none;
+    text-transform: capitalize;
+  }
+  .finder__select--wide {
+    text-transform: none;
+  }
+  .finder__select:focus {
+    outline: 2px solid var(--blue-700);
+    outline-offset: -2px;
+  }
+  @media (min-width: 900px) {
+    .finder__select {
+      border-top: 0;
+      border-left: 1px solid var(--line);
+    }
+  }
+  .finder__go {
+    min-height: 64px;
+    padding: 0 var(--s-8);
+    background: var(--red-50);
+    color: var(--red-700);
+    font-weight: 700;
+    font-size: var(--t-md);
+    white-space: nowrap;
+    transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
+  }
+  .finder__go:hover {
+    background: var(--red);
+    color: var(--white);
+  }
+
+  /* ---------- 2. Statement band ---------- */
+  .statement {
+    background: var(--surface);
+    padding-block: var(--s-16) var(--band);
+  }
+  .statement__in {
     display: grid;
     gap: var(--s-8);
   }
-  .help__head {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: end;
-    justify-content: space-between;
-    gap: var(--s-3) var(--s-6);
+  @media (min-width: 900px) {
+    .statement__in {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: var(--s-16);
+      align-items: start;
+    }
   }
-  .help__title {
+  .statement__text {
     font-size: var(--t-2xl);
-    font-weight: 700;
-    color: var(--blue);
+    font-weight: 400;
+    color: var(--blue-900);
+    line-height: 1.25;
     letter-spacing: -0.01em;
+    max-width: 24ch;
   }
-  .help__all {
+  .statement__notice {
+    display: grid;
+    gap: var(--s-6);
+    justify-items: start;
+  }
+  .statement__copy {
+    color: var(--blue-900);
     font-size: var(--t-md);
-    min-height: var(--tap);
+    line-height: 1.6;
   }
-  .help__all:hover {
-    color: var(--red-700);
-  }
-  .help__cards {
-    display: grid;
-    gap: var(--gap);
-  }
-  @media (min-width: 640px) {
-    .help__cards {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-  @media (min-width: 900px) {
-    .help__cards {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-  }
-  @media (min-width: 1200px) {
-    .help__cards {
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-    }
-  }
-  .benefit {
-    display: grid;
-    grid-template-rows: auto auto 1fr auto;
-    gap: var(--s-3);
-    align-content: start;
-    height: 100%;
-    padding: var(--s-6);
-    color: var(--ink);
-    text-decoration: none;
-  }
-  .benefit:hover,
-  .benefit:focus-visible {
-    color: var(--ink);
-  }
-  .benefit__icon {
-    display: inline-flex;
-    align-items: center;
-    height: 48px;
-    color: var(--red);
-  }
-  .benefit__title {
-    font-size: var(--t-xl);
-    font-weight: 700;
-    color: var(--blue);
-    margin-top: var(--s-2);
-    letter-spacing: -0.01em;
-  }
-  @media (min-width: 900px) {
-    .benefit {
-      min-height: 200px;
-    }
-  }
-  @media (min-width: 1200px) {
-    .benefit__title {
-      font-size: var(--t-lg);
-    }
-  }
-  .benefit__line {
-    font-size: var(--t-sm);
-    color: var(--grey);
-    line-height: 1.5;
-  }
-  .benefit__go {
-    align-self: end;
-    margin-top: var(--s-4);
+  .statement__btn {
+    gap: var(--s-2);
+    border-radius: var(--r-sm);
+    min-height: 52px;
+    padding-inline: var(--s-6);
   }
 
-  /* ---------- Journeys: photo cards in a row that snaps as you scroll ---------- */
+  /* ---------- 3. Solutions ---------- */
+  .sol {
+    background: var(--white);
+    padding-block: var(--band);
+  }
+  .sol__title {
+    font-size: var(--t-3xl);
+    color: var(--blue-900);
+    text-align: center;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0 auto var(--s-12);
+    text-transform: lowercase;
+  }
+  .sol__title::first-letter {
+    text-transform: uppercase;
+  }
+  .sol__wrap {
+    position: relative;
+  }
+  .sol__row {
+    display: flex;
+    gap: var(--s-6);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+    margin-inline: calc(-1 * var(--gutter));
+    padding: var(--s-2) var(--gutter) var(--s-4);
+  }
+  .sol__row::-webkit-scrollbar {
+    display: none;
+  }
+  .solc {
+    flex: 0 0 min(86vw, 360px);
+    scroll-snap-align: start;
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    gap: var(--s-4);
+    min-height: 420px;
+    padding: var(--s-10, 40px) var(--s-8) var(--s-8);
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-top: 6px solid var(--red);
+    box-shadow: var(--shadow-card);
+  }
+  @media (min-width: 640px) {
+    .solc {
+      flex-basis: calc((100% - var(--s-6)) / 2);
+    }
+  }
+  @media (min-width: 1000px) {
+    .solc {
+      flex-basis: calc((100% - 2 * var(--s-6)) / 3);
+    }
+  }
+  .solc__icon {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    width: 120px;
+    height: 120px;
+    color: var(--red);
+  }
+  .solc__halo {
+    position: absolute;
+    right: 0;
+    top: 10px;
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background: var(--red-50);
+  }
+  .solc__icon :global(svg) {
+    position: relative;
+    stroke-width: 1.25;
+  }
+  .solc__title {
+    font-size: var(--t-xl);
+    color: var(--blue-900);
+    letter-spacing: -0.01em;
+  }
+  .solc__line {
+    color: var(--grey);
+    font-size: var(--t-md);
+    line-height: 1.6;
+  }
+  .solc__go {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-3);
+    min-height: var(--tap);
+    color: var(--red);
+    font-size: var(--t-md);
+    text-decoration: none;
+  }
+  .solc__go:hover {
+    color: var(--red-700);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .sol__arrow {
+    display: none;
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    width: 72px;
+    height: 72px;
+    margin-top: -36px;
+    border-radius: 50%;
+    background: var(--red);
+    color: var(--white);
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 16px 32px -10px rgba(228, 0, 43, 0.6);
+    transition: background-color var(--dur) var(--ease);
+  }
+  .sol__arrow:hover {
+    background: var(--red-hover);
+  }
+  .sol__arrow--prev {
+    left: -36px;
+  }
+  .sol__arrow--next {
+    right: -36px;
+  }
+  @media (min-width: 1000px) {
+    .sol__arrow {
+      display: inline-flex;
+    }
+  }
+  .sol__all {
+    margin-top: var(--s-4);
+    font-size: var(--t-md);
+  }
+
+  /* ---------- 4. We are here to help ---------- */
+  .about {
+    background: var(--white);
+    padding-block: var(--s-8) var(--band);
+  }
+  .about__in {
+    display: grid;
+    gap: var(--s-12);
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .about__in {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: var(--s-16);
+    }
+  }
+  .about__media {
+    position: relative;
+    padding: 0 var(--s-8) var(--s-8) 0;
+  }
+  .about__square {
+    position: absolute;
+    top: 8%;
+    right: 0;
+    bottom: 0;
+    width: 60%;
+    background: var(--surface);
+  }
+  .about__media img {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+  .about__copy {
+    display: grid;
+    gap: var(--s-5, 20px);
+    justify-items: start;
+    max-width: 44ch;
+  }
+  .about__dash {
+    width: 72px;
+    height: 4px;
+    background: var(--red);
+    border-radius: 2px;
+  }
+  .about__title {
+    font-size: var(--t-2xl);
+    color: var(--blue-900);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+  .about__body {
+    color: var(--grey);
+    font-size: var(--t-lg);
+    line-height: 1.6;
+  }
+
+  /* ---------- 5. Journeys: photo cards in a row that snaps as you scroll ---------- */
   .stages {
     display: grid;
     gap: var(--s-6);
-    padding-block: var(--band) 0;
+    padding-block: 0 var(--band);
   }
   .stages__head {
     display: grid;
@@ -655,41 +1078,131 @@ const articles = (await getCollection('notices'))
     background: var(--red);
   }
 
-  /* ---------- Digital channels ---------- */
-  .digital {
-    background: var(--white);
+  /* ---------- 6. Our promise ---------- */
+  .promise {
+    background: var(--surface);
     padding-block: var(--band);
-    border-top: 1px solid var(--line);
-    margin-top: var(--band);
   }
-  .digital__inner {
+  .promise__in {
+    display: grid;
+    gap: var(--s-12);
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .promise__in {
+      grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+      gap: var(--s-16);
+    }
+  }
+  .promise__copy {
     display: grid;
     gap: var(--s-8);
   }
+  .promise__title {
+    font-size: var(--t-2xl);
+    color: var(--blue-900);
+    letter-spacing: -0.02em;
+  }
+  .promise__list {
+    display: grid;
+    gap: var(--s-8);
+  }
+  .promise__item {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr);
+    gap: var(--s-6);
+    align-items: start;
+  }
+  .promise__item p {
+    font-size: var(--t-lg);
+    line-height: 1.5;
+    color: var(--grey);
+  }
+  .promise__item strong {
+    color: var(--blue-900);
+  }
+  .promise__check {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--blue-100);
+    color: var(--blue);
+  }
+  .promise__media {
+    position: relative;
+    padding: var(--s-10, 40px) var(--s-10, 40px) var(--s-12) var(--s-12);
+  }
+  .promise__media img {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    z-index: 1;
+  }
+  .promise__shape {
+    position: absolute;
+    background: var(--blue-100);
+  }
+  .promise__shape--back {
+    top: 0;
+    left: 30%;
+    right: 0;
+    height: 55%;
+  }
+  .promise__shape--front {
+    left: 0;
+    bottom: 0;
+    width: 55%;
+    height: 60%;
+    border-bottom-left-radius: 48%;
+    background: var(--blue-50);
+  }
+
+  /* ---------- 7. Download the app ---------- */
+  .digital {
+    background: radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.07), transparent 45%), linear-gradient(160deg, var(--blue-900), var(--blue) 70%, var(--blue-700));
+    color: var(--white);
+    padding-block: var(--band);
+  }
+  .digital__inner {
+    display: grid;
+    gap: var(--s-10, 40px);
+  }
+  @media (min-width: 1000px) {
+    .digital__inner {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: var(--s-16);
+      align-items: center;
+    }
+  }
   .digital__head {
     display: grid;
-    gap: var(--s-3);
-    max-width: 48rem;
+    gap: var(--s-5, 20px);
+    justify-items: start;
   }
   .digital__title {
     font-size: var(--t-2xl);
     font-weight: 400;
-    color: var(--ink);
-    line-height: 1.15;
+    color: var(--white);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
   }
   .digital__title strong {
     font-weight: 700;
-    color: var(--blue);
+    color: var(--white);
   }
   .digital__lede {
-    color: var(--grey);
+    color: rgba(255, 255, 255, 0.86);
     font-size: var(--t-md);
   }
   .digital__cards {
     display: grid;
     gap: var(--gap);
   }
-  @media (min-width: 900px) {
+  @media (min-width: 640px) {
     .digital__cards {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
@@ -700,7 +1213,9 @@ const articles = (await getCollection('notices'))
     gap: var(--s-3);
     height: 100%;
     padding: var(--s-6);
+    border-radius: var(--r-md);
     background: var(--white);
+    color: var(--ink);
   }
   .dcard__logo {
     display: inline-flex;
@@ -723,7 +1238,92 @@ const articles = (await getCollection('notices'))
   .dcard__foot {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--s-3);
+    gap: var(--s-2);
     margin-top: var(--s-2);
+  }
+  .dcard__btn {
+    min-height: 40px;
+    padding-inline: var(--s-4);
+    font-size: var(--t-xs);
+  }
+  .dcard .btn--secondary {
+    color: var(--blue);
+    border-color: var(--blue);
+    background: transparent;
+    backdrop-filter: none;
+  }
+
+  /* ---------- 8. Need a personalised solution? ---------- */
+  .talk {
+    background: var(--white);
+    padding-block: var(--band);
+  }
+  .talk__in {
+    display: grid;
+    gap: var(--s-6);
+    justify-items: center;
+    text-align: center;
+  }
+  .talk__title {
+    font-size: var(--t-2xl);
+    color: var(--blue-900);
+    letter-spacing: -0.02em;
+  }
+  .talk__lede {
+    color: var(--grey);
+    font-size: var(--t-lg);
+    max-width: 44ch;
+    line-height: 1.5;
+  }
+  .talk__btn {
+    min-height: 64px;
+    padding-inline: var(--s-12);
+    font-size: var(--t-md);
+  }
+
+  /* ---------- 9. Our businesses ---------- */
+  .brands {
+    background: var(--white);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding-block: var(--s-8);
+  }
+  .brands__in {
+    display: grid;
+    gap: var(--s-6);
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .brands__in {
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: var(--s-12);
+    }
+  }
+  .brands__label {
+    font-size: var(--t-md);
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--grey);
+  }
+  .brands__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-4) var(--s-8);
+  }
+  .brands__link {
+    display: inline-flex;
+    padding: var(--s-1);
+    border-radius: var(--r-sm);
+    filter: grayscale(1);
+    opacity: 0.45;
+    transition: filter var(--dur) var(--ease), opacity var(--dur) var(--ease);
+  }
+  .brands__link:hover,
+  .brands__link:focus-visible {
+    filter: none;
+    opacity: 1;
   }
 </style>

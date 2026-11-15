@@ -174,6 +174,8 @@ test('property filters sync to the URL', async ({ page }) => {
 
 test('a form validates, saves a draft and submits', async ({ page }) => {
   await page.goto('/bank/open-account');
+  // The form is a React island; clicking before it hydrates is lost.
+  await page.locator('astro-island:not([ssr])').filter({ has: page.getByRole('button', { name: 'Continue' }) }).waitFor();
   await page.getByRole('button', { name: 'Continue' }).click();
   await expect(page.getByRole('alert')).toContainText('Check the following');
   await page.getByLabel('Account type').selectOption('current');

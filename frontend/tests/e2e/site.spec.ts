@@ -251,7 +251,8 @@ test('the home finder bar opens the chosen product page', async ({ page }) => {
 test('home follows the site map order', async ({ page }) => {
   await page.goto('/');
   const ids = await page.locator('main [id]').evaluateAll((els) => els.map((e) => e.id));
-  const order = ['hero-heading', 'statement', 'help', 'about', 'journeys', 'promise', 'digital', 'talk', 'businesses', 'learn'];
+  const order = ['hero-heading', 'statement', 'help', 'about', 'promise', 'digital', 'talk', 'businesses'];
+  await expect(page.locator('#journeys, #learn')).toHaveCount(0);
   let last = -1;
   for (const key of order) {
     const i = ids.findIndex((id) => id === key);

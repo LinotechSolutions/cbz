@@ -5,7 +5,8 @@
  * portraits show a placeholder until photographs are supplied.
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/Hero.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Icon from '../components/Icon.astro';
 import Section from '../components/Section.astro';
 import Logo from '../components/Logo.astro';
 import OrgChart from '../components/OrgChart.astro';
@@ -17,6 +18,15 @@ import { visible } from '../lib/visible';
 import type { DarkSafeLogoKey } from '../data/logos';
 
 const board = visible(BOARD) ? BOARD! : [];
+/* The structure cards: the verb on the first line, the promise on the second. */
+const SUBLINE: Record<string, string> = {
+  banking: 'for every day',
+  investments: 'to grow your wealth',
+  insurance: 'what matters most',
+  'agro-business': 'the whole value chain',
+};
+const operating = CLUSTERS.filter((c) => c.isOperating);
+const foundation = CLUSTERS.find((c) => c.id === 'philanthropy');
 const jump = [
   { label: 'Structure', href: '#structure' },
   { label: 'Awards', href: '#awards' },
@@ -30,14 +40,25 @@ const jump = [
   title="The Group"
   description="CBZ Holdings, founded in 1980 and listed on the Zimbabwe Stock Exchange, is ten operating companies in four clusters: banking, investments, insurance and farming."
 >
-  <Hero
-    title="One group, ten companies"
-    lede={`Founded in ${GROUP.founded} and ${GROUP.listingLine.toLowerCase()}, CBZ Holdings brings banking, investments, insurance and agribusiness under one roof.`}
-    image={{ src: '/images/cbzpicture1.webp', alt: 'CBZ Holdings head office' }}
-    logo="holdings"
-    crumbs={[{ label: 'Home', href: '/' }, { label: 'The Group' }]}
-    overlap={false}
-  />
+  <!-- Who we are: a wide photograph with a navy panel rising out of its lower edge -->
+  <header class="who" id="about" aria-labelledby="who-heading">
+    <div class="who__photo">
+      <img src="/images/about-capital.webp" alt="" width={1280} height={960} loading="eager" fetchpriority="high" decoding="async" />
+      <div class="container who__crumbs">
+        <Breadcrumbs tone="dark" items={[{ label: 'Home', href: '/' }, { label: 'About us' }, { label: 'Who we are' }]} />
+      </div>
+    </div>
+    <div class="container">
+      <div class="who__panel on-dark">
+        <h1 id="who-heading" class="who__title">Who we are</h1>
+        <p class="who__text">
+          CBZ Holdings is your partner for success. Founded in {GROUP.founded} and {GROUP.listingLine.charAt(0).toLowerCase()}{GROUP.listingLine.slice(1)}, the Group brings banking, investments, insurance and farming
+          together under one roof: {GROUP.companies.toLowerCase()} in {GROUP.clusters.toLowerCase()}, built around the sectors our clients work in.
+        </p>
+        <p class="who__text">{GROUP.regulatorLine}.</p>
+      </div>
+    </div>
+  </header>
 
   <nav class="container jump" aria-label="On this page">
     {jump.map((j) => <a href={j.href}>{j.label}</a>)}
@@ -59,33 +80,65 @@ const jump = [
   <Section id="structure" heading="Structure" lede="Four operating clusters, plus the CBZ Foundation held directly by the Group.">
     <div class="structure">
       {
-        CLUSTERS.map((c) => (
-          <section class="cluster" aria-labelledby={`cl-${c.id}`}>
-            <h3 id={`cl-${c.id}`}>
-              <a href={c.route}>{c.name}</a>
-            </h3>
-            <ul role="list" class="cluster__list">
-              {companiesIn(c.id as ClusterId).map((co) => {
-                const held = heldBy(co.id);
-                return (
-                  <li class="company">
-                    {co.logo ? <Logo brand={co.logo as DarkSafeLogoKey} on="light" height={28} decorative /> : <span class="company__blank" aria-hidden="true" />}
-                    <span class="company__text">
-                      {co.route ? <a href={co.route}>{co.name}</a> : <span>{co.name}</span>}
-                      {held.length > 0 && (
-                        <span class="small muted">
-                          holds {held.map((h) => `${h.name} (${h.ownership})`).join(', ')}
-                        </span>
+        operating.map((c) => {
+          const companies = companiesIn(c.id as ClusterId);
+          const held = companies.flatMap((co) => heldBy(co.id).map((h) => ({ ...h, parent: co.name })));
+          return (
+            <section class="cl" aria-labelledby={`cl-${c.id}`}>
+              <div class="cl__top">
+                <span class="cl__blob" aria-hidden="true" />
+                <ul role="list" class="cl__logos">
+                  {companies.map((co) => (
+                    <li class="cl__logo">
+                      {co.logo ? (
+                        co.route ? (
+                          <a href={co.route} aria-label={co.name}>
+                            <Logo brand={co.logo as DarkSafeLogoKey} on="light" height={26} decorative />
+                          </a>
+                        ) : (
+                          <Logo brand={co.logo as DarkSafeLogoKey} on="light" height={26} decorative />
+                        )
+                      ) : (
+                        <span class="cl__name">{co.name}</span>
                       )}
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
-          </section>
-        ))
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div class="cl__head">
+                <span class="cl__chev" aria-hidden="true" />
+                <h3 id={`cl-${c.id}`} class="cl__title">
+                  <span class="cl__verb">{c.taskLabel}</span>
+                  <span class="cl__sub">{SUBLINE[c.id] ?? c.line}</span>
+                </h3>
+              </div>
+              <p class="cl__text">
+                {c.summary}
+                {held.length > 0 && ` ${held.map((h) => `${h.parent} holds ${h.name} (${h.ownership}).`).join(' ')}`}
+              </p>
+              <ul role="list" class="cl__names">
+                {companies.map((co) => (
+                  <li>{co.route ? <a href={co.route}>{co.name}</a> : co.name}</li>
+                ))}
+              </ul>
+              <a href={c.route} class="btn btn--primary btn--lg cl__btn">
+                Explore {c.shortName} <Icon name="arrowRight" size={18} />
+              </a>
+            </section>
+          );
+        })
       }
     </div>
+    {
+      foundation && (
+        <p class="structure__note">
+          <Icon name="users" size={20} />
+          <span>
+            Alongside the four clusters, the <a href={foundation.route}>CBZ Foundation</a> is held directly by CBZ Holdings: {foundation.summary}
+          </span>
+        </p>
+      )
+    }
   </Section>
 
   <Section id="awards" heading="Awards">
@@ -203,6 +256,81 @@ const jump = [
     padding: var(--s-6) 0;
     border-top: 2px solid var(--blue-100);
   }
+  /* ---------- Who we are ---------- */
+  .who {
+    background: var(--surface);
+    padding-bottom: var(--s-8);
+  }
+  .who__photo {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+  }
+  @media (min-width: 900px) {
+    .who__photo {
+      height: 440px;
+    }
+  }
+  .who__photo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 60% 40%;
+    filter: saturate(0.6);
+  }
+  .who__photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 23, 54, 0.55), rgba(0, 23, 54, 0.1) 40%, transparent);
+  }
+  .who__crumbs {
+    position: relative;
+    z-index: 1;
+    padding-top: var(--s-4);
+  }
+  /* The panel rises out of the photograph: navy where the design has green, with the brand's red rule */
+  .who__panel {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: var(--s-4);
+    max-width: 960px;
+    margin: -120px auto 0;
+    padding: var(--s-8) var(--s-6) var(--s-10, 40px);
+    border-radius: var(--r-sm);
+    background: var(--blue);
+    color: var(--white);
+    box-shadow: var(--shadow-float);
+  }
+  @media (min-width: 900px) {
+    .who__panel {
+      margin-top: -180px;
+      padding: var(--s-12) var(--s-12) var(--s-12);
+    }
+  }
+  .who__panel::before {
+    content: '';
+    width: 56px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--red);
+  }
+  .who__title {
+    color: var(--white);
+    font-size: var(--t-3xl);
+    letter-spacing: -0.015em;
+  }
+  .who__text {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: var(--t-md);
+    line-height: 1.7;
+    max-width: 70ch;
+  }
+
+  /* ---------- Structure: four tall cards ---------- */
   .structure {
     display: grid;
     gap: var(--gap);
@@ -212,46 +340,125 @@ const jump = [
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
-  .cluster {
+  @media (min-width: 1100px) {
+    .structure {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  .cl {
     display: grid;
-    gap: var(--s-4);
-    align-content: start;
-    padding: var(--s-6);
+    grid-template-rows: auto auto 1fr auto auto;
+    gap: var(--s-5, 20px);
+    padding: var(--s-6) var(--s-6) var(--s-8);
     background: var(--white);
     border: 1px solid var(--line);
-    border-radius: var(--r-md);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-card);
   }
-  .cluster h3 a {
-    text-decoration: none;
+  /* Company logos on a soft navy blob, like the partner logos on the design */
+  .cl__top {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 170px;
+    padding: var(--s-4);
+  }
+  .cl__blob {
+    position: absolute;
+    inset: 10% 8%;
+    border-radius: 58% 42% 55% 45% / 45% 55% 45% 55%;
+    background: var(--blue-50);
+  }
+  .cl__logos {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: var(--s-3) var(--s-5, 20px);
+  }
+  .cl__logo a {
+    display: inline-flex;
+    padding: var(--s-1);
+    border-radius: var(--r-sm);
+  }
+  .cl__name {
+    font-size: var(--t-xs);
+    font-weight: 700;
     color: var(--blue);
+    padding: var(--s-1) var(--s-3);
+    border-radius: var(--r-pill);
+    background: var(--white);
+    border: 1px solid var(--line);
   }
-  .cluster h3 a:hover {
+  /* The heading: a red half-disc pointing at the big verb and its promise */
+  .cl__head {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: var(--s-4);
+    align-items: center;
+    margin-left: calc(-1 * var(--s-6));
+  }
+  .cl__chev {
+    width: 56px;
+    height: 88px;
+    background: var(--red);
+    border-radius: 0 88px 88px 0;
+  }
+  .cl__title {
+    display: grid;
+    line-height: 1;
+  }
+  .cl__verb {
+    font-size: var(--t-3xl);
+    font-weight: 700;
+    color: var(--blue);
+    letter-spacing: -0.02em;
+  }
+  .cl__sub {
+    font-size: var(--t-lg);
+    font-weight: 400;
+    color: var(--blue);
+    margin-top: var(--s-1);
+  }
+  .cl__text {
+    color: var(--grey);
+    font-size: var(--t-sm);
+    line-height: 1.6;
+  }
+  .cl__names {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-1) var(--s-3);
+    font-size: var(--t-xs);
+    font-weight: 700;
+  }
+  .cl__names a {
+    text-decoration: none;
+    color: var(--blue-700);
+  }
+  .cl__names a:hover {
     text-decoration: underline;
   }
-  .cluster__list {
-    display: grid;
-    gap: var(--s-3);
+  .cl__btn {
+    justify-self: start;
+    gap: var(--s-2);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: var(--t-sm);
   }
-  .company {
+  .structure__note {
     display: flex;
     gap: var(--s-3);
-    align-items: center;
+    align-items: flex-start;
+    margin-top: var(--s-8);
+    color: var(--grey);
+    font-size: var(--t-sm);
+    max-width: var(--measure);
   }
-  .company__blank {
-    width: 40px;
-    height: 28px;
+  .structure__note :global(svg) {
+    color: var(--red);
     flex-shrink: 0;
-  }
-  .company__text {
-    display: grid;
-    gap: 2px;
-  }
-  .company__text a {
-    font-weight: 700;
-    text-decoration: none;
-  }
-  .company__text a:hover {
-    text-decoration: underline;
   }
   .awards {
     display: grid;

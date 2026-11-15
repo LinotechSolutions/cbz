@@ -472,12 +472,11 @@ const intents = INTENTS.map((i) => ({ verb: i.verb, objects: i.objects.map((o) =
     background: var(--red-50);
     color: var(--red-700);
   }
-  /* The photograph sits on a red panel that bleeds to the window edge */
+  /* The photograph bleeds to the window edge */
   .hero__media {
     position: relative;
     min-height: 300px;
-    background: var(--red);
-    padding: var(--s-6) 0 0 var(--s-6);
+    background: var(--white);
   }
   .hero__media img {
     display: block;
@@ -494,9 +493,6 @@ const intents = INTENTS.map((i) => ({ verb: i.verb, objects: i.objects.map((o) =
     }
     .hero__copy-in {
       padding: var(--s-16) var(--s-12) var(--s-24) var(--gutter);
-    }
-    .hero__media {
-      padding: var(--s-10, 40px) 0 0 var(--s-10, 40px);
     }
     .hero__media img {
       aspect-ratio: auto;

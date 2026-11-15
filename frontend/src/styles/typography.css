@@ -26,6 +26,13 @@ html {
   font-size: 100%;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+::selection {
+  background: var(--blue-100);
+  color: var(--blue-900);
 }
 
 body {
@@ -52,6 +59,7 @@ h1 {
 }
 h2 {
   font-size: var(--t-xl);
+  letter-spacing: -0.012em;
 }
 h3 {
   font-size: var(--t-lg);
@@ -104,8 +112,9 @@ b {
 
 a {
   color: var(--blue-700);
-  text-underline-offset: 0.15em;
+  text-underline-offset: 0.18em;
   text-decoration-thickness: 1px;
+  transition: color var(--dur) var(--ease);
 }
 a:hover {
   color: var(--blue);

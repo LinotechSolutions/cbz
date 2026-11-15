@@ -8,8 +8,9 @@
  * red arrows; "We are here to help you grow faster." with a photograph over
  * a tinted square; the journey carousel; "Our promise to you." as a
  * check-circle list beside a photograph; a navy "Download the app" band; a
- * centred "Need a personalised solution?" call to action; a grey strip of
- * the Group's businesses; and the article rail. All copy and links come from
+ * centred "Need a personalised solution?" call to action; and a grey strip
+ * of the Group's businesses. The Diaspora home also carries the journey
+ * carousel and the article rail; the other three do not. All copy and links come from
  * src/data/homes.ts; the markup and ids are the same on every audience so
  * the header strip and tests treat them alike.
  */
@@ -30,6 +31,8 @@ interface Props {
 }
 const { home } = Astro.props;
 const stages = home.stages.items;
+/* The journey carousel and the Learn more rail show on the Diaspora home only. */
+const rails = home.id === 'diaspora';
 const stores = {
   'cbz-touch': { appStore: LINKS.touch.appStore, playStore: LINKS.touch.playStore },
   'ziki-cash': { appStore: LINKS.zikiCash.appStore, playStore: LINKS.zikiCash.playStore },
@@ -179,7 +182,8 @@ const intents = INTENTS.map((i) => ({ verb: i.verb, objects: i.objects.map((o) =
     </div>
   </section>
 
-  <!-- 5. Journeys: a carousel of the moments we help with -->
+  <!-- 5. Journeys: a carousel of the moments we help with (Diaspora only) -->
+  {rails && (
   <section class="container stages" id="journeys" aria-labelledby="stages-heading" data-stages>
     <div class="stages__head">
       <div class="stages__intro">
@@ -235,6 +239,7 @@ const intents = INTENTS.map((i) => ({ verb: i.verb, objects: i.objects.map((o) =
       <p class="stages__count small muted"><span data-count>1</span> of {stages.length}</p>
     </div>
   </section>
+  )}
 
   <!-- 6. Our promise to you: check circles beside a photograph -->
   <section class="promise" id="promise" aria-labelledby="promise-heading">
@@ -334,9 +339,9 @@ const intents = INTENTS.map((i) => ({ verb: i.verb, objects: i.objects.map((o) =
     </div>
   </section>
 
-  <!-- 10. Learn more -->
+  <!-- 10. Learn more (Diaspora only) -->
   {
-    articles.length > 0 && (
+    rails && articles.length > 0 && (
       <ArticleRail id="learn" heading="Learn more" headingStrong="Learn" articles={articles} seeAll={{ label: 'See all', href: '/notices' }} />
     )
   }

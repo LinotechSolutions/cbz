@@ -299,12 +299,12 @@ The four audience homes (Personal `/`, Business `/business`, School `/school`, D
 | Statement band (`#statement`) | A grey band: a large navy statement on the left; on the right "Latest from CBZ:" with the newest notice and **Learn more**. | **Learn more** → `/notices/<slug>` |
 | Solutions for every … need. (`#help`) | Five cards (Bank, Borrow, Insure, Invest, Farm; Diaspora: Bank, Property, Invest, Insure, Send money) with a red top bar, a red line icon on a pale halo, a title, a line and a red text link; three to a row, with round red arrows on either side on wide screens. | **Explore …** → the cluster or unit page; **View all solutions** → `/journeys` |
 | We are here to help you grow faster. (`#about`) | A photograph over a tinted square, beside a red dash, the heading with a red full stop, a paragraph and an outlined red button. | **About CBZ Holdings** → `/the-group` |
-| Journeys (`#journeys`) | The slanted photo cards, as before (nine Personal, nine Business, eight School, five Diaspora). | **Let's go** per card; **Explore all solutions** → `/journeys` |
 | Our promise to you. (`#promise`) | Three check-circle points (here when you need us, one relationship, established and regulated) beside a photograph on pale navy shapes. Diaspora shows "What you will need." (the three documents) instead. | none |
 | Download the app (`#digital`) | A navy band: "Bank wherever you are, whenever you need to. Available on the App Store and Google Play." with the store badges, beside the three channel cards (CBZ Touch, ZikiCash or corporate internet banking or POS, Internet banking). | store badges ↗; **Get CBZ Touch** → `/login#apps`; **Log in** → `/login`; the card's second button |
 | Need a personalised solution? (`#talk`) | Centred heading with a red question mark, one line and a large red button. | **Talk to us** → `/contact` |
 | Our businesses (`#businesses`) | A grey strip of the nine business logos, in colour on hover. | each logo → the unit page |
-| Learn more (`#learn`) | The article rail of notices. | **Read** per card; **See all** → `/notices` |
+
+The Personal, Business and School homes end there. The Diaspora home (section 5) adds the journey carousel (`#journeys`) after "We are here to help" and the Learn more rail (`#learn`) after the businesses strip.
 
 ## 2b. Business home `/business` and 2c. School home `/school`
 

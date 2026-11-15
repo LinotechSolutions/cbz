@@ -142,7 +142,7 @@ All 1000 × 747.
 
 ### 3.1 Audience homes
 
-| Page | Hero | Journey cards (in order) | Digital cards | Learn more rail |
+| Page | Hero | Journey cards (in order; Diaspora only on the page, the others feed `/journeys`) | Digital cards | Learn more rail (Diaspora only) |
 | --- | --- | --- | --- | --- |
 | Personal `/` | `accounts/individual.webp` on the red panel; `cbz-banking` in "We are here to help"; `insurance-family` in "Our promise". | loan-education (Students), cbz-payments (Traders), insurance-family (Families), loan-home (First home), insurance-car (Motorists), accounts/partnership (Business), cbz-agriculture (Farmers), cbz-wealth (Investors), accounts/diaspora (Diaspora). | CBZ Touch logo, ZikiCash logo, globe icon. | Category photographs: shareholder → cbz-wealth, customer → cbz-banking, regulatory → cbzpicture1, operational → cbz-banking-branch, security → cbz-protection. |
 | Business `/business` | `accounts/current.webp` on the red panel; `accounts/partnership` in "We are here to help"; `cbz-payments` in "Our promise". | accounts/current (New company), cbz-payments (Traders), cbz-banking (Payments), cbz-protection (Premises), insurance-health (Your team), hero-home (Space), about-capital (Growth), cbz-agriculture (Farmers), cbz-wealth (Treasury). | CBZ Touch logo, globe icon, store icon. | As Personal. |

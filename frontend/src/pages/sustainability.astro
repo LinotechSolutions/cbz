@@ -12,7 +12,7 @@ import Icon from '../components/Icon.astro';
 import ExternalLink from '../components/ExternalLink.astro';
 import type { IconName } from '../components/icons';
 import { SUSTAINABILITY } from '../data/sustainability';
-import { CONTACT } from '../data/facts';
+import { CONTACT, GROUP } from '../data/facts';
 import { visible } from '../lib/visible';
 
 const docs = SUSTAINABILITY.grievance.documents;
@@ -52,10 +52,15 @@ const PHOTO = { src: '/images/cbz-agriculture.webp', alt: 'A farmer in a maize f
             </a>
             <a href="#documents" class="btn btn--secondary btn--lg hero__alt">Documents and reports</a>
           </div>
+          <ul role="list" class="hero__trust" aria-label="About CBZ Holdings">
+            <li><Icon name="check" size={16} /> Anyone can raise a grievance</li>
+            <li><Icon name="check" size={16} /> {GROUP.regulatorLine}</li>
+          </ul>
         </div>
       </div>
       <div class="hero__media">
         <img src={PHOTO.src} alt={PHOTO.alt} width={1000} height={1000} loading="eager" fetchpriority="high" decoding="async" />
+        <span class="hero__arc" aria-hidden="true"></span>
       </div>
     </div>
   </header>
@@ -229,21 +234,27 @@ const PHOTO = { src: '/images/cbz-agriculture.webp', alt: 'A farmer in a maize f
     color: var(--red);
   }
 
-  /* ---------- Hero ---------- */
+  /* ---------- Hero: the first full screen ---------- */
   .hero {
+    position: relative;
     background: var(--white);
+    overflow: hidden;
   }
   .hero__inner {
     display: grid;
+    min-height: calc(100vh - var(--strip-h) - var(--header-h));
+    min-height: calc(100svh - var(--strip-h) - var(--header-h));
   }
   .hero__copy {
+    position: relative;
+    z-index: 1;
     display: flex;
     justify-content: flex-end;
   }
   .hero__copy-in {
     width: 100%;
     max-width: calc(var(--max) / 2);
-    padding: var(--s-8) var(--gutter);
+    padding: var(--s-8) var(--gutter) var(--s-8);
     display: grid;
     gap: var(--s-5, 20px);
     justify-items: start;
@@ -256,22 +267,28 @@ const PHOTO = { src: '/images/cbz-agriculture.webp', alt: 'A farmer in a maize f
     border-radius: 2px;
   }
   .hero__title {
-    font-size: var(--t-3xl);
+    font-size: clamp(2.4rem, 1.5rem + 2.9vw, 3.75rem);
+    font-weight: 700;
     color: var(--blue-900);
-    letter-spacing: -0.02em;
-    line-height: 1.08;
-    max-width: 16ch;
+    letter-spacing: -0.025em;
+    line-height: 1.04;
+    max-width: 14ch;
+  }
+  .hero__brand {
+    color: var(--red);
   }
   .hero__lede {
     color: var(--grey);
     font-size: var(--t-lg);
-    line-height: 1.5;
+    line-height: 1.55;
     max-width: 40ch;
   }
   .hero__actions {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: var(--s-3);
+    margin-top: var(--s-2);
   }
   .hero__alt {
     border-color: var(--red);
@@ -281,33 +298,80 @@ const PHOTO = { src: '/images/cbz-agriculture.webp', alt: 'A farmer in a maize f
     background: var(--red-50);
     color: var(--red-700);
   }
+  /* Three short facts under the buttons */
+  .hero__trust {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2) var(--s-6);
+    margin-top: var(--s-4);
+    padding-top: var(--s-5, 20px);
+    border-top: 1px solid var(--line);
+    font-size: var(--t-sm);
+    color: var(--grey);
+  }
+  .hero__trust li {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+  }
+  .hero__trust :global(svg) {
+    color: var(--red);
+    flex-shrink: 0;
+  }
+  /* The photograph bleeds to the window edge, fading into the copy column and darkening at its foot */
   .hero__media {
     position: relative;
-    min-height: 300px;
-    background: var(--white);
+    min-height: 320px;
+    background: var(--blue-50);
   }
   .hero__media img {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 50% 30%;
+    object-position: 60% 25%;
     aspect-ratio: 4 / 3;
+  }
+  .hero__media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(to top, rgba(0, 23, 54, 0.45), transparent 35%);
+  }
+  .hero__arc {
+    position: absolute;
+    right: -8%;
+    bottom: -22%;
+    width: 42%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 12px solid var(--red);
+    border-color: transparent transparent var(--red) var(--red);
+    transform: rotate(10deg);
+    opacity: 0.85;
+    pointer-events: none;
   }
   @media (min-width: 900px) {
     .hero__inner {
-      grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
-      min-height: 520px;
+      grid-template-columns: minmax(0, 11fr) minmax(0, 13fr);
     }
     .hero__copy-in {
-      padding: var(--s-12) var(--s-12) var(--s-12) var(--gutter);
+      padding: var(--s-12) var(--s-12) var(--s-24) var(--gutter);
+    }
+    .hero__media {
+      min-height: 0;
     }
     .hero__media img {
       aspect-ratio: auto;
       height: 100%;
+      mask-image: linear-gradient(to right, transparent, #000 14%);
+      -webkit-mask-image: linear-gradient(to right, transparent, #000 14%);
+    }
+    .hero__media::after {
+      background: linear-gradient(to top, rgba(0, 23, 54, 0.5), transparent 32%), linear-gradient(to right, var(--white), transparent 18%);
     }
   }
-
   /* ---------- Statement band ---------- */
   .statement {
     background: var(--surface);

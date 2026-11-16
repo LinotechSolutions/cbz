@@ -79,7 +79,7 @@ export function ChatLauncher({ whatsapp, phone, email }: Props) {
         aria-controls={id}
         onClick={() => setOpen((v) => !v)}
       >
-        <Icon name={open ? 'close' : 'chat'} size={20} />
+        <Icon name={open ? 'close' : 'chat'} size={18} />
         <span>{open ? 'Close' : 'Chat with us'}</span>
       </button>
     </div>
@@ -90,15 +90,15 @@ const css = `
 .chat{position:fixed;right:var(--s-4);bottom:calc(var(--s-4) + env(safe-area-inset-bottom));z-index:45;display:grid;justify-items:end;gap:var(--s-3)}
 body.has-sticky-cta .chat{bottom:calc(var(--sticky-cta-h) + var(--s-3) + env(safe-area-inset-bottom))}
 @media (min-width:900px){body.has-sticky-cta .chat{bottom:var(--s-6)}.chat{right:var(--s-6);bottom:var(--s-6)}}
-.chat__pill{display:inline-flex;align-items:center;gap:var(--s-2);min-height:48px;padding:0 var(--s-5,20px) 0 var(--s-4);border-radius:999px;background:var(--blue);color:var(--white);font-weight:700;box-shadow:var(--shadow-float);transition:background-color var(--dur) var(--ease)}
-.chat__pill:hover{background:var(--blue-700)}
-.chat__panel{width:min(320px,calc(100vw - var(--s-8)));background:var(--white);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow-float);padding:var(--s-4);display:grid;gap:var(--s-2)}
-.chat__title{font-weight:700;color:var(--blue);padding:var(--s-2) var(--s-2) var(--s-1)}
-.chat__opt{display:flex;align-items:center;gap:var(--s-3);padding:var(--s-3) var(--s-2);border-radius:var(--r-sm);color:var(--ink);text-decoration:none;min-height:var(--tap)}
-.chat__opt:hover{background:var(--blue-50);color:var(--ink)}
+.chat__pill{display:inline-flex;align-items:center;gap:var(--s-2);min-height:44px;padding:0 var(--s-5) 0 var(--s-4);border-radius:var(--r-pill);background:var(--blue-900);color:var(--white);font-weight:700;font-size:var(--t-xs);box-shadow:var(--shadow-lg);border:1px solid rgba(255,255,255,0.15);transition:all var(--dur) var(--ease)}
+.chat__pill:hover{background:var(--blue-700);transform:translateY(-2px);box-shadow:var(--shadow-xl)}
+.chat__panel{width:min(340px,calc(100vw - var(--s-8)));background:var(--white);border:1px solid var(--line);border-radius:var(--r-xl);box-shadow:var(--shadow-xl);padding:var(--s-4);display:grid;gap:var(--s-2);animation:hdr-reveal var(--dur-slow) var(--ease-out)}
+.chat__title{font-weight:700;color:var(--blue-900);padding:var(--s-2) var(--s-2) var(--s-1);font-size:var(--t-sm)}
+.chat__opt{display:flex;align-items:center;gap:var(--s-3);padding:var(--s-3) var(--s-3);border-radius:var(--r-md);color:var(--ink);text-decoration:none;min-height:var(--tap);transition:background-color var(--dur) var(--ease)}
+.chat__opt:hover{background:var(--neutral-100);color:var(--ink)}
 .chat__opt>span{display:grid}
-.chat__opt-label{font-weight:700;color:var(--blue)}
-.chat__opt-line{font-size:var(--t-xs);color:var(--grey)}
+.chat__opt-label{font-weight:700;font-size:var(--t-sm);color:var(--blue-900)}
+.chat__opt-line{font-size:var(--t-xs);color:var(--neutral-500)}
 .chat__wa{color:var(--whatsapp)}
-.chat__note{font-size:var(--t-xs);color:var(--grey);padding:var(--s-2)}
+.chat__note{font-size:var(--t-xs);color:var(--neutral-500);padding:var(--s-2);line-height:1.4}
 `;

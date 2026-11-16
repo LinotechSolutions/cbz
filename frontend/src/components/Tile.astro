@@ -34,7 +34,7 @@ const external = isExternal(href);
     {
       icon && (
         <span class="tile__icon">
-          <Icon name={icon} size={size === 'lead' ? 34 : 26} />
+          <Icon name={icon} size={size === 'lead' ? 30 : 24} />
         </span>
       )
     }
@@ -60,16 +60,23 @@ const external = isExternal(href);
     padding: var(--s-6);
     color: var(--ink);
     text-decoration: none;
-    border-radius: var(--r-lg);
+    border-radius: var(--r-xl);
+    border: 1px solid var(--line);
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--dur) var(--ease);
   }
   .tile:hover {
     color: var(--ink);
+    border-color: var(--blue-100);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-3px);
   }
   .tile--lead {
     padding: var(--s-8);
   }
   .tile--small {
-    padding: var(--s-5, 20px) var(--s-6);
+    padding: var(--s-5) var(--s-6);
   }
   .tile__body {
     display: grid;
@@ -81,35 +88,50 @@ const external = isExternal(href);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
+    width: 52px;
+    height: 52px;
+    border-radius: var(--r-md);
     background: var(--red-50);
     color: var(--red);
     margin-bottom: var(--s-2);
+    transition: transform var(--dur) var(--ease);
+  }
+  .tile:hover .tile__icon {
+    transform: scale(1.05);
   }
   .tile--lead .tile__icon {
-    width: 64px;
-    height: 64px;
+    width: 60px;
+    height: 60px;
   }
   .tile__title {
     font-weight: 700;
     font-size: var(--t-md);
-    color: var(--blue);
+    color: var(--blue-900);
     line-height: 1.25;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.015em;
   }
   .tile--lead .tile__title {
     font-size: var(--t-xl);
   }
   .tile__line {
-    color: var(--grey);
+    color: var(--neutral-600);
     font-size: var(--t-sm);
-    line-height: 1.5;
+    line-height: 1.55;
     max-width: 36ch;
   }
   .tile__go {
     margin-top: auto;
-    padding-top: var(--s-2);
+    padding-top: var(--s-3);
+    font-size: var(--t-sm);
+    font-weight: 700;
+    color: var(--red);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    transition: gap var(--dur) var(--ease);
+  }
+  .tile:hover .tile__go {
+    gap: var(--s-3);
+    color: var(--red-hover);
   }
 </style>

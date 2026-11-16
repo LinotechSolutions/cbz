@@ -120,6 +120,19 @@ All 1000 × 747.
 | `churchsaver.webp` | 116 KB | A congregation and clergy in blue outside "St Paul's Community Church". | Church Current Account product card. |
 | `individual-600.webp` | 600 × 448, 38 KB | A smaller copy of `individual.webp`. | Not used anywhere. |
 
+### 2.3b Hero slideshow photographs (`/images/heroes/`)
+
+All 1024 × 512 JPEG, supplied November 2026: composed with a white left half and the subject inside a circle with a red and navy arc on the right. On the homes the right-hand subject is what shows; the white half sits behind the fade into the copy column.
+
+| File | Size | What it shows | Used on |
+| --- | --- | --- | --- |
+| `hero-personal.jpg` | 81 KB | A family of four outside their home with a "Life insurance" shield graphic. | First slide on the Personal home. |
+| `hero-business.jpg` | 64 KB | A businesswoman with a tablet in front of a new double-storey house. | First slide on the Business home. |
+| `hero-school.jpg` | 68 KB | A woman at a laptop with a "Risk advisory" graphic. | First slide on the School home. |
+| `hero-diaspora.jpg` | 64 KB | A farmer checking his phone in a maize field. | First slide on the Diaspora home. |
+
+These are 512 px tall and are scaled up to fill a column around 700 px tall on desktop, so they are a little soft; 2000 × 1000 versions would fix that. The "Life insurance" and "Risk advisory" graphics inside the Personal and School pictures do not match those pages' subjects.
+
 ### 2.4 Share image
 
 | File | Size | What it shows | Used on |
@@ -144,10 +157,10 @@ All 1000 × 747.
 
 | Page | Hero | Journey cards (in order; Diaspora only on the page, the others feed `/journeys`) | Digital cards | Learn more rail (Diaspora only) |
 | --- | --- | --- | --- | --- |
-| Personal `/` | `accounts/individual.webp` in the hero; `cbz-banking` in "We are here to help"; `insurance-family` in "Our promise". | loan-education (Students), cbz-payments (Traders), insurance-family (Families), loan-home (First home), insurance-car (Motorists), accounts/partnership (Business), cbz-agriculture (Farmers), cbz-wealth (Investors), accounts/diaspora (Diaspora). | CBZ Touch logo, ZikiCash logo, globe icon. | Category photographs: shareholder → cbz-wealth, customer → cbz-banking, regulatory → cbzpicture1, operational → cbz-banking-branch, security → cbz-protection. |
-| Business `/business` | `accounts/current.webp` in the hero; `accounts/partnership` in "We are here to help"; `cbz-payments` in "Our promise". | accounts/current (New company), cbz-payments (Traders), cbz-banking (Payments), cbz-protection (Premises), insurance-health (Your team), hero-home (Space), about-capital (Growth), cbz-agriculture (Farmers), cbz-wealth (Treasury). | CBZ Touch logo, globe icon, store icon. | As Personal. |
-| School `/school` | `accounts/teen.webp` in the hero; `loan-education` in "We are here to help"; `accounts/current` in "Our promise". | accounts/current (Accounts), cbz-payments (Fees), cbz-protection (Buildings), insurance-health (Teachers), loan-education (Parents), hero-home (Building), cbz-wealth (Funds), cbz-agriculture (School farm). | CBZ Touch logo, globe icon, store icon. | As Personal. |
-| Diaspora `/diaspora` | `accounts/diaspora.webp` in the hero; `loan-home` in "We are here to help"; `accounts/diaspora` in "What you will need". | accounts/diaspora (Banking), loan-home (Property), cbz-wealth (Investing), insurance-family (Family), cbz-payments (Sending money). | As Personal. | As Personal. |
+| Personal `/` | Hero slideshow: `heroes/hero-personal.jpg`, then `accounts/individual.webp` and `cbz-banking.webp`; `cbz-banking` in "We are here to help"; `insurance-family` in "Our promise". | loan-education (Students), cbz-payments (Traders), insurance-family (Families), loan-home (First home), insurance-car (Motorists), accounts/partnership (Business), cbz-agriculture (Farmers), cbz-wealth (Investors), accounts/diaspora (Diaspora). | CBZ Touch logo, ZikiCash logo, globe icon. | Category photographs: shareholder → cbz-wealth, customer → cbz-banking, regulatory → cbzpicture1, operational → cbz-banking-branch, security → cbz-protection. |
+| Business `/business` | Hero slideshow: `heroes/hero-business.jpg`, then `accounts/current.webp` and `accounts/partnership.webp`; `accounts/partnership` in "We are here to help"; `cbz-payments` in "Our promise". | accounts/current (New company), cbz-payments (Traders), cbz-banking (Payments), cbz-protection (Premises), insurance-health (Your team), hero-home (Space), about-capital (Growth), cbz-agriculture (Farmers), cbz-wealth (Treasury). | CBZ Touch logo, globe icon, store icon. | As Personal. |
+| School `/school` | Hero slideshow: `heroes/hero-school.jpg`, then `accounts/teen.webp` and `loan-education.webp`; `loan-education` in "We are here to help"; `accounts/current` in "Our promise". | accounts/current (Accounts), cbz-payments (Fees), cbz-protection (Buildings), insurance-health (Teachers), loan-education (Parents), hero-home (Building), cbz-wealth (Funds), cbz-agriculture (School farm). | CBZ Touch logo, globe icon, store icon. | As Personal. |
+| Diaspora `/diaspora` | Hero slideshow: `heroes/hero-diaspora.jpg`, then `accounts/diaspora.webp` and `loan-home.webp`; `loan-home` in "We are here to help"; `accounts/diaspora` in "What you will need". | accounts/diaspora (Banking), loan-home (Property), cbz-wealth (Investing), insurance-family (Family), cbz-payments (Sending money). | As Personal. | As Personal. |
 
 ### 3.2 Cluster pages and the Group
 

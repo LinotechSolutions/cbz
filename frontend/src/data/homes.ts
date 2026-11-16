@@ -44,6 +44,8 @@ export interface HomeConfig {
     brand: string;
     lede: string;
     image: { src: string; alt: string };
+    /** The hero slideshow: the first slide is `image`; the others crossfade in after it. */
+    slides: { src: string; alt: string }[];
     cta: { label: string; items: NavLink[] };
     /** The outlined button beside the red menu. */
     secondary: { label: string; href: string };
@@ -83,7 +85,12 @@ export const PERSONAL_HOME: HomeConfig = {
     title: 'Bank, Invest, Insure and Grow with ',
     brand: 'CBZ Holdings.',
     lede: 'From everyday banking and protecting what matters to building wealth and growing your business, CBZ Holdings brings together the financial solutions, expertise and support you need to achieve more.',
-    image: { src: '/images/accounts/individual.webp', alt: 'A man banking on his laptop over coffee' },
+    image: { src: '/images/heroes/hero-personal.jpg', alt: 'A family of four smiling together outside their home' },
+    slides: [
+      { src: '/images/heroes/hero-personal.jpg', alt: 'A family of four smiling together outside their home' },
+      { src: '/images/accounts/individual.webp', alt: 'A man banking on his laptop over coffee' },
+      { src: '/images/cbz-banking.webp', alt: 'A relationship manager talking a customer through options in a branch' },
+    ],
     cta: { label: 'Explore our products', items: OPEN_ACCOUNT_ITEMS },
     secondary: { label: 'Get in touch', href: '/contact' },
   },
@@ -243,7 +250,12 @@ export const BUSINESS_HOME: HomeConfig = {
     title: 'Run, fund, protect and grow your business with ',
     brand: 'CBZ Holdings.',
     lede: 'From company accounts and card payments to working capital, cover for your premises and staff, and a home for surplus cash, CBZ Holdings brings every service a growing business needs under one roof.',
-    image: { src: '/images/accounts/current.webp', alt: 'A business owner in her office' },
+    image: { src: '/images/heroes/hero-business.jpg', alt: 'A businesswoman reviewing plans on a tablet outside a new building' },
+    slides: [
+      { src: '/images/heroes/hero-business.jpg', alt: 'A businesswoman reviewing plans on a tablet outside a new building' },
+      { src: '/images/accounts/current.webp', alt: 'A business owner in her office' },
+      { src: '/images/accounts/partnership.webp', alt: 'Two business partners shaking hands over plans' },
+    ],
     cta: { label: 'Explore business products', items: BUSINESS_SIGNUP_ITEMS },
     secondary: { label: 'Get in touch', href: '/bank/call-me-back' },
   },
@@ -395,7 +407,12 @@ export const SCHOOL_HOME: HomeConfig = {
     title: 'Bank, insure and build your school with ',
     brand: 'CBZ Holdings.',
     lede: 'School current accounts, fees collected on CBZ Touch and POS, cover for buildings and teaching staff, and plans that help parents keep fees paid, all from one group.',
-    image: { src: '/images/accounts/teen.webp', alt: 'A student with her textbooks' },
+    image: { src: '/images/heroes/hero-school.jpg', alt: 'An administrator working at a laptop' },
+    slides: [
+      { src: '/images/heroes/hero-school.jpg', alt: 'An administrator working at a laptop' },
+      { src: '/images/accounts/teen.webp', alt: 'A student with her textbooks' },
+      { src: '/images/loan-education.webp', alt: 'A graduate with her mother outside the university' },
+    ],
     cta: { label: 'Explore school products', items: SCHOOL_SIGNUP_ITEMS },
     secondary: { label: 'Get in touch', href: '/bank/call-me-back' },
   },
@@ -517,7 +534,12 @@ export const DIASPORA_HOME: HomeConfig = {
     title: 'Bank at home, from anywhere with ',
     brand: 'CBZ Holdings.',
     lede: 'Foreign currency accounts, property, investments and cover for your family in Zimbabwe, opened from wherever you live.',
-    image: { src: '/images/accounts/diaspora.webp', alt: 'A woman holding a tablet with a city skyline behind her' },
+    image: { src: '/images/heroes/hero-diaspora.jpg', alt: 'A farmer checking his phone in a maize field' },
+    slides: [
+      { src: '/images/heroes/hero-diaspora.jpg', alt: 'A farmer checking his phone in a maize field' },
+      { src: '/images/accounts/diaspora.webp', alt: 'A woman holding a tablet with a city skyline behind her' },
+      { src: '/images/loan-home.webp', alt: 'A couple holding up the key to their new home' },
+    ],
     cta: { label: 'Explore diaspora products', items: DIASPORA_SIGNUP_ITEMS },
     secondary: { label: 'WhatsApp us', href: CONTACT.whatsapp.href },
   },

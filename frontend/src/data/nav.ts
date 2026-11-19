@@ -180,6 +180,74 @@ const RAW_MEGA: MegaMenu[] = [
     ],
   },
   {
+    id: 'affluent',
+    label: 'Affluent Banking',
+    icon: 'star',
+    href: '/affluent',
+    note: 'Private Banking, Prime Banking and Wealth Management from CBZ Bank, for individuals.',
+    audiences: ['personal'],
+    columns: [
+      {
+        title: 'Private Banking',
+        items: [
+          { label: 'Exclusive banking for those shaping tomorrow', href: '/affluent/private-banking' },
+          { label: 'What you need to know', href: '/affluent/private-banking#know' },
+          { label: 'Visa Infinite', href: '/affluent/cards' },
+          { label: 'Why clients choose CBZ', href: '/affluent/private-banking#why' },
+        ],
+        offeredBy: [BANK],
+      },
+      {
+        title: 'Prime Banking',
+        items: [
+          { label: 'Premium banking that moves with your ambition', href: '/affluent/prime-banking' },
+          { label: 'What you need to know', href: '/affluent/prime-banking#know' },
+          { label: 'Visa Debit and Gold', href: '/affluent/cards#gold' },
+          { label: 'Why clients choose CBZ', href: '/affluent/prime-banking#why' },
+        ],
+        offeredBy: [BANK],
+      },
+      {
+        title: 'Wealth Management',
+        items: [
+          { label: 'Grow, protect and pass on your wealth', href: '/affluent/wealth-management' },
+          { label: 'What you need to know', href: '/affluent/wealth-management#know' },
+          { label: 'Investment solutions', href: '/affluent/investments' },
+          { label: 'Why clients choose CBZ', href: '/affluent/wealth-management#why' },
+        ],
+        offeredBy: [BANK, DATVEST],
+      },
+      {
+        title: 'Solutions for every tier',
+        items: [
+          { label: 'Transactional accounts', href: '/affluent/accounts' },
+          { label: 'Loans', href: '/affluent/loans' },
+          { label: 'Vehicle finance', href: '/affluent/vehicle-finance' },
+          { label: 'Safe deposit boxes', href: '/affluent/safe-deposit' },
+          { label: 'Insurance and life assurance', href: '/affluent/insurance' },
+          { label: 'Property solutions', href: '/affluent/properties' },
+          { label: 'Farm finance', href: '/affluent/farm' },
+        ],
+        offeredBy: [BANK, INSURANCE, PROPERTIES, AGRO],
+      },
+      {
+        title: 'Talk to us',
+        items: [
+          { label: 'Compare the three tiers', href: '/affluent#compare' },
+          { label: 'Locate a Private Banking centre', href: '/contact#private-banking' },
+          { label: 'Book an appointment', href: '/affluent#appointment' },
+          { label: 'Speak to a wealth manager', href: '/datvest/call-me-back' },
+        ],
+        offeredBy: [BANK],
+      },
+    ],
+    actions: [
+      { label: 'Explore Affluent Banking', href: '/affluent' },
+      { label: 'Book an appointment', href: '/affluent#appointment' },
+      { label: 'Compare the tiers', href: '/affluent#compare' },
+    ],
+  },
+  {
     id: 'insure',
     label: 'Insure',
     icon: 'shield',
@@ -671,8 +739,10 @@ export const INTENTS: Intent[] = [
   {
     verb: 'join',
     objects: [
+      { label: 'Private Banking', href: '/affluent/private-banking' },
+      { label: 'Prime Banking', href: '/affluent/prime-banking' },
+      { label: 'Wealth Management', href: '/affluent/wealth-management' },
       { label: 'Corporate banking', href: '/corporate' },
-      { label: 'Wealth Management', href: '/datvest/start-investing' },
     ],
   },
   {

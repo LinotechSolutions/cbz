@@ -18,13 +18,13 @@ const notices = (await getCollection('notices'))
   }));
 ---
 
-<BaseLayout title="Latest from CBZ" description="Shareholder circulars, customer notices and regulatory announcements from CBZ Holdings.">
+<BaseLayout title="Newsroom" description="CBZ Holdings Newsroom: shareholder circulars, customer notices and regulatory announcements.">
   <div class="container crumbs">
-    <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Latest from CBZ' }]} />
+    <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Newsroom' }]} />
   </div>
   {
     notices.length > 0 ? (
-      <ArticleRail id="notices" heading="Latest from CBZ" headingStrong="Latest" articles={notices} filters />
+      <ArticleRail id="newsroom" badge="CBZ Group Media" heading="Newsroom" headingStrong="Newsroom" articles={notices} filters />
     ) : (
       <p class="container muted">No notices at the moment.</p>
     )

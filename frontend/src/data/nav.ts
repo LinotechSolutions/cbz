@@ -599,7 +599,7 @@ const RAW_MEGA: MegaMenu[] = [
         title: 'Investors',
         items: [
           { label: 'Results and reports', href: LINKS.investorRelations, external: true },
-          { label: 'Latest notices', href: '/notices' },
+          { label: 'Newsroom', href: '/notices' },
           { label: 'Awards', href: '/the-group#awards' },
           { label: 'Executive management', href: '/the-group#exco' },
         ],
@@ -862,7 +862,7 @@ export const FOOTER = {
     { label: 'Log In', href: '/login' },
     { label: 'Find a Branch', href: '/contact#branches' },
     { label: 'Security', href: '/security' },
-    { label: 'Latest from CBZ', href: '/notices' },
+    { label: 'Newsroom', href: '/notices' },
   ],
   regulatory: [
     { label: 'Business conditions', href: '/business-conditions' },

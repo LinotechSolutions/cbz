@@ -235,10 +235,17 @@ const intents = INTENTS.map((i) => ({ verb: i.verb, objects: i.objects.map((o) =
     </div>
   </section>
 
-  <!-- 5. Learn more -->
+  <!-- 5. Newsroom -->
   {
     articles.length > 0 && (
-      <ArticleRail id="learn" heading="Learn more" headingStrong="Learn" articles={articles} seeAll={{ label: 'See all', href: '/notices' }} />
+      <ArticleRail
+        id="newsroom"
+        badge="News & Updates"
+        heading="Newsroom"
+        headingStrong="Newsroom"
+        articles={articles}
+        seeAll={{ label: 'View all news', href: '/notices' }}
+      />
     )
   }
 </BaseLayout>

@@ -56,7 +56,7 @@ export const GET: APIRoute = async () => {
     { label: 'The Group', line: 'Structure, awards, milestones, board and executive management', href: '/the-group', group: 'Group' },
     { label: 'CBZ Foundation', line: 'Our philanthropic arm', href: '/cbz-foundation', group: 'Group' },
     { label: 'Sustainability', line: 'Grievance mechanism, documents and reports', href: '/sustainability', group: 'Group' },
-    { label: 'Latest from CBZ', line: 'Shareholder, customer and regulatory notices', href: '/notices', group: 'Group' },
+    { label: 'Newsroom', line: 'Shareholder circulars, customer notices and regulatory press releases', href: '/notices', group: 'Group' },
     { label: 'Security', line: 'How to spot fake CBZ messages', href: '/security', group: 'Access' },
     { label: 'Sitemap', line: 'Every page on the site', href: '/sitemap', group: 'Access' },
   ];

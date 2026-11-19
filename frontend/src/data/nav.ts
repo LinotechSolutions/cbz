@@ -10,7 +10,7 @@ export interface NavLink {
   external?: boolean;
 }
 
-export type AudienceId = 'personal' | 'business' | 'school' | 'diaspora';
+export type AudienceId = 'personal' | 'corporate' | 'business' | 'diaspora';
 
 export interface Audience {
   id: AudienceId;
@@ -33,7 +33,7 @@ export interface Audience {
 export const AUDIENCES: Audience[] = [
   { id: 'personal', label: 'Personal', href: '/', match: /^\/$/, line: 'Everyday banking, cover, investments and a home of your own.' },
   { id: 'business', label: 'Business', href: '/business', match: /^\/business(\/|$)/, line: 'Accounts, finance, cover and space for companies, traders and farmers.' },
-  { id: 'school', label: 'School', href: '/school', match: /^\/school(\/|$)/, line: 'Accounts, fees collection, cover and savings plans for schools and their parents.' },
+  { id: 'corporate', label: 'Corporate', href: '/corporate', match: /^\/corporate(\/|$)/, line: 'Banking, finance, cover and advisory for corporates, parastatals, NGOs and institutions.' },
   { id: 'diaspora', label: 'Diaspora', href: '/diaspora', match: /^\/diaspora(\/|$)/, line: 'Bank with CBZ from abroad.' },
 ];
 
@@ -71,11 +71,11 @@ export interface MegaMenu {
 
 const P = (unit: string, id: string) => `/${unit}/${id}`;
 const BUSINESS: AudienceId[] = ['business'];
-const SCHOOL: AudienceId[] = ['school'];
+const CORPORATE: AudienceId[] = ['corporate'];
 const PERSONAL_DIASPORA: AudienceId[] = ['personal', 'diaspora'];
 const PERSONAL_BUSINESS: AudienceId[] = ['personal', 'business'];
-const BUSINESS_SCHOOL: AudienceId[] = ['business', 'school'];
-const NOT_DIASPORA: AudienceId[] = ['personal', 'business', 'school'];
+const BUSINESS_CORPORATE: AudienceId[] = ['business', 'corporate'];
+const NOT_DIASPORA: AudienceId[] = ['personal', 'corporate', 'business'];
 const BANK = { name: 'CBZ Bank', href: '/bank' };
 const RED_SPHERE = { name: 'Red Sphere Finance', href: '/red-sphere' };
 const LIFE = { name: 'CBZ Life', href: '/cbz-life' };
@@ -177,149 +177,6 @@ const RAW_MEGA: MegaMenu[] = [
       { label: 'Open an account', href: '/bank/open-account' },
       { label: 'Compare accounts', href: '/bank#open-an-account' },
       { label: 'Log in', href: '/login' },
-    ],
-  },
-  {
-    id: 'affluent',
-    label: 'Affluent Banking',
-    icon: 'star',
-    href: '/affluent',
-    note: 'Private Banking, Prime Banking and Wealth Management from CBZ Bank, for individuals.',
-    audiences: ['personal'],
-    columns: [
-      {
-        title: 'Private Banking',
-        items: [
-          { label: 'Exclusive banking for those shaping tomorrow', href: '/affluent/private-banking' },
-          { label: 'What you need to know', href: '/affluent/private-banking#know' },
-          { label: 'Visa Infinite', href: '/affluent/cards' },
-          { label: 'Why clients choose CBZ', href: '/affluent/private-banking#why' },
-        ],
-        offeredBy: [BANK],
-      },
-      {
-        title: 'Prime Banking',
-        items: [
-          { label: 'Premium banking that moves with your ambition', href: '/affluent/prime-banking' },
-          { label: 'What you need to know', href: '/affluent/prime-banking#know' },
-          { label: 'Visa Debit and Gold', href: '/affluent/cards#gold' },
-          { label: 'Why clients choose CBZ', href: '/affluent/prime-banking#why' },
-        ],
-        offeredBy: [BANK],
-      },
-      {
-        title: 'Wealth Management',
-        items: [
-          { label: 'Grow, protect and pass on your wealth', href: '/affluent/wealth-management' },
-          { label: 'What you need to know', href: '/affluent/wealth-management#know' },
-          { label: 'Investment solutions', href: '/affluent/investments' },
-          { label: 'Why clients choose CBZ', href: '/affluent/wealth-management#why' },
-        ],
-        offeredBy: [BANK, DATVEST],
-      },
-      {
-        title: 'Solutions for every tier',
-        items: [
-          { label: 'Transactional accounts', href: '/affluent/accounts' },
-          { label: 'Loans', href: '/affluent/loans' },
-          { label: 'Vehicle finance', href: '/affluent/vehicle-finance' },
-          { label: 'Safe deposit boxes', href: '/affluent/safe-deposit' },
-          { label: 'Insurance and life assurance', href: '/affluent/insurance' },
-          { label: 'Property solutions', href: '/affluent/properties' },
-          { label: 'Farm finance', href: '/affluent/farm' },
-        ],
-        offeredBy: [BANK, INSURANCE, PROPERTIES, AGRO],
-      },
-      {
-        title: 'Talk to us',
-        items: [
-          { label: 'Compare the three tiers', href: '/affluent#compare' },
-          { label: 'Private Banking team', href: 'mailto:privatebanking@cbz.co.zw' },
-          { label: 'Prime Banking team', href: 'mailto:primebanking@cbz.co.zw' },
-          { label: 'Wealth Management team', href: 'mailto:wealthmanagement@cbz.co.zw' },
-          { label: 'Call me back', href: '/bank/call-me-back' },
-        ],
-        offeredBy: [BANK],
-      },
-    ],
-    actions: [
-      { label: 'Talk to a Private Banker', href: '/bank/call-me-back' },
-      { label: 'Compare tiers', href: '/affluent#compare' },
-      { label: 'Log in', href: '/login' },
-    ],
-  },
-  {
-    id: 'borrow',
-    label: 'Borrow',
-    icon: 'wallet',
-    href: '/red-sphere',
-    note: 'Loans by purpose, from CBZ Bank and Red Sphere Finance.',
-    columns: [
-      {
-        title: 'Borrow against salary',
-        items: [
-          { label: 'Civil Servant Loan', href: P('bank', 'civil_servant_loan') },
-          { label: 'Private Payroll Loan', href: P('red-sphere', 'private_payroll') },
-          { label: 'Nostro Individual Loan', href: P('bank', 'nostro_loan') },
-          { label: 'Payday Loan', href: P('bank', 'payday_loan') },
-          { label: 'SSB Loan', href: P('red-sphere', 'ssb_loan') },
-        ],
-        offeredBy: [BANK, RED_SPHERE],
-      },
-      {
-        title: 'Pay for education',
-        items: [
-          { label: 'Private School Fees Loan', href: P('bank', 'private_school_fees_loan') },
-          { label: 'Student Loan Facility', href: P('bank', 'student_loan_facility') },
-          { label: 'Sarapavana Education Plan', href: P('cbz-life', 'sarapavana') },
-        ],
-        offeredBy: [BANK, LIFE],
-      },
-      {
-        title: 'Finance property',
-        items: [
-          { label: 'Mortgage finance', href: '/bank/apply', audiences: PERSONAL_DIASPORA },
-          { label: 'Mortgage calculator', href: '/calculators#mortgage', audiences: PERSONAL_DIASPORA },
-          { label: 'CashPlus Housing', href: P('bank', 'cashplus_housing') },
-          { label: 'Diaspora turnkey home build', href: '/properties', audiences: ['diaspora'] },
-        ],
-        offeredBy: [BANK],
-      },
-      {
-        title: 'Grow my business',
-        items: [
-          { label: 'SME Working Capital', href: P('red-sphere', 'sme_working_capital') },
-          { label: 'Tuck-shop Facility', href: P('red-sphere', 'tuckshop') },
-          { label: 'Order Finance', href: P('red-sphere', 'order_finance') },
-          { label: 'Invoice Discounting', href: '/red-sphere#explore-invoice-discounting', audiences: BUSINESS },
-        ],
-        offeredBy: [RED_SPHERE],
-      },
-      {
-        title: 'Finance the school',
-        items: [
-          { label: 'School Current Account', href: P('bank', 'school_current') },
-          { label: 'Fixed Deposit for reserves', href: P('bank', 'fixed_deposit') },
-          { label: 'Talk to CBZ Bank about a facility', href: '/bank/call-me-back' },
-        ],
-        offeredBy: [BANK],
-        audiences: SCHOOL,
-      },
-      {
-        title: 'Finance assets',
-        items: [
-          { label: 'Car finance', href: '/calculators#car-finance', audiences: PERSONAL_BUSINESS },
-          { label: 'Partner Car Loan', href: P('red-sphere', 'partner_car_loan') },
-          { label: 'Device finance', href: P('red-sphere', 'lockable_device') },
-          { label: 'Irrigation & machinery cover', href: P('insurance', 'irrigation_machinery') },
-        ],
-        offeredBy: [BANK, RED_SPHERE],
-      },
-    ],
-    actions: [
-      { label: 'Compare options', href: '/calculators' },
-      { label: 'Check requirements', href: '/bank#apply-for-a-loan' },
-      { label: 'Apply', href: '/bank/apply' },
     ],
   },
   {
@@ -434,7 +291,7 @@ const RAW_MEGA: MegaMenu[] = [
         title: 'Property',
         items: [
           { label: 'Homes and stands for sale', href: '/properties#property-listing', audiences: PERSONAL_DIASPORA },
-          { label: 'Commercial space to let', href: '/properties?type=commercial', audiences: BUSINESS_SCHOOL },
+          { label: 'Commercial space to let', href: '/properties?type=commercial', audiences: BUSINESS_CORPORATE },
           { label: 'Request a viewing', href: '/properties/request-a-viewing' },
           { label: 'Valuations & advisory', href: '/properties/call-back' },
         ],
@@ -458,11 +315,85 @@ const RAW_MEGA: MegaMenu[] = [
     ],
   },
   {
-    id: 'grow',
-    label: 'Grow',
+    id: 'borrow',
+    label: 'Borrow',
+    icon: 'wallet',
+    href: '/red-sphere',
+    note: 'Loans by purpose, from CBZ Bank and Red Sphere Finance.',
+    columns: [
+      {
+        title: 'Borrow against salary',
+        items: [
+          { label: 'Civil Servant Loan', href: P('bank', 'civil_servant_loan') },
+          { label: 'Private Payroll Loan', href: P('red-sphere', 'private_payroll') },
+          { label: 'Nostro Individual Loan', href: P('bank', 'nostro_loan') },
+          { label: 'Payday Loan', href: P('bank', 'payday_loan') },
+          { label: 'SSB Loan', href: P('red-sphere', 'ssb_loan') },
+        ],
+        offeredBy: [BANK, RED_SPHERE],
+      },
+      {
+        title: 'Pay for education',
+        items: [
+          { label: 'Private School Fees Loan', href: P('bank', 'private_school_fees_loan') },
+          { label: 'Student Loan Facility', href: P('bank', 'student_loan_facility') },
+          { label: 'Sarapavana Education Plan', href: P('cbz-life', 'sarapavana') },
+        ],
+        offeredBy: [BANK, LIFE],
+      },
+      {
+        title: 'Finance property',
+        items: [
+          { label: 'Mortgage finance', href: '/bank/apply', audiences: PERSONAL_DIASPORA },
+          { label: 'Mortgage calculator', href: '/calculators#mortgage', audiences: PERSONAL_DIASPORA },
+          { label: 'CashPlus Housing', href: P('bank', 'cashplus_housing') },
+          { label: 'Diaspora turnkey home build', href: '/properties', audiences: ['diaspora'] },
+        ],
+        offeredBy: [BANK],
+      },
+      {
+        title: 'Grow my business',
+        items: [
+          { label: 'SME Working Capital', href: P('red-sphere', 'sme_working_capital') },
+          { label: 'Tuck-shop Facility', href: P('red-sphere', 'tuckshop') },
+          { label: 'Order Finance', href: P('red-sphere', 'order_finance') },
+          { label: 'Invoice Discounting', href: '/red-sphere#explore-invoice-discounting', audiences: BUSINESS },
+        ],
+        offeredBy: [RED_SPHERE],
+      },
+      {
+        title: 'Finance the school',
+        items: [
+          { label: 'School Current Account', href: P('bank', 'school_current') },
+          { label: 'Fixed Deposit for reserves', href: P('bank', 'fixed_deposit') },
+          { label: 'Talk to CBZ Bank about a facility', href: '/bank/call-me-back' },
+        ],
+        offeredBy: [BANK],
+        audiences: BUSINESS,
+      },
+      {
+        title: 'Finance assets',
+        items: [
+          { label: 'Car finance', href: '/calculators#car-finance', audiences: PERSONAL_BUSINESS },
+          { label: 'Partner Car Loan', href: P('red-sphere', 'partner_car_loan') },
+          { label: 'Device finance', href: P('red-sphere', 'lockable_device') },
+          { label: 'Irrigation & machinery cover', href: P('insurance', 'irrigation_machinery') },
+        ],
+        offeredBy: [BANK, RED_SPHERE],
+      },
+    ],
+    actions: [
+      { label: 'Compare options', href: '/calculators' },
+      { label: 'Check requirements', href: '/bank#apply-for-a-loan' },
+      { label: 'Apply', href: '/bank/apply' },
+    ],
+  },
+  {
+    id: 'agribusiness',
+    label: 'Agribusiness',
     icon: 'leaf',
     href: '/clusters/agro-business',
-    note: 'The farming value chain and SME growth, from inputs to offtake.',
+    note: 'The agricultural value chain: contract farming, inputs, offtake and commodity trading.',
     columns: [
       {
         title: 'Produce more',
@@ -479,7 +410,7 @@ const RAW_MEGA: MegaMenu[] = [
         items: [
           { label: 'Supply chain & logistics', href: P('agro-yield', 'agro_supply_chain') },
           { label: 'Irrigation & machinery cover', href: P('insurance', 'irrigation_machinery') },
-          { label: 'ATDC equipment', href: LINKS.atdc ?? '/agro-yield#explore-atdc', external: Boolean(LINKS.atdc), audiences: BUSINESS_SCHOOL },
+          { label: 'ATDC equipment', href: LINKS.atdc ?? '/agro-yield#explore-atdc', external: Boolean(LINKS.atdc), audiences: BUSINESS_CORPORATE },
         ],
         offeredBy: [AGRO, INSURANCE],
       },
@@ -527,6 +458,46 @@ const RAW_MEGA: MegaMenu[] = [
       { label: 'Explore farming', href: '/agro-yield' },
       { label: 'Request finance', href: '/agro-yield/enquire' },
       { label: 'Sell produce', href: P('agro-yield', 'agro_commodity_trading') },
+    ],
+  },
+  {
+    id: 'zikimall',
+    label: 'ZikiMall',
+    icon: 'store',
+    href: 'https://zikimall.com/',
+    note: 'Africa\'s digital marketplace: buy, sell and discover products from local and international sellers.',
+    columns: [
+      {
+        title: 'Shop',
+        items: [
+          { label: 'Browse categories', href: 'https://zikimall.com/', external: true },
+          { label: 'Deals of the day', href: 'https://zikimall.com/deals', external: true },
+          { label: 'New arrivals', href: 'https://zikimall.com/new', external: true },
+        ],
+        offeredBy: [{ name: 'ZikiMall', href: 'https://zikimall.com/' }],
+      },
+      {
+        title: 'Sell on ZikiMall',
+        items: [
+          { label: 'Register as a seller', href: 'https://zikimall.com/sell', external: true },
+          { label: 'Seller dashboard', href: 'https://zikimall.com/seller', external: true },
+          { label: 'Fulfilment and delivery', href: 'https://zikimall.com/logistics', external: true },
+        ],
+        offeredBy: [{ name: 'ZikiMall', href: 'https://zikimall.com/' }],
+      },
+      {
+        title: 'Pay with CBZ',
+        items: [
+          { label: 'Pay with CBZ Touch', href: '/login#apps' },
+          { label: 'Internet banking', href: '/login' },
+          { label: 'Card payments', href: '/bank/visa_gold' },
+        ],
+        offeredBy: [BANK],
+      },
+    ],
+    actions: [
+      { label: 'Shop on ZikiMall', href: 'https://zikimall.com/', external: true },
+      { label: 'Sell on ZikiMall', href: 'https://zikimall.com/sell', external: true },
     ],
   },
   {
@@ -700,9 +671,8 @@ export const INTENTS: Intent[] = [
   {
     verb: 'join',
     objects: [
-      { label: 'Private Banking', href: '/affluent/private-banking' },
-      { label: 'Prime Banking', href: '/affluent/prime-banking' },
-      { label: 'Wealth Management', href: '/affluent/wealth-management' },
+      { label: 'Corporate banking', href: '/corporate' },
+      { label: 'Wealth Management', href: '/datvest/start-investing' },
     ],
   },
   {

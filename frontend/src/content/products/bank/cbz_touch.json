@@ -23,8 +23,8 @@
   "audience": "Individual clients and single signatory SMEs",
   "audiences": [
     "personal",
+    "corporate",
     "business",
-    "school",
     "diaspora"
   ],
   "pricing": "Zero rated",

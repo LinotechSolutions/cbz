@@ -290,7 +290,7 @@ Shows the unit's primary action (e.g. Open an account → `/bank/open-account`).
 
 ## 2. Home `/`
 
-The four audience homes (Personal `/`, Business `/business`, School `/school`, Diaspora `/diaspora`) share `src/components/AudienceHome.astro`; copy, photographs and links are in `src/data/homes.ts`. The sections, in order:
+The four audience homes (Personal `/`, Business `/business`, Corporate `/corporate`, Diaspora `/diaspora`) share `src/components/AudienceHome.astro`; copy, photographs and links are in `src/data/homes.ts`. The sections, in order:
 
 | Section | What it shows | Buttons |
 | --- | --- | --- |

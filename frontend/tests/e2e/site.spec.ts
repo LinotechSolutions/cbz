@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-const PAGES = ['/', '/business', '/school', '/bank/current', '/red-sphere/ssb_loan', '/affluent', '/affluent/private-banking', '/affluent/loans', '/bank', '/insurance', '/properties', '/calculators', '/contact', '/the-group', '/journeys', '/login', '/notices', '/sitemap', '/sustainability', '/sustainability/grievance'];
+const PAGES = ['/', '/business', '/corporate', '/bank/current', '/red-sphere/ssb_loan', '/affluent', '/affluent/private-banking', '/affluent/loans', '/bank', '/insurance', '/properties', '/calculators', '/contact', '/the-group', '/journeys', '/login', '/notices', '/sitemap', '/sustainability', '/sustainability/grievance'];
 
 for (const path of PAGES) {
   test(`${path} has no serious accessibility violations`, async ({ page }) => {
@@ -60,18 +60,18 @@ test('the audience strip opens an audience home and the choice follows the visit
   await expect(page.locator('[data-property][data-type="commercial"]').first()).toBeHidden();
 });
 
-test('the School home exists and school products show on the Bank page and in the Bank menu', async ({ page, isMobile }) => {
-  await page.goto('/school');
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('school');
+test('the Corporate home exists and corporate products show on the Bank page and in the Bank menu', async ({ page, isMobile }) => {
+  await page.goto('/corporate');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('institution');
   await page.goto('/bank');
-  await expect(page.locator('#product-bank-school_current')).toBeVisible();
+  await expect(page.locator('#product-bank-current_corporate')).toBeVisible();
   await expect(page.locator('#product-bank-smartcash_student')).toBeHidden();
   if (!isMobile) {
     const banner = page.getByRole('banner');
     await banner.getByRole('button', { name: 'Bank', exact: true }).click();
-    await expect(banner.getByRole('link', { name: 'School Current Account' })).toBeVisible();
+    await expect(banner.getByRole('link', { name: 'Current Account (Corporate)' })).toBeVisible();
     await expect(banner.getByRole('link', { name: 'SmartCash', exact: true })).toBeHidden();
-    await expect(banner.getByText('For School').first()).toBeVisible();
+    await expect(banner.getByText('For Corporate').first()).toBeVisible();
   }
 });
 
@@ -93,36 +93,6 @@ test('a mega menu opens its purpose columns and search finds a product', async (
   await expect(page.getByRole('link', { name: /SmartCash Lite/ })).toBeVisible();
 });
 
-test('Affluent Banking is a Personal-only menu with the three tiers, and the tier page has its tabs', async ({ page, isMobile }) => {
-  await page.goto('/');
-  const banner = page.getByRole('banner');
-  if (!isMobile) {
-    await banner.getByRole('button', { name: 'Affluent Banking' }).click();
-    await expect(banner.getByRole('heading', { name: 'Private Banking' })).toBeVisible();
-    await expect(banner.getByRole('heading', { name: 'Prime Banking' })).toBeVisible();
-    await expect(banner.getByRole('heading', { name: 'Wealth Management' })).toBeVisible();
-    await banner.getByRole('link', { name: 'Exclusive banking for those shaping tomorrow' }).click();
-  } else {
-    await page.goto('/affluent/private-banking');
-  }
-  await expect(page).toHaveURL(/\/affluent\/private-banking$/);
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('Exclusive banking');
-  // What you need to know: the Loans tab shows the income-based loan line.
-  await page.getByRole('tab', { name: 'Loans' }).click();
-  await expect(page.getByRole('tabpanel', { name: 'Loans' })).toContainText('$40,000 over 50 months');
-  // A solution screen: Compare shows the three tiers side by side.
-  await page.goto('/affluent/loans');
-  await page.getByRole('tab', { name: 'Compare' }).click();
-  await expect(page.getByRole('columnheader', { name: 'Wealth Management' })).toBeVisible();
-  await expect(page.getByRole('cell', { name: 'Up to $30,000 over 48 months' })).toBeVisible();
-  // Business visitors do not get the menu.
-  await page.goto('/business');
-  if (!isMobile) await expect(banner.getByRole('button', { name: 'Affluent Banking' })).toHaveCount(0);
-  else {
-    await banner.getByRole('button', { name: 'Open menu' }).click();
-    await expect(page.getByRole('dialog', { name: 'Menu' }).getByText('Affluent Banking')).toHaveCount(0);
-  }
-});
 test('a dropdown link opens the product page, with its tabs, and a loan page compares and calculates', async ({ page, isMobile }) => {
   await page.goto('/');
   if (!isMobile) {

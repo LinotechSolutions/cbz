@@ -19,8 +19,8 @@
   "audience": "Individuals and corporates",
   "audiences": [
     "personal",
+    "corporate",
     "business",
-    "school",
     "diaspora"
   ],
   "pricing": "For existing account holders",

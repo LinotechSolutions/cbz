@@ -16,14 +16,15 @@ import type { AudienceId } from './nav';
 type A = AudienceId;
 const P: A[] = ['personal'];
 const B: A[] = ['business'];
-const S: A[] = ['school'];
+const C: A[] = ['corporate'];
 const PB: A[] = ['personal', 'business'];
 const PD: A[] = ['personal', 'diaspora'];
-const PS: A[] = ['personal', 'school'];
-const BS: A[] = ['business', 'school'];
-const PBS: A[] = ['personal', 'business', 'school'];
+const PC: A[] = ['personal', 'corporate'];
+const BC: A[] = ['business', 'corporate'];
+const PBC: A[] = ['personal', 'business', 'corporate'];
 const PBD: A[] = ['personal', 'business', 'diaspora'];
-const ALL: A[] = ['personal', 'business', 'school', 'diaspora'];
+const PBCD: A[] = ['personal', 'corporate', 'business', 'diaspora'];
+const ALL: A[] = ['personal', 'corporate', 'business', 'diaspora'];
 
 /** Per product, by unit then product id. */
 export const PRODUCT_AUDIENCES: Record<string, Record<string, A[]>> = {
@@ -37,10 +38,10 @@ export const PRODUCT_AUDIENCES: Record<string, Record<string, A[]>> = {
     current_joint: P,
     private_banking: P,
     fca_individual: PD,
-    current_corporate: B,
-    fca_corporate: BS,
+    current_corporate: C,
+    fca_corporate: C,
     church_current: B,
-    school_current: S,
+    school_current: B,
     // Savings and investments
     savings_individual: P,
     cashplus_individual: P,
@@ -51,15 +52,15 @@ export const PRODUCT_AUDIENCES: Record<string, Record<string, A[]>> = {
     simple_saver: P,
     senior: P,
     cashplus_business: B,
-    savings_corporate: BS,
-    fixed_deposit: PBS,
+    savings_corporate: BC,
+    fixed_deposit: PBC,
     // Loans
     civil_servant_loan: P,
     direct_debit_loan: P,
     nostro_loan: P,
     payday_loan: P,
     student_loan_facility: P,
-    private_school_fees_loan: PS, // parents; schools point them to it
+    private_school_fees_loan: PB, // parents; schools point them to it
     // Cards
     atm_card: P,
     student_visa: P,
@@ -68,10 +69,10 @@ export const PRODUCT_AUDIENCES: Record<string, Record<string, A[]>> = {
     // Digital and merchant
     cbz_touch: ALL,
     internet_banking: ALL,
-    e_statements: BS,
-    local_pos: BS,
-    visa_pos: BS,
-    kleva_pos: BS,
+    e_statements: BC,
+    local_pos: BC,
+    visa_pos: BC,
+    kleva_pos: BC,
   },
   'red-sphere': {
     // Salary-based lending
@@ -93,31 +94,31 @@ export const PRODUCT_AUDIENCES: Record<string, Record<string, A[]>> = {
     profeeds: PB,
   },
   capital: {
-    loan_syndications: B,
-    corporate_bonds: B,
-    structured_finance: B,
-    ipos_listings: B,
-    rights_issues_placements: B,
-    mna_advisory: B,
-    independent_valuations: B,
-    balance_sheet_restructuring: B,
-    ppp_concessions: B,
-    bankability_modeling: B,
+    loan_syndications: C,
+    corporate_bonds: C,
+    structured_finance: C,
+    ipos_listings: C,
+    rights_issues_placements: C,
+    mna_advisory: C,
+    independent_valuations: C,
+    balance_sheet_restructuring: C,
+    ppp_concessions: C,
+    bankability_modeling: C,
   },
   'cbz-life': {
     comfortsure: PD,
-    sarapavana: PS, // parents; schools promote it
+    sarapavana: PB, // parents; schools promote it
     annuities: P,
-    retirement_savings: PBS,
-    group_life: BS,
+    retirement_savings: PBC,
+    group_life: BC,
     credit_life: B,
   },
   datvest: {
     // Unit trusts
     'datvest-balanced-and-growth-fund': P,
     'datvest-equity-fund': P,
-    'datvest-high-yield-fixed-income-fund': PBS,
-    'datvest-money-market-fund': PBS,
+    'datvest-high-yield-fixed-income-fund': PBC,
+    'datvest-money-market-fund': PBC,
     'datvest-usd-inflation-shield-fund': PD,
     'datvest-diaspora-wealth-fund': ['diaspora', 'personal'],
     // Private wealth
@@ -128,9 +129,9 @@ export const PRODUCT_AUDIENCES: Record<string, Record<string, A[]>> = {
     'structured-offshore-usd-investment-notes': PD,
     'victoria-falls-exchange-vfex-usd-equities': PD,
     // Institutional
-    'corporate-treasury-liquidity-placement': BS,
+    'corporate-treasury-liquidity-placement': BC,
     'custodial-and-fiduciary-accounting': B,
-    'defined-benefit-and-contribution-pensions': BS,
+    'defined-benefit-and-contribution-pensions': BC,
     'municipal-and-parastatal-portfolio-admin': B,
     'segregated-equity-and-bond-mandates': B,
     'sovereign-and-commercial-debt-syndication': B,
@@ -145,15 +146,15 @@ export const PRODUCT_AUDIENCES: Record<string, Record<string, A[]>> = {
     diaspora: ['diaspora', 'personal'],
     // Business
     sme_shield: B,
-    assets: BS,
-    commercial_plant: BS,
-    engineering: BS,
+    assets: BC,
+    commercial_plant: BC,
+    engineering: BC,
     marine: B,
-    liability: BS,
+    liability: BC,
     // Agriculture
     multi_peril: B,
     livestock: B,
-    irrigation_machinery: BS,
+    irrigation_machinery: BC,
     farm_liability: B,
     satellite_weather: B,
     contract_farming: B,
@@ -174,51 +175,51 @@ export const PRODUCT_AUDIENCES: Record<string, Record<string, A[]>> = {
     'flexible-business-incubators-and-shared-workspaces': B,
     'modern-medical-chambers-and-specialist-clinics': B,
     // Advisory
-    'certified-sworn-property-valuations': PBS,
-    'land-regularization-and-title-deed-processing': PS,
-    'professional-facilities-and-tenant-management': BS,
-    'turnkey-project-and-construction-management': BS,
-    'real-estate-development-feasibility-studies': BS,
+    'certified-sworn-property-valuations': PBC,
+    'land-regularization-and-title-deed-processing': PB,
+    'professional-facilities-and-tenant-management': BC,
+    'turnkey-project-and-construction-management': BC,
+    'real-estate-development-feasibility-studies': BC,
     'real-estate-investment-trust-reit-structuring': B,
   },
   'risk-advisory': {
-    corporate_property_broking: BS,
+    corporate_property_broking: BC,
     fleet_marine_broking: B,
     liability_directors_officers: B,
     enterprise_risk_audits: B,
     business_continuity_planning: B,
-    loss_prevention_engineering: BS,
-    group_medical_benefits: BS,
-    pension_trustee_advisory: BS,
-    claims_advocacy: BS,
+    loss_prevention_engineering: BC,
+    group_medical_benefits: BC,
+    pension_trustee_advisory: BC,
+    claims_advocacy: BC,
     regional_reinsurance: B,
   },
   'agro-yield': {
-    agro_farming: BS,
+    agro_farming: BC,
     agro_enterprise: B,
     agro_commodity_trading: B,
-    agro_supply_chain: BS,
+    agro_supply_chain: BC,
   },
 };
 
 /** Fallback by unit category for products added later without a tag. */
 const CATEGORY_DEFAULTS: Record<string, Record<string, A[]>> = {
-  bank: { accounts: P, savings: P, loans: P, cards: P, channels: PBS },
+  bank: { accounts: P, savings: P, loans: P, cards: P, channels: PBC },
   'red-sphere': { salary: P, business: B, partners: B, agriculture: PB },
   capital: { debt: B, equity: B, advisory: B, infrastructure: B },
-  'cbz-life': { individual: P, employee: BS },
+  'cbz-life': { individual: P, employee: BC },
   datvest: { 'unit-trusts': P, 'private-wealth': P, institutional: B },
-  insurance: { personal: P, business: BS, agro: B },
-  properties: { residential: P, commercial: B, advisory: BS },
-  'risk-advisory': { broking: B, erm: B, benefits: BS, reinsurance: B },
-  'agro-yield': { divisions: B },
+  insurance: { personal: P, business: BC, agro: B },
+  properties: { residential: P, commercial: BC, advisory: BC },
+  'risk-advisory': { broking: B, erm: B, benefits: BC, reinsurance: B },
+  'agro-yield': { divisions: BC },
 };
 
 /** Property listings by type: homes and stands for people, commercial space for organisations. */
 export const LISTING_AUDIENCES: Record<'residential' | 'commercial' | 'land', A[]> = {
   residential: PD,
-  commercial: BS,
-  land: PBD,
+  commercial: BC,
+  land: PBCD,
 };
 
 export function audiencesFor(unit: string, productId: string, category: string): A[] {

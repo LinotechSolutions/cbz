@@ -70,9 +70,9 @@ export const CLUSTERS: readonly Cluster[] = [
   },
   {
     id: 'agro-business',
-    name: 'Farm Cluster',
-    shortName: 'Farm',
-    taskLabel: 'Farm',
+    name: 'Agribusiness Cluster',
+    shortName: 'Agribusiness',
+    taskLabel: 'Agribusiness',
     line: 'Contract farming, inputs, offtake, livestock and equipment',
     summary:
       'An integrated contract farming and supply-chain model covering input finance, aggregation, commodity trading and market linkages.',

@@ -1,6 +1,6 @@
 /**
  * The audience home pages: Personal (/), Business (/business) and School
- * (/school) share one layout (AudienceHome.astro) and differ only in copy,
+ * (/corporate) share one layout (AudienceHome.astro) and differ only in copy,
  * photographs and links. Diaspora keeps its own page at /diaspora.
  * Every link here goes to a page or product that exists on this site.
  */
@@ -305,17 +305,17 @@ export const BUSINESS_HOME: HomeConfig = {
   },
 };
 
-/** The red menu on the School home. */
-export const SCHOOL_SIGNUP_ITEMS: NavLink[] = [
-  { label: 'Open a school account', href: '/bank/open-account', line: 'School current account with cheque and cash deposit books' },
+/** The red menu on the Corporate home. */
+export const CORPORATE_SIGNUP_ITEMS: NavLink[] = [
+  { label: 'Open a corporate account', href: '/bank/open-account', line: 'Corporate current and foreign currency accounts' },
   { label: 'Collect fees on POS and CBZ Touch', href: '/bank#cards-and-digital', line: 'Kleva POS at the bursar’s office, fees paid from the app' },
-  { label: 'Insure school buildings and assets', href: '/insurance/quote', line: 'Property, plant, equipment and public liability' },
-  { label: 'Group life for teaching staff', href: '/cbz-life/quote', line: 'Group life assurance and retirement savings' },
-  { label: 'Invest school funds with Datvest', href: '/datvest/start-investing', line: 'Money market and fixed income funds' },
-  { label: 'Sarapavana education plan for parents', href: '/cbz-life/sarapavana', line: 'A savings plan that keeps fees paid' },
+  { label: 'Insure your business assets', href: '/insurance/quote', line: 'Property, plant, equipment, liability and marine cover' },
+  { label: 'Group life and pensions for staff', href: '/cbz-life/quote', line: 'Group life assurance, retirement savings and pensions' },
+  { label: 'Invest surplus cash with Datvest', href: '/datvest/start-investing', line: 'Money market, fixed income and corporate treasury placements' },
+  { label: 'Raise capital with CBZ Capital', href: '/capital/enquiry', line: 'Debt, equity, M&A advisory and structured finance' },
 ];
 
-export const SCHOOL_STAGES: LifeStage[] = [
+export const CORPORATE_STAGES: LifeStage[] = [
   {
     tag: 'Accounts',
     icon: 'building',
@@ -398,33 +398,33 @@ export const SCHOOL_STAGES: LifeStage[] = [
   },
 ];
 
-export const SCHOOL_HOME: HomeConfig = {
-  id: 'school',
-  path: '/school',
-  title: 'Schools',
-  description: 'CBZ Holdings for schools: school current accounts, fees collection on POS and CBZ Touch, cover for buildings and staff, and savings plans for parents.',
+export const CORPORATE_HOME: HomeConfig = {
+  id: 'corporate',
+  path: '/corporate',
+  title: 'Corporate',
+  description: 'CBZ Holdings for corporates, parastatals, NGOs and institutions: corporate accounts, treasury management, capital raising, group cover for staff, and commercial property.',
   hero: {
-    title: 'Bank, insure and build your school with ',
+    title: 'Bank, finance, protect and grow your institution with ',
     brand: 'CBZ Holdings.',
-    lede: 'School current accounts, fees collected on CBZ Touch and POS, cover for buildings and teaching staff, and plans that help parents keep fees paid, all from one group.',
+    lede: 'Corporate accounts, treasury management, capital raising, group cover for your staff, commercial property and enterprise risk advisory, all from one group.',
     image: { src: '/images/heroes/hero-school.jpg', alt: 'An administrator working at a laptop' },
     slides: [
       { src: '/images/heroes/hero-school.jpg', alt: 'An administrator working at a laptop' },
-      { src: '/images/accounts/teen.webp', alt: 'A student with her textbooks' },
+      { src: '/images/accounts/current.webp', alt: 'A corporate executive in an office' },
       { src: '/images/loan-education.webp', alt: 'A graduate with her mother outside the university' },
     ],
-    cta: { label: 'Explore school products', items: SCHOOL_SIGNUP_ITEMS },
+    cta: { label: 'Explore corporate products', items: CORPORATE_SIGNUP_ITEMS },
     secondary: { label: 'Get in touch', href: '/bank/call-me-back' },
   },
-  statement: 'From the school account and fees collection to cover for buildings and staff, we provide what a school needs to run and grow.',
-  noun: 'school',
+  statement: 'From corporate accounts and treasury management to capital raising and group cover, we provide what large organisations need to operate and grow.',
+  noun: 'corporate',
   about: {
-    title: 'We are here to help your school grow faster.',
-    body: 'A school current account with fees collected on CBZ Touch and POS, cover for classrooms and teaching staff, funds that earn between terms and plans that keep parents paying, from one group that understands schools.',
+    title: 'We are here to help your institution grow faster.',
+    body: 'Corporate accounts and treasury services from CBZ Bank, capital raising and advisory from CBZ Capital, group cover from CBZ Life and CBZ Insurance, wealth management from Datvest, and commercial property from CBZ Properties: one group, one relationship.',
     cta: { label: 'About CBZ Holdings', href: '/the-group' },
     image: { src: '/images/loan-education.webp', alt: 'A graduate with her mother outside the university' },
   },
-  promise: { title: 'Our promise to your school.', items: GROUP_PROMISE, image: { src: '/images/accounts/current.webp', alt: 'A bursar at her desk' } },
+  promise: { title: 'Our promise to your institution.', items: GROUP_PROMISE, image: { src: '/images/accounts/current.webp', alt: 'A bursar at her desk' } },
   help: [
     { title: 'Bank', line: 'School current account, fees collection, e-statements and fixed deposits.', go: 'Explore School Banking', href: '/bank', icon: 'bank' },
     { title: 'Borrow', line: 'School fees loans for parents and facilities for the school from CBZ Bank.', go: 'Explore Fees Loans', href: '/bank#apply-for-a-loan', icon: 'wallet' },
@@ -432,11 +432,11 @@ export const SCHOOL_HOME: HomeConfig = {
     { title: 'Invest', line: 'Money market and fixed income funds for school reserves; building projects with CBZ Properties.', go: 'Explore Investments', href: '/clusters/investments', icon: 'chart' },
     { title: 'Farm', line: 'Inputs, offtake and contract farming for school farms and agricultural projects.', go: 'Explore Farming', href: '/clusters/agro-business', icon: 'leaf' },
   ],
-  stages: { title: 'Whatever the term brings, ', strong: 'we’re here to help your school move forward.', items: SCHOOL_STAGES },
+  stages: { title: 'Whatever the challenge, ', strong: 'we’re here to help your institution move forward.', items: CORPORATE_STAGES },
   digital: {
-    title: 'Fees in, ',
-    strong: 'paperwork out',
-    lede: 'Collect fees on CBZ Touch and POS, issue e-statements and bank online between term dates.',
+    title: 'Treasury managed, ',
+    strong: 'business moving',
+    lede: 'Corporate internet banking, e-statements and treasury services keep the business moving between meetings.',
     cards: [
       {
         title: 'CBZ Touch',
@@ -574,6 +574,6 @@ export const DIASPORA_HOME: HomeConfig = {
 export const HOMES: Record<AudienceId, HomeConfig> = {
   personal: PERSONAL_HOME,
   business: BUSINESS_HOME,
-  school: SCHOOL_HOME,
+  corporate: CORPORATE_HOME,
   diaspora: DIASPORA_HOME,
 };

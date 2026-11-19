@@ -87,7 +87,7 @@ const headerUnit =
       }
     : null;
 
-/** The audience whose home this page is (Business, School, Diaspora), else '' and the remembered choice applies. */
+/** The audience whose home this page is (Corporate, Business, Diaspora), else '' and the remembered choice applies. */
 const audienceOwn = AUDIENCES.find((a) => a.id !== 'personal' && a.match.test(pathname))?.id ?? '';
 const audienceTabs = AUDIENCES.map((a) => ({ id: a.id, label: a.label, href: a.href }));
 const audienceIds = AUDIENCES.map((a) => a.id);

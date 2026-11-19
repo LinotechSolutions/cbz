@@ -41,10 +41,9 @@ const isExternal = (href: string) => /^https?:\/\//.test(href);
 
 /**
  * Site header, two rows that stick together. The white row: the logo, a
- * segmented Personal / Business / School / Diaspora toggle, a rounded
+ * segmented Personal / Corporate / Business / Diaspora toggle, a rounded
  * "Find ways to bank better" field that opens the search dialog, Log in,
- * Get the app and the red Sign up menu. The grey band: icon chips (Bank,
- * Affluent Banking for the Personal audience, Borrow, Insure, Invest, Grow,
+ * Get the app and the red Sign up menu. The grey band: icon chips (Bank, Insure, Invest, Borrow, Agribusiness, ZikiMall,
  * Group), each opening a full-width mega menu of purpose-led columns. On
  * phones the toggle drops to a second row and the
  * band folds into the menu sheet. Before hydration every trigger is a plain

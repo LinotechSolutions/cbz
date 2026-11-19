@@ -1,6 +1,6 @@
 ---
 /**
- * An audience home page (Personal, Corporate, Business, Diaspora), in the
+ * An audience home page (Personal, Business, School, Diaspora), in the
  * design brief's layout: a split hero with the copy on white and the
  * photograph on a red panel; a floating "How can we help today?" finder
  * bar; a grey band with a large statement beside the latest notice;
@@ -25,6 +25,7 @@ import { LINKS, isExternal } from '../data/links';
 import { INTENTS } from '../data/nav';
 import type { HomeConfig } from '../data/homes';
 import type { DarkSafeLogoKey } from '../data/logos';
+import { GROUP } from '../data/facts';
 
 interface Props {
   home: HomeConfig;
@@ -69,59 +70,60 @@ const intents = INTENTS.map((i) => ({ verb: i.verb, objects: i.objects.map((o) =
 ---
 
 <BaseLayout title={home.title} description={home.description} preloadImage={home.hero.image.src}>
-  <!-- 1. Hero: the photographs full bleed behind a navy panel, white copy with a red bar, the slideshow controls, a curved white edge and the finder bar riding it -->
-  <header class="hero on-dark" aria-labelledby="hero-heading" data-slides>
-    <div class="hero__media" aria-roledescription="carousel" aria-label="Photographs">
-      {
-        home.hero.slides.map((s, i) => (
-          <img
-            src={s.src}
-            alt={s.alt}
-            width={1024}
-            height={512}
-            loading={i === 0 ? 'eager' : 'lazy'}
-            fetchpriority={i === 0 ? 'high' : undefined}
-            decoding="async"
-            class:list={['hero__slide', i === 0 && 'is-on']}
-            aria-hidden={i === 0 ? undefined : 'true'}
-            data-slide
-          />
-        ))
-      }
-    </div>
-    <span class="hero__panel" aria-hidden="true"></span>
-    <span class="hero__ring" aria-hidden="true"></span>
-    <div class="container hero__in">
+  <!-- 1. Hero: copy on white, the photograph on a red panel -->
+  <header class="hero" aria-labelledby="hero-heading">
+    <div class="hero__inner">
       <div class="hero__copy">
-        <h1 id="hero-heading" class="hero__title">
-          {home.hero.title}<span class="hero__brand">{home.hero.brand}</span>
-        </h1>
-        <p class="hero__lede">{home.hero.lede}</p>
-        <div class="hero__actions">
-          <OpenAccountMenu client:idle items={home.hero.cta.items} label={home.hero.cta.label} />
-          <a href={home.hero.secondary.href} class="hero__link" target={secondaryExt ? '_blank' : undefined} rel={secondaryExt ? 'noopener noreferrer' : undefined}>
-            {home.hero.secondary.label}
-            {secondaryExt && <span class="sr-only"> (opens in a new tab)</span>}
-          </a>
+        <div class="hero__copy-in">
+          <span class="hero__dash" aria-hidden="true"></span>
+          <h1 id="hero-heading" class="hero__title">
+            {home.hero.title}<span class="hero__brand">{home.hero.brand}</span>
+          </h1>
+          <p class="hero__lede">{home.hero.lede}</p>
+          <div class="hero__actions">
+            <OpenAccountMenu client:idle items={home.hero.cta.items} label={home.hero.cta.label} />
+            <a href={home.hero.secondary.href} class="btn btn--secondary btn--lg hero__alt" target={secondaryExt ? '_blank' : undefined} rel={secondaryExt ? 'noopener noreferrer' : undefined}>
+              {home.hero.secondary.label}
+              {secondaryExt && <span class="sr-only"> (opens in a new tab)</span>}
+            </a>
+          </div>
+          <ul role="list" class="hero__trust" aria-label="About CBZ Holdings">
+            <li><Icon name="check" size={16} /> Since {GROUP.founded}</li>
+            <li><Icon name="check" size={16} /> {GROUP.listingLine}</li>
+            <li><Icon name="check" size={16} /> {GROUP.regulatorLine}</li>
+          </ul>
         </div>
       </div>
-      {
-        home.hero.slides.length > 1 && (
-          <div class="hero__ctrl" role="group" aria-label="Photographs">
-            <button type="button" class="hero__pause" aria-pressed="false" aria-label="Pause the photographs" data-pause>
-              <svg class="hero__pause-ic" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><rect x="2" y="1" width="3.5" height="12" rx="1" fill="currentColor" /><rect x="8.5" y="1" width="3.5" height="12" rx="1" fill="currentColor" /></svg>
-              <svg class="hero__play-ic" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M3 1.5v11l9-5.5z" fill="currentColor" /></svg>
-            </button>
-            {home.hero.slides.map((s, i) => (
-              <button type="button" class:list={['hero__dot', i === 0 && 'is-on']} aria-label={`Photograph ${i + 1} of ${home.hero.slides.length}`} aria-pressed={i === 0 ? 'true' : 'false'} data-dot={i} />
-            ))}
-          </div>
-        )
-      }
+      <div class="hero__media" data-slides aria-roledescription="carousel" aria-label="Photographs">
+        {
+          home.hero.slides.map((s, i) => (
+            <img
+              src={s.src}
+              alt={s.alt}
+              width={1024}
+              height={512}
+              loading={i === 0 ? 'eager' : 'lazy'}
+              fetchpriority={i === 0 ? 'high' : undefined}
+              decoding="async"
+              class:list={['hero__slide', i === 0 && 'is-on']}
+              aria-hidden={i === 0 ? undefined : 'true'}
+              data-slide
+            />
+          ))
+        }
+        {
+          home.hero.slides.length > 1 && (
+            <div class="hero__dots" role="group" aria-label="Choose a photograph">
+              {home.hero.slides.map((s, i) => (
+                <button type="button" class:list={['hero__dot', i === 0 && 'is-on']} aria-label={`Photograph ${i + 1} of ${home.hero.slides.length}`} aria-pressed={i === 0 ? 'true' : 'false'} data-dot={i} />
+              ))}
+            </div>
+          )
+        }
+      </div>
     </div>
-    <span class="hero__curve" aria-hidden="true"></span>
 
-    <!-- The finder bar, riding the curved edge: "How can we help today?" [verb] [what] -> View our products -->
+    <!-- The finder bar, in the hero's foot: "How can we help today?" [verb] [what] -> View our products -->
     <div class="container hero__finder">
       <form class="finder" data-finder data-intents={JSON.stringify(intents)} aria-label="Find a product">
         <span class="finder__label">
@@ -409,15 +411,13 @@ const intents = INTENTS.map((i) => ({ verb: i.verb, objects: i.objects.map((o) =
     });
   });
 
-  // The hero slideshow: crossfades every six seconds; the pause button stops it, and it starts paused for reduced motion.
+  // The hero slideshow: crossfades every six seconds, pauses while hovered or focused, and stays put for reduced motion.
   document.querySelectorAll<HTMLElement>('[data-slides]').forEach((wrap) => {
     const slides = Array.from(wrap.querySelectorAll<HTMLImageElement>('[data-slide]'));
     const dots = Array.from(wrap.querySelectorAll<HTMLButtonElement>('[data-dot]'));
-    const pause = wrap.querySelector<HTMLButtonElement>('[data-pause]');
     if (slides.length < 2) return;
     let i = 0;
     let timer = 0;
-    let paused = false;
     const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const show = (n: number) => {
       i = (n + slides.length) % slides.length;
@@ -432,7 +432,7 @@ const intents = INTENTS.map((i) => ({ verb: i.verb, objects: i.objects.map((o) =
       });
     };
     const start = () => {
-      if (still || paused || timer) return;
+      if (still || timer) return;
       timer = window.setInterval(() => show(i + 1), 6000);
     };
     const stop = () => {
@@ -446,18 +446,10 @@ const intents = INTENTS.map((i) => ({ verb: i.verb, objects: i.objects.map((o) =
         start();
       }),
     );
-    pause?.addEventListener('click', () => {
-      paused = !paused;
-      pause.setAttribute('aria-pressed', paused ? 'true' : 'false');
-      pause.setAttribute('aria-label', paused ? 'Play the photographs' : 'Pause the photographs');
-      if (paused) stop();
-      else start();
-    });
-    if (still && pause) {
-      paused = true;
-      pause.setAttribute('aria-pressed', 'true');
-      pause.setAttribute('aria-label', 'Play the photographs');
-    }
+    wrap.addEventListener('pointerenter', stop);
+    wrap.addEventListener('pointerleave', start);
+    wrap.addEventListener('focusin', stop);
+    wrap.addEventListener('focusout', start);
     document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
     start();
   });
@@ -500,20 +492,104 @@ const intents = INTENTS.map((i) => ({ verb: i.verb, objects: i.objects.map((o) =
     box-shadow: var(--shadow-sm);
   }
 
-  /* ---------- 1. Hero: photographs behind a navy panel, a curved white edge ---------- */
+  /* ---------- Hero: Modernized, expansive, elevated ---------- */
   .hero {
     position: relative;
-    isolation: isolate;
-    background: var(--blue-900);
-    color: var(--white);
-    padding-bottom: 56px;
-  }
-  .hero__media {
-    position: absolute;
-    inset: 0;
-    z-index: -3;
+    background: var(--white);
     overflow: hidden;
-    background: var(--blue-900);
+  }
+  .hero__inner {
+    display: grid;
+    min-height: calc(100vh - var(--strip-h) - var(--header-h));
+    min-height: calc(100svh - var(--strip-h) - var(--header-h));
+  }
+  .hero__copy {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .hero__copy-in {
+    width: 100%;
+    max-width: calc(var(--max) / 2);
+    padding: var(--s-8) var(--gutter) var(--s-10);
+    display: grid;
+    gap: var(--s-5);
+    justify-items: start;
+    align-content: center;
+  }
+  .hero__dash {
+    width: 44px;
+    height: 3px;
+    background: var(--red);
+    border-radius: 2px;
+  }
+  .hero__title {
+    font-size: clamp(2.35rem, 1.6rem + 2.8vw, 3.75rem);
+    font-weight: 700;
+    color: var(--blue-900);
+    letter-spacing: -0.03em;
+    line-height: 1.08;
+    max-width: 15ch;
+  }
+  .hero__brand {
+    color: var(--red);
+  }
+  .hero__lede {
+    color: var(--neutral-600);
+    font-size: var(--t-lg);
+    line-height: 1.6;
+    max-width: 44ch;
+  }
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s-3);
+    margin-top: var(--s-2);
+  }
+  .hero__alt {
+    border-color: var(--line-strong);
+    color: var(--blue);
+    background: var(--white);
+  }
+  .hero__alt:hover {
+    background: var(--blue-50);
+    border-color: var(--blue);
+    color: var(--blue-900);
+  }
+  /* Modern Trust Badges */
+  .hero__trust {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2) var(--s-3);
+    margin-top: var(--s-4);
+    padding-top: var(--s-5);
+    border-top: 1px solid var(--line);
+    font-size: var(--t-xs);
+  }
+  .hero__trust li {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    padding: 6px 14px;
+    border-radius: var(--r-pill);
+    background: var(--neutral-100);
+    border: 1px solid var(--line);
+    font-weight: 600;
+    color: var(--blue-900);
+  }
+  .hero__trust :global(svg) {
+    color: var(--success);
+    flex-shrink: 0;
+  }
+  /* Hero photographs: a slideshow that crossfades every few seconds */
+  .hero__media {
+    position: relative;
+    min-height: 320px;
+    aspect-ratio: 4 / 3;
+    background: var(--neutral-100);
+    overflow: hidden;
   }
   .hero__slide {
     position: absolute;
@@ -521,7 +597,7 @@ const intents = INTENTS.map((i) => ({ verb: i.verb, objects: i.objects.map((o) =
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 78% 30%;
+    object-position: 72% 30%;
     opacity: 0;
     transform: scale(1.04);
     transition:
@@ -532,165 +608,70 @@ const intents = INTENTS.map((i) => ({ verb: i.verb, objects: i.objects.map((o) =
     opacity: 1;
     transform: scale(1);
   }
-  /* The navy panel the copy sits on: solid on the left, clearing to the photograph on the right */
-  .hero__panel {
-    position: absolute;
-    inset: 0;
-    z-index: -2;
-    background: linear-gradient(180deg, rgba(0, 23, 54, 0.94) 0%, rgba(0, 23, 54, 0.78) 55%, rgba(0, 23, 54, 0.35) 100%);
-  }
-  /* A faint ring curling out of the bottom-left corner */
-  .hero__ring {
-    position: absolute;
-    left: -12%;
-    bottom: -40%;
-    width: 60%;
-    max-width: 640px;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: inset 0 0 0 48px rgba(255, 255, 255, 0.025);
-    z-index: -1;
-    pointer-events: none;
-  }
-  .hero__in {
-    position: relative;
-    display: grid;
-    gap: var(--s-8);
-    align-content: center;
-    min-height: clamp(520px, 72svh, 720px);
-    padding-block: var(--s-12) calc(var(--s-10) + 56px);
-  }
-  .hero__copy {
-    display: grid;
-    gap: var(--s-5);
-    justify-items: start;
-    max-width: 560px;
-  }
-  .hero__title {
-    position: relative;
-    font-size: clamp(2.4rem, 1.6rem + 2.9vw, 3.9rem);
-    font-weight: 700;
-    color: var(--white);
-    letter-spacing: -0.03em;
-    line-height: 1.06;
-    padding-left: var(--s-6);
-    max-width: 15ch;
-  }
-  /* The red bar beside the heading */
-  .hero__title::before {
+  .hero__media::after {
     content: '';
     position: absolute;
-    left: 0;
-    top: 0.15em;
-    bottom: 0.1em;
-    width: 4px;
-    border-radius: 2px;
-    background: var(--red);
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(to top, rgba(0, 23, 54, 0.45), transparent 38%);
   }
-  .hero__brand {
-    color: var(--white);
-  }
-  .hero__lede {
-    color: rgba(255, 255, 255, 0.82);
-    font-size: var(--t-lg);
-    line-height: 1.55;
-    max-width: 44ch;
-    padding-left: var(--s-6);
-  }
-  .hero__actions {
+  .hero__dots {
+    position: absolute;
+    right: var(--s-5);
+    bottom: var(--s-5);
+    z-index: 2;
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--s-4) var(--s-8);
-    margin-top: var(--s-2);
-    padding-left: var(--s-6);
-  }
-  .hero__link {
-    color: var(--white);
-    font-weight: 700;
-    font-size: var(--t-md);
-    text-decoration: underline;
-    text-underline-offset: 0.3em;
-    text-decoration-thickness: 2px;
-    min-height: var(--tap);
-    display: inline-flex;
-    align-items: center;
-  }
-  .hero__link:hover {
-    color: var(--white);
-    text-decoration-color: var(--red);
-  }
-  /* Pause and dots */
-  .hero__ctrl {
-    display: flex;
-    align-items: center;
-    gap: var(--s-4);
-    padding-left: var(--s-6);
-  }
-  .hero__pause {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    color: var(--white);
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    transition: background-color var(--dur) var(--ease);
-  }
-  .hero__pause:hover {
-    background: rgba(255, 255, 255, 0.14);
-  }
-  .hero__pause .hero__play-ic,
-  .hero__pause[aria-pressed='true'] .hero__pause-ic {
-    display: none;
-  }
-  .hero__pause[aria-pressed='true'] .hero__play-ic {
-    display: block;
+    gap: var(--s-2);
+    padding: 6px;
+    border-radius: var(--r-pill);
+    background: rgba(0, 23, 54, 0.35);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
   }
   .hero__dot {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     border-radius: 999px;
-    border: 2px solid rgba(255, 255, 255, 0.8);
-    background: transparent;
+    background: rgba(255, 255, 255, 0.55);
     transition:
       width var(--dur) var(--ease),
       background-color var(--dur) var(--ease);
   }
   .hero__dot:hover {
-    background: rgba(255, 255, 255, 0.4);
+    background: var(--white);
   }
   .hero__dot.is-on {
-    width: 36px;
-    background: var(--white);
-    border-color: var(--white);
+    width: 26px;
+    background: var(--red);
   }
-  .hero__pause:focus-visible,
   .hero__dot:focus-visible {
     outline-color: var(--white);
   }
-  /* The white curve across the hero's foot */
-  .hero__curve {
-    position: absolute;
-    left: -6%;
-    right: -6%;
-    bottom: -1px;
-    height: 90px;
-    background: var(--white);
-    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-    pointer-events: none;
+  .hero__arc {
+    display: none;
   }
   @media (min-width: 900px) {
-    .hero__panel {
-      background: linear-gradient(90deg, rgba(0, 23, 54, 0.96) 0%, rgba(0, 23, 54, 0.92) 34%, rgba(0, 23, 54, 0.55) 50%, rgba(0, 23, 54, 0) 68%);
+    .hero__inner {
+      grid-template-columns: minmax(0, 11fr) minmax(0, 13fr);
     }
-    .hero__in {
-      padding-block: var(--s-16) calc(var(--s-12) + 72px);
+    .hero__copy-in {
+      padding: var(--s-8) var(--s-10) calc(var(--s-12) + 80px) var(--gutter);
     }
-    .hero__curve {
-      height: 120px;
+    .hero__media {
+      min-height: 0;
+      aspect-ratio: auto;
+      border-radius: var(--r-xl) 0 0 var(--r-xl);
+      margin-block: var(--s-4) 0;
+    }
+    .hero__slide {
+      mask-image: linear-gradient(to right, transparent, #000 10%);
+      -webkit-mask-image: linear-gradient(to right, transparent, #000 10%);
+    }
+    .hero__media::after {
+      background: linear-gradient(to top, rgba(0, 23, 54, 0.5), transparent 34%), linear-gradient(to right, var(--white), transparent 12%);
+    }
+    .hero__dots {
+      bottom: calc(var(--s-8) + 80px);
     }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -699,15 +680,21 @@ const intents = INTENTS.map((i) => ({ verb: i.verb, objects: i.objects.map((o) =
     }
   }
 
-  /* The finder bar rides the curve, so it sits inside the first screen */
+  /* The finder bar: in the hero's foot on desktop, floating over the photograph */
   .hero__finder {
     position: relative;
     z-index: 3;
-    margin-top: calc(-1 * var(--s-6));
+    margin-top: calc(-1 * var(--s-8));
+    padding-bottom: var(--s-6);
   }
   @media (min-width: 900px) {
     .hero__finder {
-      margin-top: calc(-1 * var(--s-16));
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: var(--s-8);
+      margin: 0;
+      padding-bottom: 0;
     }
   }
   .finder {

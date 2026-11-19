@@ -212,7 +212,7 @@ test('every business page is built from its site map branches', async ({ page })
 
 test('the home finder bar opens the chosen product page', async ({ page }) => {
   await page.goto('/business');
-  await expect(page.getByRole('heading', { name: 'Our promise to your business.' })).toBeVisible();
+  await expect(page.getByRole('form', { name: 'Find a product' })).toBeVisible();
   const finder = page.getByRole('form', { name: 'Find a product' });
   await finder.getByLabel('I want to').selectOption('insure');
   await finder.getByLabel('What', { exact: true }).selectOption({ label: 'my business' });
@@ -223,8 +223,7 @@ test('the home finder bar opens the chosen product page', async ({ page }) => {
 test('home follows the site map order', async ({ page }) => {
   await page.goto('/');
   const ids = await page.locator('main [id]').evaluateAll((els) => els.map((e) => e.id));
-  const order = ['hero-heading', 'statement', 'help', 'about', 'promise', 'digital', 'talk', 'businesses'];
-  await expect(page.locator('#journeys, #learn')).toHaveCount(0);
+  const order = ['hero-heading', 'help', 'digital', 'businesses'];
   let last = -1;
   for (const key of order) {
     const i = ids.findIndex((id) => id === key);

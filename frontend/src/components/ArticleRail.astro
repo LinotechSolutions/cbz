@@ -1,8 +1,8 @@
 ---
 /**
- * "Learn more": article cards with a photograph behind a white panel, in a
- * row that snaps as you scroll, with dots and arrows. Used on the home page
- * and the notices page. Without JavaScript the row still scrolls by hand.
+ * Newsroom article rail: pictorial editorial cards with a top photograph,
+ * category pill badge, headline, date, read time, and read link.
+ * Used on the audience homepages and the notices/newsroom page.
  */
 import Icon from './Icon.astro';
 import { formatDate } from '../lib/format';
@@ -19,15 +19,16 @@ export interface Article {
 
 interface Props {
   heading: string;
-  /** The part of the heading set in bold, e.g. "Learn". */
+  /** The part of the heading set in bold, e.g. "Newsroom". */
   headingStrong?: string;
+  badge?: string;
   articles: Article[];
   seeAll?: { label: string; href: string };
   /** Category filter buttons above the rail. */
   filters?: boolean;
   id?: string;
 }
-const { heading, headingStrong, articles, seeAll, filters = false, id = 'learn' } = Astro.props;
+const { heading, headingStrong, badge = 'News & Press', articles, seeAll, filters = false, id = 'newsroom' } = Astro.props;
 
 const label: Record<string, string> = {
   shareholder: 'Shareholder',
@@ -50,20 +51,23 @@ const rest = headingStrong ? heading.slice(headingStrong.length) : heading;
 
 <section class="rail container" id={id} aria-labelledby={`${id}-heading`} data-rail>
   <div class="rail__head">
-    <h2 id={`${id}-heading`} class="rail__title">
-      {headingStrong ? (
-        <>
-          <strong>{headingStrong}</strong>
-          {rest}
-        </>
-      ) : (
-        heading
-      )}
-    </h2>
+    <div class="rail__intro">
+      {badge && <span class="rail__badge">{badge}</span>}
+      <h2 id={`${id}-heading`} class="rail__title">
+        {headingStrong ? (
+          <>
+            <strong>{headingStrong}</strong>
+            {rest}
+          </>
+        ) : (
+          heading
+        )}<span class="dot">.</span>
+      </h2>
+    </div>
     {
       filters && categories.length > 1 ? (
         <nav aria-label="Filter by category" class="cats">
-          <button type="button" class="cat" aria-pressed="true" data-cat="all">
+          <button type="button" class="cat is-active" aria-pressed="true" data-cat="all">
             All
           </button>
           {categories.map((c) => (
@@ -75,7 +79,8 @@ const rest = headingStrong ? heading.slice(headingStrong.length) : heading;
       ) : (
         seeAll && (
           <a href={seeAll.href} class="rail__all">
-            {seeAll.label} <Icon name="arrowRight" size={20} />
+            <span class="rail__all-text">{seeAll.label}</span>
+            <span class="rail__all-arrow" aria-hidden="true"><Icon name="arrowRight" size={16} /></span>
           </a>
         )
       )
@@ -86,27 +91,29 @@ const rest = headingStrong ? heading.slice(headingStrong.length) : heading;
     {
       articles.map((a) => (
         <li class="art" data-cat={a.category}>
-          <a href={a.href} class="art__link">
-            <img src={photo[a.category] ?? photo.customer} alt="" width={800} height={600} loading="lazy" decoding="async" class="art__img" />
-            <span class="art__panel">
-              <span class="art__title">{a.title}</span>
-              <span class="art__summary">{a.summary}</span>
-              <span class="art__meta">
-                <span class="art__by">{label[a.category] ?? a.category} notice</span>
+          <a href={a.href} class="art__card">
+            <div class="art__media">
+              <img src={photo[a.category] ?? photo.customer} alt="" width={800} height={450} loading="lazy" decoding="async" class="art__img" />
+              <span class="art__tag">{label[a.category] ?? a.category}</span>
+            </div>
+            <div class="art__body">
+              <div class="art__meta">
                 <span class="art__date">
-                  Published <time datetime={a.date}>{formatDate(a.date)}</time>
-                  {a.reference && <> · {a.reference}</>}
+                  <time datetime={a.date}>{formatDate(a.date)}</time>
                 </span>
-              </span>
-              <span class="art__foot">
+                <span class="art__sep" aria-hidden="true">•</span>
+                <span class="art__time">
+                  <Icon name="info" size={13} /> {mins(a.summary)} min read
+                </span>
+              </div>
+              <h3 class="art__title">{a.title}</h3>
+              <p class="art__summary">{a.summary}</p>
+              <div class="art__foot">
                 <span class="art__read">
-                  Read <Icon name="arrowRight" size={18} />
+                  Read update <Icon name="arrowRight" size={16} class="art__read-ic" />
                 </span>
-                <span class="art__time small muted">
-                  <Icon name="info" size={14} /> {mins(a.summary)} min
-                </span>
-              </span>
-            </span>
+              </div>
+            </div>
           </a>
         </li>
       ))
@@ -134,7 +141,7 @@ const rest = headingStrong ? heading.slice(headingStrong.length) : heading;
     if (!row) return;
     const cards = () => Array.from(row.querySelectorAll<HTMLElement>('.art:not([hidden])'));
     const dots = Array.from(rail.querySelectorAll<HTMLElement>('.dot'));
-    const step = () => (cards()[0]?.offsetWidth ?? 320) + 24;
+    const step = () => (cards()[0]?.offsetWidth ?? 340) + 24;
     rail.querySelector('[data-prev]')?.addEventListener('click', () => row.scrollBy({ left: -step(), behavior: 'smooth' }));
     rail.querySelector('[data-next]')?.addEventListener('click', () => row.scrollBy({ left: step(), behavior: 'smooth' }));
     const mark = () => {
@@ -145,7 +152,11 @@ const rest = headingStrong ? heading.slice(headingStrong.length) : heading;
     mark();
     rail.querySelectorAll<HTMLButtonElement>('[data-cat]').forEach((b) => {
       b.addEventListener('click', () => {
-        rail.querySelectorAll<HTMLButtonElement>('[data-cat]').forEach((x) => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+        rail.querySelectorAll<HTMLButtonElement>('[data-cat]').forEach((x) => {
+          const on = x === b;
+          x.setAttribute('aria-pressed', on ? 'true' : 'false');
+          x.classList.toggle('is-active', on);
+        });
         row.querySelectorAll<HTMLElement>('.art').forEach((c) => {
           c.hidden = b.dataset.cat !== 'all' && c.dataset.cat !== b.dataset.cat;
         });
@@ -157,10 +168,14 @@ const rest = headingStrong ? heading.slice(headingStrong.length) : heading;
 </script>
 
 <style>
+  .dot {
+    color: var(--red);
+  }
+
   .rail {
     display: grid;
-    gap: var(--s-6);
-    padding-block: var(--band);
+    gap: var(--s-8);
+    padding-block: var(--s-12) var(--band);
   }
   .rail__head {
     display: grid;
@@ -172,51 +187,104 @@ const rest = headingStrong ? heading.slice(headingStrong.length) : heading;
       align-items: end;
     }
   }
+  .rail__intro {
+    display: grid;
+    gap: var(--s-2);
+  }
+  .rail__badge {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    height: 26px;
+    padding: 0 var(--s-3);
+    border-radius: var(--r-pill);
+    background: var(--red-50);
+    color: var(--red);
+    font-size: var(--t-xs);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
   .rail__title {
-    font-size: var(--t-2xl);
+    font-size: clamp(1.8rem, 1.4rem + 1.6vw, 2.6rem);
     font-weight: 400;
-    color: var(--ink);
+    color: var(--blue-900);
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    margin: 0;
   }
   .rail__title strong {
     font-weight: 700;
+    color: var(--blue-900);
   }
   .rail__all {
     display: inline-flex;
     align-items: center;
-    gap: var(--s-2);
+    gap: var(--s-3);
     font-weight: 700;
-    color: var(--red-700);
+    font-size: var(--t-sm);
+    color: var(--blue-900);
     text-decoration: none;
     min-height: var(--tap);
+    transition: color var(--dur) var(--ease);
+  }
+  .rail__all-text {
+    padding-bottom: 2px;
+    border-bottom: 2px solid var(--red);
+  }
+  .rail__all-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--red);
+    color: var(--white);
+    transition: transform var(--dur) var(--ease);
+  }
+  .rail__all:hover .rail__all-arrow {
+    transform: translateX(4px);
   }
   .rail__all:hover {
-    text-decoration: underline;
-    color: var(--red-700);
+    color: var(--red);
   }
+
+  /* Filter category pills */
   .cats {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--s-2) var(--s-5, 20px);
+    gap: var(--s-2);
+    padding: 4px;
+    background: var(--neutral-100);
+    border: 1px solid var(--line);
+    border-radius: var(--r-pill);
+    width: fit-content;
   }
   .cat {
-    position: relative;
-    min-height: var(--tap);
+    min-height: 34px;
+    padding: 0 var(--s-4);
+    border-radius: var(--r-pill);
     font-weight: 700;
-    font-size: var(--t-sm);
-    color: var(--grey);
+    font-size: var(--t-xs);
+    color: var(--neutral-600);
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    transition: all var(--dur) var(--ease);
   }
+  .cat:hover {
+    color: var(--blue-900);
+    background: rgba(0, 23, 54, 0.05);
+  }
+  .cat.is-active,
   .cat[aria-pressed='true'] {
-    color: var(--blue);
+    background: var(--blue-900);
+    color: var(--white);
+    box-shadow: 0 2px 6px rgba(0, 23, 54, 0.2);
   }
-  .cat[aria-pressed='true']::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 4px;
-    height: 3px;
-    background: var(--blue);
-  }
+
+  /* Row carousel */
   .row {
     display: flex;
     gap: var(--s-6);
@@ -224,33 +292,59 @@ const rest = headingStrong ? heading.slice(headingStrong.length) : heading;
     scroll-snap-type: x mandatory;
     scroll-padding-inline: var(--gutter);
     scrollbar-width: none;
-    padding-bottom: var(--s-2);
+    padding: var(--s-2) var(--gutter) var(--s-6);
     margin-inline: calc(-1 * var(--gutter));
-    padding-inline: var(--gutter);
   }
   .row::-webkit-scrollbar {
     display: none;
   }
+
   .art {
-    flex: 0 0 min(88vw, 640px);
+    flex: 0 0 min(86vw, 360px);
     scroll-snap-align: start;
+    display: flex;
+  }
+  @media (min-width: 640px) {
+    .art {
+      flex-basis: calc((100% - var(--s-6)) / 2);
+    }
+  }
+  @media (min-width: 1024px) {
+    .art {
+      flex-basis: calc((100% - 2 * var(--s-6)) / 3);
+    }
   }
   .art[hidden] {
     display: none;
   }
-  .art__link {
-    position: relative;
-    display: block;
-    aspect-ratio: 4 / 3;
+
+  /* Card structure */
+  .art__card {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    width: 100%;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--r-xl);
     overflow: hidden;
     text-decoration: none;
     color: var(--ink);
-    background: var(--blue-100);
+    box-shadow: 0 4px 14px rgba(0, 23, 54, 0.05);
+    transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
   }
-  @media (min-width: 640px) {
-    .art__link {
-      aspect-ratio: 16 / 10;
-    }
+  .art__card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 28px rgba(0, 23, 54, 0.1);
+    border-color: var(--blue-100);
+  }
+
+  /* Card media & image */
+  .art__media {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: var(--neutral-100);
   }
   .art__img {
     position: absolute;
@@ -258,67 +352,108 @@ const rest = headingStrong ? heading.slice(headingStrong.length) : heading;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.6s var(--ease);
   }
-  .art__panel {
+  .art__card:hover .art__img {
+    transform: scale(1.05);
+  }
+  .art__tag {
     position: absolute;
-    top: 8%;
-    bottom: 8%;
-    left: 4%;
-    width: 66%;
+    top: var(--s-3);
+    left: var(--s-3);
+    display: inline-flex;
+    align-items: center;
+    height: 26px;
+    padding: 0 var(--s-3);
+    border-radius: var(--r-pill);
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: var(--blue-900);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  }
+
+  /* Card body */
+  .art__body {
     display: grid;
-    grid-template-rows: auto auto auto 1fr;
+    grid-template-rows: auto auto 1fr auto;
     gap: var(--s-3);
     padding: var(--s-6);
-    background: rgba(255, 255, 255, 0.92);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+  }
+  .art__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+    font-size: var(--t-xs);
+    color: var(--neutral-500);
+  }
+  .art__date time {
+    font-weight: 500;
+  }
+  .art__sep {
+    color: var(--neutral-300);
+  }
+  .art__time {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--neutral-500);
   }
   .art__title {
-    font-weight: 700;
     font-size: var(--t-lg);
-    color: var(--ink);
-    line-height: 1.25;
+    font-weight: 700;
+    color: var(--blue-900);
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    transition: color var(--dur) var(--ease);
+  }
+  .art__card:hover .art__title {
+    color: var(--red);
+  }
+  .art__summary {
+    font-size: var(--t-sm);
+    color: var(--neutral-600);
+    line-height: 1.55;
+    margin: 0;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  .art__summary {
-    font-size: var(--t-sm);
-    color: var(--grey);
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .art__meta {
-    display: grid;
-    gap: 2px;
-    font-size: var(--t-xs);
-    color: var(--grey);
-  }
-  .art__by {
-    color: var(--ink);
-  }
   .art__foot {
     display: flex;
-    align-items: end;
-    justify-content: space-between;
-    gap: var(--s-3);
+    align-items: center;
+    margin-top: var(--s-2);
+    padding-top: var(--s-3);
+    border-top: 1px solid var(--line);
   }
   .art__read {
     display: inline-flex;
     align-items: center;
     gap: var(--s-2);
     font-weight: 700;
-    color: var(--red-700);
-    font-size: var(--t-md);
+    font-size: var(--t-xs);
+    color: var(--red);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
   }
-  .art__time {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--s-1);
+  .art__read-ic {
+    transition: transform var(--dur) var(--ease);
   }
+  .art__card:hover .art__read-ic {
+    transform: translateX(4px);
+  }
+
+  /* Navigation dots and arrows */
   .rail__nav {
     display: flex;
     align-items: center;
@@ -334,12 +469,10 @@ const rest = headingStrong ? heading.slice(headingStrong.length) : heading;
     height: 8px;
     border-radius: 999px;
     background: var(--line);
-    transition:
-      width var(--dur) var(--ease),
-      background-color var(--dur) var(--ease);
+    transition: width var(--dur) var(--ease), background-color var(--dur) var(--ease);
   }
   .dot--on {
-    width: 28px;
+    width: 24px;
     background: var(--red);
   }
   .arrows {
@@ -353,11 +486,18 @@ const rest = headingStrong ? heading.slice(headingStrong.length) : heading;
     width: var(--tap);
     height: var(--tap);
     border-radius: 50%;
-    color: var(--red-700);
+    color: var(--blue-900);
+    background: var(--white);
     border: 1px solid var(--line);
+    box-shadow: var(--shadow-xs);
+    cursor: pointer;
+    transition: all var(--dur) var(--ease);
   }
   .arrow:hover {
-    background: var(--red-50);
+    background: var(--red);
+    border-color: var(--red);
+    color: var(--white);
+    box-shadow: 0 4px 12px rgba(217, 35, 44, 0.3);
   }
   .arrow :global(.arrow__flip) {
     transform: scaleX(-1);

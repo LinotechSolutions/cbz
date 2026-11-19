@@ -1,0 +1,45 @@
+---
+/**
+ * Newsroom page: shareholder notices, customer circulars, regulatory announcements,
+ * and media releases from CBZ Holdings.
+ */
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import ArticleRail from '../components/ArticleRail.astro';
+
+const notices = (await getCollection('notices'))
+  .filter((n) => n.data.category !== 'security')
+  .sort((a, b) => b.data.date.localeCompare(a.data.date))
+  .map((n) => ({
+    id: n.id,
+    title: n.data.title,
+    summary: n.data.summary,
+    date: n.data.date,
+    category: n.data.category,
+    reference: n.data.reference,
+    href: `/notices/${n.id}`,
+  }));
+---
+
+<BaseLayout
+  title="Newsroom"
+  description="CBZ Holdings Newsroom: shareholder circulars, customer notices, press releases and regulatory announcements."
+>
+  <div class="container crumbs">
+    <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Newsroom' }]} />
+  </div>
+  {
+    notices.length > 0 ? (
+      <ArticleRail id="newsroom" badge="CBZ Group Media" heading="Newsroom" headingStrong="Newsroom" articles={notices} filters />
+    ) : (
+      <p class="container muted">No press notices at the moment.</p>
+    )
+  }
+</BaseLayout>
+
+<style>
+  .crumbs {
+    padding-top: var(--s-8);
+  }
+</style>

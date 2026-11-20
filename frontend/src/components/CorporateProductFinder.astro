@@ -1,0 +1,620 @@
+---
+/**
+ * Corporate Product Finder and Solutions Matrix
+ * Implements the Corporate Banking Product Deck:
+ * Page 2: Product Finder (Business Needs mapped to CBZ Solutions)
+ * Pages 3–11: Detailed solution pillars & documentation requirements
+ * Page 12: Closing CTA, Relationship Manager hotline, and approval disclaimer
+ */
+import Icon from './Icon.astro';
+import {
+  CORPORATE_PRODUCT_FINDER,
+  CORPORATE_PILLARS,
+  CORPORATE_CLOSING,
+} from '../data/corporate';
+---
+
+<section class="cpf" id="corporate-finder" aria-labelledby="cpf-heading">
+  <div class="container">
+    <!-- Header -->
+    <div class="cpf__head">
+      <span class="cpf__badge">Corporate Banking Solutions</span>
+      <h2 id="cpf-heading" class="cpf__title">
+        Match your business need to the right facility<span class="dot">.</span>
+      </h2>
+      <p class="cpf__lede">
+        From bridging operational liquidity to structuring cross-border trade and financing multi-million dollar capital expenditure, CBZ provides tailored balance sheet solutions.
+      </p>
+    </div>
+
+    <!-- Product Finder Grid (Page 2) -->
+    <div class="cpf__finder" data-cpf>
+      <div class="cpf__finder-intro">
+        <h3 class="cpf__finder-title">Product Finder: Select your business need</h3>
+        <p class="cpf__finder-sub">Click a category to highlight matching CBZ corporate facilities</p>
+      </div>
+
+      <div class="cpf__grid">
+        {
+          CORPORATE_PRODUCT_FINDER.map((item, idx) => (
+            <button
+              type="button"
+              class:list={['cpf-card', idx === 0 && 'is-active']}
+              data-need={item.need}
+              data-target={item.href.replace('#', '')}
+              aria-pressed={idx === 0 ? 'true' : 'false'}
+            >
+              <div class="cpf-card__top">
+                <span class="cpf-card__icon" aria-hidden="true">
+                  <Icon name={item.icon as any} size={22} />
+                </span>
+                <span class="cpf-card__tag">Business Need</span>
+              </div>
+              <h4 class="cpf-card__title">{item.need}</h4>
+              <p class="cpf-card__desc">{item.description}</p>
+              <div class="cpf-card__sols">
+                <span class="cpf-card__sols-label">CBZ Solutions:</span>
+                <div class="cpf-card__pills">
+                  {item.solutions.map((sol) => (
+                    <span class="cpf-pill">{sol}</span>
+                  ))}
+                </div>
+              </div>
+            </button>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- 4 Solution Pillars (Pages 3 to 11) -->
+    <div class="cpf__pillars">
+      {
+        CORPORATE_PILLARS.map((pillar) => (
+          <section class="pillar" id={pillar.id} aria-labelledby={`pillar-${pillar.id}`}>
+            <div class="pillar__head">
+              <span class="pillar__icon" aria-hidden="true">
+                <Icon name={pillar.icon as any} size={28} />
+              </span>
+              <div>
+                <h3 id={`pillar-${pillar.id}`} class="pillar__title">
+                  {pillar.title}
+                </h3>
+                <p class="pillar__sub">{pillar.subtitle}</p>
+              </div>
+            </div>
+
+            <div class="pillar__grid">
+              {pillar.solutions.map((sol) => (
+                <article class="sol-item" data-sol-need={sol.need}>
+                  <div class="sol-item__header">
+                    <span class="sol-item__badge">{sol.subtitle}</span>
+                    <h4 class="sol-item__name">{sol.name}</h4>
+                    <p class="sol-item__tagline">{sol.tagline}</p>
+                  </div>
+
+                  <p class="sol-item__desc">{sol.description}</p>
+
+                  <div class="sol-item__reqs">
+                    <h5 class="sol-item__reqs-title">
+                      <Icon name="check" size={16} /> Standard Requirements:
+                    </h5>
+                    <ul role="list" class="sol-item__reqs-list">
+                      {sol.requirements.map((req) => (
+                        <li>{req}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div class="sol-item__foot">
+                    <a href={CORPORATE_CLOSING.phone.href} class="btn btn--outline-dark sol-item__btn">
+                      <Icon name="phoneMobile" size={16} /> Contact Relationship Manager
+                    </a>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        ))
+      }
+    </div>
+
+    <!-- Closing Call to Action (Page 12) -->
+    <div class="cpf__closing">
+      <div class="cpf__closing-inner">
+        <span class="cpf__closing-signoff">{CORPORATE_CLOSING.signOff}</span>
+        <h3 class="cpf__closing-title">{CORPORATE_CLOSING.headline}</h3>
+        <p class="cpf__closing-sub">{CORPORATE_CLOSING.subline}</p>
+
+        <div class="cpf__contact-strip">
+          <a href={CORPORATE_CLOSING.phone.href} class="cpf__contact-pill">
+            <Icon name="headset" size={20} />
+            <span>
+              <strong>Direct RM Line:</strong> {CORPORATE_CLOSING.phone.display}
+            </span>
+          </a>
+
+          <a href={CORPORATE_CLOSING.tollFree.href} class="cpf__contact-pill">
+            <Icon name="phoneMobile" size={20} />
+            <span>
+              <strong>Toll Free:</strong> {CORPORATE_CLOSING.tollFree.display}
+            </span>
+          </a>
+
+          <a href="/contact#branches" class="cpf__contact-pill">
+            <Icon name="pin" size={20} />
+            <span>
+              <strong>Find Corporate Centre</strong>
+            </span>
+          </a>
+        </div>
+
+        <p class="cpf__disclaimer">
+          <Icon name="info" size={16} />
+          <span>{CORPORATE_CLOSING.disclaimer}</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Interactive Product Finder: click need card to scroll and highlight matching pillar/solution
+  document.querySelectorAll<HTMLElement>('[data-cpf]').forEach((wrap) => {
+    const buttons = wrap.querySelectorAll<HTMLButtonElement>('[data-need]');
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        buttons.forEach((b) => {
+          b.classList.toggle('is-active', b === btn);
+          b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+        });
+        const targetId = btn.dataset.target;
+        if (targetId) {
+          const el = document.getElementById(targetId);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            el.classList.add('is-highlighted');
+            setTimeout(() => el.classList.remove('is-highlighted'), 2500);
+          }
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .dot {
+    color: var(--red);
+  }
+
+  .cpf {
+    background: var(--surface);
+    padding-block: var(--s-16);
+    border-top: 1px solid var(--line);
+  }
+
+  .cpf__head {
+    display: grid;
+    gap: var(--s-3);
+    max-width: 68ch;
+    margin-bottom: var(--s-12);
+  }
+  .cpf__badge {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    height: 28px;
+    padding: 0 var(--s-4);
+    border-radius: var(--r-pill);
+    background: var(--red-50);
+    color: var(--red);
+    font-size: var(--t-xs);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .cpf__title {
+    font-size: clamp(2rem, 1.5rem + 2vw, 3rem);
+    font-weight: 700;
+    color: var(--blue-900);
+    letter-spacing: -0.025em;
+    line-height: 1.12;
+    margin: 0;
+  }
+  .cpf__lede {
+    font-size: var(--t-md);
+    color: var(--neutral-600);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Product Finder Section (Page 2) */
+  .cpf__finder {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--r-2xl);
+    padding: var(--s-8) var(--s-8);
+    box-shadow: 0 4px 20px rgba(0, 23, 54, 0.06);
+    margin-bottom: var(--s-16);
+  }
+  .cpf__finder-intro {
+    margin-bottom: var(--s-6);
+  }
+  .cpf__finder-title {
+    font-size: var(--t-xl);
+    font-weight: 700;
+    color: var(--blue-900);
+    margin: 0 0 var(--s-1);
+  }
+  .cpf__finder-sub {
+    font-size: var(--t-sm);
+    color: var(--neutral-500);
+    margin: 0;
+  }
+
+  .cpf__grid {
+    display: grid;
+    gap: var(--s-4);
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 640px) {
+    .cpf__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 1024px) {
+    .cpf__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .cpf-card {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    gap: var(--s-3);
+    padding: var(--s-6);
+    border-radius: var(--r-xl);
+    background: var(--neutral-50);
+    border: 1.5px solid var(--line);
+    text-align: left;
+    cursor: pointer;
+    transition: all var(--dur) var(--ease);
+  }
+  .cpf-card:hover {
+    background: var(--white);
+    border-color: var(--blue-700);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(0, 23, 54, 0.08);
+  }
+  .cpf-card.is-active,
+  .cpf-card[aria-pressed='true'] {
+    background: var(--white);
+    border-color: var(--red);
+    box-shadow: 0 0 0 2px var(--red-100), 0 10px 22px rgba(217, 35, 44, 0.12);
+  }
+
+  .cpf-card__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .cpf-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: var(--r-md);
+    background: var(--red-50);
+    color: var(--red);
+  }
+  .cpf-card.is-active .cpf-card__icon {
+    background: var(--red);
+    color: var(--white);
+  }
+  .cpf-card__tag {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--neutral-400);
+  }
+  .cpf-card__title {
+    font-size: var(--t-md);
+    font-weight: 700;
+    color: var(--blue-900);
+    margin: 0;
+    line-height: 1.25;
+  }
+  .cpf-card__desc {
+    font-size: var(--t-xs);
+    color: var(--neutral-600);
+    line-height: 1.5;
+    margin: 0;
+  }
+  .cpf-card__sols {
+    display: grid;
+    gap: var(--s-2);
+    padding-top: var(--s-3);
+    border-top: 1px dashed var(--line);
+  }
+  .cpf-card__sols-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--blue-900);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .cpf-card__pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .cpf-pill {
+    display: inline-flex;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: var(--r-pill);
+    background: var(--white);
+    color: var(--blue-900);
+    border: 1px solid var(--line);
+  }
+  .cpf-card.is-active .cpf-pill {
+    background: var(--blue-50);
+    border-color: var(--blue-200);
+  }
+
+  /* Pillars & Detailed Solutions (Pages 3–11) */
+  .cpf__pillars {
+    display: grid;
+    gap: var(--s-16);
+    margin-bottom: var(--s-16);
+  }
+
+  .pillar {
+    scroll-margin-top: 120px;
+    transition: background-color 0.4s var(--ease);
+    border-radius: var(--r-2xl);
+  }
+  .pillar.is-highlighted {
+    animation: pillar-pulse 1.8s var(--ease);
+  }
+  @keyframes pillar-pulse {
+    0%, 100% { outline: 0 solid transparent; }
+    50% { outline: 3px solid var(--red); }
+  }
+
+  .pillar__head {
+    display: flex;
+    align-items: center;
+    gap: var(--s-4);
+    margin-bottom: var(--s-8);
+    padding-bottom: var(--s-4);
+    border-bottom: 2px solid var(--blue-900);
+  }
+  .pillar__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: var(--r-lg);
+    background: var(--blue-900);
+    color: var(--white);
+    flex-shrink: 0;
+  }
+  .pillar__title {
+    font-size: var(--t-2xl);
+    font-weight: 700;
+    color: var(--blue-900);
+    margin: 0;
+    line-height: 1.15;
+  }
+  .pillar__sub {
+    font-size: var(--t-xs);
+    color: var(--neutral-500);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+    margin: var(--s-1) 0 0;
+  }
+
+  .pillar__grid {
+    display: grid;
+    gap: var(--s-6);
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 768px) {
+    .pillar__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 1200px) {
+    .pillar__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .sol-item {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    gap: var(--s-4);
+    padding: var(--s-6);
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--r-xl);
+    box-shadow: 0 4px 12px rgba(0, 23, 54, 0.04);
+    transition: all var(--dur) var(--ease);
+  }
+  .sol-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px rgba(0, 23, 54, 0.08);
+    border-color: var(--blue-200);
+  }
+
+  .sol-item__header {
+    display: grid;
+    gap: var(--s-2);
+  }
+  .sol-item__badge {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: var(--r-pill);
+    background: var(--blue-50);
+    color: var(--blue-900);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .sol-item__name {
+    font-size: var(--t-lg);
+    font-weight: 700;
+    color: var(--blue-900);
+    margin: 0;
+    line-height: 1.2;
+  }
+  .sol-item__tagline {
+    font-size: var(--t-xs);
+    font-weight: 600;
+    color: var(--red);
+    margin: 0;
+  }
+  .sol-item__desc {
+    font-size: var(--t-sm);
+    color: var(--neutral-600);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .sol-item__reqs {
+    background: var(--neutral-50);
+    border-radius: var(--r-md);
+    padding: var(--s-3) var(--s-4);
+    display: grid;
+    gap: var(--s-2);
+  }
+  .sol-item__reqs-title {
+    display: flex;
+    align-items: center;
+    gap: var(--s-1);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--blue-900);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin: 0;
+  }
+  .sol-item__reqs-list {
+    margin: 0;
+    padding-left: var(--s-4);
+    font-size: var(--t-xs);
+    color: var(--neutral-600);
+    line-height: 1.5;
+  }
+
+  .sol-item__foot {
+    margin-top: var(--s-2);
+  }
+  .sol-item__btn {
+    width: 100%;
+    min-height: 40px;
+    justify-content: center;
+    font-size: var(--t-xs);
+    gap: var(--s-2);
+  }
+  .btn--outline-dark {
+    border: 1px solid var(--blue-900);
+    color: var(--blue-900);
+    background: transparent;
+    border-radius: var(--r-pill);
+    font-weight: 700;
+  }
+  .btn--outline-dark:hover {
+    background: var(--blue-900);
+    color: var(--white);
+  }
+
+  /* Closing Section (Page 12) */
+  .cpf__closing {
+    background: linear-gradient(145deg, var(--blue-900) 0%, #001026 100%);
+    color: var(--white);
+    border-radius: var(--r-2xl);
+    padding: var(--s-12) var(--s-8);
+    box-shadow: 0 16px 36px rgba(0, 23, 54, 0.25);
+    text-align: center;
+  }
+  .cpf__closing-inner {
+    max-width: 68ch;
+    margin: 0 auto;
+    display: grid;
+    gap: var(--s-6);
+    justify-items: center;
+  }
+  .cpf__closing-signoff {
+    font-size: var(--t-sm);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--red);
+  }
+  .cpf__closing-title {
+    font-size: clamp(2.2rem, 1.8rem + 2vw, 3.4rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin: 0;
+    color: var(--white);
+  }
+  .cpf__closing-sub {
+    font-size: var(--t-md);
+    color: rgba(255, 255, 255, 0.88);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .cpf__contact-strip {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--s-3);
+    width: 100%;
+    margin-top: var(--s-2);
+  }
+  .cpf__contact-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    padding: var(--s-3) var(--s-6);
+    border-radius: var(--r-pill);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--white);
+    text-decoration: none;
+    font-size: var(--t-sm);
+    transition: all var(--dur) var(--ease);
+  }
+  .cpf__contact-pill:hover {
+    background: var(--red);
+    border-color: var(--red);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(217, 35, 44, 0.35);
+  }
+
+  .cpf__disclaimer {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    font-size: var(--t-xs);
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 1.5;
+    margin-top: var(--s-2);
+  }
+  .cpf__disclaimer :global(svg) {
+    color: var(--red);
+    flex-shrink: 0;
+  }
+</style>

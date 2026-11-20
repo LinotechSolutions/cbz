@@ -17,6 +17,8 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ArticleRail from './ArticleRail.astro';
+import CorporateProductFinder from './CorporateProductFinder.astro';
+import { CORPORATE_INTENTS } from '../data/corporate';
 import Icon from './Icon.astro';
 import Logo from './Logo.astro';
 import StoreBadges from './StoreBadges.astro';
@@ -62,7 +64,8 @@ const BUSINESSES: { key: DarkSafeLogoKey; href: string }[] = [
   { key: 'properties', href: '/properties' },
   { key: 'agro-yield', href: '/agro-yield' },
 ];
-const intents = INTENTS.map((i) => ({ verb: i.verb, objects: i.objects.map((o) => ({ label: o.label, href: o.href, external: Boolean(o.external) })) }));
+const activeIntents = home.id === 'corporate' ? CORPORATE_INTENTS : INTENTS;
+const intents = activeIntents.map((i) => ({ verb: i.verb, objects: i.objects.map((o) => ({ label: o.label, href: o.href, external: Boolean(o.external) })) }));
 ---
 
 <BaseLayout title={home.title} description={home.description} preloadImage={home.hero.image.src}>
@@ -175,6 +178,9 @@ const intents = INTENTS.map((i) => ({ verb: i.verb, objects: i.objects.map((o) =
       <a href="/journeys" class="go sol__all">View all solutions <Icon name="arrowRight" size={18} /></a>
     </div>
   </section>
+
+  <!-- Corporate Product Finder & Solutions Matrix (Deck Pages 2 to 12) -->
+  {home.id === 'corporate' && <CorporateProductFinder />}
 
   <!-- 3. Download the app -->
   <section class="digital on-dark" id="digital" aria-labelledby="digital-heading">

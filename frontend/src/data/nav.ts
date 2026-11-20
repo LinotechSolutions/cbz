@@ -163,6 +163,31 @@ const RAW_MEGA: MegaMenu[] = [
         offeredBy: [BANK],
       },
       {
+        title: 'Trade & corporate finance',
+        items: [
+          { label: 'Trade Finance', href: '/bank/call-me-back' },
+          { label: 'Letters of Credit', href: '/bank/call-me-back' },
+          { label: 'Bank Guarantees', href: '/bank/call-me-back' },
+          { label: 'Export Finance', href: '/bank/call-me-back' },
+          { label: 'Corporate Current Account', href: P('bank', 'current_corporate') },
+          { label: 'Corporate FCA', href: P('bank', 'fca_corporate') },
+        ],
+        offeredBy: [BANK],
+        audiences: BUSINESS_CORPORATE,
+      },
+      {
+        title: 'Affluent Banking',
+        items: [
+          { label: 'Private Banking', href: '/affluent/private-banking' },
+          { label: 'Prime Banking', href: '/affluent/prime-banking' },
+          { label: 'Wealth Management', href: '/affluent/wealth-management' },
+          { label: 'Visa Infinite & Gold', href: '/affluent/cards' },
+          { label: 'Compare Affluent tiers', href: '/affluent#compare' },
+        ],
+        offeredBy: [BANK, DATVEST],
+        audiences: ['personal'],
+      },
+      {
         title: 'Bank digitally',
         items: [
           { label: 'Internet Banking', href: '/login' },
@@ -177,74 +202,6 @@ const RAW_MEGA: MegaMenu[] = [
       { label: 'Open an account', href: '/bank/open-account' },
       { label: 'Compare accounts', href: '/bank#open-an-account' },
       { label: 'Log in', href: '/login' },
-    ],
-  },
-  {
-    id: 'affluent',
-    label: 'Affluent Banking',
-    icon: 'star',
-    href: '/affluent',
-    note: 'Private Banking, Prime Banking and Wealth Management from CBZ Bank, for individuals.',
-    audiences: ['personal'],
-    columns: [
-      {
-        title: 'Private Banking',
-        items: [
-          { label: 'Exclusive banking for those shaping tomorrow', href: '/affluent/private-banking' },
-          { label: 'What you need to know', href: '/affluent/private-banking#know' },
-          { label: 'Visa Infinite', href: '/affluent/cards' },
-          { label: 'Why clients choose CBZ', href: '/affluent/private-banking#why' },
-        ],
-        offeredBy: [BANK],
-      },
-      {
-        title: 'Prime Banking',
-        items: [
-          { label: 'Premium banking that moves with your ambition', href: '/affluent/prime-banking' },
-          { label: 'What you need to know', href: '/affluent/prime-banking#know' },
-          { label: 'Visa Debit and Gold', href: '/affluent/cards#gold' },
-          { label: 'Why clients choose CBZ', href: '/affluent/prime-banking#why' },
-        ],
-        offeredBy: [BANK],
-      },
-      {
-        title: 'Wealth Management',
-        items: [
-          { label: 'Grow, protect and pass on your wealth', href: '/affluent/wealth-management' },
-          { label: 'What you need to know', href: '/affluent/wealth-management#know' },
-          { label: 'Investment solutions', href: '/affluent/investments' },
-          { label: 'Why clients choose CBZ', href: '/affluent/wealth-management#why' },
-        ],
-        offeredBy: [BANK, DATVEST],
-      },
-      {
-        title: 'Solutions for every tier',
-        items: [
-          { label: 'Transactional accounts', href: '/affluent/accounts' },
-          { label: 'Loans', href: '/affluent/loans' },
-          { label: 'Vehicle finance', href: '/affluent/vehicle-finance' },
-          { label: 'Safe deposit boxes', href: '/affluent/safe-deposit' },
-          { label: 'Insurance and life assurance', href: '/affluent/insurance' },
-          { label: 'Property solutions', href: '/affluent/properties' },
-          { label: 'Farm finance', href: '/affluent/farm' },
-        ],
-        offeredBy: [BANK, INSURANCE, PROPERTIES, AGRO],
-      },
-      {
-        title: 'Talk to us',
-        items: [
-          { label: 'Compare the three tiers', href: '/affluent#compare' },
-          { label: 'Locate a Private Banking centre', href: '/contact#private-banking' },
-          { label: 'Book an appointment', href: '/affluent#appointment' },
-          { label: 'Speak to a wealth manager', href: '/datvest/call-me-back' },
-        ],
-        offeredBy: [BANK],
-      },
-    ],
-    actions: [
-      { label: 'Explore Affluent Banking', href: '/affluent' },
-      { label: 'Book an appointment', href: '/affluent#appointment' },
-      { label: 'Compare the tiers', href: '/affluent#compare' },
     ],
   },
   {
@@ -348,10 +305,11 @@ const RAW_MEGA: MegaMenu[] = [
       {
         title: 'Raise capital',
         items: [
-          { label: 'Corporate finance', href: '/capital#learn-more', audiences: BUSINESS },
+          { label: 'Corporate finance', href: '/capital#learn-more', audiences: BUSINESS_CORPORATE },
           { label: 'Debt / equity raising', href: P('capital', 'rights_issues_placements') },
           { label: 'Syndicated finance', href: P('capital', 'loan_syndications') },
           { label: 'IPOs & listings', href: P('capital', 'ipos_listings') },
+          { label: 'Corporate treasury placement', href: P('datvest', 'corporate-treasury-liquidity-placement'), audiences: BUSINESS_CORPORATE },
         ],
         offeredBy: [CAPITAL],
       },
@@ -391,6 +349,7 @@ const RAW_MEGA: MegaMenu[] = [
     columns: [
       {
         title: 'Borrow against salary',
+        audiences: PERSONAL_DIASPORA,
         items: [
           { label: 'Civil Servant Loan', href: P('bank', 'civil_servant_loan') },
           { label: 'Private Payroll Loan', href: P('red-sphere', 'private_payroll') },
@@ -402,6 +361,7 @@ const RAW_MEGA: MegaMenu[] = [
       },
       {
         title: 'Pay for education',
+        audiences: PERSONAL_DIASPORA,
         items: [
           { label: 'Private School Fees Loan', href: P('bank', 'private_school_fees_loan') },
           { label: 'Student Loan Facility', href: P('bank', 'student_loan_facility') },
@@ -411,6 +371,7 @@ const RAW_MEGA: MegaMenu[] = [
       },
       {
         title: 'Finance property',
+        audiences: PERSONAL_DIASPORA,
         items: [
           { label: 'Mortgage finance', href: '/bank/apply', audiences: PERSONAL_DIASPORA },
           { label: 'Mortgage calculator', href: '/calculators#mortgage', audiences: PERSONAL_DIASPORA },
@@ -420,27 +381,8 @@ const RAW_MEGA: MegaMenu[] = [
         offeredBy: [BANK],
       },
       {
-        title: 'Grow my business',
-        items: [
-          { label: 'SME Working Capital', href: P('red-sphere', 'sme_working_capital') },
-          { label: 'Tuck-shop Facility', href: P('red-sphere', 'tuckshop') },
-          { label: 'Order Finance', href: P('red-sphere', 'order_finance') },
-          { label: 'Invoice Discounting', href: '/red-sphere#explore-invoice-discounting', audiences: BUSINESS },
-        ],
-        offeredBy: [RED_SPHERE],
-      },
-      {
-        title: 'Finance the school',
-        items: [
-          { label: 'School Current Account', href: P('bank', 'school_current') },
-          { label: 'Fixed Deposit for reserves', href: P('bank', 'fixed_deposit') },
-          { label: 'Talk to CBZ Bank about a facility', href: '/bank/call-me-back' },
-        ],
-        offeredBy: [BANK],
-        audiences: BUSINESS,
-      },
-      {
         title: 'Finance assets',
+        audiences: PERSONAL_BUSINESS,
         items: [
           { label: 'Car finance', href: '/calculators#car-finance', audiences: PERSONAL_BUSINESS },
           { label: 'Partner Car Loan', href: P('red-sphere', 'partner_car_loan') },
@@ -449,11 +391,67 @@ const RAW_MEGA: MegaMenu[] = [
         ],
         offeredBy: [BANK, RED_SPHERE],
       },
+      {
+        title: 'Working capital & growth',
+        audiences: BUSINESS_CORPORATE,
+        items: [
+          { label: 'Overdraft', href: '/bank/call-me-back' },
+          { label: 'Short Term Loan', href: '/bank/call-me-back' },
+          { label: 'Term Loan', href: '/bank/call-me-back' },
+          { label: 'Working Capital Finance', href: '/bank/call-me-back' },
+          { label: 'SME Loans', href: '/red-sphere' },
+        ],
+        offeredBy: [BANK, RED_SPHERE],
+      },
+      {
+        title: 'Asset & receivable finance',
+        audiences: BUSINESS_CORPORATE,
+        items: [
+          { label: 'Asset Finance', href: '/bank/call-me-back' },
+          { label: 'Lease Finance', href: '/bank/call-me-back' },
+          { label: 'Invoice Discounting', href: '/red-sphere#explore-invoice-discounting' },
+          { label: 'Order Finance', href: P('red-sphere', 'order_finance') },
+          { label: 'Inventory Financing', href: '/bank/call-me-back' },
+        ],
+        offeredBy: [BANK, RED_SPHERE],
+      },
+      {
+        title: 'Trade & contract finance',
+        audiences: BUSINESS_CORPORATE,
+        items: [
+          { label: 'Trade Finance', href: '/bank/call-me-back' },
+          { label: 'Bank Guarantees', href: '/bank/call-me-back' },
+          { label: 'Letters of Credit', href: '/bank/call-me-back' },
+          { label: 'Export Finance', href: '/bank/call-me-back' },
+        ],
+        offeredBy: [BANK],
+      },
+      {
+        title: 'Sector & value chain',
+        audiences: BUSINESS_CORPORATE,
+        items: [
+          { label: 'Agri-Business Loans', href: '/bank/call-me-back' },
+          { label: 'Supply Chain Finance', href: '/bank/call-me-back' },
+          { label: 'Distributor Finance', href: '/bank/call-me-back' },
+          { label: 'Value Chain Finance', href: '/bank/call-me-back' },
+        ],
+        offeredBy: [BANK, AGRO],
+      },
+      {
+        title: 'Finance the school',
+        audiences: BUSINESS,
+        items: [
+          { label: 'School Current Account', href: P('bank', 'school_current') },
+          { label: 'Fixed Deposit for reserves', href: P('bank', 'fixed_deposit') },
+          { label: 'Talk to CBZ Bank about a facility', href: '/bank/call-me-back' },
+        ],
+        offeredBy: [BANK],
+      },
     ],
     actions: [
       { label: 'Compare options', href: '/calculators' },
       { label: 'Check requirements', href: '/bank#apply-for-a-loan' },
-      { label: 'Apply', href: '/bank/apply' },
+      { label: 'Apply for a loan', href: '/bank/apply' },
     ],
   },
   {
@@ -500,6 +498,18 @@ const RAW_MEGA: MegaMenu[] = [
           { label: 'Contract farming cover', href: P('insurance', 'contract_farming') },
         ],
         offeredBy: [AGRO, BANK, RED_SPHERE],
+      },
+      {
+        title: 'Value chain & agribusiness finance',
+        items: [
+          { label: 'Agri-Business Loans', href: '/bank/call-me-back' },
+          { label: 'Supply Chain Finance', href: '/bank/call-me-back' },
+          { label: 'Distributor Finance', href: '/bank/call-me-back' },
+          { label: 'Value Chain Finance', href: '/bank/call-me-back' },
+          { label: 'Seasonal finance on Agrideck', href: LINKS.farmerOnboarding ?? '/agro-yield/enquire', external: Boolean(LINKS.farmerOnboarding) },
+        ],
+        offeredBy: [AGRO, BANK],
+        audiences: BUSINESS_CORPORATE,
       },
       {
         title: 'Grow my SME',
@@ -592,6 +602,7 @@ const RAW_MEGA: MegaMenu[] = [
           { label: 'Insurance', href: '/clusters/insurance' },
           { label: 'Investments', href: '/clusters/investments' },
           { label: 'Farm', href: '/clusters/agro-business' },
+          { label: 'CBZ Foundation', href: '/cbz-foundation' },
         ],
         offeredBy: [HOLDINGS],
       },
@@ -792,17 +803,18 @@ export const OPEN_ACCOUNT_ITEMS: NavLink[] = [
   { label: 'Start investing with Datvest', href: '/datvest/start-investing', line: 'Unit trusts and managed portfolios' },
   { label: 'Get a quote from CBZ Insurance', href: '/insurance/quote', line: 'Motor, home and business cover' },
   { label: 'Get a quote from CBZ Life', href: '/cbz-life/quote', line: 'Funeral and education plans' },
+  { label: 'Buy a stand or home with CBZ Properties', href: '/properties#property-listing', line: 'Residential stands, houses and viewing requests' },
 ];
 
 /** The ten guided flows on the site map, one or two per business unit. */
 export const JOURNEYS: { label: string; line: string; href: string; unit: string; audience: 'personal' | 'business' }[] = [
   { label: 'Open an account', line: 'A CBZ Bank account in three steps.', href: '/bank/open-account', unit: 'bank', audience: 'personal' },
-  { label: 'Loans and mortgages', line: 'Personal, school fees, civil servant and business loans from CBZ Bank.', href: '/bank/apply', unit: 'bank', audience: 'personal' },
+  { label: 'Loans and mortgages', line: 'Speak with a lending specialist about requirements and structured facilities.', href: '/bank/apply', unit: 'bank', audience: 'personal' },
   { label: 'Small business finance', line: 'Working capital, order finance and invoice discounting from Red Sphere.', href: '/red-sphere#explore-loan-products', unit: 'red-sphere', audience: 'business' },
   { label: 'Short-term insurance', line: 'Motor, home, travel, business and farm cover from CBZ Insurance.', href: '/insurance/quote', unit: 'insurance', audience: 'personal' },
   { label: 'Life assurance', line: 'Funeral, education and group life plans from CBZ Life.', href: '/cbz-life/quote', unit: 'cbz-life', audience: 'personal' },
   { label: 'Risk advisory', line: 'A broker’s view of your cover and your risks.', href: '/risk-advisory/quote', unit: 'risk-advisory', audience: 'business' },
-  { label: 'Investments', line: 'Start with Datvest unit trusts or a managed portfolio.', href: '/datvest/start-investing', unit: 'datvest', audience: 'personal' },
+  { label: 'Investment advisory', line: 'Consult with Datvest advisers on unit trusts and wealth management.', href: '/datvest/start-investing', unit: 'datvest', audience: 'personal' },
   { label: 'Capital raising', line: 'Debt, equity and advisory from CBZ Capital.', href: '/capital/enquiry', unit: 'capital', audience: 'business' },
   { label: 'Buy a property', line: 'Find a home, stand or commercial space with CBZ Properties.', href: '/properties/request-a-viewing', unit: 'properties', audience: 'personal' },
   { label: 'Farming finance', line: 'Contract farming for the season with Agro-Yield, on Agrideck.', href: LINKS.farmerOnboarding ?? '/agro-yield/enquire', unit: 'agro-yield', audience: 'business' },
@@ -841,6 +853,7 @@ export const FOOTER = {
     { label: 'Red Sphere Finance', href: '/red-sphere' },
     { label: 'CBZ Capital', href: '/capital' },
     { label: 'CBZ Risk Advisory', href: '/risk-advisory' },
+    { label: 'CBZ Foundation', href: '/cbz-foundation' },
   ],
   /** One solution per business, in title case. */
   solutions: [

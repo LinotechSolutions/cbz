@@ -36,9 +36,45 @@
       "label": "Diaspora",
       "line": "Banking beyond borders.",
       "href": "/diaspora"
+    },
+    {
+      "label": "Affluent & Private Banking",
+      "line": "Bespoke wealth management, Private and Prime Banking.",
+      "href": "/affluent"
     }
   ],
   "branches": [
+    {
+      "id": "affluent-banking",
+      "title": "Affluent Banking",
+      "line": "Private Banking, Prime Banking and Wealth Management from CBZ Bank.",
+      "items": [
+        {
+          "label": "Private Banking",
+          "line": "Exclusive relationship management, high-limit facilities and bespoke wealth solutions",
+          "kind": "page",
+          "href": "/affluent/private-banking"
+        },
+        {
+          "label": "Prime Banking",
+          "line": "Premium accounts, priority service and preferential pricing for emerging wealth",
+          "kind": "page",
+          "href": "/affluent/prime-banking"
+        },
+        {
+          "label": "Wealth Management",
+          "line": "Discretionary portfolios, fiduciary structures and advisory with Datvest",
+          "kind": "page",
+          "href": "/affluent/wealth-management"
+        },
+        {
+          "label": "Compare Affluent Tiers",
+          "line": "View tier requirements, benefits, cards and personal banker privileges",
+          "kind": "page",
+          "href": "/affluent#compare"
+        }
+      ]
+    },
     {
       "id": "open-an-account",
       "title": "Open an account",

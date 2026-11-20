@@ -17,7 +17,6 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ArticleRail from './ArticleRail.astro';
-import CorporateProductFinder from './CorporateProductFinder.astro';
 import { CORPORATE_INTENTS } from '../data/corporate';
 import Icon from './Icon.astro';
 import Logo from './Logo.astro';
@@ -177,9 +176,6 @@ const intents = activeIntents.map((i) => ({ verb: i.verb, objects: i.objects.map
     </div>
   </section>
 
-  <!-- Corporate Product Finder & Solutions Matrix (Deck Pages 2 to 12) -->
-  {home.id === 'corporate' && <CorporateProductFinder />}
-
   <!-- 3. Download the app -->
   <section class="digital on-dark" id="digital" aria-labelledby="digital-heading">
     <div class="container digital__inner">
@@ -222,6 +218,113 @@ const intents = activeIntents.map((i) => ({ verb: i.verb, objects: i.objects.map
       </ul>
     </div>
   </section>
+
+  <!-- 3b. Apply for a Loan (Personal Home) -->
+  {
+    home.id === 'personal' && (
+      <section class="loan-section" id="apply-for-a-loan" aria-labelledby="loan-section-heading">
+        <div class="container loan-section__in">
+          <div class="loan-section__head">
+            <span class="loan-section__badge">Personal Lending</span>
+            <h2 id="loan-section-heading" class="loan-section__title">
+              Apply for a loan that matches your <strong>ambitions</strong>.
+            </h2>
+            <p class="loan-section__lede">
+              Fast approvals, competitive interest rates, and flexible repayment terms from CBZ Bank and Red Sphere Finance.
+            </p>
+          </div>
+
+          <div class="loan-grid">
+            <article class="loan-card">
+              <span class="loan-card__icon" aria-hidden="true">
+                <Icon name="wallet" size={26} />
+              </span>
+              <h3 class="loan-card__title">Salary & Payday Loans</h3>
+              <p class="loan-card__desc">
+                Fast personal credit for civil servants and private sector employees. Straightforward monthly deductions aligned to your payday.
+              </p>
+              <ul class="loan-card__perks">
+                <li>Civil Servant & Private Payroll options</li>
+                <li>Quick processing & flexible terms</li>
+                <li>Nostro & local currency options</li>
+              </ul>
+              <a href="/bank/apply" class="btn btn--primary loan-card__btn">Apply Now</a>
+            </article>
+
+            <article class="loan-card">
+              <span class="loan-card__icon" aria-hidden="true">
+                <Icon name="graduation" size={26} />
+              </span>
+              <h3 class="loan-card__title">Education & School Fees</h3>
+              <p class="loan-card__desc">
+                Ensure continuous learning with structured tuition financing for primary, secondary, and tertiary education.
+              </p>
+              <ul class="loan-card__perks">
+                <li>Direct tuition disbursement</li>
+                <li>Manageable semester installments</li>
+                <li>Student loan facility available</li>
+              </ul>
+              <a href="/bank/apply" class="btn btn--primary loan-card__btn">Apply for Tuition</a>
+            </article>
+
+            <article class="loan-card">
+              <span class="loan-card__icon" aria-hidden="true">
+                <Icon name="home" size={26} />
+              </span>
+              <h3 class="loan-card__title">Home & Mortgage Loans</h3>
+              <p class="loan-card__desc">
+                Purchase, build, or renovate your dream residential property with long-term mortgage financing from CBZ.
+              </p>
+              <ul class="loan-card__perks">
+                <li>Residential mortgages & stands</li>
+                <li>CashPlus Housing savings scheme</li>
+                <li>Flexible repayment periods</li>
+              </ul>
+              <a href="/calculators#mortgage" class="btn btn--secondary loan-card__btn">Calculate & Apply</a>
+            </article>
+
+            <article class="loan-card">
+              <span class="loan-card__icon" aria-hidden="true">
+                <Icon name="car" size={26} />
+              </span>
+              <h3 class="loan-card__title">Vehicle & Asset Finance</h3>
+              <p class="loan-card__desc">
+                Drive away in the vehicle you need with our Partner Car Loan and asset financing packages for individuals.
+              </p>
+              <ul class="loan-card__perks">
+                <li>New & approved pre-owned vehicles</li>
+                <li>Matched repayment structures</li>
+                <li>Comprehensive insurance bundle</li>
+              </ul>
+              <a href="/calculators#car-finance" class="btn btn--secondary loan-card__btn">Explore Finance</a>
+            </article>
+          </div>
+
+          <div class="loan-banner">
+            <div class="loan-banner__copy">
+              <span class="loan-banner__tag">Ready to get started?</span>
+              <h3 class="loan-banner__title">Start your loan application in minutes.</h3>
+              <p class="loan-banner__text">
+                Apply online through our secure portal or calculate your estimated monthly payments before you apply.
+              </p>
+            </div>
+            <div class="loan-banner__actions">
+              <a href="/bank/apply" class="btn btn--primary btn--lg">
+                Start Application <Icon name="arrowRight" size={18} />
+              </a>
+              <a href="/calculators" class="btn btn--secondary btn--lg">
+                Repayment Calculator
+              </a>
+            </div>
+          </div>
+
+          <p class="loan-section__disclaimer">
+            All lending facilities are subject to credit assessment, affordability checks, and standard documentation requirements.
+          </p>
+        </div>
+      </section>
+    )
+  }
 
   <!-- 4. Our businesses -->
   <section class="brands" id="businesses" aria-labelledby="brands-heading">
@@ -954,5 +1057,174 @@ const intents = activeIntents.map((i) => ({ verb: i.verb, objects: i.objects.map
     filter: none;
     opacity: 1;
     transform: scale(1.04);
+  }
+
+  /* ---------- Loan Application Section (Personal) ---------- */
+  .loan-section {
+    background: var(--neutral-50);
+    padding-block: var(--s-16);
+    border-bottom: 1px solid var(--line);
+  }
+  .loan-section__in {
+    display: grid;
+    gap: var(--s-10);
+  }
+  .loan-section__head {
+    display: grid;
+    gap: var(--s-3);
+    max-width: 680px;
+  }
+  .loan-section__badge {
+    display: inline-flex;
+    align-self: start;
+    font-size: var(--t-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--red);
+    background: var(--red-50);
+    padding: 4px 14px;
+    border-radius: var(--r-full);
+  }
+  .loan-section__title {
+    font-size: clamp(1.8rem, 1.4rem + 1.6vw, 2.6rem);
+    font-weight: 700;
+    color: var(--blue-900);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+  .loan-section__title strong {
+    color: var(--red);
+    font-weight: 800;
+  }
+  .loan-section__lede {
+    color: var(--neutral-600);
+    font-size: var(--t-base);
+    line-height: 1.6;
+  }
+  .loan-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--s-6);
+  }
+  .loan-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--r-xl);
+    padding: var(--s-6);
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+  }
+  .loan-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+  .loan-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--red-50);
+    color: var(--red);
+    margin-bottom: var(--s-4);
+  }
+  .loan-card__title {
+    font-size: var(--t-lg);
+    font-weight: 700;
+    color: var(--blue-900);
+    margin-bottom: var(--s-2);
+  }
+  .loan-card__desc {
+    color: var(--neutral-600);
+    font-size: var(--t-sm);
+    line-height: 1.55;
+    margin-bottom: var(--s-4);
+  }
+  .loan-card__perks {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--s-6) 0;
+    display: grid;
+    gap: var(--s-2);
+    font-size: var(--t-xs);
+    color: var(--neutral-700);
+    flex-grow: 1;
+  }
+  .loan-card__perks li {
+    position: relative;
+    padding-left: var(--s-4);
+  }
+  .loan-card__perks li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--red);
+  }
+  .loan-card__btn {
+    width: 100%;
+    justify-content: center;
+    min-height: 42px;
+  }
+  .loan-banner {
+    background: linear-gradient(135deg, var(--blue-900) 0%, #00224d 100%);
+    border-radius: var(--r-2xl);
+    padding: clamp(var(--s-6), 4vw, var(--s-10));
+    color: var(--white);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-6);
+  }
+  .loan-banner__copy {
+    display: grid;
+    gap: var(--s-2);
+    max-width: 580px;
+  }
+  .loan-banner__tag {
+    font-size: var(--t-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .loan-banner__title {
+    font-size: clamp(1.4rem, 1.1rem + 1vw, 1.9rem);
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.2;
+  }
+  .loan-banner__text {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: var(--t-sm);
+    line-height: 1.5;
+  }
+  .loan-banner__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+  }
+  .loan-banner .btn--secondary {
+    color: var(--white);
+    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.08);
+  }
+  .loan-banner .btn--secondary:hover {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: var(--white);
+  }
+  .loan-section__disclaimer {
+    font-size: var(--t-xs);
+    color: var(--neutral-500);
+    text-align: center;
+    line-height: 1.5;
   }
 </style>

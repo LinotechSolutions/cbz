@@ -163,6 +163,19 @@ const RAW_MEGA: MegaMenu[] = [
         offeredBy: [BANK],
       },
       {
+        title: 'Trade & corporate finance',
+        items: [
+          { label: 'Trade Finance', href: '/bank/call-me-back' },
+          { label: 'Letters of Credit', href: '/bank/call-me-back' },
+          { label: 'Bank Guarantees', href: '/bank/call-me-back' },
+          { label: 'Export Finance', href: '/bank/call-me-back' },
+          { label: 'Corporate Current Account', href: P('bank', 'current_corporate') },
+          { label: 'Corporate FCA', href: P('bank', 'fca_corporate') },
+        ],
+        offeredBy: [BANK],
+        audiences: BUSINESS_CORPORATE,
+      },
+      {
         title: 'Bank digitally',
         items: [
           { label: 'Internet Banking', href: '/login' },
@@ -348,10 +361,11 @@ const RAW_MEGA: MegaMenu[] = [
       {
         title: 'Raise capital',
         items: [
-          { label: 'Corporate finance', href: '/capital#learn-more', audiences: BUSINESS },
+          { label: 'Corporate finance', href: '/capital#learn-more', audiences: BUSINESS_CORPORATE },
           { label: 'Debt / equity raising', href: P('capital', 'rights_issues_placements') },
           { label: 'Syndicated finance', href: P('capital', 'loan_syndications') },
           { label: 'IPOs & listings', href: P('capital', 'ipos_listings') },
+          { label: 'Corporate treasury placement', href: P('datvest', 'corporate-treasury-liquidity-placement'), audiences: BUSINESS_CORPORATE },
         ],
         offeredBy: [CAPITAL],
       },
@@ -391,6 +405,7 @@ const RAW_MEGA: MegaMenu[] = [
     columns: [
       {
         title: 'Borrow against salary',
+        audiences: PERSONAL_DIASPORA,
         items: [
           { label: 'Civil Servant Loan', href: P('bank', 'civil_servant_loan') },
           { label: 'Private Payroll Loan', href: P('red-sphere', 'private_payroll') },
@@ -402,6 +417,7 @@ const RAW_MEGA: MegaMenu[] = [
       },
       {
         title: 'Pay for education',
+        audiences: PERSONAL_DIASPORA,
         items: [
           { label: 'Private School Fees Loan', href: P('bank', 'private_school_fees_loan') },
           { label: 'Student Loan Facility', href: P('bank', 'student_loan_facility') },
@@ -411,6 +427,7 @@ const RAW_MEGA: MegaMenu[] = [
       },
       {
         title: 'Finance property',
+        audiences: PERSONAL_DIASPORA,
         items: [
           { label: 'Mortgage finance', href: '/bank/apply', audiences: PERSONAL_DIASPORA },
           { label: 'Mortgage calculator', href: '/calculators#mortgage', audiences: PERSONAL_DIASPORA },
@@ -420,27 +437,8 @@ const RAW_MEGA: MegaMenu[] = [
         offeredBy: [BANK],
       },
       {
-        title: 'Grow my business',
-        items: [
-          { label: 'SME Working Capital', href: P('red-sphere', 'sme_working_capital') },
-          { label: 'Tuck-shop Facility', href: P('red-sphere', 'tuckshop') },
-          { label: 'Order Finance', href: P('red-sphere', 'order_finance') },
-          { label: 'Invoice Discounting', href: '/red-sphere#explore-invoice-discounting', audiences: BUSINESS },
-        ],
-        offeredBy: [RED_SPHERE],
-      },
-      {
-        title: 'Finance the school',
-        items: [
-          { label: 'School Current Account', href: P('bank', 'school_current') },
-          { label: 'Fixed Deposit for reserves', href: P('bank', 'fixed_deposit') },
-          { label: 'Talk to CBZ Bank about a facility', href: '/bank/call-me-back' },
-        ],
-        offeredBy: [BANK],
-        audiences: BUSINESS,
-      },
-      {
         title: 'Finance assets',
+        audiences: PERSONAL_BUSINESS,
         items: [
           { label: 'Car finance', href: '/calculators#car-finance', audiences: PERSONAL_BUSINESS },
           { label: 'Partner Car Loan', href: P('red-sphere', 'partner_car_loan') },
@@ -449,11 +447,67 @@ const RAW_MEGA: MegaMenu[] = [
         ],
         offeredBy: [BANK, RED_SPHERE],
       },
+      {
+        title: 'Working capital & growth',
+        audiences: BUSINESS_CORPORATE,
+        items: [
+          { label: 'Overdraft', href: '/bank/call-me-back' },
+          { label: 'Short Term Loan', href: '/bank/call-me-back' },
+          { label: 'Term Loan', href: '/bank/call-me-back' },
+          { label: 'Working Capital Finance', href: '/bank/call-me-back' },
+          { label: 'SME Loans', href: '/red-sphere' },
+        ],
+        offeredBy: [BANK, RED_SPHERE],
+      },
+      {
+        title: 'Asset & receivable finance',
+        audiences: BUSINESS_CORPORATE,
+        items: [
+          { label: 'Asset Finance', href: '/bank/call-me-back' },
+          { label: 'Lease Finance', href: '/bank/call-me-back' },
+          { label: 'Invoice Discounting', href: '/red-sphere#explore-invoice-discounting' },
+          { label: 'Order Finance', href: P('red-sphere', 'order_finance') },
+          { label: 'Inventory Financing', href: '/bank/call-me-back' },
+        ],
+        offeredBy: [BANK, RED_SPHERE],
+      },
+      {
+        title: 'Trade & contract finance',
+        audiences: BUSINESS_CORPORATE,
+        items: [
+          { label: 'Trade Finance', href: '/bank/call-me-back' },
+          { label: 'Bank Guarantees', href: '/bank/call-me-back' },
+          { label: 'Letters of Credit', href: '/bank/call-me-back' },
+          { label: 'Export Finance', href: '/bank/call-me-back' },
+        ],
+        offeredBy: [BANK],
+      },
+      {
+        title: 'Sector & value chain',
+        audiences: BUSINESS_CORPORATE,
+        items: [
+          { label: 'Agri-Business Loans', href: '/bank/call-me-back' },
+          { label: 'Supply Chain Finance', href: '/bank/call-me-back' },
+          { label: 'Distributor Finance', href: '/bank/call-me-back' },
+          { label: 'Value Chain Finance', href: '/bank/call-me-back' },
+        ],
+        offeredBy: [BANK, AGRO],
+      },
+      {
+        title: 'Finance the school',
+        audiences: BUSINESS,
+        items: [
+          { label: 'School Current Account', href: P('bank', 'school_current') },
+          { label: 'Fixed Deposit for reserves', href: P('bank', 'fixed_deposit') },
+          { label: 'Talk to CBZ Bank about a facility', href: '/bank/call-me-back' },
+        ],
+        offeredBy: [BANK],
+      },
     ],
     actions: [
       { label: 'Compare options', href: '/calculators' },
       { label: 'Check requirements', href: '/bank#apply-for-a-loan' },
-      { label: 'Apply', href: '/bank/apply' },
+      { label: 'Apply for a loan', href: '/bank/apply' },
     ],
   },
   {
@@ -500,6 +554,18 @@ const RAW_MEGA: MegaMenu[] = [
           { label: 'Contract farming cover', href: P('insurance', 'contract_farming') },
         ],
         offeredBy: [AGRO, BANK, RED_SPHERE],
+      },
+      {
+        title: 'Value chain & agribusiness finance',
+        items: [
+          { label: 'Agri-Business Loans', href: '/bank/call-me-back' },
+          { label: 'Supply Chain Finance', href: '/bank/call-me-back' },
+          { label: 'Distributor Finance', href: '/bank/call-me-back' },
+          { label: 'Value Chain Finance', href: '/bank/call-me-back' },
+          { label: 'Seasonal finance on Agrideck', href: LINKS.farmerOnboarding ?? '/agro-yield/enquire', external: Boolean(LINKS.farmerOnboarding) },
+        ],
+        offeredBy: [AGRO, BANK],
+        audiences: BUSINESS_CORPORATE,
       },
       {
         title: 'Grow my SME',

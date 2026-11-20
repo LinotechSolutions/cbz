@@ -53,13 +53,13 @@
 
   /* Type: one family, fluid scale between 360px and 1200px viewports */
   --font: 'CBZ Sans', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --t-xs: 0.8125rem;
-  --t-sm: 0.9375rem;
-  --t-md: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
-  --t-lg: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
-  --t-xl: clamp(1.375rem, 1.2rem + 0.8vw, 1.75rem);
-  --t-2xl: clamp(1.75rem, 1.4rem + 1.5vw, 2.375rem);
-  --t-3xl: clamp(2.25rem, 1.6rem + 2.8vw, 3.5rem);
+  --t-xs: 0.875rem;
+  --t-sm: 1rem;
+  --t-md: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+  --t-lg: clamp(1.2rem, 1.05rem + 0.55vw, 1.45rem);
+  --t-xl: clamp(1.45rem, 1.25rem + 0.85vw, 1.85rem);
+  --t-2xl: clamp(1.85rem, 1.5rem + 1.5vw, 2.5rem);
+  --t-3xl: clamp(2.35rem, 1.7rem + 2.8vw, 3.65rem);
   --lh-display: 1.12;
   --lh-heading: 1.25;
   --lh-body: 1.55;

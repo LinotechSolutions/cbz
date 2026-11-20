@@ -246,6 +246,19 @@ const jsonLd = [
 
   {segments.length > 0 && <TaskCard heading="Who we serve" title={serveTitle} items={segments} />}
 
+  <!-- Quick Subsidiary Navigation -->
+  <nav class="sub-nav" aria-label={`${unit.name} Sections`}>
+    <div class="container sub-nav__in">
+      <span class="sub-nav__label">Explore {unit.shortName}:</span>
+      <ul class="sub-nav__list">
+        <li><a href="#about" class="sub-nav__pill">About Us</a></li>
+        <li><a href="#team" class="sub-nav__pill">Leadership Team</a></li>
+        <li><a href="#contact" class="sub-nav__pill">Contact Us</a></li>
+        {branches.length > 0 && <li><a href={`#${branches[0].id}`} class="sub-nav__pill">Products & Solutions</a></li>}
+      </ul>
+    </div>
+  </nav>
+
   <div class="branches" data-unit={unit.slug}>
     {
       groups.map((g) => {
@@ -569,10 +582,222 @@ const jsonLd = [
     </div>
   </section>
 
+  <!-- Dedicated Subsidiary Contact Section -->
+  <section id="contact" class="band band--compact unit-contact" aria-labelledby="unit-contact-heading">
+    <div class="container">
+      <div class="unit-contact__wrap card-base">
+        <div class="unit-contact__head">
+          <span class="unit-contact__badge">Get in Touch</span>
+          <h2 id="unit-contact-heading" class="unit-contact__title">Contact {unit.name}</h2>
+          <p class="unit-contact__lede">
+            Our dedicated {unit.shortName} specialists are available to answer your questions, assist with applications, and discuss tailored solutions.
+          </p>
+        </div>
+
+        <div class="unit-contact__grid">
+          <div class="unit-contact__channel">
+            <span class="unit-contact__icon" aria-hidden="true">
+              <Icon name="phone" size={24} />
+            </span>
+            <div class="unit-contact__channel-info">
+              <h3 class="unit-contact__channel-title">Direct Enquiries</h3>
+              <p class="unit-contact__channel-text">Toll Free: <strong>460 / 461</strong></p>
+              <p class="unit-contact__channel-text">Direct Line: <a href="tel:+2638677004050">+263 867 700 4050</a></p>
+            </div>
+          </div>
+
+          <div class="unit-contact__channel">
+            <span class="unit-contact__icon" aria-hidden="true">
+              <Icon name="mail" size={24} />
+            </span>
+            <div class="unit-contact__channel-info">
+              <h3 class="unit-contact__channel-title">Online Enquiries</h3>
+              <p class="unit-contact__channel-text">Email our specialists directly:</p>
+              <p class="unit-contact__channel-text"><a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></p>
+            </div>
+          </div>
+
+          <div class="unit-contact__channel">
+            <span class="unit-contact__icon" aria-hidden="true">
+              <Icon name="external" size={24} />
+            </span>
+            <div class="unit-contact__channel-info">
+              <h3 class="unit-contact__channel-title">WhatsApp Support</h3>
+              <p class="unit-contact__channel-text">Chat with our team 24/7:</p>
+              <p class="unit-contact__channel-text">
+                <a href={CONTACT.whatsapp.chatHref} target="_blank" rel="noopener noreferrer">
+                  {CONTACT.whatsapp.display} <span class="sr-only">(opens in new tab)</span>
+                </a>
+              </p>
+            </div>
+          </div>
+
+          <div class="unit-contact__channel">
+            <span class="unit-contact__icon" aria-hidden="true">
+              <Icon name="building" size={24} />
+            </span>
+            <div class="unit-contact__channel-info">
+              <h3 class="unit-contact__channel-title">Head Office & Branches</h3>
+              <p class="unit-contact__channel-text">CBZ Centre, Union Building, Harare</p>
+              <p class="unit-contact__channel-text"><a href="/contact#branches">Find nearest branch or agency &rarr;</a></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="unit-contact__actions">
+          <a href={faqHref ?? '/contact'} class="btn btn--primary btn--lg">
+            Send an Enquiry <Icon name="arrowRight" size={18} />
+          </a>
+          <a href="/contact#branches" class="btn btn--secondary btn--lg">
+            Locate a Branch
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <StickyCta label={unit.primaryCta.label} href={unit.primaryCta.href} unit={unit.slug} />
 </BaseLayout>
 
 <style>
+  /* Quick Subsidiary Anchor Nav */
+  .sub-nav {
+    background: var(--white);
+    border-bottom: 1px solid var(--line);
+    padding-block: var(--s-3);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+  .sub-nav__in {
+    display: flex;
+    align-items: center;
+    gap: var(--s-4);
+    overflow-x: auto;
+    padding-block: var(--s-1);
+    -webkit-overflow-scrolling: touch;
+  }
+  .sub-nav__label {
+    font-size: var(--t-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--neutral-500);
+    white-space: nowrap;
+  }
+  .sub-nav__list {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .sub-nav__pill {
+    display: inline-flex;
+    align-items: center;
+    font-size: var(--t-xs);
+    font-weight: 600;
+    color: var(--blue-900);
+    background: var(--neutral-100);
+    padding: 6px 14px;
+    border-radius: var(--r-full);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all var(--dur) var(--ease);
+  }
+  .sub-nav__pill:hover {
+    background: var(--red-50);
+    color: var(--red);
+  }
+
+  /* Dedicated Contact Section */
+  .unit-contact {
+    background: var(--neutral-50);
+    padding-block: var(--s-12);
+    border-top: 1px solid var(--line);
+  }
+  .unit-contact__wrap {
+    padding: clamp(var(--s-6), 4vw, var(--s-10));
+    display: grid;
+    gap: var(--s-8);
+  }
+  .unit-contact__head {
+    display: grid;
+    gap: var(--s-2);
+    max-width: 640px;
+  }
+  .unit-contact__badge {
+    display: inline-flex;
+    align-self: start;
+    font-size: var(--t-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--red);
+    background: var(--red-50);
+    padding: 4px 12px;
+    border-radius: var(--r-full);
+  }
+  .unit-contact__title {
+    font-size: clamp(1.8rem, 1.4rem + 1.4vw, 2.4rem);
+    font-weight: 700;
+    color: var(--blue-900);
+  }
+  .unit-contact__lede {
+    color: var(--neutral-600);
+    font-size: var(--t-sm);
+    line-height: 1.6;
+  }
+  .unit-contact__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--s-6);
+  }
+  .unit-contact__channel {
+    display: flex;
+    gap: var(--s-4);
+    align-items: flex-start;
+  }
+  .unit-contact__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--red-50);
+    color: var(--red);
+    flex-shrink: 0;
+  }
+  .unit-contact__channel-title {
+    font-size: var(--t-sm);
+    font-weight: 700;
+    color: var(--blue-900);
+    margin-bottom: 2px;
+  }
+  .unit-contact__channel-text {
+    font-size: var(--t-xs);
+    color: var(--neutral-600);
+    line-height: 1.5;
+    margin: 0;
+  }
+  .unit-contact__channel-text a {
+    color: var(--blue-900);
+    font-weight: 600;
+    text-decoration: underline;
+  }
+  .unit-contact__channel-text a:hover {
+    color: var(--red);
+  }
+  .unit-contact__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    padding-top: var(--s-4);
+    border-top: 1px solid var(--line);
+  }
   .branch__body {
     display: grid;
     gap: var(--s-8);
